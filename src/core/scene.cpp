@@ -9,10 +9,11 @@ void Scene::AddActor( Actor* Object )
 void Scene::Update( double DeltaTime )
 {
 	static const uint32_t Collisions[]={
-		~(1<<CollisionClass::Projectile),														// projectile
+		0,																						// no collision
+		1<<CollisionClass::Creep | 1<<CollisionClass::Mine | CollisionClass::Player,			// projectile
 		1<<CollisionClass::Projectile | 1<<CollisionClass::Mine | 1<<CollisionClass::Player,	// creep
 		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep,								// mine
-		~0,																						// player
+		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player,	// player
 	};
 	// eloszor lecollideolunk, aztan update, nem akarom, hogy menetkozben megszunjenek actorok
 	for(size_t i=0;i<CollisionClass::Num_Classes;++i)

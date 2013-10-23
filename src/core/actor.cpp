@@ -3,8 +3,8 @@
 
 void Actor::Update(double Seconds)
 {
-	SetHeading(Seconds*(rand()%10-5));
-	SetSpeed(rand()%10-5);
+	if(mController.get())
+		mController->Update(Seconds);
 	mFields[X].d+=Seconds*mFields[SPEED_X].d;
 	mFields[Y].d+=Seconds*mFields[SPEED_Y].d;
 }
@@ -21,5 +21,12 @@ Actor::Actor()
 {
 	memset(&mFields,0,NUM_FIELDS*sizeof(field_t));
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
+}
+
+void Actor::SetController( std::auto_ptr<Controller> Control )
+{
+	mController=Control;
+	if(mController.get())
+		mController->SetActor(this);
 }
 

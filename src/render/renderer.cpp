@@ -22,26 +22,29 @@ bool Renderer::Render()
 	if(!BeginRender()) return false;
 
 	Scene& Scen=Scene::Get();
-	const ActorList& Lst=Scen.GetActors()[CollisionClass::Player];	// ez a collisionclassonkenti rajzolas fos
-	// nem tuti, h az kell, de fejben latszolag sok hivast sporol
-	// persze a teljesitmenyt telibeszarom
-	for(ActorList::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
+	for(int z=0;z<CollisionClass::Num_Classes;++z)
 	{
-		const Actor& Object=*i;
-		// nyilvan itt push matrix/pop matrix, de perpill leszarom azt is
-		glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
-		glRotatef((GLfloat)Object.GetHeading() * 50.f, 0.f, 0.f, 1.f);
-		// meg azt is, hogy ez egy VBO
-		glBegin(GL_TRIANGLES);
-		glColor3f(1.f, 0.f, 0.f);
-		glVertex3f(-0.6f, -0.4f, 0.f);
-		glColor3f(0.f, 1.f, 0.f);
-		glVertex3f(0.6f, -0.4f, 0.f);
-		glColor3f(0.f, 0.f, 1.f);
-		glVertex3f(0.f, 0.6f, 0.f);
-		glEnd();
-		glRotatef((GLfloat)-Object.GetHeading() * 50.f, 0.f, 0.f, 1.f);
-		glTranslatef((GLfloat)-Object.GetX(),(GLfloat)-Object.GetY(),0);
+		const ActorList& Lst=Scen.GetActors()[z];	// ez a collisionclassonkenti rajzolas fos
+		// nem tuti, h az kell, de fejben latszolag sok hivast sporol
+		// persze a teljesitmenyt telibeszarom
+		for(ActorList::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
+		{
+			const Actor& Object=*i;
+			// nyilvan itt push matrix/pop matrix, de perpill leszarom azt is
+			glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
+			glRotatef((GLfloat)Object.GetHeading() * 50.f, 0.f, 0.f, 1.f);
+			// meg azt is, hogy ez egy VBO
+			glBegin(GL_TRIANGLES);
+			glColor3f(1.f, 0.f, 0.f);
+			glVertex3f(-0.6f, -0.4f, (GLfloat)z/CollisionClass::Num_Classes);
+			glColor3f(0.f, 1.f, 0.f);
+			glVertex3f(0.6f, -0.4f, (GLfloat)z/CollisionClass::Num_Classes);
+			glColor3f(0.f, 0.f, 1.f);
+			glVertex3f(0.f, 0.6f, (GLfloat)z/CollisionClass::Num_Classes);
+			glEnd();
+			glRotatef((GLfloat)-Object.GetHeading() * 50.f, 0.f, 0.f, 1.f);
+			glTranslatef((GLfloat)-Object.GetX(),(GLfloat)-Object.GetY(),0);
+		}
 	}
 
 	return EndRender();

@@ -13,6 +13,9 @@ public:
 	void Destroy();
 	typedef boost::function< void(const uint32_t,const uint32_t) > ResizeCallback;
 	void SetResizeCallback(std::auto_ptr<ResizeCallback> Callback);
+
+	//hack
+	GLFWwindow* GetWindow() {return mWindow;}
 private:
 
 	GLFWwindow * mWindow;

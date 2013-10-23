@@ -4,6 +4,7 @@
 struct CollisionClass
 {
 	enum Type{
+		No_Collision,
 		Projectile,
 		Creep,
 		Mine,
@@ -21,8 +22,9 @@ protected:
 		DAMAGE,
 		X,
 		Y,
+		ORIENTATION,	// merre nez
 		RADIUS,
-		HEADING,
+		HEADING,		// merre megy
 		SPEED,
 		SPEED_X,
 		SPEED_Y,
@@ -34,7 +36,10 @@ protected:
 		int32_t i;
 		double d;
 	};
+
 	field_t mFields[NUM_FIELDS];
+	std::auto_ptr<Controller> mController;
+
 	void UpdateProjections()
 	{
 		const double spd=GetSpeed();
@@ -49,6 +54,8 @@ public:
 	virtual ~Actor(){}
 	virtual void Collide(double Seconds, ActorList& Actors);
 	virtual void Update(double Seconds);
+
+	void SetController(std::auto_ptr<Controller> Control);
 
 	double GetX()const{return mFields[X].d;}
 	double GetY()const{return mFields[Y].d;}
