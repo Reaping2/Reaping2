@@ -13,7 +13,11 @@ solution "Reaping2"
   project "main"
     language "C++"
     kind     "ConsoleApp"
-    files  { "../src/main/**.h", "../src/main/**.cpp" }
+	libdirs { "../deps/boost_1_54_0/stage/lib", "../deps/glfw-3.0.3/build/src/Release", "../deps/glfw-3.0.3/build/src/Debug" }
+	includedirs { "../src", "../deps/boost_1_54_0", "../deps/glfw-3.0.3/include" }
+	links { "glfw3", "opengl32" }
+	linkoptions  { "/nodefaultlib:libmsvcrt.lib", "/nodefaultlib:libmsvcrtd.lib" }
+    files  { "../src/**.h", "../src/**.cpp" }
  
     configuration { "Debug*" }
       defines { "_DEBUG", "DEBUG" }

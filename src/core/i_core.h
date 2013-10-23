@@ -1,0 +1,7 @@
+#include "platform/i_platform.h"
+#include "actor.h"
+#include "scene.h"
+#include "player.h"
+#include "creep.h"
+#include "mine.h"
+#include "projectile.h"
