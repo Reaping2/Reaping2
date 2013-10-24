@@ -14,7 +14,6 @@ struct CollisionClass
 };
 class Actor;
 typedef boost::intrusive::list<Actor> ActorList;
-// todo: multiple hooks, for collision and rendering (all-inclusion)
 class Actor : public boost::intrusive::list_base_hook<>
 {
 public:
@@ -32,7 +31,7 @@ protected:
 		SPEED_X,
 		SPEED_Y,
 		COLLISION_CLASS,
-		GUID,			// todo: MakeGuid() ; tbh simply static uint32_t ++NextGuid
+		GUID,			// todo: MakeGuid()
 		TYPE_ID,
 		ACTION_ID,
 		ACTION_STATE,
