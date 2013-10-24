@@ -71,7 +71,7 @@ void PlayerController::MouseMove( double MX, double MY )
 
 void PlayerController::UpdateRotation()
 {
-	double Rot=atan2(-mY+mActor->GetY(),mX-mActor->GetX());
+	double Rot=atan2(mY-mActor->GetY(),mX-mActor->GetX());
 	mActor->SetOrientation(Rot);
 }
 

@@ -18,6 +18,8 @@ void Mouse::OnMouseMove( GLFWwindow* Wnd, double x, double y )
 	if(M.mOnMouseMove.empty()) return;
 	int w,h;
 	glfwGetFramebufferSize(Wnd,&w,&h);
-	M.mOnMouseMove(2*x/w-1,2*y/h-1);
+	if(w==0||h==0) return;
+	const int d=std::min<int>(w,h);
+	M.mOnMouseMove((2*x-w)/d,(h-2*y)/d);
 }
 
