@@ -1,28 +1,23 @@
 #include "i_input.h"
 #include "main/window.h"
 
-namespace{
-	// static functions for glfw*Callback-s
-	boost::function<void(int,int,int,int)> gKeyCallback;
-	void Keyboard_KeyCallback(GLFWwindow *, int Key, int Scan, int Action, int Mods)
-	{
-		if(!gKeyCallback.empty())
-			gKeyCallback(Key,Scan,Action,Mods);
-	}
-	Keyboard::UniCharFunctor gUniCharFunctor;
-	void Keyboard_UniCharCallback(GLFWwindow *, unsigned int Codepoint)
-	{
-		if(!gUniCharFunctor.empty())
-			gUniCharFunctor(Codepoint);
-	}
+void Keyboard::KeyCallback(GLFWwindow *, int Key, int Scan, int Action, int Mods)
+{
+	Get().OnKey(Key,Scan,Action,Mods);
+}
+
+void Keyboard::UniCharCallback(GLFWwindow *, unsigned int Codepoint)
+{
+	Keyboard& Keys=Get();
+	if(!Keys.mUniCharFunctor.empty())
+		Keys.mUniCharFunctor(Codepoint);
 }
 
 Keyboard::Keyboard()
 {
 	GLFWwindow* Wnd=Window::Get().GetWindow();
-	gKeyCallback=boost::bind(&Keyboard::OnKey,this,_1,_2,_3,_4);
-	glfwSetKeyCallback(Wnd,&Keyboard_KeyCallback);
-	glfwSetCharCallback(Wnd,&Keyboard_UniCharCallback);
+	glfwSetKeyCallback(Wnd,&Keyboard::KeyCallback);
+	glfwSetCharCallback(Wnd,&Keyboard::UniCharCallback);
 }
 
 void Keyboard::SetCallback(int Key, const KeyEventFunctor& Functor)
@@ -43,7 +38,7 @@ void Keyboard::OnKey(int Key, int Scan, int Action, int Mods)
 
 void Keyboard::SetCharCallback(const UniCharFunctor& Functor)
 {
-	gUniCharFunctor=Functor;
+	mUniCharFunctor=Functor;
 }
 
 void Keyboard::ClearCallback( int Key )

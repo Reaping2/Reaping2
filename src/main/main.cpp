@@ -11,6 +11,7 @@ int main()
 		return -1;
 
 	Keyboard::Get();
+	Mouse::Get();
 	Renderer& Rend=Renderer::Get();
 	Scene&  Scen=Scene::Get();
 	static const size_t TestCollisionsOhMygod=100;

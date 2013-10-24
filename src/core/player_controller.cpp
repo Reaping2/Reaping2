@@ -11,6 +11,7 @@ PlayerController::PlayerController()
 	Keys.SetCallback(GLFW_KEY_A,CB);
 	Keys.SetCallback(GLFW_KEY_S,CB);
 	Keys.SetCallback(GLFW_KEY_D,CB);
+	Mouse::Get().SetMouseMoveCallback(boost::bind(&PlayerController::MouseMove,this,_1,_2));
 }
 
 void PlayerController::KeyDown(int Key, int Mods, KeyState::Type Action)
@@ -30,6 +31,7 @@ void PlayerController::KeyDown(int Key, int Mods, KeyState::Type Action)
 
 void PlayerController::Update( double Seconds )
 {
+	UpdateRotation();
 	if(!mActor)return;
 	if(!mDirty)return;
 	mDirty=false;
@@ -58,5 +60,18 @@ PlayerController::~PlayerController()
 	Keys.ClearCallback(GLFW_KEY_A);
 	Keys.ClearCallback(GLFW_KEY_S);
 	Keys.ClearCallback(GLFW_KEY_D);
+}
+
+void PlayerController::MouseMove( double MX, double MY )
+{
+	mX=MX;
+	mY=MY;
+	UpdateRotation();
+}
+
+void PlayerController::UpdateRotation()
+{
+	double Rot=atan2(-mY+mActor->GetY(),mX-mActor->GetX());
+	mActor->SetOrientation(Rot);
 }
 

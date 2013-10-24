@@ -62,6 +62,7 @@ public:
 	double GetRadius()const{return mFields[RADIUS].d;}
 	double GetSpeed()const{return mFields[SPEED].d;}
 	double GetHeading()const{return mFields[HEADING].d;}
+	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	int32_t GetHP()const{return mFields[HP].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}
 
@@ -74,6 +75,10 @@ public:
 	{
 		mFields[HEADING].d=Heading;
 		UpdateProjections();
+	}
+	void SetOrientation(double Ori)
+	{
+		mFields[ORIENTATION].d=Ori;
 	}
 };
 

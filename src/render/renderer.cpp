@@ -22,6 +22,7 @@ bool Renderer::Render()
 	if(!BeginRender()) return false;
 
 	Scene& Scen=Scene::Get();
+	static const GLfloat pi_under_180=180.f/boost::math::constants::pi<float>();
 	for(int z=0;z<CollisionClass::Num_Classes;++z)
 	{
 		const ActorList& Lst=Scen.GetActors()[z];	// ez a collisionclassonkenti rajzolas fos
@@ -32,7 +33,7 @@ bool Renderer::Render()
 			const Actor& Object=*i;
 			// nyilvan itt push matrix/pop matrix, de perpill leszarom azt is
 			glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
-			glRotatef((GLfloat)Object.GetHeading() * 50.f, 0.f, 0.f, 1.f);
+			glRotatef((GLfloat)Object.GetOrientation() * pi_under_180, 0.f, 0.f, 1.f);
 			// meg azt is, hogy ez egy VBO
 			glBegin(GL_TRIANGLES);
 			glColor3f(1.f, 0.f, 0.f);
@@ -42,7 +43,7 @@ bool Renderer::Render()
 			glColor3f(0.f, 0.f, 1.f);
 			glVertex3f(0.f, 0.6f, (GLfloat)z/CollisionClass::Num_Classes);
 			glEnd();
-			glRotatef((GLfloat)-Object.GetHeading() * 50.f, 0.f, 0.f, 1.f);
+			glRotatef((GLfloat)-Object.GetOrientation() * pi_under_180, 0.f, 0.f, 1.f);
 			glTranslatef((GLfloat)-Object.GetX(),(GLfloat)-Object.GetY(),0);
 		}
 	}

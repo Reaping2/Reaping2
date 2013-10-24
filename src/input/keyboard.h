@@ -23,8 +23,13 @@ private:
 
 	void OnKey(int Key, int Scan, int Action, int Mods);
 
+	static void KeyCallback(GLFWwindow *, int Key, int Scan, int Action, int Mods);
+	static void UniCharCallback(GLFWwindow *, unsigned int Codepoint);
+
 	typedef std::map<int,KeyEventFunctor> KeyEventFunctors;
+
 	KeyEventFunctors mFunctors;	// direkt nem vektor, csak egy handler minden keyre; ha tobb kell, akkor valamit elkurtunk. pl. az iranyitast.
+	UniCharFunctor mUniCharFunctor;
 };
 
 #endif//INCLUDED_INPUT_KEYBOARD_H
