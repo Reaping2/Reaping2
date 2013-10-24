@@ -13,10 +13,15 @@ solution "Reaping2"
   project "main"
     language "C++"
     kind     "ConsoleApp"
-	libdirs { "../deps/boost_1_54_0/stage/lib", "../deps/glfw-3.0.3/build/src/Release", "../deps/glfw-3.0.3/build/src/Debug" }
+	libdirs { "../deps/boost_1_54_0/stage/lib", "../deps/glfw-3.0.3/build/src/Release", "../deps/glfw-3.0.3/build/src/Debug", "../deps/glfw-3.0.3/build/src" }
 	includedirs { "../src", "../deps/boost_1_54_0", "../deps/glfw-3.0.3/include" }
-	links { "glfw3", "opengl32" }
-	linkoptions  { "/nodefaultlib:libmsvcrt.lib", "/nodefaultlib:libmsvcrtd.lib" }
+	links { "glfw3", "boost_system" }
+	if os.is("windows") then
+		links { "opengl32" }
+		linkoptions  { "/nodefaultlib:libmsvcrt.lib", "/nodefaultlib:libmsvcrtd.lib" }
+	else
+		links { "Xi", "Xrandr", "GL" }
+	end
     files  { "../src/**.h", "../src/**.cpp" }
  
     configuration { "Debug*" }
