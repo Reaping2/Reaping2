@@ -10,6 +10,7 @@ class Renderer : public Singleton<Renderer>
 	uint32_t mWidth;
 	uint32_t mHeight;
 	float mRatio;
+	ModelRepo& mModelRepo;
 
 	bool BeginRender();
 	bool EndRender();

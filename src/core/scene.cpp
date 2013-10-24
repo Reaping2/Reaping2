@@ -3,6 +3,7 @@
 void Scene::AddActor( Actor* Object )
 {
 	mActors[Object->GetCC()].push_back(*Object);
+	mAllActors.push_back(*Object);
 	// mikor az obj torlodik, magatol kikerul a listabol
 }
 

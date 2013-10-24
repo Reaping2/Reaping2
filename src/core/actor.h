@@ -14,8 +14,11 @@ struct CollisionClass
 };
 class Actor;
 typedef boost::intrusive::list<Actor> ActorList;
+// todo: multiple hooks, for collision and rendering (all-inclusion)
 class Actor : public boost::intrusive::list_base_hook<>
 {
+public:
+	boost::intrusive::list_member_hook<> mAllActorHook;
 protected:
 	enum {
 		HP,
@@ -29,6 +32,10 @@ protected:
 		SPEED_X,
 		SPEED_Y,
 		COLLISION_CLASS,
+		GUID,			// todo: MakeGuid() ; tbh simply static uint32_t ++NextGuid
+		TYPE_ID,
+		ACTION_ID,
+		ACTION_STATE,
 		NUM_FIELDS,
 	};
 	union field_t
@@ -63,6 +70,9 @@ public:
 	double GetSpeed()const{return mFields[SPEED].d;}
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
+	int32_t GetTypeId()const{return mFields[TYPE_ID].i;}
+	int32_t GetActionId()const{return mFields[ACTION_ID].i;}
+	int32_t GetActionState()const{return mFields[ACTION_STATE].i;}
 	int32_t GetHP()const{return mFields[HP].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}
 
@@ -81,6 +91,9 @@ public:
 		mFields[ORIENTATION].d=Ori;
 	}
 };
+
+typedef boost::intrusive::member_hook< Actor, boost::intrusive::list_member_hook<>, &Actor::mAllActorHook> AllActorOption_t;
+typedef boost::intrusive::list<Actor, AllActorOption_t> AllActorInSceneList;
 
 
 #endif//INCLUDED_CORE_ACTOR_H
