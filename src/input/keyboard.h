@@ -1,6 +1,7 @@
 #ifndef INCLUDED_INPUT_KEYBOARD_H
 #define INCLUDED_INPUT_KEYBOARD_H
 
+
 struct KeyState{
 	enum Type
 	{
@@ -9,27 +10,29 @@ struct KeyState{
 	};
 };
 
+struct KeyEvent
+{
+	const int Key;
+	const int Mods;
+	const KeyState::Type State;
+	KeyEvent(int K, int M, KeyState::Type S):Key(K),Mods(M),State(S){}
+};
+
+struct UniCharEvent
+{
+	const int Codepoint;
+	UniCharEvent(int Cp) : Codepoint(Cp){}
+};
+
 class Keyboard : public Singleton<Keyboard>
 {
 public:
-	typedef boost::function<void(int,int,KeyState::Type)> KeyEventFunctor;
-	void SetCallback(int Key, const KeyEventFunctor& Functor);
-	void ClearCallback(int Key);
-	typedef boost::function<void(int)> UniCharFunctor;
-	void SetCharCallback(const UniCharFunctor& Functor);
 private:
 	friend class Singleton<Keyboard>;
 	Keyboard();
 
-	void OnKey(int Key, int Scan, int Action, int Mods);
-
 	static void KeyCallback(GLFWwindow *, int Key, int Scan, int Action, int Mods);
 	static void UniCharCallback(GLFWwindow *, unsigned int Codepoint);
-
-	typedef std::map<int,KeyEventFunctor> KeyEventFunctors;
-
-	KeyEventFunctors mFunctors;	// direkt nem vektor, csak egy handler minden keyre; ha tobb kell, akkor valamit elkurtunk. pl. az iranyitast.
-	UniCharFunctor mUniCharFunctor;
 };
 
 #endif//INCLUDED_INPUT_KEYBOARD_H

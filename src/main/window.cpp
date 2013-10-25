@@ -1,11 +1,9 @@
 #include "window.h"
 
 namespace {
-	std::auto_ptr<Window::ResizeCallback> gResizeCallback;
 	void Window_FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
 	{
-		if(gResizeCallback.get())
-			gResizeCallback->operator()(Width,Height);
+		EventServer<WindowResizeEvent>::Get().SendEvent(WindowResizeEvent(Width,Height));
 	}
 }
 
@@ -56,20 +54,17 @@ Window::~Window()
 	Destroy();
 }
 
-void Window::SetResizeCallback(std::auto_ptr<ResizeCallback> Callback)
-{
-	gResizeCallback.reset(Callback.release());
-	if(gResizeCallback.get())
-	{
-		int Width, Height;
-		glfwGetFramebufferSize(mWindow, &Width, &Height);
-		gResizeCallback->operator()(Width,Height);
-	}
-}
-
 void Window::Resize(const uint32_t Width, const uint32_t Height)
 {
 	if(!mWindow) return;
 	glfwSetWindowSize(mWindow,Width,Height);
+}
+
+void Window::GetWindowSize( int& Width, int& Height ) const
+{
+	if(mWindow)
+		glfwGetFramebufferSize(mWindow, &Width, &Height);
+	else
+		Width=Height=0;
 }
 

@@ -6,23 +6,19 @@ PlayerController::PlayerController()
 , mDirty(true)
 {
 	Keyboard& Keys=Keyboard::Get();
-	Keyboard::KeyEventFunctor CB=boost::bind(&PlayerController::KeyDown,this,_1,_2,_3);
-	Keys.SetCallback(GLFW_KEY_W,CB);
-	Keys.SetCallback(GLFW_KEY_A,CB);
-	Keys.SetCallback(GLFW_KEY_S,CB);
-	Keys.SetCallback(GLFW_KEY_D,CB);
-	Mouse::Get().SetMouseMoveCallback(boost::bind(&PlayerController::MouseMove,this,_1,_2));
+	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&PlayerController::OnKeyEvent,this,_1));
+	mMouseMoveId=EventServer<MouseMoveEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseMoveEvent,this,_1));
 }
 
-void PlayerController::KeyDown(int Key, int Mods, KeyState::Type Action)
+void PlayerController::OnKeyEvent(const KeyEvent& Event)
 {
 	uint32_t OldMovement=mCurrentMovement;
 	uint32_t Mod=0;
-	if(Key==GLFW_KEY_W)Mod=MF_Up;
-	else if(Key==GLFW_KEY_A)Mod=MF_Left;
-	else if(Key==GLFW_KEY_S)Mod=MF_Down;
-	else if(Key==GLFW_KEY_D)Mod=MF_Right;
-	if(Action==KeyState::Down)
+	if(Event.Key==GLFW_KEY_W)Mod=MF_Up;
+	else if(Event.Key==GLFW_KEY_A)Mod=MF_Left;
+	else if(Event.Key==GLFW_KEY_S)Mod=MF_Down;
+	else if(Event.Key==GLFW_KEY_D)Mod=MF_Right;
+	if(Event.State==KeyState::Down)
 		mCurrentMovement|=Mod;
 	else
 		mCurrentMovement&=~Mod;
@@ -55,17 +51,12 @@ void PlayerController::Update( double Seconds )
 
 PlayerController::~PlayerController()
 {
-	Keyboard& Keys=Keyboard::Get();
-	Keys.ClearCallback(GLFW_KEY_W);
-	Keys.ClearCallback(GLFW_KEY_A);
-	Keys.ClearCallback(GLFW_KEY_S);
-	Keys.ClearCallback(GLFW_KEY_D);
 }
 
-void PlayerController::MouseMove( double MX, double MY )
+void PlayerController::OnMouseMoveEvent(const MouseMoveEvent& Event)
 {
-	mX=MX;
-	mY=MY;
+	mX=Event.X;
+	mY=Event.Y;
 	UpdateRotation();
 }
 

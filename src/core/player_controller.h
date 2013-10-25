@@ -5,8 +5,8 @@
 
 class PlayerController : public Controller
 {
-	void KeyDown(int Key, int Mods, KeyState::Type Action);
-	void MouseMove(double MX, double MY);
+	void OnKeyEvent(const KeyEvent& Event);
+	void OnMouseMoveEvent(const MouseMoveEvent& Event);
 	void UpdateRotation();
 	enum MoveFlags{
 		MF_Up		=1<<0,
@@ -18,6 +18,8 @@ class PlayerController : public Controller
 	double mX;
 	double mY;
 	bool mDirty;
+	Registration mKeyId;
+	Registration mMouseMoveId;
 public:
 	PlayerController();
 	~PlayerController();

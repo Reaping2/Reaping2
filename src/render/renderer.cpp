@@ -1,5 +1,4 @@
 #include "i_render.h"
-#include "main/window.h"
 
 Renderer::Renderer()
 : mWidth(0)
@@ -7,8 +6,10 @@ Renderer::Renderer()
 , mRatio(1)
 , mModelRepo(ModelRepo::Get())
 {
-	Window::ResizeCallback* Callback(new Window::ResizeCallback(boost::bind(&Renderer::SetDimensions,this,_1,_2)));
-	Window::Get().SetResizeCallback(std::auto_ptr<Window::ResizeCallback>(Callback));
+	mWindowResizeId=EventServer<WindowResizeEvent>::Get().Subscribe(boost::bind(&Renderer::OnWindowResizeEvent,this,_1));
+	int w,h;
+	Window::Get().GetWindowSize(w,h);
+	Resize(w,h);
 }
 
 Renderer::~Renderer()
@@ -45,7 +46,11 @@ bool Renderer::BeginRender()
 	return true;
 }
 
-void Renderer::SetDimensions( const uint32_t Width, const uint32_t Height )
+void Renderer::OnWindowResizeEvent(const WindowResizeEvent& Event)
+{
+	Resize(Event.Width,Event.Height);
+}
+void Renderer::Resize(int Width, int Height)
 {
 	mWidth=Width;
 	mHeight=Height;

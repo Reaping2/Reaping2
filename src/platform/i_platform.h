@@ -8,3 +8,6 @@
 #include "stdint.h"
 #include "singleton.h"
 #include "log.h"
+
+#include "register.h"
+#include "event.h"
