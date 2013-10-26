@@ -32,8 +32,8 @@ int main()
 	static const size_t TestCollisionsOhMygod=100;
 	// hat ez 1000nel mar diavetites, szoval a mindent-mindennel nem mukodhet, halisten leginkabb playert kell mindennel, meg lovedekeket, ami olyan max parszaz
 	// releaseben mondjuk ugy is atom, de lehet h a fordito rajon, h lofaszt se csinal most a fv
-	for(int i=0;i<TestCollisionsOhMygod;++i)
-		Scen.AddActor(new Creep);
+	/*for(int i=0;i<TestCollisionsOhMygod;++i)
+		Scen.AddActor(new Creep);*/
 	Player* Pl=new Player;
 	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
 	Scen.AddActor(Pl);
