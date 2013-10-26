@@ -12,6 +12,8 @@ Mouse::Mouse()
 	GLFWwindow* Wnd=Wind.GetWindow();
 	glfwSetCursorPosCallback(Wnd,&Mouse::OnMouseMove);
 	glfwSetMouseButtonCallback(Wnd,&Mouse::OnMouseButton);
+	glfwSetCursorEnterCallback(Wnd,&Mouse::OnMouseEnter);
+	glfwSetScrollCallback(Wnd,&Mouse::OnMouseScroll);
 	mWindowResizeId=EventServer<WindowResizeEvent>::Get().Subscribe(boost::bind(&Mouse::OnWindowResizeEvent,this,_1));
 	int w,h;
 	Wind.GetWindowSize(w,h);
@@ -106,5 +108,16 @@ void Mouse::Update(double Seconds)
 			EventServer<MousePressEvent>::Get().SendEvent(MousePressEvent(mMouseCoord,Button));
 	}
 	mMousePressEventWait=mMousePressEventRepeatInterval;
+}
+
+void Mouse::OnMouseEnter( GLFWwindow*, int entered )
+{
+	EventServer<MouseEnterEvent>::Get().SendEvent(MouseEnterEvent(entered==GL_TRUE));
+}
+
+void Mouse::OnMouseScroll( GLFWwindow*, double x_offs, double y_offs )
+{
+	// itt nincs space transition, az offsetek a gorgotol fuggnek csak
+	EventServer<MouseScrollEvent>::Get().SendEvent(MouseScrollEvent(glm::vec2(x_offs,y_offs)));
 }
 

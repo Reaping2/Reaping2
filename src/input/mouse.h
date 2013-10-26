@@ -35,6 +35,8 @@ private:
 
 	static void OnMouseMove(GLFWwindow*, double x, double y);
 	static void OnMouseButton(GLFWwindow*, int button, int action, int mods);
+	static void OnMouseEnter(GLFWwindow*, int entered);
+	static void OnMouseScroll(GLFWwindow*, double x_offs, double y_offs);
 };
 
 struct MouseMoveEvent
@@ -65,14 +67,16 @@ struct MouseDragEvent
 	MouseDragEvent(const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B):From(F),To(T),Button(B){}
 };
 
-struct MouseLeaveEvent
+struct MouseEnterEvent
 {
-
+	const bool Enter;
+	MouseEnterEvent(bool E):Enter(E){}
 };
 
 struct MouseScrollEvent
 {
-
+	const glm::vec2 Offset;
+	MouseScrollEvent(const glm::vec2& O):Offset(O){}
 };
 
 #endif//INCLUDED_INPUT_MOUSE_H
