@@ -7,6 +7,7 @@ class PlayerController : public Controller
 {
 	void OnKeyEvent(const KeyEvent& Event);
 	void OnMouseMoveEvent(const MouseMoveEvent& Event);
+	void OnMousePressEvent(const MousePressEvent& Event);
 	void UpdateRotation();
 	enum MoveFlags{
 		MF_Up		=1<<0,
@@ -20,6 +21,7 @@ class PlayerController : public Controller
 	bool mDirty;
 	Registration mKeyId;
 	Registration mMouseMoveId;
+	Registration mMousePressId;
 public:
 	PlayerController();
 	~PlayerController();

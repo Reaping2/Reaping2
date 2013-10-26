@@ -2,6 +2,7 @@
 #include <boost/bind.hpp>
 #include <boost/intrusive/list.hpp>
 #include <boost/math/constants/constants.hpp>
+#include <boost/thread/thread.hpp>
 #include <memory>
 #include <cmath>
 #include <boost/static_assert.hpp>

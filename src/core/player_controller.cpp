@@ -8,6 +8,7 @@ PlayerController::PlayerController()
 	Keyboard& Keys=Keyboard::Get();
 	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&PlayerController::OnKeyEvent,this,_1));
 	mMouseMoveId=EventServer<MouseMoveEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseMoveEvent,this,_1));
+	mMousePressId=EventServer<MousePressEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMousePressEvent,this,_1));
 }
 
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
@@ -55,8 +56,8 @@ PlayerController::~PlayerController()
 
 void PlayerController::OnMouseMoveEvent(const MouseMoveEvent& Event)
 {
-	mX=Event.X;
-	mY=Event.Y;
+	mX=Event.Pos.x;
+	mY=Event.Pos.y;
 	UpdateRotation();
 }
 
@@ -64,5 +65,16 @@ void PlayerController::UpdateRotation()
 {
 	double Rot=atan2(mY-mActor->GetY(),mX-mActor->GetX());
 	mActor->SetOrientation(Rot);
+}
+
+void PlayerController::OnMousePressEvent(const MousePressEvent& Event)
+{
+	// ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
+	static const double Cooldown=1;
+	static double PrevTime=0;
+	const double CurTime=glfwGetTime();
+	if(CurTime-PrevTime<Cooldown) return;
+	PrevTime=CurTime;
+	Scene::Get().AddActor(new Creep(Event.Pos.x,Event.Pos.y));
 }
 
