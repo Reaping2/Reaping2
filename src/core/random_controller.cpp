@@ -20,9 +20,9 @@ void RandomController::Update( double Seconds )
 	if (mCounter>2)
 	{
 		mCounter=0;
-		mHeadingModifier=(rand()%10-5)*0.1;
+		mHeadingModifier=(rand()%10-5)*.33;
 
-		mActor->SetSpeed((rand()%10)*0.1);
+		mActor->SetSpeed((rand()%10)*.03);
 	}
 	mActor->SetHeading(mActor->GetHeading()+Seconds*mHeadingModifier);
 	mActor->SetOrientation(mActor->GetHeading());

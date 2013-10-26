@@ -5,5 +5,6 @@
 
 #include "model.h"
 #include "default_model.h"
+#include "player_model.h"
 #include "model_repo.h"
 #include "renderer.h"
