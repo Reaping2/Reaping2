@@ -4,6 +4,9 @@
 #include <boost/math/constants/constants.hpp>
 #include <memory>
 #include <cmath>
+#include <boost/static_assert.hpp>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 #include "stdint.h"
 #include "singleton.h"

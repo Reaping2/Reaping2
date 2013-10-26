@@ -39,9 +39,13 @@ bool Renderer::BeginRender()
 	glViewport(0, 0, mWidth, mHeight);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-mRatio, mRatio, -1.f, 1.f, 1.f, -1.f);
+	// todo: ez nyilvan shader programba kerul atzuzasra, a c kod csak a matrixot ismeri
+	// glmatrixmodeot meg nem hivunk, mer az gaz
+	glm::mat4 Projection=glm::ortho(-mRatio, mRatio, -1.f, 1.f, 1.f, -1.f);
+	glLoadMatrixf((const GLfloat*)&Projection[0]);
 	glMatrixMode(GL_MODELVIEW);
+	// ez egy faek, a camera osztaly majd csinal egy view matrixot, a model meg setupolja a model matrixot a rendereleskor (food for thought: vagy az legyen mindeig meg minden objra?)
+	// vertex=proj*view*model*inVertex majd a shaderben
 	glLoadIdentity();
 	return true;
 }
