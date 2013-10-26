@@ -13,5 +13,8 @@
 #include "singleton.h"
 #include "log.h"
 
+#include "ifile.h"
+#include "osfile.h"
+#include "zipdir.h"
 #include "register.h"
 #include "event.h"
