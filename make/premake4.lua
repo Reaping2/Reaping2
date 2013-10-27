@@ -34,3 +34,31 @@ solution "Reaping2"
 			if os.is("windows") then
 				links { "zlibstatic" }
 			end
+			
+	project "r2pkg"
+		kind     "ConsoleApp"
+		language "C++"
+		libdirs { "../deps/boost_1_54_0/stage/lib", "../deps/zlib-1.2.8/build/Debug", "../deps/zlib-1.2.8/build/Release" }
+		includedirs { "../tools/r2pkg", "../src", "../deps/boost_1_54_0", "../deps/zlib-1.2.8", "../deps/glm_0_9_4_6", "../deps/zlib-1.2.8/build" }
+		if os.is("windows") then
+			-- no boost here, the headers do this job with visual studio
+			links { "opengl32" }
+			linkoptions  { "/nodefaultlib:libmsvcrt.lib", "/nodefaultlib:libmsvcrtd.lib" }
+		else
+			links { "boost_system" }
+		end
+		files  { "../tools/r2pkg/**.h", "../tools/r2pkg/**.cpp", "../src/platform/**.h", "../src/platform/**.cpp" }
+	 
+		configuration { "Debug*" }
+			defines { "_DEBUG", "DEBUG" }
+			flags   { "Symbols" }
+			if os.is("windows") then
+				links { "zlibstaticd" }
+			end
+	 
+		configuration { "Release*" }
+			defines { "NDEBUG" }
+			flags   { "Optimize" }
+			if os.is("windows") then
+				links { "zlibstatic" }
+			end

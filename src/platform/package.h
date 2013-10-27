@@ -31,6 +31,7 @@ class Package : public PackageBase
 public:
 	Package(AutoFile Source);
 	AutoFile Open(const boost::filesystem::path& Path);
+	void GetFileNames(std::vector<boost::filesystem::path>& Paths);
 };
 class PackageWriter : public PackageBase
 {

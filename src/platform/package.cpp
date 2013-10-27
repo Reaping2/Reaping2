@@ -53,6 +53,13 @@ AutoFile Package::Open(const boost::filesystem::path& Path)
 	return F;
 }
 
+void Package::GetFileNames( std::vector<boost::filesystem::path>& Paths )
+{
+	Paths.reserve(mFiles.size());
+	for(FilesMap::const_iterator i=mFiles.begin(),e=mFiles.end();i!=e;++i)
+		Paths.push_back(i->first);
+}
+
 bool PackageWriter::WriteHeader()
 {
 	MemoryFile f;
