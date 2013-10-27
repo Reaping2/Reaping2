@@ -9,9 +9,10 @@ Model const& ModelRepo::GetModel( Actor const& Object )
 
 ModelRepo::ModelRepo()
 : mDefaultModel(DefaultModel::Get())
-, mPlayerModel(PlayerModel::Get())
 {
-	mModels.emplace(2,&mPlayerModel);
+	Model*& m=mModels[2];
+	delete m;
+	m=new PlayerModel;
 }
 
 ModelRepo::~ModelRepo()

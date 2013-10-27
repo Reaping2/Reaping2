@@ -12,7 +12,7 @@ void DefaultModel::Draw(Actor const& Object)const
 	glPushMatrix();
 	glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
 	glRotatef((GLfloat)Object.GetOrientation() * pi_under_180 + 180.f, 0.f, 0.f, 1.f);
-	glScalef(.2,.2,0);
+	glScalef(.2f,.2f,0);
 	glBegin(GL_TRIANGLES);
 	glColor3f(.7f, 0.7f, 0.7f);	glVertex3f(-0.5f,		  0.0f,	0);
 	glColor3f(0.f, 0.7f, 0.7f);	glVertex3f(0.25f,-sqrt3d2*0.5f,	0);

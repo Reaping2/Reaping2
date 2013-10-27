@@ -8,7 +8,6 @@ class ModelRepo : public Singleton<ModelRepo>
 	typedef std::map<uint32_t, Model*> ModelMap_t;
 	ModelMap_t mModels;
 	DefaultModel& mDefaultModel;
-	PlayerModel& mPlayerModel;
 
 	friend class Singleton<ModelRepo>;
 	ModelRepo();
