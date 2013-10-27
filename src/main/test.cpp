@@ -29,8 +29,18 @@ namespace{
 		writer.Save();
 	}
 
+	void TestCompression()
+	{
+		std::string InText="The quick brown fox jumped over the lazy dog.";
+		std::string OutText;
+		Compression::Get().Deflate(OutText,InText);
+		std::string CheckBack;
+		Compression::Get().Inflate(CheckBack,OutText);
+	}
+
 	void TestMain()
 	{
+		TestCompression();
 		BuildPackage();
 		Package Pkg(AutoFile(new OsFile("data.pkg")));
 		AutoFile F=Pkg.Open("data/Ping-da-ding-ding-ding.ogg");

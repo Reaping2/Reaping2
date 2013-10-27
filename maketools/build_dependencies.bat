@@ -11,4 +11,10 @@ md %BASEDIR%\deps\glfw-3.0.3\build
 cd %BASEDIR%\deps\glfw-3.0.3\build
 cmake ..
 %DEVENV% GLFW.sln /Build
+%DEVENV% GLFW.sln /Build "Release"
 cd %PWD%
+md %BASEDIR%\deps\zlib-1.2.8\build
+cd %BASEDIR%\deps\zlib-1.2.8\build
+cmake ..
+%DEVENV% zlib.sln /Build
+%DEVENV% zlib.sln /Build "Release"

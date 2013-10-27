@@ -10,13 +10,14 @@
 #include <boost/static_assert.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include <zlib.h>
 
 #include "stdint.h"
 #include "serialize.h"
 #include "singleton.h"
 #include "log.h"
-#include "strconv.h"
 
+#include "compression.h"
 #include "ifile.h"
 #include "package.h"
 #include "osfile.h"
