@@ -102,7 +102,7 @@ bool MemoryFile::Rewind()
 
 size_t MemoryFile::GetPosition() const
 {
-	return mActBufferId*ONE_BUFFER_SIZE-((mActBufferId<mBuffers.size())?mBuffers[mActBufferId].pos:0);
+	return mActBufferId*ONE_BUFFER_SIZE+((mActBufferId<mBuffers.size())?mBuffers[mActBufferId].pos:0);
 }
 
 bool MemoryFile::SetPosition( size_t Pos )

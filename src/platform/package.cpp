@@ -2,8 +2,14 @@
 
 bool Package::LoadHeader()
 {
-	File& f=*mFile;
+	uint32_t BufferSize;
 	std::string Buffer;
+	if(!mFile->Read(Buffer,sizeof(BufferSize))||!conv::deserialize(Buffer,BufferSize))return false;
+	if(!mFile->Read(Buffer,BufferSize))return false;
+	if(!Compression::Get().Inflate(Buffer,Buffer))return false;
+	MemoryFile f;
+	if(!f.Write(Buffer))return false;
+	if(!f.Rewind())return false;
 	if(!f.Read(Buffer,sizeof(mHeader.Magic))||!conv::deserialize(Buffer,mHeader.Magic))return false;
 	if(!f.Read(Buffer,sizeof(mHeader.Version))||!conv::deserialize(Buffer,mHeader.Version))return false;
 	if(!f.Read(Buffer,sizeof(mHeader.Checksum))||!conv::deserialize(Buffer,mHeader.Checksum))return false;
@@ -17,7 +23,7 @@ bool Package::LoadHeader()
 		if(!f.Read(Buffer,sizeof(FD.Offset))||!conv::deserialize(Buffer,FD.Offset))return false;
 		if(!f.Read(Buffer,sizeof(FD.FileSize))||!conv::deserialize(Buffer,FD.FileSize))return false;
 	}
-	const size_t BaseOffset=f.GetPosition();
+	const size_t BaseOffset=mFile->GetPosition();
 	for(FilesMap::iterator i=mFiles.begin(),e=mFiles.end();i!=e;++i)
 		i->second.Offset+=BaseOffset;
 	return true;
@@ -39,6 +45,7 @@ AutoFile Package::Open(const boost::filesystem::path& Path)
 	if(!mFile->SetPosition(it->second.Offset))return AutoFile();
 	std::string Buffer;
 	if(!mFile->Read(Buffer,it->second.FileSize))return AutoFile();
+	if(!Compression::Get().Inflate(Buffer,Buffer))return AutoFile();
 	MemoryFile*M=new MemoryFile;
 	AutoFile F(M);
 	if(!M->Write(Buffer))return AutoFile();
@@ -48,7 +55,7 @@ AutoFile Package::Open(const boost::filesystem::path& Path)
 
 bool PackageWriter::WriteHeader()
 {
-	File& f=*mFile;
+	MemoryFile f;
 	std::string Buffer;
 	mHeader.NumFiles=mFiles.size();
 	if(!f.Write(conv::serialize(mHeader.Magic)))return false;
@@ -64,7 +71,12 @@ bool PackageWriter::WriteHeader()
 		if(!f.Write(conv::serialize(Fd.Offset)))return false;
 		if(!f.Write(conv::serialize(Fd.FileSize)))return false;
 	}
-	return true;
+	f.Rewind();
+	if(!f.ReadAll(Buffer))
+		return false;
+	if(!Compression::Get().Deflate(Buffer,Buffer))
+		return false;
+	return mFile->Write(conv::serialize((uint32_t)Buffer.size()))&&mFile->Write(Buffer);
 }
 
 PackageWriter::PackageWriter( AutoFile Target )
@@ -78,12 +90,14 @@ bool PackageWriter::Save()
 	if(!mFile.get()||!mFile->IsValid()) return false;
 	MemoryFile DataParts;
 	uint32_t Offset=0;
+	Compression& Comp(Compression::Get());
 	for(PathMap::const_iterator i=mPaths.begin(),e=mPaths.end();i!=e;++i)
 	{
 		OsFile In(boost::filesystem::absolute(i->first));
 		if(!In.IsValid())continue;
 		std::string Buffer;
 		In.ReadAll(Buffer);	// ez sokszaz megas filenal akar meg fajhat is
+		if(!Comp.Deflate(Buffer,Buffer))continue;
 		FileDesc& Desc=mFiles[i->second];
 		Desc.FileSize=Buffer.size();
 		Desc.Offset=Offset;
