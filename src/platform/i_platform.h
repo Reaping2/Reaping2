@@ -8,6 +8,7 @@
 #include <memory>
 #include <cmath>
 #include <boost/static_assert.hpp>
+#include "glm_fix.h"
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <zlib.h>

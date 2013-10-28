@@ -13,7 +13,7 @@ bool Compression::Deflate(std::string& Dest,const std::string& Source,int Level)
         return false;
 	std::string Tmp;
 
-    Strm.avail_in = Source.size();
+    Strm.avail_in = (uInt)Source.size();
     Strm.next_in = (Bytef*)(void*)(const_cast<char*>(Source.c_str()));
 
     /* run deflate() on input until output buffer not full, finish
@@ -54,7 +54,7 @@ bool Compression::Inflate(std::string& Dest,const std::string& Source)
 
 	std::string Tmp;
 
-	Strm.avail_in = Source.size();
+	Strm.avail_in = (uInt)Source.size();
 	Strm.next_in = (Bytef*)(void*)(const_cast<char*>(Source.c_str()));
 
 	/* run inflate() on input until output buffer not full */
