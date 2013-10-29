@@ -3,8 +3,10 @@
 
 class DefaultModel : public Singleton<DefaultModel>, public Model
 {
+	GLuint mTexId;
 	friend class Singleton<DefaultModel>;
 	DefaultModel();
+	~DefaultModel();
 public:
 	virtual void Draw(Actor const& Object)const;
 };

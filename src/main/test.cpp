@@ -38,6 +38,16 @@ namespace{
 		Compression::Get().Inflate(CheckBack,OutText);
 	}
 
+	void TestLibPng()
+	{
+		OsFile Png("face.png");
+		PngTexture Texture(Png);
+		if(Texture.IsValid())
+		{
+
+		}
+	}
+
 	void TestMain()
 	{
 		TestCompression();
@@ -47,6 +57,7 @@ namespace{
 		std::string Buffer;
 		if(F.get())
 			F->ReadAll(Buffer);
+		TestLibPng();
 	}
 
 	struct Tester_t{

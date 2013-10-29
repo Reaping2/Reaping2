@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="INSTALL"
+	ProjectGUID="{5963A5E5-F557-4687-8A0D-E2FEE7E4E179}"
+	Keyword="Win32Proj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="INSTALL.dir\Debug"
+			ConfigurationType="10"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="c:\Work\Reaping2\maketools\..\deps\zlib-1.2.8;C:\Work\Reaping2\deps\lpng166\build;C:\Work\Reaping2\deps\lpng166;"
+				AssemblerListingLocation="Debug/"
+				ExceptionHandling="0"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\&quot;Debug\&quot;"
+				ObjectFile="$(IntDir)\"
+/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="c:\Work\Reaping2\maketools\..\deps\zlib-1.2.8;C:\Work\Reaping2\deps\lpng166\build;C:\Work\Reaping2\deps\lpng166;"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\&quot;Debug\&quot;"/>
+			<Tool
+				Name="VCMIDLTool"
+				AdditionalIncludeDirectories="c:\Work\Reaping2\maketools\..\deps\zlib-1.2.8;C:\Work\Reaping2\deps\lpng166\build;C:\Work\Reaping2\deps\lpng166;"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+CommandLine="c:\Work\Reaping2\maketools\cmake-2.8.12-win32-x86\bin\cmake.exe -DBUILD_TYPE=$(OutDir) -P cmake_install.cmake&#x0D;&#x0A;if errorlevel 1 goto :VCReportError"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="Release"
+			IntermediateDirectory="INSTALL.dir\Release"
+			ConfigurationType="10"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="c:\Work\Reaping2\maketools\..\deps\zlib-1.2.8;C:\Work\Reaping2\deps\lpng166\build;C:\Work\Reaping2\deps\lpng166;"
+				AssemblerListingLocation="Release/"
+				ExceptionHandling="0"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\&quot;Release\&quot;"
+				ObjectFile="$(IntDir)\"
+/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				AdditionalIncludeDirectories="c:\Work\Reaping2\maketools\..\deps\zlib-1.2.8;C:\Work\Reaping2\deps\lpng166\build;C:\Work\Reaping2\deps\lpng166;"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\&quot;Release\&quot;"/>
+			<Tool
+				Name="VCMIDLTool"
+				AdditionalIncludeDirectories="c:\Work\Reaping2\maketools\..\deps\zlib-1.2.8;C:\Work\Reaping2\deps\lpng166\build;C:\Work\Reaping2\deps\lpng166;"
+				MkTypLibCompatible="FALSE"
+				TargetEnvironment="1"
+				GenerateStublessProxies="TRUE"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+CommandLine="c:\Work\Reaping2\maketools\cmake-2.8.12-win32-x86\bin\cmake.exe -DBUILD_TYPE=$(OutDir) -P cmake_install.cmake&#x0D;&#x0A;if errorlevel 1 goto :VCReportError"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="CMake Rules"
+			Filter="">
+			<File
+				RelativePath="C:\Work\Reaping2\deps\lpng166\build\CMakeFiles\INSTALL_force.rule">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+					Name="VCCustomBuildTool"
+					Description=" "
+					CommandLine="cd .&#x0D;&#x0A;if errorlevel 1 goto :VCReportError"
+					AdditionalDependencies="C:\Work\Reaping2\deps\lpng166\build\CMakeFiles\INSTALL_force.rule"
+					Outputs="C:\Work\Reaping2\deps\lpng166\build\CMakeFiles\INSTALL_force"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+					Name="VCCustomBuildTool"
+					Description=" "
+					CommandLine="cd .&#x0D;&#x0A;if errorlevel 1 goto :VCReportError"
+					AdditionalDependencies="C:\Work\Reaping2\deps\lpng166\build\CMakeFiles\INSTALL_force.rule"
+					Outputs="C:\Work\Reaping2\deps\lpng166\build\CMakeFiles\INSTALL_force"/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
