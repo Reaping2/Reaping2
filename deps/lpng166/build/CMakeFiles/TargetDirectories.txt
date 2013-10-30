@@ -1,7 +1,0 @@
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/ALL_BUILD.dir
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/ZERO_CHECK.dir
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/png16.dir
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/png16_static.dir
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/pngstest.dir
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/pngtest.dir
-C:/Work/Reaping2/deps/lpng166/build/CMakeFiles/pngvalid.dir
