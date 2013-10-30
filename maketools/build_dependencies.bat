@@ -1,4 +1,4 @@
-set VCDIR="c:\Program Files (x86)\Microsoft Visual Studio 9.0\"
+set VCDIR="c:\Program Files (x86)\Microsoft Visual Studio 8\"
 
 @echo OFF
 set DEVENV=%VCDIR%\Common7\IDE\devenv.exe
@@ -7,18 +7,21 @@ set BASEDIR=%PWD%\..
 echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
 set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
+rm -r %BASEDIR%\deps\glfw-3.0.3\build
 md %BASEDIR%\deps\glfw-3.0.3\build
 cd %BASEDIR%\deps\glfw-3.0.3\build
 cmake ..
 %DEVENV% GLFW.sln /Build
 %DEVENV% GLFW.sln /Build "Release"
 cd %PWD%
+rm -r %BASEDIR%\deps\zlib-1.2.8\build
 md %BASEDIR%\deps\zlib-1.2.8\build
 cd %BASEDIR%\deps\zlib-1.2.8\build
 cmake ..
 %DEVENV% zlib.sln /Build
 %DEVENV% zlib.sln /Build "Release"
 copy zconf.h ..
+rm -r %BASEDIR%\deps\lpng166\build
 md %BASEDIR%\deps\lpng166\build
 cd %BASEDIR%\deps\lpng166\build
 set ZLIB_INCLUDE_DIR=%BASEDIR%\deps\zlib-1.2.8\
