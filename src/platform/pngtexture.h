@@ -39,7 +39,8 @@ private:
 	static bool IsSupportedInputChannelNum(size_t Channels);
 	static void InfoCallback(png_structp PngPtr, png_infop InfoPtr);
 	static void RowCallback(png_structp PngPtr,png_bytep NewRow,png_uint_32 RowNum,int Pass);
-	static void EndCallback(png_structp png_ptr, png_infop info);
+	static void EndCallback(png_structp PngPtr, png_infop InfoPtr);
+	static void ConvertRGBtoRGBA(const unsigned char* rgb, int PixelWidth, unsigned char* rgba);
 };
 
 #endif//INCLUDED_PLATFORM_PNGTEXTURE_H
