@@ -70,7 +70,7 @@ void PlayerController::UpdateRotation()
 void PlayerController::OnMousePressEvent(const MousePressEvent& Event)
 {
 	// ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
-	static const double Cooldown=1;
+	static const double Cooldown=0.2;
 	static double PrevTime=0;
 	const double CurTime=glfwGetTime();
 	if(CurTime-PrevTime<Cooldown) return;
