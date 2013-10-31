@@ -68,10 +68,10 @@ int main(int argc, char* argv[])
 	std::string to_compress_dir;
 	std::string to_uncompress_file;
 	desc.add_options()
-		(" help", "produce help message")
-		(" -c", po::value<std::string>(&to_compress_dir), "folder to compress")
-		(" -x", po::value<std::string>(&to_uncompress_file), "file to extract")
-		(" -o", po::value<std::string>(), "destination")
+		("help", "produce help message")
+		("-c", po::value<std::string>(&to_compress_dir), "folder to compress")
+		("-x", po::value<std::string>(&to_uncompress_file), "file to extract")
+		("-o", po::value<std::string>(), "destination")
 		;
 
 	po::variables_map vm;
