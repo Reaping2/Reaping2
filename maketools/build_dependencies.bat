@@ -36,7 +36,7 @@ if %GENERATOR_NAME%=="" (
 echo "Cmake command: %CMAKE_CMD%"
 
 set "COMMON_TOOLS=%MSVS_VER%COMNTOOLS"
-set DEVENV="!%COMMON_TOOLS%!\..\IDE\devenv.exe"
+set DEVENV="!%COMMON_TOOLS%!..\IDE\devenv.exe"
 
 echo "Using %DEVENV% compiler"
 
