@@ -18,3 +18,16 @@ cd %BASEDIR%\deps\zlib-1.2.8\build
 cmake ..
 %DEVENV% zlib.sln /Build
 %DEVENV% zlib.sln /Build "Release"
+copy zconf.h ..
+md %BASEDIR%\deps\lpng166\build
+cd %BASEDIR%\deps\lpng166\build
+set ZLIB_INCLUDE_DIR=%BASEDIR%\deps\zlib-1.2.8\
+set ZLIB_LIBRARY=%BASEDIR%\deps\zlib-1.2.8\build\Debug\zlibd.lib
+cmake -DZLIB_LIBRARY:FILEPATH=%ZLIB_LIBRARY% -DZLIB_INCLUDE_DIR:PATH=%ZLIB_INCLUDE_DIR% ..
+%DEVENV% libpng.sln /Build "Debug"
+set ZLIB_LIBRARY=%BASEDIR%\deps\zlib-1.2.8\build\Release\zlib.lib
+cmake -DZLIB_LIBRARY:FILEPATH=%ZLIB_LIBRARY% -DZLIB_INCLUDE_DIR:PATH=%ZLIB_INCLUDE_DIR% ..
+%DEVENV% libpng.sln /Build "Release"
+cd %BASEDIR%\deps\lpng166
+copy scripts\pnglibconf.h.prebuilt pnglibconf.h
+cd %PWD%

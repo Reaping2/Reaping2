@@ -14,6 +14,7 @@
 #include <zlib.h>
 #include <cstdio>
 #include <cstdlib>
+#include <png.h>
 
 #include "stdint.h"
 #include "serialize.h"
@@ -27,3 +28,4 @@
 #include "memoryfile.h"
 #include "register.h"
 #include "event.h"
+#include "pngtexture.h"

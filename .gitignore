@@ -4,3 +4,6 @@
 /deps/boost_1_54_0/bin.v2/
 /deps/boost_1_54_0/stage/
 /deps/glfw-3.0.3/build/
+/deps/lpng166/build/
+**.pdb
+**.idb
