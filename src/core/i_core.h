@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "id_storage.h"
 #include "controller.h"
 #include "actor.h"
 #include "scene.h"

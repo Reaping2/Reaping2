@@ -4,8 +4,7 @@
 class Creep : public Actor
 {
 public:
-	Creep(double x=0., double y=0.);
-	Creep(Actor* player,double x=0., double y=0.);
+	Creep(double x=0., double y=0.,Actor* player=NULL);
 };
 
 #endif//INCLUDED_CORE_CREEP_H

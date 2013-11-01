@@ -7,6 +7,9 @@ void Actor::Update(double Seconds)
 		mController->Update(Seconds);
 	mFields[X].d+=Seconds*mFields[SPEED_X].d;
 	mFields[Y].d+=Seconds*mFields[SPEED_Y].d;
+	mFields[ACTION_STATE].d+=100*Seconds*(1+rand()%4);
+	if(mFields[ACTION_STATE].d>=99)
+		mFields[ACTION_STATE].d=0;
 }
 
 void Actor::Collide( double Seconds, ActorList& Actors )

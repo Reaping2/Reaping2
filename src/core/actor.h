@@ -71,8 +71,9 @@ public:
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	int32_t GetTypeId()const{return mFields[TYPE_ID].i;}
 	int32_t GetActionId()const{return mFields[ACTION_ID].i;}
-	int32_t GetActionState()const{return mFields[ACTION_STATE].i;}
+	int32_t GetActionState()const{return (int32_t)(mFields[ACTION_STATE].d);}
 	int32_t GetHP()const{return mFields[HP].i;}
+	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}
 
 	void SetSpeed(double Speed)

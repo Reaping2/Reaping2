@@ -75,7 +75,6 @@ void PlayerController::OnMousePressEvent(const MousePressEvent& Event)
 	const double CurTime=glfwGetTime();
 	if(CurTime-PrevTime<Cooldown) return;
 	PrevTime=CurTime;
-	if (Event.Button==Mouse::Button_Right) Scene::Get().AddActor(new Creep(mActor,Event.Pos.x,Event.Pos.y));
-	else Scene::Get().AddActor(new Creep(Event.Pos.x,Event.Pos.y));
+	Scene::Get().AddActor(new Creep(Event.Pos.x,Event.Pos.y,(Event.Button==Mouse::Button_Right)?mActor:(Actor*)NULL));
 }
 
