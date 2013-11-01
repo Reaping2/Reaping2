@@ -9,6 +9,8 @@ void PlayerModel::Draw(Actor const& Object)const
 {
 	static const GLfloat pi_under_180=180.f/boost::math::constants::pi<float>();
 	static const GLfloat sqrt3d2=std::sqrt(3.f)*0.5f;
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
 	glPushMatrix();
 	glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
 	glRotatef((GLfloat)Object.GetOrientation() * pi_under_180 + 180.f, 0.f, 0.f, 1.f);
@@ -19,4 +21,6 @@ void PlayerModel::Draw(Actor const& Object)const
 	glColor3f(0.4f, .2f, .3f);	glVertex3f(0.25f, sqrt3d2*0.5f,	0);
 	glEnd();
 	glPopMatrix();
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
 }

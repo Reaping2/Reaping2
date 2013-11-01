@@ -5,7 +5,7 @@ class Actor;
 class Model;
 class ModelRepo : public Singleton<ModelRepo>
 {
-	typedef std::map<uint32_t, Model*> ModelMap_t;
+	typedef boost::ptr_map<int32_t, Model> ModelMap_t;
 	ModelMap_t mModels;
 	DefaultModel& mDefaultModel;
 

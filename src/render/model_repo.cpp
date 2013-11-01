@@ -10,15 +10,11 @@ Model const& ModelRepo::GetModel( Actor const& Object )
 ModelRepo::ModelRepo()
 : mDefaultModel(DefaultModel::Get())
 {
-	Model*& m=mModels[2];
-	delete m;
-	m=new PlayerModel;
+	int32_t Id=IdStorage::Get().GetId("player");
+	mModels.insert(Id,new PlayerModel);
 }
 
 ModelRepo::~ModelRepo()
 {
-	for(ModelMap_t::const_iterator i=mModels.begin(),e=mModels.end();i!=e;++i)
-		delete i->second;
-	mModels.clear();
 }
 

@@ -2,6 +2,7 @@
 #include "platform/compression.cpp"
 #include "platform/event.cpp"
 #include "platform/ifile.cpp"
+#include "platform/jsonreader.cpp"
 #include "platform/log.cpp"
 #include "platform/memoryfile.cpp"
 #include "platform/osfile.cpp"

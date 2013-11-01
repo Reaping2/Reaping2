@@ -3,7 +3,7 @@
 
 class DefaultModel : public Singleton<DefaultModel>, public Model
 {
-	GLuint mTexId;
+	TextureRepo& mTexRepo;
 	friend class Singleton<DefaultModel>;
 	DefaultModel();
 	~DefaultModel();

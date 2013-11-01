@@ -1,69 +1,84 @@
 #include "platform/i_platform.h"
 
 namespace{
-	typedef std::vector<boost::filesystem::path> PathVector;
-	void BuildFilesList(boost::filesystem::path Dir,PathVector& Elems)
-	{
-		namespace fs=boost::filesystem;
-		if(fs::exists(Dir)&&fs::is_directory(Dir))
+	struct Tester_t{
+
+		typedef std::vector<boost::filesystem::path> PathVector;
+		void BuildFilesList(boost::filesystem::path Dir,PathVector& Elems)
 		{
-			for(boost::filesystem::directory_iterator dir_iter(Dir),end_iter;dir_iter!=end_iter;++dir_iter)
+			namespace fs=boost::filesystem;
+			if(fs::exists(Dir)&&fs::is_directory(Dir))
 			{
-				if(fs::is_regular_file(dir_iter->status()))
-					Elems.push_back(*dir_iter);
-				else if(fs::is_directory(dir_iter->status()))
-					BuildFilesList(*dir_iter,Elems);
+				for(boost::filesystem::directory_iterator dir_iter(Dir),end_iter;dir_iter!=end_iter;++dir_iter)
+				{
+					if(fs::is_regular_file(dir_iter->status()))
+						Elems.push_back(*dir_iter);
+					else if(fs::is_directory(dir_iter->status()))
+						BuildFilesList(*dir_iter,Elems);
+				}
 			}
 		}
-	}
 
-	void BuildPackage()
-	{
-		AutoFile f(new OsFile("data_new.pkg",std::ios_base::out|std::ios_base::trunc));
-		PackageWriter writer(f);
-		writer.Add("c:/setuplogfile.log","setup.log");
-		PathVector Paths;
-		BuildFilesList("data",Paths);
-		for(PathVector::const_iterator i=Paths.begin(),e=Paths.end();i!=e;++i)
-			writer.Add(*i,*i);
-		writer.Save();
-	}
-
-	void TestCompression()
-	{
-		std::string InText="The quick brown fox jumped over the lazy dog.";
-		std::string OutText;
-		Compression::Get().Deflate(OutText,InText);
-		std::string CheckBack;
-		Compression::Get().Inflate(CheckBack,OutText);
-	}
-
-	void TestLibPng()
-	{
-		OsFile Png("face.png");
-		PngTexture Texture(Png);
-		if(Texture.IsValid())
+		void BuildPackage()
 		{
-
+			AutoFile f(new OsFile("data_new.pkg",std::ios_base::out|std::ios_base::trunc));
+			PackageWriter writer(f);
+			writer.Add("c:/setuplogfile.log","setup.log");
+			PathVector Paths;
+			BuildFilesList("data",Paths);
+			for(PathVector::const_iterator i=Paths.begin(),e=Paths.end();i!=e;++i)
+				writer.Add(*i,*i);
+			writer.Save();
 		}
-	}
 
-	void TestMain()
-	{
-		TestCompression();
-		BuildPackage();
-		Package Pkg(AutoFile(new OsFile("data.pkg")));
-		AutoFile F=Pkg.Open("data/Ping-da-ding-ding-ding.ogg");
-		std::string Buffer;
-		if(F.get())
-			F->ReadAll(Buffer);
-		TestLibPng();
-	}
+		void TestCompression()
+		{
+			std::string InText="The quick brown fox jumped over the lazy dog.";
+			std::string OutText;
+			Compression::Get().Deflate(OutText,InText);
+			std::string CheckBack;
+			Compression::Get().Inflate(CheckBack,OutText);
+		}
 
-	struct Tester_t{
+		void TestLibPng()
+		{
+			OsFile Png("face.png");
+			PngTexture Texture(Png);
+			if(Texture.IsValid())
+			{
+
+			}
+		}
+
+		void TestJson()
+		{
+			AutoFile JsonFile=mPackage->Open("textures.json");
+			if(!JsonFile.get())return;
+			JsonReader Reader(*JsonFile);
+			if(Reader.IsValid())
+			{
+
+			}
+		}
+
+		void TestMain()
+		{
+			TestCompression();
+			BuildPackage();
+			AutoFile F=mPackage->Open("data/Ping-da-ding-ding-ding.ogg");
+			std::string Buffer;
+			if(F.get())
+				F->ReadAll(Buffer);
+			TestLibPng();
+			TestJson();
+		}
+
+		std::auto_ptr<Package> mPackage;
 		Tester_t()
+			: mPackage(new Package(AutoFile(new OsFile("data.pkg"))))
 		{
 			TestMain();
+			mPackage.reset();
 		}
 	};
 

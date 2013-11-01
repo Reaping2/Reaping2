@@ -2,6 +2,7 @@
 #include "core/actor.cpp"
 #include "core/controller.cpp"
 #include "core/creep.cpp"
+#include "core/id_storage.cpp"
 #include "core/mine.cpp"
 #include "core/player.cpp"
 #include "core/player_controller.cpp"

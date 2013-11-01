@@ -18,6 +18,7 @@ class Renderer : public Singleton<Renderer>
 	bool EndRender();
 	void OnWindowResizeEvent(const WindowResizeEvent& Event);
 	void Resize(int Width, int Height);
+	void SetupRenderer();
 public:
 	bool Render();
 };

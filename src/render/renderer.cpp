@@ -10,6 +10,8 @@ Renderer::Renderer()
 	int w,h;
 	Window::Get().GetWindowSize(w,h);
 	Resize(w,h);
+	TextureRepo::Get();
+	SetupRenderer();
 }
 
 Renderer::~Renderer()
@@ -34,10 +36,12 @@ bool Renderer::Render()
 	return EndRender();
 }
 
-bool Renderer::BeginRender()
+void Renderer::SetupRenderer()
 {
 	glViewport(0, 0, mWidth, mHeight);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_TEXTURE_2D);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 	glMatrixMode(GL_PROJECTION);
 	// todo: ez nyilvan shader programba kerul atzuzasra, a c kod csak a matrixot ismeri
 	// glmatrixmodeot meg nem hivunk, mer az gaz
@@ -47,12 +51,18 @@ bool Renderer::BeginRender()
 	// ez egy faek, a camera osztaly majd csinal egy view matrixot, a model meg setupolja a model matrixot a rendereleskor (food for thought: vagy az legyen mindeig meg minden objra?)
 	// vertex=proj*view*model*inVertex majd a shaderben
 	glLoadIdentity();
+}
+
+bool Renderer::BeginRender()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
 	return true;
 }
 
 void Renderer::OnWindowResizeEvent(const WindowResizeEvent& Event)
 {
 	Resize(Event.Width,Event.Height);
+	SetupRenderer();
 }
 void Renderer::Resize(int Width, int Height)
 {

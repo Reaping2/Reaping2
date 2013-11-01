@@ -3,6 +3,9 @@
 
 #include <GLFW/glfw3.h>
 
+#include "texture.h"
+#include "sprite.h"
+#include "texture_repo.h"
 #include "model.h"
 #include "default_model.h"
 #include "player_model.h"
