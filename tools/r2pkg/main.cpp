@@ -6,16 +6,32 @@ namespace fs=boost::filesystem;
 typedef std::vector<fs::path> PathVector;
 void BuildFilesList(fs::path Dir,PathVector& Elems)
 {
-	if(fs::exists(Dir)&&fs::is_directory(Dir))
+	if(!fs::exists(Dir)||!fs::is_directory(Dir))
+		return;
+	for(fs::recursive_directory_iterator dir_iter(Dir),end_iter;dir_iter!=end_iter;++dir_iter)
 	{
-		for(fs::directory_iterator dir_iter(Dir),end_iter;dir_iter!=end_iter;++dir_iter)
-		{
-			if(fs::is_regular_file(dir_iter->status()))
-				Elems.push_back(*dir_iter);
-			else if(fs::is_directory(dir_iter->status()))
-				BuildFilesList(*dir_iter,Elems);
-		}
+		if(!fs::is_regular_file(dir_iter->status()))
+			continue;
+		const fs::path& p=*dir_iter;
+		Elems.push_back(p);
 	}
+}
+
+fs::path RelativePath(const fs::path& Base, const fs::path& Target)
+{
+	// canonical: paths must exists (this is quaranteed in this app)
+	fs::path BaseCanon=fs::canonical(Base/"");
+	fs::path TargetCanon=fs::canonical(Target);
+	fs::path Output;
+
+	assert(TargetCanon.native().compare(0,BaseCanon.native().size(),BaseCanon.native())==0);
+	while(!TargetCanon.empty() && !fs::equivalent(TargetCanon,BaseCanon))
+	{
+		Output=TargetCanon.filename()/Output;
+		TargetCanon=TargetCanon.parent_path();
+	}
+
+	return Output;
 }
 
 void BuildPackage(const std::string& FolderName,std::string FileName)
@@ -29,9 +45,16 @@ void BuildPackage(const std::string& FolderName,std::string FileName)
 	PackageWriter writer(f);
 	PathVector Paths;
 	BuildFilesList(FolderName,Paths);
+	fs::path BasePath=fs::current_path()/FolderName;
 	for(PathVector::const_iterator i=Paths.begin(),e=Paths.end();i!=e;++i)
-		writer.Add(*i,*i);
+	{
+		const fs::path& RelPath=*i;
+		const fs::path PathInPack=RelativePath(BasePath,RelPath);
+		LOG("Adding %s as %s\n",RelPath.string().c_str(),PathInPack.string().c_str());
+		writer.Add(RelPath,PathInPack);
+	}
 	writer.Save();
+	LOG("All done.");
 }
 
 void ExtractPackage(const std::string& PackageName,std::string FolderName)
@@ -39,9 +62,7 @@ void ExtractPackage(const std::string& PackageName,std::string FolderName)
 	if(FolderName.empty())
 	{
 		fs::path Path(PackageName);
-		FolderName=Path.filename().string();
-		if(FolderName.size()>4&&FolderName[FolderName.size()-4])
-			FolderName=FolderName.substr(0,FolderName.size()-4);
+		FolderName=Path.stem().string();
 	}
 	Package Pkg(AutoFile(new OsFile(PackageName)));
 	typedef std::vector<fs::path> paths_t;
