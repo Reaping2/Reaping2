@@ -21,11 +21,26 @@ if "%1"=="" (
 echo "Using %MSVS_VER%"
 
 set GENERATOR_NAME=""
-if /i "%MSVS_VER%" == "vs80" set GENERATOR_NAME="Visual Studio 8 2005"
-if /i "%MSVS_VER%" == "vs90" set GENERATOR_NAME="Visual Studio 9 2008"
-if /i "%MSVS_VER%" == "vs100" set GENERATOR_NAME="Visual Studio 10"
-if /i "%MSVS_VER%" == "vs110" set GENERATOR_NAME="Visual Studio 11"
-if /i "%MSVS_VER%" == "vs120" set GENERATOR_NAME="Visual Studio 12"
+if /i "%MSVS_VER%" == "vs80" (
+	set GENERATOR_NAME="Visual Studio 8 2005"
+	set "B2_TOOLSET=msvc-8.0"
+)
+if /i "%MSVS_VER%" == "vs90" (
+	set GENERATOR_NAME="Visual Studio 9 2008"
+	set "B2_TOOLSET=msvc-9.0"
+)
+if /i "%MSVS_VER%" == "vs100" (
+	set GENERATOR_NAME="Visual Studio 10"
+	set "B2_TOOLSET=msvc-10.0"
+)
+if /i "%MSVS_VER%" == "vs110" (
+	set GENERATOR_NAME="Visual Studio 11"
+	set "B2_TOOLSET=msvc-11.0"
+)
+if /i "%MSVS_VER%" == "vs120" (
+	set GENERATOR_NAME="Visual Studio 12"
+	set "B2_TOOLSET=msvc-12.0"
+)
 
 if %GENERATOR_NAME%=="" (
 	set CMAKE_CMD=cmake
@@ -34,7 +49,7 @@ if %GENERATOR_NAME%=="" (
 )
 
 echo "Cmake command: %CMAKE_CMD%"
-
+ech "Boost toolset: %B2_TOOLSET%"
 set "COMMON_TOOLS=%MSVS_VER%COMNTOOLS"
 set DEVENV="!%COMMON_TOOLS%!..\IDE\devenv.exe"
 
@@ -45,6 +60,9 @@ set BASEDIR=%PWD%\..
 echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
 set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
+cd %BASEDIR%\deps\boost_1_54_0
+call bootstrap.bat
+b2 toolset=$B2_TOOLSET$ --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options
 rd /S /Q %BASEDIR%\deps\glfw-3.0.3\build
 md %BASEDIR%\deps\glfw-3.0.3\build
 cd %BASEDIR%\deps\glfw-3.0.3\build

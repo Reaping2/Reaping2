@@ -8,3 +8,4 @@
 /deps/zlib-1.2.8/build/
 **.pdb
 **.idb
+/src/*_all.cpp
