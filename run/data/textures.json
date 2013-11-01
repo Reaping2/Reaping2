@@ -1,0 +1,26 @@
+[
+	{
+		"texture_path":"poks.png",
+		"textures":
+		[
+			{
+				"name":"pok1",
+				"w":100,
+				"h":100,
+				"anims":
+				[
+					{"name":"idle","sx":0,"sy":0,"num_phases":16}
+				]
+			},
+			{
+				"name":"pok2",
+				"w":100,
+				"h":100,
+				"anims":
+				[
+					{"name":"idle","sx":0,"sy":100,"num_phases":6}
+				]
+			}
+		]
+	}
+]
