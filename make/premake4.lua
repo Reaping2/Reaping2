@@ -20,7 +20,8 @@ solution "Reaping2"
 		"../deps/glm_0_9_4_6",
 		"../deps/zlib-1.2.8",
 		"../deps/zlib-1.2.8/build",
-		"../deps/lpng166"
+		"../deps/lpng166",
+		"../deps/json-cpp-0.6.0-rc2"
 	}
 	links { "glfw3" }
 	
@@ -39,7 +40,7 @@ solution "Reaping2"
 		flags   { "Symbols" }
 		if os.is("windows") then
 			links { "opengl32", "zlibstaticd", "libpng16_staticd" }
-			linkoptions	{ "/nodefaultlib:libmsvcrtd.lib", "/nodefaultlib:libmsvcrt.lib" }
+			linkoptions	{ "/nodefaultlib:msvcrt.lib" }
 		else
 			links { "Xi", "Xrandr", "GL", "boost_system" }
 		end
@@ -49,7 +50,7 @@ solution "Reaping2"
 		flags   { "Optimize" }
 		if os.is("windows") then
 			links { "opengl32", "zlibstatic", "libpng16_static" }
-			linkoptions	{ "/nodefaultlib:libmsvcrt.lib" }
+			linkoptions	{ "/nodefaultlib:msvcrtd.lib" }
 		else
 			links { "Xi", "Xrandr", "GL", "boost_system" }
 		end
@@ -78,18 +79,24 @@ solution "Reaping2"
 	project "platform"
 		language "C++"
 		kind "StaticLib"
+		links { "json-cpp" }
 		setup_files_for_project("platform")
 
 	project "render"
 		language "C++"
 		kind "StaticLib"
 		setup_files_for_project("render")
+
+	project "json-cpp"
+		language "C++"
+		kind "StaticLib"
+		files  { "../deps/json-cpp-0.6.0-rc2/*.cpp" }
 		
 	project "main"
 		language "C++"
 		kind "ConsoleApp"
 
-		links { "core", "input", "platform", "render"}
+		links { "core", "input", "platform", "render" }
 		setup_files_for_project("main")
 
 		files  { "../src/**.h", "../src/**.cpp" }
@@ -98,14 +105,14 @@ solution "Reaping2"
 		kind     "ConsoleApp"
 		language "C++"
 
+		links { "platform" }
 		if os.is("windows") then
 			-- no boost here, the headers do this job with visual studio
 			links { "opengl32" }
-			linkoptions  { "/nodefaultlib:libmsvcrt.lib", "/nodefaultlib:libmsvcrtd.lib" }
 		else
 			links { "boost_system" }
 		end
-		files  { "../tools/r2pkg/**.h", "../tools/r2pkg/**.cpp", "../src/platform/**.h", "../src/platform/**.cpp" }
+		files  { "../tools/r2pkg/**.h", "../tools/r2pkg/**.cpp" }
 	 
 		configuration { "Debug*" }
 			defines { "_DEBUG", "DEBUG" }

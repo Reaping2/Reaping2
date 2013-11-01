@@ -1,3 +1,5 @@
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/ptr_container/ptr_map.hpp>
 #include <boost/detail/endian.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -15,6 +17,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <png.h>
+#include <json/json.h>
 
 #include "stdint.h"
 #include "serialize.h"
@@ -29,3 +32,4 @@
 #include "register.h"
 #include "event.h"
 #include "pngtexture.h"
+#include "jsonreader.h"
