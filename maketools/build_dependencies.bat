@@ -49,7 +49,7 @@ if %GENERATOR_NAME%=="" (
 )
 
 echo "Cmake command: %CMAKE_CMD%"
-ech "Boost toolset: %B2_TOOLSET%"
+echo "Boost toolset: %B2_TOOLSET%"
 set "COMMON_TOOLS=%MSVS_VER%COMNTOOLS"
 set DEVENV="!%COMMON_TOOLS%!..\IDE\devenv.exe"
 
