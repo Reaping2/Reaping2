@@ -3,6 +3,11 @@
 /deps/boost_1_54_0/doc/
 /deps/boost_1_54_0/bin.v2/
 /deps/boost_1_54_0/stage/
+/deps/boost_1_54_0/tools/build/v2/engine/bin.ntx86/
+/deps/boost_1_54_0/tools/build/v2/engine/bootstrap/
+/deps/boost_1_54_0/**.exe
+/deps/boost_1_54_0/**.obj
+/deps/boost_1_54_0/**.pdb
 /deps/glfw-3.0.3/build/
 /deps/lpng166/build/
 /deps/zlib-1.2.8/build/
