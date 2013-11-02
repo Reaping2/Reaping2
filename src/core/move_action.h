@@ -4,7 +4,7 @@
 class MoveAction : public Action
 {
 protected:
-	MoveAction(){}
+	MoveAction();
 	virtual void Update(double Seconds, Actor& Actor){}
 	friend class ActionHolder;
 };

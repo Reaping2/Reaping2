@@ -24,6 +24,12 @@ void PlayerController::OnKeyEvent(const KeyEvent& Event)
 	else
 		mCurrentMovement&=~Mod;
 	mDirty=mDirty||mCurrentMovement!=OldMovement;
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
+	ActionHolder::Get().RemoveAction(*mActor,ActionHolder::MOVE);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
 }
 
 void PlayerController::Update( double Seconds )

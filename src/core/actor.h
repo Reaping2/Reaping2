@@ -90,8 +90,40 @@ public:
 	{
 		mFields[ORIENTATION].d=Ori;
 	}
-	void SetActionId(int id)
+	void SetActionId(ActionHolder::ActionType ActionId, int32_t Position, bool Activate=true)
 	{
+		if(ActionId<ActionHolder::MOVE||ActionId>=ActionHolder::NUM_FIELDS)return;
+		if(Position==-1)return;
+		if (Activate)
+		{
+			mFields[ACTION_ID].i|=ActionId<<(Position*8);
+		}
+		else
+		{
+			mFields[ACTION_ID].i&=~(0xFF<<(Position*8));
+		}
+	}
+	bool HasAction(ActionHolder::ActionType ActionId, int32_t& Position)
+	{
+		Position=-1;
+		if(ActionId<ActionHolder::MOVE||ActionId>=ActionHolder::NUM_FIELDS)return false;
+		int32_t gap=-1;
+		int action = mFields[ACTION_ID].i;
+		for(size_t i=0;i<4;++i)
+		{
+			if (gap==-1&&(action&0xFF)==0)
+			{
+				gap=i;
+			}
+			if ((action&0xFF)==ActionId)
+			{
+				Position=i;
+				return true;
+			}
+			action>>=8;
+		}
+		Position=gap;
+		return false;
 	}
 };
 

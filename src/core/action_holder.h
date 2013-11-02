@@ -11,11 +11,13 @@ class ActionHolder : public Singleton<ActionHolder>
 public:
 	enum ActionType
 	{
-		MOVE=0,
+		MOVE=1,
 		SHOOT,
 		NUM_FIELDS
 	};
 	void AddAction(Actor& Who, ActionType What);
+	void RemoveAction(Actor& Who, ActionType What);
+	const Action * GetAction(int32_t What) const;
 private:
 	Action * Actions[NUM_FIELDS];
 
