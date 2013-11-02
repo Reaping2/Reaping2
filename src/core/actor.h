@@ -90,6 +90,9 @@ public:
 	{
 		mFields[ORIENTATION].d=Ori;
 	}
+	void SetActionId(int id)
+	{
+	}
 };
 
 typedef boost::intrusive::member_hook< Actor, boost::intrusive::list_member_hook<>, &Actor::mAllActorHook> AllActorOption_t;
