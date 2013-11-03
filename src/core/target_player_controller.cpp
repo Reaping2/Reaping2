@@ -14,6 +14,7 @@ void TargetPlayerController::AfterSetActor()
 	static const double pi=boost::math::constants::pi<double>();
 	mActor->SetHeading(0);
 	mActor->SetSpeed(0.1);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
 }
 
 void TargetPlayerController::Update( double Seconds )

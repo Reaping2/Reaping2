@@ -5,7 +5,7 @@ class MoveAction : public Action
 {
 protected:
 	MoveAction();
-	virtual void Update(double Seconds, Actor& Actor){}
+	virtual void Update(Actor& Actor,double Seconds) const override;
 	friend class ActionHolder;
 };
 

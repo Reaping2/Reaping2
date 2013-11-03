@@ -5,8 +5,8 @@ class ShootAction : public Action
 {
 protected:
 	ShootAction();
-	virtual void Update(double Seconds, Actor& Actor){}
-		friend class ActionHolder;
+	virtual void Update(Actor& Actor,double Seconds) const {}
+	friend class ActionHolder;
 };
 
 #endif//INCLUDED_SHOOT_ACTION_H

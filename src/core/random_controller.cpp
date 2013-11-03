@@ -11,6 +11,7 @@ void RandomController::AfterSetActor()
 {
 	if(!mActor)return;
 	mActor->SetHeading(rand()%180);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
 }
 
 void RandomController::Update( double Seconds )

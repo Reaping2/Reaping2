@@ -24,12 +24,12 @@ void PlayerController::OnKeyEvent(const KeyEvent& Event)
 	else
 		mCurrentMovement&=~Mod;
 	mDirty=mDirty||mCurrentMovement!=OldMovement;
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
-	ActionHolder::Get().RemoveAction(*mActor,ActionHolder::MOVE);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
+	//ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	//ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
+	//ActionHolder::Get().RemoveAction(*mActor,ActionHolder::MOVE);
+	//ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
+	//ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	//ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
 }
 
 void PlayerController::Update( double Seconds )
@@ -41,7 +41,11 @@ void PlayerController::Update( double Seconds )
 	int x=((mCurrentMovement&MF_Left)?-1:0)+((mCurrentMovement&MF_Right)?1:0);
 	int y=((mCurrentMovement&MF_Up)?1:0)+((mCurrentMovement&MF_Down)?-1:0);
 	mActor->SetSpeed(std::max<double>(std::abs(x),std::abs(y))*.35);
-	if(x==0&&y==0)return;
+	if(x==0&&y==0)
+	{
+		ActionHolder::Get().RemoveAction(*mActor,ActionHolder::MOVE);
+		return;
+	}
 	double Heading=0;
 	static const double pi=boost::math::constants::pi<double>();
 	if(x==0)
@@ -54,6 +58,7 @@ void PlayerController::Update( double Seconds )
 		Heading=(x<0)?pi*1.25:pi*1.75;
 
 	mActor->SetHeading(Heading);
+	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
 }
 
 PlayerController::~PlayerController()

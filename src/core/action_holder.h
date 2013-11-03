@@ -18,6 +18,7 @@ public:
 	void AddAction(Actor& Who, ActionType What);
 	void RemoveAction(Actor& Who, ActionType What);
 	const Action * GetAction(int32_t What) const;
+	void Update(Actor& Who, double Seconds);
 private:
 	Action * Actions[NUM_FIELDS];
 

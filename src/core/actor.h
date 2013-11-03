@@ -18,6 +18,7 @@ class Actor : public boost::intrusive::list_base_hook<>
 {
 public:
 	boost::intrusive::list_member_hook<> mAllActorHook;
+	enum {ACTION_COUNT=4};
 protected:
 	enum {
 		HP,
@@ -44,6 +45,7 @@ protected:
 	};
 
 	field_t mFields[NUM_FIELDS];
+	double mActionStatePrecise[ACTION_COUNT];
 	std::auto_ptr<Controller> mController;
 
 	void UpdateProjections()
@@ -67,15 +69,24 @@ public:
 	double GetY()const{return mFields[Y].d;}
 	double GetRadius()const{return mFields[RADIUS].d;}
 	double GetSpeed()const{return mFields[SPEED].d;}
+	double GetSpeedX()const{return mFields[SPEED_X].d;}
+	double GetSpeedY()const{return mFields[SPEED_Y].d;}
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	int32_t GetTypeId()const{return mFields[TYPE_ID].i;}
 	int32_t GetActionId()const{return mFields[ACTION_ID].i;}
-	int32_t GetActionState()const{return (int32_t)(mFields[ACTION_STATE].d);}
+	int32_t GetActionState()const{return mFields[ACTION_STATE].i;}
 	int32_t GetHP()const{return mFields[HP].i;}
 	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}
-
+	void SetX(double x)
+	{
+		mFields[X].d=x;
+	}
+	void SetY(double y)
+	{
+		mFields[Y].d=y;
+	}
 	void SetSpeed(double Speed)
 	{
 		mFields[SPEED].d=Speed;
@@ -90,41 +101,29 @@ public:
 	{
 		mFields[ORIENTATION].d=Ori;
 	}
-	void SetActionId(ActionHolder::ActionType ActionId, int32_t Position, bool Activate=true)
+	void SetAction(int32_t Action)
 	{
-		if(ActionId<ActionHolder::MOVE||ActionId>=ActionHolder::NUM_FIELDS)return;
-		if(Position==-1)return;
-		if (Activate)
-		{
-			mFields[ACTION_ID].i|=ActionId<<(Position*8);
-		}
-		else
-		{
-			mFields[ACTION_ID].i&=~(0xFF<<(Position*8));
-		}
+		mFields[ACTION_ID].i=Action;
 	}
-	bool HasAction(ActionHolder::ActionType ActionId, int32_t& Position)
+	void SetActionState(int32_t ActionState)
 	{
-		Position=-1;
-		if(ActionId<ActionHolder::MOVE||ActionId>=ActionHolder::NUM_FIELDS)return false;
-		int32_t gap=-1;
-		int action = mFields[ACTION_ID].i;
-		for(size_t i=0;i<4;++i)
-		{
-			if (gap==-1&&(action&0xFF)==0)
-			{
-				gap=i;
-			}
-			if ((action&0xFF)==ActionId)
-			{
-				Position=i;
-				return true;
-			}
-			action>>=8;
-		}
-		Position=gap;
-		return false;
+		mFields[ACTION_STATE].i=ActionState;
 	}
+	double GetActionStatePrecise(int Position)const
+	{
+		if (Position<0||Position>=ACTION_COUNT)return -1;
+		return mActionStatePrecise[Position];
+	}
+	void SetActionStatePrecise(int Position, double State)
+	{
+		if (Position<0||Position>=ACTION_COUNT)return;
+		mActionStatePrecise[Position]=State;
+	}
+
+	void ClearActions();
+	void SetActionIdPos(ActionHolder::ActionType ActionId, int32_t Position, bool Activate=true);
+	void SetActionStatePos(int32_t Position, int32_t State=0xFF);
+	bool HasAction(ActionHolder::ActionType ActionId, int32_t& Position);
 };
 
 typedef boost::intrusive::member_hook< Actor, boost::intrusive::list_member_hook<>, &Actor::mAllActorHook> AllActorOption_t;
