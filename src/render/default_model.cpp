@@ -13,11 +13,18 @@ void DefaultModel::Draw(Actor const& Object)const
 	glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
 	glRotatef((GLfloat)Object.GetOrientation() * pi_under_180 + 180.f, 0.f, 0.f, 1.f);
 	glScalef(.2f,.2f,0);
-	// ez lassunak tunhet, de igazabol gyors
-	Sprite const* Spr=mTexRepo.GetSprite(Object.GetTypeId(),Object.GetActionId());
-	if(Spr)
+	bool Drawn=false;
+	do
 	{
-		SpritePhase const& Phase=Spr->GetPhase(Object.GetActionState());
+		Actor::ActionDescList_t const& Actions=Object.GetActions();
+		if(Actions.empty())
+			break;
+		Actor::ActionDesc_t const& Act=*Actions.begin();
+		// ez lassunak tunhet, de igazabol gyors
+		Sprite const* Spr=mTexRepo.GetSprite(Object.GetTypeId(),Act.GetId());
+		if(!Spr)
+			break;
+		SpritePhase const& Phase=Spr->GetPhase((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
 		glBindTexture(GL_TEXTURE_2D, Phase.TexId);
 		glBegin(GL_QUADS);
@@ -28,8 +35,9 @@ void DefaultModel::Draw(Actor const& Object)const
 		glTexCoord2d(Phase.Right,   Phase.Top); glVertex3f( 0.5f,  0.5f, 0.0f);
 		glTexCoord2d( Phase.Left,   Phase.Top); glVertex3f( 0.5f, -0.5f, 0.0f);
 		glEnd();
-	}
-	else
+		Drawn=true;
+	} while (false);
+	if(!Drawn)
 	{
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);

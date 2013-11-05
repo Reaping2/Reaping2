@@ -87,6 +87,11 @@ solution "Reaping2"
 		kind "StaticLib"
 		setup_files_for_project("render")
 
+	project "ui"
+		language "C++"
+		kind "StaticLib"
+		setup_files_for_project("ui")
+		
 	project "json-cpp"
 		language "C++"
 		kind "StaticLib"
@@ -96,7 +101,7 @@ solution "Reaping2"
 		language "C++"
 		kind "ConsoleApp"
 
-		links { "core", "input", "platform", "render" }
+		links { "core", "input", "platform", "render", "ui" }
 		setup_files_for_project("main")
 
 		files  { "../src/**.h", "../src/**.cpp" }

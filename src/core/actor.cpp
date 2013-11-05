@@ -4,12 +4,9 @@ void Actor::Update(double Seconds)
 {
 	if(mController.get())
 		mController->Update(Seconds);
-	//mFields[X].d+=Seconds*mFields[SPEED_X].d;
-	//mFields[Y].d+=Seconds*mFields[SPEED_Y].d;
-	//mFields[ACTION_STATE].d+=100*Seconds*(1+rand()%4);
-	//if(mFields[ACTION_STATE].d>=99)
-	//	mFields[ACTION_STATE].d=0;
-	ActionHolder::Get().Update(*this, Seconds);
+	// Controller->Update might change the actions!
+	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
+		i->GetAction()->Update(*this,Seconds);
 }
 
 void Actor::Collide( double Seconds, ActorList& Actors )
@@ -22,8 +19,7 @@ void Actor::Collide( double Seconds, ActorList& Actors )
 
 Actor::Actor()
 {
-	memset(&mFields,0,NUM_FIELDS*sizeof(field_t));
-	memset(&mFields,0,ACTION_COUNT*sizeof(double));
+	memset(&mFields,0,NUM_FIELDS*sizeof(Field_t));
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
 }
 
@@ -34,51 +30,33 @@ void Actor::SetController( std::auto_ptr<Controller> Control )
 		mController->SetActor(this);
 }
 
-void Actor::SetActionIdPos(ActionHolder::ActionType ActionId, int32_t Position, bool Activate/*=true*/)
+Actor::ActionDesc_t* Actor::GetActionDesc( int32_t Id )
 {
-	if(ActionId<ActionHolder::MOVE||ActionId>=ActionHolder::NUM_FIELDS)return;
-	if(Position<0||Position>3)return;
-	if (Activate)
-	{
-		mFields[ACTION_ID].i|=ActionId<<(Position*8);
-	}
-	else
-	{
-		mFields[ACTION_ID].i&=~(0xFF<<(Position*8));
-	}
-}
-void Actor::SetActionStatePos(int32_t Position, int32_t State)
-{
-	if(Position<0||Position>=ACTION_COUNT)return;
-	mFields[ACTION_STATE].i&=State==0xFF?~(State<<(Position*8)):State;
-}
-bool Actor::HasAction(ActionHolder::ActionType ActionId, int32_t& Position)
-{
-	Position=-1;
-	if(ActionId<ActionHolder::MOVE||ActionId>=ActionHolder::NUM_FIELDS)return false;
-	int32_t gap=-1;
-	int32_t action = mFields[ACTION_ID].i;
-	for(size_t i=0;i<ACTION_COUNT;++i)
-	{
-		if (gap==-1&&(action&0xFF)==0)
-		{
-			gap=i;
-		}
-		if ((action&0xFF)==ActionId)
-		{
-			Position=i;
-			return true;
-		}
-		action>>=8;
-	}
-	Position=gap;
-	return false;
+	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
+		if(i->GetId()==Id)
+			return &*i;
+	return NULL;
 }
 
-void Actor::ClearActions()
+void Actor::AddAction( Action const& Act )
 {
-	this->SetAction(0);
-	this->SetActionState(0);
-	memset(&mActionStatePrecise,0,ACTION_COUNT*sizeof(double));
+	mActions.push_back(ActionDesc_t(&Act));
 }
 
+void Actor::DropAction( Action const& Act )
+{
+	const int32_t ActionId=Act.GetId();
+	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
+	{
+		n=i;++n;
+		if(i->GetId()==ActionId)
+			mActions.erase(i);
+	}
+}
+
+Actor::ActionDesc_t::ActionDesc_t( Action const* A,double S/*=0.*/ )
+: mAction(A)
+{
+	mId.i=A->GetId();
+	mState.d=S;
+}

@@ -1,108 +1,82 @@
 #include "i_core.h"
-const int32_t Action::ALL_ACTION=0xFFFFFFF;
-Action::Action()
-	:mIsRefresh(false)
-	,mIsLoop(false)
-	,mIsSelfDestruct(false)
-	,mBlocksActions(0)
-	,mCancelsActions(0)
-	,mSecsToEnd(1)
+
+Action::Action(std::string const& Name)
+: mId(IdStorage::Get().GetId(Name))
+, mIsRefresh(false)
+, mIsLoop(false)
+, mIsSelfDestruct(false)
+, mAreBlockedActionsExcluded(false)
+, mAreCancelledActionsExcluded(false)
+, mSecsToEnd(1)
 {
+	LOG("!Action: %s id: %d\n",Name.c_str(),mId);
 }
 
-void Action::Activate(Actor& Actor, ActionHolder::ActionType What) const
+bool Action::Activate(Actor& Actor) const
 {
-	//if this action is blocked by others
-	bool blocked=false;
-	int32_t actions = Actor.GetActionId();
-	for(size_t i=0;i<Actor::ACTION_COUNT;++i)
+	Actor::ActionDescList_t const& Actions=Actor.GetActions();
+	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		int32_t action=(actions&0xFF);
-		if(action!=0)
-		{
-			const Action * realAction = ActionHolder::Get().GetAction(action);
-			if (realAction)
-			{
-				if (realAction->Blocks(What))
-				{
-					blocked=true;
-					break;
-				}
-			}
-		}
-		actions>>=8;
+		Actor::ActionDesc_t const& action=*i;
+		if(action.GetAction()->Blocks(mId))
+			return false;
 	}
-	if (!blocked)
+	//if this action cancels others
+	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		//if this action cancels others
-		if (mCancelsActions!=0)
-		{
-			if (mCancelsActions==Action::ALL_ACTION)
-			{
-				Actor.ClearActions();
-			}
-			else
-			{
-				int32_t cancelActions=mCancelsActions>>1;
-				for(int i=1;i<ActionHolder::NUM_FIELDS;++i)
-				{
-					if(cancelActions&1==1)
-					{
-						this->Deactivate(Actor,(ActionHolder::ActionType)i);
-					}
-					cancelActions>>=1;
-				}
-			}
-		}
-		int32_t pos;
-		bool hasAction = Actor.HasAction(What, pos);
-		if (!mIsRefresh&&hasAction)return;
-		Actor.SetActionIdPos(What,pos,true);
-		Actor.SetActionStatePos(pos);
-		Actor.SetActionStatePrecise(pos,0.0);
+		Actor::ActionDesc_t const& action=*i;
+		if(Cancels(action.GetId()))
+			action.GetAction()->Deactivate(Actor);
 	}
+
+	bool hasAction=false;
+	Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();
+	while(!hasAction&&i!=e)
+		hasAction=mId==(i++)->GetId();
+	if (!mIsRefresh&&hasAction)
+		return false;
+
+	Actor.AddAction(*this);
+	return true;
 }
 
-void Action::Deactivate(Actor& Actor, ActionHolder::ActionType What) const
+void Action::Deactivate(Actor& Actor) const
 {
-	int32_t pos;
-	bool hasAction = Actor.HasAction(What, pos);
-	if (hasAction)
+	Actor.DropAction(*this);
+}
+
+bool Action::Blocks(int32_t What) const
+{
+	return mAreBlockedActionsExcluded ^ (std::find(mBlockedActionIds.begin(),mBlockedActionIds.end(),What)!=mBlockedActionIds.end());
+}
+
+bool Action::Cancels(int32_t What) const
+{
+	return mAreCancelledActionsExcluded ^ (std::find(mCancelledActionIds.begin(),mCancelledActionIds.end(),What)!=mCancelledActionIds.end());
+}
+
+int32_t Action::GetId() const
+{
+	return mId;
+}
+
+void Action::Update( Actor& Object,double Seconds ) const
+{
+	Actor::ActionDesc_t* State=Object.GetActionDesc(mId);
+	if(!State)return;
+	double nextState = State->GetState()+1./mSecsToEnd*Seconds*100.;
+	if(nextState>=100)
 	{
-		Actor.SetActionIdPos(What,pos,false);
-		Actor.SetActionStatePos(pos);
-		Actor.SetActionStatePrecise(pos,0.0);
-	}
-}
-
-bool Action::Blocks(ActionHolder::ActionType What) const
-{
-	return (mBlocksActions&(1<<What))!=0;
-}
-
-void Action::SetState(Actor& Actor,double Seconds,int Position,ActionHolder::ActionType What) const
-{
-	double statePrecise=Actor.GetActionStatePrecise(Position);
-	if (statePrecise<0||statePrecise>100)return;
-	double nextState = statePrecise+1/mSecsToEnd*Seconds*100;
-	if(nextState>100.0)
-	{
-		if (mIsLoop)
+		if(mIsLoop)
+			nextState=fmod(nextState,100.);
+		else if(mIsSelfDestruct)
 		{
-			while(nextState>=100)
-				nextState-=100.0;
+			Deactivate(Object);
+			return;
 		}
 		else
-		{
-			nextState=100.0;
-		}
+			nextState=100.;
 	}
-	if (nextState==100&&mIsSelfDestruct)
-	{
-		Deactivate(Actor,What);
-	}
-	Actor.SetActionStatePrecise(Position, nextState);
-	Actor.SetActionStatePos(Position);
-	Actor.SetActionStatePos(Position,(((int32_t)nextState)<<(Position*8)));
-	LOG("nextState: %f %d\n",nextState,(int32_t)nextState);
+	State->SetState(nextState);
+	//LOG("nextState: %f %d\n",nextState,(int32_t)nextState);
 }

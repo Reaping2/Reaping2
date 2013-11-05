@@ -7,8 +7,8 @@ PlayerController::PlayerController()
 {
 	Keyboard& Keys=Keyboard::Get();
 	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&PlayerController::OnKeyEvent,this,_1));
-	mMouseMoveId=EventServer<MouseMoveEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseMoveEvent,this,_1));
-	mMousePressId=EventServer<MousePressEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMousePressEvent,this,_1));
+	mMouseMoveId=EventServer<WorldMouseMoveEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseMoveEvent,this,_1));
+	mMousePressId=EventServer<WorldMousePressEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMousePressEvent,this,_1));
 }
 
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
@@ -24,12 +24,6 @@ void PlayerController::OnKeyEvent(const KeyEvent& Event)
 	else
 		mCurrentMovement&=~Mod;
 	mDirty=mDirty||mCurrentMovement!=OldMovement;
-	//ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
-	//ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
-	//ActionHolder::Get().RemoveAction(*mActor,ActionHolder::MOVE);
-	//ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
-	//ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
-	//ActionHolder::Get().AddAction(*mActor,ActionHolder::SHOOT);
 }
 
 void PlayerController::Update( double Seconds )
@@ -43,8 +37,8 @@ void PlayerController::Update( double Seconds )
 	mActor->SetSpeed(std::max<double>(std::abs(x),std::abs(y))*.35);
 	if(x==0&&y==0)
 	{
-		ActionHolder::Get().RemoveAction(*mActor,ActionHolder::MOVE);
-		return;
+		Action const* Act=ActionHolder::Get().GetAction("move");
+		if(Act) Act->Deactivate(*mActor);
 	}
 	double Heading=0;
 	static const double pi=boost::math::constants::pi<double>();
@@ -58,14 +52,15 @@ void PlayerController::Update( double Seconds )
 		Heading=(x<0)?pi*1.25:pi*1.75;
 
 	mActor->SetHeading(Heading);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	Action const* Act=ActionHolder::Get().GetAction("move");
+	if(Act) Act->Activate(*mActor);
 }
 
 PlayerController::~PlayerController()
 {
 }
 
-void PlayerController::OnMouseMoveEvent(const MouseMoveEvent& Event)
+void PlayerController::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
 {
 	mX=Event.Pos.x;
 	mY=Event.Pos.y;
@@ -78,7 +73,7 @@ void PlayerController::UpdateRotation()
 	mActor->SetOrientation(Rot);
 }
 
-void PlayerController::OnMousePressEvent(const MousePressEvent& Event)
+void PlayerController::OnMousePressEvent(const WorldMousePressEvent& Event)
 {
 	// ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
 	static const double Cooldown=0.2;
@@ -86,6 +81,7 @@ void PlayerController::OnMousePressEvent(const MousePressEvent& Event)
 	const double CurTime=glfwGetTime();
 	if(CurTime-PrevTime<Cooldown) return;
 	PrevTime=CurTime;
-	Scene::Get().AddActor(new Creep(Event.Pos.x,Event.Pos.y,(Event.Button==Mouse::Button_Right)?mActor:(Actor*)NULL));
+	Creep* Obj=new Creep(Event.Pos.x,Event.Pos.y,(Event.Button==Mouse::Button_Right)?mActor:(Actor*)NULL);
+	Scene::Get().AddActor(Obj);
 }
 
