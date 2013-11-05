@@ -27,14 +27,14 @@ void TargetPlayerController::Update( double Seconds )
 	double Rot=atan2(mPlayer->GetY()-mActor->GetY(),mPlayer->GetX()-mActor->GetX());
 	double Radians=Rot-mActor->GetHeading();
 	static const double pi=boost::math::constants::pi<double>();
-    while (Radians < -pi)
-    {
-        Radians += pi*2;
-    }
-    while (Radians > pi)
-    {
-        Radians -= pi*2;
-    }
+	while (Radians < -pi)
+	{
+		Radians += pi*2;
+	}
+	while (Radians > pi)
+	{
+		Radians -= pi*2;
+	}
 	double RotSpd=(Radians>0?1:-1)*0.01;
 	mActor->SetHeading(mActor->GetHeading()+RotSpd);
 	mActor->SetOrientation(mActor->GetHeading());
