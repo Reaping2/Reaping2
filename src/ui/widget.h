@@ -19,17 +19,20 @@ protected:
 	};
 	friend class WidgetIterator;
 public:
-	typedef WidgetIterator const_iterator;
+	typedef WidgetIterator const_iterator;	// rename to hierarchy iterator?
 	const_iterator begin()const;
 	const_iterator end()const;
-	Widget();
+	Widget(glm::vec4 const& RelativeDimensions=glm::vec4());
 	virtual ~Widget();
 	void AddChild(Widget* Child);
-	glm::vec4 const& GetDimensions()const;
-	void SetDimensions(const glm::vec4& Dim);
+	virtual bool AreDimensionsSet()const;
+	virtual glm::vec4 const& GetDimensions()const;
+	void SetRelativeDimensions(glm::vec4 const& Dim);
 	Widget* GetHit(const glm::vec2& Pos);
 	bool IsVisible()const;
 	void SetVisible(bool Visible);
+	Widget* GetNext()const;	// vagy child_iterator?
+
 //<<<<kikurni
 protected:
 	bool mFlagged;
@@ -39,7 +42,9 @@ public:
 //>>>>
 
 protected:
-	void Include(glm::vec4 const& Dim);
+	virtual void UpdateDimensions();
+	virtual void UpdateSelfDimensions();
+	virtual void UpdateChildrenDimensions();
 	bool IsInside(const glm::vec2& Pos)const;
 	int32_t mZOrder;
 	Widget* mParent;
@@ -47,6 +52,7 @@ protected:
 	Widget* mPrev;
 	Widget* mFirstChild;
 	Widget* mLastChild;
+	glm::vec4 mRelativeDimensions;
 	glm::vec4 mDimensions;
 	bool mDimSet;
 	bool mVisible;

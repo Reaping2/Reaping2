@@ -8,36 +8,6 @@ Renderer::Renderer()
 	TextureRepo::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
 	mMousePressId=EventServer<ScreenMousePressEvent>::Get().Subscribe(boost::bind(&Renderer::OnMousePressEvent,this,_1));
-	bool TestUi=false;
-	if(TestUi)
-		InitTestUi();
-}
-
-void Renderer::InitTestUi()
-{
-	const int I=5;
-	const int J=2;
-	const int K=2;
-	int Id=0;
-	for(int i=0;i<I*I;++i)
-	{
-		Widget* Itr=new Widget;
-		TestRootUi.AddChild(Itr);
-		for(int j=0;j<J*J;++j)
-		{
-			Widget* It2=new Widget;
-			Itr->AddChild(It2);
-			for(int k=0;k<K;++k)
-			{
-				Widget* It3=new Widget;
-				float x=100.f/I*(i/5)+100.f/I/J*(j/2)+100.f/I/J/K*k;
-				float y=100.f/I*(i%5)+100.f/I/J*(j%2)+100.f/I/J/K*k;
-				It3->SetDimensions(glm::vec4(x,y,x+100./I/J/K,y+100./I/J/K));
-				It3->SetVisible(true);
-				It2->AddChild(It3);
-			}
-		}
-	}
 }
 
 Renderer::~Renderer()
@@ -66,15 +36,15 @@ bool Renderer::Render()
 	glDisable(GL_TEXTURE_2D);
 	//glDisable(GL_BLEND);
 	glBegin(GL_QUADS);
-	for(Widget::const_iterator i=TestRootUi.begin(),e=TestRootUi.end();i!=e;++i)
+	for(Widget::const_iterator i=mUiRoot.begin(),e=mUiRoot.end();i!=e;++i)
 	{
 		glm::vec4 const& Wgt=i->GetDimensions();
 		GLfloat a=0.25f+(i->IsFlagged()?0.5f:0.f);
 		if(!i->IsVisible()) continue;
 		glColor4f(.7f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x,Wgt.y,0);
-		glColor4f(.7f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x,Wgt.w,0);
-		glColor4f(0.f, 0.7f, 0.7f,a);	glVertex3f(Wgt.z,Wgt.w,0);
-		glColor4f(0.f, 0.7f, 0.7f,a);	glVertex3f(Wgt.z,Wgt.y,0);
+		glColor4f(.7f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x,Wgt.y+Wgt.w,0);
+		glColor4f(0.f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x+Wgt.z,Wgt.y+Wgt.w,0);
+		glColor4f(0.f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x+Wgt.z,Wgt.y,0);
 	}
 	glEnd();
 	glEnable(GL_TEXTURE_2D);
@@ -131,7 +101,8 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 	UiMousePressEvent UiEvt(glm::vec2(UiEvtPos.x,UiEvtPos.y),Event.Button);
 	if(EventServer<UiMousePressEvent>::Get().SendEvent(UiEvt))return;
 
-	Widget* Wdg=TestRootUi.GetHit(UiEvt.Pos);
+	//todo: event feliratkozas, aztan v a root singleton, vagy a uimgr hivja
+	Widget* Wdg=mUiRoot.GetHit(UiEvt.Pos);
 	if(Wdg)
 	{
 		Wdg->ToggleFlag();

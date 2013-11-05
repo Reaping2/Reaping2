@@ -48,11 +48,11 @@ void Widget::AddChild(Widget* Child)
 		mLastChild=Child;
 	}
 	Child->mParent=this;
-	if(Child->mDimSet)
-		Include(Child->mDimensions);
+	Child->UpdateDimensions();
+	Child->UpdateChildrenDimensions();
 }
 
-Widget::Widget()
+Widget::Widget(glm::vec4 const& RelativeDimensions)
 : mZOrder(0)
 , mParent(NULL)
 , mNext(NULL)
@@ -62,6 +62,7 @@ Widget::Widget()
 , mFlagged(false)
 , mDimSet(false)
 , mVisible(false)
+, mRelativeDimensions(RelativeDimensions)
 {
 
 }
@@ -107,12 +108,32 @@ Widget::const_iterator Widget::end() const
 	return WidgetIterator();
 }
 
-void Widget::SetDimensions( const glm::vec4& Dim )
+void Widget::UpdateDimensions()
 {
+	UpdateSelfDimensions();
+	UpdateChildrenDimensions();
+}
+
+void Widget::UpdateSelfDimensions()
+{
+	if(!mParent||!mParent->mDimSet) return;
 	mDimSet=true;
-	mDimensions=Dim;
-	if(mParent)
-		mParent->Include(Dim);
+	glm::vec4 const& ParentDim=mParent->GetDimensions();
+	double const X=ParentDim.x;
+	double const Y=ParentDim.y;
+	double const Width=ParentDim.z;
+	double const Height=ParentDim.w;
+	mDimensions=glm::vec4(	X+mRelativeDimensions.x*Width,
+							Y+mRelativeDimensions.y*Height,
+							mRelativeDimensions.z*Width,
+							mRelativeDimensions.w*Height);
+}
+
+void Widget::UpdateChildrenDimensions()
+{
+	if(!mParent||!mParent->mDimSet) return;
+	for(Widget* i=mFirstChild;i;i=i->mNext)
+		i->UpdateDimensions();
 }
 
 Widget* Widget::GetHit( const glm::vec2& Pos )
@@ -126,31 +147,13 @@ Widget* Widget::GetHit( const glm::vec2& Pos )
 	return mVisible?this:NULL;
 }
 
-void Widget::Include( glm::vec4 const& Dim )
-{
-	if(!mDimSet)
-		SetDimensions(Dim);
-
-	if(mDimensions.x>Dim.x)
-		mDimensions.x=Dim.x;
-	if(mDimensions.y>Dim.y)
-		mDimensions.y=Dim.y;
-	if(mDimensions.z<Dim.z)
-		mDimensions.z=Dim.z;
-	if(mDimensions.w<Dim.w)
-		mDimensions.w=Dim.w;
-
-	if(mParent)
-		mParent->Include(mDimensions);
-}
-
 bool Widget::IsInside( const glm::vec2& Pos ) const
 {
 	return mDimSet&&
 			Pos.x>=mDimensions.x&&
-			Pos.x<=mDimensions.z&&
+			Pos.x<=mDimensions.x+mDimensions.z&&
 			Pos.y>=mDimensions.y&&
-			Pos.y<=mDimensions.w;
+			Pos.y<=mDimensions.y+mDimensions.w;
 }
 
 bool Widget::IsVisible() const
@@ -161,5 +164,21 @@ bool Widget::IsVisible() const
 void Widget::SetVisible(bool Visible)
 {
 	mVisible=Visible;
+}
+
+void Widget::SetRelativeDimensions( glm::vec4 const& Dim )
+{
+	mRelativeDimensions=Dim;
+	UpdateDimensions();
+}
+
+bool Widget::AreDimensionsSet() const
+{
+	return mDimSet;
+}
+
+Widget* Widget::GetNext() const
+{
+	return mNext;
 }
 
