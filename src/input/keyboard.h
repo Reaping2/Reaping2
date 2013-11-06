@@ -10,7 +10,7 @@ struct KeyState{
 	};
 };
 
-struct KeyEvent
+struct KeyEvent : public Event
 {
 	const int Key;
 	const int Mods;
@@ -18,7 +18,7 @@ struct KeyEvent
 	KeyEvent(int K, int M, KeyState::Type S):Key(K),Mods(M),State(S){}
 };
 
-struct UniCharEvent
+struct UniCharEvent : public Event
 {
 	const int Codepoint;
 	UniCharEvent(int Cp) : Codepoint(Cp){}

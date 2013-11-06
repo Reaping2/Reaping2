@@ -1,7 +1,6 @@
 #ifndef INCLUDED_ACTION_HOLDER_H
 #define INCLUDED_ACTION_HOLDER_H
 
-class Actor;
 class Action;
 class ActionHolder : public Singleton<ActionHolder>
 {
@@ -9,20 +8,11 @@ class ActionHolder : public Singleton<ActionHolder>
 	ActionHolder();
 	~ActionHolder(){}
 public:
-	enum ActionType
-	{
-		MOVE=1,
-		SHOOT,
-		NUM_FIELDS
-	};
-	void AddAction(Actor& Who, ActionType What);
-	void RemoveAction(Actor& Who, ActionType What);
 	const Action * GetAction(int32_t What) const;
-	void Update(Actor& Who, double Seconds);
+	const Action * GetAction(std::string const& What)const;
 private:
-	Action * Actions[NUM_FIELDS];
-
-
+	typedef boost::ptr_map<int32_t,Action> ActionMap_t;
+	ActionMap_t mActions;
 };
 
 #endif//INCLUDED_ACTION_HOLDER_H

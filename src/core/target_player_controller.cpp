@@ -8,13 +8,14 @@ TargetPlayerController::TargetPlayerController(Actor* player):Controller()
 
 }
 
-void TargetPlayerController::AfterSetActor()
+void TargetPlayerController::SetActor(Actor* Obj)
 {
+	Controller::SetActor(Obj);
 	if(!mActor)return;
-	static const double pi=boost::math::constants::pi<double>();
 	mActor->SetHeading(0);
 	mActor->SetSpeed(0.1);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	Action const* Act=ActionHolder::Get().GetAction("move");
+	if(Act) Act->Activate(*mActor);
 }
 
 void TargetPlayerController::Update( double Seconds )
@@ -26,17 +27,15 @@ void TargetPlayerController::Update( double Seconds )
 	double Rot=atan2(mPlayer->GetY()-mActor->GetY(),mPlayer->GetX()-mActor->GetX());
 	double Radians=Rot-mActor->GetHeading();
 	static const double pi=boost::math::constants::pi<double>();
-    while (Radians < -pi)
-    {
-        Radians += pi*2;
-    }
-    while (Radians > pi)
-    {
-        Radians -= pi*2;
-    }
+	while (Radians < -pi)
+	{
+		Radians += pi*2;
+	}
+	while (Radians > pi)
+	{
+		Radians -= pi*2;
+	}
 	double RotSpd=(Radians>0?1:-1)*0.01;
 	mActor->SetHeading(mActor->GetHeading()+RotSpd);
 	mActor->SetOrientation(mActor->GetHeading());
-	//mActor->SetHeading(Rot);
-	//mActor->SetOrientation(Rot);
 }

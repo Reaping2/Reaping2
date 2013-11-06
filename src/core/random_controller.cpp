@@ -7,11 +7,13 @@ RandomController::RandomController():Controller()
 
 }
 
-void RandomController::AfterSetActor()
+void RandomController::SetActor(Actor* Obj)
 {
+	Controller::SetActor(Obj);
 	if(!mActor)return;
 	mActor->SetHeading(rand()%180);
-	ActionHolder::Get().AddAction(*mActor,ActionHolder::MOVE);
+	Action const* Act=ActionHolder::Get().GetAction("move");
+	if(Act) Act->Activate(*mActor);
 }
 
 void RandomController::Update( double Seconds )

@@ -1,10 +1,10 @@
 #include "i_core.h"
 
 MoveAction::MoveAction()
-	:Action()
+: Action("move")
 {
-	mBlocksActions=ALL_ACTION;
-	mCancelsActions|=1<<ActionHolder::SHOOT;
+	mAreBlockedActionsExcluded=true;
+	mCancelledActionIds.push_back(IdStorage::Get().GetId("shoot"));
 	mSecsToEnd=3;
 	mIsLoop=true;
 }

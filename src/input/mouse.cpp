@@ -2,9 +2,7 @@
 #include "main/window.h"
 
 Mouse::Mouse()
-: mWidth(0)
-, mHeight(0)
-, mHeldButtons(0)
+: mHeldButtons(0)
 , mMousePressEventWait(0)
 , mMousePressEventRepeatInterval(0.1)
 {
@@ -14,21 +12,6 @@ Mouse::Mouse()
 	glfwSetMouseButtonCallback(Wnd,&Mouse::OnMouseButton);
 	glfwSetCursorEnterCallback(Wnd,&Mouse::OnMouseEnter);
 	glfwSetScrollCallback(Wnd,&Mouse::OnMouseScroll);
-	mWindowResizeId=EventServer<WindowResizeEvent>::Get().Subscribe(boost::bind(&Mouse::OnWindowResizeEvent,this,_1));
-	int w,h;
-	Wind.GetWindowSize(w,h);
-	Resize(w,h);
-}
-
-void Mouse::Resize(int Width, int Height)
-{
-	mWidth=Width;
-	mHeight=Height;
-}
-
-void Mouse::OnWindowResizeEvent(const WindowResizeEvent& Event)
-{
-	Resize(Event.Width,Event.Height);
 }
 
 void Mouse::OnMouseMove( GLFWwindow* Wnd, double x, double y )
@@ -36,17 +19,7 @@ void Mouse::OnMouseMove( GLFWwindow* Wnd, double x, double y )
 	Mouse& M=Get();
 	M.mRawMouseCoord.x=(float)x;
 	M.mRawMouseCoord.y=(float)y;
-	if(M.ProjectionCoordToWorldCoord(M.mRawMouseCoord,M.mMouseCoord))
-		EventServer<MouseMoveEvent>::Get().SendEvent(MouseMoveEvent(M.mMouseCoord));
-}
-
-bool Mouse::ProjectionCoordToWorldCoord(const glm::vec2& In,glm::vec2& Out) const
-{
-	if(mWidth==0||mHeight==0) return false;
-	const int d=std::min<int>(mWidth,mHeight);
-	Out.x=(2*In.x-mWidth)/d;
-	Out.y=(mHeight-2*In.y)/d;
-	return true;
+	EventServer<ScreenMouseMoveEvent>::Get().SendEvent(ScreenMouseMoveEvent(M.mRawMouseCoord));
 }
 
 void Mouse::OnMouseButton(GLFWwindow*, int button, int action, int mods)
@@ -56,8 +29,6 @@ void Mouse::OnMouseButton(GLFWwindow*, int button, int action, int mods)
 
 void Mouse::MousePressed(int button, int action, int /*mods*/)
 {
-	if(mWidth==0||mHeight==0)
-		return;
 	Button_t Button=Button_Left;
 	switch(button){
 			case GLFW_MOUSE_BUTTON_MIDDLE:	Button=Button_Middle;	break;
@@ -69,29 +40,24 @@ void Mouse::MousePressed(int button, int action, int /*mods*/)
 		mRawPressCoord=mRawMouseCoord;
 		mHeldButtons|=1<<Button;
 		mMousePressEventWait=mMousePressEventRepeatInterval;
-		EventServer<MousePressEvent>::Get().SendEvent(MousePressEvent(mMouseCoord,Button));
+		EventServer<ScreenMousePressEvent>::Get().SendEvent(ScreenMousePressEvent(mRawMouseCoord,Button));
 	}
 	else if(action==GLFW_RELEASE)
 	{
 		mHeldButtons&=~(1<<Button);
-		EventServer<MouseReleaseEvent>::Get().SendEvent(MouseReleaseEvent(mMouseCoord,Button));
+		EventServer<ScreenMouseReleaseEvent>::Get().SendEvent(ScreenMouseReleaseEvent(mRawMouseCoord,Button));
 		const glm::vec2 Diff=mRawMouseCoord-mRawPressCoord;
 		const float DistSqr=glm::dot(Diff,Diff);
 		static const float MinDistForDrag=25.f;
 		glm::vec2 Out;
-		if(DistSqr>=MinDistForDrag&&ProjectionCoordToWorldCoord(mRawPressCoord,Out))
-			EventServer<MouseDragEvent>::Get().SendEvent(MouseDragEvent(Out,mMouseCoord,Button));
+		if(DistSqr>=MinDistForDrag)
+			EventServer<ScreenMouseDragEvent>::Get().SendEvent(ScreenMouseDragEvent(mRawPressCoord,mRawMouseCoord,Button));
 	}
 }
 
 bool Mouse::IsButtonPressed( Button_t Button ) const
 {
 	return !!mHeldButtons&(1<<Button);
-}
-
-const glm::vec2& Mouse::GetMouseCoords() const
-{
-	return mMouseCoord;
 }
 
 void Mouse::Update(double Seconds)
@@ -105,7 +71,7 @@ void Mouse::Update(double Seconds)
 	{
 		const Button_t Button((Button_t)i);
 		if(IsButtonPressed(Button))
-			EventServer<MousePressEvent>::Get().SendEvent(MousePressEvent(mMouseCoord,Button));
+			EventServer<ScreenMousePressEvent>::Get().SendEvent(ScreenMousePressEvent(mRawMouseCoord,Button));
 	}
 	mMousePressEventWait=mMousePressEventRepeatInterval;
 }
@@ -121,3 +87,23 @@ void Mouse::OnMouseScroll( GLFWwindow*, double x_offs, double y_offs )
 	EventServer<MouseScrollEvent>::Get().SendEvent(MouseScrollEvent(glm::vec2(x_offs,y_offs)));
 }
 
+
+MouseMoveEvent::~MouseMoveEvent()
+{
+
+}
+
+MousePressEvent::~MousePressEvent()
+{
+
+}
+
+MouseReleaseEvent::~MouseReleaseEvent()
+{
+
+}
+
+MouseDragEvent::~MouseDragEvent()
+{
+
+}

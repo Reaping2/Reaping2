@@ -1,6 +1,11 @@
 #include "i_core.h"
 
 ShootAction::ShootAction()
-	:Action()
+	:Action("shoot")
 {
+}
+
+void ShootAction::Update( Actor& Actor,double Seconds ) const
+{
+	Action::Update(Actor,Seconds);
 }

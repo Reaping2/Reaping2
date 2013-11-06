@@ -1,0 +1,28 @@
+[
+	{
+		"texture_path":"textures/poks.png",
+		"actor_visuals":
+		[
+			{
+				"name":"pok1",
+				"w":100,
+				"h":100,
+				"animations":
+				[
+					{"name":"idle","start_x":0,"start_y":0,"num_phases":16},
+					{"name":"move","start_x":0,"start_y":0,"num_phases":16}
+				]
+			},
+			{
+				"name":"pok2",
+				"w":100,
+				"h":100,
+				"animations":
+				[
+					{"name":"idle","start_x":0,"start_y":100,"num_phases":6},
+					{"name":"move","start_x":0,"start_y":100,"num_phases":6}
+				]
+			}
+		]
+	}
+]

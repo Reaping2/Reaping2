@@ -53,11 +53,16 @@ AutoFile Package::Open(const boost::filesystem::path& Path)
 	return F;
 }
 
-void Package::GetFileNames( std::vector<boost::filesystem::path>& Paths )
+void Package::GetFileNames(PathVect_t& Paths, boost::filesystem::path const& Dir)
 {
 	Paths.reserve(mFiles.size());
+	std::string const& DirStr=Dir.string();
 	for(FilesMap::const_iterator i=mFiles.begin(),e=mFiles.end();i!=e;++i)
-		Paths.push_back(i->first);
+	{
+		boost::filesystem::path const& Path=i->first;
+		if(DirStr.empty()||Path.parent_path().string().find(DirStr)==0)
+			Paths.push_back(Path);
+	}
 }
 
 bool PackageWriter::WriteHeader()

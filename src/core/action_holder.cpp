@@ -1,42 +1,20 @@
 #include"i_core.h"
+
 ActionHolder::ActionHolder()
-{
-	Actions[MOVE] = new MoveAction();
-	Actions[SHOOT] = new ShootAction();
+{	// ittene majd szepen beolvasva adatfajlbol a parameterezeseket (idotartam, sebesseg, sebzes, spawned creature name, fenetudja)
+	Action* Act=new MoveAction(); int32_t Id=Act->GetId();
+	mActions.insert(Id,Act);
+	Act=new ShootAction(); Id=Act->GetId();
+	mActions.insert(Id,Act);
 }
-void ActionHolder::AddAction(Actor& Actor, ActionType What)
-{
-	if(What<MOVE||What>=NUM_FIELDS)return;
-	Actions[What]->Activate(Actor,What);
-}
-void ActionHolder::RemoveAction(Actor& Actor, ActionType What)
-{
-	if(What<MOVE||What>=NUM_FIELDS)return;
-	Actions[What]->Deactivate(Actor,What);
-}
+
 const Action * ActionHolder::GetAction(int32_t What) const
 {
-	if(What<MOVE||What>=NUM_FIELDS)return NULL;
-	return Actions[What];
+	ActionMap_t::const_iterator i=mActions.find(What);
+	return i==mActions.end()?(NULL):(i->second);
 }
-void ActionHolder::Update(Actor& Who, double Seconds)
+
+const Action * ActionHolder::GetAction(std::string const& What) const
 {
-	int32_t action = Who.GetActionId();
-	int32_t state = Who.GetActionState();
-	for(size_t i=0;i<Actor::ACTION_COUNT;++i)
-	{
-		const int32_t currAction = action&0xFF;
-		const Action * realAction=GetAction(currAction);
-		if(realAction)
-		{
-			realAction->SetState(Who,Seconds,i,(ActionType)currAction);
-			int whereIsIt;
-			if (Who.HasAction((ActionType)currAction,whereIsIt)&&whereIsIt==i)
-			{
-				realAction->Update(Who,Seconds);
-			}
-		}
-			
-		action>>=8;
-	}
+	return GetAction(IdStorage::Get().GetId(What));
 }

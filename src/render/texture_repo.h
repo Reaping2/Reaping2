@@ -9,14 +9,14 @@ class TextureRepo : public Singleton<TextureRepo>
 	typedef boost::ptr_vector<Texture> Textures_t;
 	Textures_t mTextures;
 
-	typedef boost::ptr_map<int32_t, Sprite> SpriteMap_t;
-	typedef std::map<int32_t, SpriteMap_t> ActorMap_t;
+	typedef boost::ptr_map<int32_t, Sprite> AnimationMap_t;
+	typedef std::map<int32_t, AnimationMap_t> ActorMap_t;
 	ActorMap_t mActorTypes;
 
 	void Init();
-	static bool AddTexDesc(Json::Value& TexDesc, Package& Pkg, Textures_t& Textures, ActorMap_t& ActorTypes);
-	static bool AddSpriteMap(Json::Value& SpriteDesc,Texture* Tex,ActorMap_t& ActorTypes);
-	static bool AddSprite(Json::Value& SpriteDesc,Texture* Tex, uint32_t W, uint32_t H, SpriteMap_t& SpriteMap);
+	static bool AddSpritesFromOneTextureDesc(Json::Value& TexDesc, Package& Pkg, Textures_t& Textures, ActorMap_t& ActorTypes);
+	static bool AddActorVisualDesc(Json::Value& ActorVisualDesc,Texture* Tex,ActorMap_t& ActorVisuals);
+	static bool AddAnimation(Json::Value& AnimationDesc,Texture* Tex, uint32_t W, uint32_t H, AnimationMap_t& AnimationMap);
 public:
 	Sprite const* GetSprite(int32_t TypeId, int32_t ActionId) const;
 };

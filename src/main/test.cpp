@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "ui/i_ui.h"
 
 namespace{
 	struct Tester_t{
@@ -61,8 +62,25 @@ namespace{
 			}
 		}
 
+		void TestUI()
+		{
+			std::auto_ptr<Widget> Root(new Widget);
+			for(int i=0;i<10;++i)
+			{
+				Widget* Itr=new Widget;
+				Root->AddChild(Itr);
+				for(int j=0;j<5;++j)
+					Itr->AddChild(new Widget);
+				if(i%2)
+					delete Itr;
+			}
+			Root.reset();
+			Root.reset(new Widget);
+		}
+
 		void TestMain()
 		{
+			TestUI();
 			TestCompression();
 			BuildPackage();
 			AutoFile F=mPackage->Open("data/Ping-da-ding-ding-ding.ogg");

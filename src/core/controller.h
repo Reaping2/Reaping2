@@ -7,10 +7,9 @@ class Controller
 public:
 	Controller();
 	virtual ~Controller();
-	void SetActor(Actor* Obj);
+	virtual void SetActor(Actor* Obj);
 	virtual void Update(double Seconds);
 protected:
-	virtual void AfterSetActor();
 	Actor* mActor;
 };
 

@@ -12,13 +12,37 @@ struct CollisionClass
 		Num_Classes,
 	};
 };
+class Action;
 class Actor;
-typedef boost::intrusive::list<Actor> ActorList;
-class Actor : public boost::intrusive::list_base_hook<>
+typedef boost::intrusive::list<Actor, boost::intrusive::constant_time_size<false> > ActorList;
+typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
+class Actor : public boost::intrusive::list_base_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> >
 {
 public:
-	boost::intrusive::list_member_hook<> mAllActorHook;
-	enum {ACTION_COUNT=4};
+	AllActorMemberHook_t mAllActorHook;
+	union Field_t
+	{
+		int32_t i;
+		double d;
+	};
+
+	// kikurni kulon fileba?
+	class ActionDesc_t
+	{
+	private:
+		friend class Actor;
+		Action const* mAction;
+		Field_t mId;
+		Field_t mState;
+		ActionDesc_t(Action const* A,double S=0.);
+	public:
+		int32_t GetId()const{return mId.i;}
+		double GetState()const{return mState.d;}
+		void SetState(double S){mState.d=S;}
+		Action const* GetAction()const{return mAction;}
+	};
+
+	typedef std::list<ActionDesc_t> ActionDescList_t;
 protected:
 	enum {
 		HP,
@@ -38,14 +62,9 @@ protected:
 		ACTION_STATE,
 		NUM_FIELDS,
 	};
-	union field_t
-	{
-		int32_t i;
-		double d;
-	};
 
-	field_t mFields[NUM_FIELDS];
-	double mActionStatePrecise[ACTION_COUNT];
+	Field_t mFields[NUM_FIELDS];
+	ActionDescList_t mActions;
 	std::auto_ptr<Controller> mController;
 
 	void UpdateProjections()
@@ -74,8 +93,10 @@ public:
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	int32_t GetTypeId()const{return mFields[TYPE_ID].i;}
-	int32_t GetActionId()const{return mFields[ACTION_ID].i;}
-	int32_t GetActionState()const{return mFields[ACTION_STATE].i;}
+	ActionDescList_t const& GetActions()const{return mActions;}
+	ActionDesc_t* GetActionDesc(int32_t Id);
+	void AddAction(Action const& Act);
+	void DropAction(Action const& Act);
 	int32_t GetHP()const{return mFields[HP].i;}
 	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}
@@ -105,29 +126,19 @@ public:
 	{
 		mFields[ACTION_ID].i=Action;
 	}
-	void SetActionState(int32_t ActionState)
+	void SetActionState(double ActionState)
 	{
-		mFields[ACTION_STATE].i=ActionState;
-	}
-	double GetActionStatePrecise(int Position)const
-	{
-		if (Position<0||Position>=ACTION_COUNT)return -1;
-		return mActionStatePrecise[Position];
-	}
-	void SetActionStatePrecise(int Position, double State)
-	{
-		if (Position<0||Position>=ACTION_COUNT)return;
-		mActionStatePrecise[Position]=State;
+		mFields[ACTION_STATE].d=ActionState;
 	}
 
 	void ClearActions();
-	void SetActionIdPos(ActionHolder::ActionType ActionId, int32_t Position, bool Activate=true);
+/*	void SetActionIdPos(ActionHolder::ActionType ActionId, int32_t Position, bool Activate=true);
 	void SetActionStatePos(int32_t Position, int32_t State=0xFF);
-	bool HasAction(ActionHolder::ActionType ActionId, int32_t& Position);
+	bool HasAction(ActionHolder::ActionType ActionId, int32_t& Position);*/
 };
 
-typedef boost::intrusive::member_hook< Actor, boost::intrusive::list_member_hook<>, &Actor::mAllActorHook> AllActorOption_t;
-typedef boost::intrusive::list<Actor, AllActorOption_t> AllActorInSceneList;
+typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;
+typedef boost::intrusive::list<Actor, AllActorOption_t, boost::intrusive::constant_time_size<false> > AllActorInSceneList;
 
 
 #endif//INCLUDED_CORE_ACTOR_H

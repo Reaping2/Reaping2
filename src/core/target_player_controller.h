@@ -6,8 +6,7 @@ class TargetPlayerController : public Controller
 public:
 	TargetPlayerController(Actor* player);
 	virtual void Update(double Seconds);
-protected:
-	virtual void AfterSetActor();
+	virtual void SetActor(Actor* Obj);
 private:
 	Actor* mPlayer;
 	double mCounter;

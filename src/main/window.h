@@ -4,7 +4,7 @@
 #include "platform/i_platform.h"
 #include <GLFW/glfw3.h>
 
-struct WindowResizeEvent
+struct WindowResizeEvent : public Event
 {
 	const int Width;
 	const int Height;

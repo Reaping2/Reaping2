@@ -6,8 +6,7 @@ class RandomController : public Controller
 public:
 	RandomController();
 	virtual void Update(double Seconds);
-protected:
-	virtual void AfterSetActor();
+	virtual void SetActor(Actor* Obj);
 private:
 	double mCounter;
 	double mHeadingModifier;
