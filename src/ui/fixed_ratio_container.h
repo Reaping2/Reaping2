@@ -3,12 +3,33 @@
 
 #include "main/window.h"
 
+struct HorizontalAlignment
+{
+	enum Type
+	{
+		Left,
+		Right,
+		Center,
+	};
+};
+
+struct VerticalAlignment
+{
+	enum Type
+	{
+		Bottom,
+		Top,
+		Center,
+	};
+};
+
 class FixedRatioContainer : public Widget
 {
 public:
-	FixedRatioContainer(double XtoYRatio);
+	FixedRatioContainer(double XtoYRatio,HorizontalAlignment::Type HoriAlignment=HorizontalAlignment::Left, VerticalAlignment::Type VertAlignment=VerticalAlignment::Bottom);
 protected:
-	// todo: content alignment: top/bottom/center/left/right/center
+	HorizontalAlignment::Type mHorizontalAlignment;
+	VerticalAlignment::Type mVerticalAlignment;
 	double mTargetRatio;
 	double mWindowRatio;
 	glm::vec4 mContainedDimensions;
