@@ -1,8 +1,6 @@
 #ifndef INCLUDED_PLATFORM_OSFILE_H
 #define INCLUDED_PLATFORM_OSFILE_H
 
-#include <boost/filesystem.hpp>
-
 class OsFile : public File
 {
 	std::fstream mFile;
