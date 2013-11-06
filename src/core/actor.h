@@ -131,9 +131,9 @@ public:
 	}
 
 	void ClearActions();
-/*	void SetActionIdPos(ActionHolder::ActionType ActionId, int32_t Position, bool Activate=true);
+/*	void SetActionIdPos(ActionRepo::ActionType ActionId, int32_t Position, bool Activate=true);
 	void SetActionStatePos(int32_t Position, int32_t State=0xFF);
-	bool HasAction(ActionHolder::ActionType ActionId, int32_t& Position);*/
+	bool HasAction(ActionRepo::ActionType ActionId, int32_t& Position);*/
 };
 
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;

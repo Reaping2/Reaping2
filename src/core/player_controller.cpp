@@ -37,8 +37,8 @@ void PlayerController::Update( double Seconds )
 	mActor->SetSpeed(std::max<double>(std::abs(x),std::abs(y))*.35);
 	if(x==0&&y==0)
 	{
-		Action const* Act=ActionHolder::Get().GetAction("move");
-		if(Act) Act->Deactivate(*mActor);
+		Action const& Act=ActionRepo::Get().GetByName("move");
+		Act.Deactivate(*mActor);
 	}
 	double Heading=0;
 	static const double pi=boost::math::constants::pi<double>();
@@ -52,8 +52,8 @@ void PlayerController::Update( double Seconds )
 		Heading=(x<0)?pi*1.25:pi*1.75;
 
 	mActor->SetHeading(Heading);
-	Action const* Act=ActionHolder::Get().GetAction("move");
-	if(Act) Act->Activate(*mActor);
+	Action const& Act=ActionRepo::Get().GetByName("move");
+	Act.Activate(*mActor);
 }
 
 PlayerController::~PlayerController()

@@ -26,7 +26,7 @@ bool Renderer::Render()
 	for(AllActorInSceneList::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
 	{
 		const Actor& Object=*i;
-		Model const& Model=mModelRepo.GetModel(Object);
+		Model const& Model=mModelRepo.GetModel(Object); // i think it should be .GetById(Object.GetId());
 		Model.Draw(Object);
 	}
 

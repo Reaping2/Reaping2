@@ -6,7 +6,7 @@ class MoveAction : public Action
 protected:
 	MoveAction();
 	virtual void Update(Actor& Actor,double Seconds) const override;
-	friend class ActionHolder;
+	friend class ActionRepo;
 };
 
 #endif//INCLUDED_MOVE_ACTION_H

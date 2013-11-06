@@ -3,17 +3,13 @@
 
 class Actor;
 class Model;
-class ModelRepo : public Singleton<ModelRepo>
+class ModelRepo : public Repository<ModelRepo,Model>
 {
-	typedef boost::ptr_map<int32_t, Model> ModelMap_t;
-	ModelMap_t mModels;
-	DefaultModel& mDefaultModel;
-
 	friend class Singleton<ModelRepo>;
 	ModelRepo();
 	~ModelRepo();
 public:
-	Model const& GetModel(Actor const& Object);
+	Model const& GetModel(Actor const& Object); // i don't think it's good :D more consistent, and you better know what you do.
 };
 
 #endif//INCLUDED_RENDERER_MODEL_REPO_H

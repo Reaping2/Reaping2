@@ -12,8 +12,8 @@ void RandomController::SetActor(Actor* Obj)
 	Controller::SetActor(Obj);
 	if(!mActor)return;
 	mActor->SetHeading(rand()%180);
-	Action const* Act=ActionHolder::Get().GetAction("move");
-	if(Act) Act->Activate(*mActor);
+	Action const& Act=ActionRepo::Get().GetByName("move");
+	Act.Activate(*mActor);
 }
 
 void RandomController::Update( double Seconds )

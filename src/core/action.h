@@ -19,11 +19,21 @@ protected:
 	ActionIdVec_t mCancelledActionIds;			// list of actions this one cancels on activation
 	double mSecsToEnd;							// speed. This much seconds is needed, till this action counts from 0..100.
 
-	friend class ActionHolder;
+	friend class ActionRepo;
 	Action(std::string const& Name);
 
 	bool Blocks(int32_t What) const;
 	bool Cancels(int32_t What) const;
 };
 
+class DefaultAction : public Singleton<DefaultAction>, public Action
+{
+	friend class Singleton<DefaultAction>;
+	DefaultAction();
+	~DefaultAction(){};
+public:
+	virtual void Update(Actor& Actor,double Seconds) const;
+	virtual bool Activate(Actor& Actor) const;
+	virtual void Deactivate(Actor& Actor) const;
+};
 #endif//INCLUDED_ACTION_H

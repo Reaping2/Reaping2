@@ -1,13 +1,37 @@
 #include "i_core.h"
 
+DefaultAction::DefaultAction()
+	: Action("default_action")
+{
+	mIsRefresh=false;
+	mIsLoop=false;
+	mIsSelfDestruct=true;
+	mAreBlockedActionsExcluded=false;
+	mAreCancelledActionsExcluded=false;
+	mSecsToEnd=0;
+}
+bool DefaultAction::Activate(Actor& Actor) const
+{
+	return true;
+}
+
+void DefaultAction::Deactivate(Actor& Actor) const
+{
+}
+
+void DefaultAction::Update( Actor& Object,double Seconds ) const
+{
+}
+
+
 Action::Action(std::string const& Name)
 	: AutoId(Name)
-, mIsRefresh(false)
-, mIsLoop(false)
-, mIsSelfDestruct(false)
-, mAreBlockedActionsExcluded(false)
-, mAreCancelledActionsExcluded(false)
-, mSecsToEnd(1)
+	, mIsRefresh(false)
+	, mIsLoop(false)
+	, mIsSelfDestruct(false)
+	, mAreBlockedActionsExcluded(false)
+	, mAreCancelledActionsExcluded(false)
+	, mSecsToEnd(1)
 {
 	LOG("!Action: %s id: %d\n",Name.c_str(),mId);
 }
