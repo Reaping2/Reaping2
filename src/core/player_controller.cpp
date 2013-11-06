@@ -81,7 +81,7 @@ void PlayerController::OnMousePressEvent(const WorldMousePressEvent& Event)
 	const double CurTime=glfwGetTime();
 	if(CurTime-PrevTime<Cooldown) return;
 	PrevTime=CurTime;
-	Creep* Obj=new Creep(Event.Pos.x,Event.Pos.y,(Event.Button==Mouse::Button_Right)?mActor:(Actor*)NULL);
+	Creep* Obj=new Creep(rand()%2?"pok1":"pok2", Event.Pos.x,Event.Pos.y,(Event.Button==Mouse::Button_Right)?mActor:(Actor*)NULL);
 	Scene::Get().AddActor(Obj);
 }
 

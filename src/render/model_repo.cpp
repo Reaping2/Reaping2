@@ -2,7 +2,7 @@
 
 Model const& ModelRepo::GetModel( Actor const& Object )
 {
-	ModelMap_t::const_iterator i=mModels.find(Object.GetTypeId());
+	ModelMap_t::const_iterator i=mModels.find(Object.GetId());
 	if(i==mModels.end()) return mDefaultModel;
 	return *(i->second);
 }

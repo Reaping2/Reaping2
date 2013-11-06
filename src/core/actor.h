@@ -16,7 +16,7 @@ class Action;
 class Actor;
 typedef boost::intrusive::list<Actor, boost::intrusive::constant_time_size<false> > ActorList;
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
-class Actor : public boost::intrusive::list_base_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> >
+class Actor : public AutoId, public boost::intrusive::list_base_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> >
 {
 public:
 	AllActorMemberHook_t mAllActorHook;
@@ -77,7 +77,7 @@ protected:
 		mFields[SPEED_Y].d=s*spd;
 	}
 public:
-	Actor();
+	Actor(std::string const& Name);
 	virtual ~Actor(){}
 	virtual void Collide(double Seconds, ActorList& Actors);
 	virtual void Update(double Seconds);
@@ -92,7 +92,6 @@ public:
 	double GetSpeedY()const{return mFields[SPEED_Y].d;}
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
-	int32_t GetTypeId()const{return mFields[TYPE_ID].i;}
 	ActionDescList_t const& GetActions()const{return mActions;}
 	ActionDesc_t* GetActionDesc(int32_t Id);
 	void AddAction(Action const& Act);

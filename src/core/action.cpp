@@ -1,7 +1,7 @@
 #include "i_core.h"
 
 Action::Action(std::string const& Name)
-: mId(IdStorage::Get().GetId(Name))
+	: AutoId(Name)
 , mIsRefresh(false)
 , mIsLoop(false)
 , mIsSelfDestruct(false)
@@ -53,11 +53,6 @@ bool Action::Blocks(int32_t What) const
 bool Action::Cancels(int32_t What) const
 {
 	return mAreCancelledActionsExcluded ^ (std::find(mCancelledActionIds.begin(),mCancelledActionIds.end(),What)!=mCancelledActionIds.end());
-}
-
-int32_t Action::GetId() const
-{
-	return mId;
 }
 
 void Action::Update( Actor& Object,double Seconds ) const

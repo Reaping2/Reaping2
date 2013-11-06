@@ -1,10 +1,11 @@
 #include "i_core.h"
 
-Player::Player()
+Player::Player(std::string const& Name/*="player"*/)
+	:Actor(Name)
 {
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
-	mFields[TYPE_ID].i=IdStorage::Get().GetId("player");
 }
+
 
 void Player::Collide( double Seconds, ActorList& Actors )
 {

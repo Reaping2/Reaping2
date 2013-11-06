@@ -17,10 +17,12 @@ void Actor::Collide( double Seconds, ActorList& Actors )
 	}
 }
 
-Actor::Actor()
+Actor::Actor(std::string const& Name)
+	:AutoId(Name)
 {
 	memset(&mFields,0,NUM_FIELDS*sizeof(Field_t));
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
+	mFields[TYPE_ID].i=mId;
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )

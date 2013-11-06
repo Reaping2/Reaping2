@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "action_holder.h"
 #include "id_storage.h"
+#include "auto_id.h"
 #include "controller.h"
 #include "actor.h"
 #include "scene.h"

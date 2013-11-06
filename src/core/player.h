@@ -4,7 +4,7 @@
 class Player : public Actor
 {
 public:
-	Player();
+	Player(std::string const& Name="player");
 	virtual void Collide(double Seconds, ActorList& Actors);
 };
 

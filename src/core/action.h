@@ -1,16 +1,13 @@
 #ifndef INCLUDED_ACTION_H
 #define INCLUDED_ACTION_H
 
-class Action
+class Action: public AutoId
 {
 public:
 	virtual ~Action(){}
-	int32_t GetId()const;
 	virtual void Update(Actor& Actor,double Seconds) const;
 	virtual bool Activate(Actor& Actor) const;
 	virtual void Deactivate(Actor& Actor) const;
-private:
-	const int32_t mId;
 protected:
 	bool mIsRefresh;							// setting this action again, if its active, will it reset counter
 	bool mIsLoop;								// reaching state 100 counter will continue from 0, otherwise it will remain at 100

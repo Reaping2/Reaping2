@@ -30,7 +30,7 @@ int main()
 	Renderer& Rend=Renderer::Get();
 	Scene& Scen=Scene::Get();
 
-	Player* Pl=new Player;
+	Player* Pl=new Player();
 	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
 	Scen.AddActor(Pl);
 	static const double MaxFrameRate=100.;

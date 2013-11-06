@@ -21,7 +21,7 @@ void DefaultModel::Draw(Actor const& Object)const
 			break;
 		Actor::ActionDesc_t const& Act=*Actions.begin();
 		// ez lassunak tunhet, de igazabol gyors
-		Sprite const* Spr=mTexRepo.GetSprite(Object.GetTypeId(),Act.GetId());
+		Sprite const* Spr=mTexRepo.GetSprite(Object.GetId(),Act.GetId());
 		if(!Spr)
 			break;
 		SpritePhase const& Phase=Spr->GetPhase((int32_t)Act.GetState());
