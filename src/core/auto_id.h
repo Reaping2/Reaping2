@@ -5,6 +5,7 @@ class AutoId
 public:
 	AutoId(std::string const& Name);
 	int32_t GetId()const;
+	virtual ~AutoId();
 protected:
 	const int32_t mId;
 };

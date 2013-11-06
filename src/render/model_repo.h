@@ -3,7 +3,7 @@
 
 class Actor;
 class Model;
-class ModelRepo : public Repository<ModelRepo,Model>
+class ModelRepo : public Repository<Model>, public Singleton<ModelRepo>
 {
 	friend class Singleton<ModelRepo>;
 	ModelRepo();

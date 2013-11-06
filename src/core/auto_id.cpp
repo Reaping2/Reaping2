@@ -7,3 +7,6 @@ int32_t AutoId::GetId() const
 {
 	return mId;
 }
+AutoId::~AutoId()
+{
+}
