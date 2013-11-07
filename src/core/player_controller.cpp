@@ -37,8 +37,8 @@ void PlayerController::Update( double Seconds )
 	mActor->SetSpeed(std::max<double>(std::abs(x),std::abs(y))*.35);
 	if(x==0&&y==0)
 	{
-		ActionRepo::Get().GetByName("idle").Activate(*mActor);
-		ActionRepo::Get().GetByName("body_idle").Activate(*mActor);
+		ActionRepo::Get()(AutoId("idle")).Activate(*mActor);
+		ActionRepo::Get()(AutoId("body_idle")).Activate(*mActor);
 	}
 	double Heading=0;
 	static const double pi=boost::math::constants::pi<double>();
@@ -58,8 +58,8 @@ void PlayerController::Update( double Seconds )
 	}
 	else
 	{
-		ActionRepo::Get().GetByName("move").Activate(*mActor);
-		ActionRepo::Get().GetByName("body_move").Activate(*mActor);
+		ActionRepo::Get()(AutoId("move")).Activate(*mActor);
+		ActionRepo::Get()(AutoId("body_move")).Activate(*mActor);
 	}
 }
 

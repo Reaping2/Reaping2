@@ -2,13 +2,13 @@
 
 Model const& ModelRepo::GetModel( Actor const& Object )
 {
-	return GetById(Object.GetId());
+	return operator()(Object.GetId());
 }
 
 ModelRepo::ModelRepo()
 	: Repository(DefaultModel::Get())
 {
-	int32_t Id=IdStorage::Get().GetId("player");
+	int32_t Id=AutoId("player");
 	mElements.insert(Id,new PlayerModel);
 }
 

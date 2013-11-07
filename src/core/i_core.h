@@ -1,8 +1,5 @@
 #include "platform/i_platform.h"
-#include "repository.h"
 #include "action_repo.h"
-#include "id_storage.h"
-#include "auto_id.h"
 #include "controller.h"
 #include "actor.h"
 #include "scene.h"

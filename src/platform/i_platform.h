@@ -33,3 +33,6 @@
 #include "event.h"
 #include "pngtexture.h"
 #include "jsonreader.h"
+#include "repository.h"
+#include "id_storage.h"
+#include "auto_id.h"

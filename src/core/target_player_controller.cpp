@@ -14,7 +14,7 @@ void TargetPlayerController::SetActor(Actor* Obj)
 	if(!mActor)return;
 	mActor->SetHeading(0);
 	mActor->SetSpeed(0.1);
-	Action const& Act=ActionRepo::Get().GetByName("move");
+	Action const& Act=ActionRepo::Get()(AutoId("move"));
 	Act.Activate(*mActor);
 }
 

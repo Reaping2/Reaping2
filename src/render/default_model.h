@@ -4,6 +4,7 @@
 class DefaultModel : public Singleton<DefaultModel>, public Model
 {
 	TextureRepo& mTexRepo;
+	RenderableRepo& mRenderableRepo;
 	friend class Singleton<DefaultModel>;
 	DefaultModel();
 	~DefaultModel();

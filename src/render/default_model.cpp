@@ -2,6 +2,7 @@
 
 DefaultModel::DefaultModel()
 : mTexRepo(TextureRepo::Get())
+, mRenderableRepo(RenderableRepo::Get())
 {
 }
 
@@ -24,10 +25,7 @@ void DefaultModel::Draw(Actor const& Object)const
 			break;
 		Actor::ActionDesc_t const& Act=*Actions.begin();
 		// ez lassunak tunhet, de igazabol gyors
-		Sprite const* Spr=mTexRepo.GetSprite(Object.GetId(),Act.GetId());
-		if(!Spr)
-			break;
-		SpritePhase const& Phase=Spr->GetPhase((int32_t)Act.GetState());
+		SpritePhase const& Phase=mRenderableRepo(Object.GetId())(Act.GetId())((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
 		glBindTexture(GL_TEXTURE_2D, Phase.TexId);
 		glBegin(GL_QUADS);

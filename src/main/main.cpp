@@ -31,7 +31,7 @@ int main()
 	Scene& Scen=Scene::Get();
 
 	Actor* grass = new Actor("grass");
-	ActionRepo::Get().GetByName("idle").Activate(*grass);
+	ActionRepo::Get()(AutoId("idle")).Activate(*grass);
 	Scen.AddActor(grass);
 
 	Player* Pl=new Player();

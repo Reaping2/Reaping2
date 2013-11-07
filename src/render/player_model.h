@@ -4,7 +4,7 @@
 class PlayerModel : public Model
 {
 	friend class ModelRepo;
-	TextureRepo& mTexRepo;
+	SpriteCollection const& mSprites;
 	PlayerModel();
 public:
 	virtual void Draw(Actor const& Object)const;

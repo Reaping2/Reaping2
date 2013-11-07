@@ -1,42 +1,27 @@
 #include "i_render.h"
 
-Sprite::Sprite(Texture* t, GLuint w, GLuint h, GLuint sx, GLuint sy, size_t steps)
-: mTexId(t->TexId())
-, mTexW((GLfloat)t->Width())
-, mTexH((GLfloat)t->Height())
-, mWidth(w)
-, mHeight(h)
-, mStartX(sx)
-, mStartY(sy)
-, mSteps(steps-1)
-, mPhases(NULL)
+Sprite::Sprite(int32_t TexId, GLuint w, GLuint h, GLuint sx, GLuint sy, size_t steps)
+: RepoBase(DefaultSpritePhase)
 {
-	if(mTexH)mTexH=1/mTexH;
+	Texture const& Tex=TextureRepo::Get()(TexId);
+	mTexId=Tex.TexId();
+	mTexW=(GLfloat)Tex.Width();
+	mTexH=(GLfloat)Tex.Height();
 	if(mTexW)mTexW=1/mTexW;
-	if(steps)mPhases=new SpritePhase[steps];
-	// ez a cacheeles debugban brutalis gyorsulast eredmenyez
+	if(mTexH)mTexH=1/mTexH;
+	mWidth=w;
+	mHeight=h;
+	mStartX=sx;
+	mStartY=sy;
+	mSteps=steps-1;
 	for(int32_t i=0,e=(int32_t)steps;i!=e;++i)
-		CreatePhase(i);
+		mElements.insert(i,new SpritePhase(mTexId,mStartY*mTexH,(mStartX+mWidth*i)*mTexW,(mStartY+mHeight)*mTexH,(mStartX+mWidth*(i+1))*mTexW));
 }
 
-SpritePhase const& Sprite::GetPhase(int32_t Phase) const
+SpritePhase const& Sprite::operator()( int32_t Phase ) const
 {
-	GLuint SprPhase=(GLuint)(Phase/100.*mSteps+0.5);
-	return mPhases[SprPhase];
+	int32_t SprPhase=(int32_t)(Phase/100.*mSteps+0.5);
+	return RepoBase::operator()(SprPhase);
 }
 
-void Sprite::CreatePhase(int32_t Phase)
-{
-	SpritePhase& OnePhase=mPhases[Phase];
-	OnePhase.TexId=mTexId;
-	OnePhase.Bottom=(mStartY+mHeight)*mTexH;
-	OnePhase.Top=mStartY*mTexH;
-	OnePhase.Left=(mStartX+mWidth*Phase)*mTexW;
-	OnePhase.Right=(mStartX+mWidth*(Phase+1))*mTexW;
-}
-
-Sprite::~Sprite()
-{
-	delete[] mPhases;
-}
-
+SpritePhase Sprite::DefaultSpritePhase=SpritePhase();
