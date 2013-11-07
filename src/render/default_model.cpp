@@ -12,6 +12,9 @@ void DefaultModel::Draw(Actor const& Object)const
 	glPushMatrix();
 	glTranslatef((GLfloat)Object.GetX(),(GLfloat)Object.GetY(),0);
 	glRotatef((GLfloat)Object.GetOrientation() * pi_under_180 + 180.f, 0.f, 0.f, 1.f);
+	if (Object.GetId()==IdStorage::Get().GetId("grass"))
+	glScalef(3.f,3.f,0);
+	else
 	glScalef(.2f,.2f,0);
 	bool Drawn=false;
 	do

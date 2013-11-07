@@ -13,7 +13,7 @@ Sprite::Sprite(Texture* t, GLuint w, GLuint h, GLuint sx, GLuint sy, size_t step
 {
 	if(mTexH)mTexH=1/mTexH;
 	if(mTexW)mTexW=1/mTexW;
-	if(mSteps)mPhases=new SpritePhase[steps];
+	if(steps)mPhases=new SpritePhase[steps];
 	// ez a cacheeles debugban brutalis gyorsulast eredmenyez
 	for(int32_t i=0,e=(int32_t)steps;i!=e;++i)
 		CreatePhase(i);

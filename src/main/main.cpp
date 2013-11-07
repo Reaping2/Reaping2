@@ -30,6 +30,10 @@ int main()
 	Renderer& Rend=Renderer::Get();
 	Scene& Scen=Scene::Get();
 
+	Actor* grass = new Actor("grass");
+	ActionRepo::Get().GetByName("idle").Activate(*grass);
+	Scen.AddActor(grass);
+
 	Player* Pl=new Player();
 	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
 	Scen.AddActor(Pl);

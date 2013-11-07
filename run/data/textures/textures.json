@@ -24,5 +24,52 @@
 				]
 			}
 		]
+	},
+	{
+		"texture_path":"textures/soldier_up.png",
+		"actor_visuals":
+		[
+			{
+				"name":"player",
+				"w":30,
+				"h":30,
+				"animations":
+				[
+					{"name":"body_move","start_x":0,"start_y":0,"num_phases":4},
+					{"name":"body_idle","start_x":0,"start_y":0,"num_phases":1}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/soldier_legs.png",
+		"actor_visuals":
+		[
+			{
+				"name":"player",
+				"w":30,
+				"h":30,
+				"animations":
+				[
+					{"name":"move","start_x":0,"start_y":0,"num_phases":8},
+					{"name":"idle","start_x":0,"start_y":0,"num_phases":1}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/desert.png",
+		"actor_visuals":
+		[
+			{
+				"name":"grass",
+				"w":1500,
+				"h":1401,
+				"animations":
+				[
+					{"name":"idle","start_x":0,"start_y":0,"num_phases":1}
+				]
+			}
+		]
 	}
 ]

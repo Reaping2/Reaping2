@@ -3,9 +3,9 @@
 MoveAction::MoveAction()
 : Action("move")
 {
-	mAreBlockedActionsExcluded=true;
-	mCancelledActionIds.push_back(IdStorage::Get().GetId("shoot"));
-	mSecsToEnd=3;
+	mAreBlockedActionsExcluded=false;
+	mCancelledActionIds.push_back(IdStorage::Get().GetId("idle"));
+	mSecsToEnd=1;
 	mIsLoop=true;
 }
 

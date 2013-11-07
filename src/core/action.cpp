@@ -46,11 +46,14 @@ bool Action::Activate(Actor& Actor) const
 			return false;
 	}
 	//if this action cancels others
-	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
+	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;)
 	{
 		Actor::ActionDesc_t const& action=*i;
+		++i;
 		if(Cancels(action.GetId()))
+		{
 			action.GetAction()->Deactivate(Actor);
+		}
 	}
 
 	bool hasAction=false;
