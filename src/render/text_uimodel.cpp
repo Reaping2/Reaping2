@@ -23,10 +23,10 @@ void TextUiModel::Draw( const Widget& Wdg )const
 		SpritePhase const& Phase=Fnt.GetChar(*i);
 		const float CharWidth=Dim.z*(Phase.Right-Phase.Left);
 		const float CharHeight=Dim.z*(Phase.Bottom-Phase.Top);
-		glTexCoord2d( Phase.Left,   Phase.Top); glVertex3f(Dim.x,Dim.y+CharHeight,0);
-		glTexCoord2d(Phase.Right,   Phase.Top); glVertex3f(Dim.x+CharWidth,Dim.y+CharHeight,0);
-		glTexCoord2d(Phase.Right,Phase.Bottom); glVertex3f(Dim.x+CharWidth,Dim.y,0);
-		glTexCoord2d( Phase.Left,Phase.Bottom); glVertex3f(Dim.x,Dim.y,0);
+		glTexCoord2f( Phase.Left,   Phase.Top); glVertex3f(Dim.x,Dim.y+CharHeight,0);
+		glTexCoord2f(Phase.Right,   Phase.Top); glVertex3f(Dim.x+CharWidth,Dim.y+CharHeight,0);
+		glTexCoord2f(Phase.Right,Phase.Bottom); glVertex3f(Dim.x+CharWidth,Dim.y,0);
+		glTexCoord2f( Phase.Left,Phase.Bottom); glVertex3f(Dim.x,Dim.y,0);
 		Dim.x+=CharWidth;
 	}
 	glEnd();
