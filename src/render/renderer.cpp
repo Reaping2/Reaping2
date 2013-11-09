@@ -1,11 +1,9 @@
 #include "i_render.h"
 
 Renderer::Renderer()
-: mModelRepo(ModelRepo::Get())
-, mWorldProjector(-1.0f,1.0f)
+: mWorldProjector(-1.0f,1.0f)
 , mUiProjector(0.0f,100.0f,Projection::VM_Fixed)
 {
-	TextureRepo::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
 	mMousePressId=EventServer<ScreenMousePressEvent>::Get().Subscribe(boost::bind(&Renderer::OnMousePressEvent,this,_1));
 }
@@ -25,8 +23,9 @@ bool Renderer::Render()
 	const AllActorInSceneList& Lst=Scen.GetActors();
 	for(AllActorInSceneList::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
 	{
+		static ModelRepo const& mModelRepo(ModelRepo::Get());
 		const Actor& Object=*i;
-		Model const& Model=mModelRepo.GetModel(Object); // i think it should be .GetById(Object.GetId());
+		Model const& Model=mModelRepo(Object.GetId());
 		Model.Draw(Object);
 	}
 

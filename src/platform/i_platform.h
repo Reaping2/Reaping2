@@ -27,6 +27,7 @@
 #include "compression.h"
 #include "ifile.h"
 #include "package.h"
+#include "filesystem.h"
 #include "osfile.h"
 #include "memoryfile.h"
 #include "register.h"

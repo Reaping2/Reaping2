@@ -6,7 +6,7 @@ RenderableRepo::RenderableRepo()
 	Init();
 }
 
-bool RenderableRepo::AddSpritesFromOneTextureDesc(Json::Value& TexDesc, Package& Pkg, ElementMap_t& Renderables)
+bool RenderableRepo::AddSpritesFromOneTextureDesc(Json::Value& TexDesc, ElementMap_t& Renderables)
 {
 	std::string PathStr;
 	Json::Value& ActorVisuals=TexDesc["actor_visuals"];
@@ -32,15 +32,15 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc(Json::Value& TexDesc, Package&
 
 void RenderableRepo::Init()
 {
-	Package Pkg(AutoFile(new OsFile("data.pkg")));
 	Package::PathVect_t Paths;
-	Pkg.GetFileNames(Paths,"sprites");
+	Filesys& FSys=Filesys::Get();
+	FSys.GetFileNames(Paths,"sprites");
 	ElementMap_t Renderables;
 	for(Package::PathVect_t::const_iterator i=Paths.begin(),e=Paths.end();i!=e;++i)
 	{
 		boost::filesystem::path const& Path=*i;
 		if(Path.extension().string()!=".json")continue;
-		AutoFile JsonFile=Pkg.Open(*i);
+		AutoFile JsonFile=FSys.Open(*i);
 		if(!JsonFile.get())continue;
 		JsonReader Reader(*JsonFile);
 		if(!Reader.IsValid())continue;
@@ -50,7 +50,7 @@ void RenderableRepo::Init()
 		for(size_t i=0;i<NumTextures;++i)
 		{
 			Json::Value& TexDesc=Root[i];
-			if(!AddSpritesFromOneTextureDesc(TexDesc,Pkg,Renderables))return;
+			if(!AddSpritesFromOneTextureDesc(TexDesc,Renderables))return;
 		}
 	}
 	// all done

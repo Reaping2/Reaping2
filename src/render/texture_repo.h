@@ -10,6 +10,7 @@ class TextureRepo : public Repository<Texture>, public Singleton<TextureRepo>
 	void Init();
 	typedef std::vector<int32_t> IntVec_t;
 	IntVec_t mUnavailElements;
+	Filesys& mFilesys;
 public:
 	virtual Texture const& operator()(int32_t Id);
 };

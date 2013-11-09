@@ -7,7 +7,6 @@ class Renderer : public Singleton<Renderer>
 	Renderer();
 	~Renderer();
 
-	ModelRepo& mModelRepo;
 	Projection mWorldProjector;
 	Projection mUiProjector;
 	Root mUiRoot;	//todo uimgr, vagy root singleton

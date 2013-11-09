@@ -100,5 +100,5 @@ namespace{
 		}
 	};
 
-	Tester_t Tester;
+	// Tester_t Tester;
 }

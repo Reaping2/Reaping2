@@ -2,14 +2,13 @@
 
 void TextureRepo::Init()
 {
-	Package Pkg(AutoFile(new OsFile("data.pkg")));
 	Package::PathVect_t Paths;
-	Pkg.GetFileNames(Paths,"textures");
+	mFilesys.GetFileNames(Paths,"textures");
 	for(Package::PathVect_t::const_iterator i=Paths.begin(),e=Paths.end();i!=e;++i)
 	{
 		boost::filesystem::path const& Path=*i;
 		if(Path.extension().string()!=".png")continue;
-		AutoFile TexFile=Pkg.Open(Path);
+		AutoFile TexFile=mFilesys.Open(Path);
 		if(!TexFile.get())continue;
 		PngTexture Png(*TexFile);
 		if(!Png.IsValid())continue;
@@ -21,6 +20,7 @@ void TextureRepo::Init()
 
 TextureRepo::TextureRepo()
 : RepoBase(DefaultTexture)
+, mFilesys(Filesys::Get())
 {
 	// Init();
 }
@@ -34,8 +34,7 @@ Texture const& TextureRepo::operator()(int32_t Id)
 	{
 		std::string Path;
 		if(!IdStorage::Get().GetName(Id,Path))break;
-		Package Pkg(AutoFile(new OsFile("data.pkg")));
-		AutoFile TexFile=Pkg.Open(Path);
+		AutoFile TexFile=mFilesys.Open(Path);
 		if(!TexFile.get())break;
 		PngTexture Png(*TexFile);
 		if(!Png.IsValid())break;
