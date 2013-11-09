@@ -31,7 +31,7 @@ bool PngTexture::Load(File& F)
 	while(RemainingSize)
 	{
 		static const size_t MaxPassSize=4096;
-		size_t CurrentPass=std::max<size_t>(MaxPassSize,RemainingSize);
+		size_t CurrentPass=std::min<size_t>(MaxPassSize,RemainingSize);
 		std::string Buffer;
 		if(!F.Read(Buffer,CurrentPass))break;
 		if(!ProcessData((png_bytep)(void*)&Buffer[0],Buffer.size()))break;
