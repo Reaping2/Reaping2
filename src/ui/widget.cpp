@@ -52,19 +52,19 @@ void Widget::AddChild(Widget* Child)
 	Child->UpdateChildrenDimensions();
 }
 
-Widget::Widget(glm::vec4 const& RelativeDimensions)
-: mZOrder(0)
+Widget::Widget(glm::vec4 const& RelativeDimensions, std::string const& Name)
+: AutoId(Name)
+, mZOrder(0)
 , mParent(NULL)
 , mNext(NULL)
 , mPrev(NULL)
 , mFirstChild(NULL)
 , mLastChild(NULL)
-, mFlagged(false)
 , mDimSet(false)
-, mVisible(false)
 , mRelativeDimensions(RelativeDimensions)
 {
-
+	SetProp(PT_Flagged,0);
+	SetProp(PT_Visible,0);
 }
 
 Widget::~Widget()
@@ -144,7 +144,7 @@ Widget* Widget::GetHit( const glm::vec2& Pos )
 		Widget* Wdg=i->GetHit(Pos);
 		if(Wdg) return Wdg;
 	}
-	return mVisible?this:NULL;
+	return mProperties(PT_Enabled).Value.ToInt?this:NULL;
 }
 
 bool Widget::IsInside( const glm::vec2& Pos ) const
@@ -154,16 +154,6 @@ bool Widget::IsInside( const glm::vec2& Pos ) const
 			Pos.x<=mDimensions.x+mDimensions.z&&
 			Pos.y>=mDimensions.y&&
 			Pos.y<=mDimensions.y+mDimensions.w;
-}
-
-bool Widget::IsVisible() const
-{
-	return mVisible;
-}
-
-void Widget::SetVisible(bool Visible)
-{
-	mVisible=Visible;
 }
 
 void Widget::SetRelativeDimensions( glm::vec4 const& Dim )
@@ -181,4 +171,78 @@ Widget* Widget::GetNext() const
 {
 	return mNext;
 }
+
+Widget::Prop const& Widget::GetProp( PropertyType Property ) const
+{
+	return mProperties(Property);
+}
+
+void Widget::SetProp(PropertyType Property, std::string const& StringVal)
+{
+	mProperties.Set(Property,new Prop(StringVal));
+}
+
+void Widget::SetProp( PropertyType Property, int32_t IntVal )
+{
+	mProperties.Set(Property,new Prop(IntVal));
+}
+
+void Widget::SetProp( PropertyType Property, double DoubleVal )
+{
+	mProperties.Set(Property,new Prop(DoubleVal));
+}
+
+Widget::Prop::Prop()
+:Type(T_Null)
+{
+	Value.ToInt=0;
+}
+
+Widget::Prop::Prop( int32_t IntVal )
+:Type(T_Int)
+{
+	Value.ToInt=IntVal;
+}
+
+Widget::Prop::Prop( double DoubleVal )
+:Type(T_Double)
+{
+	Value.ToDouble=DoubleVal;
+}
+
+Widget::Prop::Prop( const std::string& StrVal )
+:Type(T_Str)
+{
+	if(StrVal.empty())
+	{
+		Value.ToStr=new char(0);
+		return;
+	}
+	const size_t Size=StrVal.size();
+	char* Buf=new char[Size+1];
+	memset(Buf,0,Size+1);
+	memcpy(Buf,StrVal.c_str(),Size);
+	Value.ToStr=Buf;
+}
+
+Widget::Prop::~Prop()
+{
+	if(Type==T_Str)
+		delete Value.ToStr;
+}
+
+Widget::PropertyRepo_t::PropertyRepo_t()
+:RepoBase(DefaultProperty)
+{
+
+}
+
+void Widget::PropertyRepo_t::Set( PropertyType Property, Prop* Prp )
+{
+	int32_t Id(Property);
+	mElements.erase(Id);
+	mElements.insert(Id,Prp);
+}
+
+Widget::Prop Widget::PropertyRepo_t::DefaultProperty=Widget::Prop();
 

@@ -1,10 +1,5 @@
 #include "i_render.h"
 
-Model const& ModelRepo::GetModel( Actor const& Object )
-{
-	return operator()(Object.GetId());
-}
-
 ModelRepo::ModelRepo()
 	: Repository(DefaultModel::Get())
 {

@@ -4,6 +4,7 @@ Renderer::Renderer()
 : mWorldProjector(-1.0f,1.0f)
 , mUiProjector(0.0f,100.0f,Projection::VM_Fixed)
 {
+	Font::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
 	mMousePressId=EventServer<ScreenMousePressEvent>::Get().Subscribe(boost::bind(&Renderer::OnMousePressEvent,this,_1));
 }
@@ -23,32 +24,23 @@ bool Renderer::Render()
 	const AllActorInSceneList& Lst=Scen.GetActors();
 	for(AllActorInSceneList::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
 	{
-		static ModelRepo const& mModelRepo(ModelRepo::Get());
+		static ModelRepo const& Models(ModelRepo::Get());
 		const Actor& Object=*i;
-		Model const& Model=mModelRepo(Object.GetId());
+		Model const& Model=Models(Object.GetId());
 		Model.Draw(Object);
 	}
 
 	// render ui
 	SetupRenderer(mUiProjector);
 
-	glDisable(GL_TEXTURE_2D);
-	//glDisable(GL_BLEND);
-	glBegin(GL_QUADS);
 	for(Widget::const_iterator i=mUiRoot.begin(),e=mUiRoot.end();i!=e;++i)
 	{
-		glm::vec4 const& Wgt=i->GetDimensions();
-		GLfloat a=0.25f+(i->IsFlagged()?0.5f:0.f);
-		if(!i->IsVisible()) continue;
-		glColor4f(.7f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x,Wgt.y,0);
-		glColor4f(.7f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x,Wgt.y+Wgt.w,0);
-		glColor4f(0.f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x+Wgt.z,Wgt.y+Wgt.w,0);
-		glColor4f(0.f, 0.7f, 0.7f,a);	glVertex3f(Wgt.x+Wgt.z,Wgt.y,0);
+		static UiModelRepo const& UiModels(UiModelRepo::Get());
+		Widget const& Wdg=*i;
+		if(!Wdg.GetProp(Widget::PT_Visible).Value.ToInt) continue;
+		UiModel const& Model=UiModels(Wdg.GetId());
+		Model.Draw(Wdg);
 	}
-	glEnd();
-	glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_BLEND);
-
 
 	return EndRender();
 }
@@ -104,7 +96,9 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 	Widget* Wdg=mUiRoot.GetHit(UiEvt.Pos);
 	if(Wdg)
 	{
-		Wdg->ToggleFlag();
+		bool Flagged=!!Wdg->GetProp(Widget::PT_Flagged).Value.ToInt;
+		Wdg->SetProp(Widget::PT_Flagged,Flagged?0:1);
+		Wdg->SetProp(Widget::PT_Color,Flagged?0x770000:0xff0000);
 		return;
 	}
 
