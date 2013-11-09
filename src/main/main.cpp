@@ -5,6 +5,7 @@
 
 #include <boost/timer.hpp>
 
+namespace{
 class Timer_t
 {
 	boost::timer mMeasurer;
@@ -17,7 +18,7 @@ public:
 		mPrevMeasurement=Now;
 	}
 	Timer_t():mMeasurer(),mPrevMeasurement(mMeasurer.elapsed()){Log("timer init");}
-} Timer;
+} PerfTimer;
 
 class FrameCounter
 {
@@ -34,23 +35,12 @@ public:
 	}
 };
 
-int main()
+Registration PopulateSceneId;
+void PopulateScene()
 {
-	Window& Wnd=Window::Get();	// ez legyen az elejen
-	if(!Wnd.Create(640,480,"Reaping2"))
-		return -1;
-	Timer.Log("wnd");
-	Filesys::Get().Mount(std::auto_ptr<Package>(new Package(AutoFile(new OsFile("data.pkg")))));
-	Keyboard::Get();
-	Mouse& Jerry=Mouse::Get();
-	Timer.Log("input");
-	Renderer& Rend=Renderer::Get();
-	Timer.Log("renderer");
-	// itt loading screen fog latszani, ha a renderer/ui epp jol van felsetupolva
-	Rend.Render();
-	Wnd.Run();
+	PopulateSceneId.Unregister();
 	Scene& Scen=Scene::Get();
-	Timer.Log("scene");
+
 	Actor* grass = new Actor("grass");
 	ActionRepo::Get()(AutoId("idle")).Activate(*grass);
 	Scen.AddActor(grass);
@@ -58,12 +48,31 @@ int main()
 	Player* Pl=new Player();
 	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
 	Scen.AddActor(Pl);
-	Timer.Log("scene pop");
+	PerfTimer.Log("scene pop");
+}
+}
+
+int main()
+{
+	Window& Wnd=Window::Get();	// ez legyen az elejen
+	if(!Wnd.Create(640,480,"Reaping2"))
+		return -1;
+	PerfTimer.Log("wnd");
+	TimerServer& Timers(TimerServer::Get());
+	Filesys::Get().Mount(std::auto_ptr<Package>(new Package(AutoFile(new OsFile("data.pkg")))));
+	Keyboard::Get();
+	Mouse& Jerry=Mouse::Get();
+	PerfTimer.Log("input");
+	Renderer& Rend=Renderer::Get();
+	PerfTimer.Log("renderer");
+	Scene& Scen=Scene::Get();
+	PerfTimer.Log("scene");
 	static const double MaxFrameRate=100.;
 	static const double MinFrameTime=1./MaxFrameRate;
 	double Prevtime,Curtime;
 	Prevtime=Curtime=glfwGetTime();
 	FrameCounter Counter;
+	PopulateSceneId=Timers.AddTimer(Timer::TimerCallback(&PopulateScene),3.);
 	while(true)
 	{
 		Curtime=glfwGetTime();
@@ -75,6 +84,7 @@ int main()
 			Dt=MinFrameTime;
 			Curtime=glfwGetTime();
 		}
+		Timers.Update(Dt);
 		Jerry.Update(Dt);
 		Scen.Update(Dt);
 		if(!Rend.Render()) break;

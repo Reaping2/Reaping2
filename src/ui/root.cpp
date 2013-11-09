@@ -1,6 +1,7 @@
 #include "i_ui.h"
 
 Root::Root()
+: mTexWdg(NULL)
 {
 	mDimensions=glm::vec4(0.,0.,100.,100.);
 	mDimSet=true;
@@ -17,12 +18,13 @@ void Root::InitTestUi()
 	FixedRatioContainer* FRC2=new FixedRatioContainer(1.0,HorizontalAlignment::Center,VerticalAlignment::Top);
 	FRC2->SetRelativeDimensions(glm::vec4(0.35,0.8,0.3,0.15));
 	AddChild(FRC2);
-	TextWidget* Tw=new TextWidget(glm::vec4(0,0,1,1));
-	(*Tw)(Widget::PT_Visible)=1;
-	(*Tw)(Widget::PT_Text)="REAPING2";
-	(*Tw)(Widget::PT_Enabled)=1;
-	(*Tw)(Widget::PT_Color)=int32_t(0xff0000);
-	FRC2->AddChild(Tw);
+	mTexWdg=new TextWidget(glm::vec4(0,0,1,1));
+	(*mTexWdg)(Widget::PT_Visible)=1;
+	(*mTexWdg)(Widget::PT_Text)="REAPING2";
+	(*mTexWdg)(Widget::PT_Enabled)=1;
+	(*mTexWdg)(Widget::PT_Color)=int32_t(0x000000);
+	mTimerId=TimerServer::Get().AddTimer(boost::bind(&Root::OnTimer,this),0.01);
+	FRC2->AddChild(mTexWdg);
 	bool TestButtons=false;
 	if(!TestButtons)return;
 	Widget* WDG=new Widget(glm::vec4(0.75,0,0.25,0.25));
@@ -50,5 +52,19 @@ void Root::InitTestUi()
 				}
 			}
 		}
+	}
+}
+
+void Root::OnTimer()
+{
+	int32_t Col=(*mTexWdg)(Widget::PT_Color);
+	if(Col<0xff0000)
+	{
+		(*mTexWdg)(Widget::PT_Color)=Col+0x010000;
+	}
+	else
+	{
+		(*mTexWdg)(Widget::PT_Color)=0xff0000;
+		mTimerId.Unregister();
 	}
 }

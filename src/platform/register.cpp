@@ -38,7 +38,9 @@ void Registration::Unregister()
 {
 	if(mRegister)
 		mRegister->Unregister(this);
+	mRegister=NULL;
 	delete mData;
+	mData=NULL;
 }
 
 

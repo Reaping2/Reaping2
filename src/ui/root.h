@@ -8,7 +8,11 @@ public:
 protected:
 	virtual void UpdateSelfDimensions(){}
 
+	// fun
+	void OnTimer();
 	void InitTestUi();
+	Widget* mTexWdg;
+	Registration mTimerId;
 };
 
 #endif//INCLUDED_UI_ROOT_H

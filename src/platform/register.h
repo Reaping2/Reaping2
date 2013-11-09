@@ -22,7 +22,7 @@ class Registry
 	friend class Registration;
 	void Unregister(Registration* Reg);
 protected:
-	typedef std::vector<void*> Registrations;
+	typedef std::list<void*> Registrations;
 	Registrations mRegistrations;
 	Registration Register(void *Data);
 };
