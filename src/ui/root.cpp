@@ -18,10 +18,10 @@ void Root::InitTestUi()
 	FRC2->SetRelativeDimensions(glm::vec4(0.35,0.8,0.3,0.15));
 	AddChild(FRC2);
 	TextWidget* Tw=new TextWidget(glm::vec4(0,0,1,1));
-	Tw->SetProp(Widget::PT_Visible,1);
-	Tw->SetProp(Widget::PT_Text,"REAPING2");
-	Tw->SetProp(Widget::PT_Enabled,1);
-	Tw->SetProp(Widget::PT_Color,0xff0000);
+	(*Tw)(Widget::PT_Visible)=1;
+	(*Tw)(Widget::PT_Text)="REAPING2";
+	(*Tw)(Widget::PT_Enabled)=1;
+	(*Tw)(Widget::PT_Color)=int32_t(0xff0000);
 	FRC2->AddChild(Tw);
 	bool TestButtons=false;
 	if(!TestButtons)return;
@@ -44,8 +44,8 @@ void Root::InitTestUi()
 				for(int k=0;k<K;++k)
 				{
 					Widget* It3=new Widget(glm::vec4(1./K*k,1./K*k,1./K,1./K));
-					It3->SetProp(Widget::PT_Visible,1);
-					It3->SetProp(Widget::PT_Enabled,1);
+					(*It3)(Widget::PT_Visible)=1;
+					(*It3)(Widget::PT_Enabled)=1;
 					It2->AddChild(It3);
 				}
 			}

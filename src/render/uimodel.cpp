@@ -3,8 +3,7 @@
 void UiModel::Draw( const Widget& Wdg )const
 {
 	glm::vec4 const& Dim=Wdg.GetDimensions();
-	GLfloat a=0.25f+(Wdg.GetProp(Widget::PT_Flagged).Value.ToInt?0.5f:0.f);
-//	glBindTexture(GL_TEXTURE_2D,0);
+	GLfloat a=0.25f+(!!(int32_t)Wdg(Widget::PT_Flagged)?0.5f:0.f);
 	glDisable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);	// UiModel QUADokat rajzol, igy egy begin-end-be beleferhetnenk akar
 	glColor4f(.7f, 0.7f, 0.7f,a);	glVertex3f(Dim.x,Dim.y,0);

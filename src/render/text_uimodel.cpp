@@ -3,18 +3,14 @@
 void TextUiModel::Draw( const Widget& Wdg )const
 {
 	static Font& Fnt(Font::Get());
-
-	const Widget::Prop& TextProp=Wdg.GetProp(Widget::PT_Text);
-	if(TextProp.Type!=Widget::Prop::T_Str)return;
-	std::string Buf(TextProp.Value.ToStr);
+	std::string const& Buf=Wdg(Widget::PT_Text);
 	if(Buf.empty())return;
 	glm::vec2 TexDim=Fnt.GetDim(Buf);
 	if(TexDim.x<=std::numeric_limits<float>::epsilon())return;
 	glm::vec4 Dim=Wdg.GetDimensions();
 	Dim.z/=TexDim.x;
 	glNormal3f(0.0, 0.0, 1.0);
-	const Widget::Prop& ColorProp=Wdg.GetProp(Widget::PT_Color);
-	uint32_t Color=(uint32_t)((ColorProp.Type==Widget::Prop::T_Int)?ColorProp.Value.ToInt:0xffffff);
+	uint32_t Color=(int32_t)(Wdg(Widget::PT_Color));
 	glColor3ub((Color>>16)&0xff,(Color>>8)&0xff,Color&0xff);
 	glBindTexture(GL_TEXTURE_2D,Fnt.GetTexId());
 	glBegin(GL_QUADS);	// UiModel QUADokat rajzol, igy egy begin-end-be beleferhetnenk akar

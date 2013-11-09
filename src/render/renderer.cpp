@@ -37,7 +37,7 @@ bool Renderer::Render()
 	{
 		static UiModelRepo const& UiModels(UiModelRepo::Get());
 		Widget const& Wdg=*i;
-		if(!Wdg.GetProp(Widget::PT_Visible).Value.ToInt) continue;
+		if(!(int32_t)Wdg(Widget::PT_Visible)) continue;
 		UiModel const& Model=UiModels(Wdg.GetId());
 		Model.Draw(Wdg);
 	}
@@ -96,9 +96,9 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 	Widget* Wdg=mUiRoot.GetHit(UiEvt.Pos);
 	if(Wdg)
 	{
-		bool Flagged=!!Wdg->GetProp(Widget::PT_Flagged).Value.ToInt;
-		Wdg->SetProp(Widget::PT_Flagged,Flagged?0:1);
-		Wdg->SetProp(Widget::PT_Color,Flagged?0x770000:0xff0000);
+		bool Flagged=!!(int32_t)(*Wdg)(Widget::PT_Flagged);
+		(*Wdg)(Widget::PT_Flagged)=Flagged?0:1;
+		(*Wdg)(Widget::PT_Color)=Flagged?0x770000:0xff0000;
 		return;
 	}
 

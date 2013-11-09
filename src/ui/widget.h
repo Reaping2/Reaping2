@@ -34,12 +34,23 @@ public:
 			T_Int,
 			T_Str,
 		};
-		const Type_t Type;
 		Prop();
 		explicit Prop(int32_t IntVal);
 		explicit Prop(double DoubleVal);
 		explicit Prop(const std::string& StrVal);
+		operator std::string()const;
+		operator char const*()const;
+		operator int32_t()const;
+		operator double()const;
+		Prop& operator=(std::string const& Str);
+		Prop& operator=(char const* Buf);
+		Prop& operator=(int32_t I);
+		Prop& operator=(double D);
 		~Prop();
+	private:
+		Type_t Type;
+		void Init(std::string const& Str);
+		void Cleanup();
 	};
 	enum PropertyType {
 		PT_Visible,
@@ -59,10 +70,8 @@ public:
 	void SetRelativeDimensions(glm::vec4 const& Dim);
 	Widget* GetHit(const glm::vec2& Pos);
 	Widget* GetNext()const;	// vagy child_iterator?
-	Prop const& GetProp(PropertyType Property)const;
-	void SetProp(PropertyType Property, std::string const& StringVal);
-	void SetProp(PropertyType Property, int32_t IntVal);
-	void SetProp(PropertyType Property, double DoubleVal);
+	Prop const& operator()(PropertyType Property)const;
+	Prop& operator()(PropertyType Property);
 protected:
 	virtual void UpdateDimensions();
 	virtual void UpdateSelfDimensions();
@@ -81,7 +90,7 @@ protected:
 	{
 		static Prop DefaultProperty;
 		PropertyRepo_t();
-		void Set(PropertyType Property, Prop* Prp);
+		Prop& Mutable(PropertyType Property);
 	};
 	PropertyRepo_t mProperties;
 };

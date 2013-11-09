@@ -63,8 +63,8 @@ Widget::Widget(glm::vec4 const& RelativeDimensions, std::string const& Name)
 , mDimSet(false)
 , mRelativeDimensions(RelativeDimensions)
 {
-	SetProp(PT_Flagged,0);
-	SetProp(PT_Visible,0);
+	operator()(PT_Flagged)=0;
+	operator()(PT_Visible)=0;
 }
 
 Widget::~Widget()
@@ -172,24 +172,14 @@ Widget* Widget::GetNext() const
 	return mNext;
 }
 
-Widget::Prop const& Widget::GetProp( PropertyType Property ) const
+Widget::Prop const& Widget::operator()( PropertyType Property ) const
 {
 	return mProperties(Property);
 }
 
-void Widget::SetProp(PropertyType Property, std::string const& StringVal)
+Widget::Prop& Widget::operator()( PropertyType Property )
 {
-	mProperties.Set(Property,new Prop(StringVal));
-}
-
-void Widget::SetProp( PropertyType Property, int32_t IntVal )
-{
-	mProperties.Set(Property,new Prop(IntVal));
-}
-
-void Widget::SetProp( PropertyType Property, double DoubleVal )
-{
-	mProperties.Set(Property,new Prop(DoubleVal));
+	return mProperties.Mutable(Property);
 }
 
 Widget::Prop::Prop()
@@ -213,6 +203,68 @@ Widget::Prop::Prop( double DoubleVal )
 Widget::Prop::Prop( const std::string& StrVal )
 :Type(T_Str)
 {
+	Init(StrVal);
+}
+
+Widget::Prop::~Prop()
+{
+	if(Type==T_Str)
+		delete Value.ToStr;
+}
+
+Widget::Prop::operator char const*() const
+{
+	assert(Type==T_Str);
+	return (Type==T_Str)?Value.ToStr:NULL;
+}
+
+Widget::Prop::operator int32_t() const
+{
+	assert(Type==T_Int||Type==T_Double);
+	return (Type==T_Int)?Value.ToInt:(Type==T_Double?int32_t(Value.ToDouble):0);
+}
+
+Widget::Prop::operator double() const
+{
+	assert(Type==T_Int||Type==T_Double);
+	return (Type==T_Double)?Value.ToDouble:(Type==T_Int?double(Value.ToInt):0.0);
+}
+
+Widget::Prop& Widget::Prop::operator=( std::string const& Str )
+{
+	Cleanup();
+	Type=T_Str;
+	Init(Str);
+	return *this;
+}
+
+Widget::Prop& Widget::Prop::operator=( char const* Str )
+{
+	Cleanup();
+	Type=T_Str;
+	Init(std::string(Str));
+	return *this;
+}
+
+Widget::Prop& Widget::Prop::operator=( int32_t I )
+{
+	Cleanup();
+	Type=T_Int;
+	Value.ToInt=I;
+	return *this;
+}
+
+Widget::Prop& Widget::Prop::operator=( double D )
+{
+	Cleanup();
+	Type=T_Double;
+	Value.ToDouble=D;
+	return *this;
+}
+
+void Widget::Prop::Init( std::string const& StrVal )
+{
+	Type=T_Str;
 	if(StrVal.empty())
 	{
 		Value.ToStr=new char(0);
@@ -225,10 +277,16 @@ Widget::Prop::Prop( const std::string& StrVal )
 	Value.ToStr=Buf;
 }
 
-Widget::Prop::~Prop()
+void Widget::Prop::Cleanup()
 {
 	if(Type==T_Str)
 		delete Value.ToStr;
+	Type=T_Null;
+}
+
+Widget::Prop::operator std::string() const
+{
+	return std::string(operator char const*());
 }
 
 Widget::PropertyRepo_t::PropertyRepo_t()
@@ -237,11 +295,10 @@ Widget::PropertyRepo_t::PropertyRepo_t()
 
 }
 
-void Widget::PropertyRepo_t::Set( PropertyType Property, Prop* Prp )
+Widget::Prop& Widget::PropertyRepo_t::Mutable( PropertyType Property )
 {
 	int32_t Id(Property);
-	mElements.erase(Id);
-	mElements.insert(Id,Prp);
+	return mElements[Id];
 }
 
 Widget::Prop Widget::PropertyRepo_t::DefaultProperty=Widget::Prop();
