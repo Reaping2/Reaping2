@@ -4,11 +4,17 @@
 class Action: public AutoId
 {
 public:
+	enum ActionType{
+		Normal,
+		Weapon
+	};
 	virtual ~Action(){}
 	virtual void Update(Actor& Actor,double Seconds) const;
 	virtual bool Activate(Actor& Actor) const;
 	virtual void Deactivate(Actor& Actor) const;
+	ActionType GetType() const { return mType; }
 protected:
+	ActionType mType;
 	bool mIsRefresh;							// setting this action again, if its active, will it reset counter
 	bool mIsLoop;								// reaching state 100 counter will continue from 0, otherwise it will remain at 100
 	bool mIsSelfDestruct;						// reaching state 100 will automatically deactivate current action

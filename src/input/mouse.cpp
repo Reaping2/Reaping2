@@ -38,13 +38,12 @@ void Mouse::MousePressed(int button, int action, int /*mods*/)
 	if(action==GLFW_PRESS)
 	{
 		mRawPressCoord=mRawMouseCoord;
-		mHeldButtons|=1<<Button;
 		mMousePressEventWait=mMousePressEventRepeatInterval;
 		EventServer<ScreenMousePressEvent>::Get().SendEvent(ScreenMousePressEvent(mRawMouseCoord,Button));
+		mHeldButtons|=1<<Button;
 	}
 	else if(action==GLFW_RELEASE)
 	{
-		mHeldButtons&=~(1<<Button);
 		EventServer<ScreenMouseReleaseEvent>::Get().SendEvent(ScreenMouseReleaseEvent(mRawMouseCoord,Button));
 		const glm::vec2 Diff=mRawMouseCoord-mRawPressCoord;
 		const float DistSqr=glm::dot(Diff,Diff);
@@ -52,12 +51,15 @@ void Mouse::MousePressed(int button, int action, int /*mods*/)
 		glm::vec2 Out;
 		if(DistSqr>=MinDistForDrag)
 			EventServer<ScreenMouseDragEvent>::Get().SendEvent(ScreenMouseDragEvent(mRawPressCoord,mRawMouseCoord,Button));
+		mHeldButtons&=~(1<<Button);
 	}
+	LOG("Held buttons:%d",mHeldButtons);
+
 }
 
 bool Mouse::IsButtonPressed( Button_t Button ) const
 {
-	return !!mHeldButtons&(1<<Button);
+	return !(!(mHeldButtons&(1<<Button)));
 }
 
 void Mouse::Update(double Seconds)
@@ -67,11 +69,14 @@ void Mouse::Update(double Seconds)
 		mMousePressEventWait-=Seconds;
 		return;
 	}
-	for(size_t i=0;i<Num_Buttons;++i)
+	for(size_t i=1;i<Num_Buttons;++i)
 	{
 		const Button_t Button((Button_t)i);
 		if(IsButtonPressed(Button))
+		{
+			LOG("Held buttons and is pressed:%d,%d,%d \n",mHeldButtons,!(!mHeldButtons&(1<<Button)),Button);
 			EventServer<ScreenMousePressEvent>::Get().SendEvent(ScreenMousePressEvent(mRawMouseCoord,Button));
+		}
 	}
 	mMousePressEventWait=mMousePressEventRepeatInterval;
 }

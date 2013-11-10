@@ -21,15 +21,17 @@ void PlayerModel::Draw(Actor const& Object)const
 		Actor::ActionDesc_t const& Act=*i;
 		SpritePhase const& Phase=mSprites(Act.GetId())((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
-		glBindTexture(GL_TEXTURE_2D, Phase.TexId);
-		glBegin(GL_QUADS);
-		glNormal3f(0.0, 0.0, 1.0);
-		glColor3f(1.f,1.f,1.f);
-		glTexCoord2d( Phase.Left,Phase.Bottom); glVertex3f(-0.5f, -0.5f, 0.0f);
-		glTexCoord2d(Phase.Right,Phase.Bottom); glVertex3f(-0.5f,  0.5f, 0.0f);
-		glTexCoord2d(Phase.Right,   Phase.Top); glVertex3f( 0.5f,  0.5f, 0.0f);
-		glTexCoord2d( Phase.Left,   Phase.Top); glVertex3f( 0.5f, -0.5f, 0.0f);
-		glEnd();
+		if(!mSprites(Act.GetId()).IsValid()) continue;
+		DrawPhase(Phase);
+		Drawn=true;
+	}
+
+	//Yaaaay, prioritás kellhet vagy valami, bár ez sem értelmetlen, csak szar :d
+	Actor::ActionDesc_t const* weapon=Object.GetWeapon();
+	if(weapon&&mSprites(weapon->GetId()).IsValid())
+	{	
+		SpritePhase const& Phase=mSprites(weapon->GetId())((int32_t)weapon->GetState());
+		DrawPhase(Phase);
 		Drawn=true;
 	}
 	if(!Drawn)
@@ -45,4 +47,16 @@ void PlayerModel::Draw(Actor const& Object)const
 		glEnable(GL_BLEND);
 	}
 	glPopMatrix();
+}
+void PlayerModel::DrawPhase(SpritePhase const& Phase) const
+{
+	glBindTexture(GL_TEXTURE_2D, Phase.TexId);
+	glBegin(GL_QUADS);
+	glNormal3f(0.0, 0.0, 1.0);
+	glColor3f(1.f,1.f,1.f);
+	glTexCoord2d( Phase.Left,Phase.Bottom); glVertex3f(-0.5f, -0.5f, 0.0f);
+	glTexCoord2d(Phase.Right,Phase.Bottom); glVertex3f(-0.5f,  0.5f, 0.0f);
+	glTexCoord2d(Phase.Right,   Phase.Top); glVertex3f( 0.5f,  0.5f, 0.0f);
+	glTexCoord2d( Phase.Left,   Phase.Top); glVertex3f( 0.5f, -0.5f, 0.0f);
+	glEnd();
 }

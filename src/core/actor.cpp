@@ -31,7 +31,13 @@ void Actor::SetController( std::auto_ptr<Controller> Control )
 	if(mController.get())
 		mController->SetActor(this);
 }
-
+Actor::ActionDesc_t const* Actor::GetWeapon() const
+{
+	for(Actor::ActionDescList_t::const_iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
+		if (i->GetAction()->GetType()==Action::Weapon)
+			return &*i;
+	return NULL;
+}
 Actor::ActionDesc_t* Actor::GetActionDesc( int32_t Id )
 {
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)

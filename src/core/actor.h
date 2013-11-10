@@ -58,9 +58,7 @@ protected:
 		COLLISION_CLASS,
 		GUID,			// todo: MakeGuid()
 		TYPE_ID,
-		ACTION_ID,
-		ACTION_STATE,
-		NUM_FIELDS,
+		NUM_FIELDS
 	};
 
 	Field_t mFields[NUM_FIELDS];
@@ -83,6 +81,8 @@ public:
 	virtual void Update(double Seconds);
 
 	void SetController(std::auto_ptr<Controller> Control);
+
+	Actor::ActionDesc_t const* GetWeapon() const;
 
 	double GetX()const{return mFields[X].d;}
 	double GetY()const{return mFields[Y].d;}
@@ -120,14 +120,6 @@ public:
 	void SetOrientation(double Ori)
 	{
 		mFields[ORIENTATION].d=Ori;
-	}
-	void SetAction(int32_t Action)
-	{
-		mFields[ACTION_ID].i=Action;
-	}
-	void SetActionState(double ActionState)
-	{
-		mFields[ACTION_STATE].d=ActionState;
 	}
 
 	void ClearActions();

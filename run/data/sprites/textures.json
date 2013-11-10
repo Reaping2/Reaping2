@@ -58,6 +58,21 @@
 		]
 	},
 	{
+		"texture_path":"textures/PlasmaGun.png",
+		"actor_visuals":
+		[
+			{
+				"name":"player",
+				"w":30,
+				"h":17,
+				"animations":
+				[
+					{"name":"plasma_gun","start_x":0,"start_y":0,"num_phases":1}
+				]
+			}
+		]
+	},
+	{
 		"texture_path":"textures/desert.png",
 		"actor_visuals":
 		[
@@ -68,6 +83,21 @@
 				"animations":
 				[
 					{"name":"idle","start_x":0,"start_y":0,"num_phases":1}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/PlasmaLoves.png",
+		"actor_visuals":
+		[
+			{
+				"name":"plasma_shot",
+				"w":30,
+				"h":17,
+				"animations":
+				[
+					{"name":"move","start_x":0,"start_y":0,"num_phases":1}
 				]
 			}
 		]

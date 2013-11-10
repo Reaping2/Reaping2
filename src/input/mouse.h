@@ -5,7 +5,7 @@ class Mouse : public Singleton<Mouse>
 {
 public:
 	enum Button_t {
-		Button_Left,
+		Button_Left=1,
 		Button_Middle,
 		Button_Right,
 		Num_Buttons,

@@ -13,6 +13,7 @@ class Renderer : public Singleton<Renderer>
 
 	Registration mMouseMoveId;
 	Registration mMousePressId;
+	Registration mMouseReleaseId;
 
 	bool BeginRender();
 	bool EndRender();
@@ -22,6 +23,7 @@ class Renderer : public Singleton<Renderer>
 	// a screen mouse eventeket mindenesetre ezen a reszen lehet csak kezelni, a rendererben (hisz csak o tudja, h egyaltalan mi az a screen)
 	void OnMouseMoveEvent(const ScreenMouseMoveEvent& Event);
 	void OnMousePressEvent(const ScreenMousePressEvent& Event);
+	void OnMouseReleaseEvent(const ScreenMouseReleaseEvent& Event);
 public:
 	bool Render();
 };

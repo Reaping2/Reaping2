@@ -7,10 +7,14 @@ ActionRepo::ActionRepo()
 	mElements.insert(Id,Act);
 	Act=new ShootAction(); Id=Act->GetId();
 	mElements.insert(Id,Act);
+	Act=new ShootAltAction(); Id=Act->GetId();
+	mElements.insert(Id,Act);
 	Act=new BodyMoveAction(); Id=Act->GetId();
 	mElements.insert(Id,Act);
 	Act=new BodyIdleAction(); Id=Act->GetId();
 	mElements.insert(Id,Act);
 	Act=new IdleAction(); Id=Act->GetId();
+	mElements.insert(Id,Act);
+	Act=new PlasmaGunAction(); Id=Act->GetId();
 	mElements.insert(Id,Act);
 }

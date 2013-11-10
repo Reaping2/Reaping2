@@ -2,15 +2,23 @@
 #include "input/i_input.h"
 
 PlayerController::PlayerController()
-: mCurrentMovement(0)
-, mDirty(true)
+	: mCurrentMovement(0)
+	, mDirty(true)
+	, mMouse(Mouse::Get())
 {
 	Keyboard& Keys=Keyboard::Get();
 	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&PlayerController::OnKeyEvent,this,_1));
 	mMouseMoveId=EventServer<WorldMouseMoveEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseMoveEvent,this,_1));
 	mMousePressId=EventServer<WorldMousePressEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMousePressEvent,this,_1));
+	mMouseReleaseId=EventServer<WorldMouseReleaseEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseReleaseEvent,this,_1));
+
 }
 
+void PlayerController::SetActor(Actor* Obj)
+{
+	Controller::SetActor(Obj);
+	ActionRepo::Get()(AutoId("plasma_gun")).Activate(*mActor);
+}
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
 {
 	uint32_t OldMovement=mCurrentMovement;
@@ -82,13 +90,37 @@ void PlayerController::UpdateRotation()
 
 void PlayerController::OnMousePressEvent(const WorldMousePressEvent& Event)
 {
+	if (Event.Button==Mouse::Button_Left&&!mMouse.IsButtonPressed(Mouse::Button_Left))
+		ActionRepo::Get()(AutoId("shoot")).Activate(*mActor);
+	else if (Event.Button==Mouse::Button_Right&&!mMouse.IsButtonPressed(Mouse::Button_Right))
+		ActionRepo::Get()(AutoId("shoot_alt")).Activate(*mActor);
+
 	// ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
 	static const double Cooldown=0.2;
 	static double PrevTime=0;
 	const double CurTime=glfwGetTime();
 	if(CurTime-PrevTime<Cooldown) return;
 	PrevTime=CurTime;
-	Creep* Obj=new Creep(rand()%2?"pok1":"pok2", Event.Pos.x,Event.Pos.y,(Event.Button==Mouse::Button_Right)?mActor:(Actor*)NULL);
-	Scene::Get().AddActor(Obj);
+	if (Event.Button==Mouse::Button_Middle)
+	{
+		Creep* Obj=new Creep(rand()%2?"pok1":"pok2", Event.Pos.x,Event.Pos.y,rand()%2?mActor:(Actor*)NULL);
+		Scene::Get().AddActor(Obj);
+	}
 }
 
+
+void PlayerController::OnMouseReleaseEvent(const WorldMouseReleaseEvent& Event)
+{
+	if (Event.Button==Mouse::Button_Left)
+	{
+		ActionRepo::Get()(AutoId("shoot")).Deactivate(*mActor);
+		if (mMouse.IsButtonPressed(Mouse::Button_Right))
+			ActionRepo::Get()(AutoId("shoot_alt")).Activate(*mActor);
+	}
+	else if (Event.Button==Mouse::Button_Right)
+	{
+		ActionRepo::Get()(AutoId("shoot_alt")).Deactivate(*mActor);
+		if (mMouse.IsButtonPressed(Mouse::Button_Left))
+			ActionRepo::Get()(AutoId("shoot")).Activate(*mActor);
+	}
+}

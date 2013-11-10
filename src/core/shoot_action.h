@@ -8,5 +8,11 @@ protected:
 	virtual void Update(Actor& Actor,double Seconds) const;
 	friend class ActionRepo;
 };
-
+class ShootAltAction : public Action
+{
+protected:
+	ShootAltAction();
+	virtual void Update(Actor& Actor,double Seconds) const;
+	friend class ActionRepo;
+};
 #endif//INCLUDED_SHOOT_ACTION_H

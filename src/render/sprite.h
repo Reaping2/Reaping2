@@ -19,6 +19,10 @@ class Sprite : public Repository<SpritePhase>
 	Sprite(int32_t tid, GLuint w, GLuint h, GLuint sx, GLuint sy, size_t steps);
 	void CreatePhase(int32_t Phase);
 public:
+	bool IsValid() const
+	{
+		return mTexId!=0;
+	}
 	virtual SpritePhase const& operator()(int32_t Phase) const;
 };
 

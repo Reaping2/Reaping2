@@ -9,6 +9,7 @@ DefaultAction::DefaultAction()
 	mAreBlockedActionsExcluded=false;
 	mAreCancelledActionsExcluded=false;
 	mSecsToEnd=0;
+	mType=Normal;
 }
 bool DefaultAction::Activate(Actor& Actor) const
 {

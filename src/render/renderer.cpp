@@ -7,6 +7,7 @@ Renderer::Renderer()
 	Font::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
 	mMousePressId=EventServer<ScreenMousePressEvent>::Get().Subscribe(boost::bind(&Renderer::OnMousePressEvent,this,_1));
+	mMouseReleaseId=EventServer<ScreenMouseReleaseEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseReleaseEvent,this,_1));
 }
 
 Renderer::~Renderer()
@@ -105,5 +106,13 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 	glm::vec3 WorldEvtPos=mWorldProjector.Unproject(EvtPos);
 	WorldMousePressEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y),Event.Button);
 	EventServer<WorldMousePressEvent>::Get().SendEvent(WorldEvt);
+}
+
+void Renderer::OnMouseReleaseEvent(const ScreenMouseReleaseEvent& Event)
+{
+	glm::vec3 EvtPos(Event.Pos.x,Event.Pos.y,0);
+	glm::vec3 WorldEvtPos=mWorldProjector.Unproject(EvtPos);
+	WorldMouseReleaseEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y),Event.Button);
+	EventServer<WorldMouseReleaseEvent>::Get().SendEvent(WorldEvt);
 }
 
