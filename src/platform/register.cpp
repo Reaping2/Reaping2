@@ -28,8 +28,9 @@ Registration& Registration::operator=( Registration& O )
 {
 	if(this!=&O)
 	{
-		std::swap(mData,O.mData);
-		std::swap(mRegister,O.mRegister);
+		using std::swap;
+		swap(mData,O.mData);
+		swap(mRegister,O.mRegister);
 	}
 	return *this;
 }
@@ -39,10 +40,8 @@ void Registration::Unregister()
 	if(mRegister)
 		mRegister->Unregister(this);
 	mRegister=NULL;
-	delete mData;
 	mData=NULL;
 }
-
 
 Registration Registry::Register(void *Data)
 {
@@ -53,5 +52,63 @@ Registration Registry::Register(void *Data)
 
 void Registry::Unregister( Registration* Reg )
 {
-	mRegistrations.erase(std::find(mRegistrations.begin(),mRegistrations.end(),Reg->GetData()));
+	do
+	{
+		Registrations::iterator it=std::find(mRegistrations.begin(),mRegistrations.end(),Reg->mData);
+		if(it!=mRegistrations.end())
+		{
+			mRegistrations.erase(it);
+			break;
+		}
+		it=std::find(mUpdatedRegistrations.begin(),mUpdatedRegistrations.end(),Reg->mData);
+		if(it!=mUpdatedRegistrations.end())
+		{
+			mUpdatedRegistrations.erase(it);
+			break;
+		}
+		else
+		{
+			assert(!mErasedDuringUpdate);
+			mErasedDuringUpdate=Reg->mData;
+		}
+	}while(false);
+	DeleteData(Reg->mData);
+	Reg->mData=NULL;
+	Reg->mRegister=NULL;
+}
+
+void Registry::DeleteData( void* Data)
+{
+	delete Data;
+}
+
+void Registry::Update( void * UpdateData )
+{
+	assert(mUpdatedRegistrations.empty());
+	while(!mRegistrations.empty())
+	{
+		mErasedDuringUpdate=NULL;
+		void* RegistrationData=mRegistrations.front();
+		mRegistrations.pop_front();
+		UpdateOne(RegistrationData,UpdateData);
+		if(mErasedDuringUpdate!=RegistrationData)
+			mUpdatedRegistrations.push_back(RegistrationData);
+	}
+	using std::swap;
+	swap(mRegistrations,mUpdatedRegistrations);
+	assert(mUpdatedRegistrations.empty());
+}
+
+Registry::~Registry()
+{
+	// static dtor kb random ordere miatt ez meg kemenyen be fog jonni.
+	// el ko viselni, meg idovel javitani
+	// eddig is fos volt, csak most mar van ra assert
+	assert(mRegistrations.empty());
+}
+
+Registry::Registry()
+: mErasedDuringUpdate(NULL)
+{
+
 }

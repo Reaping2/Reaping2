@@ -7,14 +7,24 @@ Registration TimerServer::AddTimer( Timer::TimerCallback Callback, double Interv
 
 void TimerServer::Update( double Seconds )
 {
-	// expl. for the messy loop: callback might modify the registrations
-	for(Registrations::iterator i=mRegistrations.begin(),e=mRegistrations.end(),n;(n=i,(i!=e)?(++n,true):false);i=n)
-		((Timer*)(*i))->Update(Seconds);
+	Registry::Update(&Seconds);
 }
 
 TimerServer::TimerServer()
 {
 
+}
+
+void TimerServer::UpdateOne( void* RegistrationData, void* UpdateData )
+{
+	double Seconds=*(double*)UpdateData;
+	Timer* T=(Timer*)RegistrationData;
+	T->Update(Seconds);
+}
+
+void TimerServer::DeleteData( void* Data )
+{
+	delete (Timer*)Data;
 }
 
 Timer::Timer( TimerCallback Callback,double Interval )

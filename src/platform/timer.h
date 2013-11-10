@@ -19,6 +19,8 @@ class TimerServer : public Singleton<TimerServer>,public Registry
 {
 	friend class Singleton<TimerServer>;
 	TimerServer();
+	virtual void UpdateOne(void* RegistrationData, void* UpdateData);
+	virtual void DeleteData(void* Data);
 public:
 	Registration AddTimer(Timer::TimerCallback Callback, double Interval);
 	void Update(double Seconds);

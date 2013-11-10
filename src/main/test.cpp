@@ -78,17 +78,43 @@ namespace{
 			Root.reset(new Widget);
 		}
 
+		void RegTestEmpty()
+		{
+			// pass
+		}
+
+		void RegTestUnreg()
+		{
+			mReg[0].Unregister();
+			mReg[4].Unregister();
+			mReg[2].Unregister();
+			mReg[3].Unregister();
+			mReg[1].Unregister();
+		}
+
+		static const size_t mNumRegs=5;
+		Registration mReg[mNumRegs];
+		void TestRegistrations()
+		{
+			for(size_t i=0;i<mNumRegs;++i)
+			{
+				mReg[i]=TimerServer::Get().AddTimer(i==2?boost::bind(&Tester_t::RegTestUnreg,this):
+					boost::bind(&Tester_t::RegTestEmpty,this),1.);
+			}
+		}
+
 		void TestMain()
 		{
-			TestUI();
-			TestCompression();
-			BuildPackage();
-			AutoFile F=mPackage->Open("data/Ping-da-ding-ding-ding.ogg");
-			std::string Buffer;
-			if(F.get())
-				F->ReadAll(Buffer);
-			TestLibPng();
-			TestJson();
+//			TestUI();
+//			TestCompression();
+//			BuildPackage();
+//			AutoFile F=mPackage->Open("data/Ping-da-ding-ding-ding.ogg");
+//			std::string Buffer;
+//			if(F.get())
+//				F->ReadAll(Buffer);
+//			TestLibPng();
+//			TestJson();
+			TestRegistrations();
 		}
 
 		std::auto_ptr<Package> mPackage;
@@ -100,5 +126,5 @@ namespace{
 		}
 	};
 
-	// Tester_t Tester;
+	Tester_t Tester;
 }
