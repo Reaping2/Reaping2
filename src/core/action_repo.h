@@ -20,7 +20,7 @@ public:
 	Action * operator()(int32_t Id);	// lazy load
 	void Register(int32_t Id, ActionFunctor functor);
 	template<typename Element_T>
-	static Element_T * Create();
+	static Action * Create();
 };
 
 

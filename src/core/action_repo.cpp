@@ -37,7 +37,7 @@ void ActionRepo::Register(int32_t Id, ActionFunctor functor)
 }
 // ez mennyire gyilkosmar? :D
 template<typename Element_T>
-Element_T * ActionRepo::Create()
+Action * ActionRepo::Create()
 {
 	return new Element_T();
 }
