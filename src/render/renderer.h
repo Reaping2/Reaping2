@@ -9,6 +9,7 @@ class Renderer : public Singleton<Renderer>
 
 	Projection mWorldProjector;
 	Projection mUiProjector;
+	Camera& mCamera;
 	Root mUiRoot;	//todo uimgr, vagy root singleton
 
 	Registration mMouseMoveId;

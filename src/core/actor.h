@@ -60,7 +60,9 @@ protected:
 		TYPE_ID,
 		NUM_FIELDS
 	};
-
+	enum {
+		HP_DEAD=-1,
+	};
 	Field_t mFields[NUM_FIELDS];
 	ActionDescList_t mActions;
 	std::auto_ptr<Controller> mController;
@@ -78,7 +80,9 @@ public:
 	Actor(std::string const& Name);
 	virtual ~Actor(){}
 	virtual void Collide(double Seconds, ActorList& Actors);
+	virtual void ClipScene();
 	virtual void Update(double Seconds);
+	virtual void UpdateLifetime();
 
 	void SetController(std::auto_ptr<Controller> Control);
 

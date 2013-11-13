@@ -6,10 +6,12 @@ class Scene : public Singleton<Scene>
 	ActorList mActors[CollisionClass::Num_Classes];
 	AllActorInSceneList mAllActors;
 	friend class Singleton<Scene>;
-	Scene(){}
+	Scene();
+	glm::vec4 mDimensions;
 public:
 	void Update(double DeltaTime);
 	void AddActor(Actor* Object);
+	glm::vec4 const& GetDimensions();
 	const AllActorInSceneList& GetActors() {return mAllActors;}
 };
 

@@ -23,6 +23,7 @@ Actor::Actor(std::string const& Name)
 	memset(&mFields,0,NUM_FIELDS*sizeof(Field_t));
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
 	mFields[TYPE_ID].i=mId;
+	mFields[RADIUS].d=3.0;
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -64,3 +65,28 @@ void Actor::DropAction( Action * Act )
 		}
 	}
 }
+
+void Actor::ClipScene()
+{
+	glm::vec4 AllowedDimensions=Scene::Get().GetDimensions();
+	float Radius=(float)GetRadius();
+	AllowedDimensions.x+=Radius;
+	AllowedDimensions.y+=Radius;
+	AllowedDimensions.z-=Radius;
+	AllowedDimensions.w-=Radius;
+	if(GetX()<AllowedDimensions.x)
+		SetX(AllowedDimensions.x);
+	else if(GetX()>AllowedDimensions.z)
+		SetX(AllowedDimensions.z);
+	if(GetY()<AllowedDimensions.y)
+		SetY(AllowedDimensions.y);
+	else if(GetY()>AllowedDimensions.w)
+		SetY(AllowedDimensions.w);
+}
+
+void Actor::UpdateLifetime()
+{
+	if(GetHP()==HP_DEAD)
+		delete this;
+}
+

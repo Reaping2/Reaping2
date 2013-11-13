@@ -3,6 +3,7 @@
 Renderer::Renderer()
 : mWorldProjector(-1.0f,1.0f)
 , mUiProjector(0.0f,100.0f,Projection::VM_Fixed)
+, mCamera(Camera::Get())
 {
 	Font::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
@@ -58,9 +59,12 @@ void Renderer::SetupRenderer(const Projection& Proj)
 	// glmatrixmodeot meg nem hivunk, mer az gaz
 	glLoadMatrixf(glm::value_ptr(Proj.GetMatrix()));
 	glMatrixMode(GL_MODELVIEW);
+	if(&Proj==&mWorldProjector)
+		glLoadMatrixf(glm::value_ptr(mCamera.GetView()));
 	// ez egy faek, a camera osztaly majd csinal egy view matrixot, a model meg setupolja a model matrixot a rendereleskor (food for thought: vagy az legyen mindeig meg minden objra?)
 	// vertex=proj*view*model*inVertex majd a shaderben
-	glLoadIdentity();
+	else
+		glLoadIdentity();
 }
 
 bool Renderer::BeginRender()
@@ -81,7 +85,7 @@ void Renderer::OnMouseMoveEvent( const ScreenMouseMoveEvent& Event )
 	UiMouseMoveEvent UiEvt(glm::vec2(UiEvtPos.x,UiEvtPos.y));
 	if(EventServer<UiMouseMoveEvent>::Get().SendEvent(UiEvt))return;
 
-	glm::vec3 WorldEvtPos=mWorldProjector.Unproject(EvtPos);
+	glm::vec3 WorldEvtPos(mCamera.GetInverseView()*glm::vec4(mWorldProjector.Unproject(EvtPos),1.0));
 	WorldMouseMoveEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y));
 	EventServer<WorldMouseMoveEvent>::Get().SendEvent(WorldEvt);
 }
@@ -103,7 +107,7 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 		return;
 	}
 
-	glm::vec3 WorldEvtPos=mWorldProjector.Unproject(EvtPos);
+	glm::vec3 WorldEvtPos(mCamera.GetInverseView()*glm::vec4(mWorldProjector.Unproject(EvtPos),1.0));
 	WorldMousePressEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y),Event.Button);
 	EventServer<WorldMousePressEvent>::Get().SendEvent(WorldEvt);
 }
@@ -111,7 +115,7 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 void Renderer::OnMouseReleaseEvent(const ScreenMouseReleaseEvent& Event)
 {
 	glm::vec3 EvtPos(Event.Pos.x,Event.Pos.y,0);
-	glm::vec3 WorldEvtPos=mWorldProjector.Unproject(EvtPos);
+	glm::vec3 WorldEvtPos(mCamera.GetInverseView()*glm::vec4(mWorldProjector.Unproject(EvtPos),1.0));
 	WorldMouseReleaseEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y),Event.Button);
 	EventServer<WorldMouseReleaseEvent>::Get().SendEvent(WorldEvt);
 }

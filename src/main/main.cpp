@@ -72,7 +72,7 @@ int main()
 	double Prevtime,Curtime;
 	Prevtime=Curtime=glfwGetTime();
 	FrameCounter Counter;
-	PopulateSceneId=Timers.AddTimer(Timer::TimerCallback(&PopulateScene),3.);
+	PopulateSceneId=Timers.AddTimer(Timer::TimerCallback(&PopulateScene),0.5);
 	while(true)
 	{
 		Curtime=glfwGetTime();

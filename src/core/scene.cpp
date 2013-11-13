@@ -29,11 +29,19 @@ void Scene::Update( double DeltaTime )
 				it->Collide(DeltaTime,ListJ);
 		}
 	}
-	for(size_t i=0;i<CollisionClass::Num_Classes;++i)
-	{
-		ActorList& ListI=mActors[i];
-		for(ActorList::iterator it=ListI.begin(),e=ListI.end();it!=e;++it)
-			it->Update(DeltaTime);
-	}
+	for(AllActorInSceneList::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
+		it->Update(DeltaTime);
+	for(AllActorInSceneList::iterator it=mAllActors.begin(),e=mAllActors.end(),n;(n=it,it!=e?(++n,true):false);it=n)
+		it->UpdateLifetime();
+}
+
+Scene::Scene()
+: mDimensions(-1,-1,1,1)
+{
+}
+
+glm::vec4 const& Scene::GetDimensions()
+{
+	return mDimensions;
 }
 

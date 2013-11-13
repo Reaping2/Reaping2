@@ -5,6 +5,7 @@ Creep::Creep(std::string const& Name, double x,double y,Actor* player)
 {
 	mFields[X].d=x;
 	mFields[Y].d=y;
+	mFields[RADIUS].d=0.1;
 	mFields[COLLISION_CLASS].i=CollisionClass::Creep;
 	// ez nem innen fog jonni, de kb itt kell beallitani
 	// a string ctor param lesz

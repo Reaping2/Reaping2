@@ -14,4 +14,5 @@ void MoveAction::Update(Actor& Actor, double Seconds)
 	Action::Update(Actor,Seconds);
 	Actor.SetX(Actor.GetX()+Seconds*Actor.GetSpeedX());
 	Actor.SetY(Actor.GetY()+Seconds*Actor.GetSpeedY());
+	Actor.ClipScene();
 }
