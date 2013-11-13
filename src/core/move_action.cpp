@@ -1,7 +1,7 @@
 #include "i_core.h"
 
 MoveAction::MoveAction()
-: Action("move")
+	: Action("move")
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(IdStorage::Get().GetId("idle"));
@@ -9,7 +9,7 @@ MoveAction::MoveAction()
 	mIsLoop=true;
 }
 
-void MoveAction::Update(Actor& Actor, double Seconds) const
+void MoveAction::Update(Actor& Actor, double Seconds) 
 {
 	Action::Update(Actor,Seconds);
 	Actor.SetX(Actor.GetX()+Seconds*Actor.GetSpeedX());

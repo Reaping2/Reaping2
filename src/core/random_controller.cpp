@@ -12,7 +12,7 @@ void RandomController::SetActor(Actor* Obj)
 	Controller::SetActor(Obj);
 	if(!mActor)return;
 	mActor->SetHeading(rand()%180);
-	Action const& Act=ActionRepo::Get()(AutoId("move"));
+	Action & Act=*ActionRepo::Get()(AutoId("move"));
 	Act.Activate(*mActor);
 }
 

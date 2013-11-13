@@ -9,7 +9,7 @@ public:
 protected:
 	double mCooldownReduction;
 	WeaponAsset(std::string const& Name);
-	virtual void Update(Actor& Actor,double Seconds) const override;
+	virtual void Update(Actor& Actor,double Seconds)  override;
 	friend class ActionRepo;
 };
 

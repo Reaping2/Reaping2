@@ -11,14 +11,14 @@ ShootAction::ShootAction()
 	mIsRefresh=false;
 }
 
-void ShootAction::Update( Actor& Actor,double Seconds ) const
+void ShootAction::Update( Actor& Actor,double Seconds ) 
 {
 	Action::Update(Actor,Seconds);
-	Actor::ActionDesc_t const* weapon = Actor.GetWeapon();
+	Action const* weapon = Actor.GetWeapon();
 	if(!weapon)
 		return;
 
-	WeaponAsset const * weaponAsset = static_cast<WeaponAsset const*>(weapon->GetAction());
+	WeaponAsset const * weaponAsset = static_cast<WeaponAsset const*>(weapon);
 	weaponAsset->Shoot(Actor);
 }
 ShootAltAction::ShootAltAction()
@@ -32,13 +32,13 @@ ShootAltAction::ShootAltAction()
 	mIsRefresh=false;
 }
 
-void ShootAltAction::Update( Actor& Actor,double Seconds ) const
+void ShootAltAction::Update( Actor& Actor,double Seconds ) 
 {
 	Action::Update(Actor,Seconds);
-	Actor::ActionDesc_t const* weapon = Actor.GetWeapon();
+	Action const* weapon = Actor.GetWeapon();
 	if(!weapon)
 		return;
 
-	WeaponAsset const * weaponAsset = static_cast<WeaponAsset const*>(weapon->GetAction());
+	WeaponAsset const * weaponAsset = static_cast<WeaponAsset const*>(weapon);
 	weaponAsset->ShootAlt(Actor);
 }

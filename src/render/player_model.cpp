@@ -18,7 +18,7 @@ void PlayerModel::Draw(Actor const& Object)const
 	Actor::ActionDescList_t const& Actions=Object.GetActions();
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		Actor::ActionDesc_t const& Act=*i;
+		Action const& Act=**i;
 		SpritePhase const& Phase=mSprites(Act.GetId())((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
 		if(!mSprites(Act.GetId()).IsValid()) continue;
@@ -27,7 +27,9 @@ void PlayerModel::Draw(Actor const& Object)const
 	}
 
 	//Yaaaay, prioritás kellhet vagy valami, bár ez sem értelmetlen, csak szar :d
-	Actor::ActionDesc_t const* weapon=Object.GetWeapon();
+	
+	Action const* weapon=Object.GetWeapon();
+
 	if(weapon&&mSprites(weapon->GetId()).IsValid())
 	{	
 		SpritePhase const& Phase=mSprites(weapon->GetId())((int32_t)weapon->GetState());

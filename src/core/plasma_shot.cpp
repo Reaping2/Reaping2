@@ -4,5 +4,5 @@ PlasmaShot::PlasmaShot()
 	:Shot("plasma_shot")
 {
 	SetSpeed(2);
-	ActionRepo::Get()(AutoId("move")).Activate(*this);
+	ActionRepo::Get()(AutoId("move"))->Activate(*this);
 }

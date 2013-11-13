@@ -9,14 +9,14 @@ PlasmaGunAction::PlasmaGunAction()
 	mCooldownReduction=200;
 }
 
-void PlasmaGunAction::Update(Actor& Actor, double Seconds) const
+void PlasmaGunAction::Update(Actor& Actor, double Seconds) 
 {
 	WeaponAsset::Update(Actor,Seconds);
 }
 
 void PlasmaGunAction::Shoot(Actor& Actor) const
 {
-	Actor::ActionDesc_t* State=Actor.GetActionDesc(mId);
+	Action* State=Actor.GetActionDesc(mId);
 	if(!State)return;
 	double nextState = State->GetState();
 	if(nextState!=100.0)return;
@@ -33,7 +33,7 @@ void PlasmaGunAction::Shoot(Actor& Actor) const
 
 void PlasmaGunAction::ShootAlt(Actor& Actor) const
 {
-	Actor::ActionDesc_t* State=Actor.GetActionDesc(mId);
+	Action* State=Actor.GetActionDesc(mId);
 	if(!State)return;
 	double nextState = State->GetState();
 	if(nextState!=100.0)return;

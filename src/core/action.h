@@ -9,9 +9,9 @@ public:
 		Weapon
 	};
 	virtual ~Action(){}
-	virtual void Update(Actor& Actor,double Seconds) const;
-	virtual bool Activate(Actor& Actor) const;
-	virtual void Deactivate(Actor& Actor) const;
+	virtual void Update(Actor& Actor,double Seconds) ;
+	virtual bool Activate(Actor& Actor) ;
+	virtual void Deactivate(Actor& Actor) ;
 	ActionType GetType() const { return mType; }
 protected:
 	ActionType mType;
@@ -30,16 +30,21 @@ protected:
 
 	bool Blocks(int32_t What) const;
 	bool Cancels(int32_t What) const;
+
+public:
+	double mState;
+	double GetState()const{return mState;}
+	void SetState(double S){mState=S;}
 };
 
 class DefaultAction : public Singleton<DefaultAction>, public Action
 {
 	friend class Singleton<DefaultAction>;
+public:
 	DefaultAction();
 	~DefaultAction(){};
-public:
-	virtual void Update(Actor& Actor,double Seconds) const;
-	virtual bool Activate(Actor& Actor) const;
-	virtual void Deactivate(Actor& Actor) const;
+	virtual void Update(Actor& Actor,double Seconds) ;
+	virtual bool Activate(Actor& Actor) ;
+	virtual void Deactivate(Actor& Actor) ;
 };
 #endif//INCLUDED_ACTION_H

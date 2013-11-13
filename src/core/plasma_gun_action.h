@@ -8,7 +8,7 @@ public:
 	virtual void ShootAlt(Actor& Actor) const;
 protected:
 	PlasmaGunAction();
-	virtual void Update(Actor& Actor,double Seconds) const override;
+	virtual void Update(Actor& Actor,double Seconds)  override;
 	friend class ActionRepo;
 };
 

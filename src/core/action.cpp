@@ -11,16 +11,16 @@ DefaultAction::DefaultAction()
 	mSecsToEnd=0;
 	mType=Normal;
 }
-bool DefaultAction::Activate(Actor& Actor) const
+bool DefaultAction::Activate(Actor& Actor) 
 {
 	return true;
 }
 
-void DefaultAction::Deactivate(Actor& Actor) const
+void DefaultAction::Deactivate(Actor& Actor) 
 {
 }
 
-void DefaultAction::Update( Actor& Object,double Seconds ) const
+void DefaultAction::Update( Actor& Object,double Seconds ) 
 {
 }
 
@@ -33,44 +33,45 @@ Action::Action(std::string const& Name)
 	, mAreBlockedActionsExcluded(false)
 	, mAreCancelledActionsExcluded(false)
 	, mSecsToEnd(1)
+	, mState(0)
 {
 	LOG("!Action: %s id: %d\n",Name.c_str(),mId);
 }
 
-bool Action::Activate(Actor& Actor) const
+bool Action::Activate(Actor& Actor) 
 {
 	Actor::ActionDescList_t const& Actions=Actor.GetActions();
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		Actor::ActionDesc_t const& action=*i;
-		if(action.GetAction()->Blocks(mId))
+		Action const* action=*i;
+		if(action->Blocks(mId))
 			return false;
 	}
 	//if this action cancels others
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;)
 	{
-		Actor::ActionDesc_t const& action=*i;
+		Action * action=*i;
 		++i;
-		if(Cancels(action.GetId()))
+		if(Cancels(action->GetId()))
 		{
-			action.GetAction()->Deactivate(Actor);
+			action->Deactivate(Actor);
 		}
 	}
 
 	bool hasAction=false;
 	Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();
 	while(!hasAction&&i!=e)
-		hasAction=mId==(i++)->GetId();
+		hasAction=mId==(*(i++))->GetId();
 	if (!mIsRefresh&&hasAction)
 		return false;
 
-	Actor.AddAction(*this);
+	Actor.AddAction(this);
 	return true;
 }
 
-void Action::Deactivate(Actor& Actor) const
+void Action::Deactivate(Actor& Actor) 
 {
-	Actor.DropAction(*this);
+	Actor.DropAction(this);
 }
 
 bool Action::Blocks(int32_t What) const
@@ -83,9 +84,9 @@ bool Action::Cancels(int32_t What) const
 	return mAreCancelledActionsExcluded ^ (std::find(mCancelledActionIds.begin(),mCancelledActionIds.end(),What)!=mCancelledActionIds.end());
 }
 
-void Action::Update( Actor& Object,double Seconds ) const
+void Action::Update( Actor& Object,double Seconds ) 
 {
-	Actor::ActionDesc_t* State=Object.GetActionDesc(mId);
+	Action* State=Object.GetActionDesc(mId);
 	if(!State)return;
 	double nextState = State->GetState()+1./mSecsToEnd*Seconds*100.;
 	if(nextState>=100)

@@ -11,4 +11,5 @@ protected:
 	const int32_t mId;
 };
 
+
 #endif//INCLUDED_CORE_AUTO_ID_H

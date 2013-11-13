@@ -27,22 +27,22 @@ public:
 	};
 
 	// kikurni kulon fileba?
-	class ActionDesc_t
-	{
-	private:
-		friend class Actor;
-		Action const* mAction;
-		Field_t mId;
-		Field_t mState;
-		ActionDesc_t(Action const* A,double S=0.);
-	public:
-		int32_t GetId()const{return mId.i;}
-		double GetState()const{return mState.d;}
-		void SetState(double S){mState.d=S;}
-		Action const* GetAction()const{return mAction;}
-	};
+	//class ActionDesc_t
+	//{
+	//private:
+	//	friend class Actor;
+	//	Action const* mAction;
+	//	Field_t mId;
+	//	Field_t mState;
+	//	ActionDesc_t(Action const* A,double S=0.);
+	//public:
+	//	int32_t GetId()const{return mId.i;}
+	//	double GetState()const{return mState.d;}
+	//	void SetState(double S){mState.d=S;}
+	//	Action const* GetAction()const{return mAction;}
+	//};
 
-	typedef std::list<ActionDesc_t> ActionDescList_t;
+	typedef std::list<Action *> ActionDescList_t;
 protected:
 	enum {
 		HP,
@@ -82,7 +82,7 @@ public:
 
 	void SetController(std::auto_ptr<Controller> Control);
 
-	Actor::ActionDesc_t const* GetWeapon() const;
+	Actor::Action const* GetWeapon() const;
 
 	double GetX()const{return mFields[X].d;}
 	double GetY()const{return mFields[Y].d;}
@@ -93,9 +93,9 @@ public:
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	ActionDescList_t const& GetActions()const{return mActions;}
-	ActionDesc_t* GetActionDesc(int32_t Id);
-	void AddAction(Action const& Act);
-	void DropAction(Action const& Act);
+	Action* GetActionDesc(int32_t Id);
+	void AddAction(Action * Act);
+	void DropAction(Action * Act);
 	int32_t GetHP()const{return mFields[HP].i;}
 	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}

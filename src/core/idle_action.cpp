@@ -9,7 +9,7 @@ IdleAction::IdleAction()
 	mIsLoop=true;
 }
 
-void IdleAction::Update(Actor& Actor, double Seconds) const
+void IdleAction::Update(Actor& Actor, double Seconds) 
 {
 	Action::Update(Actor,Seconds);
 }

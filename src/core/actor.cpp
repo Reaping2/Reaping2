@@ -6,7 +6,7 @@ void Actor::Update(double Seconds)
 		mController->Update(Seconds);
 	// Controller->Update might change the actions!
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		i->GetAction()->Update(*this,Seconds);
+		(*i)->Update(*this,Seconds);
 }
 
 void Actor::Collide( double Seconds, ActorList& Actors )
@@ -31,40 +31,36 @@ void Actor::SetController( std::auto_ptr<Controller> Control )
 	if(mController.get())
 		mController->SetActor(this);
 }
-Actor::ActionDesc_t const* Actor::GetWeapon() const
+Action const* Actor::GetWeapon() const
 {
 	for(Actor::ActionDescList_t::const_iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		if (i->GetAction()->GetType()==Action::Weapon)
-			return &*i;
+		if ((*i)->GetType()==Action::Weapon)
+			return *i;
 	return NULL;
 }
-Actor::ActionDesc_t* Actor::GetActionDesc( int32_t Id )
+Action* Actor::GetActionDesc( int32_t Id )
 {
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		if(i->GetId()==Id)
-			return &*i;
+		if((*i)->GetId()==Id)
+			return *i;
 	return NULL;
 }
 
-void Actor::AddAction( Action const& Act )
+void Actor::AddAction( Action * Act )
 {
-	mActions.push_back(ActionDesc_t(&Act));
+	mActions.push_back(Act);
 }
 
-void Actor::DropAction( Action const& Act )
+void Actor::DropAction( Action * Act )
 {
-	const int32_t ActionId=Act.GetId();
+	const int32_t ActionId=Act->GetId();
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
 	{
 		n=i;++n;
-		if(i->GetId()==ActionId)
+		if((*i)->GetId()==ActionId)
+		{
+			delete(*i);
 			mActions.erase(i);
+		}
 	}
-}
-
-Actor::ActionDesc_t::ActionDesc_t( Action const* A,double S/*=0.*/ )
-: mAction(A)
-{
-	mId.i=A->GetId();
-	mState.d=S;
 }

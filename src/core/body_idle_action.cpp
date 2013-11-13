@@ -9,7 +9,7 @@ BodyIdleAction::BodyIdleAction()
 	mIsLoop=true;
 }
 
-void BodyIdleAction::Update(Actor& Actor, double Seconds) const
+void BodyIdleAction::Update(Actor& Actor, double Seconds) 
 {
 	Action::Update(Actor,Seconds);
 }

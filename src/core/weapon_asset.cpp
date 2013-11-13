@@ -6,7 +6,7 @@ WeaponAsset::WeaponAsset(std::string const& Name)
 {
 	mType=Weapon;
 }
-void WeaponAsset::Update(Actor& Actor, double Seconds) const
+void WeaponAsset::Update(Actor& Actor, double Seconds) 
 {
 	Action::Update(Actor,Seconds);
 	//double cd = Actor.GetWeaponCooldown();

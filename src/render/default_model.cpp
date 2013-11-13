@@ -23,7 +23,7 @@ void DefaultModel::Draw(Actor const& Object)const
 		Actor::ActionDescList_t const& Actions=Object.GetActions();
 		if(Actions.empty())
 			break;
-		Actor::ActionDesc_t const& Act=*Actions.begin();
+		Action const& Act=**Actions.begin();
 		// ez lassunak tunhet, de igazabol gyors
 		SpritePhase const& Phase=mRenderableRepo(Object.GetId())(Act.GetId())((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
