@@ -44,7 +44,6 @@ public:
 
 	typedef std::list<Action *> ActionDescList_t;
 protected:
-	ActionRepo& mActionRepo;
 	enum {
 		HP,
 		DAMAGE,
@@ -64,6 +63,7 @@ protected:
 	enum {
 		HP_DEAD=-1,
 	};
+	ActionRepo& mActionRepo;
 	Field_t mFields[NUM_FIELDS];
 	ActionDescList_t mActions;
 	std::auto_ptr<Controller> mController;
@@ -100,7 +100,7 @@ public:
 	ActionDescList_t const& GetActions()const{return mActions;}
 	Action* GetActionDesc(int32_t Id);
 	Action* AddAction(int32_t Id);
-	void DropAction(Action * Act);
+	void DropAction(int32_t Id);
 	int32_t GetHP()const{return mFields[HP].i;}
 	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}

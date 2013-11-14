@@ -112,13 +112,13 @@ void PlayerController::OnMouseReleaseEvent(const WorldMouseReleaseEvent& Event)
 {
 	if (Event.Button==Mouse::Button_Left)
 	{
-		ActionRepo::Get()(AutoId("shoot"))->Deactivate(*mActor);
+		mActor->DropAction(AutoId("shoot"));
 		if (mMouse.IsButtonPressed(Mouse::Button_Right))
 			mActor->AddAction(AutoId("shoot_alt"));
 	}
 	else if (Event.Button==Mouse::Button_Right)
 	{
-		ActionRepo::Get()(AutoId("shoot_alt"))->Deactivate(*mActor);
+		mActor->DropAction(AutoId("shoot_alt"));
 		if (mMouse.IsButtonPressed(Mouse::Button_Left))
 			mActor->AddAction(AutoId("shoot"));
 	}

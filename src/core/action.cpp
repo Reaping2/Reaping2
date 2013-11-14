@@ -54,7 +54,7 @@ bool Action::Activate(Actor& Actor)
 		++i;
 		if(Cancels(action->GetId()))
 		{
-			action->Deactivate(Actor);
+			Actor.DropAction(action->GetId());
 		}
 	}
 
@@ -65,13 +65,11 @@ bool Action::Activate(Actor& Actor)
 	if (!mIsRefresh&&hasAction)
 		return false;
 
-	//Actor.AddAction(this);
 	return true;
 }
 
 void Action::Deactivate(Actor& Actor) 
 {
-	Actor.DropAction(this);
 }
 
 bool Action::Blocks(int32_t What) const
@@ -95,7 +93,7 @@ void Action::Update( Actor& Object,double Seconds )
 			nextState=fmod(nextState,100.);
 		else if(mIsSelfDestruct)
 		{
-			Deactivate(Object);
+			Object.DropAction(mId);
 			return;
 		}
 		else

@@ -59,14 +59,14 @@ Action* Actor::AddAction( int32_t Id )
 	return NULL;
 }
 
-void Actor::DropAction( Action * Act )
+void Actor::DropAction( int32_t Id )
 {
-	const int32_t ActionId=Act->GetId();
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
 	{
 		n=i;++n;
-		if((*i)->GetId()==ActionId)
+		if((*i)->GetId()==Id)
 		{
+			(*i)->Deactivate(*this);
 			delete(*i);
 			mActions.erase(i);
 		}
