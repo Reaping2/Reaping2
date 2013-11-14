@@ -19,6 +19,7 @@ void Actor::Collide( double Seconds, ActorList& Actors )
 
 Actor::Actor(std::string const& Name)
 	:AutoId(Name)
+	,mActionRepo(ActionRepo::Get())
 {
 	memset(&mFields,0,NUM_FIELDS*sizeof(Field_t));
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
@@ -47,9 +48,15 @@ Action* Actor::GetActionDesc( int32_t Id )
 	return NULL;
 }
 
-void Actor::AddAction( Action * Act )
+Action* Actor::AddAction( int32_t Id )
 {
-	mActions.push_back(Act);
+	Action * a=mActionRepo(Id);
+	if (a->Activate(*this))	
+	{
+		mActions.push_back(a);
+		return a;
+	}
+	return NULL;
 }
 
 void Actor::DropAction( Action * Act )

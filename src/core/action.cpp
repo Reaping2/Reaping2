@@ -65,7 +65,7 @@ bool Action::Activate(Actor& Actor)
 	if (!mIsRefresh&&hasAction)
 		return false;
 
-	Actor.AddAction(this);
+	//Actor.AddAction(this);
 	return true;
 }
 

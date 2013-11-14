@@ -44,6 +44,7 @@ public:
 
 	typedef std::list<Action *> ActionDescList_t;
 protected:
+	ActionRepo& mActionRepo;
 	enum {
 		HP,
 		DAMAGE,
@@ -98,7 +99,7 @@ public:
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	ActionDescList_t const& GetActions()const{return mActions;}
 	Action* GetActionDesc(int32_t Id);
-	void AddAction(Action * Act);
+	Action* AddAction(int32_t Id);
 	void DropAction(Action * Act);
 	int32_t GetHP()const{return mFields[HP].i;}
 	int32_t GetGUID()const{return mFields[GUID].i;}

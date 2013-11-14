@@ -42,7 +42,7 @@ void PopulateScene()
 	Scene& Scen=Scene::Get();
 
 	Actor* grass = new Actor("grass");
-	ActionRepo::Get()(AutoId("idle"))->Activate(*grass);
+	grass->AddAction(AutoId("idle"));
 	Scen.AddActor(grass);
 
 	Player* Pl=new Player();

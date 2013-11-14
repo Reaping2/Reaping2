@@ -14,8 +14,7 @@ void TargetPlayerController::SetActor(Actor* Obj)
 	if(!mActor)return;
 	mActor->SetHeading(0);
 	mActor->SetSpeed(0.1);
-	Action * Act=ActionRepo::Get()(AutoId("move"));
-	Act->Activate(*mActor);
+	mActor->AddAction(AutoId("move"));
 }
 
 void TargetPlayerController::Update( double Seconds )

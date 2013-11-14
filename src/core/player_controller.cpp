@@ -17,7 +17,7 @@ PlayerController::PlayerController()
 void PlayerController::SetActor(Actor* Obj)
 {
 	Controller::SetActor(Obj);
-	ActionRepo::Get()(AutoId("plasma_gun"))->Activate(*mActor);
+	mActor->AddAction(AutoId("plasma_gun"));
 }
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
 {
@@ -45,8 +45,8 @@ void PlayerController::Update( double Seconds )
 	mActor->SetSpeed(std::max<double>(std::abs(x),std::abs(y))*.35);
 	if(x==0&&y==0)
 	{
-		ActionRepo::Get()(AutoId("idle"))->Activate(*mActor);
-		ActionRepo::Get()(AutoId("body_idle"))->Activate(*mActor);
+		mActor->AddAction(AutoId("idle"));
+		mActor->AddAction(AutoId("body_idle"));
 	}
 	double Heading=0;
 	static const double pi=boost::math::constants::pi<double>();
@@ -66,8 +66,8 @@ void PlayerController::Update( double Seconds )
 	}
 	else
 	{
-		ActionRepo::Get()(AutoId("move"))->Activate(*mActor);
-		ActionRepo::Get()(AutoId("body_move"))->Activate(*mActor);
+		mActor->AddAction(AutoId("move"));
+		mActor->AddAction(AutoId("body_move"));
 	}
 }
 
@@ -91,10 +91,9 @@ void PlayerController::UpdateRotation()
 void PlayerController::OnMousePressEvent(const WorldMousePressEvent& Event)
 {
 	if (Event.Button==Mouse::Button_Left&&!mMouse.IsButtonPressed(Mouse::Button_Left))
-		ActionRepo::Get()(AutoId("shoot"))->Activate(*mActor);
+		mActor->AddAction(AutoId("shoot"));
 	else if (Event.Button==Mouse::Button_Right&&!mMouse.IsButtonPressed(Mouse::Button_Right))
-		ActionRepo::Get()(AutoId("shoot_alt"))->Activate(*mActor);
-
+		mActor->AddAction(AutoId("shoot_alt"));
 	// ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
 	static const double Cooldown=0.2;
 	static double PrevTime=0;
@@ -115,12 +114,12 @@ void PlayerController::OnMouseReleaseEvent(const WorldMouseReleaseEvent& Event)
 	{
 		ActionRepo::Get()(AutoId("shoot"))->Deactivate(*mActor);
 		if (mMouse.IsButtonPressed(Mouse::Button_Right))
-			ActionRepo::Get()(AutoId("shoot_alt"))->Activate(*mActor);
+			mActor->AddAction(AutoId("shoot_alt"));
 	}
 	else if (Event.Button==Mouse::Button_Right)
 	{
 		ActionRepo::Get()(AutoId("shoot_alt"))->Deactivate(*mActor);
 		if (mMouse.IsButtonPressed(Mouse::Button_Left))
-			ActionRepo::Get()(AutoId("shoot"))->Activate(*mActor);
+			mActor->AddAction(AutoId("shoot"));
 	}
 }
