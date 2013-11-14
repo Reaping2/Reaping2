@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-DefaultAction::DefaultAction()
-	: Action("default_action")
+DefaultAction::DefaultAction(int32_t Id, Actor& actor)
+	: Action(Id,actor)
 {
 	mIsRefresh=false;
 	mIsLoop=false;
@@ -11,22 +11,23 @@ DefaultAction::DefaultAction()
 	mSecsToEnd=0;
 	mType=Normal;
 }
-bool DefaultAction::Activate(Actor& Actor) 
+bool DefaultAction::Activate() 
 {
 	return true;
 }
 
-void DefaultAction::Deactivate(Actor& Actor) 
+void DefaultAction::Deactivate() 
 {
 }
 
-void DefaultAction::Update( Actor& Object,double Seconds ) 
+void DefaultAction::Update(double Seconds) 
 {
 }
 
 
-Action::Action(std::string const& Name)
-	: AutoId(Name)
+Action::Action(int32_t Id, Actor& actor)
+	: mId(Id)
+	, mActor(actor)
 	, mIsRefresh(false)
 	, mIsLoop(false)
 	, mIsSelfDestruct(false)
@@ -35,12 +36,12 @@ Action::Action(std::string const& Name)
 	, mSecsToEnd(1)
 	, mState(0)
 {
-	LOG("!Action: %s id: %d\n",Name.c_str(),mId);
+	LOG("!Action: id: %d\n",mId);
 }
 
-bool Action::Activate(Actor& Actor) 
+bool Action::Activate() 
 {
-	Actor::ActionDescList_t const& Actions=Actor.GetActions();
+	Actor::ActionDescList_t const& Actions=mActor.GetActions();
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
 		Action const* action=*i;
@@ -54,7 +55,7 @@ bool Action::Activate(Actor& Actor)
 		++i;
 		if(Cancels(action->GetId()))
 		{
-			Actor.DropAction(action->GetId());
+			mActor.DropAction(action->GetId());
 		}
 	}
 
@@ -68,7 +69,7 @@ bool Action::Activate(Actor& Actor)
 	return true;
 }
 
-void Action::Deactivate(Actor& Actor) 
+void Action::Deactivate() 
 {
 }
 
@@ -82,9 +83,9 @@ bool Action::Cancels(int32_t What) const
 	return mAreCancelledActionsExcluded ^ (std::find(mCancelledActionIds.begin(),mCancelledActionIds.end(),What)!=mCancelledActionIds.end());
 }
 
-void Action::Update( Actor& Object,double Seconds ) 
+void Action::Update(double Seconds) 
 {
-	Action* State=Object.GetActionDesc(mId);
+	Action* State=mActor.GetActionDesc(mId);
 	if(!State)return;
 	double nextState = State->GetState()+1./mSecsToEnd*Seconds*100.;
 	if(nextState>=100)
@@ -93,7 +94,7 @@ void Action::Update( Actor& Object,double Seconds )
 			nextState=fmod(nextState,100.);
 		else if(mIsSelfDestruct)
 		{
-			Object.DropAction(mId);
+			mActor.DropAction(mId);
 			return;
 		}
 		else

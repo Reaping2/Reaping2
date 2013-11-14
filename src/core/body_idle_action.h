@@ -4,8 +4,8 @@
 class BodyIdleAction : public Action
 {
 protected:
-	BodyIdleAction();
-	virtual void Update(Actor& Actor,double Seconds)  override;
+	BodyIdleAction(int32_t Id, Actor& actor);
+	virtual void Update(double Seconds)  override;
 	friend class ActionRepo;
 };
 

@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-PlasmaGunAction::PlasmaGunAction()
-: WeaponAsset("plasma_gun")
+PlasmaGunAction::PlasmaGunAction(int32_t Id, Actor& actor)
+: WeaponAsset(Id,actor)
 {
 	mAreBlockedActionsExcluded=false;
 	mSecsToEnd=0.5;
@@ -9,57 +9,57 @@ PlasmaGunAction::PlasmaGunAction()
 	mCooldownReduction=200;
 }
 
-void PlasmaGunAction::Update(Actor& Actor, double Seconds) 
+void PlasmaGunAction::Update(double Seconds) 
 {
-	WeaponAsset::Update(Actor,Seconds);
+	WeaponAsset::Update(Seconds);
 }
 
-void PlasmaGunAction::Shoot(Actor& Actor) const
+void PlasmaGunAction::Shoot() const
 {
-	Action* State=Actor.GetActionDesc(mId);
+	Action* State=mActor.GetActionDesc(mId);
 	if(!State)return;
 	double nextState = State->GetState();
 	if(nextState!=100.0)return;
 	State->SetState(64.0);
 	PlasmaShot* ps=new PlasmaShot();
 	//esetleg kiemelni :D
-	ps->SetX(Actor.GetX());
-	ps->SetY(Actor.GetY());
-	double ori = Actor.GetOrientation()+(rand()%20)/100.-0.1;
+	ps->SetX(mActor.GetX());
+	ps->SetY(mActor.GetY());
+	double ori = mActor.GetOrientation()+(rand()%20)/100.-0.1;
 	ps->SetOrientation(ori);
 	ps->SetHeading(ori);
 	Scene::Get().AddActor(ps);
 }
 
-void PlasmaGunAction::ShootAlt(Actor& Actor) const
+void PlasmaGunAction::ShootAlt() const
 {
-	Action* State=Actor.GetActionDesc(mId);
+	Action* State=mActor.GetActionDesc(mId);
 	if(!State)return;
 	double nextState = State->GetState();
 	if(nextState!=100.0)return;
 	State->SetState(0.0);
 
-	double ori = Actor.GetOrientation()+(rand()%6)/100.-0.03;
+	double ori = mActor.GetOrientation()+(rand()%6)/100.-0.03;
 
 	PlasmaShot* ps=new PlasmaShot();
-	ps->SetX(Actor.GetX());
-	ps->SetY(Actor.GetY());
+	ps->SetX(mActor.GetX());
+	ps->SetY(mActor.GetY());
 	double oril = ori+0.15;
 	ps->SetOrientation(oril);
 	ps->SetHeading(oril);
 	Scene::Get().AddActor(ps);
 
 	ps=new PlasmaShot();
-	ps->SetX(Actor.GetX());
-	ps->SetY(Actor.GetY());
+	ps->SetX(mActor.GetX());
+	ps->SetY(mActor.GetY());
 	oril = ori-0.15;
 	ps->SetOrientation(oril);
 	ps->SetHeading(oril);
 	Scene::Get().AddActor(ps);
 
 	ps=new PlasmaShot();
-	ps->SetX(Actor.GetX());
-	ps->SetY(Actor.GetY());
+	ps->SetX(mActor.GetX());
+	ps->SetY(mActor.GetY());
 	ps->SetOrientation(ori);
 	ps->SetHeading(ori);
 	Scene::Get().AddActor(ps);

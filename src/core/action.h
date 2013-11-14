@@ -1,7 +1,7 @@
 #ifndef INCLUDED_ACTION_H
 #define INCLUDED_ACTION_H
 
-class Action: public AutoId
+class Action
 {
 public:
 	enum ActionType{
@@ -9,11 +9,13 @@ public:
 		Weapon
 	};
 	virtual ~Action(){}
-	virtual void Update(Actor& Actor,double Seconds) ;
-	virtual bool Activate(Actor& Actor) ;
-	virtual void Deactivate(Actor& Actor) ;
+	virtual void Update(double Seconds) ;
+	virtual bool Activate() ;
+	virtual void Deactivate() ;
 	ActionType GetType() const { return mType; }
 protected:
+	int32_t mId;
+	Actor& mActor;
 	ActionType mType;
 	bool mIsRefresh;							// setting this action again, if its active, will it reset counter
 	bool mIsLoop;								// reaching state 100 counter will continue from 0, otherwise it will remain at 100
@@ -26,7 +28,7 @@ protected:
 	double mSecsToEnd;							// speed. This much seconds is needed, till this action counts from 0..100.
 
 	friend class ActionRepo;
-	Action(std::string const& Name);
+	Action(int32_t Id, Actor& actor);
 
 	bool Blocks(int32_t What) const;
 	bool Cancels(int32_t What) const;
@@ -35,16 +37,19 @@ public:
 	double mState;
 	double GetState()const{return mState;}
 	void SetState(double S){mState=S;}
+	int32_t GetId() const
+	{
+		return mId;
+	}
 };
 
-class DefaultAction : public Singleton<DefaultAction>, public Action
+class DefaultAction : public Action
 {
-	friend class Singleton<DefaultAction>;
 public:
-	DefaultAction();
+	DefaultAction(int32_t Id, Actor& actor);
 	~DefaultAction(){};
-	virtual void Update(Actor& Actor,double Seconds) ;
-	virtual bool Activate(Actor& Actor) ;
-	virtual void Deactivate(Actor& Actor) ;
+	virtual void Update(double Seconds) ;
+	virtual bool Activate() ;
+	virtual void Deactivate() ;
 };
 #endif//INCLUDED_ACTION_H

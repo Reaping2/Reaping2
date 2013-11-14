@@ -79,7 +79,7 @@ protected:
 	}
 public:
 	Actor(std::string const& Name);
-	virtual ~Actor(){}
+	virtual ~Actor();
 	virtual void Collide(double Seconds, ActorList& Actors);
 	virtual void ClipScene();
 	virtual void Update(double Seconds);

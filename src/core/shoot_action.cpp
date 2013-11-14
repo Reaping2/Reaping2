@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-ShootAction::ShootAction()
-	:Action("shoot")
+ShootAction::ShootAction(int32_t Id, Actor& actor)
+	: Action(Id,actor)
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(AutoId("shoot_alt"));
@@ -11,18 +11,18 @@ ShootAction::ShootAction()
 	mIsRefresh=false;
 }
 
-void ShootAction::Update( Actor& Actor,double Seconds ) 
+void ShootAction::Update(double Seconds) 
 {
-	Action::Update(Actor,Seconds);
-	Action const* weapon = Actor.GetWeapon();
+	Action::Update(Seconds);
+	Action const* weapon = mActor.GetWeapon();
 	if(!weapon)
 		return;
 
 	WeaponAsset const * weaponAsset = static_cast<WeaponAsset const*>(weapon);
-	weaponAsset->Shoot(Actor);
+	weaponAsset->Shoot();
 }
-ShootAltAction::ShootAltAction()
-	:Action("shoot_alt")
+ShootAltAction::ShootAltAction(int32_t Id, Actor& actor)
+	: Action(Id,actor)
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(AutoId("shoot"));
@@ -32,13 +32,13 @@ ShootAltAction::ShootAltAction()
 	mIsRefresh=false;
 }
 
-void ShootAltAction::Update( Actor& Actor,double Seconds ) 
+void ShootAltAction::Update(double Seconds) 
 {
-	Action::Update(Actor,Seconds);
-	Action const* weapon = Actor.GetWeapon();
+	Action::Update(Seconds);
+	Action const* weapon = mActor.GetWeapon();
 	if(!weapon)
 		return;
 
 	WeaponAsset const * weaponAsset = static_cast<WeaponAsset const*>(weapon);
-	weaponAsset->ShootAlt(Actor);
+	weaponAsset->ShootAlt();
 }

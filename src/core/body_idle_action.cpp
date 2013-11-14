@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-BodyIdleAction::BodyIdleAction()
-: Action("body_idle")
+BodyIdleAction::BodyIdleAction(int32_t Id, Actor& actor)
+	: Action(Id,actor)
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(IdStorage::Get().GetId("body_move"));
@@ -9,7 +9,7 @@ BodyIdleAction::BodyIdleAction()
 	mIsLoop=true;
 }
 
-void BodyIdleAction::Update(Actor& Actor, double Seconds) 
+void BodyIdleAction::Update(double Seconds) 
 {
-	Action::Update(Actor,Seconds);
+	Action::Update(Seconds);
 }

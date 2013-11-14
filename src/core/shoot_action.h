@@ -4,15 +4,15 @@
 class ShootAction : public Action
 {
 protected:
-	ShootAction();
-	virtual void Update(Actor& Actor,double Seconds) ;
+	ShootAction(int32_t Id, Actor& actor);
+	virtual void Update(double Seconds) ;
 	friend class ActionRepo;
 };
 class ShootAltAction : public Action
 {
 protected:
-	ShootAltAction();
-	virtual void Update(Actor& Actor,double Seconds) ;
+	ShootAltAction(int32_t Id, Actor& actor);
+	virtual void Update(double Seconds) ;
 	friend class ActionRepo;
 };
 #endif//INCLUDED_SHOOT_ACTION_H

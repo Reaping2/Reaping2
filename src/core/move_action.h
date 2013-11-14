@@ -4,8 +4,8 @@
 class MoveAction : public Action
 {
 protected:
-	MoveAction();
-	virtual void Update(Actor& Actor,double Seconds)  override;
+	MoveAction(int32_t Id, Actor& actor);
+	virtual void Update(double Seconds)  override;
 	friend class ActionRepo;
 };
 

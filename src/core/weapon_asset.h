@@ -4,12 +4,12 @@
 class WeaponAsset : public Action
 {
 public:	
-	virtual void Shoot(Actor& Actor) const=0;
-	virtual void ShootAlt(Actor& Actor) const=0;
+	virtual void Shoot() const=0;
+	virtual void ShootAlt() const=0;
 protected:
 	double mCooldownReduction;
-	WeaponAsset(std::string const& Name);
-	virtual void Update(Actor& Actor,double Seconds)  override;
+	WeaponAsset(int32_t Id, Actor& actor);
+	virtual void Update(double Seconds)  override;
 	friend class ActionRepo;
 };
 

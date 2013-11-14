@@ -6,7 +6,7 @@ void Actor::Update(double Seconds)
 		mController->Update(Seconds);
 	// Controller->Update might change the actions!
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		(*i)->Update(*this,Seconds);
+		(*i)->Update(Seconds);
 }
 
 void Actor::Collide( double Seconds, ActorList& Actors )
@@ -50,8 +50,8 @@ Action* Actor::GetActionDesc( int32_t Id )
 
 Action* Actor::AddAction( int32_t Id )
 {
-	Action * a=mActionRepo(Id);
-	if (a->Activate(*this))	
+	Action * a=mActionRepo(Id,*this);
+	if (a->Activate())	
 	{
 		mActions.push_back(a);
 		return a;
@@ -66,7 +66,7 @@ void Actor::DropAction( int32_t Id )
 		n=i;++n;
 		if((*i)->GetId()==Id)
 		{
-			(*i)->Deactivate(*this);
+			(*i)->Deactivate();
 			delete(*i);
 			mActions.erase(i);
 		}
@@ -94,6 +94,17 @@ void Actor::ClipScene()
 void Actor::UpdateLifetime()
 {
 	if(GetHP()==HP_DEAD)
+	{
 		delete this;
+	}
 }
 
+Actor::~Actor()
+{
+	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
+	{
+		n=i;++n;
+		delete(*i);
+		mActions.erase(i);
+	}
+}

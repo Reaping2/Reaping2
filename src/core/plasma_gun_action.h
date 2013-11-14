@@ -4,11 +4,11 @@
 class PlasmaGunAction : public WeaponAsset
 {
 public:	
-	virtual void Shoot(Actor& Actor) const;
-	virtual void ShootAlt(Actor& Actor) const;
+	virtual void Shoot() const;
+	virtual void ShootAlt() const;
 protected:
-	PlasmaGunAction();
-	virtual void Update(Actor& Actor,double Seconds)  override;
+	PlasmaGunAction(int32_t Id, Actor& actor);
+	virtual void Update(double Seconds)  override;
 	friend class ActionRepo;
 };
 
