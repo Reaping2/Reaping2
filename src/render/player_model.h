@@ -6,7 +6,7 @@ class PlayerModel : public Model
 	friend class ModelRepo;
 	SpriteCollection const& mSprites;
 	PlayerModel();
-	void DrawPhase(SpritePhase const& Phase) const;
+	void DrawPhase(SpritePhase const& Phase, float Radius) const;
 public:
 	virtual void Draw(Actor const& Object)const;
 };

@@ -4,7 +4,7 @@ Shot::Shot(std::string const& Name)
 	:Actor(Name)
 {
 	mFields[COLLISION_CLASS].i=CollisionClass::Projectile;
-	mFields[RADIUS].d=0.02;
+	mFields[RADIUS].d=0.06;
 }
 
 void Shot::ClipScene()

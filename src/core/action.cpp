@@ -44,25 +44,25 @@ bool Action::Activate()
 	Actor::ActionDescList_t const& Actions=mActor.GetActions();
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		Action const* action=*i;
-		if(action->Blocks(mId))
+		Action const& action=*i;
+		if(action.Blocks(mId))
 			return false;
 	}
 	//if this action cancels others
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;)
 	{
-		Action * action=*i;
+		Action const& action=*i;
 		++i;
-		if(Cancels(action->GetId()))
+		if(Cancels(action.GetId()))
 		{
-			mActor.DropAction(action->GetId());
+			mActor.DropAction(action.GetId());
 		}
 	}
 
 	bool hasAction=false;
 	Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();
 	while(!hasAction&&i!=e)
-		hasAction=mId==(*(i++))->GetId();
+		hasAction=mId==(i++)->GetId();
 	if (!mIsRefresh&&hasAction)
 		return false;
 
@@ -85,9 +85,9 @@ bool Action::Cancels(int32_t What) const
 
 void Action::Update(double Seconds) 
 {
-	Action* State=mActor.GetActionDesc(mId);
-	if(!State)return;
-	double nextState = State->GetState()+1./mSecsToEnd*Seconds*100.;
+	Action& State=mActor.GetActionDesc(mId);
+
+	double nextState = State.GetState()+1./mSecsToEnd*Seconds*100.;
 	if(nextState>=100)
 	{
 		if(mIsLoop)
@@ -100,6 +100,6 @@ void Action::Update(double Seconds)
 		else
 			nextState=100.;
 	}
-	State->SetState(nextState);
+	State.SetState(nextState);
 	//LOG("nextState: %f %d\n",nextState,(int32_t)nextState);
 }

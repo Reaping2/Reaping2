@@ -1,5 +1,6 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
+#include <boost/ptr_container/ptr_list.hpp>
 #include <boost/detail/endian.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>

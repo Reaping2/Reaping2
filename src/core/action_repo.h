@@ -22,6 +22,7 @@ public:
 	Action * operator()(int32_t Id, Actor& actor) const;
 	Action * operator()(int32_t Id, Actor& actor);	// lazy load
 	void Register(int32_t Id, ActionFunctor functor);
+	Action * GetDefaultAction(Actor& actor);
 };
 
 

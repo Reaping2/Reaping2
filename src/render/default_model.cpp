@@ -15,13 +15,13 @@ void DefaultModel::Draw(Actor const& Object)const
 	glRotatef((GLfloat)Object.GetOrientation() * pi_under_180 - 90.f, 0.f, 0.f, 1.f);
 	bool Drawn=false;
 	const float Radius=(float)Object.GetRadius();
-	do
+	Actor::ActionDescList_t const& Actions=Object.GetActions();
+	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		Actor::ActionDescList_t const& Actions=Object.GetActions();
-		if(Actions.empty())
-			break;
-		Action const& Act=**Actions.begin();
-		// ez lassunak tunhet, de igazabol gyors
+		Action const& Act=*i;
+		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
+		Sprite const& sprite = mRenderableRepo(Object.GetId())(Act.GetId());
+		if(!sprite.IsValid()) continue;
 		SpritePhase const& Phase=mRenderableRepo(Object.GetId())(Act.GetId())((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
 		glBindTexture(GL_TEXTURE_2D, Phase.TexId);
@@ -34,7 +34,7 @@ void DefaultModel::Draw(Actor const& Object)const
 		glTexCoord2d( Phase.Left,   Phase.Top); glVertex3f( Radius, -Radius, 0.0f);
 		glEnd();
 		Drawn=true;
-	} while (false);
+	}
 	if(!Drawn)
 	{
 		glDisable(GL_TEXTURE_2D);

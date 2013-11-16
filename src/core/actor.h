@@ -42,7 +42,7 @@ public:
 	//	Action const* GetAction()const{return mAction;}
 	//};
 
-	typedef std::list<Action *> ActionDescList_t;
+	typedef boost::ptr_list<Action> ActionDescList_t;
 protected:
 	enum {
 		HP,
@@ -64,6 +64,7 @@ protected:
 		HP_DEAD=-1,
 	};
 	ActionRepo& mActionRepo;
+	Action * mDefaultAction;
 	Field_t mFields[NUM_FIELDS];
 	ActionDescList_t mActions;
 	std::auto_ptr<Controller> mController;
@@ -87,7 +88,7 @@ public:
 
 	void SetController(std::auto_ptr<Controller> Control);
 
-	Actor::Action const* GetWeapon() const;
+	Actor::Action const& GetWeapon() const;
 
 	double GetX()const{return mFields[X].d;}
 	double GetY()const{return mFields[Y].d;}
@@ -98,7 +99,7 @@ public:
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	ActionDescList_t const& GetActions()const{return mActions;}
-	Action* GetActionDesc(int32_t Id);
+	Action& GetActionDesc(int32_t Id);
 	Action* AddAction(int32_t Id);
 	void DropAction(int32_t Id);
 	int32_t GetHP()const{return mFields[HP].i;}

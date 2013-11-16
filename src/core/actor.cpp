@@ -6,7 +6,7 @@ void Actor::Update(double Seconds)
 		mController->Update(Seconds);
 	// Controller->Update might change the actions!
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		(*i)->Update(Seconds);
+		i->Update(Seconds);
 }
 
 void Actor::Collide( double Seconds, ActorList& Actors )
@@ -25,6 +25,7 @@ Actor::Actor(std::string const& Name)
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
 	mFields[TYPE_ID].i=mId;
 	mFields[RADIUS].d=3.0;
+	mDefaultAction=AddAction(AutoId("default_action"));
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -33,19 +34,19 @@ void Actor::SetController( std::auto_ptr<Controller> Control )
 	if(mController.get())
 		mController->SetActor(this);
 }
-Action const* Actor::GetWeapon() const
+Action const& Actor::GetWeapon() const
 {
 	for(Actor::ActionDescList_t::const_iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		if ((*i)->GetType()==Action::Weapon)
+		if (i->GetType()==Action::Weapon)
 			return *i;
-	return NULL;
+	return *mDefaultAction;
 }
-Action* Actor::GetActionDesc( int32_t Id )
+Action& Actor::GetActionDesc( int32_t Id )
 {
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		if((*i)->GetId()==Id)
+		if(i->GetId()==Id)
 			return *i;
-	return NULL;
+	return *mDefaultAction;
 }
 
 Action* Actor::AddAction( int32_t Id )
@@ -64,10 +65,9 @@ void Actor::DropAction( int32_t Id )
 	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
 	{
 		n=i;++n;
-		if((*i)->GetId()==Id)
+		if(i->GetId()==Id)
 		{
-			(*i)->Deactivate();
-			delete(*i);
+			i->Deactivate();
 			mActions.erase(i);
 		}
 	}
@@ -101,10 +101,10 @@ void Actor::UpdateLifetime()
 
 Actor::~Actor()
 {
-	for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
-	{
-		n=i;++n;
-		delete(*i);
-		mActions.erase(i);
-	}
+	//for(ActionDescList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
+	//{
+	//	n=i;++n;
+	//	delete(*i);
+	//	mActions.erase(i);
+	//}
 }

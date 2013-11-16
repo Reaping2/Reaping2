@@ -2,8 +2,7 @@
 
 ActionRepo::ActionRepo()
 {	// ittene majd szepen beolvasva adatfajlbol a parameterezeseket (idotartam, sebesseg, sebzes, spawned creature name, fenetudja)
-	mDefaultElement=boost::bind(&ActionRepo::Create<DefaultAction>,_1,_2);
-
+	mElements[AutoId("default_action")]=mDefaultElement=boost::bind(&ActionRepo::Create<DefaultAction>,_1,_2);
 	mElements[AutoId("move")]=boost::bind(&ActionRepo::Create<MoveAction>,_1,_2);
 	mElements[AutoId("shoot")]=boost::bind(&ActionRepo::Create<ShootAction>,_1,_2);
 	mElements[AutoId("shoot_alt")]=boost::bind(&ActionRepo::Create<ShootAltAction>,_1,_2);
@@ -27,6 +26,11 @@ Action * ActionRepo::operator()( int32_t Id, Actor& actor ) const
 void ActionRepo::Register(int32_t Id, ActionFunctor functor)
 {
 	mElements[Id]=functor;
+}
+
+Action * ActionRepo::GetDefaultAction(Actor& actor)
+{
+	return mDefaultElement(-1,actor);
 }
 // ez mennyire gyilkosmar? :D
 template<typename Element_T>

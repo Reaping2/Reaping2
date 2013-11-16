@@ -8,7 +8,10 @@ public:
 		Normal,
 		Weapon
 	};
-	virtual ~Action(){}
+	virtual ~Action()
+	{
+		LOG("Action dead:%i",mId);
+	}
 	virtual void Update(double Seconds) ;
 	virtual bool Activate() ;
 	virtual void Deactivate() ;
