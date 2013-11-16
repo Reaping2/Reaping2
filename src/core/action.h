@@ -30,7 +30,7 @@ protected:
 	ActionIdVec_t mCancelledActionIds;			// list of actions this one cancels on activation
 	double mSecsToEnd;							// speed. This much seconds is needed, till this action counts from 0..100.
 
-	friend class ActionRepo;
+	friend class Factory<Action,Actor>;
 	Action(int32_t Id, Actor& actor);
 
 	bool Blocks(int32_t What) const;

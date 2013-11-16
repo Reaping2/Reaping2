@@ -9,7 +9,7 @@ public:
 protected:
 	PlasmaGunAction(int32_t Id, Actor& actor);
 	virtual void Update(double Seconds)  override;
-	friend class ActionRepo;
+	friend class Factory<Action,Actor>;
 };
 
 #endif//INCLUDED_CORE_PLASMA_GUN_ACTION_H

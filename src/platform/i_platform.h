@@ -37,5 +37,6 @@
 #include "pngtexture.h"
 #include "jsonreader.h"
 #include "repository.h"
+#include "factory.h"
 #include "id_storage.h"
 #include "auto_id.h"

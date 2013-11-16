@@ -1,40 +1,16 @@
 #include"i_core.h"
 
 ActionRepo::ActionRepo()
-{	// ittene majd szepen beolvasva adatfajlbol a parameterezeseket (idotartam, sebesseg, sebzes, spawned creature name, fenetudja)
-	mElements[AutoId("default_action")]=mDefaultElement=boost::bind(&ActionRepo::Create<DefaultAction>,_1,_2);
-	mElements[AutoId("move")]=boost::bind(&ActionRepo::Create<MoveAction>,_1,_2);
-	mElements[AutoId("shoot")]=boost::bind(&ActionRepo::Create<ShootAction>,_1,_2);
-	mElements[AutoId("shoot_alt")]=boost::bind(&ActionRepo::Create<ShootAltAction>,_1,_2);
-	mElements[AutoId("body_move")]=boost::bind(&ActionRepo::Create<BodyMoveAction>,_1,_2);
-	mElements[AutoId("body_idle")]=boost::bind(&ActionRepo::Create<BodyIdleAction>,_1,_2);
-	mElements[AutoId("idle")]=boost::bind(&ActionRepo::Create<IdleAction>,_1,_2);
-	mElements[AutoId("plasma_gun")]=boost::bind(&ActionRepo::Create<PlasmaGunAction>,_1,_2);
-}
-Action * ActionRepo::operator()( int32_t Id, Actor& actor )
-{
-	return ((const ActionRepo*)this)->operator ()(Id,actor);
-}
+	:mFactory(Factory<Action, Actor>::Get())
+{	
+	mFactory.Bind<DefaultAction>(AutoId("default_action"));
+	mFactory.SetDefault(AutoId("default_action"));
 
-
-Action * ActionRepo::operator()( int32_t Id, Actor& actor ) const
-{
-	ElementMap_t::const_iterator i=mElements.find(Id);
-	return (i==mElements.end()?mDefaultElement(Id,actor):(i->second)(Id,actor));
-}
-
-void ActionRepo::Register(int32_t Id, ActionFunctor functor)
-{
-	mElements[Id]=functor;
-}
-
-Action * ActionRepo::GetDefaultAction(Actor& actor)
-{
-	return mDefaultElement(-1,actor);
-}
-// ez mennyire gyilkosmar? :D
-template<typename Element_T>
-Action * ActionRepo::Create(int32_t Id, Actor& actor)
-{
-	return new Element_T(Id,actor);
+	mFactory.Bind<MoveAction>(AutoId("move"));
+	mFactory.Bind<ShootAction>(AutoId("shoot"));
+	mFactory.Bind<ShootAltAction>(AutoId("shoot_alt"));
+	mFactory.Bind<BodyMoveAction>(AutoId("body_move"));
+	mFactory.Bind<BodyIdleAction>(AutoId("body_idle"));
+	mFactory.Bind<IdleAction>(AutoId("idle"));
+	mFactory.Bind<PlasmaGunAction>(AutoId("plasma_gun"));
 }

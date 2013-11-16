@@ -61,6 +61,7 @@ int main()
 	TimerServer& Timers(TimerServer::Get());
 	Filesys::Get().Mount(std::auto_ptr<Package>(new Package(AutoFile(new OsFile("data.pkg")))));
 	Keyboard::Get();
+	ActionRepo::Get();
 	Mouse& Jerry=Mouse::Get();
 	PerfTimer.Log("input");
 	Renderer& Rend=Renderer::Get();
