@@ -21,25 +21,31 @@ if "%1"=="" (
 echo "Using %MSVS_VER%"
 
 set GENERATOR_NAME=""
+set XIPH_FOLDER=""
 if /i "%MSVS_VER%" == "vs80" (
 	set GENERATOR_NAME="Visual Studio 8 2005"
 	set "B2_TOOLSET=msvc-8.0"
+	set XIPH_FOLDER="VS2005"
 )
 if /i "%MSVS_VER%" == "vs90" (
 	set GENERATOR_NAME="Visual Studio 9 2008"
 	set "B2_TOOLSET=msvc-9.0"
+	set XIPH_FOLDER="VS2008"
 )
 if /i "%MSVS_VER%" == "vs100" (
 	set GENERATOR_NAME="Visual Studio 10"
 	set "B2_TOOLSET=msvc-10.0"
+	set XIPH_FOLDER="VS2010"
 )
 if /i "%MSVS_VER%" == "vs110" (
 	set GENERATOR_NAME="Visual Studio 11"
 	set "B2_TOOLSET=msvc-11.0"
+	set XIPH_FOLDER="VS2011"
 )
 if /i "%MSVS_VER%" == "vs120" (
 	set GENERATOR_NAME="Visual Studio 12"
 	set "B2_TOOLSET=msvc-12.0"
+	set XIPH_FOLDER="VS2012"
 )
 
 if %GENERATOR_NAME%=="" (
@@ -61,8 +67,8 @@ echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
 set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
 cd %BASEDIR%\deps\boost_1_54_0
-call bootstrap.bat
-b2 toolset=%B2_TOOLSET% --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options
+rem call bootstrap.bat
+rem b2 toolset=%B2_TOOLSET% --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options
 rd /S /Q %BASEDIR%\deps\glfw-3.0.3\build
 md %BASEDIR%\deps\glfw-3.0.3\build
 cd %BASEDIR%\deps\glfw-3.0.3\build
@@ -91,7 +97,7 @@ cd %BASEDIR%\deps\lpng166
 copy scripts\pnglibconf.h.prebuilt pnglibconf.h
 cd %PWD%
 cd ..\deps\libogg-1.3.1\win32
-cd VS2008
+cd %XIPH_FOLDER%
 %DEVENV% libogg_static.sln /Build "Debug"
 %DEVENV% libogg_static.sln /Build "Release"
 mkdir ..\..\lib
@@ -101,7 +107,7 @@ copy Win32\Debug\libogg_static.lib ..\..\lib\debug
 copy Win32\Release\libogg_static.lib ..\..\lib\release
 cd %PWD%
 cd ..\deps\libvorbis-1.3.3\win32
-cd VS2008
+cd %XIPH_FOLDER%
 %DEVENV% vorbis_static.sln /Build "Debug"
 %DEVENV% vorbis_static.sln /Build "Release"
 mkdir ..\..\bin
