@@ -9,6 +9,7 @@ class Filesys : public Singleton<Filesys>
 	typedef boost::ptr_map<int32_t,Package> PackageMap_t;
 	PackageMap_t mPackages;
 	int32_t mNextPrio;	//todo
+	boost::mutex mOpenMutex;
 public:
 	void Mount(std::auto_ptr<Package> Pack);
 	AutoFile Open(const boost::filesystem::path& Path);

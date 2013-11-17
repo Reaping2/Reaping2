@@ -1,5 +1,6 @@
 #include "platform/i_platform.h"
 #include "ui/i_ui.h"
+#include "audio/i_audio.h"
 
 namespace{
 	struct Tester_t{
@@ -103,6 +104,12 @@ namespace{
 			}
 		}
 
+		void TestVorbisFile()
+		{
+			VorbisFile::Create(mPackage->Open("sounds/Ping-da-ding-ding-ding.ogg"));
+			VorbisFile::Create(mPackage->Open("sounds/Zap_Beat.ogg"));
+		}
+
 		void TestMain()
 		{
 //			TestUI();
@@ -114,7 +121,8 @@ namespace{
 //				F->ReadAll(Buffer);
 //			TestLibPng();
 //			TestJson();
-			TestRegistrations();
+//			TestRegistrations();
+//			TestVorbisFile();
 		}
 
 		std::auto_ptr<Package> mPackage;

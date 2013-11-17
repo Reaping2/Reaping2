@@ -90,3 +90,32 @@ set ZLIB_LIBRARY=%BASEDIR%\deps\zlib-1.2.8\build\Release\zlib.lib
 cd %BASEDIR%\deps\lpng166
 copy scripts\pnglibconf.h.prebuilt pnglibconf.h
 cd %PWD%
+cd ..\deps\libogg-1.3.1\win32
+cd VS2008
+%DEVENV% libogg_static.sln /Build "Debug"
+%DEVENV% libogg_static.sln /Build "Release"
+mkdir ..\..\lib
+mkdir ..\..\lib\debug
+mkdir ..\..\lib\release
+copy Win32\Debug\libogg_static.lib ..\..\lib\debug
+copy Win32\Release\libogg_static.lib ..\..\lib\release
+cd %PWD%
+cd ..\deps\libvorbis-1.3.3\win32
+cd VS2008
+%DEVENV% vorbis_static.sln /Build "Debug"
+%DEVENV% vorbis_static.sln /Build "Release"
+mkdir ..\..\bin
+mkdir ..\..\bin\lib
+mkdir ..\..\bin\lib\debug
+mkdir ..\..\bin\lib\release
+copy Win32\Debug\*.lib ..\..\bin\lib\debug
+copy Win32\Release\*.lib ..\..\bin\lib\release
+cd %PWD%
+cd ..\deps\portaudio_v19
+mkdir build_dir
+cd build_dir
+%CMAKE_CMD% ..
+%DEVENV% portaudio.sln /Build "Debug"
+%DEVENV% portaudio.sln /Build "Release"
+copy options_cmake.h ..\include\pa_options_cmake.h
+cd %PWD%

@@ -11,7 +11,13 @@ solution "Reaping2"
 		"../deps/zlib-1.2.8/build/Debug",
 		"../deps/zlib-1.2.8/build/Release",
 		"../deps/lpng166/build/Debug",
-		"../deps/lpng166/build/Release"
+		"../deps/lpng166/build/Release",
+		"../deps/libogg-1.3.1/lib/debug",
+		"../deps/libogg-1.3.1/lib/release",
+		"../deps/libvorbis-1.3.3/bin/lib/debug",
+		"../deps/libvorbis-1.3.3/bin/lib/release",
+		"../deps/portaudio_v19/build_dir/bin/Win32/Debug",
+		"../deps/portaudio_v19/build_dir/bin/Win32/Release"
 	}
 	includedirs {
 		"../src",
@@ -21,9 +27,12 @@ solution "Reaping2"
 		"../deps/zlib-1.2.8",
 		"../deps/zlib-1.2.8/build",
 		"../deps/lpng166",
-		"../deps/json-cpp-0.6.0-rc2"
+		"../deps/json-cpp-0.6.0-rc2",
+		"../deps/libogg-1.3.1/include",
+		"../deps/libvorbis-1.3.3/include",
+		"../deps/portaudio_v19/include"
 	}
-	links { "glfw3" }
+	links { "glfw3", "libogg_static", "libvorbis_static", "libvorbisfile_static", "portaudio_static_x86" }
 	
 	-- flags { "FatalWarnings" }
 
@@ -91,7 +100,12 @@ solution "Reaping2"
 		language "C++"
 		kind "StaticLib"
 		setup_files_for_project("ui")
-		
+
+	project "audio"
+		language "C++"
+		kind "StaticLib"
+		setup_files_for_project("audio")
+
 	project "json-cpp"
 		language "C++"
 		kind "StaticLib"
@@ -101,7 +115,7 @@ solution "Reaping2"
 		language "C++"
 		kind "ConsoleApp"
 
-		links { "core", "input", "platform", "render", "ui" }
+		links { "core", "input", "platform", "render", "ui", "audio" }
 		setup_files_for_project("main")
 
 		files  { "../src/**.h", "../src/**.cpp" }

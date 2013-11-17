@@ -2,6 +2,7 @@
 #include "render/i_render.h"
 #include "core/i_core.h"
 #include "input/i_input.h"
+#include "audio/i_audio.h"
 
 #include <boost/timer.hpp>
 
@@ -57,11 +58,13 @@ int main()
 	Window& Wnd=Window::Get();	// ez legyen az elejen
 	if(!Wnd.Create(640,480,"Reaping2"))
 		return -1;
+	EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::Startup));
 	PerfTimer.Log("wnd");
 	TimerServer& Timers(TimerServer::Get());
 	Filesys::Get().Mount(std::auto_ptr<Package>(new Package(AutoFile(new OsFile("data.pkg")))));
 	Keyboard::Get();
 	ActionRepo::Get();
+	AudioPlayer::Get().Play("sounds/Zap_Beat.ogg");
 	Mouse& Jerry=Mouse::Get();
 	PerfTimer.Log("input");
 	Renderer& Rend=Renderer::Get();
@@ -76,6 +79,7 @@ int main()
 	PopulateSceneId=Timers.AddTimer(Timer::TimerCallback(&PopulateScene),0.5);
 	while(true)
 	{
+		EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::Running));
 		Curtime=glfwGetTime();
 		double Dt=Curtime-Prevtime;
 		if(Dt<MinFrameTime)
@@ -93,5 +97,7 @@ int main()
 		Prevtime=Curtime;
 		Counter.Inc();
 	}
+	EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::CloseSignal));
+	EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::Shutdown));
 	return 0;
 }

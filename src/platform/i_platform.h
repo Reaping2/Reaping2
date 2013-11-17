@@ -33,6 +33,7 @@
 #include "memoryfile.h"
 #include "register.h"
 #include "event.h"
+#include "program_phases.h"
 #include "timer.h"
 #include "pngtexture.h"
 #include "jsonreader.h"
