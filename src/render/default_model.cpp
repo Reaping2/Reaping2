@@ -15,8 +15,8 @@ void DefaultModel::Draw(Actor const& Object)const
 	glRotatef((GLfloat)Object.GetOrientation() * pi_under_180 - 90.f, 0.f, 0.f, 1.f);
 	bool Drawn=false;
 	const float Radius=(float)Object.GetRadius();
-	Actor::ActionDescList_t const& Actions=Object.GetActions();
-	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
+	Actor::ActionList_t const& Actions=Object.GetActions();
+	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
 		Action const& Act=*i;
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)

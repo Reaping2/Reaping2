@@ -1,16 +1,17 @@
 #include "i_core.h"
 
 WeaponAsset::WeaponAsset(int32_t Id)
-	: Action(Id)
+	: Item(Id)
 	,mCooldownReduction(0.0)
+	,mCooldown(0.0)
 {
 	mType=Weapon;
 }
 void WeaponAsset::Update( double Seconds) 
 {
-	Action::Update(Seconds);
-	//double cd = Actor.GetWeaponCooldown();
-	//cd-=mCooldownReduction*Seconds;
-	//if(cd<0)cd=0;
-	//Actor.SetWeaponCooldown(cd);
+	Item::Update(Seconds);
+	double cd = mCooldown;
+	cd-=mCooldownReduction*Seconds;
+	if(cd<0)cd=0;
+	mCooldown=cd;
 }

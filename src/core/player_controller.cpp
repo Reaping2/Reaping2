@@ -17,7 +17,7 @@ PlayerController::PlayerController()
 void PlayerController::SetActor(Actor* Obj)
 {
 	Controller::SetActor(Obj);
-	mActor->AddAction(AutoId("plasma_gun"));
+	mActor->AddItem(AutoId("plasma_gun"));
 }
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
 {

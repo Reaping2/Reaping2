@@ -16,8 +16,8 @@ void PlayerModel::Draw(Actor const& Object)const
 	//glScalef(.13f,.13f,0);
 	bool Drawn=false;
 	const float Radius=(float)Object.GetRadius();
-	Actor::ActionDescList_t const& Actions=Object.GetActions();
-	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
+	Actor::ActionList_t const& Actions=Object.GetActions();
+	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
 		Action const& Act=*i;
 		SpritePhase const& Phase=mSprites(Act.GetId())((int32_t)Act.GetState());
@@ -29,7 +29,7 @@ void PlayerModel::Draw(Actor const& Object)const
 
 	//Yaaaay, prioritás kellhet vagy valami, bár ez sem értelmetlen, csak szar :d
 
-	Action const& weapon=Object.GetWeapon();
+	Item const& weapon=Object.GetWeapon();
 
 	if(mSprites(weapon.GetId()).IsValid())
 	{	

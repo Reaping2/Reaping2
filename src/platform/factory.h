@@ -18,6 +18,7 @@ public:
 		);
 		mElements[Id]=boost::bind(&Create<Elem_T>,_1);
 	}
+	void Bind( int32_t Id, Functor_t Functor );
 	void SetDefault( int32_t Id );
 
 	Return_T * operator()(int32_t Id) const;
@@ -33,6 +34,11 @@ protected:
 
 
 };
+template<typename Return_T>
+void Factory<Return_T>::Bind( int32_t Id, Functor_t Functor )
+{
+	mElements[Id]=Functor;
+}
 template<typename Return_T>
 void Factory<Return_T>::SetDefault( int32_t Id )
 {

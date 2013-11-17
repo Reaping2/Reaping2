@@ -15,9 +15,9 @@ void ShootAction::Update(double Seconds)
 {
 	Action::Update(Seconds);
 	if(!mActor)return;
-	Action const& weapon = mActor->GetWeapon();
+	Item& weapon = mActor->GetWeapon();
 
-	WeaponAsset const& weaponAsset = static_cast<WeaponAsset const&>(weapon);
+	WeaponAsset& weaponAsset = static_cast<WeaponAsset&>(weapon);
 	weaponAsset.Shoot();
 }
 ShootAltAction::ShootAltAction(int32_t Id)
@@ -35,8 +35,8 @@ void ShootAltAction::Update(double Seconds)
 {
 	Action::Update(Seconds);
 	if(!mActor)return;
-	Action const& weapon = mActor->GetWeapon();
+	Item& weapon = mActor->GetWeapon();
 
-	WeaponAsset const& weaponAsset = static_cast<WeaponAsset const&>(weapon);
+	WeaponAsset& weaponAsset = static_cast<WeaponAsset&>(weapon);
 	weaponAsset.ShootAlt();
 }

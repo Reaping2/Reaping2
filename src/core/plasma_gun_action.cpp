@@ -3,10 +3,7 @@
 PlasmaGunAction::PlasmaGunAction(int32_t Id)
 : WeaponAsset(Id)
 {
-	mAreBlockedActionsExcluded=false;
-	mSecsToEnd=0.5;
-	mIsLoop=false;
-	mCooldownReduction=200;
+	mCooldownReduction=400;
 }
 
 void PlasmaGunAction::Update(double Seconds) 
@@ -14,13 +11,11 @@ void PlasmaGunAction::Update(double Seconds)
 	WeaponAsset::Update(Seconds);
 }
 
-void PlasmaGunAction::Shoot() const
+void PlasmaGunAction::Shoot()
 {
 	if(!mActor)return;
-	Action& State=mActor->GetActionDesc(mId);
-	double nextState = State.GetState();
-	if(nextState!=100.0)return;
-	State.SetState(64.0);
+	if(mCooldown!=0.0)return;
+	mCooldown=30.0;
 	PlasmaShot* ps=new PlasmaShot();
 	//esetleg kiemelni :D
 	ps->SetX(mActor->GetX());
@@ -31,13 +26,12 @@ void PlasmaGunAction::Shoot() const
 	Scene::Get().AddActor(ps);
 }
 
-void PlasmaGunAction::ShootAlt() const
+void PlasmaGunAction::ShootAlt()
 {
 	if(!mActor)return;
-	Action& State=mActor->GetActionDesc(mId);
-	double nextState = State.GetState();
-	if(nextState!=100.0)return;
-	State.SetState(0.0);
+	if(mCooldown!=0.0)return;
+	mCooldown=100.0;
+
 
 	double ori = mActor->GetOrientation()+(rand()%6)/100.-0.03;
 

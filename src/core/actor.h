@@ -14,6 +14,7 @@ struct CollisionClass
 };
 class Action;
 class Actor;
+class Item;
 typedef boost::intrusive::list<Actor, boost::intrusive::constant_time_size<false> > ActorList;
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
 class Actor : public AutoId, public boost::intrusive::list_base_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> >
@@ -26,23 +27,8 @@ public:
 		double d;
 	};
 
-	// kikurni kulon fileba?
-	//class ActionDesc_t
-	//{
-	//private:
-	//	friend class Actor;
-	//	Action const* mAction;
-	//	Field_t mId;
-	//	Field_t mState;
-	//	ActionDesc_t(Action const* A,double S=0.);
-	//public:
-	//	int32_t GetId()const{return mId.i;}
-	//	double GetState()const{return mState.d;}
-	//	void SetState(double S){mState.d=S;}
-	//	Action const* GetAction()const{return mAction;}
-	//};
-
-	typedef boost::ptr_list<Action> ActionDescList_t;
+		typedef boost::ptr_list<Action> ActionList_t;
+		typedef boost::ptr_list<Item> ItemList_t;
 protected:
 	enum {
 		HP,
@@ -63,10 +49,18 @@ protected:
 	enum {
 		HP_DEAD=-1,
 	};
-	Factory<Action>& mActionRepo;
+
+
+	Factory<Action>& mActionFactory;
+	ActionList_t mActions;
 	Action * mDefaultAction;
+
+	Factory<Item>& mItemFactory;
+	ItemList_t mItems;
+	Item * mDefaultItem;
+
+
 	Field_t mFields[NUM_FIELDS];
-	ActionDescList_t mActions;
 	std::auto_ptr<Controller> mController;
 
 	void UpdateProjections()
@@ -88,7 +82,8 @@ public:
 
 	void SetController(std::auto_ptr<Controller> Control);
 
-	Actor::Action const& GetWeapon() const;
+	Item& GetWeapon();
+	Item const& GetWeapon() const;
 
 	double GetX()const{return mFields[X].d;}
 	double GetY()const{return mFields[Y].d;}
@@ -98,9 +93,11 @@ public:
 	double GetSpeedY()const{return mFields[SPEED_Y].d;}
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
-	ActionDescList_t const& GetActions()const{return mActions;}
-	Action& GetActionDesc(int32_t Id);
+	ActionList_t const& GetActions()const{return mActions;}
+	Action& GetAction(int32_t Id);
 	Action* AddAction(int32_t Id);
+	Item& GetItem(int32_t Id);
+	Item* AddItem(int32_t Id);
 	void DropAction(int32_t Id);
 	int32_t GetHP()const{return mFields[HP].i;}
 	int32_t GetGUID()const{return mFields[GUID].i;}

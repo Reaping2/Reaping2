@@ -4,12 +4,12 @@
 class PlasmaGunAction : public WeaponAsset
 {
 public:	
-	virtual void Shoot() const;
-	virtual void ShootAlt() const;
+	virtual void Shoot();
+	virtual void ShootAlt();
 protected:
 	PlasmaGunAction(int32_t Id);
 	virtual void Update(double Seconds)  override;
-	friend class Factory<Action>;
+	friend class Factory<Item>;
 };
 
 #endif//INCLUDED_CORE_PLASMA_GUN_ACTION_H

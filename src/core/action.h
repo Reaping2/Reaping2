@@ -1,5 +1,5 @@
-#ifndef INCLUDED_ACTION_H
-#define INCLUDED_ACTION_H
+#ifndef INCLUDED_CORE_ACTION_H
+#define INCLUDED_CORE_ACTION_H
 
 class Action
 {
@@ -56,4 +56,4 @@ public:
 	virtual bool Activate() ;
 	virtual void Deactivate() ;
 };
-#endif//INCLUDED_ACTION_H
+#endif//INCLUDED_CORE_ACTION_H

@@ -46,15 +46,15 @@ Action::Action(int32_t Id)
 bool Action::Activate() 
 {
 	if(!mActor)return true;
-	Actor::ActionDescList_t const& Actions=mActor->GetActions();
-	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
+	Actor::ActionList_t const& Actions=mActor->GetActions();
+	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
 		Action const& action=*i;
 		if(action.Blocks(mId))
 			return false;
 	}
 	//if this action cancels others
-	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;)
+	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;)
 	{
 		Action const& action=*i;
 		++i;
@@ -65,7 +65,7 @@ bool Action::Activate()
 	}
 
 	bool hasAction=false;
-	Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();
+	Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();
 	while(!hasAction&&i!=e)
 		hasAction=mId==(i++)->GetId();
 	if (!mIsRefresh&&hasAction)
@@ -91,7 +91,7 @@ bool Action::Cancels(int32_t What) const
 void Action::Update(double Seconds) 
 {
 	if(!mActor)return;
-	Action& State=mActor->GetActionDesc(mId);
+	Action& State=mActor->GetAction(mId);
 
 	double nextState = State.GetState()+1./mSecsToEnd*Seconds*100.;
 	if(nextState>=100)

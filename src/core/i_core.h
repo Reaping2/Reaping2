@@ -10,6 +10,7 @@
 #include "mine.h"
 #include "projectile.h"
 #include "action.h"
+#include "item.h"
 #include "weapon_asset.h"
 #include "plasma_gun_action.h"
 #include "move_action.h"
