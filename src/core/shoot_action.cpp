@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-ShootAction::ShootAction(int32_t Id, Actor& actor)
-	: Action(Id,actor)
+ShootAction::ShootAction(int32_t Id)
+	: Action(Id)
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(AutoId("shoot_alt"));
@@ -14,13 +14,14 @@ ShootAction::ShootAction(int32_t Id, Actor& actor)
 void ShootAction::Update(double Seconds) 
 {
 	Action::Update(Seconds);
-	Action const& weapon = mActor.GetWeapon();
+	if(!mActor)return;
+	Action const& weapon = mActor->GetWeapon();
 
 	WeaponAsset const& weaponAsset = static_cast<WeaponAsset const&>(weapon);
 	weaponAsset.Shoot();
 }
-ShootAltAction::ShootAltAction(int32_t Id, Actor& actor)
-	: Action(Id,actor)
+ShootAltAction::ShootAltAction(int32_t Id)
+	: Action(Id)
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(AutoId("shoot"));
@@ -33,7 +34,8 @@ ShootAltAction::ShootAltAction(int32_t Id, Actor& actor)
 void ShootAltAction::Update(double Seconds) 
 {
 	Action::Update(Seconds);
-	Action const& weapon = mActor.GetWeapon();
+	if(!mActor)return;
+	Action const& weapon = mActor->GetWeapon();
 
 	WeaponAsset const& weaponAsset = static_cast<WeaponAsset const&>(weapon);
 	weaponAsset.ShootAlt();

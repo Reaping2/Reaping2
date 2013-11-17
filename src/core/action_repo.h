@@ -8,7 +8,7 @@ class ActionRepo :public Singleton<ActionRepo>
 public:
 	ActionRepo();
 private:
-	Factory<Action, Actor>& mFactory;
+	Factory<Action>& mFactory;
 	friend class Singleton<ActionRepo>;
 };
 

@@ -7,9 +7,9 @@ public:
 	virtual void Shoot() const;
 	virtual void ShootAlt() const;
 protected:
-	PlasmaGunAction(int32_t Id, Actor& actor);
+	PlasmaGunAction(int32_t Id);
 	virtual void Update(double Seconds)  override;
-	friend class Factory<Action,Actor>;
+	friend class Factory<Action>;
 };
 
 #endif//INCLUDED_CORE_PLASMA_GUN_ACTION_H

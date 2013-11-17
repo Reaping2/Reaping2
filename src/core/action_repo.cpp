@@ -1,7 +1,7 @@
 #include"i_core.h"
 
 ActionRepo::ActionRepo()
-	:mFactory(Factory<Action, Actor>::Get())
+	:mFactory(Factory<Action>::Get())
 {	
 	mFactory.Bind<DefaultAction>(AutoId("default_action"));
 	mFactory.SetDefault(AutoId("default_action"));

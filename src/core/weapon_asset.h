@@ -8,9 +8,9 @@ public:
 	virtual void ShootAlt() const=0;
 protected:
 	double mCooldownReduction;
-	WeaponAsset(int32_t Id, Actor& actor);
+	WeaponAsset(int32_t Id);
 	virtual void Update(double Seconds)  override;
-	friend class Factory<Action,Actor>;
+	friend class Factory<Action>;
 };
 
 #endif//INCLUDED_CORE_WEAPON_ASSET_H

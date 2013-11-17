@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-MoveAction::MoveAction(int32_t Id, Actor& actor)
-	: Action(Id,actor)
+MoveAction::MoveAction(int32_t Id)
+	: Action(Id)
 {
 	mAreBlockedActionsExcluded=false;
 	mCancelledActionIds.push_back(IdStorage::Get().GetId("idle"));
@@ -11,8 +11,9 @@ MoveAction::MoveAction(int32_t Id, Actor& actor)
 
 void MoveAction::Update(double Seconds) 
 {
+	if(!mActor)return;
 	Action::Update(Seconds);
-	mActor.SetX(mActor.GetX()+Seconds*mActor.GetSpeedX());
-	mActor.SetY(mActor.GetY()+Seconds*mActor.GetSpeedY());
-	mActor.ClipScene();
+	mActor->SetX(mActor->GetX()+Seconds*mActor->GetSpeedX());
+	mActor->SetY(mActor->GetY()+Seconds*mActor->GetSpeedY());
+	mActor->ClipScene();
 }

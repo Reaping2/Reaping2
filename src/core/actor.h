@@ -63,7 +63,7 @@ protected:
 	enum {
 		HP_DEAD=-1,
 	};
-	Factory<Action, Actor>& mActionRepo;
+	Factory<Action>& mActionRepo;
 	Action * mDefaultAction;
 	Field_t mFields[NUM_FIELDS];
 	ActionDescList_t mActions;

@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-WeaponAsset::WeaponAsset(int32_t Id, Actor& actor)
-	: Action(Id,actor)
+WeaponAsset::WeaponAsset(int32_t Id)
+	: Action(Id)
 	,mCooldownReduction(0.0)
 {
 	mType=Weapon;

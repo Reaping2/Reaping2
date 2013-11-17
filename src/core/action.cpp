@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-DefaultAction::DefaultAction(int32_t Id, Actor& actor)
-	: Action(Id,actor)
+DefaultAction::DefaultAction(int32_t Id)
+	: Action(Id)
 {
 	mIsRefresh=false;
 	mIsLoop=false;
@@ -10,6 +10,11 @@ DefaultAction::DefaultAction(int32_t Id, Actor& actor)
 	mAreCancelledActionsExcluded=false;
 	mSecsToEnd=0;
 	mType=Normal;
+}
+
+void Action::SetActor(Actor* Obj)
+{
+	mActor=Obj;
 }
 bool DefaultAction::Activate() 
 {
@@ -25,9 +30,8 @@ void DefaultAction::Update(double Seconds)
 }
 
 
-Action::Action(int32_t Id, Actor& actor)
+Action::Action(int32_t Id)
 	: mId(Id)
-	, mActor(actor)
 	, mIsRefresh(false)
 	, mIsLoop(false)
 	, mIsSelfDestruct(false)
@@ -41,7 +45,8 @@ Action::Action(int32_t Id, Actor& actor)
 
 bool Action::Activate() 
 {
-	Actor::ActionDescList_t const& Actions=mActor.GetActions();
+	if(!mActor)return true;
+	Actor::ActionDescList_t const& Actions=mActor->GetActions();
 	for(Actor::ActionDescList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
 		Action const& action=*i;
@@ -55,7 +60,7 @@ bool Action::Activate()
 		++i;
 		if(Cancels(action.GetId()))
 		{
-			mActor.DropAction(action.GetId());
+			mActor->DropAction(action.GetId());
 		}
 	}
 
@@ -85,7 +90,8 @@ bool Action::Cancels(int32_t What) const
 
 void Action::Update(double Seconds) 
 {
-	Action& State=mActor.GetActionDesc(mId);
+	if(!mActor)return;
+	Action& State=mActor->GetActionDesc(mId);
 
 	double nextState = State.GetState()+1./mSecsToEnd*Seconds*100.;
 	if(nextState>=100)
@@ -94,7 +100,7 @@ void Action::Update(double Seconds)
 			nextState=fmod(nextState,100.);
 		else if(mIsSelfDestruct)
 		{
-			mActor.DropAction(mId);
+			mActor->DropAction(mId);
 			return;
 		}
 		else
