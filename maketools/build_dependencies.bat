@@ -66,15 +66,18 @@ set BASEDIR=%PWD%\..
 echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
 set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
+:Build_Boost
 cd %BASEDIR%\deps\boost_1_54_0
 call bootstrap.bat
 b2 toolset=%B2_TOOLSET% --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options
+:Build_Glfw
 rd /S /Q %BASEDIR%\deps\glfw-3.0.3\build
 md %BASEDIR%\deps\glfw-3.0.3\build
 cd %BASEDIR%\deps\glfw-3.0.3\build
 %CMAKE_CMD% ..
 %DEVENV% GLFW.sln /Build
 %DEVENV% GLFW.sln /Build "Release"
+:Build_ZLib
 cd %PWD%
 rd /S /Q %BASEDIR%\deps\zlib-1.2.8\build
 md %BASEDIR%\deps\zlib-1.2.8\build
@@ -83,6 +86,7 @@ cd %BASEDIR%\deps\zlib-1.2.8\build
 %DEVENV% zlib.sln /Build
 %DEVENV% zlib.sln /Build "Release"
 copy zconf.h ..
+:Build_LibPng
 rd /S /Q %BASEDIR%\deps\lpng166\build
 md %BASEDIR%\deps\lpng166\build
 cd %BASEDIR%\deps\lpng166\build
@@ -95,6 +99,7 @@ set ZLIB_LIBRARY=%BASEDIR%\deps\zlib-1.2.8\build\Release\zlib.lib
 %DEVENV% libpng.sln /Build "Release"
 cd %BASEDIR%\deps\lpng166
 copy scripts\pnglibconf.h.prebuilt pnglibconf.h
+:Build_LibOgg
 cd %PWD%
 cd ..\deps\libogg-1.3.1\win32
 cd %XIPH_FOLDER%
@@ -105,6 +110,7 @@ mkdir ..\..\lib\debug
 mkdir ..\..\lib\release
 copy Win32\Debug\libogg_static.lib ..\..\lib\debug
 copy Win32\Release\libogg_static.lib ..\..\lib\release
+:Build_LibVorbis
 cd %PWD%
 cd ..\deps\libvorbis-1.3.3\win32
 cd %XIPH_FOLDER%
@@ -116,11 +122,13 @@ mkdir ..\..\bin\lib\debug
 mkdir ..\..\bin\lib\release
 copy Win32\Debug\*.lib ..\..\bin\lib\debug
 copy Win32\Release\*.lib ..\..\bin\lib\release
+:Build_Portaudio
 cd %PWD%
 cd ..\deps\portaudio_v19
 mkdir build_dir
 cd build_dir
 %CMAKE_CMD% ..
+echo #define PA_WDMKS_NO_KSGUID_LIB >> options_cmake.h
 %DEVENV% portaudio.sln /Build "Debug"
 %DEVENV% portaudio.sln /Build "Release"
 copy options_cmake.h ..\include\pa_options_cmake.h
