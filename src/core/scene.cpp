@@ -45,3 +45,9 @@ glm::vec4 const& Scene::GetDimensions()
 	return mDimensions;
 }
 
+Scene::~Scene()
+{
+	while(!mAllActors.empty())
+		delete &mAllActors.front();
+}
+

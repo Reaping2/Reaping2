@@ -9,6 +9,7 @@ class Scene : public Singleton<Scene>
 	Scene();
 	glm::vec4 mDimensions;
 public:
+	~Scene();
 	void Update(double DeltaTime);
 	void AddActor(Actor* Object);
 	glm::vec4 const& GetDimensions();
