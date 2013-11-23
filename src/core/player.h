@@ -5,7 +5,6 @@ class Player : public Actor
 {
 public:
 	Player(std::string const& Name="player");
-	virtual void Collide(double Seconds, ActorList& Actors);
 	virtual void ClipScene();
 };
 

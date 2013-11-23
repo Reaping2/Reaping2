@@ -16,6 +16,7 @@ class Renderer : public Singleton<Renderer>
 	Registration mMousePressId;
 	Registration mMouseReleaseId;
 
+	void RenderActors(bool Alive);
 	bool BeginRender();
 	bool EndRender();
 	void SetupRenderer(const Projection& Proj);

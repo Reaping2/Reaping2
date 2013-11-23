@@ -16,21 +16,28 @@ Renderer::~Renderer()
 
 }
 
+void Renderer::RenderActors(bool Alive)
+{
+	Scene& Scen=Scene::Get();
+	const ActorList_t& Lst=Scen.GetActors();
+	for(ActorList_t::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
+	{
+		const Actor& Object=*i;
+		if(Alive!=Object.IsAlive())continue;
+		static ModelRepo const& Models(ModelRepo::Get());
+		Model const& Model=Models(Object.GetId());
+		Model.Draw(Object);
+	}
+}
+
 bool Renderer::Render()
 {
 	if(!BeginRender()) return false;
 
 	// render world
 	SetupRenderer(mWorldProjector);
-	Scene& Scen=Scene::Get();
-	const AllActorInSceneList& Lst=Scen.GetActors();
-	for(AllActorInSceneList::const_iterator i=Lst.begin(),e=Lst.end();i!=e;++i)
-	{
-		static ModelRepo const& Models(ModelRepo::Get());
-		const Actor& Object=*i;
-		Model const& Model=Models(Object.GetId());
-		Model.Draw(Object);
-	}
+	RenderActors(false);
+	RenderActors(true);
 
 	// render ui
 	SetupRenderer(mUiProjector);

@@ -7,12 +7,6 @@ Player::Player(std::string const& Name/*="player"*/)
 	mFields[RADIUS].d=0.06;
 }
 
-
-void Player::Collide( double Seconds, ActorList& Actors )
-{
-
-}
-
 void Player::ClipScene()
 {
 	Actor::ClipScene();

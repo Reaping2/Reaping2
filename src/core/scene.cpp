@@ -2,8 +2,7 @@
 
 void Scene::AddActor( Actor* Object )
 {
-	mActors[Object->GetCC()].push_back(*Object);
-	mAllActors.push_back(*Object);
+	mNewActors.push_back(*Object);
 	// mikor az obj torlodik, magatol kikerul a listabol
 }
 
@@ -16,27 +15,31 @@ void Scene::Update( double DeltaTime )
 		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep,								// mine
 		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player,	// player
 	};
-	// eloszor lecollideolunk, aztan update, nem akarom, hogy menetkozben megszunjenek actorok
-	for(size_t i=0;i<CollisionClass::Num_Classes;++i)
+	for(ActorList_t::iterator it1=mAllActors.begin(),e1=mAllActors.end();it1!=e1;++it1)
 	{
-		ActorList& ListI=mActors[i];
-		for(size_t j=i;j<CollisionClass::Num_Classes;++j)
+		for(ActorList_t::iterator it2=mAllActors.begin(),e2=mAllActors.end();it2!=e2;++it2)
 		{
-			if(!(Collisions[i]&(1<<j)))
-				continue;
-			ActorList& ListJ=mActors[j];
-			for(ActorList::iterator it=ListI.begin(),e=ListI.end();it!=e;++it)
-				it->Collide(DeltaTime,ListJ);
+			Actor& A=*it1;
+			Actor& B=*it2;
+			if(!(Collisions[A.GetCC()]&(1<<B.GetCC())))continue;
+			CollisionModel const& CollModel=mCollisionStore.GetCollisionModel(A.GetCC(),B.GetCC());
+			if(&A==&B)continue;
+			if(!CollModel.AreActorsColliding(A,B,DeltaTime))continue;
+			A.Collide(B);
+			B.Collide(A);
 		}
 	}
-	for(AllActorInSceneList::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
+	for(ActorList_t::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
 		it->Update(DeltaTime);
-	for(AllActorInSceneList::iterator it=mAllActors.begin(),e=mAllActors.end(),n;(n=it,it!=e?(++n,true):false);it=n)
+	for(ActorList_t::iterator it=mAllActors.begin(),e=mAllActors.end(),n;(n=it,it!=e?(++n,true):false);it=n)
 		it->UpdateLifetime();
+	if(!mNewActors.empty())
+		mAllActors.splice(mAllActors.end(),mNewActors);
 }
 
 Scene::Scene()
 : mDimensions(-1,-1,1,1)
+, mCollisionStore(CollisionStore::Get())
 {
 }
 
@@ -47,6 +50,7 @@ glm::vec4 const& Scene::GetDimensions()
 
 Scene::~Scene()
 {
+	mAllActors.splice(mAllActors.end(),mNewActors);
 	while(!mAllActors.empty())
 		delete &mAllActors.front();
 }

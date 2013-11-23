@@ -13,11 +13,9 @@ struct CollisionClass
 	};
 };
 class Action;
-class Actor;
 class Item;
-typedef boost::intrusive::list<Actor, boost::intrusive::constant_time_size<false> > ActorList;
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
-class Actor : public AutoId, public boost::intrusive::list_base_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> >
+class Actor : public AutoId
 {
 public:
 	AllActorMemberHook_t mAllActorHook;
@@ -75,10 +73,12 @@ protected:
 public:
 	Actor(std::string const& Name);
 	virtual ~Actor();
-	virtual void Collide(double Seconds, ActorList& Actors);
+	virtual void Collide(Actor& Other);
 	virtual void ClipScene();
 	virtual void Update(double Seconds);
 	virtual void UpdateLifetime();
+	virtual void TakeDamage(int32_t Damage);
+	bool IsAlive()const;
 
 	void SetController(std::auto_ptr<Controller> Control);
 
@@ -100,6 +100,7 @@ public:
 	Item* AddItem(int32_t Id);
 	void DropAction(int32_t Id);
 	int32_t GetHP()const{return mFields[HP].i;}
+	void SetHP(int32_t Hp){mFields[HP].i=Hp;}
 	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}
 	void SetX(double x)
@@ -124,15 +125,10 @@ public:
 	{
 		mFields[ORIENTATION].d=Ori;
 	}
-
-	void ClearActions();
-/*	void SetActionIdPos(ActionRepo::ActionType ActionId, int32_t Position, bool Activate=true);
-	void SetActionStatePos(int32_t Position, int32_t State=0xFF);
-	bool HasAction(ActionRepo::ActionType ActionId, int32_t& Position);*/
 };
 
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;
-typedef boost::intrusive::list<Actor, AllActorOption_t, boost::intrusive::constant_time_size<false> > AllActorInSceneList;
+typedef boost::intrusive::list<Actor, AllActorOption_t, boost::intrusive::constant_time_size<false> > ActorList_t;
 
 
 #endif//INCLUDED_CORE_ACTOR_H

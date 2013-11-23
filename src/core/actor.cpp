@@ -11,12 +11,8 @@ void Actor::Update(double Seconds)
 		i->Update(Seconds);
 }
 
-void Actor::Collide( double Seconds, ActorList& Actors )
+void Actor::Collide(Actor& Other)
 {
-	for(ActorList::iterator i=Actors.begin(),e=Actors.end();i!=e;++i)
-	{
-		if(this==&*i) continue;	// don't self-collide
-	}
 }
 
 Actor::Actor(std::string const& Name)
@@ -66,7 +62,7 @@ Action* Actor::AddAction( int32_t Id )
 {
 	Action * a=mActionFactory(Id);
 	a->SetActor(this);
-	if (a->Activate())	
+	if (a->Activate())
 	{
 		mActions.push_back(a);
 		return a;
@@ -121,20 +117,25 @@ void Actor::ClipScene()
 		SetY(AllowedDimensions.w);
 }
 
+bool Actor::IsAlive()const
+{
+	return mFields[HP].i>HP_DEAD;
+}
+
 void Actor::UpdateLifetime()
 {
-	if(GetHP()==HP_DEAD)
-	{
-		delete this;
-	}
+	if(IsAlive())return;
+	// todo: set death action
+	mActions.clear();
+	mFields[COLLISION_CLASS].i=CollisionClass::No_Collision;
+	mController.reset();
 }
 
 Actor::~Actor()
 {
-	//for(ActionList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
-	//{
-	//	n=i;++n;
-	//	delete(*i);
-	//	mActions.erase(i);
-	//}
+}
+
+void Actor::TakeDamage( int32_t Damage )
+{
+	mFields[HP].i-=Damage;
 }
