@@ -9,9 +9,9 @@ int AudioPlayer::PlayCallback(const void *, void *OutputBuffer,
 	return Get().PlayCallbackImpl(OutputBuffer);
 }
 
-void AudioPlayer::Play(boost::filesystem::path const& Path)
+void AudioPlayer::Play(boost::filesystem::path const& Path,AudioFile::AudioType Type)
 {
-	std::auto_ptr<VorbisFile> F=VorbisFile::Create(Filesys::Get().Open(Path));
+	std::auto_ptr<AudioFile> F=AudioFile::Create(Path,Type==AudioFile::Music?AudioFile::Repeat:AudioFile::PlayOnce,Type);
 	if(!F.get())
 		return;
 	boost::mutex::scoped_lock g(mReadMtx);
@@ -46,7 +46,7 @@ void AudioPlayer::PlayThread()
 		err=Pa_StartStream(mStream);
 		if(err!=paNoError)break;
 
-		while((err=Pa_IsStreamActive(mStream))==1)Pa_Sleep(100);
+		while((err=Pa_IsStreamActive(mStream))==1)Pa_Sleep(50);
 		if(err<0)break;
 
 		err=Pa_CloseStream(mStream);
@@ -79,12 +79,10 @@ int AudioPlayer::PlayCallbackImpl( void *OutputBuffer )
 	float *WritePointer = (float*)OutputBuffer;
 	do{
 		boost::mutex::scoped_lock g(mPlayMtx);
-		AudioBuffer::Buffer_t const& Left=mBuffer.GetData(0);
-		AudioBuffer::Buffer_t const& Right=mBuffer.GetData(1);
-		size_t const Avail=std::min<size_t>(mFramesPerBuffer,Left.size());
+		size_t const Avail=std::min<size_t>(mFramesPerBuffer,mBuffer.GetSize());
 		if(!Avail)break;
-		float const* LeftPtr=&*Left.begin();
-		float const* RightPtr=&*Right.begin();
+		float const* LeftPtr=mBuffer.GetData(0);
+		float const* RightPtr=mBuffer.GetData(1);
 		for(;Ctr<Avail;++Ctr)
 		{
 			*WritePointer++=*LeftPtr++;
@@ -109,10 +107,7 @@ void AudioPlayer::OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
 {
 	if(Evt.CurrentPhase==ProgramPhase::CloseSignal)
 	{
-		{
-			boost::mutex::scoped_lock g(mCloseMtx);
-			mClosing=true;
-		}
+		mClosing=true;
 		mPlaybackThread.join();
 		mReadThread.join();
 	}
@@ -120,7 +115,6 @@ void AudioPlayer::OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
 
 int AudioPlayer::GetStatus()
 {
-	boost::mutex::scoped_lock g(mCloseMtx);
 	return mClosing?paComplete:paContinue;
 }
 
@@ -128,36 +122,31 @@ void AudioPlayer::ReadThread()
 {
 	while(GetStatus()==paContinue)
 	{
-		bool Dirty=false;
 		{	// merge new files
 			boost::mutex::scoped_lock g(mReadMtx);
-			Dirty=!mNewFiles.empty()||Dirty;
 			mActiveFiles.transfer(mActiveFiles.end(),mNewFiles);
 		}
-		size_t MinCommonSize=std::numeric_limits<size_t>::max();
+		static const size_t DefaultCommonSize=4096;
+		size_t MinCommonSize=DefaultCommonSize;
 		for(AudioFiles_t::iterator i=mActiveFiles.begin(),e=mActiveFiles.end();i!=e;++i)
 		{	// preload active files
-			VorbisFile& f=*i;
-			Dirty=f.FillBufferIfNeeded()||Dirty;
+			AudioFile& f=*i;
+			f.FillBufferIfNeeded();
 			MinCommonSize=std::min<size_t>(MinCommonSize,f.GetBuffer().GetSize());
 		}
-		if(!Dirty)
+		if(!MinCommonSize||mBuffer.GetSize()>=DefaultCommonSize)
 		{
-			boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
+			boost::this_thread::sleep_for(boost::chrono::milliseconds(50));
 			continue;
 		}
 		{
 			boost::mutex::scoped_lock g(mPlayMtx);
-			for(AudioFiles_t::iterator i=mActiveFiles.begin(),e=mActiveFiles.end();i!=e;++i)
-			{
-				VorbisFile& f=*i;
-				mBuffer.Write(f.GetBuffer(),MinCommonSize);
-			}
+			mMixer.Mix(mBuffer,mActiveFiles,MinCommonSize);
 		}
 		for(AudioFiles_t::iterator i=mActiveFiles.begin();i!=mActiveFiles.end();)
 		{
-			VorbisFile& f=*i;
-			if(f.IsFinished())
+			AudioFile& f=*i;
+			if(f.IsFinishedPlaying())
 				i=mActiveFiles.erase(i);
 			else
 				++i;

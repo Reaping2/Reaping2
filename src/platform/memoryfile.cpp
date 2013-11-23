@@ -107,6 +107,8 @@ size_t MemoryFile::GetPosition() const
 
 bool MemoryFile::SetPosition( size_t Pos )
 {
+	if(Pos==0)
+		return Rewind();
 	assert(false);
 	// ha kell, implementald, pillanatnyilag nem latom ertelmet
 	return false;

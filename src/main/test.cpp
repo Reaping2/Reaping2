@@ -106,8 +106,8 @@ namespace{
 
 		void TestVorbisFile()
 		{
-			VorbisFile::Create(mPackage->Open("sounds/Ping-da-ding-ding-ding.ogg"));
-			VorbisFile::Create(mPackage->Open("sounds/Zap_Beat.ogg"));
+			VorbisFileCache::Get().Load("sounds/Ping-da-ding-ding-ding.ogg");
+			VorbisFileCache::Get().Load("sounds/Zap_Beat.ogg");
 		}
 
 		void TestMain()

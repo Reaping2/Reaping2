@@ -1,6 +1,6 @@
 #include "i_audio.h"
 
-VorbisFile::VorbisFile( AutoFile File )
+VorbisFile::VorbisFile(AutoFile File)
 : mSource(File)
 , mStatus(St_None)
 {
@@ -15,10 +15,10 @@ bool VorbisFile::Init()
 	Callbacks.read_func=&VorbisFile::ReadFunc;
 	Callbacks.close_func=&VorbisFile::CloseFunc;
 	if(ov_open_callbacks(this,&mVorbisFile,NULL,0,Callbacks)<0)return false;
-	mStatus=St_Inited;
 	if(!ReadInfo())return false;
+	mStatus=St_Loading;
 	mBuffer.reset(new AudioBuffer(mInfo.channels));
-	return FillBufferIfNeeded();
+	return ReadBlock();
 }
 
 bool VorbisFile::ReadInfo()
@@ -27,14 +27,14 @@ bool VorbisFile::ReadInfo()
 	vorbis_info *vi=ov_info(&mVorbisFile,-1);
 	mInfo=*vi;
 	while(*ptr){
-		LOG("%s\n",*ptr);
+		L1("%s\n",*ptr);
 		++ptr;
 	}
-	LOG("\nBitstream is %d channel, %ldHz\n",mInfo.channels,mInfo.rate);
-	// LOG("\nDecoded length: %ld samples\n",(long)ov_pcm_total(&mVorbisFile,-1)); no seek support right now
-	LOG("Encoded by: %s\n\n",ov_comment(&mVorbisFile,-1)->vendor);
+	L1("\nBitstream is %d channel, %ldHz\n",mInfo.channels,mInfo.rate);
+	// L1("\nDecoded length: %ld samples\n",(long)ov_pcm_total(&mVorbisFile,-1)); no seek support right now
+	L1("Encoded by: %s\n\n",ov_comment(&mVorbisFile,-1)->vendor);
 	bool const IsRateSupported=AudioPlayer::Get().IsSampleRateSupported(mInfo.rate);
-	LOG("Sample rate is %ssupported",IsRateSupported?"":"NOT ");
+	L1("Sample rate is %ssupported\n",IsRateSupported?"":"NOT ");
 	return IsRateSupported;
 }
 
@@ -46,9 +46,9 @@ bool VorbisFile::ReadBlock()
 	long SamplesRead=ov_read_float(&mVorbisFile,&Buffer,MaxSamples,&CurrentSection);
 	if(SamplesRead<0)
 	{
-		LOG("Vorbisfile: error %d\n",SamplesRead);
+		L1("Vorbisfile: error %d\n",SamplesRead);
 		if(SamplesRead==OV_EBADLINK){
-			LOG("Corrupt bitstream section! Exiting.\n");
+			L1("Corrupt bitstream section! Exiting.\n");
 			return false;
 		}
 	}
@@ -89,32 +89,24 @@ VorbisFile::~VorbisFile()
 {
 }
 
-std::auto_ptr<VorbisFile> VorbisFile::Create( AutoFile File )
+std::auto_ptr<VorbisFile> VorbisFile::Create(AutoFile File)
 {
 	std::auto_ptr<VorbisFile> Ret(new VorbisFile(File));
 	if(!Ret->Init())Ret.reset();
 	return Ret;
 }
 
-bool VorbisFile::FillBufferIfNeeded()
-{
-	if(!mBuffer.get()||!mSource.get())
-		return false;
-	if(mBuffer->GetSize()>=TargetBufferSize)
-		return false;
-	while(mStatus==St_Inited&&mBuffer->GetSize()<2*TargetBufferSize&&ReadBlock())
-		;
-	return true;
-}
-
-AudioBuffer& VorbisFile::GetBuffer()
+AudioBuffer const& VorbisFile::GetBuffer() const
 {
 	return *mBuffer;
 }
 
-bool VorbisFile::IsFinished() const
+bool VorbisFile::IsFinishedLoading() const
 {
-	return mStatus==St_Closed&&mBuffer->GetSize()==0;
+	return mStatus==St_Closed;
 }
 
-const size_t VorbisFile::TargetBufferSize=4096;
+boost::mutex& VorbisFile::GetMutex()
+{
+	return mMtx;
+}

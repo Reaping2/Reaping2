@@ -15,7 +15,7 @@ public:
 	void Log(std::string const& Str=std::string())
 	{
 		double Now=mMeasurer.elapsed();
-		LOG("Timer - %s: %f %f\n",Str.c_str(),Now,Now-mPrevMeasurement);
+		L1("Timer - %s: %f %f\n",Str.c_str(),Now,Now-mPrevMeasurement);
 		mPrevMeasurement=Now;
 	}
 	Timer_t():mMeasurer(),mPrevMeasurement(mMeasurer.elapsed()){Log("timer init");}
@@ -31,7 +31,7 @@ public:
 	{
 		if(!(++mFrames%400))
 		{
-			LOG("FPS: %f\n",mFrames/(glfwGetTime()-mStart));
+			L1("FPS: %f\n",mFrames/(glfwGetTime()-mStart));
 		}
 	}
 };
@@ -58,13 +58,14 @@ int main()
 	Window& Wnd=Window::Get();	// ez legyen az elejen
 	if(!Wnd.Create(640,480,"Reaping2"))
 		return -1;
-	EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::Startup));
+	EventServer<PhaseChangedEvent>& PhaseChangeEventServer(EventServer<PhaseChangedEvent>::Get());
+	PhaseChangeEventServer.SendEvent(PhaseChangedEvent(ProgramPhase::Startup));
 	PerfTimer.Log("wnd");
 	TimerServer& Timers(TimerServer::Get());
 	Filesys::Get().Mount(std::auto_ptr<Package>(new Package(AutoFile(new OsFile("data.pkg")))));
 	Keyboard::Get();
 	ActionRepo::Get();
-	AudioPlayer::Get().Play("sounds/Zap_Beat.ogg");
+	AudioPlayer::Get().Play("sounds/Zap_Beat.ogg",AudioFile::Music);
 	Mouse& Jerry=Mouse::Get();
 	PerfTimer.Log("input");
 	Renderer& Rend=Renderer::Get();
@@ -77,9 +78,10 @@ int main()
 	Prevtime=Curtime=glfwGetTime();
 	FrameCounter Counter;
 	PopulateSceneId=Timers.AddTimer(Timer::TimerCallback(&PopulateScene),0.5);
+	PhaseChangeEventServer.SendEvent(PhaseChangedEvent(ProgramPhase::Running));
+	EventServer<CycleEvent>& CycleEventServer(EventServer<CycleEvent>::Get());
 	while(true)
 	{
-		EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::Running));
 		Curtime=glfwGetTime();
 		double Dt=Curtime-Prevtime;
 		if(Dt<MinFrameTime)
@@ -92,12 +94,13 @@ int main()
 		Timers.Update(Dt);
 		Jerry.Update(Dt);
 		Scen.Update(Dt);
+		CycleEventServer.SendEvent(CycleEvent(Curtime));
 		if(!Rend.Render()) break;
 		if(!Wnd.Run()) break;
 		Prevtime=Curtime;
 		Counter.Inc();
 	}
-	EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::CloseSignal));
-	EventServer<PhaseChangedEvent>::Get().SendEvent(PhaseChangedEvent(ProgramPhase::Shutdown));
+	PhaseChangeEventServer.SendEvent(PhaseChangedEvent(ProgramPhase::CloseSignal));
+	PhaseChangeEventServer.SendEvent(PhaseChangedEvent(ProgramPhase::Shutdown));
 	return 0;
 }

@@ -3,7 +3,6 @@
 
 class AudioPlayer : public Singleton<AudioPlayer>
 {
-	typedef boost::ptr_vector<VorbisFile> AudioFiles_t;
 	AudioFiles_t mActiveFiles;
 	AudioFiles_t mNewFiles;
 
@@ -20,10 +19,10 @@ class AudioPlayer : public Singleton<AudioPlayer>
 	boost::thread mPlaybackThread;
 	boost::thread mReadThread;
 	Registration mPhaseChangeId;
-	boost::mutex mCloseMtx;
 	boost::mutex mReadMtx;
 	boost::mutex mPlayMtx;
-	bool mClosing;
+	boost::atomic<bool> mClosing;
+	Mixer mMixer;
 
 	friend class Singleton<AudioPlayer>;
 	AudioPlayer();
@@ -36,7 +35,7 @@ class AudioPlayer : public Singleton<AudioPlayer>
 	void OnPhaseChangedEvent(PhaseChangedEvent const& Evt);
 public:
 	~AudioPlayer();
-	void Play(boost::filesystem::path const& Path);
+	void Play(boost::filesystem::path const& Path,AudioFile::AudioType Type);
 
 	bool IsSampleRateSupported(int32_t Rate)const;
 };

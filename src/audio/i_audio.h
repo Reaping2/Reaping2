@@ -10,6 +10,9 @@
 
 #include "audio_buffer.h"
 #include "vorbis_file.h"
+#include "vorbis_file_cache.h"
+#include "audio_file.h"
+#include "mixer.h"
 #include "audio_player.h"
 
 #endif//INCLUDED_AUDIO_I_AUDIO_H

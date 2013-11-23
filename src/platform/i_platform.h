@@ -1,6 +1,7 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
 #include <boost/ptr_container/ptr_list.hpp>
+#include <boost/unordered_map.hpp>
 #include <boost/detail/endian.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -8,6 +9,7 @@
 #include <boost/math/constants/constants.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/atomic.hpp>
 #include <memory>
 #include <cmath>
 #include <boost/static_assert.hpp>
@@ -41,3 +43,4 @@
 #include "factory.h"
 #include "id_storage.h"
 #include "auto_id.h"
+#include "cache.h"

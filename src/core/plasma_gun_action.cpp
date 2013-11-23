@@ -1,5 +1,7 @@
 #include "i_core.h"
-
+//--temporary--
+#include "audio/i_audio.h"
+//-------------
 PlasmaGunAction::PlasmaGunAction(int32_t Id)
 : WeaponAsset(Id)
 {
@@ -15,6 +17,9 @@ void PlasmaGunAction::Shoot()
 {
 	if(!mActor)return;
 	if(mCooldown!=0.0)return;
+	//--temporary--
+	AudioPlayer::Get().Play("sounds/plasmagun.ogg",AudioFile::Effect);
+	//-------------
 	mCooldown=30.0;
 	PlasmaShot* ps=new PlasmaShot();
 	//esetleg kiemelni :D
@@ -30,6 +35,9 @@ void PlasmaGunAction::ShootAlt()
 {
 	if(!mActor)return;
 	if(mCooldown!=0.0)return;
+	//--temporary--
+	AudioPlayer::Get().Play("sounds/plasmagunSecondary.ogg",AudioFile::Effect);
+	//-------------
 	mCooldown=100.0;
 
 
