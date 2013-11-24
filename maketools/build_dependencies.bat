@@ -40,12 +40,12 @@ if /i "%MSVS_VER%" == "vs100" (
 if /i "%MSVS_VER%" == "vs110" (
 	set GENERATOR_NAME="Visual Studio 11"
 	set "B2_TOOLSET=msvc-11.0"
-	set XIPH_FOLDER="VS2011"
+	set XIPH_FOLDER="VS2010"
 )
 if /i "%MSVS_VER%" == "vs120" (
 	set GENERATOR_NAME="Visual Studio 12"
 	set "B2_TOOLSET=msvc-12.0"
-	set XIPH_FOLDER="VS2012"
+	set XIPH_FOLDER="VS2010"
 )
 
 if %GENERATOR_NAME%=="" (
@@ -103,6 +103,7 @@ copy scripts\pnglibconf.h.prebuilt pnglibconf.h
 cd %PWD%
 cd ..\deps\libogg-1.3.1\win32
 cd %XIPH_FOLDER%
+%DEVENV% vorbis_static.sln /upgrade
 %DEVENV% libogg_static.sln /Build "Debug"
 %DEVENV% libogg_static.sln /Build "Release"
 mkdir ..\..\lib
@@ -114,6 +115,7 @@ copy Win32\Release\libogg_static.lib ..\..\lib\release
 cd %PWD%
 cd ..\deps\libvorbis-1.3.3\win32
 cd %XIPH_FOLDER%
+%DEVENV% vorbis_static.sln /upgrade
 %DEVENV% vorbis_static.sln /Build "Debug"
 %DEVENV% vorbis_static.sln /Build "Release"
 mkdir ..\..\bin
@@ -129,6 +131,7 @@ mkdir build_dir
 cd build_dir
 %CMAKE_CMD% ..
 echo #define PA_WDMKS_NO_KSGUID_LIB >> options_cmake.h
+%DEVENV% vorbis_static.sln /upgrade
 %DEVENV% portaudio.sln /Build "Debug"
 %DEVENV% portaudio.sln /Build "Release"
 copy options_cmake.h ..\include\pa_options_cmake.h
