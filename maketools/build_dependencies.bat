@@ -66,6 +66,7 @@ set BASEDIR=%PWD%\..
 echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
 set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
+goto Build_Portaudio
 :Build_Boost
 cd %BASEDIR%\deps\boost_1_54_0
 call bootstrap.bat
@@ -103,7 +104,7 @@ copy scripts\pnglibconf.h.prebuilt pnglibconf.h
 cd %PWD%
 cd ..\deps\libogg-1.3.1\win32
 cd %XIPH_FOLDER%
-%DEVENV% vorbis_static.sln /upgrade
+%DEVENV% libogg_static.sln /upgrade
 %DEVENV% libogg_static.sln /Build "Debug"
 %DEVENV% libogg_static.sln /Build "Release"
 mkdir ..\..\lib
@@ -131,7 +132,7 @@ mkdir build_dir
 cd build_dir
 %CMAKE_CMD% ..
 echo #define PA_WDMKS_NO_KSGUID_LIB >> options_cmake.h
-%DEVENV% vorbis_static.sln /upgrade
+%DEVENV% portaudio.sln /upgrade
 %DEVENV% portaudio.sln /Build "Debug"
 %DEVENV% portaudio.sln /Build "Release"
 copy options_cmake.h ..\include\pa_options_cmake.h
