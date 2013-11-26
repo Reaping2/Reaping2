@@ -12,6 +12,7 @@ ActionRepo::ActionRepo()
 	mFactory.Bind<BodyMoveAction>(AutoId("body_move"));
 	mFactory.Bind<BodyIdleAction>(AutoId("body_idle"));
 	mFactory.Bind<IdleAction>(AutoId("idle"));
+	mFactory.Bind<DeathAction>(AutoId("death"));
 //	mFactory.Bind<PlasmaGunAction>(AutoId("plasma_gun"));
 
 	Factory<Item>::Get().Bind<DefaultItem>(AutoId("default_item"));

@@ -19,10 +19,9 @@ void DefaultModel::Draw(Actor const& Object)const
 	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
 		Action const& Act=*i;
-		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
-		Sprite const& sprite = mRenderableRepo(Object.GetId())(Act.GetId());
-		if(!sprite.IsValid()) continue;
-		SpritePhase const& Phase=mRenderableRepo(Object.GetId())(Act.GetId())((int32_t)Act.GetState());
+		Sprite const& Spr=mRenderableRepo(Object.GetId())(Act.GetId());
+		if(!Spr.IsValid()) continue;
+		SpritePhase const& Phase=Spr((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
 		glBindTexture(GL_TEXTURE_2D, Phase.TexId);
 		glBegin(GL_QUADS);
@@ -54,4 +53,3 @@ DefaultModel::~DefaultModel()
 {
 
 }
-

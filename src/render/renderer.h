@@ -11,6 +11,7 @@ class Renderer : public Singleton<Renderer>
 	Projection mUiProjector;
 	Camera& mCamera;
 	Root mUiRoot;	//todo uimgr, vagy root singleton
+	SceneRenderer mSceneRenderer;
 
 	Registration mMouseMoveId;
 	Registration mMousePressId;

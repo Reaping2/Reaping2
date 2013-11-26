@@ -1,10 +1,13 @@
-#include "i_core.h"//
+#include "i_core.h"
 
-void Actor::Update(double Seconds)
+void Actor::DoControlling(double Seconds)
 {
 	if(mController.get())
 		mController->Update(Seconds);
-	// Controller->Update might change the actions!
+}
+
+void Actor::Update(double Seconds)
+{
 	for(ActionList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
 		i->Update(Seconds);
 	for(ItemList_t::iterator i=mItems.begin(),e=mItems.end();i!=e;++i)
@@ -125,8 +128,7 @@ bool Actor::IsAlive()const
 void Actor::UpdateLifetime()
 {
 	if(IsAlive())return;
-	// todo: set death action
-	mActions.clear();
+	AddAction(AutoId("death"));
 	mFields[COLLISION_CLASS].i=CollisionClass::No_Collision;
 	mController.reset();
 }
@@ -139,3 +141,14 @@ void Actor::TakeDamage( int32_t Damage )
 {
 	mFields[HP].i-=Damage;
 }
+
+void Actor::UpdateProjections()
+{
+	const double spd=GetSpeed();
+	const double h=GetHeading();
+	const double c=cos(h);
+	const double s=sin(h);
+	mFields[SPEED_X].d=c*spd;
+	mFields[SPEED_Y].d=s*spd;
+}
+

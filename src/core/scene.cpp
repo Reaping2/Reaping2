@@ -8,22 +8,25 @@ void Scene::AddActor( Actor* Object )
 
 void Scene::Update( double DeltaTime )
 {
+	for(ActorList_t::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
+		it->DoControlling(DeltaTime);
 	static const uint32_t Collisions[]={
-		0,																						// no collision
-		1<<CollisionClass::Creep | 1<<CollisionClass::Mine | CollisionClass::Player,			// projectile
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Mine | 1<<CollisionClass::Player,	// creep
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep,								// mine
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player,	// player
+		0,																												// no collision
+		1<<CollisionClass::Creep | 1<<CollisionClass::Mine | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,		// projectile
+		1<<CollisionClass::Projectile | 1<<CollisionClass::Mine | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,	// creep
+		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Wall,								// mine
+		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,	// player
+		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Mine | 1<<CollisionClass::Player,	// wall
 	};
 	for(ActorList_t::iterator it1=mAllActors.begin(),e1=mAllActors.end();it1!=e1;++it1)
 	{
-		for(ActorList_t::iterator it2=mAllActors.begin(),e2=mAllActors.end();it2!=e2;++it2)
+		for(ActorList_t::iterator it2=it1;it2!=e1;++it2)
 		{
+			if(it1==it2)continue;
 			Actor& A=*it1;
 			Actor& B=*it2;
 			if(!(Collisions[A.GetCC()]&(1<<B.GetCC())))continue;
 			CollisionModel const& CollModel=mCollisionStore.GetCollisionModel(A.GetCC(),B.GetCC());
-			if(&A==&B)continue;
 			if(!CollModel.AreActorsColliding(A,B,DeltaTime))continue;
 			A.Collide(B);
 			B.Collide(A);
@@ -38,8 +41,9 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-: mDimensions(-1,-1,1,1)
+: mDimensions(-2,-2,2,2)
 , mCollisionStore(CollisionStore::Get())
+, mTypeId(0)
 {
 }
 
@@ -53,5 +57,15 @@ Scene::~Scene()
 	mAllActors.splice(mAllActors.end(),mNewActors);
 	while(!mAllActors.empty())
 		delete &mAllActors.front();
+}
+
+void Scene::SetType( std::string const& Type )
+{
+	mTypeId=AutoId(Type);
+}
+
+int32_t Scene::GetTypeId() const
+{
+	return mTypeId;
 }
 

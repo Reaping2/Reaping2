@@ -36,6 +36,7 @@ bool Renderer::Render()
 
 	// render world
 	SetupRenderer(mWorldProjector);
+	mSceneRenderer.Draw(Scene::Get());
 	RenderActors(false);
 	RenderActors(true);
 

@@ -20,7 +20,8 @@
 				"animations":
 				[
 					{"name":"idle","start_x":0,"start_y":100,"num_phases":6},
-					{"name":"move","start_x":0,"start_y":100,"num_phases":6}
+					{"name":"move","start_x":0,"start_y":100,"num_phases":6},
+					{"name":"death","start_x":600,"start_y":100,"num_phases":4}
 				]
 			}
 		]
@@ -82,7 +83,7 @@
 				"h":1401,
 				"animations":
 				[
-					{"name":"idle","start_x":0,"start_y":0,"num_phases":1}
+					{"name":"default_action","start_x":0,"start_y":0,"num_phases":1}
 				]
 			}
 		]
@@ -98,6 +99,36 @@
 				"animations":
 				[
 					{"name":"move","start_x":0,"start_y":0,"num_phases":1}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/speyeder_rip.png",
+		"actor_visuals":
+		[
+			{
+				"name":"pok1",
+				"w":100,
+				"h":100,
+				"animations":
+				[
+					{"name":"death","start_x":0,"start_y":0,"num_phases":5}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/brick1.png",
+		"actor_visuals":
+		[
+			{
+				"name":"wall",
+				"w":200,
+				"h":200,
+				"animations":
+				[
+					{"name":"default_action","start_x":0,"start_y":0,"num_phases":1}
 				]
 			}
 		]

@@ -9,6 +9,7 @@ struct CollisionClass
 		Creep,
 		Mine,
 		Player,
+		Wall,
 		Num_Classes,
 	};
 };
@@ -48,7 +49,6 @@ protected:
 		HP_DEAD=-1,
 	};
 
-
 	Factory<Action>& mActionFactory;
 	ActionList_t mActions;
 	Action * mDefaultAction;
@@ -61,20 +61,13 @@ protected:
 	Field_t mFields[NUM_FIELDS];
 	std::auto_ptr<Controller> mController;
 
-	void UpdateProjections()
-	{
-		const double spd=GetSpeed();
-		const double h=GetHeading();
-		const double c=cos(h);
-		const double s=sin(h);
-		mFields[SPEED_X].d=c*spd;
-		mFields[SPEED_Y].d=s*spd;
-	}
+	void UpdateProjections();
 public:
 	Actor(std::string const& Name);
 	virtual ~Actor();
 	virtual void Collide(Actor& Other);
 	virtual void ClipScene();
+	virtual void DoControlling(double Seconds);
 	virtual void Update(double Seconds);
 	virtual void UpdateLifetime();
 	virtual void TakeDamage(int32_t Damage);

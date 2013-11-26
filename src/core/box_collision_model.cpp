@@ -7,33 +7,39 @@ bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB
 	// BSize: (0,0)
 	glm::vec2 ASize(ObjA.GetRadius()+ObjB.GetRadius(),ObjA.GetRadius()+ObjB.GetRadius());
 	// on point check
-	if(std::abs(B.x)<ASize.x&&std::abs(B.y)<ASize.y)
+	static const float Epsilon=std::numeric_limits<float>::epsilon()*100;
+	if(std::abs(B.x)+Epsilon<ASize.x&&std::abs(B.y)+Epsilon<ASize.y)
 		return true;
-	// slow movement, don't sweep
-	//if(ObjA.GetSpeed()<10&&ObjB.GetSpeed()<10)
-	//	return false;
-	// sweep
 	glm::vec2 Spd(ObjB.GetSpeedX()-ObjA.GetSpeedX(),ObjB.GetSpeedY()-ObjA.GetSpeedY());
 	glm::vec2 T1minusB=ASize-B;
 	glm::vec2 T2minusB=-ASize-B;
 	glm::vec2 MinTimes(std::numeric_limits<float>::max());
-	glm::vec2 MaxTimes(std::numeric_limits<float>::min());
+	glm::vec2 MaxTimes(-std::numeric_limits<float>::max());
 	static const size_t Dim=2;
 	for(size_t i=0;i<Dim;++i)
 	{
-		if(std::abs(Spd[i])<=std::numeric_limits<float>::epsilon())
+		if(std::abs(Spd[i])<=Epsilon)
+		{	// one dim speed is zero
+			if(std::abs(B[i])>ASize[i])continue;
+			MinTimes[i]=0;
+			MaxTimes[i]=(float)Dt;
 			continue;
+		}
 		float d1=T1minusB[i]/Spd[i];
 		float d2=T2minusB[i]/Spd[i];
-		MinTimes[i]=std::min<float>(d1,d2);
-		MaxTimes[i]=std::max<float>(d1,d2);
+		float mi=std::min<float>(d1,d2);
+		float ma=std::max<float>(d1,d2);
+		if(ma<=Epsilon)
+		{	// if maxtime is 0/negative, then we're already past the other object, no collision (handle edge cases)
+			ma=-1;
+			mi=-1;
+		}
+		MinTimes[i]=mi;
+		MaxTimes[i]=ma;
 	}
 	double MinTime=glm::compMax(MinTimes);
 	double MaxTime=glm::compMin(MaxTimes);
 
-
-	bool const SweepResult=MinTime>0&&MinTime<MaxTime&&MaxTime<Dt;
-	if(SweepResult)
-		L2("Sweep result %d\n",SweepResult);
+	bool const SweepResult=MinTime>=0&&MinTime<=MaxTime&&MinTime<=Dt;
 	return SweepResult;
 }

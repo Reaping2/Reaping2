@@ -20,4 +20,5 @@
 #include "uimodel_repo.h"
 #include "projection.h"
 #include "camera.h"
+#include "scene_renderer.h"
 #include "renderer.h"

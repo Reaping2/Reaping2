@@ -25,3 +25,5 @@
 #include "target_player_controller.h"
 #include "empty_collision_model.h"
 #include "box_collision_model.h"
+#include "death_action.h"
+#include "wall.h"
