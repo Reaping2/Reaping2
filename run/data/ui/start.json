@@ -14,9 +14,9 @@
 			"children":[
 				{
 					"type":"button",
-					"x":0.4,
+					"x":0.35,
 					"y":0.9,
-					"w":0.2,
+					"w":0.3,
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
@@ -31,15 +31,16 @@
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
-							"text":"Start"
+							"text":"Start",
+							"fontsize":6
 						}
 					]
 				},
 				{
 					"type":"button",
-					"x":0.4,
-					"y":0.8,
-					"w":0.2,
+					"x":0.35,
+					"y":0.79,
+					"w":0.3,
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
@@ -54,15 +55,16 @@
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
-							"text":"Resume"
+							"text":"Resume",
+							"fontsize":6
 						}
 					]
 				},
 				{
 					"type":"button",
-					"x":0.4,
-					"y":0.7,
-					"w":0.2,
+					"x":0.35,
+					"y":0.68,
+					"w":0.3,
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
@@ -72,12 +74,13 @@
 							"type":"text_widget",
 							"x":0.0,
 							"y":0.0,
-							"w":0.8,
-							"h":0.8,
+							"w":1.0,
+							"h":1.0,
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
-							"text":"Exit"
+							"text":"Exit",
+							"fontsize":6
 						}
 					]
 				}

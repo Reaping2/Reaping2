@@ -4,6 +4,7 @@ Font::Font()
 : mFirstChar(0)
 , mLastChar(0)
 , mTexId(0)
+, mMaxHeight(0)
 {
 	Load("font.json");
 }
@@ -28,13 +29,18 @@ void Font::Load(std::string const& Path)
 	Characters_t Chars(LastChar.Code-FirstChar.Code+1);
 	Chars[0]=FirstChar.Phase;
 	Chars[Size-1]=LastChar.Phase;
+	mMaxHeight=0;
 	for(int i=1;i<Size-1;++i)
 	{
 		CharDesc Desc;
 		if(!LoadChar(Desc,Tex,Characters[i]))return;
 		assert(Desc.Code>=FirstChar.Code && Desc.Code<=LastChar.Code);
+		GLfloat const Height=Desc.Phase.Bottom-Desc.Phase.Top;
+		if(Height>mMaxHeight)
+			mMaxHeight=Height;
 		Chars[Desc.Code-FirstChar.Code]=Desc.Phase;
 	}
+	if(mMaxHeight<=std::numeric_limits<float>::epsilon())return;
 	mFirstChar=FirstChar.Code;
 	mLastChar=LastChar.Code;
 	using std::swap;
@@ -76,6 +82,11 @@ glm::vec2 Font::GetDim( std::string const& Text ) const
 		Dim.y=std::max<float>(Dim.y,std::abs(Spr.Top-Spr.Bottom));
 	}
 	return Dim;
+}
+
+GLfloat Font::GetFontSize() const
+{
+	return mMaxHeight;
 }
 
 SpritePhase Font::DefaultSprite=SpritePhase();

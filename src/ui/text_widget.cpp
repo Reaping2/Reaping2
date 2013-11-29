@@ -17,4 +17,6 @@ void TextWidget::Init( Json::Value& Descriptor )
 	else
 		operator()(PT_Color)=0;
 	operator()(PT_Text)=Json::GetStr(Descriptor["text"],s)?s:std::string();
+	double d;
+	operator()(PT_FontSize)=Json::GetDouble(Descriptor["fontsize"],d)?d:8.0;
 }

@@ -59,6 +59,7 @@ public:
 		PT_Flagged,
 		PT_Enabled,
 		PT_Text,
+		PT_FontSize,
 		PT_Color,
 	};
 	typedef WidgetIterator const_iterator;	// rename to hierarchy iterator?
