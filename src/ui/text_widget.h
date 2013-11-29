@@ -3,8 +3,10 @@
 
 class TextWidget : public Widget
 {
+	typedef Widget BaseClass;
 public:
-	TextWidget(glm::vec4 const& RelativeDimensions=glm::vec4());
+	TextWidget(int32_t Id);
+	virtual void Init(Json::Value& Descriptor);
 };
 
 #endif//INCLUDED_UI_TEXT_WIDGET_H

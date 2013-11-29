@@ -35,7 +35,7 @@ void Window::Destroy()
 
 bool Window::Run()
 {
-	if(!mWindow||glfwWindowShouldClose(mWindow))
+	if(!mWindow||glfwWindowShouldClose(mWindow)||mExit)
 		return false;
 
 	glfwSwapBuffers(mWindow);
@@ -45,6 +45,8 @@ bool Window::Run()
 
 Window::Window()
 : mWindow(NULL)
+, mExitModel(VoidFunc(this,&Window::Close),"game.exit",&RootModel::Get())
+, mExit(false)
 {
 
 }
@@ -66,5 +68,10 @@ void Window::GetWindowSize( int& Width, int& Height ) const
 		glfwGetFramebufferSize(mWindow, &Width, &Height);
 	else
 		Width=Height=0;
+}
+
+void Window::Close()
+{
+	mExit=true;
 }
 

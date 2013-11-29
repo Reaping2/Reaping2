@@ -20,8 +20,8 @@ void Actor::Collide(Actor& Other)
 
 Actor::Actor(std::string const& Name)
 	:AutoId(Name)
-	,mActionFactory(Factory<Action>::Get())
-	,mItemFactory(Factory<Item>::Get())
+	,mActionFactory(ActionRepo::Get())
+	,mItemFactory(ItemRepo::Get())
 {
 	memset(&mFields,0,NUM_FIELDS*sizeof(Field_t));
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;

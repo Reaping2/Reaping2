@@ -2,21 +2,25 @@
 #include "input/i_input.h"
 
 PlayerController::PlayerController()
-	: mCurrentMovement(0)
-	, mDirty(true)
-	, mMouse(Mouse::Get())
+: mCurrentMovement(0)
+, mDirty(true)
+, mMouse(Mouse::Get())
+, mPlayerModel("player",&RootModel::Get())
 {
 	Keyboard& Keys=Keyboard::Get();
 	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&PlayerController::OnKeyEvent,this,_1));
 	mMouseMoveId=EventServer<WorldMouseMoveEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseMoveEvent,this,_1));
 	mMousePressId=EventServer<WorldMousePressEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMousePressEvent,this,_1));
 	mMouseReleaseId=EventServer<WorldMouseReleaseEvent>::Get().Subscribe(boost::bind(&PlayerController::OnMouseReleaseEvent,this,_1));
-
 }
 
 void PlayerController::SetActor(Actor* Obj)
 {
+	mPlayerModels.clear();
 	Controller::SetActor(Obj);
+	mPlayerModels.push_back(new ModelValue(Obj->GetHP(),"hp",&mPlayerModel));
+	mPlayerModels.push_back(new ModelValue(Obj->GetX(),"x",&mPlayerModel));
+	mPlayerModels.push_back(new ModelValue(Obj->GetY(),"y",&mPlayerModel));
 	mActor->AddItem(AutoId("plasma_gun"));
 }
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
@@ -73,6 +77,7 @@ void PlayerController::Update( double Seconds )
 
 PlayerController::~PlayerController()
 {
+	mPlayerModels.clear();
 }
 
 void PlayerController::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)

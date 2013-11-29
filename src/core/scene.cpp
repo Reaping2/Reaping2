@@ -8,6 +8,8 @@ void Scene::AddActor( Actor* Object )
 
 void Scene::Update( double DeltaTime )
 {
+	if(IsPaused())return;
+
 	for(ActorList_t::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
 		it->DoControlling(DeltaTime);
 	static const uint32_t Collisions[]={
@@ -20,10 +22,11 @@ void Scene::Update( double DeltaTime )
 	};
 	for(ActorList_t::iterator it1=mAllActors.begin(),e1=mAllActors.end();it1!=e1;++it1)
 	{
+		Actor& A=*it1;
+		if(!Collisions[A.GetCC()])continue;
 		for(ActorList_t::iterator it2=it1;it2!=e1;++it2)
 		{
 			if(it1==it2)continue;
-			Actor& A=*it1;
 			Actor& B=*it2;
 			if(!(Collisions[A.GetCC()]&(1<<B.GetCC())))continue;
 			CollisionModel const& CollModel=mCollisionStore.GetCollisionModel(A.GetCC(),B.GetCC());
@@ -44,6 +47,11 @@ Scene::Scene()
 : mDimensions(-2,-2,2,2)
 , mCollisionStore(CollisionStore::Get())
 , mTypeId(0)
+, mPaused(false)
+, mSceneModel("scene",&RootModel::Get())
+, mLoadModel(StringFunc(this,&Scene::Load),"load",&mSceneModel)
+, mPauseModel(VoidFunc(this,&Scene::Pause),"pause",&mSceneModel)
+, mResumeModel(VoidFunc(this,&Scene::Resume),"resume",&mSceneModel)
 {
 }
 
@@ -67,5 +75,31 @@ void Scene::SetType( std::string const& Type )
 int32_t Scene::GetTypeId() const
 {
 	return mTypeId;
+}
+
+void Scene::Load( std::string const& Level )
+{
+	mPaused=false;
+	mAllActors.splice(mAllActors.end(),mNewActors);
+	while(!mAllActors.empty())
+		delete &mAllActors.front();
+
+	SetType("grass");
+	struct point{double x; double y;};
+	const size_t NumPoints=5;
+	const point points[NumPoints]={
+		{-1,-1},{-1,-0.8},{-1,-0.6},{-0.8,-0.6},{-0.6,-0.6},
+	};
+	for(size_t i=0;i<NumPoints;++i)
+	{
+		Wall* wall=new Wall("wall");
+		wall->SetX(points[i].x);
+		wall->SetY(points[i].y);
+		AddActor(wall);
+	}
+
+	Player* Pl=new Player();
+	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
+	AddActor(Pl);
 }
 

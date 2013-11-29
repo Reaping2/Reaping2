@@ -25,6 +25,8 @@ class PlayerController : public Controller
 	Registration mMouseMoveId;
 	Registration mMousePressId;
 	Registration mMouseReleaseId;
+	boost::ptr_vector<ModelValue> mPlayerModels;
+	ModelValue mPlayerModel;
 public:
 	PlayerController();
 	~PlayerController();

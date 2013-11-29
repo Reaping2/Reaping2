@@ -10,6 +10,11 @@ class Scene : public Singleton<Scene>
 	int32_t mTypeId;
 	friend class Singleton<Scene>;
 	Scene();
+	bool mPaused;
+	ModelValue mSceneModel;
+	ModelValue mLoadModel;
+	ModelValue mPauseModel;
+	ModelValue mResumeModel;
 public:
 	~Scene();
 	void SetType(std::string const& Type);
@@ -18,6 +23,10 @@ public:
 	void AddActor(Actor* Object);
 	glm::vec4 const& GetDimensions();
 	const ActorList_t& GetActors() {return mAllActors;}
+	void Load(std::string const& Level);
+	void Pause(){mPaused=true;}
+	void Resume(){mPaused=false;}
+	bool IsPaused()const{return mPaused;}
 };
 
 #endif//INCLUDED_CORE_SCENE_H

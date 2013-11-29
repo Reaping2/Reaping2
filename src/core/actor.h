@@ -49,11 +49,11 @@ protected:
 		HP_DEAD=-1,
 	};
 
-	Factory<Action>& mActionFactory;
+	ActionRepo& mActionFactory;
 	ActionList_t mActions;
 	Action * mDefaultAction;
 
-	Factory<Item>& mItemFactory;
+	ItemRepo& mItemFactory;
 	ItemList_t mItems;
 	Item * mDefaultItem;
 
@@ -78,8 +78,8 @@ public:
 	Item& GetWeapon();
 	Item const& GetWeapon() const;
 
-	double GetX()const{return mFields[X].d;}
-	double GetY()const{return mFields[Y].d;}
+	double const& GetX()const{return mFields[X].d;}
+	double const& GetY()const{return mFields[Y].d;}
 	double GetRadius()const{return mFields[RADIUS].d;}
 	double GetSpeed()const{return mFields[SPEED].d;}
 	double GetSpeedX()const{return mFields[SPEED_X].d;}
@@ -92,7 +92,7 @@ public:
 	Item& GetItem(int32_t Id);
 	Item* AddItem(int32_t Id);
 	void DropAction(int32_t Id);
-	int32_t GetHP()const{return mFields[HP].i;}
+	int32_t const& GetHP()const{return mFields[HP].i;}
 	void SetHP(int32_t Hp){mFields[HP].i=Hp;}
 	int32_t GetGUID()const{return mFields[GUID].i;}
 	CollisionClass::Type GetCC()const{return CollisionClass::Type(mFields[COLLISION_CLASS].i);}

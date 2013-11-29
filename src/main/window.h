@@ -19,9 +19,12 @@ public:
 	bool Run();
 	void Destroy();
 	void GetWindowSize(int& Width, int& Height)const;
+	void Close();
 	//hack
 	GLFWwindow* GetWindow() {return mWindow;}
 private:
+	ModelValue mExitModel;
+	bool mExit;
 	GLFWwindow * mWindow;
 
 	friend class Singleton<Window>;

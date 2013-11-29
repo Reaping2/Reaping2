@@ -10,6 +10,7 @@
 #include <boost/thread/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/atomic.hpp>
+#include <boost/algorithm/string.hpp>
 #include <memory>
 #include <cmath>
 #include <boost/static_assert.hpp>
@@ -44,3 +45,4 @@
 #include "id_storage.h"
 #include "auto_id.h"
 #include "cache.h"
+#include "model_value.h"

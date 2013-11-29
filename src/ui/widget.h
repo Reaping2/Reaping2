@@ -1,7 +1,7 @@
 #ifndef INCLUDED_UI_WIDGET_H
 #define INCLUDED_UI_WIDGET_H
 
-class Widget : public AutoId
+class Widget
 {
 protected:
 	class WidgetIterator
@@ -35,6 +35,7 @@ public:
 			T_Str,
 		};
 		Prop();
+		Prop(Prop const& Other);
 		explicit Prop(int32_t IntVal);
 		explicit Prop(double DoubleVal);
 		explicit Prop(const std::string& StrVal);
@@ -46,6 +47,7 @@ public:
 		Prop& operator=(char const* Buf);
 		Prop& operator=(int32_t I);
 		Prop& operator=(double D);
+		Type_t GetType()const{return Type;}
 		~Prop();
 	private:
 		Type_t Type;
@@ -62,7 +64,7 @@ public:
 	typedef WidgetIterator const_iterator;	// rename to hierarchy iterator?
 	const_iterator begin()const;
 	const_iterator end()const;
-	Widget(glm::vec4 const& RelativeDimensions=glm::vec4(),std::string const& Name="widget");
+	Widget(int32_t Id);
 	virtual ~Widget();
 	void AddChild(Widget* Child);
 	virtual bool AreDimensionsSet()const;
@@ -72,6 +74,9 @@ public:
 	Widget* GetNext()const;	// vagy child_iterator?
 	Prop const& operator()(PropertyType Property)const;
 	Prop& operator()(PropertyType Property);
+	int32_t GetId()const;
+	virtual void Init(Json::Value& Descriptor);
+	virtual bool Trigger(){return false;}
 protected:
 	virtual void UpdateDimensions();
 	virtual void UpdateSelfDimensions();
@@ -85,6 +90,7 @@ protected:
 	Widget* mLastChild;
 	glm::vec4 mRelativeDimensions;
 	glm::vec4 mDimensions;
+	int32_t mTypeId;
 	bool mDimSet;
 	struct PropertyRepo_t : public Repository<Prop>
 	{

@@ -1,11 +1,11 @@
 #include "i_ui.h"
 
-FixedRatioContainer::FixedRatioContainer(double XtoYRatio,HorizontalAlignment::Type HoriAlignment/*=HorizontalAlignment::Left*/, VerticalAlignment::Type VertAlignment/*=VerticalAlignment::Bottom*/)
-: mTargetRatio(XtoYRatio)
-, mHorizontalAlignment(HoriAlignment)
-, mVerticalAlignment(VertAlignment)
+FixedRatioContainer::FixedRatioContainer(int32_t Id)
+: Widget(Id)
+, mTargetRatio(1.0)
+, mHorizontalAlignment(HorizontalAlignment::Left)
+, mVerticalAlignment(VerticalAlignment::Bottom)
 {
-	assert(XtoYRatio>0.00001);
 	mWindowResizeId=EventServer<WindowResizeEvent>::Get().Subscribe(boost::bind(&FixedRatioContainer::OnWindowResizeEvent,this,_1));
 	int w,h;
 	Window::Get().GetWindowSize(w,h);
@@ -54,4 +54,25 @@ void FixedRatioContainer::UpdateSelfDimensions()
 	case VerticalAlignment::Center:mContainedDimensions.y+=DH/2.f;break;
 	default:break;
 	}
+}
+
+void FixedRatioContainer::Init( Json::Value& Descriptor )
+{
+	BaseClass::Init(Descriptor);
+	double d;
+	mTargetRatio=Json::GetDouble(Descriptor["ratio"],d)?d:1.;
+	assert(mTargetRatio>0.00001);
+	std::string s;
+	if(Json::GetStr(Descriptor["align_h"],s))
+	{
+		if(s=="right")mHorizontalAlignment=HorizontalAlignment::Right;
+		else if(s=="center")mHorizontalAlignment=HorizontalAlignment::Center;
+		else mHorizontalAlignment=HorizontalAlignment::Left;
+	}else mHorizontalAlignment=HorizontalAlignment::Left;
+	if(Json::GetStr(Descriptor["align_v"],s))
+	{
+		if(s=="top")mVerticalAlignment=VerticalAlignment::Top;
+		else if(s=="center")mVerticalAlignment=VerticalAlignment::Center;
+		else mVerticalAlignment=VerticalAlignment::Bottom;
+	}else mVerticalAlignment=VerticalAlignment::Bottom;
 }

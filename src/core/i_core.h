@@ -1,5 +1,6 @@
 #include "platform/i_platform.h"
 #include "action_repo.h"
+#include "item_repo.h"
 #include "controller.h"
 #include "actor.h"
 #include "collision_model.h"

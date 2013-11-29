@@ -14,6 +14,18 @@ namespace Json
 		O=V.asUInt();
 		return true;
 	}
+	bool GetInt(Json::Value& V, int32_t& O)
+	{
+		if(!V.isNumeric())return false;
+		O=V.asInt();
+		return true;
+	}
+	bool GetDouble(Json::Value& V, double& O)
+	{
+		if(!V.isNumeric())return false;
+		O=V.asDouble();
+		return true;
+	}
 }
 
 JsonReader::JsonReader( File& F )

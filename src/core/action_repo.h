@@ -3,13 +3,10 @@
 
 class Action;
 class Actor;
-class ActionRepo :public Singleton<ActionRepo>
+class ActionRepo : public Factory<Action>, public Singleton<ActionRepo>
 {
-public:
-	ActionRepo();
-private:
-	Factory<Action>& mFactory;
 	friend class Singleton<ActionRepo>;
+	ActionRepo();
 };
 
 

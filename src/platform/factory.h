@@ -1,29 +1,27 @@
 #ifndef INCLUDED_PLATFORM_FACTORY_H
 #define INCLUDED_PLATFORM_FACTORY_H
 template<typename Return_T>
-class Factory : public Singleton< Factory<Return_T> >
+class Factory
 {
-	friend class Singleton< Factory<Return_T> >;
 public:
+	virtual Return_T * operator()(int32_t Id) const;
+	virtual Return_T * operator()(int32_t Id);	// lazy load
+protected:
 	typedef typename Factory<Return_T> FactoryBase;
 	typedef boost::function<Return_T*(int32_t)> Functor_t;
 	typedef std::map<int32_t, Functor_t> ElementMap_t;
-
 	template<typename Elem_T>
 	void Bind( int32_t Id )
 	{
 		BOOST_STATIC_ASSERT_MSG(
-		(boost::is_base_of<Return_T, Elem_T>::value),
-		"Elem_T must be a descendant of Return_T"
-		);
+			(boost::is_base_of<Return_T, Elem_T>::value),
+			"Elem_T must be a descendant of Return_T"
+			);
 		mElements[Id]=boost::bind(&Create<Elem_T>,_1);
 	}
 	void Bind( int32_t Id, Functor_t Functor );
 	void SetDefault( int32_t Id );
 
-	Return_T * operator()(int32_t Id) const;
-	Return_T * operator()(int32_t Id);	// lazy load
-protected:
 	Functor_t mDefaultElement;
 	ElementMap_t mElements;
 	template<typename Elem_T>

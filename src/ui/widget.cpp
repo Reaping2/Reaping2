@@ -52,8 +52,8 @@ void Widget::AddChild(Widget* Child)
 	Child->UpdateChildrenDimensions();
 }
 
-Widget::Widget(glm::vec4 const& RelativeDimensions, std::string const& Name)
-: AutoId(Name)
+Widget::Widget(int32_t Id)
+: mTypeId(Id)
 , mZOrder(0)
 , mParent(NULL)
 , mNext(NULL)
@@ -61,10 +61,9 @@ Widget::Widget(glm::vec4 const& RelativeDimensions, std::string const& Name)
 , mFirstChild(NULL)
 , mLastChild(NULL)
 , mDimSet(false)
-, mRelativeDimensions(RelativeDimensions)
+, mRelativeDimensions(0,0,1,1)
 {
 	operator()(PT_Flagged)=0;
-	operator()(PT_Visible)=0;
 }
 
 Widget::~Widget()
@@ -182,6 +181,33 @@ Widget::Prop& Widget::operator()( PropertyType Property )
 	return mProperties.Mutable(Property);
 }
 
+void Widget::Init( Json::Value& Descriptor )
+{
+	double d;
+	mRelativeDimensions.x=Json::GetDouble(Descriptor["x"],d)?d:0;
+	mRelativeDimensions.y=Json::GetDouble(Descriptor["y"],d)?d:0;
+	mRelativeDimensions.z=Json::GetDouble(Descriptor["w"],d)?d:0;
+	mRelativeDimensions.w=Json::GetDouble(Descriptor["h"],d)?d:0;
+	int32_t i;
+	operator()(PT_Enabled)=Json::GetInt(Descriptor["enabled"],i)?i:0;
+	operator()(PT_Visible)=Json::GetInt(Descriptor["visible"],i)?i:0;
+	Json::Value& Children=Descriptor["children"];
+	if(!Children.isArray()||!Children.size())return;
+	WidgetFactory& Fact(WidgetFactory::Get());
+	for(Json::Value::iterator i=Children.begin(),e=Children.end();i!=e;++i)
+	{
+		std::string Str;
+		if(!Json::GetStr((*i)["type"],Str))continue;
+		Widget* wdg=Fact(Str,*i);
+		AddChild(wdg);
+	}
+}
+
+int32_t Widget::GetId() const
+{
+	return mTypeId;
+}
+
 Widget::Prop::Prop()
 :Type(T_Null)
 {
@@ -204,6 +230,13 @@ Widget::Prop::Prop( const std::string& StrVal )
 :Type(T_Str)
 {
 	Init(StrVal);
+}
+
+Widget::Prop::Prop( Prop const& Other )
+:Type(Other.Type)
+{
+	if(Type==T_Str)
+		Init(std::string(Other.Value.ToStr));
 }
 
 Widget::Prop::~Prop()

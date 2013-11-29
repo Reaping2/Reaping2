@@ -35,31 +35,6 @@ public:
 		}
 	}
 };
-
-Registration PopulateSceneId;
-void PopulateScene()
-{
-	PopulateSceneId.Unregister();
-	Scene& Scen=Scene::Get();
-	Scen.SetType("grass");
-	struct point{double x; double y;};
-	const size_t NumPoints=5;
-	const point points[NumPoints]={
-		{-1,-1},{-1,-0.8},{-1,-0.6},{-0.8,-0.6},{-0.6,-0.6},
-	};
-	for(size_t i=0;i<NumPoints;++i)
-	{
-		Wall* wall=new Wall("wall");
-		wall->SetX(points[i].x);
-		wall->SetY(points[i].y);
-		Scen.AddActor(wall);
-	}
-
-	Player* Pl=new Player();
-	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
-	Scen.AddActor(Pl);
-	PerfTimer.Log("scene pop");
-}
 }
 
 int main()
@@ -67,6 +42,7 @@ int main()
 	Window& Wnd=Window::Get();	// ez legyen az elejen
 	if(!Wnd.Create(640,480,"Reaping2"))
 		return -1;
+	RootModel::Get();
 	EventServer<PhaseChangedEvent>& PhaseChangeEventServer(EventServer<PhaseChangedEvent>::Get());
 	PhaseChangeEventServer.SendEvent(PhaseChangedEvent(ProgramPhase::Startup));
 	PerfTimer.Log("wnd");
@@ -86,7 +62,6 @@ int main()
 	double Prevtime,Curtime;
 	Prevtime=Curtime=glfwGetTime();
 	FrameCounter Counter;
-	PopulateSceneId=Timers.AddTimer(Timer::TimerCallback(&PopulateScene),0.5);
 	PhaseChangeEventServer.SendEvent(PhaseChangedEvent(ProgramPhase::Running));
 	EventServer<CycleEvent>& CycleEventServer(EventServer<CycleEvent>::Get());
 	while(true)

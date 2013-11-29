@@ -25,8 +25,10 @@ struct VerticalAlignment
 
 class FixedRatioContainer : public Widget
 {
+	typedef Widget BaseClass;
 public:
-	FixedRatioContainer(double XtoYRatio,HorizontalAlignment::Type HoriAlignment=HorizontalAlignment::Left, VerticalAlignment::Type VertAlignment=VerticalAlignment::Bottom);
+	FixedRatioContainer(int32_t Id);
+	virtual void Init(Json::Value& Descriptor);
 protected:
 	HorizontalAlignment::Type mHorizontalAlignment;
 	VerticalAlignment::Type mVerticalAlignment;

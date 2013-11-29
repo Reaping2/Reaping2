@@ -1,6 +1,10 @@
 #include "platform/i_platform.h"
+#include "input/i_input.h"
 
 #include "widget.h"
 #include "text_widget.h"
 #include "root.h"
 #include "fixed_ratio_container.h"
+#include "button.h"
+#include "widget_factory.h"
+#include "ui.h"

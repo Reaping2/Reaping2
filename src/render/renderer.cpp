@@ -4,6 +4,7 @@ Renderer::Renderer()
 : mWorldProjector(-1.0f,1.0f)
 , mUiProjector(0.0f,100.0f,Projection::VM_Fixed)
 , mCamera(Camera::Get())
+, mUi(Ui::Get())
 {
 	Font::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
@@ -33,6 +34,7 @@ void Renderer::RenderActors(bool Alive)
 bool Renderer::Render()
 {
 	if(!BeginRender()) return false;
+	mCamera.Update();
 
 	// render world
 	SetupRenderer(mWorldProjector);
@@ -43,7 +45,7 @@ bool Renderer::Render()
 	// render ui
 	SetupRenderer(mUiProjector);
 
-	for(Widget::const_iterator i=mUiRoot.begin(),e=mUiRoot.end();i!=e;++i)
+	for(Widget::const_iterator i=mUi.GetRoot().begin(),e=mUi.GetRoot().end();i!=e;++i)
 	{
 		static UiModelRepo const& UiModels(UiModelRepo::Get());
 		Widget const& Wdg=*i;
@@ -105,16 +107,6 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 	UiMousePressEvent UiEvt(glm::vec2(UiEvtPos.x,UiEvtPos.y),Event.Button);
 	if(EventServer<UiMousePressEvent>::Get().SendEvent(UiEvt))return;
 
-	//todo: event feliratkozas, aztan v a root singleton, vagy a uimgr hivja
-	Widget* Wdg=mUiRoot.GetHit(UiEvt.Pos);
-	if(Wdg)
-	{
-		bool Flagged=!!(int32_t)(*Wdg)(Widget::PT_Flagged);
-		(*Wdg)(Widget::PT_Flagged)=Flagged?0:1;
-		(*Wdg)(Widget::PT_Color)=Flagged?0x770000:0xff0000;
-		return;
-	}
-
 	glm::vec3 WorldEvtPos(mCamera.GetInverseView()*glm::vec4(mWorldProjector.Unproject(EvtPos),1.0));
 	WorldMousePressEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y),Event.Button);
 	EventServer<WorldMousePressEvent>::Get().SendEvent(WorldEvt);
@@ -123,6 +115,10 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
 void Renderer::OnMouseReleaseEvent(const ScreenMouseReleaseEvent& Event)
 {
 	glm::vec3 EvtPos(Event.Pos.x,Event.Pos.y,0);
+	glm::vec3 UiEvtPos=mUiProjector.Unproject(EvtPos);
+	UiMouseReleaseEvent UiEvt(glm::vec2(UiEvtPos.x,UiEvtPos.y),Event.Button);
+	if(EventServer<UiMouseReleaseEvent>::Get().SendEvent(UiEvt))return;
+
 	glm::vec3 WorldEvtPos(mCamera.GetInverseView()*glm::vec4(mWorldProjector.Unproject(EvtPos),1.0));
 	WorldMouseReleaseEvent WorldEvt(glm::vec2(WorldEvtPos.x,WorldEvtPos.y),Event.Button);
 	EventServer<WorldMouseReleaseEvent>::Get().SendEvent(WorldEvt);
