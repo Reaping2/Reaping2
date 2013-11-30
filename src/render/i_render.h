@@ -18,6 +18,7 @@
 #include "uimodel.h"
 #include "text_uimodel.h"
 #include "uimodel_repo.h"
+#include "bar_model.h"
 #include "projection.h"
 #include "camera.h"
 #include "scene_renderer.h"

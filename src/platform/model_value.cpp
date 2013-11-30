@@ -154,7 +154,17 @@ ModelValue::operator double() const
 
 ModelValue::operator std::string() const
 {
-	if(mType==Mt_String) return *(mValue.s);
+	switch(mType)
+	{
+	case Mt_String:
+		return *(mValue.s);
+	case Mt_Int:
+		return boost::lexical_cast<std::string>(*mValue.i);
+	case Mt_Double:
+		return boost::lexical_cast<std::string>(*mValue.d);
+	default:
+		break;
+	}
 	OBSERVABLE_ASSERT(false);
 	return std::string();
 }

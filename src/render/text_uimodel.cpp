@@ -24,8 +24,8 @@ void TextUiModel::Draw( const Widget& Wdg )const
 	}while(true);
 	RequiredSize.x/=TexDim.x;
 	glNormal3f(0.0, 0.0, 1.0);
-	uint32_t Color=(int32_t)(Wdg(Widget::PT_Color));
-	glColor3ub((Color>>16)&0xff,(Color>>8)&0xff,Color&0xff);
+	uint32_t Color=(int32_t)(Wdg(Widget::PT_Highlight))?(int32_t)(Wdg(Widget::PT_HighlightColor)):(int32_t)(Wdg(Widget::PT_Color));
+	glColor4ub((Color>>24)&0xff,(Color>>16)&0xff,(Color>>8)&0xff,Color&0xff);
 	glBindTexture(GL_TEXTURE_2D,Fnt.GetTexId());
 	glBegin(GL_QUADS);	// UiModel QUADokat rajzol, igy egy begin-end-be beleferhetnenk akar
 	for(std::string::const_iterator i=Buf.begin(),e=Buf.end();i!=e;++i)

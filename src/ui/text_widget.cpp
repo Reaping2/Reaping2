@@ -8,8 +8,6 @@ TextWidget::TextWidget(int32_t Id)
 void TextWidget::Init( Json::Value& Descriptor )
 {
 	BaseClass::Init(Descriptor);
-	std::string s;
-	operator()(PT_Text)=Json::GetStr(Descriptor["text"],s)?s:std::string();
-	double d;
-	operator()(PT_FontSize)=Json::GetDouble(Descriptor["fontsize"],d)?d:8.0;
+	ParseStrProp(PT_Text,Descriptor["text"],"");
+	ParseDoubleProp(PT_FontSize,Descriptor["fontsize"],8.0);
 }

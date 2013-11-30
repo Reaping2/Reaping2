@@ -191,7 +191,7 @@ int32_t Widget::ParseColor(Json::Value& Color,int32_t Default)
 	{
 		size_t const h=s.find('x');
 		if(s.size()<=6&&h==std::string::npos||
-			s.size()<=8&&h==2)
+			s.size()<=8&&h==1)
 		{
 			// make it rgba
 			i=(i<<8)|0xff;
@@ -213,8 +213,8 @@ void Widget::Init( Json::Value& Descriptor )
 	int32_t i=ParseColor(Descriptor["color"],DefaultColor);
 	operator()(PT_Color)=i;
 	operator()(PT_HighlightColor)=ParseColor(Descriptor["highlight_color"],i);
-	operator()(PT_Enabled)=Json::GetInt(Descriptor["enabled"],i)?i:0;
-	operator()(PT_Visible)=Json::GetInt(Descriptor["visible"],i)?i:0;
+	ParseIntProp(PT_Enabled,Descriptor["enabled"],0);
+	ParseIntProp(PT_Visible,Descriptor["visible"],0);
 	Json::Value& Children=Descriptor["children"];
 	if(!Children.isArray()||!Children.size())return;
 	WidgetFactory& Fact(WidgetFactory::Get());
@@ -230,6 +230,39 @@ void Widget::Init( Json::Value& Descriptor )
 int32_t Widget::GetId() const
 {
 	return mTypeId;
+}
+
+void Widget::ParseIntProp( PropertyType Pt, Json::Value& Val, int32_t Default )
+{
+	if(Val.isString())
+	{
+		operator()(Pt)=Val.asString();
+		assert(operator()(Pt).IsModelValue());
+	}
+	else
+	{
+		int32_t i;
+		operator()(Pt)=Json::GetInt(Val,i)?i:Default;
+	}
+}
+
+void Widget::ParseDoubleProp( PropertyType Pt, Json::Value& Val, double Default )
+{
+	if(Val.isString())
+	{
+		operator()(Pt)=Val.asString();
+		assert(operator()(Pt).IsModelValue());
+	}
+	else
+	{
+		double d;
+		operator()(Pt)=Json::GetDouble(Val,d)?d:Default;
+	}
+}
+
+void Widget::ParseStrProp( PropertyType Pt, Json::Value& Val, std::string const& Default )
+{
+	operator()(Pt)=Val.isString()?Val.asString():Default;
 }
 
 Widget::Prop::Prop()
@@ -277,12 +310,14 @@ Widget::Prop::operator char const*() const
 
 Widget::Prop::operator int32_t() const
 {
+	if(IsModelValue())return(int32_t)ResolveModel();
 	assert(Type==T_Int||Type==T_Double);
 	return (Type==T_Int)?Value.ToInt:(Type==T_Double?int32_t(Value.ToDouble):0);
 }
 
 Widget::Prop::operator double() const
 {
+	if(IsModelValue())return(double)ResolveModel();
 	assert(Type==T_Int||Type==T_Double);
 	return (Type==T_Double)?Value.ToDouble:(Type==T_Int?double(Value.ToInt):0.0);
 }
@@ -343,7 +378,19 @@ void Widget::Prop::Cleanup()
 
 Widget::Prop::operator std::string() const
 {
+	if(IsModelValue())return(std::string)ResolveModel();
 	return std::string(operator char const*());
+}
+
+bool Widget::Prop::IsModelValue() const
+{
+	return Type==T_Str&&Value.ToStr&&*Value.ToStr=='%';
+}
+
+ModelValue const& Widget::Prop::ResolveModel() const
+{
+	assert(IsModelValue());
+	return RootModel::Get()[Value.ToStr+1];
 }
 
 Widget::PropertyRepo_t::PropertyRepo_t()

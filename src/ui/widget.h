@@ -40,7 +40,6 @@ public:
 		explicit Prop(double DoubleVal);
 		explicit Prop(const std::string& StrVal);
 		operator std::string()const;
-		operator char const*()const;
 		operator int32_t()const;
 		operator double()const;
 		Prop& operator=(std::string const& Str);
@@ -48,11 +47,14 @@ public:
 		Prop& operator=(int32_t I);
 		Prop& operator=(double D);
 		Type_t GetType()const{return Type;}
+		bool IsModelValue()const;
 		~Prop();
 	private:
 		Type_t Type;
+		operator char const*()const;
 		void Init(std::string const& Str);
 		void Cleanup();
+		ModelValue const& ResolveModel()const;
 	};
 	enum PropertyType {
 		PT_Visible,
@@ -62,6 +64,8 @@ public:
 		PT_FontSize,
 		PT_Color,
 		PT_HighlightColor,
+		PT_Progress,
+		PT_MaxProgress,
 	};
 	typedef WidgetIterator const_iterator;	// rename to hierarchy iterator?
 	const_iterator begin()const;
@@ -86,6 +90,9 @@ protected:
 	virtual void UpdateSelfDimensions();
 	virtual void UpdateChildrenDimensions();
 	bool IsInside(const glm::vec2& Pos)const;
+	void ParseIntProp(PropertyType Pt, Json::Value& Val, int32_t Default);
+	void ParseDoubleProp(PropertyType Pt, Json::Value& Val, double Default);
+	void ParseStrProp(PropertyType Pt, Json::Value& Val, std::string const& Default);
 	static int32_t ParseColor(Json::Value& Color,int32_t Default);
 	int32_t mZOrder;
 	Widget* mParent;

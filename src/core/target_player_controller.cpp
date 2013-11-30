@@ -1,7 +1,7 @@
 #include "i_core.h"
 
 TargetPlayerController::TargetPlayerController(Actor* player):Controller()
-	,mCounter(2)
+	,mCounter(0.0)
 	,mHeadingModifier(0)
 	,mPlayer(player)
 {
@@ -21,9 +21,21 @@ void TargetPlayerController::Update( double Seconds )
 {
 	if(!mActor)return;
 	if(!mPlayer)return;
-	mCounter+=Seconds;
-	mCounter=0;
-	double Rot=atan2(mPlayer->GetY()-mActor->GetY(),mPlayer->GetX()-mActor->GetX());
+	glm::vec2 const Diff(mPlayer->GetX()-mActor->GetX(),mPlayer->GetY()-mActor->GetY());
+	{ // todo: biteaction
+		double const R=mPlayer->GetRadius()+mActor->GetRadius();
+		if(std::abs(Diff.x)<R&&std::abs(Diff.y)<R)
+		{
+			if(mCounter<=0.0)
+			{
+				mPlayer->TakeDamage(1);
+				mCounter=2.0;
+			}
+		}
+		if(mCounter>=0.0)
+			mCounter-=Seconds;
+	}
+	double Rot=atan2(Diff.y,Diff.x);
 	double Radians=Rot-mActor->GetHeading();
 	static const double pi=boost::math::constants::pi<double>();
 	while (Radians < -pi)
