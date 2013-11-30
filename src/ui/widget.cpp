@@ -63,7 +63,7 @@ Widget::Widget(int32_t Id)
 , mDimSet(false)
 , mRelativeDimensions(0,0,1,1)
 {
-	operator()(PT_Flagged)=0;
+	operator()(PT_Highlight)=0;
 }
 
 Widget::~Widget()
@@ -181,6 +181,27 @@ Widget::Prop& Widget::operator()( PropertyType Property )
 	return mProperties.Mutable(Property);
 }
 
+int32_t Widget::ParseColor(Json::Value& Color,int32_t Default)
+{
+	std::string s;
+	int32_t i;
+	if(Json::GetInt(Color,i))
+		return i;
+	else if(Json::GetStr(Color,s)&&(i=strtoul(s.c_str(),NULL,16)))
+	{
+		size_t const h=s.find('x');
+		if(s.size()<=6&&h==std::string::npos||
+			s.size()<=8&&h==2)
+		{
+			// make it rgba
+			i=(i<<8)|0xff;
+		}
+	}
+	else
+		i=Default;
+	return i;
+}
+
 void Widget::Init( Json::Value& Descriptor )
 {
 	double d;
@@ -188,7 +209,10 @@ void Widget::Init( Json::Value& Descriptor )
 	mRelativeDimensions.y=Json::GetDouble(Descriptor["y"],d)?d:0;
 	mRelativeDimensions.z=Json::GetDouble(Descriptor["w"],d)?d:0;
 	mRelativeDimensions.w=Json::GetDouble(Descriptor["h"],d)?d:0;
-	int32_t i;
+	static const int32_t DefaultColor=0x0000fa77;
+	int32_t i=ParseColor(Descriptor["color"],DefaultColor);
+	operator()(PT_Color)=i;
+	operator()(PT_HighlightColor)=ParseColor(Descriptor["highlight_color"],i);
 	operator()(PT_Enabled)=Json::GetInt(Descriptor["enabled"],i)?i:0;
 	operator()(PT_Visible)=Json::GetInt(Descriptor["visible"],i)?i:0;
 	Json::Value& Children=Descriptor["children"];

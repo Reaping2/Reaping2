@@ -16,6 +16,8 @@ public:
 	Button(int32_t Id);
 	virtual void Init(Json::Value& Descriptor);
 	virtual bool Trigger();
+	virtual void OnMouseEnter();
+	virtual void OnMouseLeave();
 };
 
 #endif//INCLUDED_UI_BUTTON_H

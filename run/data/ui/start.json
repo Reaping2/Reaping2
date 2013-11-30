@@ -20,6 +20,7 @@
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
+					"highlight_color":"0xBCF5EE77",
 					"action":[["scene.load","level1"],["ui.load","hud"]],
 					"children":[
 						{
@@ -44,6 +45,7 @@
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
+					"highlight_color":"0xBCF5EE77",
 					"action":[["scene.resume"],["ui.load","hud"]],
 					"children":[
 						{
@@ -68,6 +70,7 @@
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
+					"highlight_color":"0xBCF5EE77",
 					"action":[["game.exit"]],
 					"children":[
 						{

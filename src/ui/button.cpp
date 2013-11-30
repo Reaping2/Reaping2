@@ -61,3 +61,13 @@ Button::Button( int32_t Id )
 {
 
 }
+
+void Button::OnMouseEnter()
+{
+	operator()(PT_Highlight)=1;
+}
+
+void Button::OnMouseLeave()
+{
+	operator()(PT_Highlight)=0;
+}

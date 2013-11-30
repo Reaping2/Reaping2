@@ -56,11 +56,12 @@ public:
 	};
 	enum PropertyType {
 		PT_Visible,
-		PT_Flagged,
+		PT_Highlight,
 		PT_Enabled,
 		PT_Text,
 		PT_FontSize,
 		PT_Color,
+		PT_HighlightColor,
 	};
 	typedef WidgetIterator const_iterator;	// rename to hierarchy iterator?
 	const_iterator begin()const;
@@ -78,11 +79,14 @@ public:
 	int32_t GetId()const;
 	virtual void Init(Json::Value& Descriptor);
 	virtual bool Trigger(){return false;}
+	virtual void OnMouseEnter(){}
+	virtual void OnMouseLeave(){}
 protected:
 	virtual void UpdateDimensions();
 	virtual void UpdateSelfDimensions();
 	virtual void UpdateChildrenDimensions();
 	bool IsInside(const glm::vec2& Pos)const;
+	static int32_t ParseColor(Json::Value& Color,int32_t Default);
 	int32_t mZOrder;
 	Widget* mParent;
 	Widget* mNext;

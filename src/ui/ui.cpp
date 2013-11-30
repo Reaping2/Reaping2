@@ -2,6 +2,9 @@
 
 void Ui::Load( std::string const& Name )
 {
+	if(mLastEnteredWidget)
+		mLastEnteredWidget->OnMouseLeave();
+	mLastEnteredWidget=NULL;
 	Roots_t::iterator it=mRoots.find(Name);
 	if(mRoots.end()!=it)
 	{
@@ -32,16 +35,17 @@ Ui::Ui()
 : mUiModel("ui",&RootModel::Get())
 , mLoad(StringFunc(this,&Ui::Load),"load",&mUiModel)
 , mActiveRoot(&mEmptyRoot)
+, mLastEnteredWidget(NULL)
 {
 	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&Ui::OnKeyEvent,this,_1));
 	mOnPressId=EventServer<UiMousePressEvent>::Get().Subscribe(boost::bind(&Ui::OnMousePressEvent,this,_1));
 	mOnReleaseId=EventServer<UiMouseReleaseEvent>::Get().Subscribe(boost::bind(&Ui::OnMouseReleaseEvent,this,_1));
+	mOnMoveId=EventServer<UiMouseMoveEvent>::Get().Subscribe(boost::bind(&Ui::OnMouseMoveEvent,this,_1));
 	Load("start");
 }
 
 void Ui::OnMousePressEvent( UiMousePressEvent const& Evt )
 {
-	// todo: highlight?
 	Widget* Wdg=mActiveRoot->GetHit(Evt.Pos);
 	if(!Wdg)return;
 	Evt.SetHandled();
@@ -63,5 +67,18 @@ void Ui::OnKeyEvent( const KeyEvent& Event )
 		RootModel::Get()["scene"]["pause"]();
 		Load("start");
 	}
+}
+
+void Ui::OnMouseMoveEvent( UiMouseMoveEvent const& Evt )
+{
+	Widget* Wdg=mActiveRoot->GetHit(Evt.Pos);
+	if(mLastEnteredWidget==Wdg)
+		return;
+	if(mLastEnteredWidget)
+		mLastEnteredWidget->OnMouseLeave();
+	mLastEnteredWidget=Wdg;
+	if(!mLastEnteredWidget)
+		return;
+	mLastEnteredWidget->OnMouseEnter();
 }
 
