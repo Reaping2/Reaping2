@@ -18,18 +18,18 @@ const Viewport& Projection::GetViewport() const
 
 void Projection::Setup( float bottom,float top,ViewMode vm/*=VM_DynamicRatio*/,float nearVal/*=1.0f*/,float farVal/*=-1.0f*/ )
 {
-	mBottom=bottom;
-	mTop=top;
+	mVisibleRegion.y=bottom;
+	mVisibleRegion.w=top;
 	mViewMode=vm;
 	if(mViewMode==VM_DynamicRatio)
 	{
-		mLeft=mRatio*mBottom;
-		mRight=mRatio*mTop;
+		mVisibleRegion.x=mRatio*mVisibleRegion.y;
+		mVisibleRegion.z=mRatio*mVisibleRegion.w;
 	}
 	else
 	{
-		mLeft=mBottom;
-		mRight=mTop;
+		mVisibleRegion.x=mVisibleRegion.y;
+		mVisibleRegion.z=mVisibleRegion.w;
 	}
 	mNearVal=nearVal;
 	mFarVal=farVal;
@@ -39,7 +39,7 @@ void Projection::Setup( float bottom,float top,ViewMode vm/*=VM_DynamicRatio*/,f
 void Projection::OnWindowResizeEvent(const WindowResizeEvent& Event)
 {
 	Resize(Event.Width,Event.Height);
-	Setup(mBottom,mTop,mViewMode,mNearVal,mFarVal);
+	Setup(mVisibleRegion.y,mVisibleRegion.w,mViewMode,mNearVal,mFarVal);
 }
 
 void Projection::Resize(int Width, int Height)
@@ -54,7 +54,7 @@ void Projection::Resize(int Width, int Height)
 void Projection::SetupMatrices()
 {
 	mViewportTransf=glm::vec4(mViewport.X,mViewport.Y,mViewport.Width,mViewport.Height);
-	mMatrix=glm::ortho(mLeft,mRight,mBottom,mTop,mNearVal,mFarVal);
+	mMatrix=glm::ortho(mVisibleRegion.x,mVisibleRegion.z,mVisibleRegion.y,mVisibleRegion.w,mNearVal,mFarVal);
 	mInverseMatrix=glm::transpose(mMatrix);
 }
 
@@ -65,6 +65,16 @@ Projection::Projection( float bottom,float top,ViewMode vm/*=VM_DynamicRatio*/,f
 	Window::Get().GetWindowSize(w,h);
 	Resize(w,h);
 	Setup(bottom,top,vm,nearVal,farVal);
+}
+
+const glm::vec4& Projection::GetVisibleRegion() const
+{
+	return mVisibleRegion;
+}
+
+float Projection::GetRatio() const
+{
+	return mRatio;
 }
 
 const glm::mat4 Projection::mIdentity=glm::mat4(1.0);

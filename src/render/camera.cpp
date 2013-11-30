@@ -1,8 +1,9 @@
 #include "i_render.h"
 
-Camera::Camera()
+Camera::Camera(Projection const& Proj)
 : mScene(Scene::Get())
 , mAllowedDistance(0.5,0.5)
+, mProjection(Proj)
 {
 }
 
@@ -10,6 +11,13 @@ void Camera::UpdateMatrices()
 {
 	mView=glm::translate(-mCenter.x,-mCenter.y,0.f);
 	mInverseView=glm::inverse(mView);
+}
+
+void Camera::UpdateAllowedCenterRegion()
+{
+	mAllowedCenterRegion=mScene.GetDimensions();
+	glm::vec4 const& VisRegion=mProjection.GetVisibleRegion();
+	mAllowedCenterRegion-=VisRegion;
 }
 
 void Camera::Update()
@@ -24,6 +32,15 @@ void Camera::Update()
 		mCenter.y=(float)py-mAllowedDistance.y;
 	else if(mCenter.y>py+mAllowedDistance.y)
 		mCenter.y=(float)py+mAllowedDistance.y;
+	UpdateAllowedCenterRegion();
+	if(mCenter.x<mAllowedCenterRegion.x)
+		mCenter.x=mAllowedCenterRegion.x;
+	if(mCenter.x>mAllowedCenterRegion.z)
+		mCenter.x=mAllowedCenterRegion.z;
+	if(mCenter.y<mAllowedCenterRegion.y)
+		mCenter.y=mAllowedCenterRegion.y;
+	if(mCenter.y>mAllowedCenterRegion.w)
+		mCenter.y=mAllowedCenterRegion.w;
 	UpdateMatrices();
 }
 

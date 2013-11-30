@@ -20,7 +20,9 @@ public:
 		VM_DynamicRatio,
 	};
 	const glm::mat4& GetMatrix()const;
+	const glm::vec4& GetVisibleRegion()const;
 	const Viewport& GetViewport()const;
+	float GetRatio()const;
 	glm::vec3 Unproject(glm::vec3& Vec) const;
 	Projection(float bottom,float top,ViewMode vm=VM_DynamicRatio,float nearVal=1.0f,float farVal=-1.0f);
 	void Setup(float bottom,float top,ViewMode vm=VM_DynamicRatio,float nearVal=1.0f,float farVal=-1.0f);
@@ -39,10 +41,7 @@ protected:
 
 	float mRatio;
 
-	float mLeft;
-	float mRight;
-	float mBottom;
-	float mTop;
+	glm::vec4 mVisibleRegion;
 	float mNearVal;
 	float mFarVal;
 };

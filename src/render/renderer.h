@@ -9,7 +9,7 @@ class Renderer : public Singleton<Renderer>
 
 	Projection mWorldProjector;
 	Projection mUiProjector;
-	Camera& mCamera;
+	Camera mCamera;
 	Ui& mUi;
 	SceneRenderer mSceneRenderer;
 

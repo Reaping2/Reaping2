@@ -3,7 +3,7 @@
 Renderer::Renderer()
 : mWorldProjector(-1.0f,1.0f)
 , mUiProjector(0.0f,100.0f,Projection::VM_Fixed)
-, mCamera(Camera::Get())
+, mCamera(mWorldProjector)
 , mUi(Ui::Get())
 {
 	Font::Get();
