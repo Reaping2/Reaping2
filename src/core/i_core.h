@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "audible_event.h"
 #include "action_repo.h"
 #include "item_repo.h"
 #include "controller.h"

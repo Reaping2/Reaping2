@@ -22,4 +22,10 @@
 #include "projection.h"
 #include "camera.h"
 #include "scene_renderer.h"
+#include "particle.h"
+#include "particle_engine.h"
 #include "renderer.h"
+
+// bind
+#include "damage_particles.h"
+

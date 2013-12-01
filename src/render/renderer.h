@@ -12,6 +12,7 @@ class Renderer : public Singleton<Renderer>
 	Camera mCamera;
 	Ui& mUi;
 	SceneRenderer mSceneRenderer;
+	ParticleEngine& mParticleEngine;
 
 	Registration mMouseMoveId;
 	Registration mMousePressId;

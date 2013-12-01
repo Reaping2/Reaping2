@@ -123,5 +123,11 @@ public:
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;
 typedef boost::intrusive::list<Actor, AllActorOption_t, boost::intrusive::constant_time_size<false> > ActorList_t;
 
+struct DamageTakenEvent : public Event
+{
+	glm::vec2 const Pos;
+	DamageTakenEvent(double x, double y):Pos(x,y){}
+	DamageTakenEvent(glm::vec2 const& p):Pos(p){}
+};
 
 #endif//INCLUDED_CORE_ACTOR_H

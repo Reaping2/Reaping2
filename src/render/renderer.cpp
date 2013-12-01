@@ -5,6 +5,7 @@ Renderer::Renderer()
 , mUiProjector(0.0f,100.0f,Projection::VM_Fixed)
 , mCamera(mWorldProjector)
 , mUi(Ui::Get())
+, mParticleEngine(ParticleEngine::Get())
 {
 	Font::Get();
 	mMouseMoveId=EventServer<ScreenMouseMoveEvent>::Get().Subscribe(boost::bind(&Renderer::OnMouseMoveEvent,this,_1));
@@ -39,6 +40,7 @@ bool Renderer::Render()
 	// render world
 	SetupRenderer(mWorldProjector);
 	mSceneRenderer.Draw(Scene::Get());
+	mParticleEngine.Draw(ParticleEngine::GroundParticle);
 	RenderActors(false);
 	RenderActors(true);
 

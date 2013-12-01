@@ -140,6 +140,8 @@ Actor::~Actor()
 void Actor::TakeDamage( int32_t Damage )
 {
 	mFields[HP].i-=Damage;
+	if(Damage)
+		EventServer<DamageTakenEvent>::Get().SendEvent(DamageTakenEvent(GetX(),GetY()));
 }
 
 void Actor::UpdateProjections()

@@ -11,9 +11,16 @@ protected:
 	Repository(Element_T const& DefaultElement);
 	virtual ~Repository(){}
 public:
+	virtual bool HasElem(int32_t Id)const;
 	virtual Element_T const& operator()(int32_t Id) const;
 	virtual Element_T const& operator()(int32_t Id);	// lazy load
 };
+
+template<typename Element_T>
+bool Repository<Element_T>::HasElem( int32_t Id ) const
+{
+	return mElements.end()!=mElements.find(Id);
+}
 
 template<typename Element_T>
 Element_T const& Repository<Element_T>::operator()( int32_t Id )

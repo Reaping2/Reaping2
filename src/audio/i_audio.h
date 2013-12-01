@@ -15,4 +15,7 @@
 #include "mixer.h"
 #include "audio_player.h"
 
+// bindings (might very well be placed into another project)
+#include "audio_effect_player.h"
+
 #endif//INCLUDED_AUDIO_I_AUDIO_H
