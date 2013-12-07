@@ -1,24 +1,9 @@
 #include "i_platform.h"
 
 PngTexture::PngTexture(File& F)
-: mWidth(0)
-, mHeight(0)
 {
 	if(F.IsValid())
 		Load(F);
-}
-
-void PngTexture::ConvertRGBtoRGBA(const unsigned char* rgb, int PixelWidth, unsigned char* rgba)
-{
-	for(int x=0;x<PixelWidth;x++)
-	{
-		const unsigned char* pixel_in=&rgb[x*3];
-		unsigned char* pixel_out=&rgba[x*4];
-		pixel_out[0]=pixel_in[0];
-		pixel_out[1]=pixel_in[1];
-		pixel_out[2]=pixel_in[2];
-		pixel_out[3]=0xff;
-	}
 }
 
 bool PngTexture::Load(File& F)
@@ -148,31 +133,6 @@ void PngTexture::EndCallback(png_structp PngPtr, png_infop InfoPtr)
 	Self->mLoadData->mFinished=true;
 }
 
-bool PngTexture::IsValid() const
-{
-	return !!mData.get();
-}
-
-uint8_t const* PngTexture::GetData() const
-{
-	return mData.get();
-}
-
-size_t PngTexture::GetWidth() const
-{
-	return mWidth;
-}
-
-size_t PngTexture::GetHeight() const
-{
-	return mHeight;
-}
-
-size_t PngTexture::GetChannels() const
-{
-	return mChannels;
-}
-
 PngTexture::~PngTexture()
 {
 
@@ -181,7 +141,6 @@ PngTexture::~PngTexture()
 const double PngTexture::mDefaultGamma=2.2;
 const double PngTexture::mInverseGamma=1.0/2.2;
 const double PngTexture::mMaxGamma=21474.83;  // Maximum gamma accepted by png library.
-const size_t PngTexture::mChannels=4;
 
 PngTexture::PngLoadData::PngLoadData()
 : mPngPtr(NULL)

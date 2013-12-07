@@ -24,7 +24,8 @@ class MemoryFile : public File
 	// szal a read performance miatt nem parazok
 public:
 	MemoryFile(size_t PreallocatedBuffers=0);
-	virtual bool Read(std::string& Data, size_t Size);
+	virtual bool Read(void* Dst, size_t Size);
+	virtual bool Read(std::string& Data, size_t Size) {return File::Read(Data,Size);}
 	virtual bool Write(const std::string& Data);
 	virtual size_t GetSize()const;
 	virtual size_t GetPosition()const;

@@ -8,11 +8,10 @@ MemoryFile::MemoryFile(size_t PreallocatedBuffers/*=0*/)
 		mBuffers.resize(PreallocatedBuffers);
 }
 
-bool MemoryFile::Read(std::string& Data, size_t Size)
+bool MemoryFile::Read(void* Data, size_t Size)
 {
 	if(Size>GetSize()-GetPosition())return false;
-	std::string Tmp(Size,'\0');
-	char* p(&Tmp[0]);
+	char* p=(char*)Data;
 	while(Size)
 	{
 		const size_t R=mBuffers[mActBufferId].read(p,Size);
@@ -23,8 +22,6 @@ bool MemoryFile::Read(std::string& Data, size_t Size)
 		if(mActBufferId>=mBuffers.size())
 			return false;
 	}
-	using std::swap;
-	swap(Tmp,Data);
 	return true;
 }
 

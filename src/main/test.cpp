@@ -98,6 +98,34 @@ namespace{
 			VorbisFileCache::Get().Load("sounds/Zap_Beat.ogg");
 		}
 
+		void TestTgaPerf()
+		{
+			AutoFile t1=mPackage->Open("test/desert.tga");
+			AutoFile t2=mPackage->Open("test/poks.tga");
+			AutoFile p1=mPackage->Open("test/desert.png");
+			AutoFile p2=mPackage->Open("test/poks.png");
+			if(!t1.get()||!t2.get()||!p1.get()||!p2.get())return;
+			size_t const Times=100;
+			Timer_t Perf;
+			for(size_t i=0;i<Times;++i)
+			{
+				TgaTexture tt1(*t1);
+				TgaTexture tt2(*t2);
+				t1->SetPosition(0);
+				t2->SetPosition(0);
+			}
+			Perf.Log("TGA done");
+			for(size_t i=0;i<Times;++i)
+			{
+				PngTexture pt1(*p1);
+				PngTexture pt2(*p2);
+				p1->SetPosition(0);
+				p2->SetPosition(0);
+			}
+			Perf.Log("PNG done");
+			// TGA is approximately 10 times faster
+		}
+
 		void TestMain()
 		{
 //			TestUI();
@@ -111,6 +139,7 @@ namespace{
 //			TestJson();
 //			TestRegistrations();
 //			TestVorbisFile();
+			TestTgaPerf();
 		}
 
 		std::auto_ptr<Package> mPackage;

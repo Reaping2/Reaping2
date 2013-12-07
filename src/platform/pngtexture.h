@@ -1,16 +1,11 @@
 #ifndef INCLUDED_PLATFORM_PNGTEXTURE_H
 #define INCLUDED_PLATFORM_PNGTEXTURE_H
 
-class PngTexture
+class PngTexture : public TextureBase
 {
 public:
 	PngTexture(File& F);
 	~PngTexture();
-	size_t GetWidth()const;
-	size_t GetHeight()const;
-	size_t GetChannels()const;
-	uint8_t const* GetData()const;
-	bool IsValid()const;
 private:
 	class PngLoadData
 	{
@@ -25,11 +20,6 @@ private:
 	};
 	std::auto_ptr<PngLoadData> mLoadData;
 
-	size_t mWidth;
-	size_t mHeight;
-	std::auto_ptr<uint8_t> mData;
-
-	static const size_t mChannels;
 	static const double mMaxGamma;
 	static const double mDefaultGamma;
 	static const double mInverseGamma;
@@ -40,7 +30,6 @@ private:
 	static void InfoCallback(png_structp PngPtr, png_infop InfoPtr);
 	static void RowCallback(png_structp PngPtr,png_bytep NewRow,png_uint_32 RowNum,int Pass);
 	static void EndCallback(png_structp PngPtr, png_infop InfoPtr);
-	static void ConvertRGBtoRGBA(const unsigned char* rgb, int PixelWidth, unsigned char* rgba);
 };
 
 #endif//INCLUDED_PLATFORM_PNGTEXTURE_H

@@ -26,16 +26,12 @@ bool OsFile::IsValid() const
 	return mFile.good();
 }
 
-bool OsFile::Read(std::string& Data, size_t Size)
+bool OsFile::Read(void* Data, size_t Size)
 {
 	if(!IsValid())return false;
-	std::string tmp(Size,'\0');
-	mFile.read(&tmp[0],Size);
+	mFile.read((char*)Data,Size);
 	mPosition=mFile.tellg();
-	if(!IsValid())return false;
-	using std::swap;
-	swap(Data,tmp);
-	return true;
+	return IsValid();
 }
 
 bool OsFile::Write(const std::string& Data)

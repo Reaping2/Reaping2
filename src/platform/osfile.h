@@ -11,7 +11,7 @@ class OsFile : public File
 public:
 	OsFile(const boost::filesystem::path& Path, std::ios_base::open_mode OpenMode=std::ios_base::in);
 	~OsFile();
-	virtual bool Read(std::string& Data, size_t Size);
+	virtual bool Read(void* Dst, size_t Size);
 	virtual bool Write(const std::string& Data);
 	virtual bool IsValid()const;
 	virtual size_t GetSize()const;
