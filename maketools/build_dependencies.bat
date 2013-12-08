@@ -22,30 +22,39 @@ echo "Using %MSVS_VER%"
 
 set GENERATOR_NAME=""
 set XIPH_FOLDER=""
+set GLEW_FOLDER=""
+set VCBUILDER=""
 if /i "%MSVS_VER%" == "vs80" (
 	set GENERATOR_NAME="Visual Studio 8 2005"
 	set "B2_TOOLSET=msvc-8.0"
 	set XIPH_FOLDER="VS2005"
+	set GLEW_FOLDER="vc6"
+	set "VCBUILDER=..\..\VC\vcpackages\vcbuild.exe"
 )
 if /i "%MSVS_VER%" == "vs90" (
 	set GENERATOR_NAME="Visual Studio 9 2008"
 	set "B2_TOOLSET=msvc-9.0"
 	set XIPH_FOLDER="VS2008"
+	set GLEW_FOLDER="vc6"
+	set "VCBUILDER=..\..\VC\vcpackages\vcbuild.exe"
 )
 if /i "%MSVS_VER%" == "vs100" (
 	set GENERATOR_NAME="Visual Studio 10"
 	set "B2_TOOLSET=msvc-10.0"
 	set XIPH_FOLDER="VS2010"
+	set GLEW_FOLDER="vc10"
 )
 if /i "%MSVS_VER%" == "vs110" (
 	set GENERATOR_NAME="Visual Studio 11"
 	set "B2_TOOLSET=msvc-11.0"
 	set XIPH_FOLDER="VS2010"
+	set GLEW_FOLDER="vc10"
 )
 if /i "%MSVS_VER%" == "vs120" (
 	set GENERATOR_NAME="Visual Studio 12"
 	set "B2_TOOLSET=msvc-12.0"
 	set XIPH_FOLDER="VS2010"
+	set GLEW_FOLDER="vc10"
 )
 
 if %GENERATOR_NAME%=="" (
@@ -58,15 +67,18 @@ echo "Cmake command: %CMAKE_CMD%"
 echo "Boost toolset: %B2_TOOLSET%"
 set "COMMON_TOOLS=%MSVS_VER%COMNTOOLS"
 set DEVENV="!%COMMON_TOOLS%!..\IDE\devenv.exe"
+echo "VCBUILDER !VCBUILDER!"
+set VCBUILD="!%COMMON_TOOLS%!!VCBUILDER!"
 
 echo "Using %DEVENV% compiler"
+echo "Using %VCBUILD% vcbuild"
 
 set PWD=%CD%
 set BASEDIR=%PWD%\..
 echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
 set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
-goto Build_Portaudio
+rem goto Build_GLEW
 :Build_Boost
 cd %BASEDIR%\deps\boost_1_54_0
 call bootstrap.bat
@@ -137,3 +149,14 @@ echo #define PA_WDMKS_NO_KSGUID_LIB >> options_cmake.h
 %DEVENV% portaudio.sln /Build "Release"
 copy options_cmake.h ..\include\pa_options_cmake.h
 cd %PWD%
+:Build_GLEW
+cd %PWD%
+cd ..\deps\glew-1.10.0\build
+cd %GLEW_FOLDER%
+if "!VCBUILDER!"=="" (
+	%DEVENV% glew.sln /Build "Debug" 
+	%DEVENV% glew.sln /Build "Release" 
+) else ( 
+	%VCBUILD% glew_static.dsp /Upgrade
+	%VCBUILD% glew_static.vcproj
+)
