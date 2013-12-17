@@ -4,6 +4,7 @@
 #include "item_repo.h"
 #include "controller.h"
 #include "actor.h"
+#include "grid.h"
 #include "collision_model.h"
 #include "shot.h"
 #include "plasma_shot.h"

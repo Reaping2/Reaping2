@@ -222,8 +222,8 @@ void Widget::Init( Json::Value& Descriptor )
 	{
 		std::string Str;
 		if(!Json::GetStr((*i)["type"],Str))continue;
-		Widget* wdg=Fact(Str,*i);
-		AddChild(wdg);
+		std::auto_ptr<Widget> wdg=Fact(Str,*i);
+		AddChild(wdg.release());
 	}
 }
 

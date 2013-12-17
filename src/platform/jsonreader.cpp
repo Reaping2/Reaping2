@@ -2,25 +2,25 @@
 
 namespace Json
 {
-	bool GetStr(Json::Value& V, std::string& O)
+	bool GetStr(Json::Value const& V, std::string& O)
 	{
 		if(!V.isString())return false;
 		O=V.asString();
 		return !O.empty();
 	}
-	bool GetUInt(Json::Value& V, uint32_t& O)
+	bool GetUInt(Json::Value const& V, uint32_t& O)
 	{
 		if(!V.isNumeric())return false;
 		O=V.asUInt();
 		return true;
 	}
-	bool GetInt(Json::Value& V, int32_t& O)
+	bool GetInt(Json::Value const& V, int32_t& O)
 	{
 		if(!V.isNumeric())return false;
 		O=V.asInt();
 		return true;
 	}
-	bool GetDouble(Json::Value& V, double& O)
+	bool GetDouble(Json::Value const& V, double& O)
 	{
 		if(!V.isNumeric())return false;
 		O=V.asDouble();

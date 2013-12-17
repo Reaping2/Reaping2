@@ -19,7 +19,7 @@ void PlayerModel::Draw(Actor const& Object)const
 	Actor::ActionList_t const& Actions=Object.GetActions();
 	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		Action const& Act=*i;
+		Action const& Act=*i->second;
 		SpritePhase const& Phase=mSprites(Act.GetId())((int32_t)Act.GetState());
 		// todo: renderer->settexture, ellenorizzuk, hogy nem ugyanaz-e (nemtom, gl csinal-e ilyet)
 		if(!mSprites(Act.GetId()).IsValid()) continue;
@@ -27,16 +27,15 @@ void PlayerModel::Draw(Actor const& Object)const
 		Drawn=true;
 	}
 
-	//Yaaaay, prioritás kellhet vagy valami, bár ez sem értelmetlen, csak szar :d
-
-	Item const& weapon=Object.GetWeapon();
-
-	if(mSprites(weapon.GetId()).IsValid())
-	{	
-		SpritePhase const& Phase=mSprites(weapon.GetId())((int32_t)weapon.GetState());
+	Actor::ItemList_t const& items=Object.GetItems();
+	for(Actor::ItemList_t::const_iterator i=items.begin(),e=items.end();i!=e;++i)
+	{
+		Item const& Act=*i;
+		SpritePhase const& Phase=mSprites(Act.GetId())((int32_t)Act.GetState());
 		DrawPhase(Phase,Radius);
 		Drawn=true;
 	}
+
 	if(!Drawn)
 	{
 		glDisable(GL_TEXTURE_2D);

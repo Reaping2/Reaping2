@@ -26,7 +26,7 @@ public:
 		double d;
 	};
 
-		typedef boost::ptr_list<Action> ActionList_t;
+		typedef boost::ptr_map<int32_t,Action> ActionList_t;
 		typedef boost::ptr_list<Item> ItemList_t;
 protected:
 	enum {
@@ -51,17 +51,15 @@ protected:
 
 	ActionRepo& mActionFactory;
 	ActionList_t mActions;
-	Action * mDefaultAction;
 
 	ItemRepo& mItemFactory;
 	ItemList_t mItems;
-	Item * mDefaultItem;
-
 
 	Field_t mFields[NUM_FIELDS];
 	std::auto_ptr<Controller> mController;
 
 	void UpdateProjections();
+	bool CanAddAction(int32_t Id)const;
 public:
 	Actor(std::string const& Name);
 	virtual ~Actor();
@@ -75,9 +73,6 @@ public:
 
 	void SetController(std::auto_ptr<Controller> Control);
 
-	Item& GetWeapon();
-	Item const& GetWeapon() const;
-
 	double const& GetX()const{return mFields[X].d;}
 	double const& GetY()const{return mFields[Y].d;}
 	double GetRadius()const{return mFields[RADIUS].d;}
@@ -87,10 +82,10 @@ public:
 	double GetHeading()const{return mFields[HEADING].d;}
 	double GetOrientation()const{return mFields[ORIENTATION].d;}
 	ActionList_t const& GetActions()const{return mActions;}
-	Action& GetAction(int32_t Id);
-	Action* AddAction(int32_t Id);
-	Item& GetItem(int32_t Id);
-	Item* AddItem(int32_t Id);
+	void AddAction(int32_t Id);
+	bool HasAction(int32_t Id)const;
+	ItemList_t const& GetItems()const;
+	void AddItem(int32_t Id);
 	void DropAction(int32_t Id);
 	int32_t const& GetHP()const{return mFields[HP].i;}
 	void SetHP(int32_t Hp){mFields[HP].i=Hp;}

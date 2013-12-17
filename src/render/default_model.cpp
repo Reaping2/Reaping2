@@ -18,7 +18,7 @@ void DefaultModel::Draw(Actor const& Object)const
 	Actor::ActionList_t const& Actions=Object.GetActions();
 	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 	{
-		Action const& Act=*i;
+		Action const& Act=*i->second;
 		Sprite const& Spr=mRenderableRepo(Object.GetId())(Act.GetId());
 		if(!Spr.IsValid()) continue;
 		SpritePhase const& Phase=Spr((int32_t)Act.GetState());

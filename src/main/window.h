@@ -2,7 +2,6 @@
 #define INCLUDED_MAIN_WINDOW_H
 
 #include "platform/i_platform.h"
-#include <GLFW/glfw3.h>
 
 struct WindowResizeEvent : public Event
 {

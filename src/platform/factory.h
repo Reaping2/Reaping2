@@ -4,11 +4,11 @@ template<typename Return_T>
 class Factory
 {
 public:
-	virtual Return_T * operator()(int32_t Id) const;
-	virtual Return_T * operator()(int32_t Id);	// lazy load
+	virtual std::auto_ptr<Return_T> operator()(int32_t Id) const;
+	virtual std::auto_ptr<Return_T> operator()(int32_t Id);	// lazy load
 protected:
 	typedef typename Factory<Return_T> FactoryBase;
-	typedef boost::function<Return_T*(int32_t)> Functor_t;
+	typedef boost::function<std::auto_ptr<Return_T>(int32_t)> Functor_t;
 	typedef std::map<int32_t, Functor_t> ElementMap_t;
 	template<typename Elem_T>
 	void Bind( int32_t Id )
@@ -25,9 +25,9 @@ protected:
 	Functor_t mDefaultElement;
 	ElementMap_t mElements;
 	template<typename Elem_T>
-	static Return_T * Create(int32_t Id)
+	static std::auto_ptr<Return_T> Create(int32_t Id)
 	{
-		return new Elem_T(Id);
+		return std::auto_ptr<Return_T>(new Elem_T(Id));
 	}
 
 
@@ -45,13 +45,13 @@ void Factory<Return_T>::SetDefault( int32_t Id )
 		mDefaultElement=it->second;
 }
 template<typename Return_T>
-Return_T * Factory<Return_T>::operator()( int32_t Id )
+std::auto_ptr<Return_T> Factory<Return_T>::operator()( int32_t Id )
 {
 	return ((const FactoryBase*)this)->operator ()(Id);
 }
 
 template<typename Return_T>
-Return_T * Factory<Return_T>::operator()(int32_t Id) const
+std::auto_ptr<Return_T> Factory<Return_T>::operator()(int32_t Id) const
 {
 	ElementMap_t::const_iterator i=mElements.find(Id);
 	return (i==mElements.end()?mDefaultElement(Id):(i->second)(Id));

@@ -13,10 +13,10 @@ public:
 
 namespace Json
 {	// helpers
-	bool GetStr(Json::Value& V, std::string& O);
-	bool GetUInt(Json::Value& V, uint32_t& O);
-	bool GetInt(Json::Value& V, int32_t& O);
-	bool GetDouble(Json::Value& V, double& O);
+	bool GetStr(Json::Value const& V, std::string& O);
+	bool GetUInt(Json::Value const& V, uint32_t& O);
+	bool GetInt(Json::Value const& V, int32_t& O);
+	bool GetDouble(Json::Value const& V, double& O);
 }
 
 #endif//INCLUDED_PLATFORM_JSONREADER_H

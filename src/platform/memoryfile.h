@@ -26,7 +26,8 @@ public:
 	MemoryFile(size_t PreallocatedBuffers=0);
 	virtual bool Read(void* Dst, size_t Size);
 	virtual bool Read(std::string& Data, size_t Size) {return File::Read(Data,Size);}
-	virtual bool Write(const std::string& Data);
+	virtual bool Write(void const* Src, size_t Size);
+	virtual bool Write(std::string const& Data) {return File::Write(Data);}
 	virtual size_t GetSize()const;
 	virtual size_t GetPosition()const;
 	virtual bool IsValid()const;

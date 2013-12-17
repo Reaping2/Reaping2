@@ -17,7 +17,8 @@ solution "Reaping2"
 		"../deps/libvorbis-1.3.3/bin/lib/debug",
 		"../deps/libvorbis-1.3.3/bin/lib/release",
 		"../deps/portaudio_v19/build_dir/bin/Win32/Debug",
-		"../deps/portaudio_v19/build_dir/bin/Win32/Release"
+		"../deps/portaudio_v19/build_dir/bin/Win32/Release",
+		"../deps/glew-1.10.0/lib"
 	}
 	includedirs {
 		"../src",
@@ -30,7 +31,8 @@ solution "Reaping2"
 		"../deps/json-cpp-0.6.0-rc2",
 		"../deps/libogg-1.3.1/include",
 		"../deps/libvorbis-1.3.3/include",
-		"../deps/portaudio_v19/include"
+		"../deps/portaudio_v19/include",
+		"../deps/glew-1.10.0/include"
 	}
 	links { "glfw3", "libogg_static", "libvorbis_static", "libvorbisfile_static", "portaudio_static_x86" }
 	
@@ -48,7 +50,7 @@ solution "Reaping2"
 		defines { "_DEBUG", "DEBUG" }
 		flags   { "Symbols" }
 		if os.is("windows") then
-			links { "opengl32", "zlibstaticd", "libpng16_staticd" }
+			links { "opengl32", "zlibstaticd", "libpng16_staticd", "glew32sd" }
 			linkoptions	{ "/nodefaultlib:msvcrt.lib" }
 		else
 			links { "Xi", "Xrandr", "GL", "boost_system" }
@@ -58,7 +60,7 @@ solution "Reaping2"
 		defines { "NDEBUG" }
 		flags   { "Optimize" }
 		if os.is("windows") then
-			links { "opengl32", "zlibstatic", "libpng16_static" }
+			links { "opengl32", "zlibstatic", "libpng16_static", "glew32s" }
 			linkoptions	{ "/nodefaultlib:msvcrtd.lib" }
 		else
 			links { "Xi", "Xrandr", "GL", "boost_system" }
@@ -132,6 +134,33 @@ solution "Reaping2"
 			links { "boost_system" }
 		end
 		files  { "../tools/r2pkg/**.h", "../tools/r2pkg/**.cpp" }
+	 
+		configuration { "Debug*" }
+			defines { "_DEBUG", "DEBUG" }
+			flags   { "Symbols" }
+			if os.is("windows") then
+				links { "zlibstaticd", "libpng16_staticd" }
+			end
+	 
+		configuration { "Release*" }
+			defines { "NDEBUG" }
+			flags   { "Optimize" }
+			if os.is("windows") then
+				links { "zlibstatic", "libpng16_static" }
+			end
+
+	project "texcombiner"
+		kind     "ConsoleApp"
+		language "C++"
+
+		links { "platform" }
+		if os.is("windows") then
+			-- no boost here, the headers do this job with visual studio
+			links { "opengl32" }
+		else
+			links { "boost_system" }
+		end
+		files  { "../tools/texcombiner/**.h", "../tools/texcombiner/**.cpp" }
 	 
 		configuration { "Debug*" }
 			defines { "_DEBUG", "DEBUG" }

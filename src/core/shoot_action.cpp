@@ -11,15 +11,6 @@ ShootAction::ShootAction(int32_t Id)
 	mIsRefresh=false;
 }
 
-void ShootAction::Update(double Seconds) 
-{
-	Action::Update(Seconds);
-	if(!mActor)return;
-	Item& weapon = mActor->GetWeapon();
-
-	WeaponAsset& weaponAsset = static_cast<WeaponAsset&>(weapon);
-	weaponAsset.Shoot();
-}
 ShootAltAction::ShootAltAction(int32_t Id)
 	: Action(Id)
 {
@@ -29,14 +20,4 @@ ShootAltAction::ShootAltAction(int32_t Id)
 	mIsLoop=true;
 	mIsSelfDestruct=false;
 	mIsRefresh=false;
-}
-
-void ShootAltAction::Update(double Seconds) 
-{
-	Action::Update(Seconds);
-	if(!mActor)return;
-	Item& weapon = mActor->GetWeapon();
-
-	WeaponAsset& weaponAsset = static_cast<WeaponAsset&>(weapon);
-	weaponAsset.ShootAlt();
 }

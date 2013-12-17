@@ -3,14 +3,14 @@
 
 class WeaponAsset : public Item
 {
-public:	
+public:
 	virtual void Shoot() =0;
 	virtual void ShootAlt()=0;
 protected:
 	double mCooldownReduction;
 	double mCooldown;
 	WeaponAsset(int32_t Id);
-	virtual void Update(double Seconds)  override;
+	virtual void Update(double Seconds) override;
 	friend class Factory<Action>;
 };
 

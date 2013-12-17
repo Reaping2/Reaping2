@@ -26,5 +26,4 @@ Item::Item(int32_t Id)
 void Item::Update(double Seconds) 
 {
 	if(!mActor)return;
-	//LOG("nextState: %f %d\n",nextState,(int32_t)nextState);
 }

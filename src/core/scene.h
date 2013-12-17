@@ -15,6 +15,7 @@ class Scene : public Singleton<Scene>
 	ModelValue mLoadModel;
 	ModelValue mPauseModel;
 	ModelValue mResumeModel;
+	Grid mCollisionGrid;
 public:
 	~Scene();
 	void SetType(std::string const& Type);

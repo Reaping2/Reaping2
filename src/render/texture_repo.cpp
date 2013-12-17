@@ -36,9 +36,13 @@ Texture const& TextureRepo::operator()(int32_t Id)
 		if(!IdStorage::Get().GetName(Id,Path))break;
 		AutoFile TexFile=mFilesys.Open(Path);
 		if(!TexFile.get())break;
-		PngTexture Png(*TexFile);
-		if(!Png.IsValid())break;
-		std::auto_ptr<Texture> Tex(new Texture(Png.GetWidth(),Png.GetHeight(),Png.GetChannels(),Png.GetData()));
+		std::auto_ptr<TextureBase> TexBase;
+		if(boost::iequals(boost::filesystem::path(Path).extension().string(),".png"))
+			TexBase.reset(new PngTexture(*TexFile));
+		else if(boost::iequals(boost::filesystem::path(Path).extension().string(),".tga"))
+			TexBase.reset(new TgaTexture(*TexFile));
+		if(!TexBase.get())break;
+		std::auto_ptr<Texture> Tex(new Texture(TexBase->GetWidth(),TexBase->GetHeight(),TexBase->GetChannels(),TexBase->GetData()));
 		if(Tex->TexId()==0)break;
 		mElements.insert(Id,Tex.get());
 		return *Tex.release();

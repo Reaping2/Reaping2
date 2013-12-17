@@ -30,11 +30,10 @@ size_t MemoryFile::GetSize() const
 	return mSize;
 }
 
-bool MemoryFile::Write(const std::string& Data)
+bool MemoryFile::Write(void const* Src, size_t Size)
 {
-	size_t Size(Data.size());
 	mSize+=Size;
-	char const*p(&Data[0]);
+	char const*p=(char const*)Src;
 	while(Size)
 	{
 		if(mActBufferId>=mBuffers.size())

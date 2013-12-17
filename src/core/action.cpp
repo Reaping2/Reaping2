@@ -9,7 +9,6 @@ DefaultAction::DefaultAction(int32_t Id)
 	mAreBlockedActionsExcluded=false;
 	mAreCancelledActionsExcluded=false;
 	mSecsToEnd=0;
-	mType=Normal;
 }
 
 void Action::SetActor(Actor* Obj)
@@ -43,38 +42,28 @@ Action::Action(int32_t Id)
 	LOG("!Action: id: %d\n",mId);
 }
 
-bool Action::Activate() 
+bool Action::Activate()
 {
-	if(!mActor)return true;
-	Actor::ActionList_t const& Actions=mActor->GetActions();
-	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
+	if(!mActor)
 	{
-		Action const& action=*i;
-		if(action.Blocks(mId))
-			return false;
+		assert(false);
+		return false;
 	}
+	if(mIsRefresh)
+		mState=0;
+	Actor::ActionList_t const& Actions=mActor->GetActions();
 	//if this action cancels others
 	for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;)
 	{
-		Action const& action=*i;
-		++i;
-		if(Cancels(action.GetId()))
-		{
-			mActor->DropAction(action.GetId());
-		}
+		// increment iterator before dropping
+		int32_t Id=(i++)->first;
+		if(Cancels(Id))
+			mActor->DropAction(Id);
 	}
-
-	bool hasAction=false;
-	Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();
-	while(!hasAction&&i!=e)
-		hasAction=mId==(i++)->GetId();
-	if (!mIsRefresh&&hasAction)
-		return false;
-
 	return true;
 }
 
-void Action::Deactivate() 
+void Action::Deactivate()
 {
 }
 
@@ -88,12 +77,10 @@ bool Action::Cancels(int32_t What) const
 	return mAreCancelledActionsExcluded ^ (std::find(mCancelledActionIds.begin(),mCancelledActionIds.end(),What)!=mCancelledActionIds.end());
 }
 
-void Action::Update(double Seconds) 
+void Action::Update(double Seconds)
 {
 	if(!mActor)return;
-	Action& State=mActor->GetAction(mId);
-
-	double nextState = State.GetState()+1./mSecsToEnd*Seconds*100.;
+	double nextState = mState+1./mSecsToEnd*Seconds*100.;
 	if(nextState>=100)
 	{
 		if(mIsLoop)
@@ -106,6 +93,5 @@ void Action::Update(double Seconds)
 		else
 			nextState=100.;
 	}
-	State.SetState(nextState);
-	//LOG("nextState: %f %d\n",nextState,(int32_t)nextState);
+	mState=nextState;
 }

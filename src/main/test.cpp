@@ -139,7 +139,7 @@ namespace{
 //			TestJson();
 //			TestRegistrations();
 //			TestVorbisFile();
-			TestTgaPerf();
+//			TestTgaPerf();
 		}
 
 		std::auto_ptr<Package> mPackage;

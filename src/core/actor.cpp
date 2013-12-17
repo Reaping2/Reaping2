@@ -9,7 +9,7 @@ void Actor::DoControlling(double Seconds)
 void Actor::Update(double Seconds)
 {
 	for(ActionList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		i->Update(Seconds);
+		i->second->Update(Seconds);
 	for(ItemList_t::iterator i=mItems.begin(),e=mItems.end();i!=e;++i)
 		i->Update(Seconds);
 }
@@ -27,8 +27,7 @@ Actor::Actor(std::string const& Name)
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
 	mFields[TYPE_ID].i=mId;
 	mFields[RADIUS].d=3.0;
-	mDefaultAction=AddAction(AutoId("default_action"));
-	mDefaultItem=AddItem(AutoId("default_item"));
+	AddAction(AutoId("default_action"));
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -37,69 +36,51 @@ void Actor::SetController( std::auto_ptr<Controller> Control )
 	if(mController.get())
 		mController->SetActor(this);
 }
-Item& Actor::GetWeapon() 
+
+bool Actor::CanAddAction(int32_t Id)const
 {
-	for(Actor::ItemList_t::iterator i=mItems.begin(),e=mItems.end();i!=e;++i)
-		if (i->GetType()==Item::Weapon)
-			return *i;
-	return *mDefaultItem;
+	for(ActionList_t::const_iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
+		if(i->second->Blocks(Id))
+			return false;
+	return true;
 }
 
-Item const& Actor::GetWeapon() const
+void Actor::AddAction(int32_t Id)
 {
-	for(Actor::ItemList_t::const_iterator i=mItems.begin(),e=mItems.end();i!=e;++i)
-		if (i->GetType()==Item::Weapon)
-			return *i;
-	return *mDefaultItem;
-}
-
-Action& Actor::GetAction( int32_t Id )
-{
-	for(ActionList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
-		if(i->GetId()==Id)
-			return *i;
-	return *mDefaultAction;
-}
-
-Action* Actor::AddAction( int32_t Id )
-{
-	Action * a=mActionFactory(Id);
-	a->SetActor(this);
-	if (a->Activate())
+	if(!CanAddAction(Id))return;
+	ActionList_t::iterator i=mActions.find(Id);
+	if(i==mActions.end())
 	{
-		mActions.push_back(a);
-		return a;
+		std::auto_ptr<Action> a=mActionFactory(Id);
+		a->SetActor(this);
+		if (a->Activate())
+			mActions.insert(Id,a);
 	}
-	return NULL;
+	else
+	{
+		Action *a=i->second;
+		a->Activate();
+	}
 }
 
-Item& Actor::GetItem( int32_t Id )
+ Actor::ItemList_t const& Actor::GetItems()const
 {
-	for(ItemList_t::iterator i=mItems.begin(),e=mItems.end();i!=e;++i)
-		if(i->GetId()==Id)
-			return *i;
-	return *mDefaultItem;
+	return mItems;
 }
 
-Item* Actor::AddItem( int32_t Id )
+void Actor::AddItem( int32_t Id )
 {
-	Item * a=mItemFactory(Id);
+	std::auto_ptr<Item> a=mItemFactory(Id);
 	a->SetActor(this);
 	mItems.push_back(a);
-	return a;
 }
 
 void Actor::DropAction( int32_t Id )
 {
-	for(ActionList_t::iterator i=mActions.begin(),e=mActions.end(),n;i!=e;i=n)
-	{
-		n=i;++n;
-		if(i->GetId()==Id)
-		{
-			i->Deactivate();
-			mActions.erase(i);
-		}
-	}
+	ActionList_t::iterator i=mActions.find(Id);
+	if(i==mActions.end())return;
+	i->second->Deactivate();
+	mActions.erase(i);
 }
 
 void Actor::ClipScene()
@@ -154,3 +135,7 @@ void Actor::UpdateProjections()
 	mFields[SPEED_Y].d=s*spd;
 }
 
+bool Actor::HasAction( int32_t Id ) const
+{
+	return mActions.find(Id)!=mActions.end();
+}

@@ -34,11 +34,11 @@ bool OsFile::Read(void* Data, size_t Size)
 	return IsValid();
 }
 
-bool OsFile::Write(const std::string& Data)
+bool OsFile::Write(void const* Src, size_t Size)
 {
 	if(!IsValid())return false;
-	mSize+=Data.size();
-	mFile.write(Data.c_str(),Data.size());
+	mSize+=Size;
+	mFile.write((char const *)Src,Size);
 	mPosition=mFile.tellg();
 	return IsValid();
 }

@@ -22,6 +22,10 @@
 #include <cstdlib>
 #include <png.h>
 #include <json/json.h>
+#include <set>
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "stdint.h"
 #include "serialize.h"

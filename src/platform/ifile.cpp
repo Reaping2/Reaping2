@@ -15,3 +15,9 @@ bool File::Read( std::string& Data, size_t Size )
 	swap(Data,tmp);
 	return true;
 }
+
+bool File::Write( const std::string& Data )
+{
+	if(!IsValid())return false;
+	return Write((void const*)Data.data(),Data.size());
+}

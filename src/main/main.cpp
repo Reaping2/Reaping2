@@ -25,13 +25,19 @@ class FrameCounter
 {
 	uint32_t mFrames;
 	double mStart;
+	double mPrev;
 public:
-	FrameCounter() : mFrames(0),mStart(glfwGetTime()){}
+	FrameCounter() : mFrames(0),mStart(glfwGetTime()),mPrev(mStart){}
 	void Inc()
 	{
-		if(!(++mFrames%400))
+		++mFrames;
+		double const Now=glfwGetTime();
+		double const Diff=Now-mPrev;
+		if(Diff>=2.0)
 		{
-			L1("FPS: %f\n",mFrames/(glfwGetTime()-mStart));
+			L1("FPS: %f\n",mFrames/Diff);
+			mPrev=Now;
+			mFrames=0;
 		}
 	}
 };

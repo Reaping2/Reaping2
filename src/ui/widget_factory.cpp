@@ -10,11 +10,11 @@ WidgetFactory::WidgetFactory()
 	Bind<Bar>(AutoId("bar"));
 }
 
-Widget* WidgetFactory::operator()( std::string const& Name, Json::Value& Initer )
+std::auto_ptr<Widget> WidgetFactory::operator()( std::string const& Name, Json::Value& Initer )
 {
-	Widget* Wdg=Factory<Widget>::operator()(AutoId(Name));
-	assert(Wdg);
-	if(Wdg)
+	std::auto_ptr<Widget> Wdg=Factory<Widget>::operator()(AutoId(Name));
+	assert(Wdg.get());
+	if(Wdg.get())
 		Wdg->Init(Initer);
 	return Wdg;
 }

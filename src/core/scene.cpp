@@ -8,32 +8,24 @@ void Scene::AddActor( Actor* Object )
 
 void Scene::Update( double DeltaTime )
 {
-	if(IsPaused())return;
 
+	if(IsPaused())return;
+	mCollisionGrid.Clear();
 	for(ActorList_t::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
-		it->DoControlling(DeltaTime);
-	static const uint32_t Collisions[]={
-		0,																												// no collision
-		1<<CollisionClass::Creep | 1<<CollisionClass::Mine | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,		// projectile
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Mine | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,	// creep
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Wall,								// mine
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,	// player
-		1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Mine | 1<<CollisionClass::Player,	// wall
-	};
-	for(ActorList_t::iterator it1=mAllActors.begin(),e1=mAllActors.end();it1!=e1;++it1)
 	{
-		Actor& A=*it1;
-		if(!Collisions[A.GetCC()])continue;
-		for(ActorList_t::iterator it2=it1;it2!=e1;++it2)
-		{
-			if(it1==it2)continue;
-			Actor& B=*it2;
-			if(!(Collisions[A.GetCC()]&(1<<B.GetCC())))continue;
-			CollisionModel const& CollModel=mCollisionStore.GetCollisionModel(A.GetCC(),B.GetCC());
-			if(!CollModel.AreActorsColliding(A,B,DeltaTime))continue;
-			A.Collide(B);
-			B.Collide(A);
-		}
+		Actor& Obj=*it;
+		Obj.DoControlling(DeltaTime);
+		mCollisionGrid.AddActor(&Obj,DeltaTime);
+	}
+	PossibleCollisions_t const& PossibleCollisions=mCollisionGrid.GetPossibleCollisions();
+	for(PossibleCollisions_t::const_iterator i=PossibleCollisions.begin(),e=PossibleCollisions.end();i!=e;++i)
+	{
+		Actor& A=*(i->A1);
+		Actor& B=*(i->A2);
+		CollisionModel const& CollModel=mCollisionStore.GetCollisionModel(A.GetCC(),B.GetCC());
+		if(!CollModel.AreActorsColliding(A,B,DeltaTime))continue;
+		A.Collide(B);
+		B.Collide(A);
 	}
 	for(ActorList_t::iterator it=mAllActors.begin(),e=mAllActors.end();it!=e;++it)
 		it->Update(DeltaTime);
@@ -47,12 +39,13 @@ Scene::Scene()
 : mDimensions(-2,-2,2,2)
 , mCollisionStore(CollisionStore::Get())
 , mTypeId(0)
-, mPaused(false)
+, mPaused(true)
 , mSceneModel("scene",&RootModel::Get())
 , mLoadModel(StringFunc(this,&Scene::Load),"load",&mSceneModel)
 , mPauseModel(VoidFunc(this,&Scene::Pause),"pause",&mSceneModel)
 , mResumeModel(VoidFunc(this,&Scene::Resume),"resume",&mSceneModel)
 {
+	mCollisionGrid.Build(mDimensions,0.4f);
 }
 
 glm::vec4 const& Scene::GetDimensions()
@@ -101,5 +94,19 @@ void Scene::Load( std::string const& Level )
 	Player* Pl=new Player();
 	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
 	AddActor(Pl);
+
+#ifdef DEBUG
+	static const size_t BenchmarkCreeps=200;
+#else
+	static const size_t BenchmarkCreeps=5000;
+#endif
+	for(size_t i=0;i<BenchmarkCreeps;++i)
+	{
+		Creep* Obj=new Creep(rand()%2?"pok1":"pok2",
+			mDimensions.x+(rand()%(int)(1000*(mDimensions.z-mDimensions.x)))/1000.,
+			mDimensions.y+(rand()%(int)(1000*(mDimensions.w-mDimensions.y)))/1000.,
+			rand()%2?Pl:(Actor*)NULL);
+		AddActor(Obj);
+	}
 }
 
