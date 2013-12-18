@@ -36,7 +36,7 @@ void TgaTexture::Load( File& F )
 
 void TgaTexture::Reorder( uint8_t *Data,size_t Size )
 {
-	for(int x=0;x<Size;x++)
+	for(size_t x=0;x<Size;x++)
 	{
 		unsigned char* pixel_out=&Data[x*4];
 		std::swap(pixel_out[0],pixel_out[2]);

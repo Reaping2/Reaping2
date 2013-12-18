@@ -8,6 +8,8 @@ DefaultModel::DefaultModel()
 
 void DefaultModel::Draw(Actor const& Object)const
 {
+//	for(size_t i=0;i<100;++i){
+	{
 	static const GLfloat pi_under_180=180.f/boost::math::constants::pi<float>();
 	static const GLfloat sqrt3d2=std::sqrt(3.f)*0.5f;
 	glPushMatrix();
@@ -27,10 +29,10 @@ void DefaultModel::Draw(Actor const& Object)const
 		glBegin(GL_QUADS);
 		glNormal3f(0.0, 0.0, 1.0);
 		glColor3f(1.f,1.f,1.f);
-		glTexCoord2d( Phase.Left,Phase.Bottom); glVertex3f(-Radius, -Radius, 0.0f);
-		glTexCoord2d(Phase.Right,Phase.Bottom); glVertex3f(-Radius,  Radius, 0.0f);
-		glTexCoord2d(Phase.Right,   Phase.Top); glVertex3f( Radius,  Radius, 0.0f);
-		glTexCoord2d( Phase.Left,   Phase.Top); glVertex3f( Radius, -Radius, 0.0f);
+		glTexCoord2d( Phase.Left,Phase.Bottom); glVertex2f(-Radius, -Radius);
+		glTexCoord2d(Phase.Right,Phase.Bottom); glVertex2f(-Radius,  Radius);
+		glTexCoord2d(Phase.Right,   Phase.Top); glVertex2f( Radius,  Radius);
+		glTexCoord2d( Phase.Left,   Phase.Top); glVertex2f( Radius, -Radius);
 		glEnd();
 		Drawn=true;
 	}
@@ -47,6 +49,7 @@ void DefaultModel::Draw(Actor const& Object)const
 		glEnable(GL_BLEND);
 	}
 	glPopMatrix();
+	}
 }
 
 DefaultModel::~DefaultModel()

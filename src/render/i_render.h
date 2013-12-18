@@ -2,8 +2,11 @@
 #include "core/i_core.h"
 #include "ui/i_ui.h"
 
-#include <GLFW/glfw3.h>
 
+#include "vao_base.h"
+#include "shader.h"
+#include "shader_repo.h"
+#include "shader_manager.h"
 #include "texture.h"
 #include "sprite_phase.h"
 #include "sprite.h"

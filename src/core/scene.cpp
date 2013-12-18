@@ -83,6 +83,7 @@ void Scene::Load( std::string const& Level )
 	const point points[NumPoints]={
 		{-1,-1},{-1,-0.8},{-1,-0.6},{-0.8,-0.6},{-0.6,-0.6},
 	};
+
 	for(size_t i=0;i<NumPoints;++i)
 	{
 		Wall* wall=new Wall("wall");
