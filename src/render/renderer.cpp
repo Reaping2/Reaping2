@@ -44,9 +44,23 @@ void Renderer::RenderSprites()
 	struct RenderableSprite
 	{
 		Actor const* Obj;
+		int32_t ActId;
 		SpritePhase const* Spr;
-		RenderableSprite(Actor const*o,SpritePhase const*s)
-			:Obj(o),Spr(s){}
+		RenderableSprite(Actor const*o,int32_t a,SpritePhase const*s)
+			:Obj(o),ActId(a),Spr(s){}
+	};
+	struct RenderableSpriteCompare
+	{
+		bool operator()(RenderableSprite const& Rs1, RenderableSprite const& Rs2)
+		{
+			return	(int)Rs1.Obj->IsAlive() < (int)Rs2.Obj->IsAlive() ||
+					Rs1.Obj->IsAlive() == Rs2.Obj->IsAlive() &&
+					(Rs1.Obj->GetGUID() < Rs2.Obj->GetGUID() ||
+					 Rs1.Obj->GetGUID() == Rs2.Obj->GetGUID() &&
+						(Rs1.ActId < Rs2.ActId ||
+						Rs1.ActId==Rs2.ActId &&
+						Rs1.Spr->TexId < Rs2.Spr->TexId));
+		}
 	};
 	typedef std::vector<RenderableSprite> RenderableSprites_t;
 	RenderableSprites_t RenderableSprites;
@@ -60,26 +74,29 @@ void Renderer::RenderSprites()
 		for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
 		{
 			Action const& Act=*i->second;
-			Sprite const& Spr=Sprites(Act.GetId());
+			int32_t const ActId=i->first;
+			Sprite const& Spr=Sprites(ActId);
 			if(!Spr.IsValid()) continue;
 			SpritePhase const& Phase=Spr((int32_t)Act.GetState());
 			//for(size_t test=0;test<100;++test)
-				RenderableSprites.push_back(RenderableSprite(&Object,&Phase));
+				RenderableSprites.push_back(RenderableSprite(&Object,ActId,&Phase));
 		}
 		Actor::ItemList_t const& items=Object.GetItems();
 		for(Actor::ItemList_t::const_iterator i=items.begin(),e=items.end();i!=e;++i)
 		{
 			Item const& Act=*i;
-			Sprite const& Spr=Sprites(Act.GetId());
+			int32_t const ActId=Act.GetId();
+			Sprite const& Spr=Sprites(ActId);
 			if(!Spr.IsValid()) continue;
 			SpritePhase const& Phase=Spr((int32_t)Act.GetState());
 			//for(size_t test=0;test<100;++test)
-				RenderableSprites.push_back(RenderableSprite(&Object,&Phase));
+				RenderableSprites.push_back(RenderableSprite(&Object,ActId,&Phase));
 		}
 	}
 
 	// TODO: sort Z order, alive state es texture id alapjan.
 	// Meg persze (last cmp) pointerek szerint, hogy determinisztikus legyen.
+	std::sort(RenderableSprites.begin(),RenderableSprites.end(),RenderableSpriteCompare());
 
 	size_t CurSize=RenderableSprites.size();
 	typedef std::vector<glm::vec2> Positions_t;

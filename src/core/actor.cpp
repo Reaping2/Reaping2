@@ -27,6 +27,8 @@ Actor::Actor(std::string const& Name)
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
 	mFields[TYPE_ID].i=mId;
 	mFields[RADIUS].d=3.0;
+	static int32_t NextGuid=0;
+	mFields[GUID].i=++NextGuid;
 	AddAction(AutoId("default_action"));
 }
 
