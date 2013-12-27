@@ -5,8 +5,9 @@ const uint32_t Grid::Collisions[]={
 	1<<CollisionClass::Creep | 1<<CollisionClass::Mine | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,		// projectile
 	1<<CollisionClass::Projectile | 1<<CollisionClass::Mine | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,	// creep
 	1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Wall,								// mine
-	1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player | 1<<CollisionClass::Wall,	// player
+	1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Player | 1<<CollisionClass::Wall | 1<<CollisionClass::Pickup,	// player
 	1<<CollisionClass::Projectile | 1<<CollisionClass::Creep | 1<<CollisionClass::Mine | 1<<CollisionClass::Player,	// wall
+	1<<CollisionClass::Player,																						// pickup
 };
 
 PossibleCollisions_t Grid::GetPossibleCollisions()const
@@ -54,7 +55,8 @@ void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
 
 void Grid::AddActor(Actor* A,double Dt)
 {
-	if(!Collisions[A->GetCC()])return;
+	int32_t const CC=A->GetCC();
+	if(!Collisions[CC])return;
 	size_t const NumCells=mCells.size();
 	if(NumCells==0)
 	{
@@ -63,7 +65,7 @@ void Grid::AddActor(Actor* A,double Dt)
 	}
 	else if(NumCells==1)
 	{
-		mCells[0].mActors[A->GetCC()].push_back(A);
+		mCells[0].mActors[CC].push_back(A);
 		return;
 	}
 	glm::vec4 const& ActorDim=Box(*A,Dt);
@@ -74,7 +76,7 @@ void Grid::AddActor(Actor* A,double Dt)
 	size_t const Sy=(size_t)glm::floor(std::max<float>(0.0f,ActorDim.y)/mCellSize);
 	for(size_t y=Sy,ey=std::min<size_t>(Ey+1,mDimY);y<ey;++y)
 		for(size_t x=Sx,ex=std::min<size_t>(Ex+1,mDimX);x<ex;++x)
-			mCells[y*mDimX+x].mActors[A->GetCC()].push_back(A);
+			mCells[y*mDimX+x].mActors[CC].push_back(A);
 }
 
 glm::vec4 Grid::Box(Actor const& Obj,double Dt)const

@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_ITEM_H
 #define INCLUDED_CORE_ITEM_H
 
+class Actor;
 class Item
 {
 public:

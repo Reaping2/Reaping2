@@ -6,60 +6,31 @@ PlasmaGunAction::PlasmaGunAction(int32_t Id)
 , mShotId(AutoId("plasma"))
 , mAltShotId(AutoId("plasma_alt"))
 {
-	mCooldownReduction=400;
+	mScatter=10;
+	mAltScatter=3;
+	mShootCooldown=0.2;
+	mShootAltCooldown=0.3;
 }
 
-void PlasmaGunAction::Update(double Seconds) 
+void PlasmaGunAction::ShootImpl(Projectiles_t& Projectiles)
 {
-	WeaponAsset::Update(Seconds);
-}
-
-void PlasmaGunAction::Shoot()
-{
-	if(!mActor)return;
-	if(mCooldown!=0.0)return;
 	EventServer<AudibleEvent>::Get().SendEvent(AudibleEvent(mShotId));
-	mCooldown=30.0;
-	PlasmaShot* ps=new PlasmaShot();
-	//esetleg kiemelni :D
-	ps->SetX(mActor->GetX());
-	ps->SetY(mActor->GetY());
-	double ori = mActor->GetOrientation()+(rand()%20)/100.-0.1;
-	ps->SetOrientation(ori);
-	ps->SetHeading(ori);
-	Scene::Get().AddActor(ps);
+	Shot* ps=new PlasmaShot();
+	Projectiles.push_back(ps);
 }
 
-void PlasmaGunAction::ShootAlt()
+void PlasmaGunAction::ShootAltImpl(Projectiles_t& Projectiles)
 {
-	if(!mActor)return;
-	if(mCooldown!=0.0)return;
 	EventServer<AudibleEvent>::Get().SendEvent(AudibleEvent(mAltShotId));
-	mCooldown=100.0;
 
-
-	double ori = mActor->GetOrientation()+(rand()%6)/100.-0.03;
-
-	PlasmaShot* ps=new PlasmaShot();
-	ps->SetX(mActor->GetX());
-	ps->SetY(mActor->GetY());
-	double oril = ori+0.15;
-	ps->SetOrientation(oril);
-	ps->SetHeading(oril);
-	Scene::Get().AddActor(ps);
+	Shot* ps=new PlasmaShot();
+	ps->SetOrientation(-0.15);
+	Projectiles.push_back(ps);
 
 	ps=new PlasmaShot();
-	ps->SetX(mActor->GetX());
-	ps->SetY(mActor->GetY());
-	oril = ori-0.15;
-	ps->SetOrientation(oril);
-	ps->SetHeading(oril);
-	Scene::Get().AddActor(ps);
+	ps->SetOrientation(0.15);
+	Projectiles.push_back(ps);
 
 	ps=new PlasmaShot();
-	ps->SetX(mActor->GetX());
-	ps->SetY(mActor->GetY());
-	ps->SetOrientation(ori);
-	ps->SetHeading(ori);
-	Scene::Get().AddActor(ps);
+	Projectiles.push_back(ps);
 }

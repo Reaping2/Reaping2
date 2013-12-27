@@ -21,8 +21,8 @@ void PlayerController::SetActor(Actor* Obj)
 	mPlayerModels.push_back(new ModelValue(Obj->GetHP(),"hp",&mPlayerModel));
 	mPlayerModels.push_back(new ModelValue(Obj->GetX(),"x",&mPlayerModel));
 	mPlayerModels.push_back(new ModelValue(Obj->GetY(),"y",&mPlayerModel));
-	mActor->AddItem(AutoId("plasma_gun"));
 }
+
 void PlayerController::OnKeyEvent(const KeyEvent& Event)
 {
 	uint32_t OldMovement=mCurrentMovement;

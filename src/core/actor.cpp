@@ -8,7 +8,7 @@ void Actor::DoControlling(double Seconds)
 
 void Actor::Update(double Seconds)
 {
-	for(ActionList_t::iterator i=mActions.begin(),e=mActions.end();i!=e;++i)
+	for(ActionList_t::iterator i=mActions.begin(),e=mActions.end(),n;(i!=e?(n=i,++n,true):false);i=n)
 		i->second->Update(Seconds);
 	for(ItemList_t::iterator i=mItems.begin(),e=mItems.end();i!=e;++i)
 		i->Update(Seconds);
@@ -27,8 +27,10 @@ Actor::Actor(std::string const& Name)
 	mFields[COLLISION_CLASS].i=CollisionClass::Player;
 	mFields[TYPE_ID].i=mId;
 	mFields[RADIUS].d=3.0;
+	mFields[TIME_OF_DEATH].d=0.0;
 	static int32_t NextGuid=0;
 	mFields[GUID].i=++NextGuid;
+	mFields[COOLDOWN_REDUCTION].d=1.0;
 	AddAction(AutoId("default_action"));
 }
 
@@ -113,6 +115,11 @@ void Actor::UpdateLifetime()
 	if(IsAlive())return;
 	AddAction(AutoId("death"));
 	mFields[COLLISION_CLASS].i=CollisionClass::No_Collision;
+	if(mFields[TIME_OF_DEATH].d<=0.0)
+	{
+		OnDeath();
+		mFields[TIME_OF_DEATH].d=glfwGetTime();
+	}
 	mController.reset();
 }
 
@@ -122,9 +129,9 @@ Actor::~Actor()
 
 void Actor::TakeDamage( int32_t Damage )
 {
-	mFields[HP].i-=Damage;
-	if(Damage)
+	if(Damage&&IsAlive())
 		EventServer<DamageTakenEvent>::Get().SendEvent(DamageTakenEvent(GetX(),GetY()));
+	mFields[HP].i-=Damage;
 }
 
 void Actor::UpdateProjections()
@@ -140,4 +147,13 @@ void Actor::UpdateProjections()
 bool Actor::HasAction( int32_t Id ) const
 {
 	return mActions.find(Id)!=mActions.end();
+}
+
+void Actor::DropItemType( Item::ItemType Type )
+{
+	for(ItemList_t::iterator i=mItems.begin(),e=mItems.end(),n;(i!=e?(n=i,++n,true):false);i=n)
+	{
+		if(i->GetType()==Type)
+			mItems.erase(i);
+	}
 }

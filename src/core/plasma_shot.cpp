@@ -3,6 +3,6 @@
 PlasmaShot::PlasmaShot()
 	:Shot("plasma_shot")
 {
-	SetSpeed(2);
-	AddAction(AutoId("move"));
+	mFields[RADIUS].d=0.02;
+	mFields[DAMAGE].i=3;
 }

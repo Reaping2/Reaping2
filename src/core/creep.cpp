@@ -16,3 +16,19 @@ Creep::Creep(std::string const& Name, double x,double y,Actor* player)
 	Controller* Ctrl=player?(Controller*)(new TargetPlayerController(player)):(Controller*)new RandomController;
 	SetController(std::auto_ptr<Controller>(Ctrl));
 }
+
+void Creep::OnDeath()
+{
+#ifdef DEBUG
+	static const size_t Mod=3;
+#else
+	static const size_t Mod=10;
+#endif==DEBUG
+	if(rand()%Mod)
+		return;
+
+	Pickup* Pu=new Pickup(rand()%2?"pistol":"plasma_gun");
+	Pu->SetX(GetX());
+	Pu->SetY(GetY());
+	Scene::Get().AddActor(Pu);
+}

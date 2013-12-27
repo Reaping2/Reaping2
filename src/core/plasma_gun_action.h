@@ -3,12 +3,9 @@
 
 class PlasmaGunAction : public WeaponAsset
 {
-public:
-	virtual void Shoot();
-	virtual void ShootAlt();
-protected:
 	PlasmaGunAction(int32_t Id);
-	virtual void Update(double Seconds)  override;
+	void ShootImpl(Projectiles_t& Projectiles);
+	void ShootAltImpl(Projectiles_t& Projectiles);
 	friend class Factory<Item>;
 	int32_t mShotId;
 	int32_t mAltShotId;

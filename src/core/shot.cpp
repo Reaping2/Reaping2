@@ -6,6 +6,8 @@ Shot::Shot(std::string const& Name)
 	mFields[COLLISION_CLASS].i=CollisionClass::Projectile;
 	mFields[RADIUS].d=0.02;
 	mFields[DAMAGE].i=1;
+	SetSpeed(2);
+	AddAction(AutoId("move"));
 }
 
 void Shot::ClipScene()

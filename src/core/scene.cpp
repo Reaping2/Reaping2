@@ -95,6 +95,7 @@ void Scene::Load( std::string const& Level )
 	Player* Pl=new Player();
 	Pl->SetController(std::auto_ptr<Controller>(new PlayerController));
 	AddActor(Pl);
+	Pl->AddItem(AutoId("pistol"));
 
 #ifdef DEBUG
 	static const size_t BenchmarkCreeps=200;

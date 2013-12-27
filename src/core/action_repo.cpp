@@ -12,5 +12,5 @@ ActionRepo::ActionRepo()
 	Bind<BodyIdleAction>(AutoId("body_idle"));
 	Bind<IdleAction>(AutoId("idle"));
 	Bind<DeathAction>(AutoId("death"));
-//	Bind<PlasmaGunAction>(AutoId("plasma_gun"));
+	Bind<FadeOutAction>(AutoId("fade_out"));
 }

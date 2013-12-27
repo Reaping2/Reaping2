@@ -23,7 +23,7 @@ public:
 	void Update(double DeltaTime);
 	void AddActor(Actor* Object);
 	glm::vec4 const& GetDimensions();
-	const ActorList_t& GetActors() {return mAllActors;}
+	ActorList_t const& GetActors()const{return mAllActors;}
 	void Load(std::string const& Level);
 	void Pause(){mPaused=true;}
 	void Resume(){mPaused=false;}
