@@ -24,9 +24,6 @@
 #include "move_action.h"
 #include "idle_action.h"
 #include "fade_out_action.h"
-// todo: drop body_move, body_idle
-#include "body_move_action.h"
-#include "body_idle_action.h"
 #include "shoot_action.h"
 #include "random_controller.h"
 #include "player_controller.h"

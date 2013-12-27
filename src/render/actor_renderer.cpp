@@ -24,15 +24,21 @@ void ActorRenderer::Draw( Scene const& Object )
 		Actor::ActionList_t const& Actions=Object.GetActions();
 		static RenderableRepo& Rend(RenderableRepo::Get());
 		SpriteCollection const& Sprites=Rend(Object.GetId());
-		for(Actor::ActionList_t::const_iterator i=Actions.begin(),e=Actions.end();i!=e;++i)
+		for(Actor::ActionList_t::const_iterator j=Actions.begin(),k=Actions.end();j!=k;++j)
 		{
-			Action const& Act=*i->second;
-			int32_t const ActId=i->first;
-			Sprite const& Spr=Sprites(ActId);
-			if(!Spr.IsValid()) continue;
-			SpritePhase const& Phase=Spr((int32_t)Act.GetState());
-			//for(size_t test=0;test<100;++test)
-			RenderableSprites.push_back(RenderableSprite(&Object,ActId,&Spr,&Phase));
+			Action const& Act=*j->second;
+			int32_t const ActId=j->first;
+			static RenderableActionRepo& RendActions(RenderableActionRepo::Get());
+			RenderableActions_t const& RenderableActions(RendActions(ActId));
+			for(RenderableActions_t::const_iterator l=RenderableActions.begin(),m=RenderableActions.end();l!=m;++l)
+			{
+				int32_t RendActId=*l;
+				Sprite const& Spr=Sprites(RendActId);
+				if(!Spr.IsValid()) continue;
+				SpritePhase const& Phase=Spr((int32_t)Act.GetState());
+				//for(size_t test=0;test<100;++test)
+				RenderableSprites.push_back(RenderableSprite(&Object,RendActId,&Spr,&Phase));
+			}
 		}
 		Actor::ItemList_t const& items=Object.GetItems();
 		for(Actor::ItemList_t::const_iterator i=items.begin(),e=items.end();i!=e;++i)
