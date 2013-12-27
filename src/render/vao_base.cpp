@@ -16,14 +16,33 @@ void VaoBase::Init()
 	Unbind();
 }
 
-void VaoBase::Bind()
+void VaoBase::Bind()const
 {
 	glBindVertexArray(mVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, mDataBuffer);
 }
 
-void VaoBase::Unbind()
+void VaoBase::Unbind()const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+VaoBase::VaoBase()
+:mVAO(0xffffffff)
+,mDataBuffer(0xffffffff)
+,mSampler(0xffffffff)
+{
+
+}
+
+VaoBase::~VaoBase()
+{
+	Unbind();
+	if(mSampler!=0xffffffff)
+		glDeleteSamplers(1,&mSampler);
+	if(mDataBuffer!=0xffffffff)
+		glDeleteBuffers(1,&mDataBuffer);
+	if(mVAO!=0xffffffff)
+		glDeleteVertexArrays(1,&mVAO);
 }

@@ -7,9 +7,11 @@ class VaoBase
 	GLuint mVAO;
 	GLuint mSampler;
 public:
+	VaoBase();
+	~VaoBase();
 	void Init();
-	void Bind();
-	void Unbind();
+	void Bind()const;
+	void Unbind()const;
 };
 
 #endif//INCLUDED_RENDER_VAO_BASE_H
