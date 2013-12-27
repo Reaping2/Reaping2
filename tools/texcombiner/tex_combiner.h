@@ -21,6 +21,7 @@ class TexCombiner
 		std::string actor;
 		Phases_t phases;
 		uint16_t phase;
+		double scale;
 	};
 	struct Region
 	{

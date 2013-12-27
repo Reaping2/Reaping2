@@ -72,8 +72,6 @@ Json::Value& TexCombiner::Region::FindActor( Json::Value& ActorVisuals )
 	}
 	Json::Value NewActor(Json::objectValue);
 	NewActor["name"]=Json::Value(Tex->actor);
-	NewActor["w"]=Json::Value(Tex->w);
-	NewActor["h"]=Json::Value(Tex->h);
 	NewActor["animations"]=Json::Value(Json::arrayValue);
 	ActorVisuals.append(NewActor);
 	return ActorVisuals[ActorVisuals.size()-1];
@@ -107,6 +105,9 @@ Json::Value& TexCombiner::Region::FindAnimation( Json::Value& Animations, PhaseD
 	}
 	Json::Value NewAnim(Json::objectValue);
 	NewAnim["name"]=Json::Value(Anim.action);
+	NewAnim["w"]=Json::Value(Tex->w);
+	NewAnim["h"]=Json::Value(Tex->h);
+	NewAnim["scale"]=Json::Value(Tex->scale);
 	NewAnim["phases"].resize(Anim.total);
 	Animations.append(NewAnim);
 	return Animations[Animations.size()-1];
@@ -177,12 +178,12 @@ void TexCombiner::AddTexture(boost::filesystem::path const& NewTex)
 
 	boost::filesystem::path Desc=NewTex;
 	Desc.replace_extension(".json");
-	static bool CreateDummyJsonFiles=true;
+	static bool CreateDummyJsonFiles=false;
 	static bool Overwrite=false;
 	if(CreateDummyJsonFiles&&(Overwrite||!boost::filesystem::exists(Desc)))
 	{
 		OsFile j2(Desc,std::ios_base::out);
-		j2.Write(std::string("[\"\",1,[\"default_action\",0,1]]"));
+		j2.Write(std::string("[\"\",1,1.0,[\"default_action\",0,1]]"));
 		return;
 	}
 	OsFile j(Desc);
@@ -190,20 +191,35 @@ void TexCombiner::AddTexture(boost::filesystem::path const& NewTex)
 	JsonReader Reader(j);
 	if(!Reader.IsValid())return;
 	Json::Value Root=Reader.GetRoot();
-	if(!Root.isArray()||Root.size()<3)return;
+	if(!Root.isArray()||Root.size()<4)return;
 	std::string actor;
 	uint32_t phases;
 	if(!Json::GetStr(Root[0],actor)||
 		!Json::GetUInt(Root[1],phases))
 		return;
 
+	double scale;
+	if(!Json::GetDouble(Root[2],scale))
+	{
+//#define TRANSITION
+#ifdef TRANSITION
+		Root.append(Root[2]);
+		Root[2]=Json::Value(1.0);
+		Json::FastWriter Writer;
+		std::string const& JString=Writer.write(Root);
+		Desc.replace_extension(".json2");
+		OsFile OutJson(Desc,std::ios_base::out);
+		OutJson.Write(JString);
+#endif//TRANSITION
+		return;
+	}
 	if(actor.empty()||!phases)
 		return;
 
 	uint16_t const w=TexBase->GetWidth();
 	uint16_t const h=TexBase->GetHeight();
 	std::vector<Phases_t> Phases(phases);
-	for(size_t i=2,e=Root.size();i<e;++i)
+	for(size_t i=3,e=Root.size();i<e;++i)
 	{
 		Json::Value& JAction=Root[i];
 		if(!JAction.isArray()||JAction.size()!=3)return;
@@ -233,6 +249,7 @@ void TexCombiner::AddTexture(boost::filesystem::path const& NewTex)
 		d->h=h;
 		d->w=w/phases;
 		d->phase=i;
+		d->scale=scale;
 		using std::swap;
 		swap(d->phases,Phases[i]);
 		if(!d->phases.empty())
