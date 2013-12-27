@@ -14,10 +14,7 @@
 #include "font.h"
 #include "renderable_repo.h"
 #include "texture_repo.h"
-#include "model.h"
-#include "default_model.h"
-#include "player_model.h"
-#include "model_repo.h"
+#include "ui_renderer.h"
 #include "uimodel.h"
 #include "text_uimodel.h"
 #include "uimodel_repo.h"
@@ -27,6 +24,7 @@
 #include "scene_renderer.h"
 #include "particle.h"
 #include "particle_engine.h"
+#include "actor_renderer.h"
 #include "renderer.h"
 
 // bind

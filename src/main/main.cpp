@@ -60,7 +60,7 @@ int main()
 	Mouse& Jerry=Mouse::Get();
 	PerfTimer.Log("input");
 	Renderer& Rend=Renderer::Get();
-	DamageParticles::Get();
+	DamageDecals::Get();
 	PerfTimer.Log("renderer");
 	Scene& Scen=Scene::Get();
 	PerfTimer.Log("scene");

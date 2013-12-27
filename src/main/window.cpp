@@ -13,7 +13,7 @@ bool Window::Create(const uint32_t Width, const uint32_t Height, const std::stri
 		return false;
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	mWindow=glfwCreateWindow(Width, Height, Title.c_str(), NULL, NULL);
 	if(mWindow)

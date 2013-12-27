@@ -1,17 +1,32 @@
 #include "i_render.h"
 
-Sprite::Sprite(int32_t TexId, GLuint w, GLuint h, Json::Value const& Phases)
+Sprite::Sprite(int32_t TexId,Json::Value const& Anim)
 : RepoBase(DefaultSpritePhase)
 {
 	Texture const& Tex=TextureRepo::Get()(TexId);
 	mTexId=Tex.TexId();
+	uint32_t w,h;
+	Json::Value const& Phases=Anim["phases"];
+	if(!Phases.isArray())
+	{
+		mSteps=0;
+		return;
+	}
+	mSteps=Phases.size()-1;
+	if(Phases.empty())return;
+	if(!Json::GetUInt(Anim["w"],w)||
+		!Json::GetUInt(Anim["h"],h))
+	{
+		assert(false);
+		return;
+	}
 	GLfloat TexW=(GLfloat)Tex.Width();
 	GLfloat TexH=(GLfloat)Tex.Height();
 	if(TexW)TexW=1/TexW;
 	if(TexH)TexH=1/TexH;
-	mSteps=Phases.size()-1;
-	if(Phases.empty())return;
 	int idx=0;
+	if(!Json::GetDouble(Anim["scale"],mScale))
+		mScale=1.0;
 	for(Json::Value::const_iterator i=Phases.begin(),e=Phases.end();i!=e;++i,++idx)
 	{
 		Json::Value const& Phase=*i;
@@ -30,6 +45,16 @@ SpritePhase const& Sprite::operator()( int32_t Phase ) const
 {
 	int32_t SprPhase=(int32_t)(Phase/100.*mSteps+0.5);
 	return RepoBase::operator()(SprPhase);
+}
+
+bool Sprite::IsValid() const
+{
+	return mTexId!=0;
+}
+
+double Sprite::GetScale() const
+{
+	return mScale;
 }
 
 SpritePhase Sprite::DefaultSpritePhase=SpritePhase();

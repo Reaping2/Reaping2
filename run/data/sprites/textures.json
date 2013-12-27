@@ -5,11 +5,15 @@
 		[
 			{
 				"name":"grass",
-				"w":1500,
-				"h":1401,
 				"animations":
 				[
-					{"name":"default_action","phases":[{"x":0,"y":0}]}
+					{
+						"name":"default_action",
+						"w":1500,
+						"h":1401,
+						"scale":1.0,
+						"phases":[{"x":0,"y":0}]
+					}
 				]
 			}
 		]

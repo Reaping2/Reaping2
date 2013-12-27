@@ -2,6 +2,7 @@
 #define INCLUDED_RENDER_SHADER_H
 
 class ShaderRepo;
+class ShaderManager;
 class Shader
 {
 	GLuint mVertexId;
@@ -13,11 +14,12 @@ class Shader
 	Shader(std::string const& Name);
 	Shader();
 	Shader(const Shader&);
-public:
-	~Shader();
+	friend class ShaderManager;
 	void Bind()const;
 	void Unbind()const;
 	GLuint GetProgId()const{return mProgramId;}
+public:
+	~Shader();
 };
 
 #endif//INCLUDED_RENDER_SHADER_H

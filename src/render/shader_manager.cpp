@@ -57,6 +57,14 @@ void ShaderManager::UploadData( std::string const& Name,GLuint const& Data )
 }
 
 template<>
+void ShaderManager::UploadData( std::string const& Name,GLfloat const& Data )
+{
+	GLuint Loc=GetUniformLocation(Name);
+	if(Loc==-1)return;
+	glUniform1f(Loc,Data);
+}
+
+template<>
 void ShaderManager::UploadData( std::string const& Name,glm::vec2 const& Data )
 {
 	GLuint Loc=GetUniformLocation(Name);

@@ -20,8 +20,8 @@ class ShaderManager : public Singleton<ShaderManager>
 	void InitGlobalUniforms();
 	friend class Singleton<ShaderManager>;
 	ShaderManager();
-	std::string mActiveShaderName;
 	Shader const* mActiveShader;
+	std::string mActiveShaderName;
 	typedef std::map<std::string,GLuint> LocMap_t;
 	typedef std::map<GLuint,LocMap_t> ShaderMap_t;
 	ShaderMap_t mShaderLocs;
@@ -37,6 +37,9 @@ public:
 
 template<>
 void ShaderManager::UploadData( std::string const& Name,GLuint const& Data );
+
+template<>
+void ShaderManager::UploadData( std::string const& Name,GLfloat const& Data );
 
 template<>
 void ShaderManager::UploadData( std::string const& Name,glm::vec2 const& Data );

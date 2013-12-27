@@ -15,17 +15,13 @@ void SceneRenderer::Draw( Scene& Object )
 		CreateMesh(Object);
 
 
-	Shader const& Shad(ShaderRepo::Get()(AutoId("scene")));
-	Shad.Bind();
+	ShaderManager& ShaderMgr(ShaderManager::Get());
+	ShaderMgr.ActivateShader("scene");
 	mVAO.Bind();
 	glActiveTexture(GL_TEXTURE0+2);
-	glBindTexture(GL_TEXTURE_2D,mTextureId);
-	GLuint Unif=glGetUniformLocation(Shad.GetProgId(),"sceneTexture");
-	glUniform1i(Unif,2);
 	glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 	mVAO.Unbind();
 	glActiveTexture(GL_TEXTURE0);
-	Shad.Unbind();
 }
 
 void SceneRenderer::CreateMesh( Scene& Object )
@@ -46,6 +42,11 @@ void SceneRenderer::CreateMesh( Scene& Object )
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8*sizeof(GLfloat)));
 	mVAO.Unbind();
 	mTextureId=Phase.TexId;
+	ShaderManager& ShaderMgr(ShaderManager::Get());
+	ShaderMgr.ActivateShader("scene");
+	glActiveTexture(GL_TEXTURE0+2);
+	glBindTexture(GL_TEXTURE_2D,mTextureId);
+	ShaderMgr.UploadData("sceneTexture",GLuint(2));
 }
 
 bool SceneRenderer::SceneChanged( Scene& Object ) const

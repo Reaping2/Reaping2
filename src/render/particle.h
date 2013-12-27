@@ -1,14 +1,11 @@
-#ifndef INCLUDED_RENDER_PARTICLE_H
-#define INCLUDED_RENDER_PARTICLE_H
+#ifndef INCLUDED_RENDER_DECAL_H
+#define INCLUDED_RENDER_DECAL_H
 
-struct Particle
+struct Decal
 {
-	glm::vec2 mQuad[4];
-	//glm::vec2 mSpeed;
+	glm::vec2 mCenter;
 	int32_t mId;
-	glm::vec4 mColor;
-	//int32_t mMovementId;
-	Particle():mId(0),mColor(1.0f){}
+	Decal():mId(0){}
 };
 
-#endif//INCLUDED_RENDER_PARTICLE_H
+#endif//INCLUDED_RENDER_DECAL_H

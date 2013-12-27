@@ -1,15 +1,15 @@
-#ifndef INCLUDED_RENDER_DAMAGE_PARTICLES_H
-#define INCLUDED_RENDER_DAMAGE_PARTICLES_H
+#ifndef INCLUDED_RENDER_DAMAGE_DECALS_H
+#define INCLUDED_RENDER_DAMAGE_DECALS_H
 
-class DamageParticles : public Singleton<DamageParticles>
+class DamageDecals : public Singleton<DamageDecals>
 {
-	ParticleEngine& mParticleEngine;
-	DamageParticles();
+	DecalEngine& mDecalEngine;
+	DamageDecals();
 	void Load();
-	friend class Singleton<DamageParticles>;
+	friend class Singleton<DamageDecals>;
 	Registration mOnDamageTaken;
 	std::vector<int32_t> mValidIds;
 	void OnDamageTaken(DamageTakenEvent const& Evt);
 };
 
-#endif//INCLUDED_RENDER_DAMAGE_PARTICLES_H
+#endif//INCLUDED_RENDER_DAMAGE_DECALS_H

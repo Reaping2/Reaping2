@@ -12,15 +12,15 @@ class Renderer : public Singleton<Renderer>
 	Camera mCamera;
 	Ui& mUi;
 	SceneRenderer mSceneRenderer;
-	ParticleEngine& mParticleEngine;
+	ActorRenderer mActorRenderer;
+	UiRenderer mUiRenderer;
+	DecalEngine& mDecalEngine;
 	ShaderManager& mShaderManager;
 
 	Registration mMouseMoveId;
 	Registration mMousePressId;
 	Registration mMouseReleaseId;
 
-	void RenderActors(bool Alive);
-	void RenderSprites();
 	bool BeginRender();
 	bool EndRender();
 	void SetupRenderer(const Projection& Proj);
@@ -32,7 +32,6 @@ class Renderer : public Singleton<Renderer>
 	void OnMouseReleaseEvent(const ScreenMouseReleaseEvent& Event);
 
 	void Init();
-	VaoBase mVAO;
 public:
 	bool Render();
 };

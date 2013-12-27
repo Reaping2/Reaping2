@@ -16,9 +16,6 @@ bool SpriteCollection::Load(int32_t TexId, Json::Value& Root)
 {
 	std::string NameStr;
 	if(!Json::GetStr(Root["name"],NameStr))return false;
-	uint32_t W,H;
-	if(!Json::GetUInt(Root["w"],W)||
-		!Json::GetUInt(Root["h"],H))return false;
 	Json::Value Anims=Root["animations"];
 	if(!Anims.isArray())return false;
 	const size_t NumAnims=Anims.size();
@@ -29,10 +26,8 @@ bool SpriteCollection::Load(int32_t TexId, Json::Value& Root)
 		if(!Anim.isObject())return false;
 		std::string AnimationName;
 		if(!Json::GetStr(Anim["name"],AnimationName))return false;
-		Json::Value& Phases=Anim["phases"];
-		if(!Phases.isArray())return false;
 		int32_t ActionId=AutoId(AnimationName);
-		Sprite* Spr=new Sprite(TexId,W,H,Phases);
+		Sprite* Spr=new Sprite(TexId,Anim);
 		Animations.insert(ActionId,Spr);
 	}
 	// all is good
@@ -47,4 +42,4 @@ void SpriteCollection::Merge( SpriteCollection& Other )
 	mElements.transfer(Other.mElements.begin(),Other.mElements.end(),Other.mElements);
 }
 
-Sprite SpriteCollection::DefaultSprite=Sprite(NULL,0,0,Json::Value());
+Sprite SpriteCollection::DefaultSprite=Sprite(NULL,Json::Value());
