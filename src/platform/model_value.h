@@ -59,12 +59,15 @@ public:
 	void operator()(int32_t Arg) const;
 	void operator()(double Arg) const;
 	void operator()(std::string const& Arg) const;
+
+	virtual bool IsValid()const{return true;}
 };
 
 class DefaultModelValue : public Singleton<DefaultModelValue>, public ModelValue
 {
 	friend class Singleton<DefaultModelValue>;
 	DefaultModelValue();
+	virtual bool IsValid()const{return false;}
 };
 
 class RootModel : public Singleton<RootModel>, public ModelValue
