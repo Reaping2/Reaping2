@@ -22,8 +22,10 @@ void Camera::UpdateAllowedCenterRegion()
 
 void Camera::Update()
 {
-	double px=RootModel::Get()["player"]["x"];
-	double py=RootModel::Get()["player"]["y"];
+	ModelValue const& PlayerModel=RootModel::Get()["player"];
+	if(!PlayerModel.IsValid())return;
+	double px=PlayerModel["x"];
+	double py=PlayerModel["y"];
 	if(mCenter.x<px-mAllowedDistance.x)
 		mCenter.x=(float)px-mAllowedDistance.x;
 	else if(mCenter.x>px+mAllowedDistance.x)
