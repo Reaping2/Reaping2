@@ -57,8 +57,6 @@ solution "Reaping2"
 		if os.is("windows") then
 			links { "opengl32", "zlibstaticd", "libpng16_staticd", "glew32sd", "libogg_static", "libvorbis_static", "libvorbisfile_static", "portaudio_static_x86" }
 			linkoptions	{ "/nodefaultlib:msvcrt.lib" }
-		else
-			links { "X11", "Xxf86vm", "Xi", "Xrandr", "GL", "boost_system", "boost_thread", "boost_filesystem", "portaudio", "ogg", "vorbis", "vorbisfile", "GLEW", "z", "png" }
 		end
  
 	configuration { "Release*" }
@@ -67,8 +65,6 @@ solution "Reaping2"
 		if os.is("windows") then
 			links { "opengl32", "zlibstatic", "libpng16_static", "glew32s", "libogg_static", "libvorbis_static", "libvorbisfile_static", "portaudio_static_x86" }
 			linkoptions	{ "/nodefaultlib:msvcrtd.lib" }
-		else
-			links { "X11", "Xxf86vm", "Xi", "Xrandr", "GL", "boost_system", "boost_thread", "boost_filesystem", "portaudio", "ogg", "vorbis", "vorbisfile", "GLEW", "z", "png" }
 		end
 
 	newaction 
@@ -123,6 +119,10 @@ solution "Reaping2"
 		kind "ConsoleApp"
 
 		links { "core", "input", "platform", "render", "ui", "audio", "json-cpp" }
+		if os.is("windows") then
+		else
+			links { "X11", "Xxf86vm", "Xi", "Xrandr", "GL", "boost_system", "boost_thread", "boost_filesystem", "portaudio", "ogg", "vorbis", "vorbisfile", "GLEW", "z", "png" }
+		end
 		setup_files_for_project("main")
 
 		files  { "../src/**.h", "../src/**.cpp" }
@@ -136,7 +136,7 @@ solution "Reaping2"
 			-- no boost here, the headers do this job with visual studio
 			links { "opengl32" }
 		else
-			links { "boost_system", "boost_program_options", "z", "png" }
+			links { "boost_filesystem", "boost_system", "boost_program_options", "z", "png" }
 		end
 		files  { "../tools/r2pkg/**.h", "../tools/r2pkg/**.cpp" }
 	 
@@ -163,7 +163,7 @@ solution "Reaping2"
 			-- no boost here, the headers do this job with visual studio
 			links { "opengl32" }
 		else
-			links { "boost_system" }
+			links { "boost_system", "boost_filesystem", "z", "png" }
 		end
 		files  { "../tools/texcombiner/**.h", "../tools/texcombiner/**.cpp" }
 	 

@@ -1,4 +1,5 @@
 #!/bin/sh
+export REAPING_ROOT=`pwd`/../
 cd ../deps/boost_1_54_0
 ./bootstrap.sh
 ./b2 --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options --with-atomic
@@ -38,6 +39,9 @@ mkdir build_dir
 make
 make install
 echo "" > build_dir/include/pa_options_cmake.h
-cd ../../glew-1.10.0/
+cd $REAPING_ROOT/deps/glew-1.10.0/
 make
+mkdir $REAPING_ROOT/bin
+mkdir $REAPING_ROOT/bin/libs
+find $REAPING_ROOT/deps -name lib*.so* -exec cp "{}" $REAPING_ROOT/bin/libs/ \;
 
