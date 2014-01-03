@@ -21,7 +21,7 @@ class AutoReg : public Registration
 {
 public:
 	~AutoReg() {Unregister();}
-	AutoReg& operator=(Registration const& O){Registration::operator =(O);}
+	AutoReg& operator=(Registration const& O){Registration::operator =(O);return *this;}
 };
 
 class Registry

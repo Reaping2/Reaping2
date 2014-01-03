@@ -76,7 +76,8 @@ bool PackageWriter::WriteHeader()
 	if(!f.Write(conv::serialize(mHeader.NumFiles)))return false;
 	for(FilesMap::const_iterator i=mFiles.begin(),e=mFiles.end();i!=e;++i)
 	{
-		const std::string& Path=i->first.string();	// nem const refet ad vissza, hanem temp-et, tudom. de ez tok valid.
+		boost::filesystem::path const& p=i->first;
+		const std::string& Path=p.generic_string();	// nem const refet ad vissza, hanem temp-et, tudom. de ez tok valid.
 		const FileDesc& Fd=i->second;
 		if(!f.Write(conv::serialize((uint32_t)Path.size())))return false;
 		if(!f.Write(Path))return false;
