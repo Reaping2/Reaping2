@@ -1,6 +1,6 @@
 #include "i_platform.h"
 
-OsFile::OsFile(const boost::filesystem::path& Path,std::fstream::open_mode Mode)
+OsFile::OsFile(const boost::filesystem::path& Path,std::ios_base::openmode Mode)
 : mFile(Path.c_str(),Mode|std::ios_base::binary)
 , mPosition(0)
 {

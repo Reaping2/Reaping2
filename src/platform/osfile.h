@@ -9,7 +9,7 @@ class OsFile : public File
 	size_t mSize;
 	size_t mPosition;
 public:
-	OsFile(const boost::filesystem::path& Path, std::ios_base::open_mode OpenMode=std::ios_base::in);
+	OsFile(const boost::filesystem::path& Path, std::ios_base::openmode OpenMode=std::ios_base::in);
 	~OsFile();
 	virtual bool Read(void* Dst, size_t Size);
 	virtual bool Write(void const* Src, size_t Size);

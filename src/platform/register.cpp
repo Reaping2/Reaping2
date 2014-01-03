@@ -2,10 +2,10 @@
 
 Registration::~Registration()
 {
-	Unregister();
+//	Unregister();
 }
 
-Registration::Registration( Registration& O ) :mData(NULL),mRegister(NULL)
+Registration::Registration( Registration const& O ) :mData(NULL),mRegister(NULL)
 {
 	*this=O;
 }
@@ -24,13 +24,13 @@ Registration::Registration()
 
 }
 
-Registration& Registration::operator=( Registration& O )
+Registration& Registration::operator=( Registration const& O )
 {
 	if(this!=&O)
 	{
-		using std::swap;
-		swap(mData,O.mData);
-		swap(mRegister,O.mRegister);
+		//using std::swap;
+		mData=O.mData;
+		mRegister=O.mRegister;
 	}
 	return *this;
 }

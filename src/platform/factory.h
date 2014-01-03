@@ -7,7 +7,7 @@ public:
 	virtual std::auto_ptr<Return_T> operator()(int32_t Id) const;
 	virtual std::auto_ptr<Return_T> operator()(int32_t Id);	// lazy load
 protected:
-	typedef typename Factory<Return_T> FactoryBase;
+	typedef Factory<Return_T> FactoryBase;
 	typedef boost::function<std::auto_ptr<Return_T>(int32_t)> Functor_t;
 	typedef std::map<int32_t, Functor_t> ElementMap_t;
 	template<typename Elem_T>
@@ -40,7 +40,7 @@ void Factory<Return_T>::Bind( int32_t Id, Functor_t Functor )
 template<typename Return_T>
 void Factory<Return_T>::SetDefault( int32_t Id )
 {
-	ElementMap_t::iterator it = mElements.find(Id);
+	typename ElementMap_t::iterator it = mElements.find(Id);
 	if(it!=mElements.end())
 		mDefaultElement=it->second;
 }
@@ -53,7 +53,7 @@ std::auto_ptr<Return_T> Factory<Return_T>::operator()( int32_t Id )
 template<typename Return_T>
 std::auto_ptr<Return_T> Factory<Return_T>::operator()(int32_t Id) const
 {
-	ElementMap_t::const_iterator i=mElements.find(Id);
+	typename ElementMap_t::const_iterator i=mElements.find(Id);
 	return (i==mElements.end()?mDefaultElement(Id):(i->second)(Id));
 }
 #endif//INCLUDED_PLATFORM_FACTORY_H

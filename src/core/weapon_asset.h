@@ -16,7 +16,7 @@ protected:
 	uint32_t mScatter;
 	uint32_t mAltScatter;
 	WeaponAsset(int32_t Id);
-	virtual void Update(double Seconds) override;
+	virtual void Update(double Seconds);
 	friend class Factory<Action>;
 };
 

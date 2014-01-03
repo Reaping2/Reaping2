@@ -21,10 +21,10 @@ class PlayerController : public Controller
 	double mY;
 	bool mDirty;
 	Mouse& mMouse;
-	Registration mKeyId;
-	Registration mMouseMoveId;
-	Registration mMousePressId;
-	Registration mMouseReleaseId;
+	AutoReg mKeyId;
+	AutoReg mMouseMoveId;
+	AutoReg mMousePressId;
+	AutoReg mMouseReleaseId;
 	boost::ptr_vector<ModelValue> mPlayerModels;
 	ModelValue mPlayerModel;
 public:

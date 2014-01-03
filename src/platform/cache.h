@@ -5,7 +5,7 @@ template<typename T>
 class Cache
 {
 public:
-	typedef typename T CachedType;
+	typedef T CachedType;
 	typedef typename boost::shared_ptr<T> Elem;
 protected:
 	typedef typename boost::unordered_map<int32_t, Elem> CachedValues_t;

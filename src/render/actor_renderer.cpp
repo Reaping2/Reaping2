@@ -70,14 +70,6 @@ void ActorRenderer::Draw( Scene const& Object )
 	TexCoords_t TexCoords;
 	TexCoords.reserve(CurSize);
 
-	struct CountByTexId
-	{
-		GLuint TexId;
-		size_t Start;
-		size_t Count;
-		CountByTexId(GLuint t,size_t s,size_t c):TexId(t),Start(s),Count(c){}
-	};
-	typedef std::vector<CountByTexId> Counts_t;
 	Counts_t Counts;
 	GLuint TexId=-1;
 	size_t Count=0;

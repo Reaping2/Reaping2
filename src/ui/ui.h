@@ -12,10 +12,10 @@ class Ui : public Singleton<Ui>
 	Ui();
 	ModelValue mUiModel;
 	ModelValue mLoad;
-	Registration mOnPressId;
-	Registration mOnReleaseId;
-	Registration mOnMoveId;
-	Registration mKeyId;
+	AutoReg mOnPressId;
+	AutoReg mOnReleaseId;
+	AutoReg mOnMoveId;
+	AutoReg mKeyId;
 	void OnMousePressEvent(UiMousePressEvent const& Evt);
 	void OnMouseReleaseEvent(UiMouseReleaseEvent const& Evt);
 	void OnMouseMoveEvent(UiMouseMoveEvent const& Evt);

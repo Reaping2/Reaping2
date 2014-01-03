@@ -3,7 +3,7 @@
 
 class VorbisFileCache : public Cache<VorbisFile>, public Singleton<VorbisFileCache>
 {
-	Registration mPhaseChangeId;
+	AutoReg mPhaseChangeId;
 	boost::mutex mLoadingElemsMtx;
 	boost::thread mLoaderThread;
 	typedef std::vector<Elem> LoadingElems_t;

@@ -11,10 +11,17 @@ class Registration
 public:
 	~Registration();
 	Registration();
-	Registration(Registration& O);
-	Registration& operator=(Registration& O);
+	Registration(Registration const& O);
+	Registration& operator=(Registration const& O);
 	void const* GetData()const{return mData;}
 	void Unregister();
+};
+
+class AutoReg : public Registration
+{
+public:
+	~AutoReg() {Unregister();}
+	AutoReg& operator=(Registration const& O){Registration::operator =(O);}
 };
 
 class Registry

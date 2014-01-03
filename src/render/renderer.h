@@ -17,9 +17,9 @@ class Renderer : public Singleton<Renderer>
 	DecalEngine& mDecalEngine;
 	ShaderManager& mShaderManager;
 
-	Registration mMouseMoveId;
-	Registration mMousePressId;
-	Registration mMouseReleaseId;
+	AutoReg mMouseMoveId;
+	AutoReg mMousePressId;
+	AutoReg mMouseReleaseId;
 
 	bool BeginRender();
 	bool EndRender();

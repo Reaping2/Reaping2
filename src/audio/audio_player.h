@@ -18,7 +18,7 @@ class AudioPlayer : public Singleton<AudioPlayer>
 	size_t mPlaybackBufferLength;
 	boost::thread mPlaybackThread;
 	boost::thread mReadThread;
-	Registration mPhaseChangeId;
+	AutoReg mPhaseChangeId;
 	boost::mutex mReadMtx;
 	boost::mutex mPlayMtx;
 	boost::atomic<bool> mClosing;

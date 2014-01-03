@@ -35,7 +35,7 @@ protected:
 	double mTargetRatio;
 	double mWindowRatio;
 	glm::vec4 mContainedDimensions;
-	Registration mWindowResizeId;
+	AutoReg mWindowResizeId;
 	void OnWindowResizeEvent(const WindowResizeEvent& Event);
 	void Resize(int Width, int Height);
 	virtual void UpdateSelfDimensions();

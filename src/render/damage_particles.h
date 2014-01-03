@@ -7,7 +7,7 @@ class DamageDecals : public Singleton<DamageDecals>
 	DamageDecals();
 	void Load();
 	friend class Singleton<DamageDecals>;
-	Registration mOnDamageTaken;
+	AutoReg mOnDamageTaken;
 	std::vector<int32_t> mValidIds;
 	void OnDamageTaken(DamageTakenEvent const& Evt);
 };

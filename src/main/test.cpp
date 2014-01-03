@@ -82,7 +82,7 @@ namespace{
 		}
 
 		static const size_t mNumRegs=5;
-		Registration mReg[mNumRegs];
+		AutoReg mReg[mNumRegs];
 		void TestRegistrations()
 		{
 			for(size_t i=0;i<mNumRegs;++i)

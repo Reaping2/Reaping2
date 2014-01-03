@@ -23,7 +23,7 @@ void Creep::OnDeath()
 	static const size_t Mod=3;
 #else
 	static const size_t Mod=10;
-#endif==DEBUG
+#endif//DEBUG
 	if(rand()%Mod)
 		return;
 

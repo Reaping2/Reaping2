@@ -5,7 +5,7 @@ class IdleAction : public Action
 {
 protected:
 	IdleAction(int32_t Id);
-	virtual void Update(double Seconds)  override;
+	virtual void Update(double Seconds);
 	friend class Factory<Action>;
 };
 

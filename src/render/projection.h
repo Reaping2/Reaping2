@@ -37,7 +37,7 @@ protected:
 	glm::vec4 mViewportTransf;
 	static const glm::mat4 mIdentity;
 
-	Registration mWindowResizeId;
+	AutoReg mWindowResizeId;
 
 	float mRatio;
 

@@ -13,4 +13,4 @@ private:
 	double mHeadingModifier;
 };
 
-#endif INCLUDED_CORE_TARGET_PLAYER_CONTROLLER_H
+#endif//INCLUDED_CORE_TARGET_PLAYER_CONTROLLER_H

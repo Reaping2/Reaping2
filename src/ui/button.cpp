@@ -49,7 +49,7 @@ bool Button::Trigger()
 			RootModel::Get()[Act.mAction]((double)Act.mArg);
 			break;
 		case Prop::T_Str:
-			RootModel::Get()[Act.mAction]((std::string)Act.mArg);
+			RootModel::Get()[Act.mAction](Act.mArg.operator std::string());
 			break;
 		}
 	}

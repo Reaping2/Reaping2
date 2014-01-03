@@ -24,7 +24,7 @@ class EventServer : public Singleton< EventServer<Event_T> > , public Registry
 	friend class Singleton<EventServer<Event_T> >;
 	EventServer();
 public:
-	typedef typename Event_T EventType;
+	typedef Event_T EventType;
 	typedef typename boost::function<void(const EventType&)> EventHandler;
 	Registration Subscribe(const EventHandler&);
 	bool SendEvent(const EventType& Event);
