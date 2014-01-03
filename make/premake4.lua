@@ -131,12 +131,12 @@ solution "Reaping2"
 		kind     "ConsoleApp"
 		language "C++"
 
-		links { "platform" }
+		links { "platform", "json-cpp" }
 		if os.is("windows") then
 			-- no boost here, the headers do this job with visual studio
 			links { "opengl32" }
 		else
-			links { "boost_system" }
+			links { "boost_system", "boost_program_options", "z", "png" }
 		end
 		files  { "../tools/r2pkg/**.h", "../tools/r2pkg/**.cpp" }
 	 
@@ -158,7 +158,7 @@ solution "Reaping2"
 		kind     "ConsoleApp"
 		language "C++"
 
-		links { "platform" }
+		links { "platform", "json-cpp" }
 		if os.is("windows") then
 			-- no boost here, the headers do this job with visual studio
 			links { "opengl32" }

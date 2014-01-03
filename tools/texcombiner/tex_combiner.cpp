@@ -221,7 +221,7 @@ void TexCombiner::AddTexture(boost::filesystem::path const& NewTex)
 	std::vector<Phases_t> Phases(phases);
 	for(size_t i=3,e=Root.size();i<e;++i)
 	{
-		Json::Value& JAction=Root[i];
+		Json::Value& JAction=Root[Json::Value::ArrayIndex(i)];
 		if(!JAction.isArray()||JAction.size()!=3)return;
 		std::string action;
 		uint32_t from, to;
