@@ -10,7 +10,10 @@ namespace {
 bool Window::Create(const uint32_t Width, const uint32_t Height, const std::string& Title)
 {
 	if(!glfwInit())
+	{
+		LOG("glfwInit failed!\n");
 		return false;
+	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -18,18 +21,23 @@ bool Window::Create(const uint32_t Width, const uint32_t Height, const std::stri
 	mWindow=glfwCreateWindow(Width, Height, Title.c_str(), NULL, NULL);
 	if(mWindow)
 	{
+		LOG("Window creation succeeded!\n");
 		glfwSetFramebufferSizeCallback(mWindow,&Window_FramebufferSizeCallback);
 		glfwMakeContextCurrent(mWindow);
 		glewExperimental=true;
 		GLenum err=glewInit();
 		if(err!=GLEW_OK)
 		{
+			LOG("glewInit failed!\n");
 			glfwTerminate();
 			mWindow=NULL;
 		}
 	}
 	else
+	{
+		LOG("Window creation failed!\n");
 		glfwTerminate();
+	}
 
 	return !!mWindow;
 }

@@ -100,7 +100,7 @@ namespace{
 
 		void TestTgaPerf()
 		{
-			AutoFile t1=mPackage->Open("test/desert.tga");
+/*			AutoFile t1=mPackage->Open("test/desert.tga");
 			AutoFile t2=mPackage->Open("test/poks.tga");
 			AutoFile p1=mPackage->Open("test/desert.png");
 			AutoFile p2=mPackage->Open("test/poks.png");
@@ -123,7 +123,7 @@ namespace{
 				p2->SetPosition(0);
 			}
 			Perf.Log("PNG done");
-			// TGA is approximately 10 times faster
+			// TGA is approximately 10 times faster*/
 		}
 
 		void TestMain()
