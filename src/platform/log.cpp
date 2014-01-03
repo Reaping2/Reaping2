@@ -26,9 +26,9 @@ Logger::Logger()
 	Json::Value& DisabledLogs=Root["disabled_logs"];
 	if(!DisabledLogs.isArray())return;
 	const size_t NumDisabledLogs=DisabledLogs.size();
-	for(size_t i=0;i<NumDisabledLogs;++i)
+	for(Json::Value::iterator it=DisabledLogs.begin(),e=DisabledLogs.end();it!=e;++it)
 	{
-		Json::Value& DisLog=DisabledLogs[i];
+		Json::Value const& DisLog=*it;
 		uint32_t Val;
 		if(!GetUInt(DisLog,Val))continue;
 		mDisabledLevels|=(1<<Val);

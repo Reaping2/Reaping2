@@ -13,10 +13,9 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc(Json::Value& TexDesc, ElementM
 	if(!ActorVisuals.isArray())return false;
 	if(!Json::GetStr(TexDesc["texture_path"],PathStr))return false;
 	int32_t TexId=AutoId(boost::filesystem::path(PathStr).generic_string());
-	const size_t NumActors=ActorVisuals.size();
-	for(size_t i=0;i<NumActors;++i)
+	for(Json::Value::iterator i=ActorVisuals.begin(),e=ActorVisuals.end();i!=e;++i)
 	{
-		Json::Value& ActorVisualDesc=ActorVisuals[i];
+		Json::Value& ActorVisualDesc=*i;
 		if(!ActorVisualDesc.isObject())return false;
 		std::auto_ptr<SpriteCollection> Renderable(new SpriteCollection);
 		if(!Renderable->Load(TexId,ActorVisualDesc))return false;
@@ -46,10 +45,9 @@ void RenderableRepo::Init()
 		if(!Reader.IsValid())continue;
 		Json::Value Root=Reader.GetRoot();
 		if(!Root.isArray())continue;
-		size_t NumTextures=Root.size();
-		for(size_t i=0;i<NumTextures;++i)
+		for(Json::Value::iterator i=Root.begin(),e=Root.end();i!=e;++i)
 		{
-			Json::Value& TexDesc=Root[i];
+			Json::Value& TexDesc=*i;
 			if(!AddSpritesFromOneTextureDesc(TexDesc,Renderables))return;
 		}
 	}
