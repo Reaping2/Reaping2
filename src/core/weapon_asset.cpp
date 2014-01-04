@@ -42,6 +42,7 @@ void WeaponAsset::Shoot()
 		Shot& Proj=*i;
 		Proj.SetX(mActor->GetX());
 		Proj.SetY(mActor->GetY());
+		Proj.SetParent(*mActor);
 		Proj.SetOrientation(Proj.GetOrientation()+ori);
 		Proj.SetHeading(Proj.GetOrientation());
 		Scen.AddActor(&Proj);
@@ -67,6 +68,7 @@ void WeaponAsset::ShootAlt()
 		Shot& Proj=*i;
 		Proj.SetX(mActor->GetX());
 		Proj.SetY(mActor->GetY());
+		Proj.SetParent(*mActor);
 		Proj.SetOrientation(Proj.GetOrientation()+ori);
 		Proj.SetHeading(Proj.GetOrientation());
 		Scen.AddActor(&Proj);

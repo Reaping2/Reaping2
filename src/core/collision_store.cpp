@@ -20,6 +20,7 @@ CollisionStore::CollisionStore()
 	mModels.resize(Size,Empty);
 	Elem_t Box(new BoxCollisionModel);
 	SetCollisionModel(CollisionClass::Creep,CollisionClass::Projectile,Box);
+	SetCollisionModel(CollisionClass::Player,CollisionClass::Projectile,Box);
 	SetCollisionModel(CollisionClass::Wall,CollisionClass::Projectile,Box);
 	SetCollisionModel(CollisionClass::Wall,CollisionClass::Creep,Box);
 	SetCollisionModel(CollisionClass::Wall,CollisionClass::Player,Box);

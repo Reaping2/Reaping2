@@ -1,7 +1,8 @@
 #include "i_core.h"
 
 Shot::Shot(std::string const& Name)
-	:Actor(Name)
+:Actor(Name)
+,mParentGuid(-1)
 {
 	mFields[COLLISION_CLASS].i=CollisionClass::Projectile;
 	mFields[RADIUS].d=0.02;
@@ -22,6 +23,8 @@ void Shot::ClipScene()
 
 void Shot::Collide( Actor& Other )
 {
+	if(Other.GetGUID()==mParentGuid)
+		return;
 	Other.TakeDamage(mFields[DAMAGE].i);
 	mFields[HP].i=HP_DEAD;
 }
@@ -30,4 +33,9 @@ void Shot::UpdateLifetime()
 {
 	if(!IsAlive())
 		delete this;
+}
+
+void Shot::SetParent( Actor& P )
+{
+	mParentGuid=P.GetGUID();
 }
