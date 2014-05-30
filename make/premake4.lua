@@ -121,7 +121,7 @@ solution "Reaping2"
 		links { "core", "input", "platform", "render", "ui", "audio", "json-cpp" }
 		if os.is("windows") then
 		else
-			links { "X11", "Xxf86vm", "Xi", "Xrandr", "GL", "boost_system", "boost_thread", "boost_filesystem", "portaudio", "ogg", "vorbis", "vorbisfile", "GLEW", "z", "png" }
+			links { "X11", "Xxf86vm", "Xi", "Xrandr", "GL", "boost_system", "boost_thread", "boost_filesystem", "portaudio", "ogg", "vorbis", "vorbisfile", "GLEW", "z", "png", "rt", "pthread" }
 		end
 		setup_files_for_project("main")
 

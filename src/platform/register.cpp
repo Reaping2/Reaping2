@@ -77,11 +77,6 @@ void Registry::Unregister( Registration* Reg )
 	Reg->mRegister=NULL;
 }
 
-void Registry::DeleteData( void* Data)
-{
-	delete Data;
-}
-
 void Registry::Update( void * UpdateData )
 {
 	assert(mUpdatedRegistrations.empty());

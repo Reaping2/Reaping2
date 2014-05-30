@@ -30,7 +30,7 @@ class Registry
 	void Unregister(Registration* Reg);
 protected:
 	Registration Register(void *Data);
-	virtual void DeleteData(void* Data);
+	virtual void DeleteData(void* Data)=0;
 	void Update(void * UpdateData);
 	virtual void UpdateOne(void* RegistrationData, void* UpdateData)=0;
 private:
