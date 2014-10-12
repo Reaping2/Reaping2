@@ -1,7 +1,7 @@
 #version 330
 
 uniform sampler2D spriteTexture;
-in vec3 inTexCoord;
+smooth in vec3 inTexCoord;
 out vec4 outputColor;
 void main()
 {

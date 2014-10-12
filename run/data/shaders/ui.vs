@@ -12,11 +12,11 @@ layout(std140) uniform GlobalMatrices
 layout(location = 0) in vec2 position;
 layout(location = 1) in vec2 texcoord;
 layout(location = 2) in vec4 color;
-smooth out vec2 inTexCoord;
-smooth out vec4 inColor;
+out vec2 inTexCoord;
+out vec4 inColor;
 void main()
 {
 	inTexCoord=texcoord;
 	inColor=color;
-	gl_Position = uiProjection*vec4(position,0,1);
+	gl_Position = /*uiProjection**/vec4(position,0,1);
 }
