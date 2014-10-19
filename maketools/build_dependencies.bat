@@ -28,7 +28,7 @@ set BOOTSTRAP_TOOLSET=""
 if /i "%MSVS_VER%" == "vs80" (
 	set GENERATOR_NAME="Visual Studio 8 2005"
 	set "B2_TOOLSET=msvc-8.0"
-	set BOOTSTRAP_TOOLSET="vc8"
+	set BOOTSTRAP_TOOLSET=vc8
 	set XIPH_FOLDER="VS2005"
 	set GLEW_FOLDER="vc6"
 	set "VCBUILDER=..\..\VC\vcpackages\vcbuild.exe"
@@ -36,7 +36,7 @@ if /i "%MSVS_VER%" == "vs80" (
 if /i "%MSVS_VER%" == "vs90" (
 	set GENERATOR_NAME="Visual Studio 9 2008"
 	set "B2_TOOLSET=msvc-9.0"
-	set BOOTSTRAP_TOOLSET="vc9"
+	set BOOTSTRAP_TOOLSET=vc9
 	set XIPH_FOLDER="VS2008"
 	set GLEW_FOLDER="vc6"
 	set "VCBUILDER=..\..\VC\vcpackages\vcbuild.exe"
@@ -44,21 +44,21 @@ if /i "%MSVS_VER%" == "vs90" (
 if /i "%MSVS_VER%" == "vs100" (
 	set GENERATOR_NAME="Visual Studio 10"
 	set "B2_TOOLSET=msvc-10.0"
-	set BOOTSTRAP_TOOLSET="vc10"
+	set BOOTSTRAP_TOOLSET=vc10
 	set XIPH_FOLDER="VS2010"
 	set GLEW_FOLDER="vc10"
 )
 if /i "%MSVS_VER%" == "vs110" (
 	set GENERATOR_NAME="Visual Studio 11"
 	set "B2_TOOLSET=msvc-11.0"
-	set BOOTSTRAP_TOOLSET="vc11"
+	set BOOTSTRAP_TOOLSET=vc11
 	set XIPH_FOLDER="VS2010"
 	set GLEW_FOLDER="vc10"
 )
 if /i "%MSVS_VER%" == "vs120" (
 	set GENERATOR_NAME="Visual Studio 12"
 	set "B2_TOOLSET=msvc-12.0"
-	set BOOTSTRAP_TOOLSET="vc12"
+	set BOOTSTRAP_TOOLSET=vc12
 	set XIPH_FOLDER="VS2010"
 	set GLEW_FOLDER="vc10"
 )
@@ -179,6 +179,7 @@ cd ..\deps\glew-1.10.0\build
 cd %GLEW_FOLDER%
 echo "VCBUILDER: !VCBUILDER! "
 if !VCBUILDER!=="" (
+	echo "building glew static"
 	%DEVENV% glew.sln /Build "Debug" /project "glew_static"
 	%DEVENV% glew.sln /Build "Release" /project "glew_static" 
 ) else ( 

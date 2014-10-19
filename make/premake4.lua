@@ -22,7 +22,9 @@ solution "Reaping2"
 		"../deps/portaudio_v19/build_dir/bin/Win32/Debug",
 		"../deps/portaudio_v19/build_dir/bin/Win32/Release",
 		"../deps/portaudio_v19/build_dir/lib",
-		"../deps/glew-1.10.0/lib"
+		"../deps/glew-1.10.0/lib",
+		"../deps/glew-1.10.0/lib/Debug/Win32",
+		"../deps/glew-1.10.0/lib/Release/Win32"
 	}
 	includedirs {
 		"../src",
