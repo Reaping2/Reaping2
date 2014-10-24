@@ -9,7 +9,7 @@ Camera::Camera(Projection const& Proj)
 
 void Camera::UpdateMatrices()
 {
-	mView=glm::translate(-mCenter.x,-mCenter.y,0.f);
+	mView=glm::translate( glm::vec3( -mCenter.x,-mCenter.y,0.f ) );
 	mInverseView=glm::inverse(mView);
 }
 

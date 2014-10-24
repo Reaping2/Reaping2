@@ -6,7 +6,6 @@ file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 add_executable(${dirnam} ${${dirnam}_source_files} )
 add_dependencies( main audio input platform core render)
 target_link_libraries( main audio input platform core render ${GLFW_LIBRARIES} ${GLEW_LIBRARIES} )
-
 add_precompiled_header(${dirnam} pch.h)
 
 INSTALL(TARGETS ${dirnam}

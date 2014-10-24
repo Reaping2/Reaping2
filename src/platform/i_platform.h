@@ -16,6 +16,8 @@
 #include <cmath>
 #include <boost/static_assert.hpp>
 #include "glm_fix.h"
+
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <zlib.h>

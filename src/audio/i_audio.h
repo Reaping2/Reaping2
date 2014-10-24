@@ -2,7 +2,10 @@
 #define INCLUDED_AUDIO_I_AUDIO_H
 #include "platform/i_platform.h"
 
-#include <pa_options_cmake.h>
+#ifdef PORTAUDIO_CMAKE_GENERATED
+#include <options_cmake.h>
+#endif
+
 #include <portaudio.h>
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
