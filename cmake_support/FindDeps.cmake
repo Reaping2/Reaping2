@@ -1,6 +1,6 @@
 # win32: set BOOST_LIBRARYDIR and BOOST_INCLUDEDIR folders
 set( Boost_USE_STATIC_LIBS ON )
-find_package( Boost COMPONENTS filesystem system thread date_time program_options atomic )
+find_package( Boost COMPONENTS filesystem system thread date_time program_options )
 
 if( NOT Boost_FOUND )
 	message( FATAL_ERROR "Cannot find Boost!" )
