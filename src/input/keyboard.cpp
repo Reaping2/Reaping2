@@ -1,5 +1,4 @@
 #include "i_input.h"
-#include "main/window.h"
 
 void Keyboard::KeyCallback(GLFWwindow *, int Key, int Scan, int Action, int Mods)
 {
@@ -15,7 +14,10 @@ void Keyboard::UniCharCallback(GLFWwindow *, unsigned int Codepoint)
 
 Keyboard::Keyboard()
 {
-	GLFWwindow* Wnd=Window::Get().GetWindow();
+}
+
+void Keyboard::SetWindow( GLFWwindow* Wnd )
+{
 	glfwSetKeyCallback(Wnd,&Keyboard::KeyCallback);
 	glfwSetCharCallback(Wnd,&Keyboard::UniCharCallback);
 }

@@ -27,6 +27,7 @@ struct UniCharEvent : public Event
 class Keyboard : public Singleton<Keyboard>
 {
 public:
+	void SetWindow(GLFWwindow* wnd);
 private:
 	friend class Singleton<Keyboard>;
 	Keyboard();

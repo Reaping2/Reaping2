@@ -3,8 +3,8 @@ get_filename_component(dirnam ${CMAKE_CURRENT_LIST_DIR} NAME)
 
 file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 
-add_library(${dirnam} ${${dirnam}_source_files})
-target_link_libraries(${dirnam} platform ui)
+add_library(${dirnam} STATIC ${${dirnam}_source_files})
+target_link_libraries(${dirnam} platform ui ${GLEW_LIBRARIES})
 
 add_precompiled_header(${dirnam} pch.h)
 

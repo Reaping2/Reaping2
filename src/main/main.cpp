@@ -54,7 +54,7 @@ int main()
 	PerfTimer.Log("wnd");
 	TimerServer& Timers(TimerServer::Get());
 	Filesys::Get().Mount(std::auto_ptr<Package>(new Package(AutoFile(new OsFile("data.pkg")))));
-	Keyboard::Get();
+	Keyboard::Get().SetWindow( Wnd.GetWindow() );
 	AudioEffectPlayer::Get();
 	AudioPlayer::Get().Play("sounds/Zap_Beat.ogg",AudioFile::Music);
 	Mouse& Jerry=Mouse::Get();
