@@ -4,10 +4,7 @@
 class Action
 {
 public:
-	virtual ~Action()
-	{
-		LOG("Action dead:%i",mId);
-	}
+	virtual ~Action();
 	virtual void SetActor(Actor* Obj);
 	virtual void Update(double Seconds);
 	virtual bool Activate();
@@ -33,17 +30,13 @@ public:
 	bool Cancels(int32_t What) const;
 	double GetState()const{return mState;}
 	void SetState(double S){mState=S;}
-	int32_t GetId() const
-	{
-		return mId;
-	}
+	int32_t GetId() const;
 };
 
 class DefaultAction : public Action
 {
 public:
 	DefaultAction(int32_t Id);
-	~DefaultAction(){};
 	virtual void Update(double Seconds) ;
 	virtual bool Activate() ;
 	virtual void Deactivate() ;

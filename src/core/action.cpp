@@ -39,7 +39,15 @@ Action::Action(int32_t Id)
 	, mSecsToEnd(1)
 	, mState(0)
 {
-	LOG("!Action: id: %d\n",mId);
+}
+
+Action::~Action()
+{
+}
+
+int32_t Action::GetId() const
+{
+	return mId;
 }
 
 bool Action::Activate()
