@@ -94,8 +94,14 @@ void Shader::Load( std::string const& Name )
 	printProgramInfoLog(mProgramId);
 
 	GLuint GlobalMatrices=glGetUniformBlockIndex(mProgramId,"GlobalMatrices");
-	if(GlobalMatrices>=0)
-		glUniformBlockBinding(mProgramId,GlobalMatrices,0);
+	if( GlobalMatrices != GL_INVALID_INDEX )
+	{
+		glUniformBlockBinding( mProgramId, GlobalMatrices, 0 );
+	}
+	else
+	{
+		assert( false );
+	}
 
 	GLint n = 200;
 	glGetProgramiv(mProgramId,GL_ACTIVE_UNIFORMS,&n);

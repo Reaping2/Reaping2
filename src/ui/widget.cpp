@@ -190,8 +190,8 @@ int32_t Widget::ParseColor(Json::Value& Color,int32_t Default)
 	else if(Json::GetStr(Color,s)&&(i=strtoul(s.c_str(),NULL,16)))
 	{
 		size_t const h=s.find('x');
-		if(s.size()<=6&&h==std::string::npos||
-			s.size()<=8&&h==1)
+		if( ( s.size() <= 6 && h == std::string::npos )
+		  || (s.size() <= 8 && h == 1 ) )
 		{
 			// make it rgba
 			i=(i<<8)|0xff;

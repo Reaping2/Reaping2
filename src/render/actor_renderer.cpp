@@ -168,19 +168,27 @@ ActorRenderer::~ActorRenderer()
 
 bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const& Rs1, RenderableSprite const& Rs2 )
 {
-	return	(int)Rs1.Obj->IsAlive() < (int)Rs2.Obj->IsAlive() ||
-		Rs1.Obj->IsAlive() == Rs2.Obj->IsAlive() &&
-		((Rs1.Obj->IsAlive() &&
-		(Rs1.Obj->GetGUID() < Rs2.Obj->GetGUID() ||
-		Rs1.Obj->GetGUID() == Rs2.Obj->GetGUID() &&
-		(Rs1.ActId < Rs2.ActId ||
-		Rs1.ActId==Rs2.ActId &&
-		Rs1.Spr->TexId < Rs2.Spr->TexId)))
-		||
-		(!Rs1.Obj->IsAlive() &&
-		(Rs1.Obj->GetTimeOfDeath() < Rs2.Obj->GetTimeOfDeath() ||
-		Rs1.Obj->GetTimeOfDeath() == Rs2.Obj->GetTimeOfDeath() &&
-		(Rs1.ActId < Rs2.ActId ||
-		Rs1.ActId==Rs2.ActId &&
-		Rs1.Spr->TexId < Rs2.Spr->TexId))));
+	if( !Rs1.Obj->IsAlive() && Rs2.Obj->IsAlive() )
+	{
+		return true;
+	}
+	else if( Rs1.Obj->IsAlive() && !Rs2.Obj->IsAlive() )
+	{
+		return false;
+	}
+	// IsAlive equals
+	if( Rs1.Obj->IsAlive() )
+	{  // both alive, order by guid, actid, texid
+		return Rs1.Obj->GetGUID() < Rs2.Obj->GetGUID() ||
+		       ( Rs1.Obj->GetGUID() == Rs2.Obj->GetGUID() &&
+		         ( Rs1.ActId < Rs2.ActId ||
+		           ( Rs1.ActId==Rs2.ActId &&
+		             Rs1.Spr->TexId < Rs2.Spr->TexId ) ) );
+	}
+	
+	return Rs1.Obj->GetTimeOfDeath() < Rs2.Obj->GetTimeOfDeath() ||
+	       ( Rs1.Obj->GetTimeOfDeath() == Rs2.Obj->GetTimeOfDeath() &&
+		 ( Rs1.ActId < Rs2.ActId ||
+		   ( Rs1.ActId==Rs2.ActId &&
+		     Rs1.Spr->TexId < Rs2.Spr->TexId ) ) );
 }

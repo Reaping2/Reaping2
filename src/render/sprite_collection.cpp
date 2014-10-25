@@ -41,4 +41,4 @@ void SpriteCollection::Merge( SpriteCollection& Other )
 	mElements.transfer(Other.mElements.begin(),Other.mElements.end(),Other.mElements);
 }
 
-Sprite SpriteCollection::DefaultSprite=Sprite(NULL,Json::Value());
+Sprite SpriteCollection::DefaultSprite=Sprite( 0, Json::Value() );
