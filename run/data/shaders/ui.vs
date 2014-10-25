@@ -18,5 +18,5 @@ void main()
 {
 	inTexCoord=texcoord;
 	inColor=color;
-	gl_Position = /*uiProjection**/vec4(position,0,1);
+	gl_Position = uiProjection * vec4(position,0,1);
 }

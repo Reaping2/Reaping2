@@ -11,7 +11,7 @@ uniform vec2 resolution;
 
 void main(void)
 {
-	float t=time/300.0;
+	float t = time * 1.0/300.0;
 	vec2 p = 10.0*(( gl_FragCoord.xy / resolution.xy )-1.5-vec2(t));
 	p.x*=resolution.x/resolution.y;
 	float color = 0.0;
@@ -26,6 +26,6 @@ void main(void)
 	color=1.0-color;
 	color*=color;
 
-	outputColor = vec4(1,1,1,1);//inColor * ((inTexCoord.s<0.0)?vec4(1,1,1,1):texture2D(uiTexture,inTexCoord.st)) * vec4(color,color,color,1.0);
+	outputColor = inColor * ((inTexCoord.s<0.0)?vec4(1,1,1,1):texture2D(uiTexture,inTexCoord.st)) * vec4(color,color,color,1.0);
 }
 
