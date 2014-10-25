@@ -83,11 +83,11 @@ set PWD=%CD%
 set BASEDIR=%PWD%\..
 echo "Working dir: " %PWD%
 echo "Basedir: " %BASEDIR%
-set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3;c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\
+set PATH=%PATH%;%PWD%\cmake-2.8.12-win32-x86\bin;%PWD%\premake4.3
 
-rem ******************************************
-rem here you can junp to any of building stuff
-rem ******************************************
+rem ************************************************************
+rem Setup finished, you can select what dependency to build next
+rem ************************************************************
 
 rem goto Build_GLEW
 
@@ -128,7 +128,7 @@ set ZLIB_LIBRARY=%BASEDIR%\deps\zlib-1.2.8\build\Release\zlib.lib
 echo "libpng built successfully"
 cd %BASEDIR%\deps\lpng166
 copy scripts\pnglibconf.h.prebuilt pnglibconf.h
-echo "libpng copied ok"
+echo "libpng copied"
 :Build_LibOgg
 cd %PWD%
 cd ..\deps\libogg-1.3.1\win32
@@ -136,13 +136,13 @@ cd %XIPH_FOLDER%
 %DEVENV% libogg_static.sln /upgrade
 %DEVENV% libogg_static.sln /Build "Debug"
 %DEVENV% libogg_static.sln /Build "Release"
-echo "libogg1"
+echo "libogg built"
 mkdir ..\..\lib
 mkdir ..\..\lib\debug
 mkdir ..\..\lib\release
 copy Win32\Debug\libogg_static.lib ..\..\lib\debug
 copy Win32\Release\libogg_static.lib ..\..\lib\release
-echo "libogg2"
+echo "libogg copied"
 :Build_LibVorbis
 cd %PWD%
 cd ..\deps\libvorbis-1.3.3\win32
@@ -150,14 +150,14 @@ cd %XIPH_FOLDER%
 %DEVENV% vorbis_static.sln /upgrade
 %DEVENV% vorbis_static.sln /Build "Debug"
 %DEVENV% vorbis_static.sln /Build "Release"
-echo "libvorbis1"
+echo "libvorbis built"
 mkdir ..\..\bin
 mkdir ..\..\bin\lib
 mkdir ..\..\bin\lib\debug
 mkdir ..\..\bin\lib\release
 copy Win32\Debug\*.lib ..\..\bin\lib\debug
 copy Win32\Release\*.lib ..\..\bin\lib\release
-echo "libvorbis2"
+echo "libvorbis copied"
 :Build_Portaudio
 cd %PWD%
 cd ..\deps\portaudio_v19
@@ -168,9 +168,9 @@ echo #define PA_WDMKS_NO_KSGUID_LIB >> options_cmake.h
 %DEVENV% portaudio.sln /upgrade
 %DEVENV% portaudio.sln /Build "Debug"
 %DEVENV% portaudio.sln /Build "Release"
-echo "pa1"
-copy options_cmake.h ..\include\pa_options_cmake.h
-echo "pa2"
+echo "portaudio built"
+copy options_cmake.h ..\include\options_cmake.h
+echo "portaudio options_cmake.h copied"
 cd %PWD%
 :Build_GLEW
 echo "start of building glew"
