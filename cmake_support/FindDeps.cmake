@@ -1,5 +1,8 @@
 # win32: set BOOST_LIBRARYDIR and BOOST_INCLUDEDIR folders
-set( Boost_USE_STATIC_LIBS ON )
+if(WIN32)
+	# ugly boost bug workaround, boost w/ static build crashes in codecvt
+	set( Boost_USE_STATIC_LIBS ON )
+endif(WIN32)
 find_package( Boost 1.51 COMPONENTS filesystem system thread date_time program_options atomic )
 
 if( NOT Boost_FOUND )
