@@ -33,10 +33,10 @@ Root& Ui::GetRoot()
 
 Ui::Ui()
 : mUiModel("ui",&RootModel::Get())
-, mLoad(StringFunc(this,&Ui::Load),"load",&mUiModel)
 , mActiveRoot(&mEmptyRoot)
 , mLastEnteredWidget(NULL)
 {
+	mLoad = ModelValue(StringFunc(this,&Ui::Load),"load",&mUiModel);
 	mKeyId=EventServer<KeyEvent>::Get().Subscribe(boost::bind(&Ui::OnKeyEvent,this,_1));
 	mOnPressId=EventServer<UiMousePressEvent>::Get().Subscribe(boost::bind(&Ui::OnMousePressEvent,this,_1));
 	mOnReleaseId=EventServer<UiMouseReleaseEvent>::Get().Subscribe(boost::bind(&Ui::OnMouseReleaseEvent,this,_1));

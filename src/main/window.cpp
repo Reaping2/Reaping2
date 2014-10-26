@@ -64,10 +64,9 @@ bool Window::Run()
 
 Window::Window()
 : mWindow(NULL)
-, mExitModel(VoidFunc(this,&Window::Close),"game.exit",&RootModel::Get())
 , mExit(false)
 {
-
+	mExitModel = ModelValue(VoidFunc(this,&Window::Close),"game.exit",&RootModel::Get());
 }
 
 Window::~Window()

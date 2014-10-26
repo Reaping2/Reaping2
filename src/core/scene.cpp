@@ -41,10 +41,10 @@ Scene::Scene()
 , mTypeId(0)
 , mPaused(true)
 , mSceneModel("scene",&RootModel::Get())
-, mLoadModel(StringFunc(this,&Scene::Load),"load",&mSceneModel)
-, mPauseModel(VoidFunc(this,&Scene::Pause),"pause",&mSceneModel)
-, mResumeModel(VoidFunc(this,&Scene::Resume),"resume",&mSceneModel)
 {
+	mLoadModel = ModelValue(StringFunc(this,&Scene::Load),"load",&mSceneModel);
+	mPauseModel = ModelValue(VoidFunc(this,&Scene::Pause),"pause",&mSceneModel);
+	mResumeModel = ModelValue(VoidFunc(this,&Scene::Resume),"resume",&mSceneModel);
 	mCollisionGrid.Build(mDimensions,0.4f);
 }
 
