@@ -39,7 +39,6 @@ private:
 	ModelValue* mParent;
 public:
 	virtual ~ModelValue();
-	ModelValue();
 	ModelValue(int32_t const& ModelFor, std::string const& Name, ModelValue* Parent);
 	ModelValue(double const& ModelFor, std::string const& Name, ModelValue* Parent);
 	ModelValue(std::string const& ModelFor, std::string const& Name, ModelValue* Parent);
@@ -61,7 +60,7 @@ public:
 	void operator()(double Arg) const;
 	void operator()(std::string const& Arg) const;
 
-	virtual bool IsValid() const;
+	virtual bool IsValid()const{return true;}
 };
 
 class DefaultModelValue : public Singleton<DefaultModelValue>, public ModelValue

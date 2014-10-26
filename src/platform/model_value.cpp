@@ -6,12 +6,6 @@
 #define OBSERVABLE_ASSERT(x) (void(0))
 #endif
 
-ModelValue::ModelValue()
-: mType( Mt_None )
-, mParent( NULL )
-{
-}
-
 ModelValue::ModelValue( int32_t const& ModelFor, std::string const& Name, ModelValue* Parent )
 : mType(Mt_Int)
 , mValue(ModelFor)
@@ -116,11 +110,6 @@ ModelValue::~ModelValue()
 	default:
 		break;
 	}
-}
-
-bool ModelValue::IsValid() const
-{
-	return mType != Mt_None;
 }
 
 ModelValue const& ModelValue::operator[]( std::string const& Name ) const

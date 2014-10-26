@@ -81,8 +81,8 @@ void Grid::AddActor(Actor* A,double Dt)
 
 glm::vec4 Grid::Box(Actor const& Obj,double Dt)const
 {
-	float const MvX = static_cast<float>( Dt * Obj.GetSpeedX() );
-	float const MvY = static_cast<float>( Dt*Obj.GetSpeedY() );
+	float const MvX=Dt*Obj.GetSpeedX();
+	float const MvY=Dt*Obj.GetSpeedY();
 	double const Radius=Obj.GetRadius();
 	double const Ox=Obj.GetX()-mMin.x;
 	double const Oy=Obj.GetY()-mMin.y;

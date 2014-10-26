@@ -205,10 +205,10 @@ int32_t Widget::ParseColor(Json::Value& Color,int32_t Default)
 void Widget::Init( Json::Value& Descriptor )
 {
 	double d;
-	mRelativeDimensions.x = static_cast<float>( Json::GetDouble(Descriptor["x"],d)?d:0. );
-	mRelativeDimensions.y = static_cast<float>( Json::GetDouble(Descriptor["y"],d)?d:0. );
-	mRelativeDimensions.z = static_cast<float>( Json::GetDouble(Descriptor["w"],d)?d:0. );
-	mRelativeDimensions.w = static_cast<float>( Json::GetDouble(Descriptor["h"],d)?d:0. );
+	mRelativeDimensions.x=Json::GetDouble(Descriptor["x"],d)?d:0;
+	mRelativeDimensions.y=Json::GetDouble(Descriptor["y"],d)?d:0;
+	mRelativeDimensions.z=Json::GetDouble(Descriptor["w"],d)?d:0;
+	mRelativeDimensions.w=Json::GetDouble(Descriptor["h"],d)?d:0;
 	static const int32_t DefaultColor=0x0000fa77;
 	int32_t i=ParseColor(Descriptor["color"],DefaultColor);
 	operator()(PT_Color)=i;
