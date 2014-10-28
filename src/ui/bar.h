@@ -3,10 +3,10 @@
 
 class Bar : public Widget
 {
-	typedef Widget BaseClass;
+    typedef Widget BaseClass;
 public:
-	Bar(int32_t Id);
-	void Init(Json::Value& Descriptor);
+    Bar( int32_t Id );
+    void Init( Json::Value& Descriptor );
 };
 
 #endif//INCLUDED_UI_BAR_H

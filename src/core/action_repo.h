@@ -5,8 +5,8 @@ class Action;
 class Actor;
 class ActionRepo : public Factory<Action>, public Singleton<ActionRepo>
 {
-	friend class Singleton<ActionRepo>;
-	ActionRepo();
+    friend class Singleton<ActionRepo>;
+    ActionRepo();
 };
 
 

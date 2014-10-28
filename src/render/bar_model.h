@@ -3,7 +3,7 @@
 
 class BarModel : public UiModel
 {
-	virtual void CollectVertices(const Widget& Wdg,UiVertexInserter_t& Inserter)const;
+    virtual void CollectVertices( const Widget& Wdg, UiVertexInserter_t& Inserter )const;
 };
 
 #endif//INCLUDED_RENDER_BAR_MODEL_H

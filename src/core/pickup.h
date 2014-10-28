@@ -4,9 +4,9 @@
 class Pickup : public Actor
 {
 public:
-	Pickup(std::string const& Name);
-	virtual void Collide(Actor& Other);
-	virtual void UpdateLifetime();
+    Pickup( std::string const& Name );
+    virtual void Collide( Actor& Other );
+    virtual void UpdateLifetime();
 };
 
 #endif//INCLUDED_CORE_PICKUP_H

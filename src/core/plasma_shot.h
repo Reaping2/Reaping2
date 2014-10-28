@@ -4,7 +4,7 @@
 class PlasmaShot : public Shot
 {
 public:
-	PlasmaShot();
+    PlasmaShot();
 };
 
 #endif//INCLUDED_CORE_PLASMA_SHOT_H

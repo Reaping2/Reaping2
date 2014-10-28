@@ -1,13 +1,13 @@
 #include "i_core.h"
 
-Controller::Controller() : mActor(NULL)
+Controller::Controller() : mActor( NULL )
 {
 
 }
 
-void Controller::SetActor(Actor* Obj)
+void Controller::SetActor( Actor* Obj )
 {
-	mActor=Obj;
+    mActor = Obj;
 }
 
 void Controller::Update( double Seconds )

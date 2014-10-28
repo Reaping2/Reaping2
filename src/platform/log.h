@@ -3,11 +3,11 @@
 
 class Logger : public Singleton<Logger>
 {
-	friend class Singleton<Logger>;
-	Logger();
-	size_t mDisabledLevels;
+    friend class Singleton<Logger>;
+    Logger();
+    size_t mDisabledLevels;
 public:
-	void Log(int Level, char const* format, ...);
+    void Log( int Level, char const* format, ... );
 };
 
 #define LOGGING_ENABLED

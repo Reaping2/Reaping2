@@ -4,9 +4,9 @@
 class Root : public Widget
 {
 public:
-	Root();
+    Root();
 protected:
-	virtual void UpdateSelfDimensions(){}
+    virtual void UpdateSelfDimensions() {}
 };
 
 #endif//INCLUDED_UI_ROOT_H

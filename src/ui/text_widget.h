@@ -3,10 +3,10 @@
 
 class TextWidget : public Widget
 {
-	typedef Widget BaseClass;
+    typedef Widget BaseClass;
 public:
-	TextWidget(int32_t Id);
-	virtual void Init(Json::Value& Descriptor);
+    TextWidget( int32_t Id );
+    virtual void Init( Json::Value& Descriptor );
 };
 
 #endif//INCLUDED_UI_TEXT_WIDGET_H

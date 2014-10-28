@@ -6,18 +6,18 @@ Event::~Event()
 }
 
 Event::Event()
-:mHandled(false)
+    : mHandled( false )
 {
 
 }
 
 bool Event::IsHandled() const
 {
-	return mHandled;
+    return mHandled;
 }
 
 void Event::SetHandled() const
 {
-	mHandled=true;
+    mHandled = true;
 }
 

@@ -4,133 +4,134 @@
 class Mouse : public Singleton<Mouse>
 {
 public:
-	enum Button_t {
-		Button_Left=1,
-		Button_Middle,
-		Button_Right,
-		Num_Buttons,
-	};
-	bool IsButtonPressed(Button_t Button)const;
-	void Update(double Seconds);
+    enum Button_t
+    {
+        Button_Left = 1,
+        Button_Middle,
+        Button_Right,
+        Num_Buttons,
+    };
+    bool IsButtonPressed( Button_t Button )const;
+    void Update( double Seconds );
 private:
-	uint32_t mHeldButtons;
-	friend class Singleton<Mouse>;
-	glm::vec2 mRawPressCoord;
-	glm::vec2 mRawMouseCoord;
-	double mMousePressEventWait;
-	const double mMousePressEventRepeatInterval;
+    uint32_t mHeldButtons;
+    friend class Singleton<Mouse>;
+    glm::vec2 mRawPressCoord;
+    glm::vec2 mRawMouseCoord;
+    double mMousePressEventWait;
+    const double mMousePressEventRepeatInterval;
 
-	Mouse();
-	void MousePressed(int button, int action, int mods);
+    Mouse();
+    void MousePressed( int button, int action, int mods );
 
-	static void OnMouseMove(GLFWwindow*, double x, double y);
-	static void OnMouseButton(GLFWwindow*, int button, int action, int mods);
-	static void OnMouseEnter(GLFWwindow*, int entered);
-	static void OnMouseScroll(GLFWwindow*, double x_offs, double y_offs);
+    static void OnMouseMove( GLFWwindow*, double x, double y );
+    static void OnMouseButton( GLFWwindow*, int button, int action, int mods );
+    static void OnMouseEnter( GLFWwindow*, int entered );
+    static void OnMouseScroll( GLFWwindow*, double x_offs, double y_offs );
 };
 
 struct MouseMoveEvent : public Event
 {
-	const glm::vec2 Pos;
-	MouseMoveEvent(const glm::vec2 P):Pos(P){}
-	virtual ~MouseMoveEvent()=0;
+    const glm::vec2 Pos;
+    MouseMoveEvent( const glm::vec2 P ): Pos( P ) {}
+    virtual ~MouseMoveEvent() = 0;
 };
 
 struct ScreenMouseMoveEvent : public MouseMoveEvent
 {
-	ScreenMouseMoveEvent(const glm::vec2& P):MouseMoveEvent(P){}
+    ScreenMouseMoveEvent( const glm::vec2& P ): MouseMoveEvent( P ) {}
 };
 
 struct WorldMouseMoveEvent : public MouseMoveEvent
 {
-	WorldMouseMoveEvent(const glm::vec2& P):MouseMoveEvent(P){}
+    WorldMouseMoveEvent( const glm::vec2& P ): MouseMoveEvent( P ) {}
 };
 
 struct UiMouseMoveEvent : public MouseMoveEvent
 {
-	UiMouseMoveEvent(const glm::vec2& P):MouseMoveEvent(P){}
+    UiMouseMoveEvent( const glm::vec2& P ): MouseMoveEvent( P ) {}
 };
 
 struct MousePressEvent : public Event
 {
-	const glm::vec2 Pos;
-	const Mouse::Button_t Button;
-	MousePressEvent(const glm::vec2& P, Mouse::Button_t B):Pos(P),Button(B){}
-	virtual ~MousePressEvent()=0;
+    const glm::vec2 Pos;
+    const Mouse::Button_t Button;
+    MousePressEvent( const glm::vec2& P, Mouse::Button_t B ): Pos( P ), Button( B ) {}
+    virtual ~MousePressEvent() = 0;
 };
 
 struct ScreenMousePressEvent : public MousePressEvent
 {
-	ScreenMousePressEvent(const glm::vec2& P, Mouse::Button_t B):MousePressEvent(P,B){}
+    ScreenMousePressEvent( const glm::vec2& P, Mouse::Button_t B ): MousePressEvent( P, B ) {}
 };
 
 struct WorldMousePressEvent : public MousePressEvent
 {
-	WorldMousePressEvent(const glm::vec2& P, Mouse::Button_t B):MousePressEvent(P,B){}
+    WorldMousePressEvent( const glm::vec2& P, Mouse::Button_t B ): MousePressEvent( P, B ) {}
 };
 
 struct UiMousePressEvent : public MousePressEvent
 {
-	UiMousePressEvent(const glm::vec2& P, Mouse::Button_t B):MousePressEvent(P,B){}
+    UiMousePressEvent( const glm::vec2& P, Mouse::Button_t B ): MousePressEvent( P, B ) {}
 };
 
 struct MouseReleaseEvent : public Event
 {
-	const glm::vec2 Pos;
-	const Mouse::Button_t Button;
-	MouseReleaseEvent(const glm::vec2& P, Mouse::Button_t B):Pos(P),Button(B){}
-	virtual ~MouseReleaseEvent()=0;
+    const glm::vec2 Pos;
+    const Mouse::Button_t Button;
+    MouseReleaseEvent( const glm::vec2& P, Mouse::Button_t B ): Pos( P ), Button( B ) {}
+    virtual ~MouseReleaseEvent() = 0;
 };
 
 struct ScreenMouseReleaseEvent : public MouseReleaseEvent
 {
-	ScreenMouseReleaseEvent(const glm::vec2& P, Mouse::Button_t B):MouseReleaseEvent(P,B){}
+    ScreenMouseReleaseEvent( const glm::vec2& P, Mouse::Button_t B ): MouseReleaseEvent( P, B ) {}
 };
 
 struct WorldMouseReleaseEvent : public MouseReleaseEvent
 {
-	WorldMouseReleaseEvent(const glm::vec2& P, Mouse::Button_t B):MouseReleaseEvent(P,B){}
+    WorldMouseReleaseEvent( const glm::vec2& P, Mouse::Button_t B ): MouseReleaseEvent( P, B ) {}
 };
 
 struct UiMouseReleaseEvent : public MouseReleaseEvent
 {
-	UiMouseReleaseEvent(const glm::vec2& P, Mouse::Button_t B):MouseReleaseEvent(P,B){}
+    UiMouseReleaseEvent( const glm::vec2& P, Mouse::Button_t B ): MouseReleaseEvent( P, B ) {}
 };
 
 struct MouseDragEvent : public Event
 {
-	const glm::vec2 From;
-	const glm::vec2 To;
-	const Mouse::Button_t Button;
-	MouseDragEvent(const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B):From(F),To(T),Button(B){}
-	virtual ~MouseDragEvent()=0;
+    const glm::vec2 From;
+    const glm::vec2 To;
+    const Mouse::Button_t Button;
+    MouseDragEvent( const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B ): From( F ), To( T ), Button( B ) {}
+    virtual ~MouseDragEvent() = 0;
 };
 
 struct ScreenMouseDragEvent : public MouseDragEvent
 {
-	ScreenMouseDragEvent(const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B):MouseDragEvent(F,T,B){}
+    ScreenMouseDragEvent( const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B ): MouseDragEvent( F, T, B ) {}
 };
 
 struct WorldMouseDragEvent : public MouseDragEvent
 {
-	WorldMouseDragEvent(const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B):MouseDragEvent(F,T,B){}
+    WorldMouseDragEvent( const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B ): MouseDragEvent( F, T, B ) {}
 };
 
 struct UiMouseDragEvent : public MouseDragEvent
 {
-	UiMouseDragEvent(const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B):MouseDragEvent(F,T,B){}
+    UiMouseDragEvent( const glm::vec2& F, const glm::vec2& T, Mouse::Button_t B ): MouseDragEvent( F, T, B ) {}
 };
 
 struct MouseEnterEvent : public Event
 {
-	const bool Enter;
-	MouseEnterEvent(bool E):Enter(E){}
+    const bool Enter;
+    MouseEnterEvent( bool E ): Enter( E ) {}
 };
 
 struct MouseScrollEvent : public Event
 {
-	const glm::vec2 Offset;
-	MouseScrollEvent(const glm::vec2& O):Offset(O){}
+    const glm::vec2 Offset;
+    MouseScrollEvent( const glm::vec2& O ): Offset( O ) {}
 };
 
 #endif//INCLUDED_INPUT_MOUSE_H

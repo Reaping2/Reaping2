@@ -3,12 +3,12 @@
 class AutoId
 {
 public:
-	AutoId(std::string const& Name);
-	int32_t GetId()const;
-	virtual ~AutoId();
-	operator int32_t()const;
+    AutoId( std::string const& Name );
+    int32_t GetId()const;
+    virtual ~AutoId();
+    operator int32_t()const;
 protected:
-	const int32_t mId;
+    const int32_t mId;
 };
 
 

@@ -5,12 +5,12 @@ class Actor;
 class Controller
 {
 public:
-	Controller();
-	virtual ~Controller();
-	virtual void SetActor(Actor* Obj);
-	virtual void Update(double Seconds);
+    Controller();
+    virtual ~Controller();
+    virtual void SetActor( Actor* Obj );
+    virtual void Update( double Seconds );
 protected:
-	Actor* mActor;
+    Actor* mActor;
 };
 
 #endif//INCLUDED_CORE_CONTROLLER_H

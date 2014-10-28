@@ -4,7 +4,7 @@
 class PistolShot : public Shot
 {
 public:
-	PistolShot();
+    PistolShot();
 };
 
 #endif//INCLUDED_CORE_PISTOL_SHOT_H

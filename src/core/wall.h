@@ -4,9 +4,9 @@
 class Wall : public Actor
 {
 public:
-	Wall(std::string const& Name);
-	void Collide(Actor& Other);
-	void TakeDamage(int32_t Damage);
+    Wall( std::string const& Name );
+    void Collide( Actor& Other );
+    void TakeDamage( int32_t Damage );
 };
 
 #endif//INCLUDED_CORE_WALL_H
