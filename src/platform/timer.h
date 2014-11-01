@@ -8,10 +8,6 @@
 namespace platform {
 typedef boost::function<void()> TimerCallback;
 
-namespace Timer {
-#warning "namespace Timer is obsolete, and will be removed"
-typedef ::platform::TimerCallback TimerCallback;
-} // namespace Timer
 class TimerServer : public Singleton<TimerServer>, public Registry
 {
     friend class Singleton<TimerServer>;

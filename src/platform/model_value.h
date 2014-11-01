@@ -64,6 +64,7 @@ public:
     ModelValue( double_function_t const& ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( string_function_t const& ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( std::string const& Name, ModelValue* Parent );
+    explicit ModelValue( std::string const& Name );
 
     /*not supposed to be used below render and ui*/
     ModelValue const& operator[]( char const* Name )const;
@@ -77,22 +78,7 @@ public:
     void operator()( double Arg ) const;
     void operator()( std::string const& Arg ) const;
 
-    // type != none
-    virtual bool IsValid()const
-    {
-        return true;
-    }
-};
-
-// no reason for this to be a singleton
-class DefaultModelValue : public Singleton<DefaultModelValue>, public ModelValue
-{
-    friend class Singleton<DefaultModelValue>;
-    DefaultModelValue();
-    virtual bool IsValid()const
-    {
-        return false;
-    }
+    bool IsValid() const;
 };
 
 class RootModel : public Singleton<RootModel>, public ModelValue

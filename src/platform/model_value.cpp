@@ -12,6 +12,18 @@ namespace platform {
 #define OBSERVABLE_ASSERT(x) (void(0))
 #endif
 
+ModelValue::ModelValue( std::string const& Name )
+    : mType( Mt_None )
+    , mParent( NULL )
+{
+
+}
+
+bool ModelValue::IsValid() const
+{
+    return mType != Mt_None;
+}
+
 ModelValue::ModelValue( int32_t const& ModelFor, std::string const& Name, ModelValue* Parent )
     : mType( Mt_Int )
     , mValue( ModelFor )
@@ -166,7 +178,8 @@ ModelValue const& ModelValue::operator[]( std::string const& Name ) const
             it = Models->find( *fi++ );
             if( it == Models->end() )
             {
-                return DefaultModelValue::Get();
+                static ModelValue const DefaultModelValue( "default" );
+                return DefaultModelValue;
             }
             Models = &it->second->mModels;
         }
@@ -262,12 +275,6 @@ void ModelValue::operator()( std::string const& Arg ) const
 
 RootModel::RootModel()
     : ModelValue( "root", NULL )
-{
-
-}
-
-DefaultModelValue::DefaultModelValue()
-    : ModelValue( "default", NULL )
 {
 
 }
