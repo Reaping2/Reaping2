@@ -2,7 +2,7 @@
 #define INCLUDED_PLATFORM_FACTORY_H
 
 #include <memory>
-#include "stdint.h"
+#include "rstdint.h"
 #include <boost/function.hpp>
 #include <map>
 #include <boost/static_assert.hpp>

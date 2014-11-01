@@ -2,7 +2,7 @@
 #define INCLUDED_PLATFORM_TGATEXTURE_H
 
 #include "texture_base.h"
-#include "stdint.h"
+#include "rstdint.h"
 
 namespace platform {
 class File;

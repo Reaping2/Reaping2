@@ -3,7 +3,7 @@
 #include "package.h"
 
 #include <boost/ptr_container/ptr_map.hpp>
-#include "stdint.h"
+#include "rstdint.h"
 #include <boost/thread/mutex.hpp>
 
 

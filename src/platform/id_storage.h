@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_ID_STORAGE_H
 
 #include "singleton.h"
-#include "stdint.h"
+#include "rstdint.h"
 #include <string>
 #include <memory>
 

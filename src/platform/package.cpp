@@ -6,7 +6,7 @@
 #include "serialize.h"
 #include "osfile.h"
 #include <map>
-#include "stdint.h"
+#include "rstdint.h"
 #include <boost/filesystem.hpp>
 
 namespace platform {

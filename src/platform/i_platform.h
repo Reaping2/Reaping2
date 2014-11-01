@@ -27,7 +27,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "stdint.h"
+#include "rstdint.h"
 #include "serialize.h"
 #include "singleton.h"
 #include "log.h"
