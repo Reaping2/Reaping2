@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <cstddef>
-#include <stdint.h>
+#include "stdint.h"
 
 namespace platform {
 namespace detail {

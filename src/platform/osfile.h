@@ -16,6 +16,7 @@ class OsFile : public File
     std::auto_ptr< detail::OsFileImpl > mImpl;
 public:
     OsFile( const boost::filesystem::path& Path, std::ios_base::openmode OpenMode = std::ios_base::in );
+    ~OsFile();
     using File::Read;
     virtual bool Read( void* Dst, size_t Size );
     using File::Write;

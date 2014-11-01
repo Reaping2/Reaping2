@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_ID_STORAGE_H
 
 #include "singleton.h"
-#include <stdint.h>
+#include "stdint.h"
 #include <string>
 #include <memory>
 
@@ -18,6 +18,7 @@ class IdStorage : public Singleton<IdStorage>
     std::auto_ptr< detail::IdStorageImpl > mImpl;
     // todo: serialize / deserialize
 public:
+    ~IdStorage();
     int32_t GetId( const std::string& Name );
     bool GetName( int32_t Id, std::string& Name )const;
 };

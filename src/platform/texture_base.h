@@ -1,7 +1,7 @@
 #ifndef INCLUDED_PLATFORM_TEXTURE_BASE_H
 #define INCLUDED_PLATFORM_TEXTURE_BASE_H
 
-#include <stdint.h>
+#include "stdint.h"
 #include <cstddef>
 #include <memory>
 

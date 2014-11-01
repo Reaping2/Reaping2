@@ -2,7 +2,7 @@
 #define INCLUDED_PLATFORM_SERIALIZE_H
 
 #include <string>
-#include <stdint.h>
+#include "stdint.h"
 
 namespace platform {
 // data filejaink little endianok, mindig

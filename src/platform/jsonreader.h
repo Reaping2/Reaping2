@@ -3,7 +3,7 @@
 
 #include <json/json.h>
 #include <string>
-#include <stdint.h>
+#include "stdint.h"
 
 // TODO: remove this, uncomment the one inside platform
 namespace Json {

@@ -20,6 +20,7 @@ class Filesys : public Singleton<Filesys>
     Filesys();
     std::auto_ptr<detail::FilesysImpl> mImpl;
 public:
+    ~Filesys();
     void Mount( std::auto_ptr<Package> Pack );
     std::auto_ptr<File> Open( const boost::filesystem::path& Path );
     void GetFileNames( std::vector<boost::filesystem::path>& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );

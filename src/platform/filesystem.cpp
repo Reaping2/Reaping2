@@ -3,7 +3,7 @@
 #include "package.h"
 
 #include <boost/ptr_container/ptr_map.hpp>
-#include <stdint.h>
+#include "stdint.h"
 #include <boost/thread/mutex.hpp>
 
 
@@ -62,6 +62,10 @@ void FilesysImpl::GetFileNames( PathVect_t& Paths, boost::filesystem::path const
 Filesys::Filesys()
 {
     mImpl.reset( new detail::FilesysImpl );
+}
+
+Filesys::~Filesys()
+{
 }
 
 void Filesys::Mount( std::auto_ptr<Package> Pack )

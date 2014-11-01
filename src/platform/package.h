@@ -17,6 +17,7 @@ class Package
 {
 public:
     Package( std::auto_ptr<File> source );
+    ~Package();
     std::auto_ptr<File> Open( boost::filesystem::path const& path );
     void GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir = boost::filesystem::path() );
 private:
@@ -27,6 +28,7 @@ class PackageWriter
 {
 public:
     PackageWriter( std::auto_ptr<File> target );
+    ~PackageWriter();
     void Add( const boost::filesystem::path& path, const boost::filesystem::path& pathInArchive );
     bool Save();
 private:

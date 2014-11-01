@@ -14,6 +14,7 @@ class MemoryFile : public File
     std::auto_ptr<detail::MemoryFileImpl> mImpl;
 public:
     MemoryFile( size_t PreallocatedBuffers = 0 );
+    ~MemoryFile();
     using File::Read;
     virtual bool Read( void* Dst, size_t Size );
     using File::Write;

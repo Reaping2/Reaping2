@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_AUTO_ID_H
 
 #include <string>
-#include <stdint.h>
+#include "stdint.h"
 
 namespace platform {
 

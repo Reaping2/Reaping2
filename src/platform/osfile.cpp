@@ -94,6 +94,10 @@ OsFile::OsFile( const boost::filesystem::path& Path, std::ios_base::openmode Ope
      mImpl.reset( new detail::OsFileImpl( Path, OpenMode ) );
 }
 
+OsFile::~OsFile()
+{
+}
+
 bool OsFile::Read( void* Dst, size_t Size )
 {
     return mImpl->Read( Dst, Size );

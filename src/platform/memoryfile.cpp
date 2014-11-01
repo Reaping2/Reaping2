@@ -205,6 +205,10 @@ MemoryFile::MemoryFile( size_t PreallocatedBuffers )
      mImpl.reset( new detail::MemoryFileImpl( PreallocatedBuffers ) );
 }
 
+MemoryFile::~MemoryFile()
+{
+}
+
 bool MemoryFile::Read( void* Dst, size_t Size )
 {
     return mImpl->Read( Dst, Size );

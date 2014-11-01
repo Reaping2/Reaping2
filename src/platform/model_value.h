@@ -2,7 +2,7 @@
 #define INCLUDED_PLATFORM_MODEL_VALUE_H
 
 #include <boost/function.hpp>
-#include <stdint.h>
+#include "stdint.h"
 #include <string>
 #include "singleton.h"
 #include <boost/bind.hpp>

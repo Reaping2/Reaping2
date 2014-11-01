@@ -6,7 +6,7 @@
 #include "serialize.h"
 #include "osfile.h"
 #include <map>
-#include <stdint.h>
+#include "stdint.h"
 #include <boost/filesystem.hpp>
 
 namespace platform {
@@ -272,6 +272,10 @@ Package::Package( std::auto_ptr<File> Source )
     mImpl->LoadHeader();
 }
 
+Package::~Package()
+{
+}
+
 std::auto_ptr<File> Package::Open( boost::filesystem::path const& path )
 {
     return mImpl->Open( path );
@@ -285,6 +289,10 @@ void Package::GetFileNames( PathVect_t& paths, boost::filesystem::path const& di
 PackageWriter::PackageWriter( std::auto_ptr<File> Target )
 {
     mImpl.reset( new detail::PackageImpl( Target ) );
+}
+
+PackageWriter::~PackageWriter()
+{
 }
 
 void PackageWriter::Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive )

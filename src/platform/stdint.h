@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <boost/cstdint.hpp>
 
 typedef boost::uint32_t uint32_t;

@@ -6,7 +6,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/unordered_map.hpp>
-#include <stdint.h>
+#include "stdint.h"
 #include <boost/filesystem/path.hpp>
 
 namespace platform {

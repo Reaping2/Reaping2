@@ -64,4 +64,8 @@ bool IdStorage::GetName( int32_t Id, std::string& Name ) const
     return mImpl->GetName( Id, Name );
 }
 
+IdStorage::~IdStorage()
+{
+}
+
 } // namespace platform
