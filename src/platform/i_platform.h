@@ -20,11 +20,8 @@
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-#include <zlib.h>
 #include <cstdio>
 #include <cstdlib>
-#include <png.h>
-#include <json/json.h>
 #include <set>
 #define GLEW_STATIC
 #include <GL/glew.h>

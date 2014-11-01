@@ -7,18 +7,11 @@
 
 namespace platform {
 class File;
-namespace detail {
-class PngLoadData;
-}
 
 class PngTexture : public TextureBase
 {
 public:
     PngTexture( File& F );
-private:
-    friend class detail::PngLoadData;
-    std::auto_ptr< detail::PngLoadData > mLoadData;
-
 };
 
 } // namespace platform

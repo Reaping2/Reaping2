@@ -11,9 +11,6 @@ class TgaTexture : public TextureBase
 {
 public:
     TgaTexture( File& F );
-    static void Reorder( uint8_t* Data, size_t Size );
-private:
-    void Load( File& F );
 };
 
 } // namespace platform
