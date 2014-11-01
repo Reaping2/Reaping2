@@ -47,11 +47,11 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, Element
 
 void RenderableRepo::Init()
 {
-    Package::PathVect_t Paths;
+    PathVect_t Paths;
     Filesys& FSys = Filesys::Get();
     FSys.GetFileNames( Paths, "sprites" );
     ElementMap_t Renderables;
-    for( Package::PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
+    for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
         if( Path.extension().string() != ".json" )

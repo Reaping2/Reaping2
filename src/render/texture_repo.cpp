@@ -2,9 +2,9 @@
 
 void TextureRepo::Init()
 {
-    Package::PathVect_t Paths;
+    PathVect_t Paths;
     mFilesys.GetFileNames( Paths, "textures" );
-    for( Package::PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
+    for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
         if( Path.extension().string() != ".png" )

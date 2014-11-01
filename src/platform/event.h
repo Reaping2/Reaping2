@@ -1,12 +1,21 @@
 #ifndef INCLUDED_PLATFORM_EVENT_H
 #define INCLUDED_PLATFORM_EVENT_H
 
-struct Event
+#include "singleton.h"
+#include "register.h"
+
+#include <boost/function.hpp>
+#include <boost/static_assert.hpp>
+
+namespace platform {
+
+class Event
 {
-    virtual ~Event();
+public:
+    virtual ~Event() = 0;
     Event();
-    bool IsHandled()const;
-    void SetHandled()const;
+    bool IsHandled() const;
+    void SetHandled() const;
 private:
     mutable bool mHandled;
 };
@@ -65,5 +74,7 @@ Registration EventServer<Event_T>::Subscribe( const EventHandler& Handler )
 {
     return this->Register( new EventHandler( Handler ) );
 }
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_EVENT_H

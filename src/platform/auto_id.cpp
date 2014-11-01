@@ -1,4 +1,7 @@
-#include "i_platform.h"
+#include "auto_id.h"
+#include "id_storage.h"
+
+namespace platform {
 
 AutoId::AutoId( std::string const& Name )
     : mId( IdStorage::Get().GetId( Name ) )
@@ -16,3 +19,6 @@ AutoId::operator int32_t() const
 {
     return mId;
 }
+
+} // namespace platform
+

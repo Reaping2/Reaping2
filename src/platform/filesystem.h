@@ -1,20 +1,30 @@
 #ifndef INCLUDED_PLATFORM_FILESYSTEM_H
 #define INCLUDED_PLATFORM_FILESYSTEM_H
 
+#include "singleton.h"
+
+#include <memory>
+#include <boost/filesystem/path.hpp>
+#include <vector>
+
+namespace platform {
+class File;
+class Package;
+namespace detail {
+class FilesysImpl;
+} // namespace detail
+
 class Filesys : public Singleton<Filesys>
 {
     friend class Singleton<Filesys>;
     Filesys();
-
-    typedef boost::ptr_map<int32_t, Package> PackageMap_t;
-    PackageMap_t mPackages;
-    int32_t mNextPrio;  //todo
-    boost::mutex mOpenMutex;
+    std::auto_ptr<detail::FilesysImpl> mImpl;
 public:
     void Mount( std::auto_ptr<Package> Pack );
-    AutoFile Open( const boost::filesystem::path& Path );
-    typedef Package::PathVect_t PathVect_t;
-    void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
+    std::auto_ptr<File> Open( const boost::filesystem::path& Path );
+    void GetFileNames( std::vector<boost::filesystem::path>& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
 };
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_FILESYSTEM_H

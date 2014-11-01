@@ -1,4 +1,9 @@
-#include "i_platform.h"
+#include "jsonreader.h"
+#include "ifile.h"
+
+#include <boost/assert.hpp>
+
+// namespace platform {
 
 namespace Json {
 bool GetStr( Json::Value const& V, std::string& O )
@@ -37,7 +42,9 @@ bool GetDouble( Json::Value const& V, double& O )
     O = V.asDouble();
     return true;
 }
-}
+} // namespace Json
+
+namespace platform {
 
 JsonReader::JsonReader( File& F )
     : mValid( false )
@@ -50,7 +57,7 @@ JsonReader::JsonReader( File& F )
     }
     if( !Reader.parse( Contents, mRoot, false ) )
     {
-        assert( false );
+        BOOST_ASSERT( false );
     }
     mValid = true;
 }
@@ -64,4 +71,6 @@ Json::Value& JsonReader::GetRoot()
 {
     return mRoot;
 }
+
+} // namespace platform
 

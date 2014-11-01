@@ -1,4 +1,66 @@
-#include "i_platform.h"
+#include "tgatexture.h"
+#include "ifile.h"
+#include <boost/assert.hpp>
+#include <algorithm>
+
+namespace platform {
+namespace {
+namespace detail {
+    struct Header
+    {
+        uint8_t mData[18];
+        // don't wanna pragma pack
+        uint8_t IdLength()const
+        {
+            return mData[0];
+        }
+        uint8_t ColorMapType()const
+        {
+            return mData[1];
+        }
+        uint8_t ImageType()const
+        {
+            return mData[2];
+        }
+        uint16_t ColMapStart()const
+        {
+            return mData[3] | ( ( uint16_t )mData[4] << 8 );
+        }
+        uint16_t ColMapLength()const
+        {
+            return mData[5] | ( ( uint16_t )mData[6] << 8 );
+        }
+        uint8_t ColMapDepth()const
+        {
+            return mData[7];
+        }
+        uint16_t Origin()const
+        {
+            return mData[8] | ( ( uint16_t )mData[9] << 8 );
+        }
+        uint16_t OriginY()const
+        {
+            return mData[10] | ( ( uint16_t )mData[11] << 8 );
+        }
+        uint16_t Width()const
+        {
+            return mData[12] | ( ( uint16_t )mData[13] << 8 );
+        }
+        uint16_t Height()const
+        {
+            return mData[14] | ( ( uint16_t )mData[15] << 8 );
+        }
+        uint8_t PixelDepth()const
+        {
+            return mData[16];
+        }
+        uint8_t ImageDescriptor()const
+        {
+            return mData[17];
+        }
+    };
+} // namespace detail
+} // namespace anonymous
 
 TgaTexture::TgaTexture( File& F )
 {
@@ -10,8 +72,8 @@ TgaTexture::TgaTexture( File& F )
 
 void TgaTexture::Load( File& F )
 {
-    Header Head;
-    if( !F.Read( Head.mData, sizeof( Header ) ) )
+    detail::Header Head;
+    if( !F.Read( Head.mData, sizeof( detail::Header ) ) )
     {
         return;
     }
@@ -24,12 +86,12 @@ void TgaTexture::Load( File& F )
     }
     size_t const ImgSize = mWidth * mHeight;
     size_t const DataSize = mChannels * ImgSize;
-    mData.reset( new uint8_t[DataSize] );
+    mData.resize( DataSize );
     bool Succ;
     if( Head.PixelDepth() == 32 )
     {
         assert( ( Head.ImageDescriptor() & 15 ) == 8 );
-        Succ = F.Read( ( void* )mData.get(), DataSize );
+        Succ = F.Read( static_cast< void* >( mData.data() ), DataSize );
     }
     else
     {
@@ -38,16 +100,16 @@ void TgaTexture::Load( File& F )
         Succ = F.Read( Buf, InSize );
         if( Succ )
         {
-            ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), ImgSize, mData.get() );
+            ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), ImgSize, mData.data() );
         }
     }
     if( !Succ )
     {
-        mData.reset();
+        mData.clear();
     }
     else
     {
-        Reorder( mData.get(), ImgSize );
+        Reorder( mData.data(), ImgSize );
     }
 }
 
@@ -59,3 +121,6 @@ void TgaTexture::Reorder( uint8_t* Data, size_t Size )
         std::swap( pixel_out[0], pixel_out[2] );
     }
 }
+
+} // namespace platform
+

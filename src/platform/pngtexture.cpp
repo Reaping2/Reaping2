@@ -1,22 +1,47 @@
-#include "i_platform.h"
+#include "pngtexture.h"
+#include "ifile.h"
 
-PngTexture::PngTexture( File& F )
+#include <zlib.h>
+#include <png.h>
+#include <boost/assert.hpp>
+
+// TODO: PngLoadData should store the temporary values inside itself, not mess with the mTexture ( actually it shouldn't even have an mTexture )
+// if Create() succeeds, then the texture should take ownership of the load data contents
+// note: make texturebase members a struct, and just swap a pointer
+
+namespace platform {
+namespace {
+const double DefaultGamma = 2.2;
+const double InverseGamma = 1.0 / 2.2;
+const double MaxGamma = 21474.83; // Maximum gamma accepted by png library.
+
+} // namespace anonymous
+
+
+namespace detail {
+class PngLoadData
 {
-    if( F.IsValid() )
-    {
-        Load( F );
-    }
-}
+    PngLoadData( PngTexture& texture );
+    PngTexture& mTexture;
+public:
+    static PngLoadData* Create( PngTexture& texture );
+    bool Load( File& F );
+    ~PngLoadData();
+    png_structp mPngPtr;
+    png_infop mInfoPtr;
+    bool mNeedConversion;
+    bool mFinished;
+private:
+    bool ProcessData( png_bytep Buffer, png_uint_32 Length );
+    static bool IsSupportedInputChannelNum( size_t Channels );
+    static void InfoCallback( png_structp PngPtr, png_infop InfoPtr );
+    static void RowCallback( png_structp PngPtr, png_bytep NewRow, png_uint_32 RowNum, int Pass );
+    static void EndCallback( png_structp PngPtr, png_infop InfoPtr );
+};
 
-bool PngTexture::Load( File& F )
+bool PngLoadData::Load( File& F )
 {
-    mLoadData.reset( PngLoadData::Create() );
-    if( !mLoadData.get() )
-    {
-        return false;
-    }
-
-    png_set_progressive_read_fn( mLoadData->mPngPtr, ( void* )this, &PngTexture::InfoCallback, &PngTexture::RowCallback, &PngTexture::EndCallback );
+    png_set_progressive_read_fn( mPngPtr, ( void* )this, &PngLoadData::InfoCallback, &PngLoadData::RowCallback, &PngLoadData::EndCallback );
     size_t RemainingSize = F.GetSize();
     while( RemainingSize )
     {
@@ -33,35 +58,36 @@ bool PngTexture::Load( File& F )
         }
         RemainingSize -= CurrentPass;
     }
-    if( RemainingSize || !mLoadData->mFinished )
+    if( RemainingSize || !mFinished )
     {
-        mData.reset();
-        mWidth = 0;
-        mHeight = 0;
+        mTexture.mData.clear();
+        mTexture.mWidth = 0;
+        mTexture.mHeight = 0;
     }
-    mLoadData.reset();
-    return !!mData.get();
+    bool succ = !mTexture.mData.empty();
+    mTexture.mLoadData.reset();
+    return succ;
 }
 
-bool PngTexture::ProcessData( png_bytep Buffer, png_uint_32 Length )
+bool PngLoadData::ProcessData( png_bytep Buffer, png_uint_32 Length )
 {
-    if( setjmp( png_jmpbuf( mLoadData->mPngPtr ) ) )
+    if( setjmp( png_jmpbuf( mPngPtr ) ) )
     {
         return false;
     }
 
-    png_process_data( mLoadData->mPngPtr, mLoadData->mInfoPtr, Buffer, Length );
+    png_process_data( mPngPtr, mInfoPtr, Buffer, Length );
     return true;
 }
 
-bool PngTexture::IsSupportedInputChannelNum( size_t Channels )
+bool PngLoadData::IsSupportedInputChannelNum( size_t Channels )
 {
     return Channels == 3 || Channels == 4;
 }
 
-void PngTexture::InfoCallback( png_structp PngPtr, png_infop InfoPtr )
+void PngLoadData::InfoCallback( png_structp PngPtr, png_infop InfoPtr )
 {
-    PngTexture* Self = ( PngTexture* )png_get_progressive_ptr( PngPtr );
+    PngLoadData* Self = ( PngLoadData* )png_get_progressive_ptr( PngPtr );
 
     int BitDepth, ColorType, InterlaceType, CompressionType;
     int FilterType, Channels;
@@ -75,8 +101,8 @@ void PngTexture::InfoCallback( png_structp PngPtr, png_infop InfoPtr )
         longjmp( png_jmpbuf( PngPtr ), 1 );
     }
 
-    Self->mWidth = ( size_t )Width;
-    Self->mHeight = ( size_t )Height;
+    Self->mTexture.mWidth = ( size_t )Width;
+    Self->mTexture.mHeight = ( size_t )Height;
 
     // Expand to ensure we use 24-bit for RGB and 32-bit for RGBA.
     if( ColorType == PNG_COLOR_TYPE_PALETTE ||
@@ -108,16 +134,16 @@ void PngTexture::InfoCallback( png_structp PngPtr, png_infop InfoPtr )
     double Gamma;
     if( png_get_gAMA( PngPtr, InfoPtr, &Gamma ) )
     {
-        if( Gamma <= 0.0 || Gamma > mMaxGamma )
+        if( Gamma <= 0.0 || Gamma > MaxGamma )
         {
-            Gamma = mInverseGamma;
+            Gamma = InverseGamma;
             png_set_gAMA( PngPtr, InfoPtr, Gamma );
         }
-        png_set_gamma( PngPtr, mDefaultGamma, Gamma );
+        png_set_gamma( PngPtr, DefaultGamma, Gamma );
     }
     else
     {
-        png_set_gamma( PngPtr, mDefaultGamma, mInverseGamma );
+        png_set_gamma( PngPtr, DefaultGamma, InverseGamma );
     }
 
     // Tell libpng to send us rows for interlaced pngs.
@@ -135,48 +161,40 @@ void PngTexture::InfoCallback( png_structp PngPtr, png_infop InfoPtr )
     {
         longjmp( png_jmpbuf( PngPtr ), 1 );
     }
-    Self->mLoadData->mNeedConversion = ( Channels != mChannels );
-    Self->mData.reset( new uint8_t[Self->mWidth * Self->mHeight * mChannels] );
+    Self->mNeedConversion = ( Channels != PngTexture::mChannels );
+    Self->mTexture.mData.resize( Self->mTexture.mWidth * Self->mTexture.mHeight * PngTexture::mChannels );
 }
 
-void PngTexture::RowCallback( png_structp PngPtr, png_bytep NewRow, png_uint_32 RowNum, int Pass )
+void PngLoadData::RowCallback( png_structp PngPtr, png_bytep NewRow, png_uint_32 RowNum, int Pass )
 {
-    PngTexture* Self = ( PngTexture* )png_get_progressive_ptr( PngPtr );
-    assert( Pass == 0 );
-    if( RowNum > Self->mHeight )
+    PngLoadData* Self = ( PngLoadData* )png_get_progressive_ptr( PngPtr );
+    BOOST_ASSERT( Pass == 0 );
+    if( RowNum > Self->mTexture.mHeight )
     {
-        assert( false );
+        BOOST_ASSERT( false );
         return;
     }
 
-    uint8_t* Dst = &( ( Self->mData.get() )[Self->mWidth * mChannels * RowNum] );
-    if( Self->mLoadData->mNeedConversion )
+    uint8_t* Dst = &( ( Self->mTexture.mData.data() )[Self->mTexture.mWidth * PngTexture::mChannels * RowNum] );
+    if( Self->mTexture.mLoadData->mNeedConversion )
     {
-        ConvertRGBtoRGBA( NewRow, Self->mWidth, Dst );
+        PngTexture::ConvertRGBtoRGBA( NewRow, Self->mTexture.mWidth, Dst );
     }
     else
     {
-        memcpy( Dst, NewRow, Self->mWidth * mChannels );
+        memcpy( Dst, NewRow, Self->mTexture.mWidth * PngTexture::mChannels );
     }
 }
 
-void PngTexture::EndCallback( png_structp PngPtr, png_infop InfoPtr )
+void PngLoadData::EndCallback( png_structp PngPtr, png_infop InfoPtr )
 {
-    PngTexture* Self = ( PngTexture* )png_get_progressive_ptr( PngPtr );
-    Self->mLoadData->mFinished = true;
+    PngLoadData* Self = ( PngLoadData* )png_get_progressive_ptr( PngPtr );
+    Self->mFinished = true;
 }
 
-PngTexture::~PngTexture()
-{
-
-}
-
-const double PngTexture::mDefaultGamma = 2.2;
-const double PngTexture::mInverseGamma = 1.0 / 2.2;
-const double PngTexture::mMaxGamma = 21474.83; // Maximum gamma accepted by png library.
-
-PngTexture::PngLoadData::PngLoadData()
-    : mPngPtr( NULL )
+PngLoadData::PngLoadData( PngTexture& texture )
+    : mTexture( texture )
+    , mPngPtr( NULL )
     , mInfoPtr( NULL )
     , mFinished( false )
     , mNeedConversion( false )
@@ -184,14 +202,14 @@ PngTexture::PngLoadData::PngLoadData()
 
 }
 
-PngTexture::PngLoadData::~PngLoadData()
+PngLoadData::~PngLoadData()
 {
     png_destroy_read_struct( &mPngPtr, &mInfoPtr, ( png_infopp )NULL );
 }
 
-PngTexture::PngLoadData* PngTexture::PngLoadData::Create()
+PngLoadData* PngLoadData::Create( PngTexture& texture )
 {
-    std::auto_ptr<PngLoadData> LoadData( new PngLoadData );
+    std::auto_ptr<PngLoadData> LoadData( new PngLoadData( texture ) );
     LoadData->mPngPtr = png_create_read_struct( PNG_LIBPNG_VER_STRING, ( png_voidp )NULL, NULL, NULL );
     if( !LoadData->mPngPtr )
     {
@@ -208,3 +226,22 @@ PngTexture::PngLoadData* PngTexture::PngLoadData::Create()
     }
     return LoadData.release();
 }
+
+} // namespace detail
+
+PngTexture::PngTexture( File& F )
+{
+    if( F.IsValid() )
+    {
+        mLoadData.reset( detail::PngLoadData::Create( *this ) );
+        if( !mLoadData.get() )
+        {
+            return;
+        }
+
+        mLoadData->Load( F );
+    }
+}
+
+
+} // namespace platform

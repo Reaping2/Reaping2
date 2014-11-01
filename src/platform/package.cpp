@@ -1,7 +1,55 @@
-#include "i_platform.h"
+#include "package.h"
 
-bool Package::LoadHeader()
+#include "compression.h"
+#include "memoryfile.h"
+#include "ifile.h"
+#include "serialize.h"
+#include "osfile.h"
+#include <map>
+#include <stdint.h>
+#include <boost/filesystem.hpp>
+
+namespace platform {
+namespace detail {
+
+class PackageImpl
 {
+    typedef std::map<boost::filesystem::path, boost::filesystem::path> PathMap;
+    PathMap mPaths;
+
+    struct Header
+    {
+        uint32_t Magic;
+        uint32_t Version;
+        uint32_t Checksum;
+        uint32_t NumFiles;
+        Header(): Magic( 0x5a474b50 ), Version( 1 ), Checksum( 0 ), NumFiles() {}
+    };
+    Header mHeader;
+    struct FileDesc
+    {
+        uint32_t Offset;
+        uint32_t FileSize;
+    };
+    typedef std::map<boost::filesystem::path, FileDesc> FilesMap;
+    FilesMap mFiles;
+    std::auto_ptr<File> mFile;
+public:
+    PackageImpl( std::auto_ptr<File> F );
+    bool LoadHeader();
+    bool WriteHeader();
+    std::auto_ptr<File> Open( const boost::filesystem::path& Path );
+    void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
+    void Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive );
+    bool Save();
+};
+
+bool PackageImpl::LoadHeader()
+{
+    if( !mFile.get() || !mFile->IsValid() )
+    {
+        return false;
+    }
     uint32_t BufferSize;
     std::string Buffer;
     if( !mFile->Read( Buffer, sizeof( BufferSize ) ) || !conv::deserialize( Buffer, BufferSize ) )
@@ -70,49 +118,39 @@ bool Package::LoadHeader()
     return true;
 }
 
-Package::Package( AutoFile Source )
-    : PackageBase( Source )
-{
-    if( !mFile.get() || !mFile->IsValid() )
-    {
-        return;
-    }
-    LoadHeader();
-}
-
-AutoFile Package::Open( const boost::filesystem::path& Path )
+std::auto_ptr<File> PackageImpl::Open( const boost::filesystem::path& Path )
 {
     FilesMap::const_iterator it = mFiles.find( Path );
     if( it == mFiles.end() )
     {
-        return AutoFile();
+        return std::auto_ptr<File>();
     }
 
     // ez nem igy lesz kesobb, de egyelore ezzel mar lehet dolgozni
     if( !mFile->SetPosition( it->second.Offset ) )
     {
-        return AutoFile();
+        return std::auto_ptr<File>();
     }
     std::string Buffer;
     if( !mFile->Read( Buffer, it->second.FileSize ) )
     {
-        return AutoFile();
+        return std::auto_ptr<File>();
     }
     if( !Compression::Get().Inflate( Buffer, Buffer ) )
     {
-        return AutoFile();
+        return std::auto_ptr<File>();
     }
     MemoryFile* M = new MemoryFile;
-    AutoFile F( M );
+    std::auto_ptr<File> F( M );
     if( !M->Write( Buffer ) )
     {
-        return AutoFile();
+        return std::auto_ptr<File>();
     }
     M->Rewind();
     return F;
 }
 
-void Package::GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir )
+void PackageImpl::GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir )
 {
     Paths.reserve( Paths.size() + mFiles.size() );
     std::string const& DirStr = Dir.string();
@@ -126,7 +164,7 @@ void Package::GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Di
     }
 }
 
-bool PackageWriter::WriteHeader()
+bool PackageImpl::WriteHeader()
 {
     MemoryFile f;
     std::string Buffer;
@@ -181,13 +219,7 @@ bool PackageWriter::WriteHeader()
     return mFile->Write( conv::serialize( ( uint32_t )Buffer.size() ) ) && mFile->Write( Buffer );
 }
 
-PackageWriter::PackageWriter( AutoFile Target )
-    : PackageBase( Target )
-{
-
-}
-
-bool PackageWriter::Save()
+bool PackageImpl::Save()
 {
     if( !mFile.get() || !mFile->IsValid() )
     {
@@ -221,13 +253,49 @@ bool PackageWriter::Save()
     return true;
 }
 
-void PackageWriter::Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive )
+void PackageImpl::Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive )
 {
     mPaths[Path] = PathInArchive;
 }
 
-PackageBase::PackageBase( AutoFile F )
+PackageImpl::PackageImpl( std::auto_ptr<File> F )
     : mFile( F )
 {
 
 }
+
+} // namespace detail
+
+Package::Package( std::auto_ptr<File> Source )
+{
+    mImpl.reset( new detail::PackageImpl( Source ) );
+    mImpl->LoadHeader();
+}
+
+std::auto_ptr<File> Package::Open( boost::filesystem::path const& path )
+{
+    return mImpl->Open( path );
+}
+
+void Package::GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir )
+{
+    mImpl->GetFileNames( paths, dir );
+}
+
+PackageWriter::PackageWriter( std::auto_ptr<File> Target )
+{
+    mImpl.reset( new detail::PackageImpl( Target ) );
+}
+
+void PackageWriter::Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive )
+{
+    mImpl->Add( Path, PathInArchive );
+}
+
+bool PackageWriter::Save()
+{
+    return mImpl->Save();
+}
+
+} // namespace platform
+

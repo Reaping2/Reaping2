@@ -1,6 +1,16 @@
 #ifndef INCLUDED_PLATFORM_CACHE_H
 #define INCLUDED_PLATFORM_CACHE_H
 
+#include "auto_id.h"
+#include "log.h"
+
+#include <boost/shared_ptr.hpp>
+#include <boost/unordered_map.hpp>
+#include <stdint.h>
+#include <boost/filesystem/path.hpp>
+
+namespace platform {
+
 template<typename T>
 class Cache
 {
@@ -47,5 +57,7 @@ typename Cache<T>::Elem Cache<T>::Load( const boost::filesystem::path& Source )
     }
     return mCache.emplace( Id, Loaded ).first->second;
 }
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_CACHE_H

@@ -1,6 +1,8 @@
 #ifndef INCLUDED_PLATFORM_PROGRAM_PHASES_H
 #define INCLUDED_PLATFORM_PROGRAM_PHASES_H
 
+namespace platform {
+
 namespace ProgramPhase {
 enum Type
 {
@@ -9,7 +11,7 @@ enum Type
     CloseSignal,
     Shutdown,
 };
-}
+} // namespace ProgramPhase
 
 struct PhaseChangedEvent : public Event
 {
@@ -22,5 +24,7 @@ struct CycleEvent : public Event
     const double CurrentTime;
     CycleEvent( double Time ): CurrentTime( Time ) {}
 };
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_PROGRAM_PHASES_H

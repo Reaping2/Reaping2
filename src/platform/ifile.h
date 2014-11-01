@@ -1,10 +1,14 @@
 #ifndef INCLUDED_PLATFORM_IFILE_H
 #define INCLUDED_PLATFORM_IFILE_H
 
+#include <string>
+
+namespace platform {
+
 class File
 {
 public:
-    virtual ~File() {}
+    virtual ~File() = 0;
     virtual bool Read( void* Dst, size_t Size ) = 0;
     virtual bool Read( std::string& Data, size_t Size );
     virtual bool Write( void const* Src, size_t Size ) = 0;
@@ -16,6 +20,7 @@ public:
     virtual bool IsValid()const = 0;
 };
 
-typedef std::auto_ptr<File> AutoFile;
+} // namespace platform
+
 
 #endif//INCLUDED_PLATFORM_IFILE_H

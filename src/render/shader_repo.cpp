@@ -10,11 +10,11 @@ ShaderRepo::ShaderRepo()
 void ShaderRepo::LoadShaders()
 {
     Filesys& FSys = Filesys::Get();
-    Filesys::PathVect_t Paths;
+    PathVect_t Paths;
     FSys.GetFileNames( Paths, "shaders" );
     std::set<std::string> Loaded;
     Loaded.insert( mDefaultShaderName );
-    for( Filesys::PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
+    for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path Path = *i;
         Path = Path.filename();

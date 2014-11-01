@@ -1,6 +1,10 @@
 #ifndef INCLUDED_PLATFORM_SERIALIZE_H
 #define INCLUDED_PLATFORM_SERIALIZE_H
 
+#include <string>
+#include <stdint.h>
+
+namespace platform {
 // data filejaink little endianok, mindig
 namespace conv {
 inline uint16_t bswap( uint16_t val )
@@ -44,6 +48,9 @@ std::string serialize( T t )
 }
 
 template<typename T>
+bool deserialize( const std::string& str, T& t );
+
+template<typename T>
 bool deserialize( const std::string& str, T& t )
 {
     if( str.size() != sizeof( T ) )
@@ -55,6 +62,11 @@ bool deserialize( const std::string& str, T& t )
     t = FromLittleEndian( tmp );
     return true;
 }
-}
+
+#undef ToLittleEndian
+#undef FromLittleEndian
+
+} // namespace conv
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_SERIALIZE_H

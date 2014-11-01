@@ -1,50 +1,38 @@
 #ifndef INCLUDED_PLATFORM_PACKAGE_H
 #define INCLUDED_PLATFORM_PACKAGE_H
 
-class PackageBase
-{
-protected:
-    PackageBase( AutoFile F );
-    struct Header
-    {
-        uint32_t Magic;
-        uint32_t Version;
-        uint32_t Checksum;
-        uint32_t NumFiles;
-        Header(): Magic( 0x5a474b50 ), Version( 1 ), Checksum( 0 ), NumFiles() {}
-    };
-    Header mHeader;
-    struct FileDesc
-    {
-        uint32_t Offset;
-        uint32_t FileSize;
-    };
-    typedef std::map<boost::filesystem::path, FileDesc> FilesMap;
-    FilesMap mFiles;
-    AutoFile mFile;
-};
-class PackagedFile : public File
-{
+#include <boost/filesystem/path.hpp>
+#include <memory>
 
-};
-class Package : public PackageBase
+namespace platform {
+class File;
+
+namespace detail {
+class PackageImpl;
+} // namespace detail
+
+typedef std::vector<boost::filesystem::path> PathVect_t;
+
+class Package
 {
-    bool LoadHeader();
 public:
-    Package( AutoFile Source );
-    AutoFile Open( const boost::filesystem::path& Path );
-    typedef std::vector<boost::filesystem::path> PathVect_t;
-    void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
+    Package( std::auto_ptr<File> source );
+    std::auto_ptr<File> Open( boost::filesystem::path const& path );
+    void GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir = boost::filesystem::path() );
+private:
+    std::auto_ptr<detail::PackageImpl> mImpl;
 };
-class PackageWriter : public PackageBase
+
+class PackageWriter
 {
-    bool WriteHeader();
-    typedef std::map<boost::filesystem::path, boost::filesystem::path> PathMap;
-    PathMap mPaths;
 public:
-    PackageWriter( AutoFile Target );
-    void Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive );
+    PackageWriter( std::auto_ptr<File> target );
+    void Add( const boost::filesystem::path& path, const boost::filesystem::path& pathInArchive );
     bool Save();
+private:
+    std::auto_ptr<detail::PackageImpl> mImpl;
 };
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_PACKAGE_H

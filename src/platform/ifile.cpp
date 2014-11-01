@@ -1,4 +1,10 @@
-#include "i_platform.h"
+#include "ifile.h"
+
+namespace platform {
+
+File::~File()
+{
+}
 
 bool File::ReadAll( std::string& Data )
 {
@@ -16,7 +22,7 @@ bool File::Read( std::string& Data, size_t Size )
         return false;
     }
     std::string tmp( Size, '\0' );
-    if( !Read( ( void* )( &tmp[0] ), Size ) )
+    if( !Read( static_cast< void* >( &tmp[0] ), Size ) )
     {
         return false;
     }
@@ -31,5 +37,7 @@ bool File::Write( const std::string& Data )
     {
         return false;
     }
-    return Write( ( void const* )Data.data(), Data.size() );
+    return Write( static_cast< void const* >( Data.data() ), Data.size() );
 }
+
+} // namespace platform

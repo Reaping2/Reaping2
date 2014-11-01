@@ -1,20 +1,17 @@
 #ifndef INCLUDED_PLATFORM_TIMER_H
 #define INCLUDED_PLATFORM_TIMER_H
 
-class TimerServer;
-struct Timer
-{
-    typedef boost::function<void()> TimerCallback;
-private:
-    friend class TimerServer;
-    Timer( TimerCallback Callback, double Interval );
-    void Update( double Seconds );
+#include "singleton.h"
+#include "register.h"
+#include <boost/function.hpp>
 
-    double mRemaining;
-    double mInterval;
-    TimerCallback mCallback;
-};
+namespace platform {
+typedef boost::function<void()> TimerCallback;
 
+namespace Timer {
+#warning "namespace Timer is obsolete, and will be removed"
+typedef ::platform::TimerCallback TimerCallback;
+} // namespace Timer
 class TimerServer : public Singleton<TimerServer>, public Registry
 {
     friend class Singleton<TimerServer>;
@@ -22,8 +19,10 @@ class TimerServer : public Singleton<TimerServer>, public Registry
     virtual void UpdateOne( void* RegistrationData, void* UpdateData );
     virtual void DeleteData( void* Data );
 public:
-    Registration AddTimer( Timer::TimerCallback Callback, double Interval );
+    Registration AddTimer( TimerCallback Callback, double Interval );
     void Update( double Seconds );
 };
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_TIMER_H

@@ -1,4 +1,6 @@
-#include "i_platform.h"
+#include "event.h"
+
+namespace platform {
 
 Event::~Event()
 {
@@ -20,4 +22,6 @@ void Event::SetHandled() const
 {
     mHandled = true;
 }
+
+} // namespace platform
 

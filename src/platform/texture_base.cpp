@@ -1,4 +1,10 @@
-#include "i_platform.h"
+#include "texture_base.h"
+
+namespace platform {
+
+TextureBase::~TextureBase()
+{
+}
 
 size_t TextureBase::GetWidth() const
 {
@@ -17,7 +23,7 @@ size_t TextureBase::GetChannels() const
 
 uint8_t const* TextureBase::GetData() const
 {
-    return mData.get();
+    return mData.data();
 }
 
 TextureBase::TextureBase()
@@ -29,7 +35,7 @@ TextureBase::TextureBase()
 
 bool TextureBase::IsValid() const
 {
-    return !!mData.get();
+    return !mData.empty();
 }
 
 void TextureBase::ConvertRGBtoRGBA( const unsigned char* rgb, int PixelWidth, unsigned char* rgba )
@@ -46,4 +52,6 @@ void TextureBase::ConvertRGBtoRGBA( const unsigned char* rgb, int PixelWidth, un
 }
 
 const size_t TextureBase::mChannels = 4;
+
+} // namespace platform
 

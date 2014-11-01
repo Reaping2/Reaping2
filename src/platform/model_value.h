@@ -1,6 +1,21 @@
 #ifndef INCLUDED_PLATFORM_MODEL_VALUE_H
 #define INCLUDED_PLATFORM_MODEL_VALUE_H
 
+#include <boost/function.hpp>
+#include <stdint.h>
+#include <string>
+#include "singleton.h"
+#include <boost/bind.hpp>
+#include <boost/unordered_map.hpp>
+
+namespace platform {
+
+/*
+ * TODO: 
+ * hide impl details
+ * change semantics ( probably shared-ptr semantics would be better than auto-ptr sem )
+ */
+
 class ModelValue
 {
 public:
@@ -37,6 +52,8 @@ private:
     typedef boost::unordered_map<std::string const, ModelValue*> ModelMap_t;
     ModelMap_t mModels;
     ModelValue* mParent;
+    ModelValue( ModelValue const& Other );
+    ModelValue& operator=( ModelValue const& Other );
 public:
     virtual ~ModelValue();
     ModelValue( int32_t const& ModelFor, std::string const& Name, ModelValue* Parent );
@@ -60,12 +77,14 @@ public:
     void operator()( double Arg ) const;
     void operator()( std::string const& Arg ) const;
 
+    // type != none
     virtual bool IsValid()const
     {
         return true;
     }
 };
 
+// no reason for this to be a singleton
 class DefaultModelValue : public Singleton<DefaultModelValue>, public ModelValue
 {
     friend class Singleton<DefaultModelValue>;
@@ -105,5 +124,7 @@ inline ModelValue::double_function_t DoubleFunc( BASE* b, FUN f )
 {
     return ModelValue::double_function_t( boost::bind( f, b, _1 ) );
 }
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_MODEL_VALUE_H

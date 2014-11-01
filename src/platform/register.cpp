@@ -1,4 +1,8 @@
-#include "i_platform.h"
+#include "register.h"
+#include <algorithm>
+#include <boost/assert.hpp>
+
+namespace platform {
 
 Registration::~Registration()
 {
@@ -70,7 +74,7 @@ void Registry::Unregister( Registration* Reg )
         }
         else
         {
-            assert( !mErasedDuringUpdate );
+            BOOST_ASSERT( !mErasedDuringUpdate );
             mErasedDuringUpdate = Reg->mData;
         }
     }
@@ -82,7 +86,7 @@ void Registry::Unregister( Registration* Reg )
 
 void Registry::Update( void* UpdateData )
 {
-    assert( mUpdatedRegistrations.empty() );
+    BOOST_ASSERT( mUpdatedRegistrations.empty() );
     while( !mRegistrations.empty() )
     {
         mErasedDuringUpdate = NULL;
@@ -96,7 +100,7 @@ void Registry::Update( void* UpdateData )
     }
     using std::swap;
     swap( mRegistrations, mUpdatedRegistrations );
-    assert( mUpdatedRegistrations.empty() );
+    BOOST_ASSERT( mUpdatedRegistrations.empty() );
 }
 
 Registry::~Registry()
@@ -104,7 +108,7 @@ Registry::~Registry()
     // static dtor kb random ordere miatt ez meg kemenyen be fog jonni.
     // el ko viselni, meg idovel javitani
     // eddig is fos volt, csak most mar van ra assert
-    assert( mRegistrations.empty() );
+    BOOST_ASSERT( mRegistrations.empty() );
 }
 
 Registry::Registry()
@@ -112,3 +116,6 @@ Registry::Registry()
 {
 
 }
+
+} // namespace platform
+

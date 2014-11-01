@@ -1,16 +1,19 @@
 #ifndef INCLUDED_PLATFORM_SINGLETON_H
 #define INCLUDED_PLATFORM_SINGLETON_H
 
-#include <cassert>
+#include <boost/assert.hpp>
 #include <boost/thread/mutex.hpp>
 
+namespace platform {
+
+// TODO: migrate from singleton to intf/impl
 template<typename T>
 class Singleton
 {
 public:
     static T& Get()
     {
-        assert( !is_destructed );
+        BOOST_ASSERT( !is_destructed );
         ( void )is_destructed; // prevent removing is_destructed in Release configuration
 
         boost::mutex::scoped_lock lock( GetMutex() );
@@ -35,5 +38,7 @@ private:
 // force creating mutex before main() is called
 template<typename T>
 bool Singleton<T>::is_destructed = ( Singleton<T>::GetMutex(), false );
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_SINGLETON_H

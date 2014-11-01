@@ -1,18 +1,27 @@
 #ifndef INCLUDED_CORE_ID_STORAGE_H
 #define INCLUDED_CORE_ID_STORAGE_H
 
+#include "singleton.h"
+#include <stdint.h>
+#include <string>
+#include <memory>
+
+namespace platform {
+namespace detail {
+class IdStorageImpl;
+} // namespace detail
+
 class IdStorage : public Singleton<IdStorage>
 {
-    static const int32_t mReservedIds;
     friend class Singleton<IdStorage>;
     IdStorage();
-    int32_t mNextId;
-    typedef std::map<std::string, int32_t> IdMap_t;
-    IdMap_t mIdMap;
-    // todo: egy sync method ehhez, network startupra
+    std::auto_ptr< detail::IdStorageImpl > mImpl;
+    // todo: serialize / deserialize
 public:
     int32_t GetId( const std::string& Name );
     bool GetName( int32_t Id, std::string& Name )const;
 };
+
+} // namespace platform
 
 #endif//INCLUDED_CORE_ID_STORAGE_H

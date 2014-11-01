@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+# support for YouCompleteMe
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 project(Reaping2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake_support)

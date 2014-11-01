@@ -1,7 +1,13 @@
 #ifndef INCLUDED_PLATFORM_REGISTER_H
 #define INCLUDED_PLATFORM_REGISTER_H
 
+#include <list>
+
+namespace platform {
+
 class Registry;
+
+// TODO should be final, AutoReg should be an auto_ptr like smart object
 class Registration
 {
     friend class Registry;
@@ -9,7 +15,7 @@ class Registration
     void* mData;
     Registration( Registry* Parent, void* Data );
 public:
-    ~Registration();
+    virtual ~Registration();
     Registration();
     Registration( Registration const& O );
     Registration& operator=( Registration const& O );
@@ -47,11 +53,13 @@ private:
     typedef std::list<void*> Registrations;
     Registrations mRegistrations;
 
-    void* mErasedDuringUpdate;
+    void* mErasedDuringUpdate; // TODO this is actually a bool value, and should be hidden in impl
     Registrations mUpdatedRegistrations;
 public:
     Registry();
     virtual ~Registry();
 };
+
+} // namespace platform
 
 #endif//INCLUDED_PLATFORM_REGISTER_H

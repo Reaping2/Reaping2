@@ -1,6 +1,12 @@
-#include "i_platform.h"
+#include "log.h"
+#include "jsonreader.h"
+#include "ifile.h"
+#include "osfile.h"
 #include <cstdio>
 #include <cstdarg>
+#include <memory>
+
+namespace platform {
 
 void Logger::Log( int Level, char const* format, ... )
 {
@@ -19,7 +25,7 @@ void Logger::Log( int Level, char const* format, ... )
 Logger::Logger()
     : mDisabledLevels( 0 )
 {
-    AutoFile f( new OsFile( "debug.json" ) );
+    std::auto_ptr<File> f( new OsFile( "debug.json" ) );
     if( !f.get() || !f->IsValid() )
     {
         return;
@@ -44,7 +50,7 @@ Logger::Logger()
     {
         Json::Value const& DisLog = *it;
         uint32_t Val;
-        if( !GetUInt( DisLog, Val ) )
+        if( !Json::GetUInt( DisLog, Val ) )
         {
             continue;
         }
@@ -52,3 +58,4 @@ Logger::Logger()
     }
 }
 
+} // namespace platform

@@ -1,7 +1,13 @@
-#include "i_platform.h"
+#include "model_value.h"
+
+#include <boost/lexical_cast.hpp>
+#include <boost/assert.hpp>
+#include <boost/algorithm/string.hpp>
+
+namespace platform {
 
 #ifdef ENABLE_MODEL_ASSERTS
-#define OBSERVABLE_ASSERT(x) assert(x)
+#define OBSERVABLE_ASSERT(x) BOOST_ASSERT(x)
 #else
 #define OBSERVABLE_ASSERT(x) (void(0))
 #endif
@@ -265,3 +271,9 @@ DefaultModelValue::DefaultModelValue()
 {
 
 }
+
+#undef OBSERVABLE_ASSERT
+
+} // namespace platform
+
+
