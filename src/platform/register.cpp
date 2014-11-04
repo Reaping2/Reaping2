@@ -1,62 +1,36 @@
 #include "register.h"
+#include <list>
 #include <algorithm>
 #include <boost/assert.hpp>
 
 namespace platform {
+namespace reg_detail {
 
-Registration::~Registration()
+class RegistryImpl
 {
-    //  Unregister();
-}
+    Registry& mOwner;
+    typedef std::list<void*> Registrations;
+    Registrations mRegistrations;
 
-Registration::Registration( Registration const& O ) : mData( NULL ), mRegister( NULL )
-{
-    *this = O;
-}
+    bool mCurrentRegDeleted;
+    Registrations mUpdatedRegistrations;
 
-Registration::Registration( Registry* Parent, void* Data )
-    : mRegister( Parent )
-    , mData( Data )
-{
+public:
+    void Unregister( Registration* Reg );
+    Registration Register( void* Data );
+    void Update( void* UpdateData );
+    RegistryImpl( Registry& owner );
+    ~RegistryImpl();
+};
 
-}
-
-Registration::Registration()
-    : mRegister( NULL )
-    , mData( NULL )
-{
-
-}
-
-Registration& Registration::operator=( Registration const& O )
-{
-    if( this != &O )
-    {
-        //using std::swap;
-        mData = O.mData;
-        mRegister = O.mRegister;
-    }
-    return *this;
-}
-
-void Registration::Unregister()
-{
-    if( mRegister )
-    {
-        mRegister->Unregister( this );
-    }
-    mRegister = NULL;
-    mData = NULL;
-}
-
-Registration Registry::Register( void* Data )
+Registration RegistryImpl::Register( void* Data )
 {
     Registration Reg( this, Data );
     mRegistrations.push_back( Data );
     return Reg;
 }
 
-void Registry::Unregister( Registration* Reg )
+void RegistryImpl::Unregister( Registration* Reg )
 {
     do
     {
@@ -74,26 +48,26 @@ void Registry::Unregister( Registration* Reg )
         }
         else
         {
-            BOOST_ASSERT( !mErasedDuringUpdate );
-            mErasedDuringUpdate = Reg->mData;
+            BOOST_ASSERT( !mCurrentRegDeleted );
+            mCurrentRegDeleted = true;
         }
     }
     while( false );
-    DeleteData( Reg->mData );
+    mOwner.DeleteData( Reg->mData );
     Reg->mData = NULL;
     Reg->mRegister = NULL;
 }
 
-void Registry::Update( void* UpdateData )
+void RegistryImpl::Update( void* UpdateData )
 {
     BOOST_ASSERT( mUpdatedRegistrations.empty() );
     while( !mRegistrations.empty() )
     {
-        mErasedDuringUpdate = NULL;
+        mCurrentRegDeleted = false;
         void* RegistrationData = mRegistrations.front();
         mRegistrations.pop_front();
-        UpdateOne( RegistrationData, UpdateData );
-        if( mErasedDuringUpdate != RegistrationData )
+        mOwner.UpdateOne( RegistrationData, UpdateData );
+        if( !mCurrentRegDeleted )
         {
             mUpdatedRegistrations.push_back( RegistrationData );
         }
@@ -103,7 +77,7 @@ void Registry::Update( void* UpdateData )
     BOOST_ASSERT( mUpdatedRegistrations.empty() );
 }
 
-Registry::~Registry()
+RegistryImpl::~RegistryImpl()
 {
     // static dtor kb random ordere miatt ez meg kemenyen be fog jonni.
     // el ko viselni, meg idovel javitani
@@ -111,10 +85,91 @@ Registry::~Registry()
     BOOST_ASSERT( mRegistrations.empty() );
 }
 
-Registry::Registry()
-    : mErasedDuringUpdate( NULL )
+RegistryImpl::RegistryImpl( Registry& owner )
+    : mOwner( owner )
+    , mCurrentRegDeleted( false )
 {
 
+}
+
+} // namespace detail
+
+Registration::Registration( Registration const& O ) : mData( NULL ), mRegister( NULL )
+{
+    *this = O;
+}
+
+Registration::Registration( reg_detail::RegistryImpl* Parent, void* Data )
+    : mRegister( Parent )
+    , mData( Data )
+{
+
+}
+
+Registration::Registration()
+    : mRegister( NULL )
+    , mData( NULL )
+{
+
+}
+
+Registration& Registration::operator=( Registration const& O )
+{
+    if( this != &O )
+    {
+        mData = O.mData;
+        mRegister = O.mRegister;
+    }
+    return *this;
+}
+
+void const* Registration::GetData() const
+{
+    return mData;
+}
+
+void Registration::Unregister()
+{
+    if( mRegister )
+    {
+        mRegister->Unregister( this );
+    }
+    mRegister = NULL;
+    mData = NULL;
+}
+
+Registry::Registry()
+{
+    mImpl.reset( new reg_detail::RegistryImpl( *this ) );
+}
+
+Registry::~Registry()
+{
+}
+
+Registration Registry::Register( void * Data )
+{
+    return mImpl->Register( Data );
+}
+
+void Registry::Update( void * Data )
+{
+    mImpl->Update( Data );
+}
+
+AutoReg::AutoReg()
+{
+}
+
+AutoReg::~AutoReg()
+{
+    mRegistration.Unregister();
+}
+
+AutoReg& AutoReg::operator=( Registration const& o )
+{
+    mRegistration = o;
+    return *this;
 }
 
 } // namespace platform

@@ -1,63 +1,52 @@
 #ifndef INCLUDED_PLATFORM_REGISTER_H
 #define INCLUDED_PLATFORM_REGISTER_H
 
-#include <list>
+#include <memory>
 
 namespace platform {
 
-class Registry;
+namespace reg_detail {
+class RegistryImpl;
+}
 
-// TODO should be final, AutoReg should be an auto_ptr like smart object
 class Registration
 {
-    friend class Registry;
-    Registry* mRegister;
+    friend class reg_detail::RegistryImpl;
+    reg_detail::RegistryImpl* mRegister;
     void* mData;
-    Registration( Registry* Parent, void* Data );
+    Registration( reg_detail::RegistryImpl* Parent, void* Data );
 public:
-    virtual ~Registration();
     Registration();
     Registration( Registration const& O );
     Registration& operator=( Registration const& O );
-    void const* GetData()const
-    {
-        return mData;
-    }
+    void const* GetData() const;
     void Unregister();
 };
 
-class AutoReg : public Registration
+class AutoReg
 {
+    Registration mRegistration;
+    AutoReg( AutoReg const& o );
 public:
-    ~AutoReg()
-    {
-        Unregister();
-    }
-    AutoReg& operator=( Registration const& O )
-    {
-        Registration::operator =( O );
-        return *this;
-    }
+    AutoReg();
+    ~AutoReg();
+    AutoReg& operator=( Registration const& O );
 };
 
 class Registry
 {
-    friend class Registration;
-    void Unregister( Registration* Reg );
-protected:
-    Registration Register( void* Data );
-    virtual void DeleteData( void* Data ) = 0;
-    void Update( void* UpdateData );
-    virtual void UpdateOne( void* RegistrationData, void* UpdateData ) = 0;
 private:
-    typedef std::list<void*> Registrations;
-    Registrations mRegistrations;
+    friend class reg_detail::RegistryImpl;
+    std::auto_ptr< reg_detail::RegistryImpl > mImpl;
+protected:
+    Registration Register( void* RegistrationData );
+    void Update( void* UpdateData );
 
-    void* mErasedDuringUpdate; // TODO this is actually a bool value, and should be hidden in impl
-    Registrations mUpdatedRegistrations;
-public:
     Registry();
     virtual ~Registry();
+protected:
+    virtual void DeleteData( void* RegistrationData ) = 0;
+    virtual void UpdateOne( void* RegistrationData, void* UpdateData ) = 0;
 };
 
 } // namespace platform

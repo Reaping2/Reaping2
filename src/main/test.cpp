@@ -92,7 +92,7 @@ struct Tester_t
     }
 
     static const size_t mNumRegs = 5;
-    AutoReg mReg[mNumRegs];
+    Registration mReg[mNumRegs];
     void TestRegistrations()
     {
         for( size_t i = 0; i < mNumRegs; ++i )
