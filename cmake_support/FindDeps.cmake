@@ -73,4 +73,10 @@ my_find_package( PNG png.h png libpng16 libpng16_static libpng16d libpng16_stati
 
 my_find_package( PORTAUDIO portaudio.h portaudio portaudio_x86 portaudio_static_x86 portaudio_x64 portaudio_static_x64 )
 
+if(WIN32)
+    set( PLATFORM_LIBS "" )
+else()
+    set( PLATFORM_LIBS pthread rt X11 Xrandr Xi Xxf86vm )
+endif()
+
 set( PORTAUDIO_CMAKE_INCLUDE_DIR $ENV{PORTAUDIO_CMAKE_INCLUDEDIR} )
