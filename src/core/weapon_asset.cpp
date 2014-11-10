@@ -58,8 +58,10 @@ void WeaponAsset::Shoot()
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
         Shot& Proj = *i;
-        Proj.SetX( mActor->GetX() );
-        Proj.SetY( mActor->GetY() );
+		PositionComponent& projPositionC = Proj.GetComponent<PositionComponent>( AutoId("position_component") );
+		PositionComponent& actorPositionC = mActor->GetComponent<PositionComponent>( AutoId("position_component") );
+		projPositionC.SetX( actorPositionC.GetX() );
+		projPositionC.SetY( actorPositionC.GetY() );
         Proj.SetParent( *mActor );
         Proj.SetOrientation( Proj.GetOrientation() + ori );
         Proj.SetHeading( Proj.GetOrientation() );
@@ -92,8 +94,10 @@ void WeaponAsset::ShootAlt()
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
         Shot& Proj = *i;
-        Proj.SetX( mActor->GetX() );
-        Proj.SetY( mActor->GetY() );
+		PositionComponent& projPositionC = Proj.GetComponent<PositionComponent>( AutoId("position_component") );
+		PositionComponent& actorPositionC = mActor->GetComponent<PositionComponent>( AutoId("position_component") );
+		projPositionC.SetX( actorPositionC.GetX() );
+		projPositionC.SetY( actorPositionC.GetY() );
         Proj.SetParent( *mActor );
         Proj.SetOrientation( Proj.GetOrientation() + ori );
         Proj.SetHeading( Proj.GetOrientation() );

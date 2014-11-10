@@ -107,21 +107,28 @@ void Scene::Load( std::string const& Level )
 
     for( size_t i = 0; i < NumPoints; ++i )
     {
+		//TODO: one should not just "new" something. ofc testing reasons
         Wall* wall = new Wall( "wall" );
-        wall->SetX( points[i].x );
-        wall->SetY( points[i].y );
+		PositionComponent& wallPositionC = wall->GetComponent<PositionComponent>( AutoId("position_component") );
+		wallPositionC.SetX( points[i].x );
+		wallPositionC.SetY( points[i].y );
+
         AddActor( wall );
     }
 
     Player* Pl = new Player();
+	PositionComponent& positionC = Pl->GetComponent<PositionComponent>( AutoId("position_component") );
+	positionC.SetX(0.0);
+	positionC.SetY(0.0);
+	
     Pl->SetController( std::auto_ptr<Controller>( new PlayerController ) );
     AddActor( Pl );
     Pl->AddItem( AutoId( "pistol" ) );
 
 #ifdef DEBUG
-    static const size_t BenchmarkCreeps = 200;
+    static const size_t BenchmarkCreeps = 500;
 #else
-    static const size_t BenchmarkCreeps = 5000;
+    static const size_t BenchmarkCreeps = 50;
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {

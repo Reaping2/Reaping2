@@ -54,7 +54,7 @@ bool Action::Activate()
 {
     if( !mActor )
     {
-        assert( false );
+		//TODO: Action currently cancelled if ComponentDependency fails further component development needed
         return false;
     }
     if( mIsRefresh )

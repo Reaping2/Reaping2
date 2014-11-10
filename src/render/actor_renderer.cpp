@@ -101,7 +101,8 @@ void ActorRenderer::Draw( Scene const& Object )
         {
             MaxCount = Count;
         }
-        Positions.push_back( glm::vec2( i->Obj->GetX(), i->Obj->GetY() ) );
+		const PositionComponent& positionC = i->Obj->GetComponent<PositionComponent>( AutoId("position_component") );
+        Positions.push_back( glm::vec2( positionC.GetX(), positionC.GetY() ) );
         Headings.push_back( ( GLfloat )i->Obj->GetOrientation() );
         Sizes.push_back( ( GLfloat )( i->Obj->GetRadius()*i->Anim->GetScale() ) );
         TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );

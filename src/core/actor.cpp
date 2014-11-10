@@ -26,18 +26,21 @@ void Actor::Collide( Actor& Other )
 
 Actor::Actor( std::string const& Name )
     : AutoId( Name )
+	, Component ( AutoId( Name ) )
     , mActionFactory( ActionRepo::Get() )
     , mItemFactory( ItemRepo::Get() )
 {
     memset( &mFields, 0, NUM_FIELDS * sizeof( Field_t ) );
     mFields[COLLISION_CLASS].i = CollisionClass::Player;
-    mFields[TYPE_ID].i = mId;
+    mFields[TYPE_ID].i = AutoId::mId; //TODO: ugly as fck. Component has an mId that is not used yet - or ever - later development will tell
     mFields[RADIUS].d = 3.0;
     mFields[TIME_OF_DEATH].d = 0.0;
     static int32_t NextGuid = 0;
     mFields[GUID].i = ++NextGuid;
     mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
+	AddComponent( AutoId( "position_component" ) );
+	PositionComponent& pc = GetComponent<PositionComponent>( AutoId( "position_component" ) );
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -113,21 +116,22 @@ void Actor::ClipScene()
     AllowedDimensions.y += Radius;
     AllowedDimensions.z -= Radius;
     AllowedDimensions.w -= Radius;
-    if( GetX() < AllowedDimensions.x )
+	PositionComponent& positionC = GetComponent<PositionComponent>( AutoId("position_component") );
+    if( positionC.GetX() < AllowedDimensions.x )
     {
-        SetX( AllowedDimensions.x );
+        positionC.SetX( AllowedDimensions.x );
     }
-    else if( GetX() > AllowedDimensions.z )
+    else if( positionC.GetX() > AllowedDimensions.z )
     {
-        SetX( AllowedDimensions.z );
+        positionC.SetX( AllowedDimensions.z );
     }
-    if( GetY() < AllowedDimensions.y )
+    if( positionC.GetY() < AllowedDimensions.y )
     {
-        SetY( AllowedDimensions.y );
+        positionC.SetY( AllowedDimensions.y );
     }
-    else if( GetY() > AllowedDimensions.w )
+    else if( positionC.GetY() > AllowedDimensions.w )
     {
-        SetY( AllowedDimensions.w );
+        positionC.SetY( AllowedDimensions.w );
     }
 }
 
@@ -160,7 +164,9 @@ void Actor::TakeDamage( int32_t Damage )
 {
     if( Damage && IsAlive() )
     {
-        EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( GetX(), GetY() ) );
+		//TODO: ofc this takeDamage thing will be moved to DamageableComponent.
+		PositionComponent& positionC = GetComponent<PositionComponent>( AutoId("position_component") );
+        EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( positionC.GetX(), positionC.GetY() ) );
     }
     mFields[HP].i -= Damage;
 }
@@ -187,6 +193,8 @@ void Actor::DropItemType( Item::ItemType Type )
         if( i->GetType() == Type )
         {
             mItems.erase( i );
-        }
+        } 
     }
 }
+
+

@@ -2,8 +2,11 @@
 #define INCLUDED_MOVE_ACTION_H
 
 
-class MoveAction : public Action
+class MoveAction : public Action, public ComponentDependent
 {
+public:
+	virtual void SetActor( Actor* Obj );
+
 protected:
     MoveAction( int32_t Id );
     virtual void Update( double Seconds );

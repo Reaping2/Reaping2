@@ -100,6 +100,7 @@ void Shader::Load( std::string const& Name )
     }
     else
     {
+		L1( "  %s\n", Name );
         assert( false );
     }
 

@@ -18,7 +18,7 @@ struct CollisionClass
 class Action;
 class Item;
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
-class Actor : public AutoId
+class Actor : public AutoId, public Component
 {
 public:
     AllActorMemberHook_t mAllActorHook;
@@ -30,6 +30,7 @@ public:
 
     typedef boost::ptr_map<int32_t, Action> ActionList_t;
     typedef boost::ptr_list<Item> ItemList_t;
+
     enum
     {
         HP_DEAD = -1,
@@ -39,8 +40,7 @@ protected:
     {
         HP,
         DAMAGE,
-        X,
-        Y,
+
         ORIENTATION,    // merre nez
         RADIUS,
         HEADING,        // merre megy
@@ -64,6 +64,8 @@ protected:
     Field_t mFields[NUM_FIELDS];
     std::auto_ptr<Controller> mController;
 
+
+
     void UpdateProjections();
     bool CanAddAction( int32_t Id )const;
 public:
@@ -80,14 +82,7 @@ public:
 
     void SetController( std::auto_ptr<Controller> Control );
 
-    double const& GetX()const
-    {
-        return mFields[X].d;
-    }
-    double const& GetY()const
-    {
-        return mFields[Y].d;
-    }
+
     double GetRadius()const
     {
         return mFields[RADIUS].d;
@@ -120,7 +115,11 @@ public:
     {
         return mActions;
     }
-    void AddAction( int32_t Id );
+
+
+
+
+	void AddAction( int32_t Id );
     bool HasAction( int32_t Id )const;
     ItemList_t const& GetItems()const;
     void AddItem( int32_t Id );
@@ -146,14 +145,7 @@ public:
     {
         return CollisionClass::Type( mFields[COLLISION_CLASS].i );
     }
-    void SetX( double x )
-    {
-        mFields[X].d = x;
-    }
-    void SetY( double y )
-    {
-        mFields[Y].d = y;
-    }
+
     void SetSpeed( double Speed )
     {
         mFields[SPEED].d = Speed;

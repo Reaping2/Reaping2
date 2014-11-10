@@ -30,7 +30,9 @@ void TargetPlayerController::Update( double Seconds )
     {
         return;
     }
-    glm::vec2 const Diff( mPlayer->GetX() - mActor->GetX(), mPlayer->GetY() - mActor->GetY() );
+	PositionComponent const& playerPositionC = mPlayer->GetComponent<PositionComponent>( AutoId("position_component") );
+	PositionComponent const& actorPositionC = mActor->GetComponent<PositionComponent>( AutoId("position_component") );
+    glm::vec2 const Diff( playerPositionC.GetX() - actorPositionC.GetX(), playerPositionC.GetY() - actorPositionC.GetY() );
     {
         // todo: biteaction
         double const R = mPlayer->GetRadius() + mActor->GetRadius();

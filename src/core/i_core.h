@@ -1,4 +1,7 @@
 #include "platform/i_platform.h"
+#include "component_repo.h"
+#include "component.h"
+#include "position_component.h"
 #include "audible_event.h"
 #include "action_repo.h"
 #include "item_repo.h"
