@@ -19,9 +19,9 @@ void PlayerController::SetActor( Actor* Obj )
     mPlayerModels.clear();
     Controller::SetActor( Obj );
     mPlayerModels.push_back( new ModelValue( Obj->GetHP(), "hp", &mPlayerModel ) );
-	PositionComponent& objPositionC = Obj->GetComponent<PositionComponent>( AutoId("position_component") );
-    mPlayerModels.push_back( new ModelValue( objPositionC.GetX(), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( objPositionC.GetY(), "y", &mPlayerModel ) );
+	Opt<PositionComponent> objPositionC = Obj->Get<PositionComponent>();
+    mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
 }
 
 void PlayerController::OnKeyEvent( const KeyEvent& Event )
@@ -115,8 +115,8 @@ void PlayerController::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 
 void PlayerController::UpdateRotation()
 {
-	PositionComponent& actorPositionC = mActor->GetComponent<PositionComponent>( AutoId("position_component") );
-    double Rot = atan2( mY - actorPositionC.GetY(), mX - actorPositionC.GetX() );
+	Opt<PositionComponent> actorPositionC = mActor->Get<PositionComponent>();
+    double Rot = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
     mActor->SetOrientation( Rot );
 }
 
@@ -131,7 +131,7 @@ void PlayerController::OnMousePressEvent( const WorldMousePressEvent& Event )
         mActor->AddAction( AutoId( "shoot_alt" ) );
     }
     // ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
-    static const double Cooldown = 0.2;
+    static const double Cooldown = 0.0002;
     static double PrevTime = 0;
     const double CurTime = glfwGetTime();
     if( CurTime - PrevTime < Cooldown )

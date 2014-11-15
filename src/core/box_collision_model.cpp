@@ -4,9 +4,9 @@ bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB
 {
     // A: (0,0)
 	//TODO: this may change, or will be simplified, because this is kind of ugly, to gat these two positions. Time will tell
-	PositionComponent const& objApositionC = ObjA.GetComponent<PositionComponent>( AutoId("position_component") );
-	PositionComponent const& objBpositionC = ObjB.GetComponent<PositionComponent>( AutoId("position_component") );
-        glm::vec2 B( objBpositionC.GetX() - objApositionC.GetX(), objBpositionC.GetY() - objApositionC.GetY() );
+	Opt<PositionComponent> const objApositionC = ObjA.Get<PositionComponent>();
+	Opt<PositionComponent> const objBpositionC = ObjB.Get<PositionComponent>();
+        glm::vec2 B( objBpositionC->GetX() - objApositionC->GetX(), objBpositionC->GetY() - objApositionC->GetY() );
     // BSize: (0,0)
     glm::vec2 ASize( ObjA.GetRadius() + ObjB.GetRadius(), ObjA.GetRadius() + ObjB.GetRadius() );
     // on point check

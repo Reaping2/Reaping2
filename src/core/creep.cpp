@@ -3,9 +3,9 @@
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( Name )
 {
-	PositionComponent& positionC = GetComponent<PositionComponent>( AutoId("position_component") );
-	positionC.SetX(x);
-	positionC.SetY(y);
+	Opt<PositionComponent> positionC = Get<PositionComponent>();
+	positionC->SetX(x);
+	positionC->SetY(y);
 
     mFields[RADIUS].d = 0.1;
     mFields[COLLISION_CLASS].i = CollisionClass::Creep;
@@ -32,9 +32,9 @@ void Creep::OnDeath()
     }
 	// TODO: this is baaaad, you need to do this with an action
     Pickup* Pu = new Pickup( rand() % 2 ? "pistol" : "plasma_gun" );
-	PositionComponent& positionC = GetComponent<PositionComponent>( AutoId("position_component") );
-	PositionComponent& puPositionC = Pu->GetComponent<PositionComponent>( AutoId("position_component") );
-	puPositionC.SetX(positionC.GetX());
-	puPositionC.SetY(positionC.GetY());
+	Opt<PositionComponent> positionC = Get<PositionComponent>();
+	Opt<PositionComponent> puPositionC = Pu->Get<PositionComponent>();
+	puPositionC->SetX(positionC->GetX());
+	puPositionC->SetY(positionC->GetY());
     Scene::Get().AddActor( Pu );
 }

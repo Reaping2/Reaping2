@@ -2,8 +2,9 @@
 
 ComponentRepo::ComponentRepo()
 {
-    Bind<DefaultComponent>( AutoId( "default_component" ) );
-    SetDefault( AutoId( "default_component" ) );
+    Bind( DefaultComponent::GetType_static(), &CreateComponent<DefaultComponent> );
+    SetDefault( DefaultComponent::GetType_static() );
 
-    Bind<PositionComponent>( AutoId( "position_component" ) );
+    Bind( PositionComponent::GetType_static(), &CreateComponent<PositionComponent>);
+
 }

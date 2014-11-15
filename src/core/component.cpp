@@ -1,48 +1,33 @@
 #include "i_core.h"
 
-Component::Component( int32_t Id )
-	: mId( Id )
-	, mComponentFactory( ComponentRepo::Get() )
+Component::Component()
+{
+}
+Component::~Component()
 {
 }
 
-void Component::AddComponent( int32_t Id )
+void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 {
-	ComponentList_t::iterator i = mComponents.find( Id );
+	ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
     if( i == mComponents.end() )
     {
-        mComponents.insert( Id, mComponentFactory( Id ) );
+        mComponents.insert( Comp->GetType(), Comp );
     }
 }
 
-bool Component::HasComponent( int32_t Id )
-{
-	return mComponents.find( Id ) != mComponents.end();
-}
-
-DefaultComponent::DefaultComponent( int32_t Id )
-	: Component( Id )
+ComponentHolder::ComponentHolder()
+	: mComponentFactory( ComponentRepo::Get() )
 {
 }
 
-ComponentDependent::ComponentDependent()
+ComponentHolder::~ComponentHolder()
 {
 }
 
-void ComponentDependent::AddDependency( int32_t Id )
+
+DefaultComponent::DefaultComponent()
+	: Component()
 {
-	mDependencies.push_back( Id );
-}
-	
-void ComponentDependent::InitDependencies( Component& Comp )
-{
-	for( DependencyList_t::iterator i=mDependencies.begin(), e=mDependencies.end();i!=e;++i)
-	{
-		int32_t dep=*i;
-		if (Comp.HasComponent(dep))
-		{
-			mComponentDependents.insert(std::pair<int32_t, Component&>(dep,Comp.GetComponent<Component>(dep)));
-		}
-	}
 }
 

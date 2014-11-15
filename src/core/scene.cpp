@@ -109,17 +109,17 @@ void Scene::Load( std::string const& Level )
     {
 		//TODO: one should not just "new" something. ofc testing reasons
         Wall* wall = new Wall( "wall" );
-		PositionComponent& wallPositionC = wall->GetComponent<PositionComponent>( AutoId("position_component") );
-		wallPositionC.SetX( points[i].x );
-		wallPositionC.SetY( points[i].y );
+		Opt<PositionComponent> wallPositionC = wall->Get<PositionComponent>();
+		wallPositionC->SetX( points[i].x );
+		wallPositionC->SetY( points[i].y );
 
         AddActor( wall );
     }
 
     Player* Pl = new Player();
-	PositionComponent& positionC = Pl->GetComponent<PositionComponent>( AutoId("position_component") );
-	positionC.SetX(0.0);
-	positionC.SetY(0.0);
+	Opt<PositionComponent> positionC = Pl->Get<PositionComponent>();
+	positionC->SetX(0.0);
+	positionC->SetY(0.0);
 	
     Pl->SetController( std::auto_ptr<Controller>( new PlayerController ) );
     AddActor( Pl );
@@ -128,7 +128,7 @@ void Scene::Load( std::string const& Level )
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;
 #else
-    static const size_t BenchmarkCreeps = 50;
+    static const size_t BenchmarkCreeps = 500;
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {

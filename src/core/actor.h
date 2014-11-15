@@ -18,7 +18,7 @@ struct CollisionClass
 class Action;
 class Item;
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
-class Actor : public AutoId, public Component
+class Actor : public AutoId, public ComponentHolder
 {
 public:
     AllActorMemberHook_t mAllActorHook;

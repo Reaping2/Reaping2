@@ -4,6 +4,7 @@
 class PositionComponent : public Component
 {
 public:
+	DEFINE_COMPONENT_BASE(PositionComponent)
 	double const& GetX()const; //TODO: component style, its not a really good idea for models, if components are changed
 	double const& GetY()const;
 	double GetOrientation();
@@ -11,8 +12,8 @@ public:
 	void SetY( double Y );
 	void SetOrientation( double Orientation );
 protected:
-	PositionComponent( int32_t Id );
-	friend class Factory<Component>;
+	PositionComponent();
+	friend class ComponentRepo;
 private:
 	double mX;
 	double mY;

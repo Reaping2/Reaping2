@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-PositionComponent::PositionComponent( int32_t Id )
-	: Component( Id )
+PositionComponent::PositionComponent()
+	: Component()
 	, mX(0.0)
 	, mY(0.0)
 {

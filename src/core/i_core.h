@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "opt.h"
 #include "component_repo.h"
 #include "component.h"
 #include "position_component.h"

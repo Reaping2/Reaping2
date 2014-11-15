@@ -1,63 +1,65 @@
 #ifndef INCLUDED_CORE_COMPONENT_H
 #define INCLUDED_CORE_COMPONENT_H
 
+
+#define DEFINE_COMPONENT_BASE( ComponentType ) \
+    static int GetType_static() \
+    { \
+        static int const typ = AutoId( #ComponentType ); \
+        return typ; \
+    } \
+    virtual int GetType() const \
+    { \
+        return ComponentType::GetType_static(); \
+    } \
+
+
 class Component 
 {
 public:
-	virtual ~Component() {};
+	DEFINE_COMPONENT_BASE(Component)
+	virtual ~Component();
 
+protected:
+	Component();
+};
+
+class ComponentHolder
+{
+protected:
 	typedef boost::ptr_map<int32_t, Component> ComponentList_t;
 	ComponentRepo& mComponentFactory;
 	ComponentList_t mComponents;
 
-	void AddComponent( int32_t Id );
-    bool HasComponent( int32_t Id );
+public:
+	ComponentHolder();
+	void AddComponent( std::auto_ptr<Component> Comp  );
+   
 	template<typename Component_t>
-	const Component_t& GetComponent( int32_t Id ) const
-	{
-		ComponentList_t::const_iterator i = mComponents.find( Id );
-		BOOST_ASSERT(i != mComponents.end()); // if this one is not true the we a screwed
-		return static_cast<const Component_t&>(*i->second); 
-	}
+	Opt<Component_t> Get() const;
 	template<typename Component_t>
-	Component_t& GetComponent( int32_t Id )
-	{
-		return const_cast<Component_t&>(( ( const Component* )this )->GetComponent<Component_t>( Id ));
-	}
-protected:
-	int32_t mId;
-	Component( int32_t Id );
+	Opt<Component_t> Get();
+	virtual ~ComponentHolder();
 };
+template<typename Component_t>
+Opt<Component_t> ComponentHolder::Get() const
+{
+	ComponentList_t::const_iterator i = mComponents.find( Component_t::GetType_static() );
+	BOOST_ASSERT(i != mComponents.end()); // if this one is not true the we a screwed
+	return (Opt<Component_t>(static_cast<Component_t*>(const_cast<Component*>(i->second)))); 
+}
+
+template<typename Component_t>
+Opt<Component_t> ComponentHolder::Get()
+{
+	return ( ( const ComponentHolder* )this )->Get<Component_t>();
+}
 
 class DefaultComponent : public Component
 {
 public:
-	DefaultComponent( int32_t Id );
-	friend class Factory<Component>;
-};
-//TODO: this class is experimental, not designed properly sry for copy-paste
-class ComponentDependent
-{
-public:
-	virtual ~ComponentDependent() {};
-protected:
-	typedef std::list<int32_t> DependencyList_t;
-	DependencyList_t mDependencies;
-	typedef std::map<int32_t, Component& > ComponentDependentList_t;
-	ComponentDependentList_t mComponentDependents;
-
-	void AddDependency( int32_t Id );
-	void InitDependencies( Component& Comp );
-
-	template<typename Component_t>
-	Component_t& GetDependentComponent( int32_t Id )
-	{
-		ComponentDependentList_t::iterator i = mComponentDependents.find( Id );
-		BOOST_ASSERT(i != mComponentDependents.end()); // if this one is not true the we a screwed
-		return dynamic_cast<Component_t&>(i->second); 
-	}
-
-	ComponentDependent();
+	DEFINE_COMPONENT_BASE(DefaultComponent)
+	DefaultComponent();
 	friend class Factory<Component>;
 };
 #endif//INCLUDED_CORE_COMPONENT_H

@@ -96,9 +96,9 @@ glm::vec4 Grid::Box( Actor const& Obj, double Dt )const
     float const MvX = Dt * Obj.GetSpeedX();
     float const MvY = Dt * Obj.GetSpeedY();
     double const Radius = Obj.GetRadius();
-	PositionComponent const& objPositionC = Obj.GetComponent<PositionComponent>( AutoId("position_component") );
-    double const Ox = objPositionC.GetX() - mMin.x;
-    double const Oy = objPositionC.GetY() - mMin.y;
+	Opt<PositionComponent> const objPositionC = Obj.Get<PositionComponent>();
+    double const Ox = objPositionC->GetX() - mMin.x;
+    double const Oy = objPositionC->GetY() - mMin.y;
     glm::vec4 Ret( Ox - Obj.GetRadius(),
                    Oy - Obj.GetRadius(),
                    Ox + Obj.GetRadius(),

@@ -2,7 +2,7 @@
 #define INCLUDED_MOVE_ACTION_H
 
 
-class MoveAction : public Action, public ComponentDependent
+class MoveAction : public Action
 {
 public:
 	virtual void SetActor( Actor* Obj );

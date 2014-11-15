@@ -26,7 +26,7 @@ void Actor::Collide( Actor& Other )
 
 Actor::Actor( std::string const& Name )
     : AutoId( Name )
-	, Component ( AutoId( Name ) )
+	, ComponentHolder ()
     , mActionFactory( ActionRepo::Get() )
     , mItemFactory( ItemRepo::Get() )
 {
@@ -39,8 +39,7 @@ Actor::Actor( std::string const& Name )
     mFields[GUID].i = ++NextGuid;
     mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
-	AddComponent( AutoId( "position_component" ) );
-	PositionComponent& pc = GetComponent<PositionComponent>( AutoId( "position_component" ) );
+	AddComponent( mComponentFactory(PositionComponent::GetType_static()) );
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -116,22 +115,22 @@ void Actor::ClipScene()
     AllowedDimensions.y += Radius;
     AllowedDimensions.z -= Radius;
     AllowedDimensions.w -= Radius;
-	PositionComponent& positionC = GetComponent<PositionComponent>( AutoId("position_component") );
-    if( positionC.GetX() < AllowedDimensions.x )
+	Opt<PositionComponent> positionC = Get<PositionComponent>();
+    if( positionC->GetX() < AllowedDimensions.x )
     {
-        positionC.SetX( AllowedDimensions.x );
+        positionC->SetX( AllowedDimensions.x );
     }
-    else if( positionC.GetX() > AllowedDimensions.z )
+    else if( positionC->GetX() > AllowedDimensions.z )
     {
-        positionC.SetX( AllowedDimensions.z );
+        positionC->SetX( AllowedDimensions.z );
     }
-    if( positionC.GetY() < AllowedDimensions.y )
+    if( positionC->GetY() < AllowedDimensions.y )
     {
-        positionC.SetY( AllowedDimensions.y );
+        positionC->SetY( AllowedDimensions.y );
     }
-    else if( positionC.GetY() > AllowedDimensions.w )
+    else if( positionC->GetY() > AllowedDimensions.w )
     {
-        positionC.SetY( AllowedDimensions.w );
+        positionC->SetY( AllowedDimensions.w );
     }
 }
 
@@ -165,8 +164,8 @@ void Actor::TakeDamage( int32_t Damage )
     if( Damage && IsAlive() )
     {
 		//TODO: ofc this takeDamage thing will be moved to DamageableComponent.
-		PositionComponent& positionC = GetComponent<PositionComponent>( AutoId("position_component") );
-        EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( positionC.GetX(), positionC.GetY() ) );
+		Opt<PositionComponent> positionC = Get<PositionComponent>();
+        EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( positionC->GetX(), positionC->GetY() ) );
     }
     mFields[HP].i -= Damage;
 }

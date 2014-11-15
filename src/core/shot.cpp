@@ -14,11 +14,11 @@ Shot::Shot( std::string const& Name )
 void Shot::ClipScene()
 {
     glm::vec4 const& AllowedDimensions = Scene::Get().GetDimensions();
-	PositionComponent& PositionC = GetComponent<PositionComponent>( AutoId("position_component") );	
-    if( PositionC.GetX() + GetRadius() < AllowedDimensions.x * 2 ||
-        PositionC.GetX() - GetRadius() > AllowedDimensions.z * 2 ||
-        PositionC.GetY() + GetRadius() < AllowedDimensions.y * 2 ||
-        PositionC.GetY() - GetRadius() > AllowedDimensions.w * 2 )
+	Opt<PositionComponent> PositionC = Get<PositionComponent>();	
+    if( PositionC->GetX() + GetRadius() < AllowedDimensions.x * 2 ||
+        PositionC->GetX() - GetRadius() > AllowedDimensions.z * 2 ||
+        PositionC->GetY() + GetRadius() < AllowedDimensions.y * 2 ||
+        PositionC->GetY() - GetRadius() > AllowedDimensions.w * 2 )
     {
         mFields[HP].i = HP_DEAD;
     }
