@@ -60,6 +60,6 @@ class DefaultComponent : public Component
 public:
 	DEFINE_COMPONENT_BASE(DefaultComponent)
 	DefaultComponent();
-	friend class Factory<Component>;
+	friend class ComponentRepo;
 };
 #endif//INCLUDED_CORE_COMPONENT_H
