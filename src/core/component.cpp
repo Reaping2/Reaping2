@@ -9,7 +9,7 @@ Component::~Component()
 
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 {
-	ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
+    ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
     if( i == mComponents.end() )
     {
         mComponents.insert( Comp->GetType(), Comp );
@@ -17,7 +17,7 @@ void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 }
 
 ComponentHolder::ComponentHolder()
-	: mComponentFactory( ComponentRepo::Get() )
+    : mComponentFactory( ComponentRepo::Get() )
 {
 }
 
@@ -27,7 +27,7 @@ ComponentHolder::~ComponentHolder()
 
 
 DefaultComponent::DefaultComponent()
-	: Component()
+    : Component()
 {
 }
 

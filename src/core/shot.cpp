@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_position_component.h"
 
 Shot::Shot( std::string const& Name )
     : Actor( Name )
@@ -6,7 +7,7 @@ Shot::Shot( std::string const& Name )
 {
     mFields[COLLISION_CLASS].i = CollisionClass::Projectile;
     mFields[RADIUS].d = 0.02;
-    mFields[DAMAGE].i = 1;
+    mFields[DAMAGE].i = 10;
     SetSpeed( 2 );
     AddAction( AutoId( "move" ) );
 }
@@ -14,7 +15,7 @@ Shot::Shot( std::string const& Name )
 void Shot::ClipScene()
 {
     glm::vec4 const& AllowedDimensions = Scene::Get().GetDimensions();
-	Opt<PositionComponent> PositionC = Get<PositionComponent>();	
+    Opt<IPositionComponent> PositionC = Get<IPositionComponent>();    
     if( PositionC->GetX() + GetRadius() < AllowedDimensions.x * 2 ||
         PositionC->GetX() - GetRadius() > AllowedDimensions.z * 2 ||
         PositionC->GetY() + GetRadius() < AllowedDimensions.y * 2 ||

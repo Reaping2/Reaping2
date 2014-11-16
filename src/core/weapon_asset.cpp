@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_position_component.h"
 
 WeaponAsset::WeaponAsset( int32_t Id )
     : Item( Id )
@@ -58,10 +59,10 @@ void WeaponAsset::Shoot()
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
         Shot& Proj = *i;
-		Opt<PositionComponent> projPositionC = Proj.Get<PositionComponent>();
-		Opt<PositionComponent> actorPositionC = mActor->Get<PositionComponent>();
-		projPositionC->SetX( actorPositionC->GetX() );
-		projPositionC->SetY( actorPositionC->GetY() );
+        Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
+        Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
+        projPositionC->SetX( actorPositionC->GetX() );
+        projPositionC->SetY( actorPositionC->GetY() );
         Proj.SetParent( *mActor );
         Proj.SetOrientation( Proj.GetOrientation() + ori );
         Proj.SetHeading( Proj.GetOrientation() );
@@ -94,10 +95,10 @@ void WeaponAsset::ShootAlt()
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
         Shot& Proj = *i;
-		Opt<PositionComponent> projPositionC = Proj.Get<PositionComponent>();
-		Opt<PositionComponent> actorPositionC = mActor->Get<PositionComponent>();
-		projPositionC->SetX( actorPositionC->GetX() );
-		projPositionC->SetY( actorPositionC->GetY() );
+        Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
+        Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
+        projPositionC->SetX( actorPositionC->GetX() );
+        projPositionC->SetY( actorPositionC->GetY() );
         Proj.SetParent( *mActor );
         Proj.SetOrientation( Proj.GetOrientation() + ori );
         Proj.SetHeading( Proj.GetOrientation() );

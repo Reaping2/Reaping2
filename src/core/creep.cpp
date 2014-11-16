@@ -1,11 +1,12 @@
 #include "i_core.h"
+#include "core/i_position_component.h"
 
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( Name )
 {
-	Opt<PositionComponent> positionC = Get<PositionComponent>();
-	positionC->SetX(x);
-	positionC->SetY(y);
+    Opt<IPositionComponent> positionC = Get<IPositionComponent>();
+    positionC->SetX(x);
+    positionC->SetY(y);
 
     mFields[RADIUS].d = 0.1;
     mFields[COLLISION_CLASS].i = CollisionClass::Creep;
@@ -30,11 +31,11 @@ void Creep::OnDeath()
     {
         return;
     }
-	// TODO: this is baaaad, you need to do this with an action
+    // TODO: this is baaaad, you need to do this with an action
     Pickup* Pu = new Pickup( rand() % 2 ? "pistol" : "plasma_gun" );
-	Opt<PositionComponent> positionC = Get<PositionComponent>();
-	Opt<PositionComponent> puPositionC = Pu->Get<PositionComponent>();
-	puPositionC->SetX(positionC->GetX());
-	puPositionC->SetY(positionC->GetY());
+    Opt<IPositionComponent> positionC = Get<IPositionComponent>();
+    Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
+    puPositionC->SetX(positionC->GetX());
+    puPositionC->SetY(positionC->GetY());
     Scene::Get().AddActor( Pu );
 }

@@ -4,49 +4,49 @@ template<typename T>
 class Opt
 {
 public:
-	Opt(T* Ptr=NULL);
-	bool IsValid();
-	T* operator->() const;
-	T& operator*() const;
-	T* operator->();
-	T& operator*();
+    Opt(T* Ptr=NULL);
+    bool IsValid();
+    T* operator->() const;
+    T& operator*() const;
+    T* operator->();
+    T& operator*();
 private:
-	T* mPtr;
+    T* mPtr;
 };
 
 template<typename T>
 Opt<T>::Opt(T* Ptr)
 {
-	mPtr=Ptr;
+    mPtr=Ptr;
 }
 
 template<typename T>
 bool Opt<T>::IsValid()
 {
-	return mPtr!=NULL;
+    return mPtr!=NULL;
 }
 
 template<typename T>
 T* Opt<T>::operator->() const
 {
-	return mPtr;
+    return mPtr;
 }
 
 template<typename T>
 T& Opt<T>::operator*() const
 {
-	return *mPtr;
+    return *mPtr;
 }
 
 template<typename T>
 T* Opt<T>::operator->()
 {
-	return const_cast<T*>(((const Opt*)this)->operator->());
+    return const_cast<T*>(((const Opt*)this)->operator->());
 }
 
 template<typename T>
 T& Opt<T>::operator*()
 {
-	return const_cast<T&>(((const Opt*)this)->operator*());
+    return const_cast<T&>(((const Opt*)this)->operator*());
 }
-#endif INCLUDED_CORE_OPT_H
+#endif//INCLUDED_CORE_OPT_H

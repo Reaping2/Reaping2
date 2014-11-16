@@ -1,23 +1,24 @@
 #ifndef INCLUDED_CORE_POSITION_COMPONENT_H
 #define INCLUDED_CORE_POSITION_COMPONENT_H
 
-class PositionComponent : public Component
+#include "i_position_component.h"
+
+class PositionComponent : public IPositionComponent
 {
 public:
-	DEFINE_COMPONENT_BASE(PositionComponent)
-	double const& GetX()const; //TODO: component style, its not a really good idea for models, if components are changed
-	double const& GetY()const;
-	double GetOrientation();
-	void SetX( double X );
-	void SetY( double Y );
-	void SetOrientation( double Orientation );
+    virtual double const& GetX()const; //TODO: component style, its not a really good idea for models, if components are changed
+    virtual double const& GetY()const;
+    virtual double GetOrientation();
+    virtual void SetX( double X );
+    virtual void SetY( double Y );
+    virtual void SetOrientation( double Orientation );
 protected:
-	PositionComponent();
-	friend class ComponentRepo;
+    PositionComponent();
+    friend class ComponentRepo;
 private:
-	double mX;
-	double mY;
-	double mOrientation;
+    double mX;
+    double mY;
+    double mOrientation;
 };
 
 #endif//INCLUDED_CORE_POSITION_COMPONENT_H

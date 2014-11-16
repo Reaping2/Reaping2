@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_position_component.h"
 
 void Scene::AddActor( Actor* Object )
 {
@@ -107,20 +108,20 @@ void Scene::Load( std::string const& Level )
 
     for( size_t i = 0; i < NumPoints; ++i )
     {
-		//TODO: one should not just "new" something. ofc testing reasons
+        //TODO: one should not just "new" something. ofc testing reasons
         Wall* wall = new Wall( "wall" );
-		Opt<PositionComponent> wallPositionC = wall->Get<PositionComponent>();
-		wallPositionC->SetX( points[i].x );
-		wallPositionC->SetY( points[i].y );
+        Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
+        wallPositionC->SetX( points[i].x );
+        wallPositionC->SetY( points[i].y );
 
         AddActor( wall );
     }
 
     Player* Pl = new Player();
-	Opt<PositionComponent> positionC = Pl->Get<PositionComponent>();
-	positionC->SetX(0.0);
-	positionC->SetY(0.0);
-	
+    Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
+    positionC->SetX(0.0);
+    positionC->SetY(0.0);
+    
     Pl->SetController( std::auto_ptr<Controller>( new PlayerController ) );
     AddActor( Pl );
     Pl->AddItem( AutoId( "pistol" ) );

@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include"core/i_position_component.h"
 
 void Actor::DoControlling( double Seconds )
 {
@@ -26,7 +27,7 @@ void Actor::Collide( Actor& Other )
 
 Actor::Actor( std::string const& Name )
     : AutoId( Name )
-	, ComponentHolder ()
+    , ComponentHolder ()
     , mActionFactory( ActionRepo::Get() )
     , mItemFactory( ItemRepo::Get() )
 {
@@ -39,7 +40,7 @@ Actor::Actor( std::string const& Name )
     mFields[GUID].i = ++NextGuid;
     mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
-	AddComponent( mComponentFactory(PositionComponent::GetType_static()) );
+    AddComponent( mComponentFactory(PositionComponent::GetType_static()) );
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -115,7 +116,7 @@ void Actor::ClipScene()
     AllowedDimensions.y += Radius;
     AllowedDimensions.z -= Radius;
     AllowedDimensions.w -= Radius;
-	Opt<PositionComponent> positionC = Get<PositionComponent>();
+    Opt<IPositionComponent> positionC = Get<IPositionComponent>();
     if( positionC->GetX() < AllowedDimensions.x )
     {
         positionC->SetX( AllowedDimensions.x );
@@ -163,8 +164,8 @@ void Actor::TakeDamage( int32_t Damage )
 {
     if( Damage && IsAlive() )
     {
-		//TODO: ofc this takeDamage thing will be moved to DamageableComponent.
-		Opt<PositionComponent> positionC = Get<PositionComponent>();
+        //TODO: ofc this takeDamage thing will be moved to DamageableComponent.
+        Opt<IPositionComponent> positionC = Get<IPositionComponent>();
         EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( positionC->GetX(), positionC->GetY() ) );
     }
     mFields[HP].i -= Damage;

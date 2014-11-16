@@ -17,49 +17,49 @@
 class Component 
 {
 public:
-	DEFINE_COMPONENT_BASE(Component)
-	virtual ~Component();
+    virtual int GetType() const=0;
+    virtual ~Component();
 
 protected:
-	Component();
+    Component();
 };
 
 class ComponentHolder
 {
 protected:
-	typedef boost::ptr_map<int32_t, Component> ComponentList_t;
-	ComponentRepo& mComponentFactory;
-	ComponentList_t mComponents;
+    typedef boost::ptr_map<int32_t, Component> ComponentList_t;
+    ComponentRepo& mComponentFactory;
+    ComponentList_t mComponents;
 
 public:
-	ComponentHolder();
-	void AddComponent( std::auto_ptr<Component> Comp  );
+    ComponentHolder();
+    void AddComponent( std::auto_ptr<Component> Comp  );
    
-	template<typename Component_t>
-	Opt<Component_t> Get() const;
-	template<typename Component_t>
-	Opt<Component_t> Get();
-	virtual ~ComponentHolder();
+    template<typename Component_t>
+    Opt<Component_t> Get() const;
+    template<typename Component_t>
+    Opt<Component_t> Get();
+    virtual ~ComponentHolder();
 };
 template<typename Component_t>
 Opt<Component_t> ComponentHolder::Get() const
 {
-	ComponentList_t::const_iterator i = mComponents.find( Component_t::GetType_static() );
-	BOOST_ASSERT(i != mComponents.end()); // if this one is not true the we a screwed
-	return (Opt<Component_t>(static_cast<Component_t*>(const_cast<Component*>(i->second)))); 
+    ComponentList_t::const_iterator i = mComponents.find( Component_t::GetType_static() );
+    BOOST_ASSERT(i != mComponents.end()); // if this one is not true the we a screwed
+    return (Opt<Component_t>(static_cast<Component_t*>(const_cast<Component*>(i->second)))); 
 }
 
 template<typename Component_t>
 Opt<Component_t> ComponentHolder::Get()
 {
-	return ( ( const ComponentHolder* )this )->Get<Component_t>();
+    return ( ( const ComponentHolder* )this )->Get<Component_t>();
 }
 
 class DefaultComponent : public Component
 {
 public:
-	DEFINE_COMPONENT_BASE(DefaultComponent)
-	DefaultComponent();
-	friend class ComponentRepo;
+    DEFINE_COMPONENT_BASE(DefaultComponent)
+    DefaultComponent();
+    friend class ComponentRepo;
 };
 #endif//INCLUDED_CORE_COMPONENT_H

@@ -119,7 +119,7 @@ public:
 
 
 
-	void AddAction( int32_t Id );
+    void AddAction( int32_t Id );
     bool HasAction( int32_t Id )const;
     ItemList_t const& GetItems()const;
     void AddItem( int32_t Id );

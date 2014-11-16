@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "input/i_input.h"
+#include "core/i_position_component.h"
 
 PlayerController::PlayerController()
     : mCurrentMovement( 0 )
@@ -19,7 +20,7 @@ void PlayerController::SetActor( Actor* Obj )
     mPlayerModels.clear();
     Controller::SetActor( Obj );
     mPlayerModels.push_back( new ModelValue( Obj->GetHP(), "hp", &mPlayerModel ) );
-	Opt<PositionComponent> objPositionC = Obj->Get<PositionComponent>();
+    Opt<IPositionComponent> objPositionC = Obj->Get<IPositionComponent>();
     mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
 }
@@ -115,7 +116,7 @@ void PlayerController::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 
 void PlayerController::UpdateRotation()
 {
-	Opt<PositionComponent> actorPositionC = mActor->Get<PositionComponent>();
+    Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
     double Rot = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
     mActor->SetOrientation( Rot );
 }

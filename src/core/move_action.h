@@ -1,11 +1,10 @@
 #ifndef INCLUDED_MOVE_ACTION_H
 #define INCLUDED_MOVE_ACTION_H
 
-
 class MoveAction : public Action
 {
 public:
-	virtual void SetActor( Actor* Obj );
+    virtual void SetActor( Actor* Obj );
 
 protected:
     MoveAction( int32_t Id );

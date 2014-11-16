@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "core/i_position_component.h"
 
 void ActorRenderer::Init()
 {
@@ -101,7 +102,7 @@ void ActorRenderer::Draw( Scene const& Object )
         {
             MaxCount = Count;
         }
-		const Opt<PositionComponent> positionC = i->Obj->Get<PositionComponent>();
+        const Opt<IPositionComponent> positionC = i->Obj->Get<IPositionComponent>();
         Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) );
         Headings.push_back( ( GLfloat )i->Obj->GetOrientation() );
         Sizes.push_back( ( GLfloat )( i->Obj->GetRadius()*i->Anim->GetScale() ) );

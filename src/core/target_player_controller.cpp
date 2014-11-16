@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_position_component.h"
 
 TargetPlayerController::TargetPlayerController( Actor* player ): Controller()
     , mCounter( 0.0 )
@@ -30,8 +31,8 @@ void TargetPlayerController::Update( double Seconds )
     {
         return;
     }
-	Opt<PositionComponent> const playerPositionC = mPlayer->Get<PositionComponent>();
-	Opt<PositionComponent> const actorPositionC = mActor->Get<PositionComponent>();
+    Opt<IPositionComponent> const playerPositionC = mPlayer->Get<IPositionComponent>();
+    Opt<IPositionComponent> const actorPositionC = mActor->Get<IPositionComponent>();
     glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
     {
         // todo: biteaction
