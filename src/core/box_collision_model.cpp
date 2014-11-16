@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "core/i_move_component.h"
 
 bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double Dt )const
 {
@@ -16,7 +17,7 @@ bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB
     {
         return true;
     }
-    glm::vec2 Spd( ObjB.GetSpeedX() - ObjA.GetSpeedX(), ObjB.GetSpeedY() - ObjA.GetSpeedY() );
+    glm::vec2 Spd( ObjB.Get<IMoveComponent>()->GetSpeedX() - ObjA.Get<IMoveComponent>()->GetSpeedX(), ObjB.Get<IMoveComponent>()->GetSpeedY() - ObjA.Get<IMoveComponent>()->GetSpeedY() );
     glm::vec2 T1minusB = ASize - B;
     glm::vec2 T2minusB = -ASize - B;
     glm::vec2 MinTimes( std::numeric_limits<float>::max() );

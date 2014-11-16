@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_move_component.h"
 
 RandomController::RandomController(): Controller()
     , mCounter( 2 )
@@ -14,7 +15,7 @@ void RandomController::SetActor( Actor* Obj )
     {
         return;
     }
-    mActor->SetHeading( rand() % 180 );
+    mActor->Get<IMoveComponent>()->SetHeading( rand() % 180 );
     mActor->AddAction( AutoId( "move" ) );
 }
 
@@ -30,9 +31,9 @@ void RandomController::Update( double Seconds )
         mCounter = 0;
         mHeadingModifier = ( rand() % 10 - 5 ) * .33;
 
-        mActor->SetSpeed( ( rand() % 10 )*.03 );
+        mActor->Get<IMoveComponent>()->SetSpeed( ( rand() % 10 )*.03 );
     }
-    mActor->SetHeading( mActor->GetHeading() + Seconds * mHeadingModifier );
-    mActor->Get<IPositionComponent>()->SetOrientation( mActor->GetHeading() );
+    mActor->Get<IMoveComponent>()->SetHeading( mActor->Get<IMoveComponent>()->GetHeading() + Seconds * mHeadingModifier );
+    mActor->Get<IPositionComponent>()->SetOrientation( mActor->Get<IMoveComponent>()->GetHeading() );
 }
 

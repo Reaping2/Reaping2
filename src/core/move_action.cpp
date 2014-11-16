@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "core/i_move_component.h"
 
 MoveAction::MoveAction( int32_t Id )
     : Action( Id )
@@ -25,8 +26,8 @@ void MoveAction::Update( double Seconds )
     }
     Action::Update( Seconds );
     Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
-    actorPositionC->SetX( actorPositionC->GetX() + Seconds * mActor->GetSpeedX() );
-    actorPositionC->SetY( actorPositionC->GetY() + Seconds * mActor->GetSpeedY() );
+    actorPositionC->SetX( actorPositionC->GetX() + Seconds * mActor->Get<IMoveComponent>()->GetSpeedX() );
+    actorPositionC->SetY( actorPositionC->GetY() + Seconds * mActor->Get<IMoveComponent>()->GetSpeedY() );
 
     mActor->ClipScene();
 }

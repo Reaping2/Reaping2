@@ -7,6 +7,15 @@ MoveComponent::MoveComponent()
     , mSpeedY(0.0)
 {
 }
+void MoveComponent::UpdateProjections()
+{
+    const double spd = GetSpeed();
+    const double h = GetHeading();
+    const double c = cos( h );
+    const double s = sin( h );
+    SetSpeedX(c * spd);
+    SetSpeedY(s * spd);
+}
 
 double const& MoveComponent::GetHeading() const
 {
@@ -27,10 +36,12 @@ double const& MoveComponent::GetSpeedY() const
 void MoveComponent::SetHeading( double Heading )
 {
     mHeading = Heading;
+    UpdateProjections();
 }
 void MoveComponent::SetSpeed( double Speed )
 {
     mSpeed = Speed;
+    UpdateProjections();
 }
 void MoveComponent::SetSpeedX( double SpeedX )
 {

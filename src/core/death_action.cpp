@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "i_move_component.h"
 
 DeathAction::DeathAction( int32_t Id )
     : Action( Id )
@@ -16,5 +17,5 @@ void DeathAction::Update( double Seconds )
     {
         return;
     }
-    mActor->SetSpeed( 0 );
+    mActor->Get<IMoveComponent>()->SetSpeed( 0 );
 }

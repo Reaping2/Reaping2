@@ -23,6 +23,7 @@ private:
     double mSpeed;
     double mSpeedX;
     double mSpeedY;
+    void UpdateProjections();
 };
 
 #endif//INCLUDED_CORE_MOVE_COMPONENT_H

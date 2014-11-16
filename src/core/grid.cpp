@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "i_move_component.h"
 
 const uint32_t Grid::Collisions[] =
 {
@@ -94,8 +95,8 @@ void Grid::AddActor( Actor* A, double Dt )
 
 glm::vec4 Grid::Box( Actor const& Obj, double Dt )const
 {
-    float const MvX = Dt * Obj.GetSpeedX();
-    float const MvY = Dt * Obj.GetSpeedY();
+    float const MvX = Dt * Obj.Get<IMoveComponent>()->GetSpeedX();
+    float const MvY = Dt * Obj.Get<IMoveComponent>()->GetSpeedY();
     double const Radius = Obj.GetRadius();
     Opt<IPositionComponent> const objPositionC = Obj.Get<IPositionComponent>();
     double const Ox = objPositionC->GetX() - mMin.x;

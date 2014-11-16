@@ -42,10 +42,6 @@ protected:
         DAMAGE,
 
         RADIUS,
-        HEADING,        // merre megy
-        SPEED,
-        SPEED_X,
-        SPEED_Y,
         COLLISION_CLASS,
         GUID,           // todo: MakeGuid()
         TYPE_ID,
@@ -65,7 +61,6 @@ protected:
 
 
 
-    void UpdateProjections();
     bool CanAddAction( int32_t Id )const;
 public:
     Actor( std::string const& Name );
@@ -85,22 +80,6 @@ public:
     double GetRadius()const
     {
         return mFields[RADIUS].d;
-    }
-    double GetSpeed()const
-    {
-        return mFields[SPEED].d;
-    }
-    double GetSpeedX()const
-    {
-        return mFields[SPEED_X].d;
-    }
-    double GetSpeedY()const
-    {
-        return mFields[SPEED_Y].d;
-    }
-    double GetHeading()const
-    {
-        return mFields[HEADING].d;
     }
 
     double GetCooldownReduction()const
@@ -141,18 +120,6 @@ public:
     {
         return CollisionClass::Type( mFields[COLLISION_CLASS].i );
     }
-
-    void SetSpeed( double Speed )
-    {
-        mFields[SPEED].d = Speed;
-        UpdateProjections();
-    }
-    void SetHeading( double Heading )
-    {
-        mFields[HEADING].d = Heading;
-        UpdateProjections();
-    }
-
 };
 
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;

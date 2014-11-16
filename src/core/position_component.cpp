@@ -3,6 +3,7 @@
 PositionComponent::PositionComponent()
     : mX(0.0)
     , mY(0.0)
+    , mOrientation(0.0)
 {
 }
 

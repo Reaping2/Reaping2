@@ -1,5 +1,7 @@
 #include "i_core.h"
-#include"core/i_position_component.h"
+#include "core/i_position_component.h"
+#include "core/i_move_component.h"
+#include "core/move_component.h"
 
 void Actor::DoControlling( double Seconds )
 {
@@ -41,6 +43,7 @@ Actor::Actor( std::string const& Name )
     mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
     AddComponent( mComponentFactory(PositionComponent::GetType()) );
+    AddComponent( mComponentFactory(MoveComponent::GetType()) );
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
@@ -171,15 +174,6 @@ void Actor::TakeDamage( int32_t Damage )
     mFields[HP].i -= Damage;
 }
 
-void Actor::UpdateProjections()
-{
-    const double spd = GetSpeed();
-    const double h = GetHeading();
-    const double c = cos( h );
-    const double s = sin( h );
-    mFields[SPEED_X].d = c * spd;
-    mFields[SPEED_Y].d = s * spd;
-}
 
 bool Actor::HasAction( int32_t Id ) const
 {

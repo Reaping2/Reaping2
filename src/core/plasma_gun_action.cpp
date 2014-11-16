@@ -8,7 +8,7 @@ PlasmaGunAction::PlasmaGunAction( int32_t Id )
 {
     mScatter = 10;
     mAltScatter = 3;
-    mShootCooldown = 0.2;
+    mShootCooldown = 0.1;
     mShootAltCooldown = 0.3;
 }
 

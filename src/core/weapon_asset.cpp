@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "core/i_move_component.h"
 
 WeaponAsset::WeaponAsset( int32_t Id )
     : Item( Id )
@@ -65,7 +66,7 @@ void WeaponAsset::Shoot()
         projPositionC->SetY( actorPositionC->GetY() );
         Proj.SetParent( *mActor );
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
-        Proj.SetHeading( projPositionC->GetOrientation() );
+        Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
         Scen.AddActor( &Proj );
     }
     Projectiles.release().release();
@@ -101,7 +102,7 @@ void WeaponAsset::ShootAlt()
         projPositionC->SetY( actorPositionC->GetY() );
         Proj.SetParent( *mActor );
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
-        Proj.SetHeading( projPositionC->GetOrientation() );
+        Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
         Scen.AddActor( &Proj );
     }
     Projectiles.release().release();

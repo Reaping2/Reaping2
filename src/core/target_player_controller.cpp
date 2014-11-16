@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "core/i_move_component.h"
 
 TargetPlayerController::TargetPlayerController( Actor* player ): Controller()
     , mCounter( 0.0 )
@@ -16,8 +17,8 @@ void TargetPlayerController::SetActor( Actor* Obj )
     {
         return;
     }
-    mActor->SetHeading( 0 );
-    mActor->SetSpeed( 0.1 );
+    mActor->Get<IMoveComponent>()->SetHeading( 0 );
+    mActor->Get<IMoveComponent>()->SetSpeed( 0.1 );
     mActor->AddAction( AutoId( "move" ) );
 }
 
@@ -51,7 +52,7 @@ void TargetPlayerController::Update( double Seconds )
         }
     }
     double Rot = atan2( Diff.y, Diff.x );
-    double Radians = Rot - mActor->GetHeading();
+    double Radians = Rot - mActor->Get<IMoveComponent>()->GetHeading();
     static const double pi = boost::math::constants::pi<double>();
     while ( Radians < -pi )
     {
@@ -62,6 +63,6 @@ void TargetPlayerController::Update( double Seconds )
         Radians -= pi * 2;
     }
     double RotSpd = ( Radians > 0 ? 1 : -1 ) * 0.01;
-    mActor->SetHeading( mActor->GetHeading() + RotSpd );
-    mActor->Get<IPositionComponent>()->SetOrientation( mActor->GetHeading() );
+    mActor->Get<IMoveComponent>()->SetHeading( mActor->Get<IMoveComponent>()->GetHeading() + RotSpd );
+    mActor->Get<IPositionComponent>()->SetOrientation( mActor->Get<IMoveComponent>()->GetHeading() );
 }

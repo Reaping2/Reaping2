@@ -1,6 +1,7 @@
 #include "i_core.h"
 #include "input/i_input.h"
 #include "core/i_position_component.h"
+#include "core/i_move_component.h"
 
 PlayerController::PlayerController()
     : mCurrentMovement( 0 )
@@ -70,7 +71,7 @@ void PlayerController::Update( double Seconds )
     mDirty = false;
     int x = ( ( mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( mCurrentMovement & MF_Down ) ? -1 : 0 );
-    mActor->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*.35 );
+    mActor->Get<IMoveComponent>()->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*.35 );
 
     double Heading = 0;
     static const double pi = boost::math::constants::pi<double>();
@@ -91,7 +92,7 @@ void PlayerController::Update( double Seconds )
         Heading = ( x < 0 ) ? pi * 1.25 : pi * 1.75;
     }
 
-    mActor->SetHeading( Heading );
+    mActor->Get<IMoveComponent>()->SetHeading( Heading );
     if( x == 0 && y == 0 )
     {
         mActor->AddAction( AutoId( "idle" ) );
