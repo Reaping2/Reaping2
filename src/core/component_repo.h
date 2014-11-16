@@ -1,10 +1,15 @@
 #ifndef INCLUDED_COMPONENT_REPO_H
 #define INCLUDED_COMPONENT_REPO_H
 
+#include "platform/factory.h"
+#include "platform/singleton.h"
+
+#include <memory>
+
 class Component;
-class ComponentRepo : public Factory<Component>, public Singleton<ComponentRepo>
+class ComponentRepo : public platform::Factory<Component>, public platform::Singleton<ComponentRepo>
 {
-    friend class Singleton<ComponentRepo>;
+    friend class platform::Singleton<ComponentRepo>;
     ComponentRepo();
 protected:
     template<typename Elem_T>

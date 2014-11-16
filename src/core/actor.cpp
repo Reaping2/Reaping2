@@ -40,7 +40,7 @@ Actor::Actor( std::string const& Name )
     mFields[GUID].i = ++NextGuid;
     mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
-    AddComponent( mComponentFactory(PositionComponent::GetType_static()) );
+    AddComponent( mComponentFactory(PositionComponent::GetType()) );
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )

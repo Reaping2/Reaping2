@@ -1,23 +1,34 @@
 #ifndef INCLUDED_CORE_COMPONENT_H
 #define INCLUDED_CORE_COMPONENT_H
 
+#include "core/component_repo.h"
+#include "core/opt.h"
+#include "platform/auto_id.h"
+
+#include <boost/ptr_container/ptr_map.hpp>
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
     { \
-        static int const typ = AutoId( #ComponentType ); \
+        static int const typ = platform::AutoId( #ComponentType ); \
         return typ; \
     } \
-    virtual int GetType() const \
+    virtual int GetType_interface() const \
     { \
         return ComponentType::GetType_static(); \
     } \
 
+#define DEFINE_COMPONENT_IMPLEMENTATION( ComponentType ) \
+    static int GetType() \
+    { \
+    static int const typ = platform::AutoId( #ComponentType ); \
+    return typ; \
+    } \
 
 class Component 
 {
 public:
-    virtual int GetType() const=0;
+    virtual int GetType_interface() const=0;
     virtual ~Component();
 
 protected:
@@ -58,6 +69,7 @@ Opt<Component_t> ComponentHolder::Get()
 class DefaultComponent : public Component
 {
 public:
+    DEFINE_COMPONENT_IMPLEMENTATION(DefaultComponent)
     DEFINE_COMPONENT_BASE(DefaultComponent)
     DefaultComponent();
     friend class ComponentRepo;
