@@ -24,11 +24,11 @@ void PlasmaGunAction::ShootAltImpl( Projectiles_t& Projectiles )
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mAltShotId ) );
 
     Shot* ps = new PlasmaShot();
-    ps->SetOrientation( -0.15 );
+    ps->Get<IPositionComponent>()->SetOrientation( -0.15 );
     Projectiles.push_back( ps );
 
     ps = new PlasmaShot();
-    ps->SetOrientation( 0.15 );
+    ps->Get<IPositionComponent>()->SetOrientation( 0.15 );
     Projectiles.push_back( ps );
 
     ps = new PlasmaShot();

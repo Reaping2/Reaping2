@@ -8,7 +8,7 @@ class PositionComponent : public IPositionComponent
 public:
     virtual double const& GetX()const; //TODO: component style, its not a really good idea for models, if components are changed
     virtual double const& GetY()const;
-    virtual double GetOrientation();
+    virtual double const& GetOrientation()const;
     virtual void SetX( double X );
     virtual void SetY( double Y );
     virtual void SetOrientation( double Orientation );

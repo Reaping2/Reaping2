@@ -118,7 +118,7 @@ void PlayerController::UpdateRotation()
 {
     Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
     double Rot = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
-    mActor->SetOrientation( Rot );
+    actorPositionC->SetOrientation( Rot );
 }
 
 void PlayerController::OnMousePressEvent( const WorldMousePressEvent& Event )

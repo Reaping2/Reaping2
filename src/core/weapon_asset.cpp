@@ -51,10 +51,10 @@ void WeaponAsset::Shoot()
     Projectiles_t Projectiles;
     ShootImpl( Projectiles );
     Scene& Scen( Scene::Get() );
-    double ori = mActor->GetOrientation();
+    double actorOrientation = mActor->Get<IPositionComponent>()->GetOrientation();
     if( mScatter )
     {
-        ori += ( rand() % mScatter - mScatter / 2. ) * 0.01 * boost::math::double_constants::pi;
+        actorOrientation += ( rand() % mScatter - mScatter / 2. ) * 0.01 * boost::math::double_constants::pi;
     }
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
@@ -64,8 +64,8 @@ void WeaponAsset::Shoot()
         projPositionC->SetX( actorPositionC->GetX() );
         projPositionC->SetY( actorPositionC->GetY() );
         Proj.SetParent( *mActor );
-        Proj.SetOrientation( Proj.GetOrientation() + ori );
-        Proj.SetHeading( Proj.GetOrientation() );
+        projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
+        Proj.SetHeading( projPositionC->GetOrientation() );
         Scen.AddActor( &Proj );
     }
     Projectiles.release().release();
@@ -87,21 +87,21 @@ void WeaponAsset::ShootAlt()
     Projectiles_t Projectiles;
     ShootAltImpl( Projectiles );
     Scene& Scen( Scene::Get() );
-    double ori = mActor->GetOrientation();
+    Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
+    double actorOrientation = actorPositionC->GetOrientation();
     if( mAltScatter )
     {
-        ori += ( rand() % mAltScatter - mAltScatter / 2. ) * 0.01 * boost::math::double_constants::pi;
+        actorOrientation += ( rand() % mAltScatter - mAltScatter / 2. ) * 0.01 * boost::math::double_constants::pi;
     }
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
         Shot& Proj = *i;
         Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
-        Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
         projPositionC->SetX( actorPositionC->GetX() );
         projPositionC->SetY( actorPositionC->GetY() );
         Proj.SetParent( *mActor );
-        Proj.SetOrientation( Proj.GetOrientation() + ori );
-        Proj.SetHeading( Proj.GetOrientation() );
+        projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
+        Proj.SetHeading( projPositionC->GetOrientation() );
         Scen.AddActor( &Proj );
     }
     Projectiles.release().release();

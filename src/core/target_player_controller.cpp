@@ -63,5 +63,5 @@ void TargetPlayerController::Update( double Seconds )
     }
     double RotSpd = ( Radians > 0 ? 1 : -1 ) * 0.01;
     mActor->SetHeading( mActor->GetHeading() + RotSpd );
-    mActor->SetOrientation( mActor->GetHeading() );
+    mActor->Get<IPositionComponent>()->SetOrientation( mActor->GetHeading() );
 }

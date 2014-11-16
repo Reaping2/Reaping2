@@ -33,6 +33,6 @@ void RandomController::Update( double Seconds )
         mActor->SetSpeed( ( rand() % 10 )*.03 );
     }
     mActor->SetHeading( mActor->GetHeading() + Seconds * mHeadingModifier );
-    mActor->SetOrientation( mActor->GetHeading() );
+    mActor->Get<IPositionComponent>()->SetOrientation( mActor->GetHeading() );
 }
 

@@ -14,7 +14,7 @@ double const& PositionComponent::GetY()const
 {
     return mY;
 }
-double PositionComponent::GetOrientation()
+double const& PositionComponent::GetOrientation()const
 {
     return mOrientation;
 }

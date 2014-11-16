@@ -41,7 +41,6 @@ protected:
         HP,
         DAMAGE,
 
-        ORIENTATION,    // merre nez
         RADIUS,
         HEADING,        // merre megy
         SPEED,
@@ -103,10 +102,7 @@ public:
     {
         return mFields[HEADING].d;
     }
-    double GetOrientation()const
-    {
-        return mFields[ORIENTATION].d;
-    }
+
     double GetCooldownReduction()const
     {
         return mFields[COOLDOWN_REDUCTION].d;
@@ -156,10 +152,7 @@ public:
         mFields[HEADING].d = Heading;
         UpdateProjections();
     }
-    void SetOrientation( double Ori )
-    {
-        mFields[ORIENTATION].d = Ori;
-    }
+
 };
 
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;

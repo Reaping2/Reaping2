@@ -1,13 +1,14 @@
 #ifndef INCLUDED_CORE_OPT_H
 #define INCLUDED_CORE_OPT_H
+
 template<typename T>
 class Opt
 {
 public:
     Opt(T* Ptr=NULL);
     bool IsValid();
-    T* operator->() const;
-    T& operator*() const;
+    T const* operator->() const;
+    T const& operator*() const;
     T* operator->();
     T& operator*();
 private:
@@ -27,13 +28,13 @@ bool Opt<T>::IsValid()
 }
 
 template<typename T>
-T* Opt<T>::operator->() const
+T const* Opt<T>::operator->() const
 {
     return mPtr;
 }
 
 template<typename T>
-T& Opt<T>::operator*() const
+T const& Opt<T>::operator*() const
 {
     return *mPtr;
 }
