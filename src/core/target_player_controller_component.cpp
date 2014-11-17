@@ -1,18 +1,25 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "core/target_player_controller_component.h"
 
-TargetPlayerController::TargetPlayerController( Actor* player ): Controller()
+TargetPlayerControllerComponent::TargetPlayerControllerComponent()
+    : mActor( NULL )
+    , mPlayer( NULL )
     , mCounter( 0.0 )
     , mHeadingModifier( 0 )
-    , mPlayer( player )
 {
 
 }
 
-void TargetPlayerController::SetActor( Actor* Obj )
+void TargetPlayerControllerComponent::SetPlayer( Actor* Player )
 {
-    Controller::SetActor( Obj );
+    mPlayer = Player;
+}
+
+void TargetPlayerControllerComponent::SetActor( Actor* Obj )
+{
+    mActor = Obj;
     if( !mActor )
     {
         return;
@@ -22,13 +29,17 @@ void TargetPlayerController::SetActor( Actor* Obj )
     mActor->AddAction( AutoId( "move" ) );
 }
 
-void TargetPlayerController::Update( double Seconds )
+void TargetPlayerControllerComponent::Update( double Seconds )
 {
     if( !mActor )
     {
         return;
     }
     if( !mPlayer )
+    {
+        return;
+    }
+    if ( !mActor->IsAlive() )
     {
         return;
     }

@@ -1,16 +1,18 @@
 #include "i_core.h"
 #include "core/i_move_component.h"
+#include "core/random_controller_component.h"
 
-RandomController::RandomController(): Controller()
+RandomControllerComponent::RandomControllerComponent()
+    : mActor( NULL )
     , mCounter( 2 )
     , mHeadingModifier( 0 )
 {
 
 }
 
-void RandomController::SetActor( Actor* Obj )
+void RandomControllerComponent::SetActor( Actor* Obj )
 {
-    Controller::SetActor( Obj );
+    mActor = Obj;
     if( !mActor )
     {
         return;
@@ -19,9 +21,13 @@ void RandomController::SetActor( Actor* Obj )
     mActor->AddAction( AutoId( "move" ) );
 }
 
-void RandomController::Update( double Seconds )
+void RandomControllerComponent::Update( double Seconds )
 {
     if( !mActor )
+    {
+        return;
+    }
+    if ( !mActor->IsAlive() )
     {
         return;
     }

@@ -49,8 +49,8 @@ template<typename Component_t>
 Opt<Component_t> ComponentHolder::Get() const
 {
     ComponentList_t::const_iterator i = mComponents.find( Component_t::GetType_static() );
-    BOOST_ASSERT(i != mComponents.end()); // if this one is not true the we a screwed
-    return (Opt<Component_t>(static_cast<Component_t*>(const_cast<Component*>(i->second)))); 
+    return Opt<Component_t>(static_cast<Component_t*>(const_cast<Component*>(
+        i == mComponents.end()?NULL:i->second))); 
 }
 
 template<typename Component_t>

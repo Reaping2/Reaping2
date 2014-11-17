@@ -57,9 +57,6 @@ protected:
     ItemList_t mItems;
 
     Field_t mFields[NUM_FIELDS];
-    std::auto_ptr<Controller> mController;
-
-
 
     bool CanAddAction( int32_t Id )const;
 public:
@@ -67,15 +64,11 @@ public:
     virtual ~Actor() = 0;
     virtual void Collide( Actor& Other );
     virtual void ClipScene();
-    virtual void DoControlling( double Seconds );
     virtual void Update( double Seconds );
     virtual void UpdateLifetime();
     virtual void TakeDamage( int32_t Damage );
     virtual void OnDeath() {}
     bool IsAlive()const;
-
-    void SetController( std::auto_ptr<Controller> Control );
-
 
     double GetRadius()const
     {

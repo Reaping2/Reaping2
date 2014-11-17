@@ -1,13 +1,17 @@
 #ifndef INCLUDED_CORE_RANDOM_CONTROLLER_H
 #define INCLUDED_CORE_RANDOM_CONTROLLER_H
 
-class RandomController : public Controller
+#include "core/i_controller_component.h"
+#include "core/actor.h"
+
+class RandomControllerComponent : public IControllerComponent
 {
 public:
-    RandomController();
+    RandomControllerComponent();
     virtual void Update( double Seconds );
     virtual void SetActor( Actor* Obj );
 private:
+    Actor* mActor;
     double mCounter;
     double mHeadingModifier;
 };

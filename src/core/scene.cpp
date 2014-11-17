@@ -1,5 +1,7 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "core/i_controller_component.h"
+
 
 void Scene::AddActor( Actor* Object )
 {
@@ -18,7 +20,11 @@ void Scene::Update( double DeltaTime )
     for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it != e; ++it )
     {
         Actor& Obj = *it;
-        Obj.DoControlling( DeltaTime );
+        Opt<IControllerComponent> objControllerC = Obj.Get<IControllerComponent>();
+        if(objControllerC.IsValid())
+        {
+            objControllerC->Update(DeltaTime);
+        }
         mCollisionGrid.AddActor( &Obj, DeltaTime );
     }
     PossibleCollisions_t const& PossibleCollisions = mCollisionGrid.GetPossibleCollisions();
@@ -122,7 +128,8 @@ void Scene::Load( std::string const& Level )
     positionC->SetX(0.0);
     positionC->SetY(0.0);
     
-    Pl->SetController( std::auto_ptr<Controller>( new PlayerController ) );
+    Pl->AddComponent( ComponentFactory::Get()(AutoId("player_controller_component")) );
+    Pl->Get<IControllerComponent>()->SetActor(Pl);
     AddActor( Pl );
     Pl->AddItem( AutoId( "pistol" ) );
 

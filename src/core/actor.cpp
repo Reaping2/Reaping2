@@ -2,17 +2,10 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/move_component.h"
+#include "core/i_controller_component.h"
 #include "platform/auto_id.h"
 
 using platform::AutoId;
-
-void Actor::DoControlling( double Seconds )
-{
-    if( mController.get() )
-    {
-        mController->Update( Seconds );
-    }
-}
 
 void Actor::Update( double Seconds )
 {
@@ -47,15 +40,6 @@ Actor::Actor( std::string const& Name )
     AddAction( AutoId( "default_action" ) );
     AddComponent( mComponentFactory(AutoId("position_component")) );
     AddComponent( mComponentFactory(AutoId("move_component")) );
-}
-
-void Actor::SetController( std::auto_ptr<Controller> Control )
-{
-    mController = Control;
-    if( mController.get() )
-    {
-        mController->SetActor( this );
-    }
 }
 
 bool Actor::CanAddAction( int32_t Id )const
@@ -159,7 +143,6 @@ void Actor::UpdateLifetime()
         OnDeath();
         mFields[TIME_OF_DEATH].d = glfwGetTime();
     }
-    mController.reset();
 }
 
 Actor::~Actor()
@@ -173,8 +156,8 @@ void Actor::TakeDamage( int32_t Damage )
         //TODO: ofc this takeDamage thing will be moved to DamageableComponent.
         Opt<IPositionComponent> positionC = Get<IPositionComponent>();
         EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( positionC->GetX(), positionC->GetY() ) );
+        mFields[HP].i -= Damage;
     }
-    mFields[HP].i -= Damage;
 }
 
 

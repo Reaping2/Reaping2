@@ -2,31 +2,36 @@
 #include "input/i_input.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "core/player_controller_component.h"
 
-PlayerController::PlayerController()
-    : mCurrentMovement( 0 )
+PlayerControllerComponent::PlayerControllerComponent()
+    : mActor( NULL )
+    , mCurrentMovement( 0 )
+    , mX( 0.0 )
+    , mY( 0.0 )
     , mDirty( true )
     , mMouse( Mouse::Get() )
     , mPlayerModel( "player", &RootModel::Get() )
 {
     Keyboard& Keys = Keyboard::Get();
-    mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerController::OnKeyEvent, this, _1 ) );
-    mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerController::OnMouseMoveEvent, this, _1 ) );
-    mMousePressId = EventServer<WorldMousePressEvent>::Get().Subscribe( boost::bind( &PlayerController::OnMousePressEvent, this, _1 ) );
-    mMouseReleaseId = EventServer<WorldMouseReleaseEvent>::Get().Subscribe( boost::bind( &PlayerController::OnMouseReleaseEvent, this, _1 ) );
+    mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnKeyEvent, this, _1 ) );
+    mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMouseMoveEvent, this, _1 ) );
+    mMousePressId = EventServer<WorldMousePressEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMousePressEvent, this, _1 ) );
+    mMouseReleaseId = EventServer<WorldMouseReleaseEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMouseReleaseEvent, this, _1 ) );
 }
 
-void PlayerController::SetActor( Actor* Obj )
+void PlayerControllerComponent::SetActor( Actor* Obj )
 {
     mPlayerModels.clear();
-    Controller::SetActor( Obj );
+    mActor = Obj;
+    BOOST_ASSERT(mActor);
     mPlayerModels.push_back( new ModelValue( Obj->GetHP(), "hp", &mPlayerModel ) );
     Opt<IPositionComponent> objPositionC = Obj->Get<IPositionComponent>();
     mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
 }
 
-void PlayerController::OnKeyEvent( const KeyEvent& Event )
+void PlayerControllerComponent::OnKeyEvent( const KeyEvent& Event )
 {
     uint32_t OldMovement = mCurrentMovement;
     uint32_t Mod = 0;
@@ -57,9 +62,8 @@ void PlayerController::OnKeyEvent( const KeyEvent& Event )
     mDirty = mDirty || mCurrentMovement != OldMovement;
 }
 
-void PlayerController::Update( double Seconds )
+void PlayerControllerComponent::Update( double Seconds )
 {
-    UpdateRotation();
     if( !mActor )
     {
         return;
@@ -68,6 +72,11 @@ void PlayerController::Update( double Seconds )
     {
         return;
     }
+    if ( !mActor->IsAlive() )
+    {
+        return;
+    }
+    UpdateRotation();
     mDirty = false;
     int x = ( ( mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( mCurrentMovement & MF_Down ) ? -1 : 0 );
@@ -103,26 +112,26 @@ void PlayerController::Update( double Seconds )
     }
 }
 
-PlayerController::~PlayerController()
+PlayerControllerComponent::~PlayerControllerComponent()
 {
     mPlayerModels.clear();
 }
 
-void PlayerController::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
+void PlayerControllerComponent::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 {
     mX = Event.Pos.x;
     mY = Event.Pos.y;
     UpdateRotation();
 }
 
-void PlayerController::UpdateRotation()
+void PlayerControllerComponent::UpdateRotation()
 {
     Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
     double Rot = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
     actorPositionC->SetOrientation( Rot );
 }
 
-void PlayerController::OnMousePressEvent( const WorldMousePressEvent& Event )
+void PlayerControllerComponent::OnMousePressEvent( const WorldMousePressEvent& Event )
 {
     if ( Event.Button == Mouse::Button_Left && !mMouse.IsButtonPressed( Mouse::Button_Left ) )
     {
@@ -149,7 +158,7 @@ void PlayerController::OnMousePressEvent( const WorldMousePressEvent& Event )
 }
 
 
-void PlayerController::OnMouseReleaseEvent( const WorldMouseReleaseEvent& Event )
+void PlayerControllerComponent::OnMouseReleaseEvent( const WorldMouseReleaseEvent& Event )
 {
     if ( Event.Button == Mouse::Button_Left )
     {

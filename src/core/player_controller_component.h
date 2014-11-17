@@ -2,9 +2,17 @@
 #define INCLUDED_CORE_PLAYER_CONTROLLER_H
 
 #include "input/i_input.h"
+#include "core/i_controller_component.h"
+#include "core/actor.h"
 
-class PlayerController : public Controller
+class PlayerControllerComponent : public IControllerComponent
 {
+public:
+    PlayerControllerComponent();
+    ~PlayerControllerComponent();
+    virtual void Update( double Seconds );
+    virtual void SetActor( Actor* Obj );
+private:
     void OnKeyEvent( const KeyEvent& Event );
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
     void OnMousePressEvent( const WorldMousePressEvent& Event );
@@ -17,6 +25,7 @@ class PlayerController : public Controller
         MF_Left     = 1 << 2,
         MF_Right    = 1 << 3,
     };
+    Actor* mActor;
     uint32_t mCurrentMovement;
     double mX;
     double mY;
@@ -28,11 +37,6 @@ class PlayerController : public Controller
     AutoReg mMouseReleaseId;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
-public:
-    PlayerController();
-    ~PlayerController();
-    virtual void Update( double Seconds );
-    virtual void SetActor( Actor* Obj );
 };
 
 #endif//INCLUDED_CORE_PLAYER_CONTROLLER_H
