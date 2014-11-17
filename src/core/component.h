@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_COMPONENT_H
 #define INCLUDED_CORE_COMPONENT_H
 
-#include "core/component_repo.h"
+#include "core/component_factory.h"
 #include "core/opt.h"
 #include "platform/auto_id.h"
 
@@ -13,22 +13,15 @@
         static int const typ = platform::AutoId( #ComponentType ); \
         return typ; \
     } \
-    virtual int GetType_interface() const \
+    virtual int GetType() const \
     { \
         return ComponentType::GetType_static(); \
-    } \
-
-#define DEFINE_COMPONENT_IMPLEMENTATION( ComponentType ) \
-    static int GetType() \
-    { \
-    static int const typ = platform::AutoId( #ComponentType ); \
-    return typ; \
     } \
 
 class Component 
 {
 public:
-    virtual int GetType_interface() const=0;
+    virtual int GetType() const=0;
     virtual ~Component();
 
 protected:
@@ -39,7 +32,7 @@ class ComponentHolder
 {
 protected:
     typedef boost::ptr_map<int32_t, Component> ComponentList_t;
-    ComponentRepo& mComponentFactory;
+    ComponentFactory& mComponentFactory;
     ComponentList_t mComponents;
 
 public:
@@ -69,9 +62,8 @@ Opt<Component_t> ComponentHolder::Get()
 class DefaultComponent : public Component
 {
 public:
-    DEFINE_COMPONENT_IMPLEMENTATION(DefaultComponent)
     DEFINE_COMPONENT_BASE(DefaultComponent)
     DefaultComponent();
-    friend class ComponentRepo;
+    friend class ComponentFactory;
 };
 #endif//INCLUDED_CORE_COMPONENT_H

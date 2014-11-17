@@ -15,7 +15,7 @@ public:
     virtual void SetSpeedX( double SpeedX )=0;
     virtual void SetSpeedY( double SpeedY )=0;
 protected:
-    friend class ComponentRepo;
+    friend class ComponentFactory;
 };
 
 #endif//INCLUDED_CORE_I_MOVE_COMPONENT_H

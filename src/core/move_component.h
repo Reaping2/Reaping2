@@ -6,7 +6,6 @@
 class MoveComponent : public IMoveComponent
 {
 public:
-    DEFINE_COMPONENT_IMPLEMENTATION(MoveComponent)
     virtual double const& GetHeading() const; //TODO: component style, its not a really good idea for models, if components are changed
     virtual double const& GetSpeed() const;
     virtual double const& GetSpeedX() const;
@@ -17,7 +16,7 @@ public:
     virtual void SetSpeedY( double SpeedY );
 protected:
     MoveComponent();
-    friend class ComponentRepo;
+    friend class ComponentFactory;
 private:
     double mHeading;
     double mSpeed;

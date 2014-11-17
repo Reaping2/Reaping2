@@ -6,7 +6,6 @@
 class PositionComponent : public IPositionComponent
 {
 public:
-    DEFINE_COMPONENT_IMPLEMENTATION(PositionComponent)
     virtual double const& GetX()const; //TODO: component style, its not a really good idea for models, if components are changed
     virtual double const& GetY()const;
     virtual double const& GetOrientation()const;
@@ -15,7 +14,7 @@ public:
     virtual void SetOrientation( double Orientation );
 protected:
     PositionComponent();
-    friend class ComponentRepo;
+    friend class ComponentFactory;
 private:
     double mX;
     double mY;

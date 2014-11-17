@@ -13,7 +13,7 @@ public:
 	virtual void SetY( double Y )=0;
 	virtual void SetOrientation( double Orientation )=0;
 protected:
-	friend class ComponentRepo;
+	friend class ComponentFactory;
 };
 
 #endif//INCLUDED_CORE_I_POSITION_COMPONENT_H

@@ -1,6 +1,6 @@
 #include "platform/i_platform.h"
 #include "opt.h"
-#include "component_repo.h"
+#include "component_factory.h"
 #include "component.h"
 #include "position_component.h"
 #include "audible_event.h"

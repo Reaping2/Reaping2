@@ -9,15 +9,15 @@ Component::~Component()
 
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 {
-    ComponentList_t::iterator i = mComponents.find( Comp->GetType_interface() );
+    ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
     if( i == mComponents.end() )
     {
-        mComponents.insert( Comp->GetType_interface(), Comp );
+        mComponents.insert( Comp->GetType(), Comp );
     }
 }
 
 ComponentHolder::ComponentHolder()
-    : mComponentFactory( ComponentRepo::Get() )
+    : mComponentFactory( ComponentFactory::Get() )
 {
 }
 

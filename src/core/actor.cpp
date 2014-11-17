@@ -2,6 +2,9 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/move_component.h"
+#include "platform/auto_id.h"
+
+using platform::AutoId;
 
 void Actor::DoControlling( double Seconds )
 {
@@ -42,8 +45,8 @@ Actor::Actor( std::string const& Name )
     mFields[GUID].i = ++NextGuid;
     mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
-    AddComponent( mComponentFactory(PositionComponent::GetType()) );
-    AddComponent( mComponentFactory(MoveComponent::GetType()) );
+    AddComponent( mComponentFactory(AutoId("position_component")) );
+    AddComponent( mComponentFactory(AutoId("move_component")) );
 }
 
 void Actor::SetController( std::auto_ptr<Controller> Control )
