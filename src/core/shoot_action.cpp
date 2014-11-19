@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_inventory_component.h"
 
 ShootAction::ShootAction( int32_t Id )
     : Action( Id )
@@ -20,4 +21,46 @@ ShootAltAction::ShootAltAction( int32_t Id )
     mIsLoop = true;
     mIsSelfDestruct = false;
     mIsRefresh = false;
+}
+
+void ShootAction::Update( double Seconds )
+{
+    if( !mActor )
+    {
+        return;
+    }
+    //TODO: definitely need a nicer way to get weapons, or any item.
+    Opt<IInventoryComponent> inventoryC = mActor->Get<IInventoryComponent>();
+    if(inventoryC.IsValid())
+    {
+        IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
+        for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
+        {
+            if (i->GetType()==WeaponAsset::Weapon)
+            {
+                WeaponAsset& weapon = static_cast<WeaponAsset&>(const_cast<Item&>(*i));
+                weapon.Shoot();
+            }
+        }
+    }
+}
+void ShootAltAction::Update( double Seconds )
+{
+    if( !mActor )
+    {
+        return;
+    }
+    Opt<IInventoryComponent> inventoryC = mActor->Get<IInventoryComponent>();
+    if(inventoryC.IsValid())
+    {
+        IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
+        for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
+        {
+            if (i->GetType()==WeaponAsset::Weapon)
+            {
+                WeaponAsset& weapon = static_cast<WeaponAsset&>(const_cast<Item&>(*i));
+                weapon.ShootAlt();
+            }
+        }
+    }
 }

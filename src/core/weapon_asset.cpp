@@ -22,20 +22,6 @@ void WeaponAsset::Update( double Seconds )
         cd = 0;
     }
     mCooldown = cd;
-    if( !mActor )
-    {
-        return;
-    }
-    static const int32_t ShootId = AutoId( "shoot" );
-    static const int32_t ShootAltId = AutoId( "shoot_alt" );
-    if( mActor->HasAction( ShootId ) )
-    {
-        Shoot();
-    }
-    if( mActor->HasAction( ShootAltId ) )
-    {
-        ShootAlt();
-    }
 }
 
 void WeaponAsset::Shoot()

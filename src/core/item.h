@@ -28,7 +28,7 @@ protected:
     Actor* mActor;
     ItemType mType;
 
-    friend class platform::Factory<Item>;
+    friend class ItemRepo;
     Item( int32_t Id );
 
 public:
@@ -53,6 +53,6 @@ public:
     DefaultItem( int32_t Id );
     ~DefaultItem() {};
     virtual void Update( double Seconds ) ;
-    friend class platform::Factory<Item>;
+    friend class ItemRepo;
 };
 #endif//INCLUDED_CORE_ITEM_H
