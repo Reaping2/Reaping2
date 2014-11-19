@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_inventory_component.h"
 
 Pickup::Pickup( std::string const& Name )
     : Actor( Name )
@@ -10,8 +11,13 @@ Pickup::Pickup( std::string const& Name )
 
 void Pickup::Collide( Actor& Other )
 {
-    Other.DropItemType( Item::Weapon );
-    Other.AddItem( GetId() );
+    //TODO: action! this should not make this fun here
+    Opt<IInventoryComponent> inventoryC = Other.Get<IInventoryComponent>();
+    if (inventoryC.IsValid())
+    {
+        inventoryC->DropItemType( Item::Weapon );
+        inventoryC->AddItem( GetId() );
+    }
     mFields[HP].i = HP_DEAD;
 }
 

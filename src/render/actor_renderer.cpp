@@ -1,5 +1,6 @@
 #include "i_render.h"
 #include "core/i_position_component.h"
+#include "core/i_inventory_component.h"
 
 void ActorRenderer::Init()
 {
@@ -47,19 +48,23 @@ void ActorRenderer::Draw( Scene const& Object )
                 RenderableSprites.push_back( RenderableSprite( &Object, RendActId, &Spr, &Phase ) );
             }
         }
-        Actor::ItemList_t const& items = Object.GetItems();
-        for( Actor::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
+        Opt<IInventoryComponent> inventoryC = Object.Get<IInventoryComponent>();
+        if (inventoryC.IsValid())
         {
-            Item const& Act = *i;
-            int32_t const ActId = Act.GetId();
-            Sprite const& Spr = Sprites( ActId );
-            if( !Spr.IsValid() )
+            IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
+            for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
             {
-                continue;
+                Item const& Act = *i;
+                int32_t const ActId = Act.GetId();
+                Sprite const& Spr = Sprites( ActId );
+                if( !Spr.IsValid() )
+                {
+                    continue;
+                }
+                SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
+                //for(size_t test=0;test<100;++test)
+                RenderableSprites.push_back( RenderableSprite( &Object, ActId, &Spr, &Phase ) );
             }
-            SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
-            //for(size_t test=0;test<100;++test)
-            RenderableSprites.push_back( RenderableSprite( &Object, ActId, &Spr, &Phase ) );
         }
     }
 

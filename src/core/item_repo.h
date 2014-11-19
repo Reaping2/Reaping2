@@ -1,10 +1,13 @@
 #ifndef INCLUDED_CORE_ITEM_REPO_H
 #define INCLUDED_CORE_ITEM_REPO_H
 
+#include "platform/factory.h"
+#include "platform/singleton.h"
+
 class Item;
-class ItemRepo : public Factory<Item>, public Singleton<ItemRepo>
+class ItemRepo : public platform::Factory<Item>, public platform::Singleton<ItemRepo>
 {
-    friend class Singleton<ItemRepo>;
+    friend class platform::Singleton<ItemRepo>;
     ItemRepo();
 };
 

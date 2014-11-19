@@ -29,7 +29,6 @@ public:
     };
 
     typedef boost::ptr_map<int32_t, Action> ActionList_t;
-    typedef boost::ptr_list<Item> ItemList_t;
 
     enum
     {
@@ -52,9 +51,6 @@ protected:
 
     ActionRepo& mActionFactory;
     ActionList_t mActions;
-
-    ItemRepo& mItemFactory;
-    ItemList_t mItems;
 
     Field_t mFields[NUM_FIELDS];
 
@@ -89,9 +85,6 @@ public:
 
     void AddAction( int32_t Id );
     bool HasAction( int32_t Id )const;
-    ItemList_t const& GetItems()const;
-    void AddItem( int32_t Id );
-    void DropItemType( Item::ItemType Type );
     void DropAction( int32_t Id );
     int32_t const& GetHP()const
     {

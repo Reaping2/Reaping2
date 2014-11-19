@@ -1,7 +1,7 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
 #include "core/i_controller_component.h"
-
+#include "core/i_inventory_component.h"
 
 void Scene::AddActor( Actor* Object )
 {
@@ -130,8 +130,11 @@ void Scene::Load( std::string const& Level )
     
     Pl->AddComponent( ComponentFactory::Get()(AutoId("player_controller_component")) );
     Pl->Get<IControllerComponent>()->SetActor(Pl);
+    Pl->AddComponent( ComponentFactory::Get()(AutoId("inventory_component")) );
+    Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
+    inventoryC->SetActor(Pl);
+    inventoryC->AddItem(AutoId( "pistol" ));
     AddActor( Pl );
-    Pl->AddItem( AutoId( "pistol" ) );
 
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;

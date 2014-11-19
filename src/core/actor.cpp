@@ -4,6 +4,7 @@
 #include "core/move_component.h"
 #include "core/i_controller_component.h"
 #include "platform/auto_id.h"
+#include "inventory_component.h"
 
 using platform::AutoId;
 
@@ -13,9 +14,12 @@ void Actor::Update( double Seconds )
     {
         i->second->Update( Seconds );
     }
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
+    //TODO: maybe every component should have an update, and it should be called here
+    //they might have priority order
+    Opt<IInventoryComponent> inventoryC = Get<IInventoryComponent>();
+    if(inventoryC.IsValid())
     {
-        i->Update( Seconds );
+        inventoryC->Update( Seconds );
     }
 }
 
@@ -27,7 +31,6 @@ Actor::Actor( std::string const& Name )
     : AutoId( Name )
     , ComponentHolder ()
     , mActionFactory( ActionRepo::Get() )
-    , mItemFactory( ItemRepo::Get() )
 {
     memset( &mFields, 0, NUM_FIELDS * sizeof( Field_t ) );
     mFields[COLLISION_CLASS].i = CollisionClass::Player;
@@ -73,18 +76,6 @@ void Actor::AddAction( int32_t Id )
         Action* a = i->second;
         a->Activate();
     }
-}
-
-Actor::ItemList_t const& Actor::GetItems()const
-{
-    return mItems;
-}
-
-void Actor::AddItem( int32_t Id )
-{
-    std::auto_ptr<Item> a = mItemFactory( Id );
-    a->SetActor( this );
-    mItems.push_back( a );
 }
 
 void Actor::DropAction( int32_t Id )
@@ -165,16 +156,4 @@ bool Actor::HasAction( int32_t Id ) const
 {
     return mActions.find( Id ) != mActions.end();
 }
-
-void Actor::DropItemType( Item::ItemType Type )
-{
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
-    {
-        if( i->GetType() == Type )
-        {
-            mItems.erase( i );
-        } 
-    }
-}
-
 
