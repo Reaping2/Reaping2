@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_INVENTORY_COMPONENT_H
 #define INCLUDED_CORE_INVENTORY_COMPONENT_H
 #include "core/i_inventory_component.h"
-#include "core/item_repo.h"
+#include "core/item_factory.h"
 
 class InventoryComponent : public IInventoryComponent
 {
@@ -16,7 +16,7 @@ protected:
     friend class ComponentFactory;
 private:
     Actor* mActor;
-    ItemRepo& mItemFactory;
+    ItemFactory& mItemFactory;
     ItemList_t mItems;
 };
 

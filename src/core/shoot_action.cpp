@@ -36,9 +36,9 @@ void ShootAction::Update( double Seconds )
         IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
         for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
         {
-            if (i->GetType()==WeaponAsset::Weapon)
+            if (i->GetType()==Item::Weapon)
             {
-                WeaponAsset& weapon = static_cast<WeaponAsset&>(const_cast<Item&>(*i));
+                Weapon& weapon = static_cast<Weapon&>(const_cast<Item&>(*i));
                 weapon.Shoot();
             }
         }
@@ -56,9 +56,9 @@ void ShootAltAction::Update( double Seconds )
         IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
         for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
         {
-            if (i->GetType()==WeaponAsset::Weapon)
+            if (i->GetType()==Item::Weapon)
             {
-                WeaponAsset& weapon = static_cast<WeaponAsset&>(const_cast<Item&>(*i));
+                Weapon& weapon = static_cast<Weapon&>(const_cast<Item&>(*i));
                 weapon.ShootAlt();
             }
         }

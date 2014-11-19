@@ -1,7 +1,7 @@
 #include "i_core.h"
 
-PlasmaGunAction::PlasmaGunAction( int32_t Id )
-    : WeaponAsset( Id )
+PlasmaGun::PlasmaGun( int32_t Id )
+    : Weapon( Id )
     // todo: move to Weapon base, init from data file
     , mShotId( AutoId( "plasma" ) )
     , mAltShotId( AutoId( "plasma_alt" ) )
@@ -12,14 +12,14 @@ PlasmaGunAction::PlasmaGunAction( int32_t Id )
     mShootAltCooldown = 0.3;
 }
 
-void PlasmaGunAction::ShootImpl( Projectiles_t& Projectiles )
+void PlasmaGun::ShootImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
     Shot* ps = new PlasmaShot();
     Projectiles.push_back( ps );
 }
 
-void PlasmaGunAction::ShootAltImpl( Projectiles_t& Projectiles )
+void PlasmaGun::ShootAltImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mAltShotId ) );
 

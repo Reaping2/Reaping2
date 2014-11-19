@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_WEAPON_ASSET_H
 #define INCLUDED_CORE_WEAPON_ASSET_H
 
-class WeaponAsset : public Item
+class Weapon : public Item
 {
 public:
     virtual void Shoot();
@@ -15,7 +15,7 @@ protected:
     double mShootAltCooldown;
     uint32_t mScatter;
     uint32_t mAltScatter;
-    WeaponAsset( int32_t Id );
+    Weapon( int32_t Id );
     virtual void Update( double Seconds );
     friend class Factory<Action>;
 };

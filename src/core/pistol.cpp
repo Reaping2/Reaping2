@@ -1,7 +1,7 @@
 #include "i_core.h"
 
 Pistol::Pistol( int32_t Id )
-    : WeaponAsset( Id )
+    : Weapon( Id )
     // todo: move to Weapon base, init from data file
     , mShotId( AutoId( "pistol_shot" ) )
 {

@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_PISTOL_H
 #define INCLUDED_CORE_PISTOL_H
 
-class Pistol : public WeaponAsset
+class Pistol : public Weapon
 {
     Pistol( int32_t Id );
     void ShootImpl( Projectiles_t& Projectiles );

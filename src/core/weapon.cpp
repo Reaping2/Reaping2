@@ -2,7 +2,7 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 
-WeaponAsset::WeaponAsset( int32_t Id )
+Weapon::Weapon( int32_t Id )
     : Item( Id )
     , mCooldown( 0.0 )
     , mShootCooldown( 1.0 )
@@ -10,9 +10,9 @@ WeaponAsset::WeaponAsset( int32_t Id )
     , mScatter( 0 )
     , mAltScatter( 0 )
 {
-    mType = Weapon;
+    mType = ItemType::Weapon;
 }
-void WeaponAsset::Update( double Seconds )
+void Weapon::Update( double Seconds )
 {
     Item::Update( Seconds );
     double cd = mCooldown;
@@ -24,7 +24,7 @@ void WeaponAsset::Update( double Seconds )
     mCooldown = cd;
 }
 
-void WeaponAsset::Shoot()
+void Weapon::Shoot()
 {
     if( !mActor )
     {
@@ -60,7 +60,7 @@ void WeaponAsset::Shoot()
     mCooldown = mShootCooldown;
 }
 
-void WeaponAsset::ShootAlt()
+void Weapon::ShootAlt()
 {
     if( !mActor )
     {

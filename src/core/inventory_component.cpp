@@ -2,7 +2,7 @@
 
 InventoryComponent::InventoryComponent()
     : mActor( NULL )
-    , mItemFactory( ItemRepo::Get() )
+    , mItemFactory( ItemFactory::Get() )
 {
 
 }
