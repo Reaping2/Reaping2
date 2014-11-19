@@ -10,7 +10,7 @@ Weapon::Weapon( int32_t Id )
     , mScatter( 0 )
     , mAltScatter( 0 )
 {
-    mType = ItemType::Weapon;
+    mType = Item::Weapon;
 }
 void Weapon::Update( double Seconds )
 {
