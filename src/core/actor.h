@@ -43,9 +43,7 @@ protected:
         RADIUS,
         COLLISION_CLASS,
         GUID,           // todo: MakeGuid()
-        TYPE_ID,
         TIME_OF_DEATH,
-        COOLDOWN_REDUCTION,
         NUM_FIELDS
     };
 
@@ -71,10 +69,6 @@ public:
         return mFields[RADIUS].d;
     }
 
-    double GetCooldownReduction()const
-    {
-        return mFields[COOLDOWN_REDUCTION].d;
-    }
     ActionList_t const& GetActions()const
     {
         return mActions;

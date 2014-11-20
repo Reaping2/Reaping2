@@ -34,12 +34,10 @@ Actor::Actor( std::string const& Name )
 {
     memset( &mFields, 0, NUM_FIELDS * sizeof( Field_t ) );
     mFields[COLLISION_CLASS].i = CollisionClass::Player;
-    mFields[TYPE_ID].i = AutoId::mId; //TODO: ugly as fck. Component has an mId that is not used yet - or ever - later development will tell
     mFields[RADIUS].d = 3.0;
     mFields[TIME_OF_DEATH].d = 0.0;
     static int32_t NextGuid = 0;
     mFields[GUID].i = ++NextGuid;
-    mFields[COOLDOWN_REDUCTION].d = 1.0;
     AddAction( AutoId( "default_action" ) );
     AddComponent( mComponentFactory(AutoId("position_component")) );
     AddComponent( mComponentFactory(AutoId("move_component")) );
