@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_DAMAGE_ACTION_H
 #define INCLUDED_CORE_DAMAGE_ACTION_H
-#include "core\action.h"
-#include "platform\factory.h"
+#include "core/action.h"
+#include "platform/factory.h"
 
 class DamageAction : public Action
 {
