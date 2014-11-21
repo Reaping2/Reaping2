@@ -2,9 +2,12 @@
 #include "core/i_position_component.h"
 #include "core/i_controller_component.h"
 #include "core/target_player_controller_component.h"
+#include "core/i_health_component.h"
+#include "core/component_factory.h"
 
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( Name )
+    , mTriedDrop( false )
 {
     Opt<IPositionComponent> positionC = Get<IPositionComponent>();
     positionC->SetX(x);
@@ -12,7 +15,14 @@ Creep::Creep( std::string const& Name, double x, double y, Actor* player )
 
     mFields[RADIUS].d = 0.1;
     mFields[COLLISION_CLASS].i = CollisionClass::Creep;
-    mFields[HP].i = 10;
+
+    //TODO: ofc not this way, factory should give me the right component type
+    std::auto_ptr<Component> hC = ComponentFactory::Get()(AutoId("health_component"));
+    IHealthComponent* healthC = static_cast<IHealthComponent*>(hC.release());
+    healthC->SetHP(10);
+    healthC->SetActor(this);
+    AddComponent(std::auto_ptr<Component>(static_cast<Component*>(healthC)));
+
     // ez nem innen fog jonni, de kb itt kell beallitani
     // a string ctor param lesz
     // player param nyilvan eltunik
@@ -26,22 +36,28 @@ Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     }
 }
 
-void Creep::OnDeath()
+
+void Creep::Update(double Seconds)
 {
-#ifdef DEBUG
-    static const size_t Mod = 3;
-#else
-    static const size_t Mod = 10;
-#endif//DEBUG
-    if( rand() % Mod )
+    Actor::Update( Seconds );
+    if(!Get<IHealthComponent>()->IsAlive()&&!mTriedDrop)
     {
-        return;
+        mTriedDrop=true;
+    #ifdef DEBUG
+        static const size_t Mod = 3;
+    #else
+        static const size_t Mod = 10;
+    #endif//DEBUG
+        if( rand() % Mod )
+        {
+            return;
+        }
+        // TODO: this is baaaad, you need to do this with an action
+        Pickup* Pu = new Pickup( rand() % 2 ? "pistol" : "plasma_gun" );
+        Opt<IPositionComponent> positionC = Get<IPositionComponent>();
+        Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
+        puPositionC->SetX(positionC->GetX());
+        puPositionC->SetY(positionC->GetY());
+        Scene::Get().AddActor( Pu );
     }
-    // TODO: this is baaaad, you need to do this with an action
-    Pickup* Pu = new Pickup( rand() % 2 ? "pistol" : "plasma_gun" );
-    Opt<IPositionComponent> positionC = Get<IPositionComponent>();
-    Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
-    puPositionC->SetX(positionC->GetX());
-    puPositionC->SetY(positionC->GetY());
-    Scene::Get().AddActor( Pu );
 }

@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/i_move_component.h"
+#include "core/i_health_component.h"
 #include "core/random_controller_component.h"
 
 RandomControllerComponent::RandomControllerComponent()
@@ -27,7 +28,7 @@ void RandomControllerComponent::Update( double Seconds )
     {
         return;
     }
-    if ( !mActor->IsAlive() )
+    if ( !mActor->Get<IHealthComponent>()->IsAlive() )
     {
         return;
     }

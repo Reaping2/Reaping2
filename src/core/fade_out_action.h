@@ -3,7 +3,7 @@
 
 class FadeOutAction : public Action
 {
-    friend class Factory<Action>;
+    friend class platform::Factory<Action>;
     FadeOutAction( int32_t Id );
     virtual void Deactivate();
 };

@@ -5,6 +5,8 @@
 #include "core/target_player_controller_component.h"
 #include "core/random_controller_component.h"
 #include "core/inventory_component.h"
+#include "core/health_component.h"
+#include "core/health_delete_component.h"
 
 using platform::AutoId;
 
@@ -19,4 +21,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("target_player_controller_component"), &CreateComponent<TargetPlayerControllerComponent>);
     Bind( AutoId("random_controller_component"), &CreateComponent<RandomControllerComponent>);
     Bind( AutoId("inventory_component"), &CreateComponent<InventoryComponent>);
+    Bind( AutoId("health_component"), &CreateComponent<HealthComponent>);
+    Bind( AutoId("health_delete_component"), &CreateComponent<HealthDeleteComponent>);
+
 }

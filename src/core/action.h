@@ -1,6 +1,11 @@
 #ifndef INCLUDED_CORE_ACTION_H
 #define INCLUDED_CORE_ACTION_H
+#include "platform\factory.h"
 
+#include <vector>
+
+using platform::Factory;
+class Actor;
 class Action
 {
 public:

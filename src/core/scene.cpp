@@ -2,6 +2,9 @@
 #include "core/i_position_component.h"
 #include "core/i_controller_component.h"
 #include "core/i_inventory_component.h"
+#include "core/i_health_component.h"
+#include "core/health_delete_component.h"
+#include "core/component_factory.h"
 
 void Scene::AddActor( Actor* Object )
 {
@@ -44,10 +47,20 @@ void Scene::Update( double DeltaTime )
     {
         it->Update( DeltaTime );
     }
+    size_t siz1= mAllActors.size();
     for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
     {
-        it->UpdateLifetime();
+        Opt<IHealthComponent> healthC = it->Get<IHealthComponent>();
+        if(healthC.IsValid())
+        {
+            healthC->Update(DeltaTime);
+            if (healthC->NeedDelete())
+            {
+                delete &*it;
+            }
+        }
     }
+    size_t siz2= mAllActors.size();
     if( !mNewActors.empty() )
     {
         mAllActors.splice( mAllActors.end(), mNewActors );

@@ -1,0 +1,32 @@
+#include "damage_action.h"
+#include "i_health_component.h"
+#include "i_core.h"
+
+#include <algorithm>
+
+DamageAction::DamageAction( int32_t Id )
+    : Action( Id )
+{
+    mAreBlockedActionsExcluded = false;
+    mAreCancelledActionsExcluded = false;
+    mIsSelfDestruct = true;
+    mSecsToEnd = 0;
+}
+
+bool DamageAction::Activate()
+{
+    if(!Action::Activate())
+    {
+        return false;
+    }
+    Opt<IHealthComponent> healthC = mActor->Get<IHealthComponent>();
+    if ( healthC.IsValid() )
+    {
+        healthC->SetHP(healthC->GetHP()-std::min<int32_t>(healthC->GetHP(),mDamage));
+    }
+}
+
+void DamageAction::SetDamage(int32_t Damage)
+{
+    mDamage = Damage;
+}

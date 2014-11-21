@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/damage_action.h"
 
 ActionRepo::ActionRepo()
 {
@@ -11,4 +12,5 @@ ActionRepo::ActionRepo()
     Bind<IdleAction>( AutoId( "idle" ) );
     Bind<DeathAction>( AutoId( "death" ) );
     Bind<FadeOutAction>( AutoId( "fade_out" ) );
+    Bind<DamageAction>( AutoId( "damage" ) );
 }

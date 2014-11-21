@@ -1,4 +1,7 @@
 #include "i_render.h"
+#include "core/damage_taken_event.h"
+
+using core::DamageTakenEvent;
 
 DamageDecals::DamageDecals()
     : mDecalEngine( DecalEngine::Get() )

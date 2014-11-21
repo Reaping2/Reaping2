@@ -39,7 +39,7 @@ void InventoryComponent::DropItemType( Item::ItemType Type )
     }
 }
 
-void InventoryComponent::SetActor(Actor* Obj)
+void InventoryComponent::SetActor( Actor* Obj )
 {
     mActor=Obj;
 }

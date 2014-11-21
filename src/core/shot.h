@@ -9,7 +9,6 @@ public:
     Shot( std::string const& Name );
     virtual void ClipScene();
     virtual void Collide( Actor& Other );
-    virtual void UpdateLifetime();
     virtual void SetParent( Actor& P );
 };
 

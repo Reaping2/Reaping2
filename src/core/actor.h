@@ -30,20 +30,14 @@ public:
 
     typedef boost::ptr_map<int32_t, Action> ActionList_t;
 
-    enum
-    {
-        HP_DEAD = -1,
-    };
 protected:
     enum
     {
-        HP,
         DAMAGE,
 
         RADIUS,
         COLLISION_CLASS,
         GUID,           // todo: MakeGuid()
-        TIME_OF_DEATH,
         NUM_FIELDS
     };
 
@@ -59,10 +53,6 @@ public:
     virtual void Collide( Actor& Other );
     virtual void ClipScene();
     virtual void Update( double Seconds );
-    virtual void UpdateLifetime();
-    virtual void TakeDamage( int32_t Damage );
-    virtual void OnDeath() {}
-    bool IsAlive()const;
 
     double GetRadius()const
     {
@@ -78,20 +68,10 @@ public:
 
 
     void AddAction( int32_t Id );
+    void AddAction( std::auto_ptr<Action> Act );
     bool HasAction( int32_t Id )const;
     void DropAction( int32_t Id );
-    int32_t const& GetHP()const
-    {
-        return mFields[HP].i;
-    }
-    void SetHP( int32_t Hp )
-    {
-        mFields[HP].i = Hp;
-    }
-    double GetTimeOfDeath()const
-    {
-        return mFields[TIME_OF_DEATH].d;
-    }
+
     int32_t GetGUID()const
     {
         return mFields[GUID].i;
@@ -100,16 +80,14 @@ public:
     {
         return CollisionClass::Type( mFields[COLLISION_CLASS].i );
     }
+    void SetCC( CollisionClass::Type CCType )
+    {
+        mFields[COLLISION_CLASS].i = CCType;
+    }
 };
 
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;
 typedef boost::intrusive::list<Actor, AllActorOption_t, boost::intrusive::constant_time_size<false> > ActorList_t;
 
-struct DamageTakenEvent : public Event
-{
-    glm::vec2 const Pos;
-    DamageTakenEvent( double x, double y ): Pos( x, y ) {}
-    DamageTakenEvent( glm::vec2 const& p ): Pos( p ) {}
-};
 
 #endif//INCLUDED_CORE_ACTOR_H

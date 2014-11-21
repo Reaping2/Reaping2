@@ -3,7 +3,7 @@
 
 class DeathAction : public Action
 {
-    friend class Factory<Action>;
+    friend class platform::Factory<Action>;
     DeathAction( int32_t Id );
     void Update( double Seconds );
 };

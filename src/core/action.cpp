@@ -95,7 +95,8 @@ void Action::Update( double Seconds )
     {
         return;
     }
-    double nextState = mState + 1. / mSecsToEnd * Seconds * 100.;
+    double nextState = mSecsToEnd==0?100:(mState + 1. / mSecsToEnd * Seconds * 100.);
+    
     if( nextState >= 100 )
     {
         if( mIsLoop )

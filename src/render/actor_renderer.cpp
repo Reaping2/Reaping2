@@ -1,6 +1,7 @@
 #include "i_render.h"
 #include "core/i_position_component.h"
 #include "core/i_inventory_component.h"
+#include "core/i_health_component.h"
 
 void ActorRenderer::Init()
 {
@@ -192,28 +193,33 @@ ActorRenderer::~ActorRenderer()
 
 bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const& Rs1, RenderableSprite const& Rs2 )
 {
-    if( !Rs1.Obj->IsAlive() && Rs2.Obj->IsAlive() )
-    {
-        return true;
-    }
-    else if( Rs1.Obj->IsAlive() && !Rs2.Obj->IsAlive() )
-    {
-        return false;
-    }
-    // IsAlive equals
-    if( Rs1.Obj->IsAlive() )
-    {
+//     Opt<IHealthComponent> healthC1 = Rs1.Obj->Get<IHealthComponent>();
+//     Opt<IHealthComponent> healthC2 = Rs2.Obj->Get<IHealthComponent>();
+//     if(healthC1.IsValid()&&healthC2.IsValid())
+//     {
+//         if( !healthC1->IsAlive() && healthC2->IsAlive() )
+//         {
+//             return true;
+//         }
+//         else if( healthC1->IsAlive() && !healthC2->IsAlive() )
+//         {
+//             return false;
+//         }
+//     }
+//     // IsAlive equals
+//     if( !healthC1.IsValid()||!healthC2.IsValid()||healthC1->IsAlive() )
+//     {
         // both alive, order by guid, actid, texid
         return Rs1.Obj->GetGUID() < Rs2.Obj->GetGUID() ||
                ( Rs1.Obj->GetGUID() == Rs2.Obj->GetGUID() &&
                  ( Rs1.ActId < Rs2.ActId ||
                    ( Rs1.ActId == Rs2.ActId &&
                      Rs1.Spr->TexId < Rs2.Spr->TexId ) ) );
-    }
-
-    return Rs1.Obj->GetTimeOfDeath() < Rs2.Obj->GetTimeOfDeath() ||
-           ( Rs1.Obj->GetTimeOfDeath() == Rs2.Obj->GetTimeOfDeath() &&
-             ( Rs1.ActId < Rs2.ActId ||
-               ( Rs1.ActId == Rs2.ActId &&
-                 Rs1.Spr->TexId < Rs2.Spr->TexId ) ) );
+//     }
+// 
+//     return healthC1->GetTimeOfDeath() < healthC2->GetTimeOfDeath() ||
+//            ( healthC1->GetTimeOfDeath() == healthC2->GetTimeOfDeath() &&
+//              ( Rs1.ActId < Rs2.ActId ||
+//                ( Rs1.ActId == Rs2.ActId &&
+//                  Rs1.Spr->TexId < Rs2.Spr->TexId ) ) );
 }

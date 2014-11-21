@@ -17,7 +17,7 @@ protected:
     uint32_t mAltScatter;
     Weapon( int32_t Id );
     virtual void Update( double Seconds );
-    friend class Factory<Action>;
+    friend class ItemFactory;
 };
 
 #endif//INCLUDED_CORE_WEAPON_ASSET_H

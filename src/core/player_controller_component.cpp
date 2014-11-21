@@ -3,6 +3,7 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/player_controller_component.h"
+#include "core/i_health_component.h"
 
 PlayerControllerComponent::PlayerControllerComponent()
     : mActor( NULL )
@@ -25,7 +26,7 @@ void PlayerControllerComponent::SetActor( Actor* Obj )
     mPlayerModels.clear();
     mActor = Obj;
     BOOST_ASSERT(mActor);
-    mPlayerModels.push_back( new ModelValue( Obj->GetHP(), "hp", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( Obj->Get<IHealthComponent>()->GetHP(), "hp", &mPlayerModel ) );
     Opt<IPositionComponent> objPositionC = Obj->Get<IPositionComponent>();
     mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
@@ -72,7 +73,7 @@ void PlayerControllerComponent::Update( double Seconds )
     {
         return;
     }
-    if ( !mActor->IsAlive() )
+    if ( !mActor->Get<IHealthComponent>()->IsAlive() )
     {
         return;
     }

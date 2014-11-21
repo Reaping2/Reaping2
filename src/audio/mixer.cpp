@@ -51,7 +51,7 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
 Mixer::Mixer()
 {
     // todo: make it adjustable
-    mAudioTypeRelativeWeights[AudioFile::Music] = 0.35f;
+    mAudioTypeRelativeWeights[AudioFile::Music] = 0.00f;//0.35f;
     mAudioTypeRelativeWeights[AudioFile::Effect] = 0.2f;
     mAudioTypeRelativeWeights[AudioFile::Speech] = 0.45f;
 }

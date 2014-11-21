@@ -1,11 +1,13 @@
 #ifndef INCLUDED_ACTION_HOLDER_H
 #define INCLUDED_ACTION_HOLDER_H
 
+#include "platform/factory.h"
+#include "platform/singleton.h"
 class Action;
 class Actor;
-class ActionRepo : public Factory<Action>, public Singleton<ActionRepo>
+class ActionRepo : public platform::Factory<Action>, public platform::Singleton<ActionRepo>
 {
-    friend class Singleton<ActionRepo>;
+    friend class platform::Singleton<ActionRepo>;
     ActionRepo();
 };
 

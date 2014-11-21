@@ -35,7 +35,6 @@ Actor::Actor( std::string const& Name )
     memset( &mFields, 0, NUM_FIELDS * sizeof( Field_t ) );
     mFields[COLLISION_CLASS].i = CollisionClass::Player;
     mFields[RADIUS].d = 3.0;
-    mFields[TIME_OF_DEATH].d = 0.0;
     static int32_t NextGuid = 0;
     mFields[GUID].i = ++NextGuid;
     AddAction( AutoId( "default_action" ) );
@@ -76,6 +75,31 @@ void Actor::AddAction( int32_t Id )
     }
 }
 
+//TODO: there will be only one
+void Actor::AddAction( std::auto_ptr<Action> Act )
+{
+    if( !CanAddAction( Act->GetId() ) )
+    {
+        return;
+    }
+    ActionList_t::iterator i = mActions.find( Act->GetId() );
+    if( i == mActions.end() )
+    {
+        Act->SetActor( this );
+        if ( Act->Activate() )
+        {
+            mActions.insert( Act->GetId(), Act );
+        }
+    }
+    else
+    {
+        //TODO: this will be changed
+        Action* a = i->second;
+        a->Activate();
+    }
+}
+
+
 void Actor::DropAction( int32_t Id )
 {
     ActionList_t::iterator i = mActions.find( Id );
@@ -114,41 +138,9 @@ void Actor::ClipScene()
     }
 }
 
-bool Actor::IsAlive()const
-{
-    return mFields[HP].i > HP_DEAD;
-}
-
-void Actor::UpdateLifetime()
-{
-    if( IsAlive() )
-    {
-        return;
-    }
-    AddAction( AutoId( "death" ) );
-    mFields[COLLISION_CLASS].i = CollisionClass::No_Collision;
-    if( mFields[TIME_OF_DEATH].d <= 0.0 )
-    {
-        OnDeath();
-        mFields[TIME_OF_DEATH].d = glfwGetTime();
-    }
-}
-
 Actor::~Actor()
 {
 }
-
-void Actor::TakeDamage( int32_t Damage )
-{
-    if( Damage && IsAlive() )
-    {
-        //TODO: ofc this takeDamage thing will be moved to DamageableComponent.
-        Opt<IPositionComponent> positionC = Get<IPositionComponent>();
-        EventServer<DamageTakenEvent>::Get().SendEvent( DamageTakenEvent( positionC->GetX(), positionC->GetY() ) );
-        mFields[HP].i -= Damage;
-    }
-}
-
 
 bool Actor::HasAction( int32_t Id ) const
 {

@@ -1,11 +1,6 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
 
-void Wall::TakeDamage( int32_t Damage )
-{
-
-}
-
 void Wall::Collide( Actor& Other )
 {
     Opt<IPositionComponent> otherPositionC = Other.Get<IPositionComponent>();

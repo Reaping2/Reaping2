@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/i_health_component.h"
 
 FadeOutAction::FadeOutAction( int32_t Id )
     : Action( Id )
@@ -15,6 +16,10 @@ void FadeOutAction::Deactivate()
     {
         return;
     }
-    mActor->SetHP( Actor::HP_DEAD );
+    Opt<IHealthComponent> healthC = mActor->Get<IHealthComponent>();
+    if ( healthC.IsValid() )
+    {
+        healthC->SetHP( 0 );
+    }
 }
 

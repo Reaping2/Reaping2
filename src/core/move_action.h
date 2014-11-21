@@ -9,7 +9,7 @@ public:
 protected:
     MoveAction( int32_t Id );
     virtual void Update( double Seconds );
-    friend class Factory<Action>;
+    friend class platform::Factory<Action>;
 };
 
 #endif//INCLUDED_MOVE_ACTION_H
