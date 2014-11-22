@@ -2,6 +2,7 @@
 #include "core/i_position_component.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
+#include "core/i_collision_component.h"
 
 void ActorRenderer::Init()
 {
@@ -111,7 +112,10 @@ void ActorRenderer::Draw( Scene const& Object )
         Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
         Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) );
         Headings.push_back( ( GLfloat )positionC->GetOrientation() );
-        Sizes.push_back( ( GLfloat )( i->Obj->GetRadius()*i->Anim->GetScale() ) );
+
+        Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
+        //TODO: this one should not depend on collision radius
+        Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius():0.05)*i->Anim->GetScale() ) ); 
         TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
     }
     if( Count )

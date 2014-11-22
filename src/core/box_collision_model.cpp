@@ -1,16 +1,25 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "core/i_collision_component.h"
 
 bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double Dt )const
 {
+    Opt<ICollisionComponent> const objAcollisionC = ObjA.Get<ICollisionComponent>();
+    Opt<ICollisionComponent> const objBcollisionC = ObjB.Get<ICollisionComponent>();
+    if ( !objAcollisionC.IsValid() || !objBcollisionC.IsValid() )
+    {
+        //TODO: this one should not happen - later
+        //they do not collide, is some of them can't thats for sure
+        return false;
+    }
     // A: (0,0)
     //TODO: this may change, or will be simplified, because this is kind of ugly, to gat these two positions. Time will tell
     Opt<IPositionComponent> const objApositionC = ObjA.Get<IPositionComponent>();
     Opt<IPositionComponent> const objBpositionC = ObjB.Get<IPositionComponent>();
-        glm::vec2 B( objBpositionC->GetX() - objApositionC->GetX(), objBpositionC->GetY() - objApositionC->GetY() );
+    glm::vec2 B( objBpositionC->GetX() - objApositionC->GetX(), objBpositionC->GetY() - objApositionC->GetY() );
     // BSize: (0,0)
-    glm::vec2 ASize( ObjA.GetRadius() + ObjB.GetRadius(), ObjA.GetRadius() + ObjB.GetRadius() );
+    glm::vec2 ASize( objAcollisionC->GetRadius() + objBcollisionC->GetRadius(), objAcollisionC->GetRadius() + objBcollisionC->GetRadius() );
     // on point check
     static const float Epsilon = std::numeric_limits<float>::epsilon() * 100;
     if( std::abs( B.x ) + Epsilon < ASize.x && std::abs( B.y ) + Epsilon < ASize.y )

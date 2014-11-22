@@ -7,7 +7,6 @@ class Actor;
 class HealthComponent : public IHealthComponent
 {
 public:
-    DEFINE_COMPONENT_BASE(IHealthComponent)
     virtual void Update( double Seconds );
     virtual int32_t const& GetHP()const;
     virtual void SetHP( int32_t Hp );

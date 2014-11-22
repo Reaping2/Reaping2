@@ -5,6 +5,7 @@
 #include "core/i_health_component.h"
 #include "core/health_delete_component.h"
 #include "core/component_factory.h"
+#include "core/i_collision_component.h"
 
 void Scene::AddActor( Actor* Object )
 {
@@ -35,13 +36,17 @@ void Scene::Update( double DeltaTime )
     {
         Actor& A = *( i->A1 );
         Actor& B = *( i->A2 );
-        CollisionModel const& CollModel = mCollisionStore.GetCollisionModel( A.GetCC(), B.GetCC() );
+        Opt<ICollisionComponent> ACollisionC = A.Get<ICollisionComponent>();
+        Opt<ICollisionComponent> BcollisionC = B.Get<ICollisionComponent>();
+        BOOST_ASSERT(ACollisionC.IsValid() && BcollisionC.IsValid()); //TODO: here this one should be true
+
+        CollisionModel const& CollModel = mCollisionStore.GetCollisionModel( ACollisionC->GetCollisionClass(), BcollisionC->GetCollisionClass() );
         if( !CollModel.AreActorsColliding( A, B, DeltaTime ) )
         {
             continue;
         }
-        A.Collide( B );
-        B.Collide( A );
+        ACollisionC->Collide( B );
+        BcollisionC->Collide( A );
     }
     for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it != e; ++it )
     {

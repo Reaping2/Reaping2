@@ -21,10 +21,6 @@ public:
 protected:
     enum
     {
-        DAMAGE,
-
-        RADIUS,
-        COLLISION_CLASS,
         GUID,           // todo: MakeGuid()
         NUM_FIELDS
     };
@@ -34,27 +30,15 @@ protected:
 
     Field_t mFields[NUM_FIELDS];
 
-    bool CanAddAction( int32_t Id )const;
 public:
     Actor( std::string const& Name );
     virtual ~Actor() = 0;
-    virtual void Collide( Actor& Other );
-    virtual void ClipScene();
-    virtual void Update( double Seconds );
-
-    double GetRadius()const
-    {
-        return mFields[RADIUS].d;
-    }
 
     ActionList_t const& GetActions()const
     {
         return mActions;
     }
-
-
-
-
+    bool CanAddAction( int32_t Id )const;
     void AddAction( int32_t Id );
     void AddAction( std::auto_ptr<Action> Act );
     bool HasAction( int32_t Id )const;
@@ -64,14 +48,8 @@ public:
     {
         return mFields[GUID].i;
     }
-    CollisionClass::Type GetCC()const
-    {
-        return CollisionClass::Type( mFields[COLLISION_CLASS].i );
-    }
-    void SetCC( CollisionClass::Type CCType )
-    {
-        mFields[COLLISION_CLASS].i = CCType;
-    }
+
+    virtual void Update( double Seconds );
 };
 
 typedef boost::intrusive::member_hook< Actor, AllActorMemberHook_t, &Actor::mAllActorHook> AllActorOption_t;

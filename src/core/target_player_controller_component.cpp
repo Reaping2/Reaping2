@@ -4,6 +4,7 @@
 #include "core/i_health_component.h"
 #include "core/target_player_controller_component.h"
 #include "core/damage_action.h"
+#include "core/i_collision_component.h"
 
 TargetPlayerControllerComponent::TargetPlayerControllerComponent()
     : mActor( NULL )
@@ -50,7 +51,8 @@ void TargetPlayerControllerComponent::Update( double Seconds )
     glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
     {
         // todo: biteaction
-        double const R = mPlayer->GetRadius() + mActor->GetRadius();
+        BOOST_ASSERT(mPlayer->Get<ICollisionComponent>().IsValid()&&mActor->Get<ICollisionComponent>().IsValid());
+        double const R = mPlayer->Get<ICollisionComponent>()->GetRadius() + mActor->Get<ICollisionComponent>()->GetRadius();
         if( std::abs( Diff.x ) < R && std::abs( Diff.y ) < R )
         {
             if( mCounter <= 0.0 )

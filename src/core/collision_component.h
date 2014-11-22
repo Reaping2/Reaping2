@@ -4,10 +4,9 @@
 
 
 class Actor;
-class CollisionComponent : public Component
+class CollisionComponent : public ICollisionComponent
 {
 public:
-    DEFINE_COMPONENT_BASE(ICollisionComponent)
     virtual CollisionClass::Type GetCollisionClass()const;
     virtual void SetCollisionClass( CollisionClass::Type CollisionClassType );
     virtual void Collide( Actor& Other );

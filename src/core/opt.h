@@ -6,7 +6,7 @@ class Opt
 {
 public:
     Opt(T* Ptr=NULL);
-    bool IsValid();
+    bool IsValid()const;
     T const* operator->() const;
     T const& operator*() const;
     T* operator->();
@@ -22,7 +22,7 @@ Opt<T>::Opt(T* Ptr)
 }
 
 template<typename T>
-bool Opt<T>::IsValid()
+bool Opt<T>::IsValid()const
 {
     return mPtr!=NULL;
 }

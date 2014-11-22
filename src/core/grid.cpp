@@ -1,6 +1,7 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
 #include "i_move_component.h"
+#include "core/i_collision_component.h"
 
 const uint32_t Grid::Collisions[] =
 {
@@ -64,7 +65,7 @@ void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
 
 void Grid::AddActor( Actor* A, double Dt )
 {
-    int32_t const CC = A->GetCC();
+    int32_t const CC = A->Get<ICollisionComponent>()->GetCollisionClass();
     if( !Collisions[CC] )
     {
         return;
@@ -97,14 +98,14 @@ glm::vec4 Grid::Box( Actor const& Obj, double Dt )const
 {
     float const MvX = Dt * Obj.Get<IMoveComponent>()->GetSpeedX();
     float const MvY = Dt * Obj.Get<IMoveComponent>()->GetSpeedY();
-    double const Radius = Obj.GetRadius();
+    double const Radius = Obj.Get<ICollisionComponent>()->GetRadius();
     Opt<IPositionComponent> const objPositionC = Obj.Get<IPositionComponent>();
     double const Ox = objPositionC->GetX() - mMin.x;
     double const Oy = objPositionC->GetY() - mMin.y;
-    glm::vec4 Ret( Ox - Obj.GetRadius(),
-                   Oy - Obj.GetRadius(),
-                   Ox + Obj.GetRadius(),
-                   Oy + Obj.GetRadius() );
+    glm::vec4 Ret( Ox - Radius,
+                   Oy - Radius,
+                   Ox + Radius,
+                   Oy + Radius );
     if( MvX < 0.0 )
     {
         Ret.x += MvX;

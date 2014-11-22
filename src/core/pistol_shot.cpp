@@ -1,9 +1,11 @@
 #include "i_core.h"
+#include "core/i_collision_component.h"
+#include "core/shot_collision_component.h"
 
 PistolShot::PistolShot()
     : Shot( "pistol_shot" )
 {
-    mFields[RADIUS].d = 0.01;
-    mFields[DAMAGE].i = 10;
+    Get<ICollisionComponent>()->SetRadius(0.01);
+    Get<ShotCollisionComponent>()->SetDamage(10);
 }
 

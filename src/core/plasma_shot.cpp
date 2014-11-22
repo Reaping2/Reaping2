@@ -1,8 +1,9 @@
 #include "i_core.h"
+#include "core/shot_collision_component.h"
 
 PlasmaShot::PlasmaShot()
     : Shot( "plasma_shot" )
 {
-    mFields[RADIUS].d = 0.02;
-    mFields[DAMAGE].i = 30;
+    Get<ICollisionComponent>()->SetRadius(0.02);
+    Get<ShotCollisionComponent>()->SetDamage(30);
 }

@@ -3,6 +3,7 @@
 #include "platform/auto_id.h"
 #include "platform/event.h"
 #include "core/damage_taken_event.h"
+#include "core/i_collision_component.h"
 #include "i_core.h"
 
 using platform::AutoId;
@@ -25,7 +26,7 @@ void HealthComponent::Update( double Seconds )
     }
     BOOST_ASSERT( mActor );
     mAlive = false;
-    mActor->SetCC( CollisionClass::No_Collision );
+    mActor->Get<ICollisionComponent>()->SetCollisionClass( CollisionClass::No_Collision );
     mActor->AddAction( AutoId( "death" ) );
     if ( mTimeOfDeath <= 0.0 )
     {

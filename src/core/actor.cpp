@@ -24,18 +24,12 @@ void Actor::Update( double Seconds )
     }
 }
 
-void Actor::Collide( Actor& Other )
-{
-}
-
 Actor::Actor( std::string const& Name )
     : AutoId( Name )
     , ComponentHolder ()
     , mActionFactory( ActionRepo::Get() )
 {
     memset( &mFields, 0, NUM_FIELDS * sizeof( Field_t ) );
-    mFields[COLLISION_CLASS].i = CollisionClass::Player;
-    mFields[RADIUS].d = 3.0;
     static int32_t NextGuid = 0;
     mFields[GUID].i = ++NextGuid;
     AddAction( AutoId( "default_action" ) );
@@ -110,33 +104,6 @@ void Actor::DropAction( int32_t Id )
     }
     i->second->Deactivate();
     mActions.erase( i );
-}
-
-void Actor::ClipScene()
-{
-    glm::vec4 AllowedDimensions = Scene::Get().GetDimensions();
-    float Radius = ( float )GetRadius();
-    AllowedDimensions.x += Radius;
-    AllowedDimensions.y += Radius;
-    AllowedDimensions.z -= Radius;
-    AllowedDimensions.w -= Radius;
-    Opt<IPositionComponent> positionC = Get<IPositionComponent>();
-    if( positionC->GetX() < AllowedDimensions.x )
-    {
-        positionC->SetX( AllowedDimensions.x );
-    }
-    else if( positionC->GetX() > AllowedDimensions.z )
-    {
-        positionC->SetX( AllowedDimensions.z );
-    }
-    if( positionC->GetY() < AllowedDimensions.y )
-    {
-        positionC->SetY( AllowedDimensions.y );
-    }
-    else if( positionC->GetY() > AllowedDimensions.w )
-    {
-        positionC->SetY( AllowedDimensions.w );
-    }
 }
 
 Actor::~Actor()

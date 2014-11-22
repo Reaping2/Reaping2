@@ -1,6 +1,7 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "core/shot_collision_component.h"
 
 Weapon::Weapon( int32_t Id )
     : Item( Id )
@@ -50,7 +51,7 @@ void Weapon::Shoot()
         Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
         projPositionC->SetX( actorPositionC->GetX() );
         projPositionC->SetY( actorPositionC->GetY() );
-        Proj.SetParent( *mActor );
+        Proj.Get<ShotCollisionComponent>()->SetParent( mActor );
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
         Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
         Scen.AddActor( &Proj );
@@ -86,7 +87,7 @@ void Weapon::ShootAlt()
         Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
         projPositionC->SetX( actorPositionC->GetX() );
         projPositionC->SetY( actorPositionC->GetY() );
-        Proj.SetParent( *mActor );
+        Proj.Get<ShotCollisionComponent>()->SetParent( mActor );
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
         Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
         Scen.AddActor( &Proj );
