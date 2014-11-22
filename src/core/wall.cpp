@@ -1,5 +1,18 @@
 #include "i_core.h"
 #include "core/i_position_component.h"
+#include "core/collision_component.h"
+
+Wall::Wall( std::string const& Name )
+    : Actor( Name )
+{
+    AddComponent( mComponentFactory(AutoId("collision_component")));
+    Opt<CollisionComponent> collisionC = Get<CollisionComponent>();
+    collisionC->SetRadius(0.01);
+    collisionC->SetCollisionClass(CollisionClass::Wall);
+
+    mFields[COLLISION_CLASS].i = CollisionClass::Wall;
+    mFields[RADIUS].d = 0.1;
+}
 
 void Wall::Collide( Actor& Other )
 {
@@ -32,11 +45,4 @@ void Wall::Collide( Actor& Other )
             otherPositionC->SetY( otherPositionC->GetY() - r - Epsilon - dy );
         }
     }
-}
-
-Wall::Wall( std::string const& Name )
-    : Actor( Name )
-{
-    mFields[COLLISION_CLASS].i = CollisionClass::Wall;
-    mFields[RADIUS].d = 0.1;
 }

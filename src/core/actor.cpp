@@ -5,6 +5,7 @@
 #include "core/i_controller_component.h"
 #include "platform/auto_id.h"
 #include "inventory_component.h"
+#include "core/collision_component.h"
 
 using platform::AutoId;
 

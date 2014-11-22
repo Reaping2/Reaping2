@@ -1,20 +1,8 @@
 #ifndef INCLUDED_CORE_ACTOR_H
 #define INCLUDED_CORE_ACTOR_H
 
-struct CollisionClass
-{
-    enum Type
-    {
-        No_Collision,
-        Projectile,
-        Creep,
-        Mine,
-        Player,
-        Wall,
-        Pickup,
-        Num_Classes,
-    };
-};
+#include "core/i_collision_component.h"
+
 class Action;
 class Item;
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;

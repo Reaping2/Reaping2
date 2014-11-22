@@ -4,6 +4,7 @@
 #include "core/target_player_controller_component.h"
 #include "core/i_health_component.h"
 #include "core/component_factory.h"
+#include "core/collision_component.h"
 
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( Name )
@@ -12,6 +13,11 @@ Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     Opt<IPositionComponent> positionC = Get<IPositionComponent>();
     positionC->SetX(x);
     positionC->SetY(y);
+    
+    AddComponent( mComponentFactory(AutoId("collision_component")));
+    Opt<CollisionComponent> collisionC = Get<CollisionComponent>();
+    collisionC->SetRadius(0.1);
+    collisionC->SetCollisionClass(CollisionClass::Creep);
 
     mFields[RADIUS].d = 0.1;
     mFields[COLLISION_CLASS].i = CollisionClass::Creep;

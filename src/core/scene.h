@@ -1,14 +1,18 @@
 #ifndef INCLUDED_CORE_SCENE_H
 #define INCLUDED_CORE_SCENE_H
 
-class Scene : public Singleton<Scene>
+#include "platform/factory.h"
+#include "platform/singleton.h"
+#include "core/i_core.h"
+
+class Scene : public platform::Singleton<Scene>
 {
     ActorList_t mAllActors;
     ActorList_t mNewActors;
     CollisionStore& mCollisionStore;
     glm::vec4 mDimensions;
     int32_t mTypeId;
-    friend class Singleton<Scene>;
+    friend class platform::Singleton<Scene>;
     Scene();
     bool mPaused;
     ModelValue mSceneModel;

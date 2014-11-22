@@ -4,12 +4,17 @@
 #include "core/damage_action.h"
 #include "core/i_health_component.h"
 #include "core/component_factory.h"
-
+#include "core/collision_component.h"
 
 Shot::Shot( std::string const& Name )
     : Actor( Name )
     , mParentGuid( -1 )
 {
+    AddComponent( mComponentFactory(AutoId("collision_component")));
+    Opt<CollisionComponent> collisionC = Get<CollisionComponent>();
+    collisionC->SetRadius(0.02);
+    collisionC->SetCollisionClass(CollisionClass::Projectile);
+
     mFields[COLLISION_CLASS].i = CollisionClass::Projectile;
     mFields[RADIUS].d = 0.02;
     mFields[DAMAGE].i = 10;

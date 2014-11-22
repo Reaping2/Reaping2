@@ -1,10 +1,16 @@
 #include "i_core.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
+#include "core/collision_component.h"
 
 Pickup::Pickup( std::string const& Name )
     : Actor( Name )
 {
+    AddComponent( mComponentFactory(AutoId("collision_component")));
+    Opt<CollisionComponent> collisionC = Get<CollisionComponent>();
+    collisionC->SetRadius(0.04);
+    collisionC->SetCollisionClass(CollisionClass::Pickup);
+
     mFields[COLLISION_CLASS].i = CollisionClass::Pickup;
     mFields[RADIUS].d = 0.04;
     AddAction( AutoId( "fade_out" ) );
