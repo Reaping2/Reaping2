@@ -50,7 +50,7 @@ public:
     void AddActor( Actor* Object );
     glm::vec4 const& GetDimensions();
     template<typename MODIFIER>
-    void ModifyActor(Actor* Obj, MODIFIER& Modifier)
+    void ModifyActor(Actor* Obj, MODIFIER const& Modifier)
     {
         ActorList_t::iterator it = mAllActors.find(Obj->GetGUID());
         mAllActors.modify(it,Modifier);
