@@ -24,6 +24,7 @@ bool DamageAction::Activate()
     {
         healthC->SetHP(healthC->GetHP()-std::min<int32_t>(healthC->GetHP(),mDamage));
     }
+    return true;
 }
 
 void DamageAction::SetDamage(int32_t Damage)

@@ -2,51 +2,29 @@
 #define INCLUDED_CORE_ACTOR_H
 
 #include "core/i_collision_component.h"
-
+#include "core/action_holder.h"
 class Action;
 class Item;
+
+
+
 typedef boost::intrusive::list_member_hook<boost::intrusive::link_mode<boost::intrusive::auto_unlink> > AllActorMemberHook_t;
-class Actor : public AutoId, public ComponentHolder
+class Actor : public AutoId, public ComponentHolder, public ActionHolder
 {
 public:
     AllActorMemberHook_t mAllActorHook;
-    union Field_t
-    {
-        int32_t i;
-        double d;
-    };
-
-    typedef boost::ptr_map<int32_t, Action> ActionList_t;
-
 protected:
-    enum
-    {
-        GUID,           // todo: MakeGuid()
-        NUM_FIELDS
-    };
-
-    ActionRepo& mActionFactory;
-    ActionList_t mActions;
-
-    Field_t mFields[NUM_FIELDS];
-
+    int32_t mGUID;
 public:
+    //TODO: only one addaction
+    void AddAction( int32_t Id );
+    virtual void AddAction( std::auto_ptr<Action> Act );
     Actor( std::string const& Name );
     virtual ~Actor() = 0;
 
-    ActionList_t const& GetActions()const
-    {
-        return mActions;
-    }
-    bool CanAddAction( int32_t Id )const;
-    void AddAction( int32_t Id );
-    void AddAction( std::auto_ptr<Action> Act );
-    bool HasAction( int32_t Id )const;
-    void DropAction( int32_t Id );
-
     int32_t GetGUID()const
     {
-        return mFields[GUID].i;
+        return mGUID;
     }
 
     virtual void Update( double Seconds );

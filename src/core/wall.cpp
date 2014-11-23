@@ -9,5 +9,4 @@ Wall::Wall( std::string const& Name )
     collisionC->SetRadius(0.1);
     collisionC->SetCollisionClass(CollisionClass::Wall);
     collisionC->SetActor( this );
-
 }

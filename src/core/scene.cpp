@@ -152,6 +152,8 @@ void Scene::Load( std::string const& Level )
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
     inventoryC->SetActor(Pl);
     inventoryC->AddItem(AutoId( "pistol" ));
+    Pl->AddAction( AutoId( "idle_action" ) );
+
     AddActor( Pl );
 
 #ifdef DEBUG

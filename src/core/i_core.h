@@ -7,6 +7,7 @@
 #include "action_repo.h"
 #include "item_factory.h"
 #include "item.h"
+#include "action_holder.h"
 #include "actor.h"
 #include "grid.h"
 #include "collision_model.h"
