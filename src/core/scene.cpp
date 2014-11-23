@@ -9,7 +9,7 @@
 
 void Scene::AddActor( Actor* Object )
 {
-    mNewActors.push_back( *Object );
+    mNewActors.push_back( Object );
     // mikor az obj torlodik, magatol kikerul a listabol
 }
 
@@ -61,15 +61,17 @@ void Scene::Update( double DeltaTime )
             healthC->Update(DeltaTime);
             if (healthC->NeedDelete())
             {
-                delete &*it;
+                mAllActors.erase(it);
             }
         }
     }
     size_t siz2= mAllActors.size();
-    if( !mNewActors.empty() )
-    {
-        mAllActors.splice( mAllActors.end(), mNewActors );
-    }
+//     while( !mNewActors.empty() )
+//     {
+//         ActorList_t::auto_type tp=mNewActors.pop_front();
+//         mAllActors.insert( mAllActors.end(), tp.get() );
+        mAllActors.transfer( mAllActors.end(),mNewActors.begin(),mNewActors.end(),mNewActors);
+//     }
 }
 
 Scene::Scene()
@@ -92,11 +94,18 @@ glm::vec4 const& Scene::GetDimensions()
 
 Scene::~Scene()
 {
-    mAllActors.splice( mAllActors.end(), mNewActors );
-    while( !mAllActors.empty() )
-    {
-        delete &mAllActors.front();
-    }
+//     while( !mNewActors.empty() )
+//     {
+//         ActorList_t::auto_type tp=mNewActors.pop_front();
+//         mAllActors.insert( mAllActors.end(), tp.get() );
+//     }
+    mAllActors.transfer( mAllActors.end(),mNewActors.begin(),mNewActors.end(),mNewActors);
+
+    mAllActors.clear();
+//     while( !mAllActors.empty() )
+//     {
+//         delete &mAllActors.front();
+//     }
 }
 
 void Scene::SetType( std::string const& Type )
@@ -112,11 +121,18 @@ int32_t Scene::GetTypeId() const
 void Scene::Load( std::string const& Level )
 {
     mPaused = false;
-    mAllActors.splice( mAllActors.end(), mNewActors );
-    while( !mAllActors.empty() )
-    {
-        delete &mAllActors.front();
-    }
+//     while( !mNewActors.empty() )
+//     {
+//         ActorList_t::auto_type tp=mNewActors.pop_front();
+//         mAllActors.insert( mAllActors.end(), tp.get() );
+//     }
+    mAllActors.transfer( mAllActors.end(),mNewActors.begin(),mNewActors.end(),mNewActors);
+
+    mAllActors.clear();
+//     while( !mAllActors.empty() )
+//     {
+//         delete &mAllActors.front();
+//     }
 
     SetType( "grass" );
     struct point

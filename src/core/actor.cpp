@@ -39,6 +39,7 @@ Actor::Actor( std::string const& Name )
 
 Actor::~Actor()
 {
+    int h=7;
 }
 
 void Actor::AddAction(int32_t Id)
