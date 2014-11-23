@@ -3,11 +3,11 @@
 
 #include "core/i_collision_component.h"
 #include "core/action_holder.h"
+using namespace ::boost::multi_index;
 class Action;
 class Item;
 
-
-
+typedef multi_index_container<Opt<Actor>,indexed_by<sequenced<> > > ActorList_t;
 class Actor : public AutoId, public ComponentHolder, public ActionHolder
 {
 public:
@@ -28,7 +28,6 @@ public:
     virtual void Update( double Seconds );
 };
 
-typedef boost::ptr_list<Actor> ActorList_t;
 
 
 #endif//INCLUDED_CORE_ACTOR_H

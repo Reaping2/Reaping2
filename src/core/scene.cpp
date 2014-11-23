@@ -9,8 +9,7 @@
 
 void Scene::AddActor( Actor* Object )
 {
-    mNewActors.push_back( Object );
-    // mikor az obj torlodik, magatol kikerul a listabol
+    mNewActors.push_back( Opt<Actor>(Object) );
 }
 
 void Scene::Update( double DeltaTime )
@@ -23,7 +22,7 @@ void Scene::Update( double DeltaTime )
     mCollisionGrid.Clear();
     for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it != e; ++it )
     {
-        Actor& Obj = *it;
+        Actor& Obj = **it;
         Opt<IControllerComponent> objControllerC = Obj.Get<IControllerComponent>();
         if(objControllerC.IsValid())
         {
@@ -50,28 +49,29 @@ void Scene::Update( double DeltaTime )
     }
     for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it != e; ++it )
     {
-        it->Update( DeltaTime );
+        (*it)->Update( DeltaTime );
     }
     size_t siz1= mAllActors.size();
     for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
     {
-        Opt<IHealthComponent> healthC = it->Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = (*it)->Get<IHealthComponent>();
         if(healthC.IsValid())
         {
             healthC->Update(DeltaTime);
             if (healthC->NeedDelete())
             {
+                delete &**it;
                 mAllActors.erase(it);
             }
         }
     }
     size_t siz2= mAllActors.size();
-//     while( !mNewActors.empty() )
-//     {
-//         ActorList_t::auto_type tp=mNewActors.pop_front();
-//         mAllActors.insert( mAllActors.end(), tp.get() );
-        mAllActors.transfer( mAllActors.end(),mNewActors.begin(),mNewActors.end(),mNewActors);
-//     }
+
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        mAllActors.push_back( *it );
+    }
+    mNewActors.clear();
 }
 
 Scene::Scene()
@@ -94,18 +94,17 @@ glm::vec4 const& Scene::GetDimensions()
 
 Scene::~Scene()
 {
-//     while( !mNewActors.empty() )
-//     {
-//         ActorList_t::auto_type tp=mNewActors.pop_front();
-//         mAllActors.insert( mAllActors.end(), tp.get() );
-//     }
-    mAllActors.transfer( mAllActors.end(),mNewActors.begin(),mNewActors.end(),mNewActors);
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        mAllActors.push_back( *it );
+    }
+    mNewActors.clear();
 
+    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it!=e; ++it )
+    {
+        delete &**it;
+    }
     mAllActors.clear();
-//     while( !mAllActors.empty() )
-//     {
-//         delete &mAllActors.front();
-//     }
 }
 
 void Scene::SetType( std::string const& Type )
@@ -121,18 +120,18 @@ int32_t Scene::GetTypeId() const
 void Scene::Load( std::string const& Level )
 {
     mPaused = false;
-//     while( !mNewActors.empty() )
-//     {
-//         ActorList_t::auto_type tp=mNewActors.pop_front();
-//         mAllActors.insert( mAllActors.end(), tp.get() );
-//     }
-    mAllActors.transfer( mAllActors.end(),mNewActors.begin(),mNewActors.end(),mNewActors);
 
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        mAllActors.push_back( *it );
+    }
+    mNewActors.clear();
+
+    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it!=e; ++it )
+    {
+        delete &**it;
+    }
     mAllActors.clear();
-//     while( !mAllActors.empty() )
-//     {
-//         delete &mAllActors.front();
-//     }
 
     SetType( "grass" );
     struct point

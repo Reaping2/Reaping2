@@ -27,7 +27,7 @@ void ActorRenderer::Draw( Scene const& Object )
     RenderableSprites.reserve( PrevVecSize );
     for( ActorList_t::const_iterator i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
-        const Actor& Object = *i;
+        const Actor& Object = **i;
         Actor::ActionList_t const& Actions = Object.GetActions();
         static RenderableRepo& Rend( RenderableRepo::Get() );
         SpriteCollection const& Sprites = Rend( Object.GetId() );

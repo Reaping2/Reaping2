@@ -8,7 +8,8 @@
 class Scene : public platform::Singleton<Scene>
 {
     ActorList_t mAllActors;
-    ActorList_t mNewActors;
+    typedef std::list< Opt<Actor> > NewActorList_t;
+    NewActorList_t mNewActors;
     CollisionStore& mCollisionStore;
     glm::vec4 mDimensions;
     int32_t mTypeId;

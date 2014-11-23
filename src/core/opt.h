@@ -7,12 +7,12 @@ class Opt
 public:
     Opt(T* Ptr=NULL);
     bool IsValid()const;
-    T const* operator->() const;
-    T const& operator*() const;
+    T* operator->() const;
+    T& operator*() const;
     T* operator->();
     T& operator*();
 private:
-    T* mPtr;
+    mutable T* mPtr;
 };
 
 template<typename T>
@@ -28,13 +28,13 @@ bool Opt<T>::IsValid()const
 }
 
 template<typename T>
-T const* Opt<T>::operator->() const
+T* Opt<T>::operator->() const
 {
     return mPtr;
 }
 
 template<typename T>
-T const& Opt<T>::operator*() const
+T& Opt<T>::operator*() const
 {
     return *mPtr;
 }
