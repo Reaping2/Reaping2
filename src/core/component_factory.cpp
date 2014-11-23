@@ -11,6 +11,7 @@
 #include "core/shot_collision_component.h"
 #include "core/wall_collision_component.h"
 #include "core/pickup_collision_component.h"
+#include "core/renderable_component.h"
 
 using platform::AutoId;
 
@@ -33,5 +34,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("shot_collision_component"), &CreateComponent<ShotCollisionComponent>);
     Bind( AutoId("wall_collision_component"), &CreateComponent<WallCollisionComponent>);
     Bind( AutoId("pickup_collision_component"), &CreateComponent<PickupCollisionComponent>);
+
+    Bind( AutoId("renderable_component"), &CreateComponent<RenderableCompononent>);
 
 }

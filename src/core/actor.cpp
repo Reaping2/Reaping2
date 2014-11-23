@@ -6,6 +6,7 @@
 #include "platform/auto_id.h"
 #include "inventory_component.h"
 #include "core/collision_component.h"
+#include "core/i_renderable_component.h"
 
 using platform::AutoId;
 
@@ -34,6 +35,11 @@ Actor::Actor( std::string const& Name )
     AddAction( AutoId( "default_action" ) );
     AddComponent( mComponentFactory(AutoId("position_component")) );
     AddComponent( mComponentFactory(AutoId("move_component")) );
+
+    AddComponent( mComponentFactory(AutoId("renderable_component")) );
+    Opt<IRenderableComponent> renderableC = Get<IRenderableComponent>();
+    renderableC->SetLayer(IRenderableComponent::Creeps);
+    renderableC->SetZOrder(mGUID);
 }
 
 
