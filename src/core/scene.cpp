@@ -12,7 +12,7 @@ int32_t RenderableOrderer(const Opt<Actor>& Obj)
     Opt<IRenderableComponent> renderableC = Obj->Get<IRenderableComponent>();
     return renderableC.IsValid()?
         renderableC->GetLayer()*10000000+renderableC->GetZOrder()
-        :INT32_MAX;
+        :std::numeric_limits<int32_t>::max();
 }
 
 int32_t ActorDefaultOrderer(const Opt<Actor>& Obj)

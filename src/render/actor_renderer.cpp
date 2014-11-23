@@ -28,7 +28,7 @@ void ActorRenderer::Draw( Scene const& Object )
     RenderableSprites.reserve( PrevVecSize );
     ActorListRenderableComponent_t const& i_lst = Lst.get<Scene::RenderableComponents>();
 
-    for( ActorListRenderableComponent_t::const_iterator i = i_lst.begin(), e = i_lst.lower_bound(INT32_MAX); i != e; ++i )
+    for( ActorListRenderableComponent_t::const_iterator i = i_lst.begin(), e = i_lst.lower_bound(std::numeric_limits<int32_t>::max()); i != e; ++i )
     {
         const Actor& Object = **i;
         Actor::ActionList_t const& Actions = Object.GetActions();
