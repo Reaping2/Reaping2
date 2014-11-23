@@ -7,7 +7,6 @@ using namespace ::boost::multi_index;
 class Action;
 class Item;
 
-typedef multi_index_container<Opt<Actor>,indexed_by<sequenced<> > > ActorList_t;
 class Actor : public AutoId, public ComponentHolder, public ActionHolder
 {
 public:

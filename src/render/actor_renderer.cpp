@@ -26,7 +26,9 @@ void ActorRenderer::Draw( Scene const& Object )
     typedef std::vector<RenderableSprite> RenderableSprites_t;
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( PrevVecSize );
-    for( ActorList_t::const_iterator i = Lst.begin(), e = Lst.end(); i != e; ++i )
+    ActorListRenderableComponent_t const& i_lst = Lst.get<Scene::RenderableComponents>();
+
+    for( ActorListRenderableComponent_t::const_iterator i = i_lst.begin(), e = i_lst.lower_bound(INT32_MAX); i != e; ++i )
     {
         const Actor& Object = **i;
         Actor::ActionList_t const& Actions = Object.GetActions();
@@ -73,7 +75,7 @@ void ActorRenderer::Draw( Scene const& Object )
 
     // TODO: sort Z order, alive state es texture id alapjan.
     // Meg persze (last cmp) pointerek szerint, hogy determinisztikus legyen.
-    std::sort( RenderableSprites.begin(), RenderableSprites.end(), RenderableSpriteCompare() );
+    //std::sort( RenderableSprites.begin(), RenderableSprites.end(), RenderableSpriteCompare() );
 
     size_t CurSize = RenderableSprites.size();
     typedef std::vector<glm::vec2> Positions_t;

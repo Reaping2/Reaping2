@@ -7,6 +7,35 @@
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
 
+int32_t RenderableOrderer(const Opt<Actor>& Obj)
+{
+    Opt<IRenderableComponent> renderableC = Obj->Get<IRenderableComponent>();
+    return renderableC.IsValid()?
+        renderableC->GetLayer()*10000000+renderableC->GetZOrder()
+        :INT32_MAX;
+}
+
+int32_t ActorDefaultOrderer(const Opt<Actor>& Obj)
+{
+    return Obj->GetGUID();
+}
+
+// bool OrderRenderable(const Opt<Actor>& lhs, const Opt<Actor>& rhs)
+// {
+//     Opt<IRenderableComponent> Rs1RenderableC = lhs.Get<IRenderableComponent>();
+//     Opt<IRenderableComponent> Rs2RenderableC = rhs.Get<IRenderableComponent>();
+//     if (!Rs1RenderableC.IsValid()&&Rs2RenderableC.IsValid())
+//         return true;
+//     else if (Rs1RenderableC.IsValid()&&!Rs2RenderableC.IsValid())
+//         return false;
+//     else if (!Rs1RenderableC.IsValid()&&!Rs2RenderableC.IsValid())
+//         return lhs.GetGUID()<rhs.GetGUID();
+//     return Rs1RenderableC->GetLayer()< Rs2RenderableC->GetLayer()||
+//         ( Rs1RenderableC->GetLayer()== Rs2RenderableC->GetLayer()&&
+//         ( Rs1RenderableC->GetZOrder()< Rs2RenderableC->GetZOrder()));
+// }
+
+
 void Scene::AddActor( Actor* Object )
 {
     mNewActors.push_back( Opt<Actor>(Object) );
@@ -69,7 +98,7 @@ void Scene::Update( double DeltaTime )
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        mAllActors.push_back( *it );
+        mAllActors.insert( *it );
     }
     mNewActors.clear();
 }
@@ -96,7 +125,7 @@ Scene::~Scene()
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        mAllActors.push_back( *it );
+        mAllActors.insert( *it );
     }
     mNewActors.clear();
 
@@ -123,7 +152,7 @@ void Scene::Load( std::string const& Level )
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        mAllActors.push_back( *it );
+        mAllActors.insert( *it );
     }
     mNewActors.clear();
 

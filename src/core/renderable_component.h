@@ -2,6 +2,17 @@
 #define INCLUDED_CORE_RENDERABLE_COMPONENT_H
 
 #include "i_renderable_component.h"
+class Actor;
+class RenderableComponentModifier
+{
+public:
+    RenderableComponentModifier(IRenderableComponent::Layer Lay,int32_t ZOrder);
+    void operator()(Opt<Actor>& Obj);
+
+protected:
+    IRenderableComponent::Layer mLayer;
+    int32_t mZOrder;
+};
 
 class RenderableCompononent : public IRenderableComponent
 {

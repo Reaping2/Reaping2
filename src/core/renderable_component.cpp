@@ -1,5 +1,5 @@
 #include "renderable_component.h"
-
+#include "i_core.h"
 
 RenderableCompononent::RenderableCompononent()
     : mLayer(IRenderableComponent::Background)
@@ -25,4 +25,16 @@ int32_t const& RenderableCompononent::GetZOrder() const
 void RenderableCompononent::SetZOrder(int32_t ZOrder)
 {
     mZOrder=ZOrder;
+}
+
+RenderableComponentModifier::RenderableComponentModifier(IRenderableComponent::Layer Lay,int32_t ZOrder)
+    : mLayer(Lay)
+    , mZOrder(ZOrder)
+{
+}
+
+void RenderableComponentModifier::operator()(Opt<Actor>& Obj)
+{
+    Obj->Get<IRenderableComponent>()->SetLayer(mLayer);
+    Obj->Get<IRenderableComponent>()->SetZOrder(mZOrder);
 }

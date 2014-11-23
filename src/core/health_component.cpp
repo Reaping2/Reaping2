@@ -4,7 +4,9 @@
 #include "platform/event.h"
 #include "core/damage_taken_event.h"
 #include "core/i_collision_component.h"
+#include "renderable_component.h"
 #include "i_core.h"
+#include "core/opt.h"
 
 using platform::AutoId;
 using platform::EventServer;
@@ -30,6 +32,7 @@ void HealthComponent::Update( double Seconds )
     mActor->AddAction( AutoId( "death" ) );
     if ( mTimeOfDeath <= 0.0 )
     {
+        Scene::Get().ModifyActor(mActor,RenderableComponentModifier(IRenderableComponent::Corpses,(int)glfwGetTime()));
         mTimeOfDeath=glfwGetTime();
     }
 }
