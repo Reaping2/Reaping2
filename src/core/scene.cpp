@@ -7,34 +7,25 @@
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
 
-int32_t RenderableOrderer(const Opt<Actor>& Obj)
-{
-    Opt<IRenderableComponent> renderableC = Obj->Get<IRenderableComponent>();
-    return renderableC.IsValid()?
-        renderableC->GetLayer()*10000000+renderableC->GetZOrder()
-        :std::numeric_limits<int32_t>::max();
-}
-
-int32_t ActorDefaultOrderer(const Opt<Actor>& Obj)
+int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
 {
     return Obj->GetGUID();
 }
 
-// bool OrderRenderable(const Opt<Actor>& lhs, const Opt<Actor>& rhs)
-// {
-//     Opt<IRenderableComponent> Rs1RenderableC = lhs.Get<IRenderableComponent>();
-//     Opt<IRenderableComponent> Rs2RenderableC = rhs.Get<IRenderableComponent>();
-//     if (!Rs1RenderableC.IsValid()&&Rs2RenderableC.IsValid())
-//         return true;
-//     else if (Rs1RenderableC.IsValid()&&!Rs2RenderableC.IsValid())
-//         return false;
-//     else if (!Rs1RenderableC.IsValid()&&!Rs2RenderableC.IsValid())
-//         return lhs.GetGUID()<rhs.GetGUID();
-//     return Rs1RenderableC->GetLayer()< Rs2RenderableC->GetLayer()||
-//         ( Rs1RenderableC->GetLayer()== Rs2RenderableC->GetLayer()&&
-//         ( Rs1RenderableC->GetZOrder()< Rs2RenderableC->GetZOrder()));
-// }
+bool ActorHolder::IsRenderable::operator ()(const Opt<Actor>& Obj)const
+{
+    return Obj->Get<IRenderableComponent>().IsValid();
+}
 
+int32_t ActorHolder::GetLayer::operator ()(const Opt<Actor>& Obj)const
+{
+    return Obj->Get<IRenderableComponent>().IsValid()?Obj->Get<IRenderableComponent>()->GetLayer():0;
+}
+
+int32_t ActorHolder::GetZOrder::operator ()(const Opt<Actor>& Obj)const
+{
+    return Obj->Get<IRenderableComponent>().IsValid()?Obj->Get<IRenderableComponent>()->GetZOrder():0;
+}
 
 void Scene::AddActor( Actor* Object )
 {
@@ -49,7 +40,7 @@ void Scene::Update( double DeltaTime )
         return;
     }
     mCollisionGrid.Clear();
-    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it != e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
         Actor& Obj = **it;
         Opt<IControllerComponent> objControllerC = Obj.Get<IControllerComponent>();
@@ -76,12 +67,12 @@ void Scene::Update( double DeltaTime )
         ACollisionC->Collide( B );
         BcollisionC->Collide( A );
     }
-    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it != e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
         (*it)->Update( DeltaTime );
     }
-    size_t siz1= mAllActors.size();
-    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
+    size_t siz1= mActorHolder.mAllActors.size();
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
     {
         Opt<IHealthComponent> healthC = (*it)->Get<IHealthComponent>();
         if(healthC.IsValid())
@@ -90,15 +81,15 @@ void Scene::Update( double DeltaTime )
             if (healthC->NeedDelete())
             {
                 delete &**it;
-                mAllActors.erase(it);
+                mActorHolder.mAllActors.erase(it);
             }
         }
     }
-    size_t siz2= mAllActors.size();
+    size_t siz2= mActorHolder.mAllActors.size();
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        mAllActors.insert( *it );
+        mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 }
@@ -125,15 +116,15 @@ Scene::~Scene()
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        mAllActors.insert( *it );
+        mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
-    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it!=e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
         delete &**it;
     }
-    mAllActors.clear();
+    mActorHolder.mAllActors.clear();
 }
 
 void Scene::SetType( std::string const& Type )
@@ -152,15 +143,15 @@ void Scene::Load( std::string const& Level )
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        mAllActors.insert( *it );
+        mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
-    for( ActorList_t::iterator it = mAllActors.begin(), e = mAllActors.end(); it!=e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
         delete &**it;
     }
-    mAllActors.clear();
+    mActorHolder.mAllActors.clear();
 
     SetType( "grass" );
     struct point

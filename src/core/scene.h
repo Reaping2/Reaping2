@@ -6,24 +6,104 @@
 #include "core/i_core.h"
 #include "core/i_renderable_component.h"
 
-int32_t RenderableOrderer(const Opt<Actor>& Obj);
-int32_t ActorDefaultOrderer(const Opt<Actor>& Obj);
-typedef multi_index_container<
-    Opt<Actor>,
-    indexed_by<
-        ordered_unique<
-            global_fun<const Opt<Actor>&, int32_t, ActorDefaultOrderer>
-        >,
-        ordered_non_unique<
-            global_fun<const Opt<Actor>&, int32_t, RenderableOrderer>
+class ActorHolder
+{
+public:
+
+    struct ActorDefaultOrderer
+    { 
+        typedef int32_t result_type;
+        result_type operator()(const Opt<Actor>& Obj)const;
+    };
+    struct IsRenderable
+    { 
+        typedef bool result_type;
+        bool operator()(const Opt<Actor>& Obj)const;
+    };
+    struct GetLayer
+    { 
+        typedef int32_t result_type;
+        result_type  operator()(const Opt<Actor>& Obj)const;
+    };
+    struct GetZOrder
+    { 
+        typedef int32_t result_type;
+        result_type operator()(const Opt<Actor>& Obj)const;
+    };
+
+    typedef multi_index_container<
+        Opt<Actor>,
+        indexed_by<
+            ordered_unique<
+                ActorHolder::ActorDefaultOrderer
+            >,
+            ordered_non_unique<
+                composite_key<
+                    Opt<Actor>,
+                    ActorHolder::IsRenderable,
+                    ActorHolder::GetLayer,
+                    ActorHolder::GetZOrder
+                >
+            >
         >
-    >
-> ActorList_t;
-typedef ActorList_t::nth_index<1>::type  ActorListRenderableComponent_t;
+    > ActorList_t;
+    typedef ActorList_t::nth_index<1>::type  ActorListRenderableComponent_t;
+    ActorList_t mAllActors;
+
+};
+
+typedef ActorHolder::ActorList_t ActorList_t;
+
+template<int N>
+class ActorListWrapper
+{
+public:
+    typedef ActorList_t::const_iterator const_iterator;
+protected:
+    ActorList_t::const_iterator mI;
+    ActorList_t::const_iterator mE;
+public:
+    ActorListWrapper(ActorList_t const& actorlist)
+    {
+        mI=actorlist.begin();
+        mE=actorlist.end();
+    }
+    const_iterator begin()
+    {
+        return mI;
+    }
+    const_iterator end()
+    {
+        return mE;
+    }
+};
+
+template<>
+class ActorListWrapper<1>
+{
+public:
+    typedef ActorList_t::nth_index<1>::type::const_iterator const_iterator;
+protected:
+    const_iterator mI;
+    const_iterator mE;
+public:
+    ActorListWrapper(ActorList_t const& actorlist)
+    {
+        boost::tie(mI,mE)=actorlist.get<1>().equal_range(boost::make_tuple(true));
+    }
+    const_iterator begin()
+    {
+        return mI;
+    }
+    const_iterator end()
+    {
+        return mE;
+    }
+};
 
 class Scene : public platform::Singleton<Scene>
 {
-    ActorList_t mAllActors;
+    ActorHolder mActorHolder;
     typedef std::list< Opt<Actor> > NewActorList_t;
     NewActorList_t mNewActors;
     CollisionStore& mCollisionStore;
@@ -52,13 +132,20 @@ public:
     template<typename MODIFIER>
     void ModifyActor(Actor* Obj, MODIFIER const& Modifier)
     {
-        ActorList_t::iterator it = mAllActors.find(Obj->GetGUID());
-        mAllActors.modify(it,Modifier);
+        ActorList_t::iterator it = mActorHolder.mAllActors.find(Obj->GetGUID());
+        mActorHolder.mAllActors.modify(it,Modifier);
     }
     ActorList_t const& GetActors() const
     {
-        return mAllActors;
+        return mActorHolder.mAllActors;
     }
+    //the template version works well with '=' i just dont know is it really needed, maybe this creating a wrapper is better
+
+//     template<int N>
+//     ActorListWrapper<N> GetActors() const
+//     {
+//         return ActorListWrapper<N>(mActorHolder.mAllActors);
+//     }
     void Load( std::string const& Level );
     void Pause()
     {

@@ -26,9 +26,9 @@ void ActorRenderer::Draw( Scene const& Object )
     typedef std::vector<RenderableSprite> RenderableSprites_t;
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( PrevVecSize );
-    ActorListRenderableComponent_t const& i_lst = Lst.get<Scene::RenderableComponents>();
-
-    for( ActorListRenderableComponent_t::const_iterator i = i_lst.begin(), e = i_lst.lower_bound(std::numeric_limits<int32_t>::max()); i != e; ++i )
+    //the template version works well with '=' i just dont know is it really needed, maybe this one is more self explaining
+    ActorListWrapper<Scene::RenderableComponents> wrp(Lst);//=Object.GetActors<Scene::RenderableComponents>();
+    for(ActorListWrapper<Scene::RenderableComponents>::const_iterator i=wrp.begin(),e=wrp.end();i!=e;++i)
     {
         const Actor& Object = **i;
         Actor::ActionList_t const& Actions = Object.GetActions();
