@@ -55,7 +55,7 @@ public:
 typedef ActorHolder::ActorList_t ActorList_t;
 
 template<int N>
-class ActorListWrapper
+class ActorListFilter
 {
 public:
     typedef ActorList_t::const_iterator const_iterator;
@@ -63,7 +63,7 @@ protected:
     ActorList_t::const_iterator mI;
     ActorList_t::const_iterator mE;
 public:
-    ActorListWrapper(ActorList_t const& actorlist)
+    ActorListFilter(ActorList_t const& actorlist)
     {
         mI=actorlist.begin();
         mE=actorlist.end();
@@ -79,7 +79,7 @@ public:
 };
 
 template<>
-class ActorListWrapper<1>
+class ActorListFilter<1>
 {
 public:
     typedef ActorList_t::nth_index<1>::type::const_iterator const_iterator;
@@ -87,7 +87,7 @@ protected:
     const_iterator mI;
     const_iterator mE;
 public:
-    ActorListWrapper(ActorList_t const& actorlist)
+    ActorListFilter(ActorList_t const& actorlist)
     {
         boost::tie(mI,mE)=actorlist.get<1>().equal_range(boost::make_tuple(true));
     }
@@ -121,7 +121,7 @@ public:
     enum ActorIndex
     {
         All,
-        RenderableComponents
+        RenderableActors
     };
     ~Scene();
     void SetType( std::string const& Type );

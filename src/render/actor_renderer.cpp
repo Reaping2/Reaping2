@@ -27,8 +27,8 @@ void ActorRenderer::Draw( Scene const& Object )
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( PrevVecSize );
     //the template version works well with '=' i just dont know is it really needed, maybe this one is more self explaining
-    ActorListWrapper<Scene::RenderableComponents> wrp(Lst);//=Object.GetActors<Scene::RenderableComponents>();
-    for(ActorListWrapper<Scene::RenderableComponents>::const_iterator i=wrp.begin(),e=wrp.end();i!=e;++i)
+    ActorListFilter<Scene::RenderableActors> wrp(Lst);//=Object.GetActors<Scene::RenderableComponents>();
+    for(ActorListFilter<Scene::RenderableActors>::const_iterator i=wrp.begin(),e=wrp.end();i!=e;++i)
     {
         const Actor& Object = **i;
         Actor::ActionList_t const& Actions = Object.GetActions();
