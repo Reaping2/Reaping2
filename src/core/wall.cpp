@@ -2,7 +2,7 @@
 #include "core/i_collision_component.h"
 
 Wall::Wall( std::string const& Name )
-    : Actor( Name )
+    : Actor( AutoId(Name) )
 {
     AddComponent( mComponentFactory(AutoId("wall_collision_component")));
     Opt<ICollisionComponent> collisionC = Get<ICollisionComponent>();

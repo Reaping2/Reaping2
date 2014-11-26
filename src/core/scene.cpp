@@ -6,6 +6,7 @@
 #include "core/health_delete_component.h"
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
+#include "core/actor_factory.h"
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
 {
@@ -140,7 +141,7 @@ int32_t Scene::GetTypeId() const
 void Scene::Load( std::string const& Level )
 {
     mPaused = false;
-
+    ActorFactory::Get()(AutoId("player"));
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         mActorHolder.mAllActors.insert( *it );

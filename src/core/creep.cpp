@@ -7,7 +7,7 @@
 #include "core/i_collision_component.h"
 
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
-    : Actor( Name )
+    : Actor( AutoId(Name) )
     , mTriedDrop( false )
 {
     Opt<IPositionComponent> positionC = Get<IPositionComponent>();

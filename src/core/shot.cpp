@@ -8,7 +8,7 @@
 #include "core/shot_collision_component.h"
 
 Shot::Shot( std::string const& Name )
-    : Actor( Name )
+    : Actor( AutoId(Name) )
 {
     AddComponent( mComponentFactory(AutoId("shot_collision_component")));
     Opt<ShotCollisionComponent> collisionC = Get<ShotCollisionComponent>();

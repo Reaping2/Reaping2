@@ -7,16 +7,18 @@ using namespace ::boost::multi_index;
 class Action;
 class Item;
 
-class Actor : public AutoId, public ComponentHolder, public ActionHolder
+class Actor : public ComponentHolder, public ActionHolder
 {
 public:
 protected:
     int32_t mGUID;
+    int32_t mId;
 public:
+    int32_t GetId()const;
     //TODO: only one addaction
     void AddAction( int32_t Id );
     virtual void AddAction( std::auto_ptr<Action> Act );
-    Actor( std::string const& Name );
+    Actor( int32_t Id );
     virtual ~Actor();
 
     int32_t GetGUID()const

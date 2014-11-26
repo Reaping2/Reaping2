@@ -1,0 +1,26 @@
+[
+	{
+		"name":"wall",
+		"components":
+		[
+			{
+				"name":"wall_collision_component"
+			}
+		]
+	},
+	{
+		"name":"player",
+		"components":
+		[
+			{
+				"name":"collision_component"
+			},
+			{
+				"name":"health_component"
+			}
+		]
+	},
+	{
+		"name":"shot"
+	}
+]

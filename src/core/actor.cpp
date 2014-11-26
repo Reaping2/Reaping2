@@ -25,8 +25,8 @@ void Actor::Update( double Seconds )
     }
 }
 
-Actor::Actor( std::string const& Name )
-    : AutoId( Name )
+Actor::Actor( int32_t Id )
+    : mId( Id )
     , ComponentHolder ()
     , ActionHolder ()
 {
@@ -64,4 +64,7 @@ void Actor::AddAction(std::auto_ptr<Action> Act)
     ActionHolder::AddAction(Act);
 }
 
-
+int32_t Actor::GetId() const
+{
+    return mId;
+}

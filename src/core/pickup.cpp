@@ -5,7 +5,7 @@
 #include "core/pickup_collision_component.h"
 
 Pickup::Pickup( std::string const& Name )
-    : Actor( Name )
+    : Actor( AutoId(Name) )
 {
     AddComponent( mComponentFactory(AutoId("pickup_collision_component")));
     Opt<PickupCollisionComponent> collisionC = Get<PickupCollisionComponent>();

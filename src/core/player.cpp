@@ -5,7 +5,7 @@
 #include "core/i_renderable_component.h"
 
 Player::Player( std::string const& Name/*="player"*/ )
-    : Actor( Name )
+    : Actor( AutoId(Name) )
 {
 
     AddComponent( mComponentFactory(AutoId("collision_component")));
