@@ -12,7 +12,7 @@ RandomControllerComponent::RandomControllerComponent()
 
 void RandomControllerComponent::SetActor( Actor* Obj )
 {
-    Component::SetActor(Obj);
+    IControllerComponent::SetActor(Obj);
     if( !mActor )
     {
         return;

@@ -21,7 +21,7 @@ void TargetPlayerControllerComponent::SetPlayer( Actor* Player )
 
 void TargetPlayerControllerComponent::SetActor( Actor* Obj )
 {
-    Component::SetActor(Obj);
+    IControllerComponent::SetActor(Obj);
     if( !mActor )
     {
         return;
