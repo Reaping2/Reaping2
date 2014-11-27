@@ -6,6 +6,8 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include "core/component.h"
 #include "core/component_factory.h"
+#include "core/component_loader_factory.h"
+#include "core/component_loader.h"
 #include "i_core.h"
 class Actor;
 
@@ -13,14 +15,15 @@ class ActorCreator
 {
 public:
     ActorCreator();
-    typedef std::list<int32_t> ComponentList_t;
+    typedef boost::ptr_map<int32_t,ComponentLoaderBase> ComponentList_t;
     ComponentList_t mComponents;
     void SetId(int32_t id);
     int32_t GetId();
-    void AddComponent(int32_t componentId);
+    void AddComponent(int32_t componentId, Json::Value& setters);
     std::auto_ptr<Actor> Create()const; 
 private:
     ComponentFactory& mComponentFactory;
+    ComponentLoaderFactory& mComponentLoaderFactory;
     int32_t mId;
 
 };
@@ -33,7 +36,7 @@ class ActorFactory : public platform::Factory<Actor>, public platform::Singleton
     ActorFactory();
 
     void Init();
-    bool AddActorCreatorsFromOneDesc( Json::Value& TexDesc, ActorCreatorMap_t& actorCreators );
+    bool AddActorCreatorFromOneDesc( Json::Value& TexDesc, ActorCreatorMap_t& actorCreators );
 protected:
     std::auto_ptr<Actor> CreateActor( int32_t Id );
 };

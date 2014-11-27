@@ -8,18 +8,5 @@ Player::Player( std::string const& Name/*="player"*/ )
     : Actor( AutoId(Name) )
 {
 
-    AddComponent( mComponentFactory(AutoId("collision_component")));
-    Opt<ICollisionComponent> collisionC = Get<ICollisionComponent>();
-    collisionC->SetRadius(0.05);
-    collisionC->SetCollisionClass(CollisionClass::Player);
-    collisionC->SetActor( this );
 
-    //TODO: ofc not this way, factory should give me the right component type
-    std::auto_ptr<Component> hC = ComponentFactory::Get()(AutoId("health_component"));
-    IHealthComponent* healthC = static_cast<IHealthComponent*>(hC.release());
-    healthC->SetHP(100);
-    healthC->SetActor(this);
-    AddComponent(std::auto_ptr<Component>(static_cast<Component*>(healthC)));
-    Opt<IRenderableComponent> renderableC = Get<IRenderableComponent>();
-    renderableC->SetLayer(IRenderableComponent::Players);
 }

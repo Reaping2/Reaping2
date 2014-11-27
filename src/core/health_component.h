@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_HEALTH_COMPONENT_H
 
 #include "i_health_component.h"
+#include "component_loader.h"
 
 class Actor;
 class HealthComponent : public IHealthComponent
@@ -23,6 +24,14 @@ protected:
     double mTimeOfDeath;
     Actor* mActor;
     bool mNeedDelete;
+};
+
+class HealthComponentLoader:ComponentLoader<HealthComponent>
+{
+    virtual void LoadValues(Json::Value& setters);
+protected:
+    HealthComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_HEALTH_COMPONENT_H

@@ -1,5 +1,6 @@
 #include "i_core.h"
 #include "core/actor_factory.h"
+#include "core/component_loader.h"
 
 ActorFactory::ActorFactory()
 {
@@ -16,7 +17,7 @@ std::auto_ptr<Actor> ActorFactory::CreateActor( int32_t Id )
 }
 
 
-bool ActorFactory::AddActorCreatorsFromOneDesc( Json::Value& ActorsDesc, ActorCreatorMap_t& actorCreators )
+bool ActorFactory::AddActorCreatorFromOneDesc( Json::Value& ActorsDesc, ActorCreatorMap_t& actorCreators )
 {
     std::auto_ptr<ActorCreator> actorCreator(new ActorCreator());
     std::string nameStr;
@@ -26,6 +27,10 @@ bool ActorFactory::AddActorCreatorsFromOneDesc( Json::Value& ActorsDesc, ActorCr
     }
     actorCreator->SetId(AutoId(nameStr));
     Json::Value& components=ActorsDesc["components"];
+    if (!components.isArray())
+    {
+        return false;
+    }
     if (components.empty())
     {
         return true;
@@ -38,7 +43,8 @@ bool ActorFactory::AddActorCreatorsFromOneDesc( Json::Value& ActorsDesc, ActorCr
         {
             return false;
         }
-        actorCreator->AddComponent(AutoId(compName));
+        Json::Value& setters=component["set"];
+        actorCreator->AddComponent(AutoId(compName),setters);
     }
     actorCreators.insert(actorCreator->GetId(), actorCreator);
     return true;
@@ -74,7 +80,7 @@ void ActorFactory::Init()
         for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
         {
             Json::Value& ActorsDesc = *i;
-            if( !AddActorCreatorsFromOneDesc( ActorsDesc, mActorCreators ) )
+            if( !AddActorCreatorFromOneDesc( ActorsDesc, mActorCreators ) )
             {
                 return;
             }
@@ -92,9 +98,15 @@ int32_t ActorCreator::GetId()
     return mId;
 }
 
-void ActorCreator::AddComponent(int32_t componentId)
+void ActorCreator::AddComponent(int32_t componentId, Json::Value& setters)
 {
-    mComponents.push_back(componentId);
+    std::auto_ptr<ComponentLoaderBase> compLoader=mComponentLoaderFactory(componentId);
+    if(setters.isArray()&&!setters.empty())
+    {
+        compLoader->LoadValues(*setters.begin());
+    }
+
+    mComponents.insert(componentId,compLoader);
 }
 
 std::auto_ptr<Actor> ActorCreator::Create()const
@@ -102,13 +114,14 @@ std::auto_ptr<Actor> ActorCreator::Create()const
     std::auto_ptr<Actor> actor(new Actor(mId));
     for(ComponentList_t::const_iterator i=mComponents.begin(), e=mComponents.end();i!=e;++i)
     {
-        actor->AddComponent(mComponentFactory(*i));
+        actor->AddComponent(i->second->LoadComponent(mComponentFactory(i->first)));
     }
     return actor;
 }
 
 ActorCreator::ActorCreator()
-    :mComponentFactory(ComponentFactory::Get())
+    : mComponentFactory(ComponentFactory::Get())
+    , mComponentLoaderFactory(ComponentLoaderFactory::Get())
 {
 
 }

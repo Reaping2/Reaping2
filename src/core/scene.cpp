@@ -6,6 +6,7 @@
 #include "core/health_delete_component.h"
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
+#include "core/i_renderable_component.h"
 #include "core/actor_factory.h"
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -141,7 +142,7 @@ int32_t Scene::GetTypeId() const
 void Scene::Load( std::string const& Level )
 {
     mPaused = false;
-    ActorFactory::Get()(AutoId("player"));
+    
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         mActorHolder.mAllActors.insert( *it );
@@ -177,20 +178,29 @@ void Scene::Load( std::string const& Level )
         AddActor( wall );
     }
 
-    Player* Pl = new Player();
+    std::auto_ptr<Actor> Pl = ActorFactory::Get()(AutoId("player"));
+    
+    Opt<ICollisionComponent> collisionC = Pl->Get<ICollisionComponent>();
+    collisionC->SetRadius(0.05);
+    collisionC->SetCollisionClass(CollisionClass::Player);
+    collisionC->SetActor( Pl.get() );
+
+    Opt<IHealthComponent> healthC = Pl->Get<IHealthComponent>();
+    healthC->SetActor(Pl.get());
+
+    Opt<IRenderableComponent> renderableC = Pl->Get<IRenderableComponent>();
+    renderableC->SetLayer(IRenderableComponent::Players);
+
     Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
     positionC->SetX(0.0);
     positionC->SetY(0.0);
     
-    Pl->AddComponent( ComponentFactory::Get()(AutoId("player_controller_component")) );
-    Pl->Get<IControllerComponent>()->SetActor(Pl);
-    Pl->AddComponent( ComponentFactory::Get()(AutoId("inventory_component")) );
+    Pl->Get<IControllerComponent>()->SetActor(Pl.get());
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-    inventoryC->SetActor(Pl);
+    inventoryC->SetActor(Pl.get());
     inventoryC->AddItem(AutoId( "pistol" ));
     Pl->AddAction( AutoId( "idle_action" ) );
 
-    AddActor( Pl );
 
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;
@@ -200,10 +210,15 @@ void Scene::Load( std::string const& Level )
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
         Creep* Obj = new Creep( rand() % 2 ? "pok1" : "pok2",
-                                mDimensions.x + ( rand() % ( int )( 1000 * ( mDimensions.z - mDimensions.x ) ) ) / 1000.,
-                                mDimensions.y + ( rand() % ( int )( 1000 * ( mDimensions.w - mDimensions.y ) ) ) / 1000.,
-                                rand() % 2 ? Pl : ( Actor* )NULL );
+            mDimensions.x + ( rand() % ( int )( 1000 * ( mDimensions.z - mDimensions.x ) ) ) / 1000.,
+            mDimensions.y + ( rand() % ( int )( 1000 * ( mDimensions.w - mDimensions.y ) ) ) / 1000.,
+            rand() % 2 ? Pl.get() : ( Actor* )NULL );
         AddActor( Obj );
     }
+
+
+
+    AddActor( Pl.release() );
+
 }
 

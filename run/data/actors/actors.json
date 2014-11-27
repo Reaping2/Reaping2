@@ -12,11 +12,11 @@
 		"name":"player",
 		"components":
 		[
-			{
-				"name":"collision_component"
-			},
-			{
-				"name":"health_component"
+			{"name":"collision_component"},
+			{"name":"player_controller_component"},
+			{"name":"inventory_component"},
+			{"name":"health_component",
+				"set":[{"hp":100}]
 			}
 		]
 	},
