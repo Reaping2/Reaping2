@@ -15,11 +15,9 @@ Shot::Shot( std::string const& Name )
     collisionC->SetRadius(0.02);
     collisionC->SetCollisionClass(CollisionClass::Projectile);
     collisionC->SetDamage(10);
-    collisionC->SetActor( this );
 
     Get<IMoveComponent>()->SetSpeed( 2 );
     AddAction( AutoId( "move" ) );
     AddComponent(ComponentFactory::Get()(AutoId("health_delete_component")));
-    Get<IHealthComponent>()->SetActor(this);
 }
 

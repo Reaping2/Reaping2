@@ -18,13 +18,11 @@ Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     Opt<ICollisionComponent> collisionC = Get<ICollisionComponent>();
     collisionC->SetRadius(0.1);
     collisionC->SetCollisionClass(CollisionClass::Creep);
-    collisionC->SetActor( this );
 
     //TODO: ofc not this way, factory should give me the right component type
     std::auto_ptr<Component> hC = ComponentFactory::Get()(AutoId("health_component"));
     IHealthComponent* healthC = static_cast<IHealthComponent*>(hC.release());
     healthC->SetHP(10);
-    healthC->SetActor(this);
     AddComponent(std::auto_ptr<Component>(static_cast<Component*>(healthC)));
 
     // ez nem innen fog jonni, de kb itt kell beallitani
@@ -32,7 +30,6 @@ Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     // player param nyilvan eltunik
 
     AddComponent(player ? mComponentFactory(AutoId("target_player_controller_component")) : mComponentFactory(AutoId("random_controller_component")));
-    Get<IControllerComponent>()->SetActor(this);
     if (player)
     {
         //TODO: this is still for testing purpose

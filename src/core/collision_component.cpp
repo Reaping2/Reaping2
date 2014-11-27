@@ -10,8 +10,7 @@ using platform::EventServer;
 
 
 CollisionComponent::CollisionComponent()
-    : mActor( NULL )
-    , mCollisionClassType( CollisionClass::No_Collision )
+    : mCollisionClassType( CollisionClass::No_Collision )
     , mRadius( 0.0 )
 {
 
@@ -67,9 +66,3 @@ void CollisionComponent::SetRadius(double Radius)
 {
     mRadius=Radius;
 }
-
-void CollisionComponent::SetActor(Actor* Obj)
-{
-    mActor=Obj;
-}
-

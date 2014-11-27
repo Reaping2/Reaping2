@@ -1,10 +1,16 @@
 #include "i_core.h"
 
 Component::Component()
+    : mActor( NULL )
 {
 }
 Component::~Component()
 {
+}
+
+void Component::SetActor(Actor* Obj)
+{
+    mActor=Obj;
 }
 
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )

@@ -6,30 +6,17 @@
 #include "core/i_health_component.h"
 
 PlayerControllerComponent::PlayerControllerComponent()
-    : mActor( NULL )
-    , mCurrentMovement( 0 )
+    : mCurrentMovement( 0 )
     , mX( 0.0 )
     , mY( 0.0 )
     , mDirty( true )
     , mMouse( Mouse::Get() )
-    , mPlayerModel( "player", &RootModel::Get() )
 {
     Keyboard& Keys = Keyboard::Get();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnKeyEvent, this, _1 ) );
     mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMouseMoveEvent, this, _1 ) );
     mMousePressId = EventServer<WorldMousePressEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMousePressEvent, this, _1 ) );
     mMouseReleaseId = EventServer<WorldMouseReleaseEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMouseReleaseEvent, this, _1 ) );
-}
-
-void PlayerControllerComponent::SetActor( Actor* Obj )
-{
-    mPlayerModels.clear();
-    mActor = Obj;
-    BOOST_ASSERT(mActor);
-    mPlayerModels.push_back( new ModelValue( Obj->Get<IHealthComponent>()->GetHP(), "hp", &mPlayerModel ) );
-    Opt<IPositionComponent> objPositionC = Obj->Get<IPositionComponent>();
-    mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
 }
 
 void PlayerControllerComponent::OnKeyEvent( const KeyEvent& Event )
@@ -111,11 +98,6 @@ void PlayerControllerComponent::Update( double Seconds )
     {
         mActor->AddAction( AutoId( "move" ) );
     }
-}
-
-PlayerControllerComponent::~PlayerControllerComponent()
-{
-    mPlayerModels.clear();
 }
 
 void PlayerControllerComponent::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )

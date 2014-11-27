@@ -12,7 +12,6 @@ public:
     virtual void SetHP( int32_t Hp )=0;
     virtual bool IsAlive()const=0;
     virtual double GetTimeOfDeath()const=0;
-    virtual void SetActor( Actor* Obj )=0;
     virtual bool NeedDelete()const=0;
 protected:
     friend class ComponentFactory;

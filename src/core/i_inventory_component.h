@@ -12,7 +12,6 @@ public:
     virtual ItemList_t const& GetItems()const=0;
     virtual void AddItem( int32_t Id )=0;
     virtual void DropItemType( Item::ItemType Type )=0;
-    virtual void SetActor( Actor* Obj )=0;
     virtual void Update( double Seconds )=0;
 protected:
     friend class ComponentFactory;

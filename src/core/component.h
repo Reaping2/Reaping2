@@ -18,13 +18,18 @@
         return ComponentType::GetType_static(); \
     } \
 
+
+
+class Actor;
 class Component 
 {
 public:
     virtual int GetType() const=0;
     virtual ~Component();
+    virtual void SetActor(Actor* Obj);
 
 protected:
+    Actor* mActor;
     Component();
 };
 
@@ -37,7 +42,7 @@ protected:
 
 public:
     ComponentHolder();
-    void AddComponent( std::auto_ptr<Component> Comp  );
+    virtual void AddComponent( std::auto_ptr<Component> Comp  );
    
     template<typename Component_t>
     Opt<Component_t> Get() const;

@@ -11,7 +11,6 @@ public:
     virtual void Update( double Seconds );
     virtual void SetActor( Actor* Obj );
 private:
-    Actor* mActor;
     double mCounter;
     double mHeadingModifier;
 };

@@ -11,11 +11,9 @@ Pickup::Pickup( std::string const& Name )
     Opt<PickupCollisionComponent> collisionC = Get<PickupCollisionComponent>();
     collisionC->SetRadius(0.04);
     collisionC->SetCollisionClass(CollisionClass::Pickup);
-    collisionC->SetActor( this );
     collisionC->SetPickupContent( AutoId(Name) );
 
     AddComponent(ComponentFactory::Get()(AutoId("health_delete_component")));
-    Get<IHealthComponent>()->SetActor(this);
 
     AddAction( AutoId( "fade_out" ) );
 

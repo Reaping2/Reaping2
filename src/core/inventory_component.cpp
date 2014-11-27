@@ -1,8 +1,7 @@
 #include "inventory_component.h"
 
 InventoryComponent::InventoryComponent()
-    : mActor( NULL )
-    , mItemFactory( ItemFactory::Get() )
+    : mItemFactory( ItemFactory::Get() )
 {
 
 }
@@ -37,9 +36,4 @@ void InventoryComponent::DropItemType( Item::ItemType Type )
             mItems.erase( i );
         } 
     }
-}
-
-void InventoryComponent::SetActor( Actor* Obj )
-{
-    mActor=Obj;
 }

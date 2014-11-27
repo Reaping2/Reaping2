@@ -7,8 +7,7 @@
 #include "core/i_collision_component.h"
 
 TargetPlayerControllerComponent::TargetPlayerControllerComponent()
-    : mActor( NULL )
-    , mPlayer( NULL )
+    : mPlayer( NULL )
     , mCounter( 0.0 )
     , mHeadingModifier( 0 )
 {
@@ -22,7 +21,7 @@ void TargetPlayerControllerComponent::SetPlayer( Actor* Player )
 
 void TargetPlayerControllerComponent::SetActor( Actor* Obj )
 {
-    mActor = Obj;
+    Component::SetActor(Obj);
     if( !mActor )
     {
         return;

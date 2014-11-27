@@ -9,9 +9,7 @@ class PlayerControllerComponent : public IControllerComponent
 {
 public:
     PlayerControllerComponent();
-    ~PlayerControllerComponent();
     virtual void Update( double Seconds );
-    virtual void SetActor( Actor* Obj );
 private:
     void OnKeyEvent( const KeyEvent& Event );
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
@@ -25,7 +23,6 @@ private:
         MF_Left     = 1 << 2,
         MF_Right    = 1 << 3,
     };
-    Actor* mActor;
     uint32_t mCurrentMovement;
     double mX;
     double mY;
@@ -35,8 +32,7 @@ private:
     AutoReg mMouseMoveId;
     AutoReg mMousePressId;
     AutoReg mMouseReleaseId;
-    boost::ptr_vector<ModelValue> mPlayerModels;
-    ModelValue mPlayerModel;
+
 };
 
 #endif//INCLUDED_CORE_PLAYER_CONTROLLER_H

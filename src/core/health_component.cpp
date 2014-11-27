@@ -15,7 +15,6 @@ HealthComponent::HealthComponent()
     : mHP( 1 )
     , mAlive( true )
     , mTimeOfDeath( 0 )
-    , mActor( NULL )
     , mNeedDelete( false )
 {
 }
@@ -67,11 +66,6 @@ bool HealthComponent::IsAlive() const
 double HealthComponent::GetTimeOfDeath() const
 {
     return mTimeOfDeath;
-}
-
-void HealthComponent::SetActor( Actor* Obj )
-{
-    mActor=Obj;
 }
 
 bool HealthComponent::NeedDelete() const

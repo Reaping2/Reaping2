@@ -12,7 +12,6 @@ public:
     virtual void SetActor( Actor* Obj );
     void SetPlayer( Actor* Player );
 private:
-    Actor* mActor;
     Actor* mPlayer;
     double mCounter;
     double mHeadingModifier;

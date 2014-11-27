@@ -116,6 +116,8 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mLoadModel;
     ModelValue mPauseModel;
     ModelValue mResumeModel;
+    boost::ptr_vector<ModelValue> mPlayerModels;
+    ModelValue mPlayerModel;
     Grid mCollisionGrid;
 public:
     enum ActorIndex

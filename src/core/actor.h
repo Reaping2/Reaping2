@@ -14,11 +14,12 @@ protected:
     int32_t mGUID;
     int32_t mId;
 public:
+    Actor( int32_t Id );
     int32_t GetId()const;
     //TODO: only one addaction
     void AddAction( int32_t Id );
     virtual void AddAction( std::auto_ptr<Action> Act );
-    Actor( int32_t Id );
+    virtual void AddComponent( std::auto_ptr<Component> Comp  );
     virtual ~Actor();
 
     int32_t GetGUID()const

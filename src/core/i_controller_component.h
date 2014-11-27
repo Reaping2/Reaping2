@@ -8,7 +8,6 @@ class IControllerComponent : public Component
 {
 public:
     DEFINE_COMPONENT_BASE(IControllerComponent)
-    virtual void SetActor( Actor* Obj )=0;
     virtual void Update( double Seconds )=0;
 protected:
     friend class ComponentFactory;

@@ -4,8 +4,7 @@
 #include "core/random_controller_component.h"
 
 RandomControllerComponent::RandomControllerComponent()
-    : mActor( NULL )
-    , mCounter( 2 )
+    : mCounter( 2 )
     , mHeadingModifier( 0 )
 {
 
@@ -13,7 +12,7 @@ RandomControllerComponent::RandomControllerComponent()
 
 void RandomControllerComponent::SetActor( Actor* Obj )
 {
-    mActor = Obj;
+    Component::SetActor(Obj);
     if( !mActor )
     {
         return;

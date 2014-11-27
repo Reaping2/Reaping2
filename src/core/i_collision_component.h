@@ -28,7 +28,6 @@ public:
     virtual void ClipScene()=0; //TODO: i don't really like this concept. This might be simply just a collision with scene edges, later maybe.
     virtual double GetRadius()const=0;
     virtual void SetRadius( double Radius)=0;
-    virtual void SetActor( Actor* Obj )=0;
 protected:
     friend class ComponentFactory;
 };

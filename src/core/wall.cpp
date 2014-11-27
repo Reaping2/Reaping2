@@ -8,5 +8,4 @@ Wall::Wall( std::string const& Name )
     Opt<ICollisionComponent> collisionC = Get<ICollisionComponent>();
     collisionC->SetRadius(0.1);
     collisionC->SetCollisionClass(CollisionClass::Wall);
-    collisionC->SetActor( this );
 }

@@ -68,3 +68,9 @@ int32_t Actor::GetId() const
 {
     return mId;
 }
+
+void Actor::AddComponent(std::auto_ptr<Component> Comp)
+{
+    Comp->SetActor(this);
+    ComponentHolder::AddComponent(Comp);
+}

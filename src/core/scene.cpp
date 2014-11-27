@@ -105,6 +105,7 @@ Scene::Scene()
     , mLoadModel( StringFunc( this, &Scene::Load ), "load", &mSceneModel )
     , mPauseModel( VoidFunc( this, &Scene::Pause ), "pause", &mSceneModel )
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
+    , mPlayerModel( "player", &RootModel::Get() )
 {
     mCollisionGrid.Build( mDimensions, 0.4f );
 }
@@ -127,6 +128,7 @@ Scene::~Scene()
         delete &**it;
     }
     mActorHolder.mAllActors.clear();
+    mPlayerModels.clear();
 }
 
 void Scene::SetType( std::string const& Type )
@@ -183,10 +185,6 @@ void Scene::Load( std::string const& Level )
     Opt<ICollisionComponent> collisionC = Pl->Get<ICollisionComponent>();
     collisionC->SetRadius(0.05);
     collisionC->SetCollisionClass(CollisionClass::Player);
-    collisionC->SetActor( Pl.get() );
-
-    Opt<IHealthComponent> healthC = Pl->Get<IHealthComponent>();
-    healthC->SetActor(Pl.get());
 
     Opt<IRenderableComponent> renderableC = Pl->Get<IRenderableComponent>();
     renderableC->SetLayer(IRenderableComponent::Players);
@@ -195,9 +193,7 @@ void Scene::Load( std::string const& Level )
     positionC->SetX(0.0);
     positionC->SetY(0.0);
     
-    Pl->Get<IControllerComponent>()->SetActor(Pl.get());
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-    inventoryC->SetActor(Pl.get());
     inventoryC->AddItem(AutoId( "pistol" ));
     Pl->AddAction( AutoId( "idle_action" ) );
 
@@ -216,6 +212,11 @@ void Scene::Load( std::string const& Level )
         AddActor( Obj );
     }
 
+    mPlayerModels.clear();
+    mPlayerModels.push_back( new ModelValue( Pl->Get<IHealthComponent>()->GetHP(), "hp", &mPlayerModel ) );
+    Opt<IPositionComponent> objPositionC = Pl->Get<IPositionComponent>();
+    mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
 
 
     AddActor( Pl.release() );
