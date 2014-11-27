@@ -67,7 +67,7 @@ std::auto_ptr<Component> ComponentLoader<COMPONENT>::LoadComponent(std::auto_ptr
     if(mSetterFuncList.empty())
         return component;
     COMPONENT* castedComponent=static_cast<COMPONENT*>(component.release());
-    for(SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
+    for(typename SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
     {
         (*i)(castedComponent);
     }
