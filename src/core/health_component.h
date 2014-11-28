@@ -26,7 +26,7 @@ protected:
 
 class HealthComponentLoader:ComponentLoader<HealthComponent>
 {
-    virtual void LoadValues(Json::Value& setters);
+    virtual void BindValues();
 protected:
     HealthComponentLoader();
     friend class ComponentLoaderFactory;

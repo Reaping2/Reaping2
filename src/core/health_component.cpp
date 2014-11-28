@@ -73,13 +73,9 @@ bool HealthComponent::NeedDelete() const
     return mNeedDelete;
 }
 
-void HealthComponentLoader::LoadValues(Json::Value& setters)
+void HealthComponentLoader::BindValues()
 {
-    int32_t hp;
-    if( Json::GetInt( setters["hp"], hp))
-    {
-        Bind<int32_t>(&HealthComponent::SetHP, hp);
-    }
+    Bind("hp",func_int32_t(&HealthComponent::SetHP));
 }
 
 HealthComponentLoader::HealthComponentLoader()

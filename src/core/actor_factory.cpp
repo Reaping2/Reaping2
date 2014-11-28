@@ -103,7 +103,7 @@ void ActorCreator::AddComponent(int32_t componentId, Json::Value& setters)
     std::auto_ptr<ComponentLoaderBase> compLoader=mComponentLoaderFactory(componentId);
     if(setters.isArray()&&!setters.empty())
     {
-        compLoader->LoadValues(*setters.begin());
+        compLoader->Load(*setters.begin());
     }
 
     mComponents.insert(componentId,compLoader);

@@ -19,7 +19,7 @@ class ComponentLoaderBase
 {
 public:
     virtual ~ComponentLoaderBase();
-    virtual void LoadValues(Json::Value& setters)=0;
+    virtual void Load(Json::Value& setters)=0;
     virtual std::auto_ptr<Component> LoadComponent(std::auto_ptr<Component> component)const=0;
 protected:
     friend class ComponentLoaderFactory;
@@ -37,18 +37,60 @@ public:
    	typedef std::list<SetterFunc_t > SetterFuncList_t;
 	SetterFuncList_t mSetterFuncList;
 
-    template<typename VALUE_T>
-    void Bind(boost::function<void (COMPONENT*,VALUE_T)> func, VALUE_T val)
-    {
-        Add(boost::bind(func,_1,val));
-    }
+    template<class VALUE_T>
+    void Bind(boost::function<void (COMPONENT*,VALUE_T)> func, VALUE_T val);
+    typedef boost::function<void (COMPONENT*,int32_t)> func_int32_t;
+    void Bind(std::string const& val, func_int32_t func);
+    typedef boost::function<void (COMPONENT*,double)> func_double;
+    void Bind(std::string const& val, func_double func);
+
+    virtual void Load(Json::Value& setters);
+    virtual void BindValues()=0;
+
 	virtual std::auto_ptr<Component> LoadComponent(std::auto_ptr<Component> component)const;
     virtual ~ComponentLoader();
 protected:
+    Json::Value* mSetters;
     ComponentLoader();
     friend class ComponentLoaderFactory;
     void Add(SetterFunc_t func);
 };
+
+template<class COMPONENT>
+template<class VALUE_T>
+void ComponentLoader<COMPONENT>::Bind(boost::function<void (COMPONENT*,VALUE_T)> func, VALUE_T val)
+{
+    Add(boost::bind(func,_1,val));
+}
+
+template<class COMPONENT>
+void ComponentLoader<COMPONENT>::Bind(std::string const& val,func_int32_t func)
+{
+    int32_t iv;
+    if( Json::GetInt( (*mSetters)[val], iv))
+    {
+        Bind<int32_t>(func,iv);
+    }
+}
+
+template<class COMPONENT>
+void ComponentLoader<COMPONENT>::Bind(std::string const& val,func_double func)
+{
+    double dv;
+    if( Json::GetDouble( (*mSetters)[val], dv))
+    {
+        Bind<double>(func,dv);
+    }
+}
+
+template<typename COMPONENT>
+void ComponentLoader<COMPONENT>::Load(Json::Value& setters)
+{
+    mSetters=&setters;
+    BindValues();
+}
+
+
 
 template<typename COMPONENT>
 ComponentLoader<COMPONENT>::~ComponentLoader()
@@ -83,7 +125,7 @@ void ComponentLoader<COMPONENT>::Add(SetterFunc_t func)
 class DefaultComponentLoader: public ComponentLoader<DefaultComponent>
 {
 public:
-    virtual void LoadValues(Json::Value& setters) {}
+    virtual void BindValues() {}
 protected:
     DefaultComponentLoader() {}
     friend class ComponentLoaderFactory;
