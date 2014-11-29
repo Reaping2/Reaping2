@@ -66,10 +66,6 @@ void PlayerControllerComponent::Update( double Seconds )
     {
         return;
     }
-    if ( !mActor->Get<IHealthComponent>()->IsAlive() )
-    {
-        return;
-    }
     
     mDirty = false;
     int x = ( ( mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( mCurrentMovement & MF_Right ) ? 1 : 0 );
