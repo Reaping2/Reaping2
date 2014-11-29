@@ -5,7 +5,8 @@
 #include "core/i_position_component.h"
 
 RandomControllerComponent::RandomControllerComponent()
-    : mCounter( 2 )
+    : ControllerComponent()
+    , mCounter( 2 )
     , mHeadingModifier( 0 )
 {
 

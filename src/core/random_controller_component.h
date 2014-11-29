@@ -1,10 +1,10 @@
 #ifndef INCLUDED_CORE_RANDOM_CONTROLLER_H
 #define INCLUDED_CORE_RANDOM_CONTROLLER_H
 
-#include "core/i_controller_component.h"
+#include "core/controller_component.h"
 #include "core/actor.h"
 
-class RandomControllerComponent : public IControllerComponent
+class RandomControllerComponent : public ControllerComponent
 {
 public:
     RandomControllerComponent();

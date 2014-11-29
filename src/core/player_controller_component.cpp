@@ -8,7 +8,8 @@
 #include "core/scene.h"
 
 PlayerControllerComponent::PlayerControllerComponent()
-    : mCurrentMovement( 0 )
+    : ControllerComponent()
+    , mCurrentMovement( 0 )
     , mX( 0.0 )
     , mY( 0.0 )
     , mDirty( true )
@@ -101,9 +102,13 @@ void PlayerControllerComponent::Update( double Seconds )
         mActor->AddAction( AutoId( "move" ) );
     }
 }
-
+//TODO: these should only set states, all real actions should happen in Update
 void PlayerControllerComponent::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 {
+    if (!IsEnabled())
+    {
+        return;
+    }
     mX = Event.Pos.x;
     mY = Event.Pos.y;
     UpdateRotation();
@@ -118,6 +123,10 @@ void PlayerControllerComponent::UpdateRotation()
 
 void PlayerControllerComponent::OnMousePressEvent( const WorldMousePressEvent& Event )
 {
+    if (!IsEnabled())
+    {
+        return;
+    }
     if ( Event.Button == Mouse::Button_Left && !mMouse.IsButtonPressed( Mouse::Button_Left ) )
     {
         mActor->AddAction( AutoId( "shoot" ) );
@@ -145,6 +154,10 @@ void PlayerControllerComponent::OnMousePressEvent( const WorldMousePressEvent& E
 
 void PlayerControllerComponent::OnMouseReleaseEvent( const WorldMouseReleaseEvent& Event )
 {
+    if (!IsEnabled())
+    {
+        return;
+    }
     if ( Event.Button == Mouse::Button_Left )
     {
         mActor->DropAction( AutoId( "shoot" ) );

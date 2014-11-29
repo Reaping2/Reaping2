@@ -9,6 +9,8 @@ class IControllerComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(IControllerComponent)
     virtual void Update( double Seconds )=0;
+    virtual void SetEnabled( bool Enabled )=0;
+    virtual bool IsEnabled()=0;
 protected:
     friend class ComponentFactory;
 };

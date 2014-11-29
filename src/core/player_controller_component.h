@@ -2,10 +2,10 @@
 #define INCLUDED_CORE_PLAYER_CONTROLLER_H
 
 #include "input/i_input.h"
-#include "core/i_controller_component.h"
+#include "core/controller_component.h"
 #include "core/actor.h"
 
-class PlayerControllerComponent : public IControllerComponent
+class PlayerControllerComponent : public ControllerComponent
 {
 public:
     PlayerControllerComponent();

@@ -8,7 +8,8 @@
 #include "core/action_repo.h"
 
 TargetPlayerControllerComponent::TargetPlayerControllerComponent()
-    : mPlayer( NULL )
+    : ControllerComponent()
+    , mPlayer( NULL )
     , mCounter( 0.0 )
     , mHeadingModifier( 0 )
 {

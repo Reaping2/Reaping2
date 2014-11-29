@@ -1,10 +1,10 @@
 #ifndef INCLUDED_CORE_TARGET_PLAYER_CONTROLLER_H
 #define INCLUDED_CORE_TARGET_PLAYER_CONTROLLER_H
 
-#include "core/i_controller_component.h"
+#include "core/controller_component.h"
 #include "core/actor.h"
 
-class TargetPlayerControllerComponent : public IControllerComponent
+class TargetPlayerControllerComponent : public ControllerComponent
 {
 public:
     TargetPlayerControllerComponent();

@@ -49,7 +49,7 @@ void Scene::Update( double DeltaTime )
     {
         Actor& Obj = **it;
         Opt<IControllerComponent> objControllerC = Obj.Get<IControllerComponent>();
-        if(objControllerC.IsValid())
+        if(objControllerC.IsValid()&&objControllerC->IsEnabled())
         {
             objControllerC->Update(DeltaTime);
         }
