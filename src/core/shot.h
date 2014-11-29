@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_SHOT_H
 #define INCLUDED_CORE_SHOT_H
+#include "core/actor.h"
 
 class Shot : public Actor
 {

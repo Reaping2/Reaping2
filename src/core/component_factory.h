@@ -7,6 +7,7 @@
 #include <memory>
 
 class Component;
+
 class ComponentFactory : public platform::Factory<Component>, public platform::Singleton<ComponentFactory>
 {
     friend class platform::Singleton<ComponentFactory>;

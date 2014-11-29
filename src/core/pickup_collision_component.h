@@ -1,9 +1,8 @@
 #ifndef INCLUDED_CORE_PICKUP_COLLISION_COMPONENT_H
 #define INCLUDED_CORE_PICKUP_COLLISION_COMPONENT_H
 
-#include "collision_component.h"
+#include "core/collision_component.h"
 
-class Actor;
 class PickupCollisionComponent : public CollisionComponent
 {
 public:

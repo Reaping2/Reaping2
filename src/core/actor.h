@@ -1,12 +1,17 @@
 #ifndef INCLUDED_CORE_ACTOR_H
 #define INCLUDED_CORE_ACTOR_H
 
+#include "platform/i_platform.h"
 #include "core/i_collision_component.h"
+//#include "core/action.h"
+#include "core/item.h"
 #include "core/action_holder.h"
-using namespace ::boost::multi_index;
-class Action;
-class Item;
+#include "core/component.h"
 
+using namespace ::boost::multi_index;
+
+class ActionHolder;
+class ComponentHolder;
 class Actor : public ComponentHolder, public ActionHolder
 {
 public:

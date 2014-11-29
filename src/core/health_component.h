@@ -1,10 +1,9 @@
 #ifndef INCLUDED_CORE_HEALTH_COMPONENT_H
 #define INCLUDED_CORE_HEALTH_COMPONENT_H
 
-#include "i_health_component.h"
-#include "property_loader.h"
+#include "core/i_health_component.h"
+#include "core/property_loader.h"
 
-class Actor;
 class HealthComponent : public IHealthComponent
 {
 public:

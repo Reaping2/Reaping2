@@ -1,6 +1,7 @@
 #include "i_core.h"
-#include "move_component.h"
+#include "core/component_factory.h"
 #include "platform/auto_id.h"
+#include "core/move_component.h"
 #include "core/player_controller_component.h"
 #include "core/target_player_controller_component.h"
 #include "core/random_controller_component.h"
@@ -11,6 +12,7 @@
 #include "core/shot_collision_component.h"
 #include "core/wall_collision_component.h"
 #include "core/pickup_collision_component.h"
+#include "core/position_component.h"
 #include "core/renderable_component.h"
 
 using platform::AutoId;

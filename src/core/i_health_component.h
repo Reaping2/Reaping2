@@ -2,7 +2,6 @@
 #define INCLUDED_CORE_I_HEALTH_COMPONENT_H
 #include "component.h"
 
-class Actor;
 class IHealthComponent : public Component
 {
 public:

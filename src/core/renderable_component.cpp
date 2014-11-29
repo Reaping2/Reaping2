@@ -1,4 +1,5 @@
-#include "renderable_component.h"
+#include "core/renderable_component.h"
+#include "core/actor.h"
 #include "i_core.h"
 
 RenderableCompononent::RenderableCompononent()

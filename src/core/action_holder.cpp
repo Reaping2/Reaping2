@@ -1,4 +1,5 @@
 #include "action_holder.h"
+#include "core/action.h"
 #include "i_core.h"
 
 ActionHolder::ActionHolder()

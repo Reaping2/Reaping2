@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/component.h"
 
 Component::Component()
     : mActor( NULL )

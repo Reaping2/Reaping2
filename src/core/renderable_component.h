@@ -2,7 +2,9 @@
 #define INCLUDED_CORE_RENDERABLE_COMPONENT_H
 
 #include "i_renderable_component.h"
+
 class Actor;
+
 class RenderableComponentModifier
 {
 public:

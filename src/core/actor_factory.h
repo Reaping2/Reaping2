@@ -8,8 +8,8 @@
 #include "core/component_factory.h"
 #include "core/component_loader_factory.h"
 #include "core/property_loader.h"
+#include "core/actor.h"
 #include "i_core.h"
-class Actor;
 
 class ActorCreator
 {

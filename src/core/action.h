@@ -1,11 +1,11 @@
 #ifndef INCLUDED_CORE_ACTION_H
 #define INCLUDED_CORE_ACTION_H
-#include "platform/factory.h"
-
+#include "core/actor.h"
 #include <vector>
 
 using platform::Factory;
 class Actor;
+
 class Action
 {
 public:
@@ -28,7 +28,7 @@ protected:
     double mSecsToEnd;                          // speed. This much seconds is needed, till this action counts from 0..100.
     double mState;
 
-    friend class Factory<Action>;
+//    friend class platform::Factory<Action>;
     Action( int32_t Id );
 public:
     bool Blocks( int32_t What ) const;

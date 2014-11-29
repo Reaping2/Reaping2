@@ -9,6 +9,7 @@
 #include "core/pickup.h"
 #include "core/scene.h"
 
+
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( AutoId(Name) )
     , mTriedDrop( false )

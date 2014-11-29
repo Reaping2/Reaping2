@@ -3,8 +3,8 @@
 
 #include "core/item_factory.h"
 #include "platform/log.h"
+#include "core/actor.h"
 
-class Actor;
 class Item
 {
 public:

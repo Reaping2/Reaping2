@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_PICKUP_H
 #define INCLUDED_CORE_PICKUP_H
+#include "core/actor.h"
 
 class Pickup : public Actor
 {

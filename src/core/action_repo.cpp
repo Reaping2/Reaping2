@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/action_repo.h"
 #include "core/damage_action.h"
 #include "move_action.h"
 #include "idle_action.h"

@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_COLLISION_COMPONENT_H
 #include "component.h"
 
+
 struct CollisionClass
 {
     enum Type
@@ -17,7 +18,6 @@ struct CollisionClass
     };
 };
 
-class Actor;
 class ICollisionComponent : public Component
 {
 public:

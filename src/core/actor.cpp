@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/actor.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/move_component.h"
@@ -7,6 +8,7 @@
 #include "inventory_component.h"
 #include "core/collision_component.h"
 #include "core/i_renderable_component.h"
+#include "core/action.h"
 
 using platform::AutoId;
 

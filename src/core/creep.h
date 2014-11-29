@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_CREEP_H
 #define INCLUDED_CORE_CREEP_H
+#include "core/actor.h"
 
 class Creep : public Actor
 {

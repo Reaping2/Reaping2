@@ -1,14 +1,15 @@
 #ifndef INCLUDED_CORE_ACTION_HOLDER_H
 #define INCLUDED_CORE_ACTION_HOLDER_H
 
-#include "core/action.h"
+//#include "core/action.h"
 #include "core/action_repo.h"
 
 #include <memory>
 #include <boost/ptr_container/ptr_map.hpp>
 
 
-//class Action;
+class Action;
+
 class ActionHolder
 {
 public:

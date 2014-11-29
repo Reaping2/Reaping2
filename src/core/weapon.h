@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_WEAPON_ASSET_H
 #define INCLUDED_CORE_WEAPON_ASSET_H
 #include "core/shot.h"
+#include "core/item.h"
 
 class Weapon : public Item
 {

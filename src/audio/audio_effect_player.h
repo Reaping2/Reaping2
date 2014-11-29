@@ -3,7 +3,7 @@
 
 // needed for AudibleEvent
 #include "core/i_core.h"
-
+#include "core/audible_event.h"
 class AudioEffectPlayer : public Singleton<AudioEffectPlayer>
 {
     friend class Singleton<AudioEffectPlayer>;

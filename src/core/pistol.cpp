@@ -1,6 +1,7 @@
 #include "i_core.h"
 #include "core/pistol.h"
 #include "core/pistol_shot.h"
+#include "core/audible_event.h"
 
 Pistol::Pistol( int32_t Id )
     : Weapon( Id )

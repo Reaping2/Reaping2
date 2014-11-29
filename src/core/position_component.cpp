@@ -1,4 +1,6 @@
 #include "i_core.h"
+#include "core/position_component.h"
+
 
 PositionComponent::PositionComponent()
     : mX(0.0)

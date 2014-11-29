@@ -1,5 +1,5 @@
-#include "damage_action.h"
-#include "i_health_component.h"
+#include "core/damage_action.h"
+#include "core/i_health_component.h"
 #include "i_core.h"
 
 #include <algorithm>

@@ -1,6 +1,7 @@
 #include "core/i_position_component.h"
 #include "core/i_collision_component.h"
 #include "core/wall_collision_component.h"
+#include "core/actor.h"
 #include "i_core.h"
 
 

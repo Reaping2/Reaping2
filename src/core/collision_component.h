@@ -1,9 +1,7 @@
 #ifndef INCLUDED_CORE_COLLISION_COMPONENT_H
 #define INCLUDED_CORE_COLLISION_COMPONENT_H
-#include "i_collision_component.h"
+#include "core/i_collision_component.h"
 
-
-class Actor;
 class CollisionComponent : public ICollisionComponent
 {
 public:

@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_COLLISION_MODEL_H
 #define INCLUDED_CORE_COLLISION_MODEL_H
+#include "core/actor.h"
 
 class CollisionModel
 {

@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/item.h"
 
 DefaultItem::DefaultItem( int32_t Id )
     : Item( Id )
