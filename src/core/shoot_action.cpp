@@ -1,5 +1,7 @@
 #include "i_core.h"
+#include "core/shoot_action.h"
 #include "core/i_inventory_component.h"
+#include "core/weapon.h"
 
 ShootAction::ShootAction( int32_t Id )
     : Action( Id )

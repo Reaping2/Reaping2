@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/pistol_shot.h"
 #include "core/i_collision_component.h"
 #include "core/shot_collision_component.h"
 

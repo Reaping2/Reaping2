@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/pickup.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
 #include "core/i_collision_component.h"

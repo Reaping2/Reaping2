@@ -1,4 +1,6 @@
 #include "i_core.h"
+#include "core/plasma_gun.h"
+#include "core/plasma_shot.h"
 
 PlasmaGun::PlasmaGun( int32_t Id )
     : Weapon( Id )

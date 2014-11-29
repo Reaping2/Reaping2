@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/idle_action.h"
 
 IdleAction::IdleAction( int32_t Id )
     : Action( Id )

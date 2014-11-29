@@ -4,6 +4,8 @@
 #include "core/i_move_component.h"
 #include "core/player_controller_component.h"
 #include "core/i_health_component.h"
+#include "core/creep.h"
+#include "core/scene.h"
 
 PlayerControllerComponent::PlayerControllerComponent()
     : mCurrentMovement( 0 )

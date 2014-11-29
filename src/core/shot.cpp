@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/shot.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/damage_action.h"

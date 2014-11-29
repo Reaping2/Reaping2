@@ -6,6 +6,7 @@
 #include "core/i_collision_component.h"
 #include "renderable_component.h"
 #include "i_core.h"
+#include "core/scene.h"
 #include "core/opt.h"
 
 using platform::AutoId;

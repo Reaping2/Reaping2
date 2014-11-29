@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/wall.h"
 #include "core/i_collision_component.h"
 
 Wall::Wall( std::string const& Name )

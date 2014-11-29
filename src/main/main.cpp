@@ -3,6 +3,7 @@
 #include "core/i_core.h"
 #include "input/i_input.h"
 #include "audio/i_audio.h"
+#include "core/scene.h"
 
 #include <boost/timer.hpp>
 

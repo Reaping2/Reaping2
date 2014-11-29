@@ -1,10 +1,11 @@
-#include "shot_collision_component.h"
+#include "core/shot_collision_component.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/damage_action.h"
 #include "core/i_health_component.h"
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
+#include "core/scene.h"
 #include "i_core.h"
 
 ShotCollisionComponent::ShotCollisionComponent()

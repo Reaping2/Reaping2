@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/fade_out_action.h"
 #include "core/i_health_component.h"
 
 FadeOutAction::FadeOutAction( int32_t Id )

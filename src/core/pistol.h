@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_PISTOL_H
 #define INCLUDED_CORE_PISTOL_H
+#include "core/weapon.h"
 
 class Pistol : public Weapon
 {

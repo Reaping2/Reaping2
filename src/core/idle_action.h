@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_IDLE_ACTION_H
 #define INCLUDED_CORE_IDLE_ACTION_H
+#include "core/action.h"
 
 class IdleAction : public Action
 {

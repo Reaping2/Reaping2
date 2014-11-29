@@ -1,5 +1,6 @@
 #include "i_core.h"
-#include "i_move_component.h"
+#include "core/death_action.h"
+#include "core/i_move_component.h"
 
 DeathAction::DeathAction( int32_t Id )
     : Action( Id )

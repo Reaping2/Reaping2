@@ -1,5 +1,6 @@
 #ifndef INCLUDED_SHOOT_ACTION_H
 #define INCLUDED_SHOOT_ACTION_H
+#include "core/action.h"
 
 class ShootAction : public Action
 {

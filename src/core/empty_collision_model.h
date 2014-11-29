@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_EMPTY_COLLISION_MODEL_H
 #define INCLUDED_CORE_EMPTY_COLLISION_MODEL_H
+#include "core/collision_model.h"
 
 class EmptyCollisionModel : public CollisionModel
 {

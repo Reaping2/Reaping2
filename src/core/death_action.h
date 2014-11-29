@@ -1,5 +1,6 @@
 #ifndef INCLUDED_CORE_DEATH_ACTION_H
 #define INCLUDED_CORE_DEATH_ACTION_H
+#include "core/action.h"
 
 class DeathAction : public Action
 {

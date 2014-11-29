@@ -1,7 +1,9 @@
 #include "i_core.h"
+#include "core/move_action.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"
+
 
 MoveAction::MoveAction( int32_t Id )
     : Action( Id )

@@ -1,4 +1,7 @@
 #include "i_core.h"
+#include "core/collision_store.h"
+#include "core/empty_collision_model.h"
+#include "core/box_collision_model.h"
 
 void CollisionStore::SetCollisionModel( CollisionClass::Type T1, CollisionClass::Type T2, Elem_t Model )
 {

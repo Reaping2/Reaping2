@@ -1,4 +1,5 @@
 #include "i_core.h"
+#include "core/box_collision_model.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"

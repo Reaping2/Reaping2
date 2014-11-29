@@ -1,10 +1,13 @@
 #include "i_core.h"
+#include "core/creep.h"
 #include "core/i_position_component.h"
 #include "core/i_controller_component.h"
 #include "core/target_player_controller_component.h"
 #include "core/i_health_component.h"
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
+#include "core/pickup.h"
+#include "core/scene.h"
 
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( AutoId(Name) )

@@ -1,5 +1,6 @@
 #ifndef INCLUDED_RENDER_CAMERA_H
 #define INCLUDED_RENDER_CAMERA_H
+#include "core/scene.h"
 
 class Camera
 {

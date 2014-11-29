@@ -1,6 +1,10 @@
 #include "i_core.h"
 #include "core/damage_action.h"
-
+#include "move_action.h"
+#include "idle_action.h"
+#include "fade_out_action.h"
+#include "shoot_action.h"
+#include "death_action.h"
 ActionRepo::ActionRepo()
 {
     Bind<DefaultAction>( AutoId( "default_action" ) );

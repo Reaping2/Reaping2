@@ -1,6 +1,6 @@
 #ifndef INCLUDED_RENDER_ACTOR_RENDERER_H
 #define INCLUDED_RENDER_ACTOR_RENDERER_H
-
+#include "core/scene.h"
 class ActorRenderer
 {
     struct CountByTexId

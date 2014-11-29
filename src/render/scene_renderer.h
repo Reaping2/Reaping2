@@ -1,5 +1,6 @@
 #ifndef INCLUDED_RENDER_SCENE_RENDERER_H
 #define INCLUDED_RENDER_SCENE_RENDERER_H
+#include "core/scene.h"
 
 class SceneRenderer
 {

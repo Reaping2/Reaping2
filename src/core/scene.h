@@ -5,6 +5,7 @@
 #include "platform/singleton.h"
 #include "core/i_core.h"
 #include "core/i_renderable_component.h"
+#include "core/collision_store.h"
 
 class ActorHolder
 {

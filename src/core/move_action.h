@@ -1,5 +1,6 @@
 #ifndef INCLUDED_MOVE_ACTION_H
 #define INCLUDED_MOVE_ACTION_H
+#include "core/action.h"
 
 class MoveAction : public Action
 {
