@@ -9,7 +9,7 @@
 #include "core/component_loader_factory.h"
 #include "core/property_loader.h"
 #include "core/actor.h"
-#include "i_core.h"
+#include "platform/i_platform.h"
 
 class ActorCreator
 {

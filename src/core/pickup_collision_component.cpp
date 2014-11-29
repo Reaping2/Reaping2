@@ -1,7 +1,7 @@
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
 #include "core/pickup_collision_component.h"
-#include "i_core.h" //TODO: actor sucks to include atm
+#include "platform/i_platform.h"
 
 PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()

@@ -4,7 +4,7 @@
 #include "platform/factory.h"
 #include "platform/singleton.h"
 #include "core/property_loader.h"
-#include "i_core.h"
+#include "platform/i_platform.h"
 
 template<typename BASE>
 class PropertyLoaderBase;

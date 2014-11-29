@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/component_loader_factory.h"
 #include "core/health_component.h"
 

@@ -1,5 +1,4 @@
 #include "platform/i_platform.h"
-#include "core/i_core.h"
 #include "ui/i_ui.h"
 
 #include "renderable_actions.h"

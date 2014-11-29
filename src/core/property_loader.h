@@ -11,7 +11,7 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <boost/static_assert.hpp>
-#include "i_core.h"
+#include "platform/i_platform.h"
 
 template<typename BASE>
 class PropertyLoaderBase

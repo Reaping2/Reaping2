@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/component_factory.h"
 #include "platform/auto_id.h"
 #include "core/move_component.h"

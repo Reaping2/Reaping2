@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/collision_store.h"
 #include "core/empty_collision_model.h"
 #include "core/box_collision_model.h"

@@ -6,7 +6,8 @@
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
 #include "core/scene.h"
-#include "i_core.h"
+#include "platform/i_platform.h"
+#include "core/action_repo.h"
 
 ShotCollisionComponent::ShotCollisionComponent()
     : CollisionComponent()

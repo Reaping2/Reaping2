@@ -2,7 +2,7 @@
 #define INCLUDED_AUDIO_AUDIO_EFFECT_PLAYER_H
 
 // needed for AudibleEvent
-#include "core/i_core.h"
+#include "platform/i_platform.h"
 #include "core/audible_event.h"
 class AudioEffectPlayer : public Singleton<AudioEffectPlayer>
 {

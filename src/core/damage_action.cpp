@@ -1,6 +1,7 @@
 #include "core/damage_action.h"
 #include "core/i_health_component.h"
-#include "i_core.h"
+#include "platform/i_platform.h"
+#include "core/actor.h" //TODO : this sucks
 
 #include <algorithm>
 

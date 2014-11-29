@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/idle_action.h"
 
 IdleAction::IdleAction( int32_t Id )

@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/plasma_gun.h"
 #include "core/plasma_shot.h"
 #include "core/audible_event.h"

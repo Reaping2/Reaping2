@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/random_controller_component.h"
 #include "core/i_move_component.h"
 #include "core/i_health_component.h"

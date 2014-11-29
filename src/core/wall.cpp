@@ -1,4 +1,4 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/wall.h"
 #include "core/i_collision_component.h"
 

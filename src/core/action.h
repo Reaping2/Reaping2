@@ -1,9 +1,9 @@
 #ifndef INCLUDED_CORE_ACTION_H
 #define INCLUDED_CORE_ACTION_H
-#include "core/actor.h"
+#include "platform/i_platform.h"
 #include <vector>
 
-using platform::Factory;
+//using platform::Factory;
 class Actor;
 
 class Action

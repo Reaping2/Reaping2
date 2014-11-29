@@ -1,5 +1,6 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/action.h"
+#include "core/actor.h"
 DefaultAction::DefaultAction( int32_t Id )
     : Action( Id )
 {

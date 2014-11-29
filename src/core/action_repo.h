@@ -3,8 +3,8 @@
 
 #include "platform/factory.h"
 #include "platform/singleton.h"
-class Action;
 
+class Action;
 class ActionRepo : public platform::Factory<Action>, public platform::Singleton<ActionRepo>
 {
     friend class platform::Singleton<ActionRepo>;

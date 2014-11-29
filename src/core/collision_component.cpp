@@ -3,7 +3,7 @@
 #include "platform/auto_id.h"
 #include "platform/event.h"
 #include "core/scene.h"
-#include "i_core.h"
+#include "platform/i_platform.h"
 
 using platform::AutoId;
 using platform::EventServer;

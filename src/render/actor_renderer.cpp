@@ -4,7 +4,8 @@
 #include "core/i_health_component.h"
 #include "core/i_collision_component.h"
 #include "core/i_renderable_component.h"
-
+#include "core/actor.h"
+#include "core/action.h"
 void ActorRenderer::Init()
 {
     mVAO.Init();

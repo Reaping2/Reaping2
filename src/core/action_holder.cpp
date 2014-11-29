@@ -1,6 +1,7 @@
 #include "action_holder.h"
 #include "core/action.h"
-#include "i_core.h"
+#include "core/action_repo.h"
+#include "platform/i_platform.h"
 
 ActionHolder::ActionHolder()
     : mActionFactory( ActionRepo::Get() )

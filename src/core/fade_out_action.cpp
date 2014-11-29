@@ -1,6 +1,7 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/fade_out_action.h"
 #include "core/i_health_component.h"
+#include "core/actor.h" //TODO : this sucks
 
 FadeOutAction::FadeOutAction( int32_t Id )
     : Action( Id )

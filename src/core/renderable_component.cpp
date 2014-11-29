@@ -1,6 +1,6 @@
 #include "core/renderable_component.h"
 #include "core/actor.h"
-#include "i_core.h"
+#include "platform/i_platform.h"
 
 RenderableCompononent::RenderableCompononent()
     : mLayer(IRenderableComponent::Background)

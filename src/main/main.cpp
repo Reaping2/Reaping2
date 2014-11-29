@@ -1,6 +1,6 @@
 #include "window.h"
 #include "render/i_render.h"
-#include "core/i_core.h"
+#include "platform/i_platform.h"
 #include "input/i_input.h"
 #include "audio/i_audio.h"
 #include "core/scene.h"

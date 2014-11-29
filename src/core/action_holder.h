@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_ACTION_HOLDER_H
 #define INCLUDED_CORE_ACTION_HOLDER_H
 
-//#include "core/action.h"
+#include "core/action.h"
 #include "core/action_repo.h"
 
 #include <memory>
@@ -9,6 +9,7 @@
 
 
 class Action;
+class ActionRepo;
 
 class ActionHolder
 {

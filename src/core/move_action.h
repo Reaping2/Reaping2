@@ -4,9 +4,6 @@
 
 class MoveAction : public Action
 {
-public:
-    virtual void SetActor( Actor* Obj );
-
 protected:
     MoveAction( int32_t Id );
     virtual void Update( double Seconds );

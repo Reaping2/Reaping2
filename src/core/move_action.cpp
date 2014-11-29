@@ -1,8 +1,9 @@
-#include "i_core.h"
+#include "platform/i_platform.h"
 #include "core/move_action.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"
+#include "core/actor.h" //TODO : this sucks
 
 
 MoveAction::MoveAction( int32_t Id )
@@ -12,13 +13,6 @@ MoveAction::MoveAction( int32_t Id )
     mCancelledActionIds.push_back( IdStorage::Get().GetId( "idle" ) );
     mSecsToEnd = 1;
     mIsLoop = true;
-}
-void MoveAction::SetActor( Actor* Obj )
-{
-    //TODO: generally this one will move to Action, In the end no actor will be set. Actor is a Component
-    //Components have components. Will be checked by InitDependencies, and DependentComponents will be taken automatically
-    //if the component fails to fulfil DependentComponents, it wont trigger the action.
-    Action::SetActor( Obj );
 }
 
 void MoveAction::Update( double Seconds )
