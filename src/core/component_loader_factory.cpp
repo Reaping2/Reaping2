@@ -5,12 +5,18 @@
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
-    Bind( AutoId( "default_component" ), &CreateComponent<DefaultComponentLoader>);
+    Bind( AutoId( "default_component" ), &CreateComponentLoader<DefaultComponentLoader>);
     SetDefault( AutoId( "default_component" ) );
-    Bind( AutoId( "health_component" ), &CreateComponent<HealthComponentLoader>);
+    Bind( AutoId( "health_component" ), &CreateComponentLoader<HealthComponentLoader>);
 }
 
+void DefaultComponentLoader::BindValues()
+{
 
+}
+DefaultComponentLoader::DefaultComponentLoader()
+{
+}
 
 
 

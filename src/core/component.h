@@ -4,7 +4,6 @@
 #include "core/component_factory.h"
 #include "core/opt.h"
 #include "platform/auto_id.h"
-
 #include <boost/ptr_container/ptr_map.hpp>
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
@@ -70,5 +69,12 @@ public:
     DEFINE_COMPONENT_BASE(DefaultComponent)
     DefaultComponent();
     friend class ComponentFactory;
+};
+
+template<typename T,typename BASE>
+class PropertyLoader;
+template<typename COMPONENT>
+class ComponentLoader: public PropertyLoader<COMPONENT, Component>
+{
 };
 #endif//INCLUDED_CORE_COMPONENT_H

@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_HEALTH_COMPONENT_H
 
 #include "i_health_component.h"
-#include "component_loader.h"
+#include "property_loader.h"
 
 class Actor;
 class HealthComponent : public IHealthComponent
@@ -24,7 +24,7 @@ protected:
     bool mNeedDelete;
 };
 
-class HealthComponentLoader:ComponentLoader<HealthComponent>
+class HealthComponentLoader: public ComponentLoader<HealthComponent>
 {
     virtual void BindValues();
 protected:

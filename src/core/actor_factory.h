@@ -7,7 +7,7 @@
 #include "core/component.h"
 #include "core/component_factory.h"
 #include "core/component_loader_factory.h"
-#include "core/component_loader.h"
+#include "core/property_loader.h"
 #include "i_core.h"
 class Actor;
 
@@ -15,8 +15,9 @@ class ActorCreator
 {
 public:
     ActorCreator();
-    typedef boost::ptr_map<int32_t,ComponentLoaderBase> ComponentList_t;
-    ComponentList_t mComponents;
+    typedef PropertyLoaderBase<Component> ComponentLoader_t;
+    typedef boost::ptr_map<int32_t,ComponentLoader_t > ComponentLoaderMap_t;
+    ComponentLoaderMap_t mComponentLoaders;
     void SetId(int32_t id);
     int32_t GetId();
     void AddComponent(int32_t componentId, Json::Value& setters);

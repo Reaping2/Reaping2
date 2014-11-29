@@ -1,6 +1,6 @@
 #include "i_core.h"
 #include "core/actor_factory.h"
-#include "core/component_loader.h"
+#include "core/property_loader.h"
 
 ActorFactory::ActorFactory()
 {
@@ -100,21 +100,21 @@ int32_t ActorCreator::GetId()
 
 void ActorCreator::AddComponent(int32_t componentId, Json::Value& setters)
 {
-    std::auto_ptr<ComponentLoaderBase> compLoader=mComponentLoaderFactory(componentId);
+    std::auto_ptr<ComponentLoader_t> compLoader=mComponentLoaderFactory(componentId);
     if(setters.isArray()&&!setters.empty())
     {
         compLoader->Load(*setters.begin());
     }
 
-    mComponents.insert(componentId,compLoader);
+    mComponentLoaders.insert(componentId,compLoader);
 }
 
 std::auto_ptr<Actor> ActorCreator::Create()const
 {
     std::auto_ptr<Actor> actor(new Actor(mId));
-    for(ComponentList_t::const_iterator i=mComponents.begin(), e=mComponents.end();i!=e;++i)
+    for(ComponentLoaderMap_t::const_iterator i=mComponentLoaders.begin(), e=mComponentLoaders.end();i!=e;++i)
     {
-        actor->AddComponent(i->second->LoadComponent(mComponentFactory(i->first)));
+        actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
     }
     return actor;
 }

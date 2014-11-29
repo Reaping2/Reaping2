@@ -3,22 +3,33 @@
 
 #include "platform/factory.h"
 #include "platform/singleton.h"
-#include "core/component_loader.h"
+#include "core/property_loader.h"
 #include "i_core.h"
 
-class ComponentLoaderBase;
-class ComponentLoaderFactory : public platform::Factory<ComponentLoaderBase>, public platform::Singleton<ComponentLoaderFactory>
+template<typename BASE>
+class PropertyLoaderBase;
+class ComponentLoaderFactory : public platform::Factory<PropertyLoaderBase<Component> >, public platform::Singleton<ComponentLoaderFactory>
 {
     friend class platform::Singleton<ComponentLoaderFactory>;
     ComponentLoaderFactory();
     template<typename Elem_T>
-    static std::auto_ptr<ComponentLoaderBase> CreateComponent( int32_t Id );
+    static std::auto_ptr<PropertyLoaderBase<Component> > CreateComponentLoader( int32_t Id );
 };
 template<typename Elem_T>
-std::auto_ptr<ComponentLoaderBase> ComponentLoaderFactory::CreateComponent( int32_t Id )
+std::auto_ptr<PropertyLoaderBase<Component> > ComponentLoaderFactory::CreateComponentLoader( int32_t Id )
 {
-    return std::auto_ptr<ComponentLoaderBase>( new Elem_T() );
+    return std::auto_ptr<PropertyLoaderBase<Component> >( new Elem_T() );
 }
+
+class DefaultComponentLoader: public ComponentLoader<Component>
+{
+public:
+    virtual void BindValues();
+protected:
+    DefaultComponentLoader();
+    friend class ComponentLoaderFactory;
+};
+
 
 
 #endif//INCLUDED_CORE_COMPONENT_LOADER_FACTORY_H
