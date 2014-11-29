@@ -32,6 +32,8 @@ private:
     AutoReg mMouseMoveId;
     AutoReg mMousePressId;
     AutoReg mMouseReleaseId;
+    bool mShoot;
+    bool mShootAlt;
 
 };
 

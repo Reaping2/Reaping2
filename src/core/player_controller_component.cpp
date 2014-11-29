@@ -14,6 +14,8 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mY( 0.0 )
     , mDirty( true )
     , mMouse( Mouse::Get() )
+    , mShoot( false )
+    , mShootAlt( false )
 {
     Keyboard& Keys = Keyboard::Get();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnKeyEvent, this, _1 ) );
@@ -59,6 +61,7 @@ void PlayerControllerComponent::Update( double Seconds )
     {
         return;
     }
+    UpdateRotation();
     if( !mDirty )
     {
         return;
@@ -67,7 +70,7 @@ void PlayerControllerComponent::Update( double Seconds )
     {
         return;
     }
-    UpdateRotation();
+    
     mDirty = false;
     int x = ( ( mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( mCurrentMovement & MF_Down ) ? -1 : 0 );
@@ -101,17 +104,20 @@ void PlayerControllerComponent::Update( double Seconds )
     {
         mActor->AddAction( AutoId( "move" ) );
     }
+    if ( mShoot )
+    {
+         mActor->AddAction( AutoId( "shoot" ) );
+    }
+    if ( mShootAlt )
+    {
+         mActor->AddAction( AutoId( "shoot_alt" ) );
+    }
 }
 //TODO: these should only set states, all real actions should happen in Update
 void PlayerControllerComponent::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 {
-    if (!IsEnabled())
-    {
-        return;
-    }
     mX = Event.Pos.x;
     mY = Event.Pos.y;
-    UpdateRotation();
 }
 
 void PlayerControllerComponent::UpdateRotation()
@@ -123,18 +129,18 @@ void PlayerControllerComponent::UpdateRotation()
 
 void PlayerControllerComponent::OnMousePressEvent( const WorldMousePressEvent& Event )
 {
-    if (!IsEnabled())
-    {
-        return;
-    }
+    bool oldShoot=mShoot;
+    bool oldShootAlt=mShootAlt;
     if ( Event.Button == Mouse::Button_Left && !mMouse.IsButtonPressed( Mouse::Button_Left ) )
     {
-        mActor->AddAction( AutoId( "shoot" ) );
+        mShoot = true;
     }
     else if ( Event.Button == Mouse::Button_Right && !mMouse.IsButtonPressed( Mouse::Button_Right ) )
     {
-        mActor->AddAction( AutoId( "shoot_alt" ) );
+        mShootAlt = true;
     }
+    mDirty=mDirty || (oldShoot!=mShoot) || (oldShootAlt!=mShootAlt);
+
     // ez itt pusztan funkcionalitas tesztelesre van, dummy implementacio
     static const double Cooldown = 0.0002;
     static double PrevTime = 0;
@@ -154,24 +160,26 @@ void PlayerControllerComponent::OnMousePressEvent( const WorldMousePressEvent& E
 
 void PlayerControllerComponent::OnMouseReleaseEvent( const WorldMouseReleaseEvent& Event )
 {
-    if (!IsEnabled())
-    {
-        return;
-    }
+    bool oldShoot=mShoot;
+    bool oldShootAlt=mShootAlt;
     if ( Event.Button == Mouse::Button_Left )
     {
         mActor->DropAction( AutoId( "shoot" ) );
+        mShoot = false;
         if ( mMouse.IsButtonPressed( Mouse::Button_Right ) )
         {
-            mActor->AddAction( AutoId( "shoot_alt" ) );
-        }
+            mShootAlt = true;
+         }
     }
     else if ( Event.Button == Mouse::Button_Right )
     {
         mActor->DropAction( AutoId( "shoot_alt" ) );
+        mShootAlt = false;
         if ( mMouse.IsButtonPressed( Mouse::Button_Left ) )
         {
-            mActor->AddAction( AutoId( "shoot" ) );
+            mShoot = true;
         }
     }
+    mDirty=mDirty || (oldShoot!=mShoot) || (oldShootAlt!=mShootAlt);
+
 }
