@@ -52,15 +52,33 @@ public:
     virtual void BindValues()=0;
 
 	virtual std::auto_ptr<BASE> FillProperties(std::auto_ptr<BASE> target)const;
+    template<typename PARENT>
+    void SetBase();
     virtual ~PropertyLoader();
 protected:
     Json::Value* mSetters;
+    std::auto_ptr<PropertyLoaderBase<BASE> > mBase;
     PropertyLoader();
     void Add(SetterFunc_t func);
 };
 template<typename T, typename BASE>
+template<typename PARENT>
+void PropertyLoader<T, BASE>::SetBase()
+{
+    BOOST_STATIC_ASSERT_MSG(
+        ( boost::is_base_of<PropertyLoaderBase<BASE>, PARENT>::value ),
+        "PARENT should be the same PropertyLoaderBase<BASE> type!"
+        );
+    mBase.reset(static_cast<PropertyLoaderBase<BASE> *>(new PARENT));
+}
+
+template<typename T, typename BASE>
 std::auto_ptr<BASE> PropertyLoader<T, BASE>::FillProperties(std::auto_ptr<BASE> target)const
 {
+    if (mBase.get())
+    {
+        target=mBase->FillProperties(target);
+    }
     if(mSetterFuncList.empty())
         return target;
     T* castedTarget=static_cast<T*>(target.release());
@@ -102,6 +120,10 @@ template<typename T, typename BASE>
 void PropertyLoader<T, BASE>::Load(Json::Value& setters)
 {
     mSetters=&setters;
+    if (mBase.get())
+    {
+        mBase->Load(setters);
+    }
     BindValues();
 }
 

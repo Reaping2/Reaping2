@@ -32,13 +32,7 @@ void PickupCollisionComponent::SetPickupContent(int32_t PickupContent)
 
 void PickupCollisionComponentLoader::BindValues()
 {
-    Bind("radius",func_double(&PickupCollisionComponent::SetRadius));
     std::string istr;
-    if( Json::GetStr( (*mSetters)["class"], istr))
-    {
-        Bind<CollisionClass::Type>(&PickupCollisionComponent::SetCollisionClass,mCollisionClass(AutoId(istr)));
-    }
-    istr.clear();
     if( Json::GetStr( (*mSetters)["content"], istr))
     {
         Bind<int32_t>(&PickupCollisionComponent::SetPickupContent,AutoId(istr));
@@ -48,4 +42,5 @@ void PickupCollisionComponentLoader::BindValues()
 PickupCollisionComponentLoader::PickupCollisionComponentLoader()
     : mCollisionClass(CollisionClass::Get())
 {
+    SetBase<CollisionComponentLoader>();
 }

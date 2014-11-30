@@ -24,9 +24,10 @@ class CollisionComponentLoader: public ComponentLoader<CollisionComponent>
 {
     virtual void BindValues();
 protected:
-    CollisionComponentLoader();
     friend class ComponentLoaderFactory;
     CollisionClass& mCollisionClass;
+public:
+    CollisionComponentLoader();
 };
 
 #endif//INCLUDED_CORE_COLLISION_COMPONENT_H
