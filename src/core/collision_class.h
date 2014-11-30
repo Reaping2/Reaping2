@@ -20,7 +20,7 @@ public:
         Pickup,
         Num_Classes,
     };
-    Type CollisionClass::operator()( int32_t Id ) const;
+    CollisionClass::Type operator()( int32_t Id ) const;
 private:
     typedef std::map<int32_t,CollisionClass::Type> IdToCollClassMap_t;
     IdToCollClassMap_t mIdToCollClassMap;
