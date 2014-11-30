@@ -1,6 +1,6 @@
 #ifndef INCLUDED_CORE_REPOSITORY_H
 #define INCLUDED_CORE_REPOSITORY_H
-
+#include <boost/ptr_container/ptr_map.hpp>
 namespace platform {
 
 template<typename Element_T>

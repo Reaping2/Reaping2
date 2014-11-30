@@ -66,3 +66,19 @@ void CollisionComponent::SetRadius(double Radius)
 {
     mRadius=Radius;
 }
+
+void CollisionComponentLoader::BindValues()
+{
+    Bind("radius",func_double(&CollisionComponent::SetRadius));
+    std::string istr;
+    if( Json::GetStr( (*mSetters)["class"], istr))
+    {
+        Bind<CollisionClass::Type>(&CollisionComponent::SetCollisionClass,mCollisionClass(AutoId(istr)));
+    }
+
+}
+
+CollisionComponentLoader::CollisionComponentLoader()
+    : mCollisionClass(CollisionClass::Get())
+{
+}

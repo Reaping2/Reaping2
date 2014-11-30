@@ -21,6 +21,8 @@ protected:
 public:
     Actor( int32_t Id );
     int32_t GetId()const;
+    //TODO: pickup needs this for render, but it will be removed
+    void SetId( int32_t Id );
     //TODO: only one addaction
     void AddAction( int32_t Id );
     virtual void AddAction( std::auto_ptr<Action> Act );

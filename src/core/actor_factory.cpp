@@ -5,9 +5,10 @@
 ActorFactory::ActorFactory()
 {
     Init();
-    Bind<Actor>( AutoId( "default_actor" ) );
+    //every created actor is handled the same way.
+    //actorCreators create actors from json data files.
+    Bind( AutoId( "default_actor" ),boost::bind(&ActorFactory::CreateActor,this,_1) );
     SetDefault( AutoId( "default_actor" ) );
-    Bind( AutoId( "player" ),boost::bind(&ActorFactory::CreateActor,this,_1) );
 }
 
 std::auto_ptr<Actor> ActorFactory::CreateActor( int32_t Id )

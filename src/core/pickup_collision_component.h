@@ -14,4 +14,13 @@ protected:
     int32_t mPickupContent;
 };
 
+class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>
+{
+    virtual void BindValues();
+protected:
+    PickupCollisionComponentLoader();
+    friend class ComponentLoaderFactory;
+    CollisionClass& mCollisionClass;
+};
+
 #endif//INCLUDED_CORE_PICKUP_COLLISION_COMPONENT_H

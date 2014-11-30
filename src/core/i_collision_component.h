@@ -1,22 +1,7 @@
 #ifndef INCLUDED_CORE_I_COLLISION_COMPONENT_H
 #define INCLUDED_CORE_I_COLLISION_COMPONENT_H
 #include "component.h"
-
-
-struct CollisionClass
-{
-    enum Type
-    {
-        No_Collision,
-        Projectile,
-        Creep,
-        Mine,
-        Player,
-        Wall,
-        Pickup,
-        Num_Classes,
-    };
-};
+#include "core/collision_class.h"
 
 class ICollisionComponent : public Component
 {

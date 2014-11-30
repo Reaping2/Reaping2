@@ -43,10 +43,6 @@ void TargetPlayerControllerComponent::Update( double Seconds )
     {
         return;
     }
-    if ( !mActor->Get<IHealthComponent>()->IsAlive() )
-    {
-        return;
-    }
     Opt<IPositionComponent> const playerPositionC = mPlayer->Get<IPositionComponent>();
     Opt<IPositionComponent> const actorPositionC = mActor->Get<IPositionComponent>();
     glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );

@@ -175,19 +175,19 @@ void Scene::Load( std::string const& Level )
     for( size_t i = 0; i < NumPoints; ++i )
     {
         //TODO: one should not just "new" something. ofc testing reasons
-        Wall* wall = new Wall( "wall" );
+        std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));//new Wall( "wall" );
         Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
         wallPositionC->SetX( points[i].x );
         wallPositionC->SetY( points[i].y );
 
-        AddActor( wall );
+        AddActor( wall.release() );
     }
 
     std::auto_ptr<Actor> Pl = ActorFactory::Get()(AutoId("player"));
     
     Opt<ICollisionComponent> collisionC = Pl->Get<ICollisionComponent>();
-    collisionC->SetRadius(0.05);
-    collisionC->SetCollisionClass(CollisionClass::Player);
+//     collisionC->SetRadius(0.05);
+//     collisionC->SetCollisionClass(CollisionClass::Player);
 
     Opt<IRenderableComponent> renderableC = Pl->Get<IRenderableComponent>();
     renderableC->SetLayer(IRenderableComponent::Players);

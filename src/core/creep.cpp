@@ -8,7 +8,11 @@
 #include "core/i_collision_component.h"
 #include "core/pickup.h"
 #include "core/scene.h"
+#include "core/actor_factory.h"
+#include "core/pickup_collision_component.h"
+#include "platform/auto_id.h"
 
+using platform::AutoId;
 
 Creep::Creep( std::string const& Name, double x, double y, Actor* player )
     : Actor( AutoId(Name) )
@@ -58,11 +62,16 @@ void Creep::Update(double Seconds)
             return;
         }
         // TODO: this is baaaad, you need to do this with an action
-        Pickup* Pu = new Pickup( rand() % 2 ? "pistol" : "plasma_gun" );
+        std::auto_ptr<Actor> Pu=ActorFactory::Get()(AutoId("pickup"));
+        Pu->AddAction( AutoId( "fade_out" ) );
+        int32_t contentId=AutoId(rand() % 2 ? "pistol" : "plasma_gun");
+        Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
+        Pu->SetId(contentId);
+        //Pickup* Pu = new Pickup( rand() % 2 ? "pistol" : "plasma_gun" );
         Opt<IPositionComponent> positionC = Get<IPositionComponent>();
         Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
         puPositionC->SetX(positionC->GetX());
         puPositionC->SetY(positionC->GetY());
-        Scene::Get().AddActor( Pu );
+        Scene::Get().AddActor( Pu.release() );
     }
 }

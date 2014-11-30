@@ -4,7 +4,29 @@
 		"components":
 		[
 			{
-				"name":"wall_collision_component"
+				"name":"wall_collision_component",
+				"set":[{"class":"wall", "radius":0.1}]
+			}
+		]
+	},
+	{
+		"name":"pickup",
+		"components":
+		[
+			{
+				"name":"pickup_collision_component",
+				"set":[{"class":"pickup", "radius":0.04}]
+			},
+			{"name":"health_delete_component"}
+		]
+	},
+	{
+		"name":"creep",
+		"components":
+		[
+			{
+				"name":"collision_component",
+				"set":[{"class":"creep", "radius":0.1}]
 			}
 		]
 	},
@@ -12,7 +34,9 @@
 		"name":"player",
 		"components":
 		[
-			{"name":"collision_component"},
+			{"name":"collision_component",
+				"set":[{"class":"player", "radius":0.05}]
+			},
 			{"name":"player_controller_component"},
 			{"name":"inventory_component"},
 			{"name":"health_component",

@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_COLLISION_COMPONENT_H
 #define INCLUDED_CORE_COLLISION_COMPONENT_H
 #include "core/i_collision_component.h"
+#include "core/property_loader.h"
 
 class CollisionComponent : public ICollisionComponent
 {
@@ -17,6 +18,15 @@ protected:
     friend class ComponentFactory;
     CollisionClass::Type mCollisionClassType;
     double mRadius;
+};
+
+class CollisionComponentLoader: public ComponentLoader<CollisionComponent>
+{
+    virtual void BindValues();
+protected:
+    CollisionComponentLoader();
+    friend class ComponentLoaderFactory;
+    CollisionClass& mCollisionClass;
 };
 
 #endif//INCLUDED_CORE_COLLISION_COMPONENT_H

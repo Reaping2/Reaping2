@@ -29,10 +29,6 @@ void RandomControllerComponent::Update( double Seconds )
     {
         return;
     }
-    if ( !mActor->Get<IHealthComponent>()->IsAlive() )
-    {
-        return;
-    }
     mCounter += Seconds;
     if ( mCounter > 2 )
     {

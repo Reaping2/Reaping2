@@ -77,3 +77,8 @@ void Actor::AddComponent(std::auto_ptr<Component> Comp)
     Comp->SetActor(this);
     ComponentHolder::AddComponent(Comp);
 }
+
+void Actor::SetId( int32_t Id )
+{
+    mId=Id;
+}
