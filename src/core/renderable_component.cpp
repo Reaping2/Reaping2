@@ -2,33 +2,33 @@
 #include "core/actor.h"
 #include "platform/i_platform.h"
 
-RenderableCompononent::RenderableCompononent()
-    : mLayer(IRenderableComponent::Background)
+RenderableComponent::RenderableComponent()
+    : mLayer(RenderableLayer::Background)
     , mZOrder( 0 ) 
 {
 }
 
-IRenderableComponent::Layer const& RenderableCompononent::GetLayer() const
+RenderableLayer::Type const& RenderableComponent::GetLayer() const
 {
     return mLayer;
 }
 
-void RenderableCompononent::SetLayer(IRenderableComponent::Layer Lay)
+void RenderableComponent::SetLayer(RenderableLayer::Type Lay)
 {
     mLayer=Lay;
 }
 
-int32_t const& RenderableCompononent::GetZOrder() const
+int32_t const& RenderableComponent::GetZOrder() const
 {
     return mZOrder;
 }
 
-void RenderableCompononent::SetZOrder(int32_t ZOrder)
+void RenderableComponent::SetZOrder(int32_t ZOrder)
 {
     mZOrder=ZOrder;
 }
 
-RenderableComponentModifier::RenderableComponentModifier(IRenderableComponent::Layer Lay,int32_t ZOrder)
+RenderableComponentModifier::RenderableComponentModifier(RenderableLayer::Type Lay,int32_t ZOrder)
     : mLayer(Lay)
     , mZOrder(ZOrder)
 {
@@ -38,4 +38,19 @@ void RenderableComponentModifier::operator()(Opt<Actor>& Obj)
 {
     Obj->Get<IRenderableComponent>()->SetLayer(mLayer);
     Obj->Get<IRenderableComponent>()->SetZOrder(mZOrder);
+}
+
+void RenderableComponentLoader::BindValues()
+{
+    Bind("zorder",func_int32_t(&RenderableComponent::SetZOrder));
+    std::string istr;
+    if( Json::GetStr( (*mSetters)["layer"], istr))
+    {
+        Bind<RenderableLayer::Type>(&RenderableComponent::SetLayer,mRenderableLayer(AutoId(istr)));
+    }
+}
+
+RenderableComponentLoader::RenderableComponentLoader()
+    : mRenderableLayer(RenderableLayer::Get())
+{
 }

@@ -8,6 +8,7 @@
 #include "platform/i_platform.h"
 #include "core/scene.h"
 #include "core/opt.h"
+#include "core/renderable_layer.h"
 
 using platform::AutoId;
 using platform::EventServer;
@@ -32,7 +33,7 @@ void HealthComponent::Update( double Seconds )
     mActor->AddAction( AutoId( "death" ) );
     if ( mTimeOfDeath <= 0.0 )
     {
-        Scene::Get().ModifyActor(mActor,RenderableComponentModifier(IRenderableComponent::Corpses,(int)glfwGetTime()));
+        Scene::Get().ModifyActor(mActor,RenderableComponentModifier(RenderableLayer::Corpses,(int)glfwGetTime()));
         mTimeOfDeath=glfwGetTime();
     }
 }

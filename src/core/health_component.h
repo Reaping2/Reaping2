@@ -13,7 +13,7 @@ public:
     virtual bool IsAlive()const;
     virtual double GetTimeOfDeath()const;
     virtual bool NeedDelete()const;
-protected:
+
     HealthComponent();
     friend class ComponentFactory;
 
@@ -26,7 +26,7 @@ protected:
 class HealthComponentLoader: public ComponentLoader<HealthComponent>
 {
     virtual void BindValues();
-protected:
+public:
     HealthComponentLoader();
     friend class ComponentLoaderFactory;
 };

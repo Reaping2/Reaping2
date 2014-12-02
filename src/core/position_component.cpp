@@ -33,3 +33,13 @@ void PositionComponent::SetOrientation( double Orientation )
 {
     mOrientation = Orientation;
 }
+
+void PositionComponentLoader::BindValues()
+{
+
+}
+
+PositionComponentLoader::PositionComponentLoader()
+{
+
+}

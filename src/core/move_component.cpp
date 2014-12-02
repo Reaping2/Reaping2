@@ -51,3 +51,13 @@ void MoveComponent::SetSpeedY( double SpeedY )
 {
     mSpeedY = SpeedY;
 }
+
+void MoveComponentLoader::BindValues()
+{
+
+}
+
+MoveComponentLoader::MoveComponentLoader()
+{
+
+}

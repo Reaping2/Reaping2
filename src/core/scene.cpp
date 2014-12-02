@@ -11,6 +11,7 @@
 #include "core/actor_factory.h"
 #include "core/wall.h"
 #include "core/creep.h"
+#include "core/renderable_layer.h"
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
 {
@@ -190,7 +191,7 @@ void Scene::Load( std::string const& Level )
 //     collisionC->SetCollisionClass(CollisionClass::Player);
 
     Opt<IRenderableComponent> renderableC = Pl->Get<IRenderableComponent>();
-    renderableC->SetLayer(IRenderableComponent::Players);
+    renderableC->SetLayer(RenderableLayer::Players);
 
     Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
     positionC->SetX(0.0);

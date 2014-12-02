@@ -41,3 +41,13 @@ void RandomControllerComponent::Update( double Seconds )
     mActor->Get<IPositionComponent>()->SetOrientation( mActor->Get<IMoveComponent>()->GetHeading() );
 }
 
+
+void RandomControllerComponentLoader::BindValues()
+{
+
+}
+
+RandomControllerComponentLoader::RandomControllerComponentLoader()
+{
+
+}

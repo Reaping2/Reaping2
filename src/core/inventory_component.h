@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_INVENTORY_COMPONENT_H
 #include "core/i_inventory_component.h"
 #include "core/item_factory.h"
+#include "core/property_loader.h"
 
 class InventoryComponent : public IInventoryComponent
 {
@@ -16,6 +17,14 @@ protected:
 private:
     ItemFactory& mItemFactory;
     ItemList_t mItems;
+};
+
+class InventoryComponentLoader: public ComponentLoader<InventoryComponent>
+{
+    virtual void BindValues();
+protected:
+    InventoryComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_INVENTORY_COMPONENT_H

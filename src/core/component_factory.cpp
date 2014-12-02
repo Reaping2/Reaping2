@@ -37,6 +37,6 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("wall_collision_component"), &CreateComponent<WallCollisionComponent>);
     Bind( AutoId("pickup_collision_component"), &CreateComponent<PickupCollisionComponent>);
 
-    Bind( AutoId("renderable_component"), &CreateComponent<RenderableCompononent>);
+    Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
 
 }

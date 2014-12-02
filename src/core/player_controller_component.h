@@ -4,6 +4,7 @@
 #include "input/i_input.h"
 #include "core/controller_component.h"
 #include "core/actor.h"
+#include "core/property_loader.h"
 
 class PlayerControllerComponent : public ControllerComponent
 {
@@ -35,6 +36,14 @@ private:
     bool mShoot;
     bool mShootAlt;
 
+};
+
+class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>
+{
+    virtual void BindValues();
+protected:
+    PlayerControllerComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_PLAYER_CONTROLLER_H

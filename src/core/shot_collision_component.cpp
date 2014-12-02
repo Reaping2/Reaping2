@@ -69,3 +69,13 @@ void ShotCollisionComponent::SetParent( Actor* Parent )
 {
     mParentGuid = Parent->GetGUID();
 }
+
+void ShotCollisionComponentLoader::BindValues()
+{
+    Bind("damage",func_int32_t(&ShotCollisionComponent::SetDamage));
+}
+
+ShotCollisionComponentLoader::ShotCollisionComponentLoader()
+{
+    SetBase<CollisionComponentLoader>();
+}

@@ -37,3 +37,17 @@ void InventoryComponent::DropItemType( Item::ItemType Type )
         } 
     }
 }
+
+void InventoryComponentLoader::BindValues()
+{
+    std::string istr;
+    if( Json::GetStr( (*mSetters)["additem"], istr))
+    {
+        Bind<int32_t>(&InventoryComponent::AddItem,AutoId(istr));
+    }
+}
+
+InventoryComponentLoader::InventoryComponentLoader()
+{
+
+}

@@ -1,7 +1,8 @@
 #ifndef INCLUDED_CORE_SHOT_COLLISION_COMPONENT_H
 #define INCLUDED_CORE_SHOT_COLLISION_COMPONENT_H
 
-#include "collision_component.h"
+#include "core/collision_component.h"
+#include "core/property_loader.h"
 
 class ShotCollisionComponent : public CollisionComponent
 {
@@ -16,6 +17,14 @@ protected:
     friend class ComponentFactory;
     int32_t mDamage;
     int32_t mParentGuid;
+};
+
+class ShotCollisionComponentLoader: public ComponentLoader<ShotCollisionComponent>
+{
+    virtual void BindValues();
+protected:
+    ShotCollisionComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_SHOT_COLLISION_COMPONENT_H

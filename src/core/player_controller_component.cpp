@@ -179,3 +179,13 @@ void PlayerControllerComponent::OnMouseReleaseEvent( const WorldMouseReleaseEven
     mDirty=mDirty || (oldShoot!=mShoot) || (oldShootAlt!=mShootAlt);
 
 }
+
+void PlayerControllerComponentLoader::BindValues()
+{
+
+}
+
+PlayerControllerComponentLoader::PlayerControllerComponentLoader()
+{
+
+}

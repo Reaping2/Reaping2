@@ -43,3 +43,13 @@ void WallCollisionComponent::Collide(Actor& Other)
         }
     }
 }
+
+void WallCollisionComponentLoader::BindValues()
+{
+
+}
+
+WallCollisionComponentLoader::WallCollisionComponentLoader()
+{
+    SetBase<CollisionComponentLoader>();
+}

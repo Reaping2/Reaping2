@@ -81,3 +81,13 @@ void TargetPlayerControllerComponent::Update( double Seconds )
     mActor->Get<IMoveComponent>()->SetHeading( mActor->Get<IMoveComponent>()->GetHeading() + RotSpd );
     mActor->Get<IPositionComponent>()->SetOrientation( mActor->Get<IMoveComponent>()->GetHeading() );
 }
+
+void TargetPlayerControllerComponentLoader::BindValues()
+{
+
+}
+
+TargetPlayerControllerComponentLoader::TargetPlayerControllerComponentLoader()
+{
+
+}

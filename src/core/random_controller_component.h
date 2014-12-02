@@ -3,6 +3,7 @@
 
 #include "core/controller_component.h"
 #include "core/actor.h"
+#include "core/property_loader.h"
 
 class RandomControllerComponent : public ControllerComponent
 {
@@ -13,6 +14,14 @@ public:
 private:
     double mCounter;
     double mHeadingModifier;
+};
+
+class RandomControllerComponentLoader: public ComponentLoader<RandomControllerComponent>
+{
+    virtual void BindValues();
+protected:
+    RandomControllerComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_RANDOM_CONTROLLER_H

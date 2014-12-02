@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_POSITION_COMPONENT_H
 
 #include "i_position_component.h"
+#include "core/property_loader.h"
 
 class PositionComponent : public IPositionComponent
 {
@@ -19,6 +20,14 @@ private:
     double mX;
     double mY;
     double mOrientation;
+};
+
+class PositionComponentLoader: public ComponentLoader<PositionComponent>
+{
+    virtual void BindValues();
+protected:
+    PositionComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_POSITION_COMPONENT_H

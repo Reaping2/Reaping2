@@ -10,6 +10,7 @@
 #include "core/i_renderable_component.h"
 #include "core/action.h"
 #include "core/action_holder.h"
+#include "core/renderable_layer.h"
 
 using platform::AutoId;
 
@@ -41,7 +42,7 @@ Actor::Actor( int32_t Id )
 
     AddComponent( mComponentFactory(AutoId("renderable_component")) );
     Opt<IRenderableComponent> renderableC = Get<IRenderableComponent>();
-    renderableC->SetLayer(IRenderableComponent::Creeps);
+    renderableC->SetLayer(RenderableLayer::Creeps);
     renderableC->SetZOrder(mGUID);
 }
 

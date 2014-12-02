@@ -12,3 +12,12 @@ void HealthDeleteComponent::Update( double Seconds )
         mNeedDelete = true;
     }
 }
+
+void HealthDeleteComponentLoader::BindValues()
+{
+}
+
+HealthDeleteComponentLoader::HealthDeleteComponentLoader()
+{
+    SetBase<HealthComponentLoader>();
+}

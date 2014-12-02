@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_MOVE_COMPONENT_H
 
 #include "i_move_component.h"
+#include "core/property_loader.h"
 
 class MoveComponent : public IMoveComponent
 {
@@ -23,6 +24,14 @@ private:
     double mSpeedX;
     double mSpeedY;
     void UpdateProjections();
+};
+
+class MoveComponentLoader: public ComponentLoader<MoveComponent>
+{
+    virtual void BindValues();
+protected:
+    MoveComponentLoader();
+    friend class ComponentLoaderFactory;
 };
 
 #endif//INCLUDED_CORE_MOVE_COMPONENT_H
