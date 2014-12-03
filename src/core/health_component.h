@@ -12,7 +12,6 @@ public:
     virtual void SetHP( int32_t Hp );
     virtual bool IsAlive()const;
     virtual double GetTimeOfDeath()const;
-    virtual bool NeedDelete()const;
 
     HealthComponent();
     friend class ComponentFactory;
@@ -20,7 +19,6 @@ public:
     int32_t mHP;
     bool mAlive;
     double mTimeOfDeath;
-    bool mNeedDelete;
 };
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>

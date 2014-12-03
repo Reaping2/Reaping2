@@ -17,7 +17,6 @@ HealthComponent::HealthComponent()
     : mHP( 1 )
     , mAlive( true )
     , mTimeOfDeath( 0 )
-    , mNeedDelete( false )
 {
 }
 
@@ -68,11 +67,6 @@ bool HealthComponent::IsAlive() const
 double HealthComponent::GetTimeOfDeath() const
 {
     return mTimeOfDeath;
-}
-
-bool HealthComponent::NeedDelete() const
-{
-    return mNeedDelete;
 }
 
 void HealthComponentLoader::BindValues()

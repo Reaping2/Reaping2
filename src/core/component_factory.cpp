@@ -7,13 +7,14 @@
 #include "core/random_controller_component.h"
 #include "core/inventory_component.h"
 #include "core/health_component.h"
-#include "core/health_delete_component.h"
 #include "core/collision_component.h"
 #include "core/shot_collision_component.h"
 #include "core/wall_collision_component.h"
 #include "core/pickup_collision_component.h"
 #include "core/position_component.h"
 #include "core/renderable_component.h"
+#include "core/remove_on_death_component.h"
+#include "core/drop_on_death_component.h"
 
 using platform::AutoId;
 
@@ -30,7 +31,6 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("inventory_component"), &CreateComponent<InventoryComponent>);
     
     Bind( AutoId("health_component"), &CreateComponent<HealthComponent>);
-    Bind( AutoId("health_delete_component"), &CreateComponent<HealthDeleteComponent>);
 
     Bind( AutoId("collision_component"), &CreateComponent<CollisionComponent>);
     Bind( AutoId("shot_collision_component"), &CreateComponent<ShotCollisionComponent>);
@@ -39,4 +39,6 @@ ComponentFactory::ComponentFactory()
 
     Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
 
+    Bind( AutoId("remove_on_death_component"), &CreateComponent<RemoveOnDeathComponent>);
+    Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
 }

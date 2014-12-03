@@ -150,6 +150,9 @@ public:
 //         return ActorListWrapper<N>(mActorHolder.mAllActors);
 //     }
     void Load( std::string const& Level );
+
+    void AddTestCreep(Actor* Pl, double X, double Y);
+
     void Pause()
     {
         mPaused = true;

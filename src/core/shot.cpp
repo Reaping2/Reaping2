@@ -19,6 +19,7 @@ Shot::Shot( std::string const& Name )
 
     Get<IMoveComponent>()->SetSpeed( 2 );
     AddAction( AutoId( "move" ) );
-    AddComponent(ComponentFactory::Get()(AutoId("health_delete_component")));
+    AddComponent(ComponentFactory::Get()(AutoId("health_component")));
+    AddComponent(ComponentFactory::Get()(AutoId("remove_on_death_component")));
 }
 

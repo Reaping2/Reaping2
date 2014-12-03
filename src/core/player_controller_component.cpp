@@ -4,7 +4,6 @@
 #include "core/i_move_component.h"
 #include "core/player_controller_component.h"
 #include "core/i_health_component.h"
-#include "core/creep.h"
 #include "core/scene.h"
 
 PlayerControllerComponent::PlayerControllerComponent()
@@ -148,8 +147,7 @@ void PlayerControllerComponent::OnMousePressEvent( const WorldMousePressEvent& E
     PrevTime = CurTime;
     if ( Event.Button == Mouse::Button_Middle )
     {
-        Creep* Obj = new Creep( rand() % 2 ? "pok1" : "pok2", Event.Pos.x, Event.Pos.y, rand() % 2 ? mActor : ( Actor* )NULL );
-        Scene::Get().AddActor( Obj );
+        Scene::Get().AddTestCreep(mActor,Event.Pos.x,Event.Pos.y);
     }
 }
 

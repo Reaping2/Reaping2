@@ -4,14 +4,13 @@
 #include "core/i_controller_component.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
-#include "core/health_delete_component.h"
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
 #include "core/i_renderable_component.h"
 #include "core/actor_factory.h"
-#include "core/wall.h"
-#include "core/creep.h"
 #include "core/renderable_layer.h"
+#include "core/i_remove_on_death_component.h"
+#include "core/target_player_controller_component.h"
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
 {
@@ -84,12 +83,18 @@ void Scene::Update( double DeltaTime )
         if(healthC.IsValid())
         {
             healthC->Update(DeltaTime);
-            if (healthC->NeedDelete())
+        }
+        Opt<IRemoveOnDeathComponent> removeOnDeathC = (*it)->Get<IRemoveOnDeathComponent>();
+        if(removeOnDeathC.IsValid())
+        {
+            removeOnDeathC->Update( DeltaTime );
+            if (removeOnDeathC->NeedDelete())
             {
                 delete &**it;
                 mActorHolder.mAllActors.erase(it);
             }
         }
+
     }
     size_t siz2= mActorHolder.mAllActors.size();
 
@@ -209,11 +214,10 @@ void Scene::Load( std::string const& Level )
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
-        Creep* Obj = new Creep( rand() % 2 ? "pok1" : "pok2",
-            mDimensions.x + ( rand() % ( int )( 1000 * ( mDimensions.z - mDimensions.x ) ) ) / 1000.,
-            mDimensions.y + ( rand() % ( int )( 1000 * ( mDimensions.w - mDimensions.y ) ) ) / 1000.,
-            rand() % 2 ? Pl.get() : ( Actor* )NULL );
-        AddActor( Obj );
+        AddTestCreep(Pl.get()
+            , mDimensions.x + ( rand() % ( int )( 1000 * ( mDimensions.z - mDimensions.x ) ) ) / 1000.
+            , mDimensions.y + ( rand() % ( int )( 1000 * ( mDimensions.w - mDimensions.y ) ) ) / 1000.);
+
     }
 
     mPlayerModels.clear();
@@ -225,5 +229,30 @@ void Scene::Load( std::string const& Level )
 
     AddActor( Pl.release() );
 
+}
+
+void Scene::AddTestCreep(Actor* Pl, double X, double Y)
+{
+    std::auto_ptr<Actor> Obj;
+    switch(rand()%4)
+    {
+    case 0:
+        Obj=ActorFactory::Get()(AutoId("spider1"));
+        break;
+    case 1:
+        Obj=ActorFactory::Get()(AutoId("spider2"));
+        break;
+    case 2:
+        Obj=ActorFactory::Get()(AutoId("spider1target"));
+        Obj->Get<TargetPlayerControllerComponent>()->SetPlayer(Pl);
+        break;
+    case 3:
+        Obj=ActorFactory::Get()(AutoId("spider2target"));
+        Obj->Get<TargetPlayerControllerComponent>()->SetPlayer(Pl);
+        break;
+    }
+    Obj->Get<IPositionComponent>()->SetX(X);
+    Obj->Get<IPositionComponent>()->SetY(Y);
+    AddActor( Obj.release() );
 }
 

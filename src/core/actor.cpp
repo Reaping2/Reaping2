@@ -11,6 +11,8 @@
 #include "core/action.h"
 #include "core/action_holder.h"
 #include "core/renderable_layer.h"
+#include "core/i_drop_on_death_component.h"
+#include "core/i_remove_on_death_component.h"
 
 using platform::AutoId;
 
@@ -26,6 +28,12 @@ void Actor::Update( double Seconds )
     if(inventoryC.IsValid())
     {
         inventoryC->Update( Seconds );
+    }
+
+    Opt<IDropOnDeathComponent> dropOnDeathC = Get<IDropOnDeathComponent>();
+    if(dropOnDeathC.IsValid())
+    {
+        dropOnDeathC->Update( Seconds );
     }
 }
 

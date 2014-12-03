@@ -7,13 +7,14 @@
 #include "core/random_controller_component.h"
 #include "core/inventory_component.h"
 #include "core/health_component.h"
-#include "core/health_delete_component.h"
 #include "core/collision_component.h"
 #include "core/shot_collision_component.h"
 #include "core/wall_collision_component.h"
 #include "core/pickup_collision_component.h"
 #include "core/position_component.h"
 #include "core/renderable_component.h"
+#include "core/remove_on_death_component.h"
+#include "core/drop_on_death_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -29,7 +30,6 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("inventory_component"), &CreateComponentLoader<InventoryComponentLoader>);
 
     Bind( AutoId("health_component"), &CreateComponentLoader<HealthComponentLoader>);
-    Bind( AutoId("health_delete_component"), &CreateComponentLoader<HealthDeleteComponentLoader>);
 
     Bind( AutoId("collision_component"), &CreateComponentLoader<CollisionComponentLoader>);
     Bind( AutoId("shot_collision_component"), &CreateComponentLoader<ShotCollisionComponentLoader>);
@@ -37,6 +37,9 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("pickup_collision_component"), &CreateComponentLoader<PickupCollisionComponentLoader>);
  
     Bind( AutoId("renderable_component"), &CreateComponentLoader<RenderableComponentLoader>);
+
+    Bind( AutoId("remove_on_death_component"), &CreateComponentLoader<RemoveOnDeathComponentLoader>);
+    Bind( AutoId("drop_on_death_component"), &CreateComponentLoader<DropOnDeathComponentLoader>);
     
 }
 
