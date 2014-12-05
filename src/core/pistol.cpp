@@ -1,7 +1,7 @@
 #include "platform/i_platform.h"
 #include "core/pistol.h"
-#include "core/pistol_shot.h"
 #include "core/audible_event.h"
+#include "core/i_move_component.h"
 
 Pistol::Pistol( int32_t Id )
     : Weapon( Id )
@@ -17,11 +17,17 @@ Pistol::Pistol( int32_t Id )
 void Pistol::ShootImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-    Projectiles.push_back( new PistolShot() );
+    std::auto_ptr<Actor> ps(mActorFactory(mShotId));
+    ps->Get<IMoveComponent>()->SetSpeed(3);
+    ps->AddAction( AutoId( "move" ) );
+    Projectiles.push_back( ps );
 }
 
 void Pistol::ShootAltImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-    Projectiles.push_back( new PistolShot() );
+    std::auto_ptr<Actor> ps(mActorFactory(mShotId));
+    ps->Get<IMoveComponent>()->SetSpeed(3);
+    ps->AddAction( AutoId( "move" ) );
+    Projectiles.push_back( ps );
 }

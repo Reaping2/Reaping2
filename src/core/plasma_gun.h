@@ -10,6 +10,7 @@ class PlasmaGun : public Weapon
     friend class Factory<Item>;
     int32_t mShotId;
     int32_t mAltShotId;
+    int32_t mPlasmaShotId;
 };
 
 #endif//INCLUDED_CORE_PLASMA_GUN_ACTION_H

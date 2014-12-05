@@ -7,6 +7,7 @@
 
 Weapon::Weapon( int32_t Id )
     : Item( Id )
+    , mActorFactory(ActorFactory::Get())
     , mCooldown( 0.0 )
     , mShootCooldown( 1.0 )
     , mShootAltCooldown( 1.0 )
@@ -48,7 +49,7 @@ void Weapon::Shoot()
     }
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
-        Shot& Proj = *i;
+        Actor& Proj = *i;
         Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
         Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
         projPositionC->SetX( actorPositionC->GetX() );
@@ -85,7 +86,7 @@ void Weapon::ShootAlt()
     }
     for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
     {
-        Shot& Proj = *i;
+        Actor& Proj = *i;
         Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
         projPositionC->SetX( actorPositionC->GetX() );
         projPositionC->SetY( actorPositionC->GetY() );
