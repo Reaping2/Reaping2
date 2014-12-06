@@ -54,7 +54,7 @@ void MoveComponent::SetSpeedY( double SpeedY )
 
 void MoveComponentLoader::BindValues()
 {
-
+    Bind("speed",func_double(&MoveComponent::SetSpeed));
 }
 
 MoveComponentLoader::MoveComponentLoader()

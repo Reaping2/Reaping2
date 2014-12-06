@@ -18,7 +18,6 @@ void Pistol::ShootImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
     std::auto_ptr<Actor> ps(mActorFactory(mShotId));
-    ps->Get<IMoveComponent>()->SetSpeed(3);
     ps->AddAction( AutoId( "move" ) );
     Projectiles.push_back( ps );
 }
@@ -27,7 +26,6 @@ void Pistol::ShootAltImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
     std::auto_ptr<Actor> ps(mActorFactory(mShotId));
-    ps->Get<IMoveComponent>()->SetSpeed(3);
     ps->AddAction( AutoId( "move" ) );
     Projectiles.push_back( ps );
 }

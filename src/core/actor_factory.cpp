@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "core/actor_factory.h"
 #include "core/property_loader.h"
+#include "core/i_renderable_component.h"
 
 ActorFactory::ActorFactory()
 {
@@ -116,6 +117,12 @@ std::auto_ptr<Actor> ActorCreator::Create()const
     for(ComponentLoaderMap_t::const_iterator i=mComponentLoaders.begin(), e=mComponentLoaders.end();i!=e;++i)
     {
         actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
+    }
+    //TODO: guid will come from outside zorder will be done by ordering at renderer
+    Opt<IRenderableComponent> renderableC = actor->Get<IRenderableComponent>();
+    if (renderableC.IsValid())
+    {
+        renderableC->SetZOrder(actor->GetGUID());
     }
     return actor;
 }

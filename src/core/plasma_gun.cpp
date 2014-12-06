@@ -21,7 +21,6 @@ void PlasmaGun::ShootImpl( Projectiles_t& Projectiles )
 {
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
     std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);
-    ps->Get<IMoveComponent>()->SetSpeed(1);
     ps->AddAction( AutoId( "move" ) );
     Projectiles.push_back( ps );
 }
@@ -31,19 +30,16 @@ void PlasmaGun::ShootAltImpl( Projectiles_t& Projectiles )
     EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mAltShotId ) );
 
     std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);
-    ps->Get<IMoveComponent>()->SetSpeed(1);
     ps->AddAction( AutoId( "move" ) );
     ps->Get<IPositionComponent>()->SetOrientation( -0.15 );
     Projectiles.push_back( ps );
 
     ps = mActorFactory(mPlasmaShotId);
-    ps->Get<IMoveComponent>()->SetSpeed(1);
     ps->AddAction( AutoId( "move" ) );
     ps->Get<IPositionComponent>()->SetOrientation( 0.15 );
     Projectiles.push_back( ps );
 
     ps = mActorFactory(mPlasmaShotId);
-    ps->Get<IMoveComponent>()->SetSpeed(1);
     ps->AddAction( AutoId( "move" ) );
     Projectiles.push_back( ps );
 }

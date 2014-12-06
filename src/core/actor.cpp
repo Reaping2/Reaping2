@@ -45,13 +45,6 @@ Actor::Actor( int32_t Id )
     static int32_t NextGuid = 0;
     mGUID = ++NextGuid;
     AddAction( AutoId( "default_action" ) );
-    AddComponent( mComponentFactory(AutoId("position_component")) );
-    AddComponent( mComponentFactory(AutoId("move_component")) );
-
-    AddComponent( mComponentFactory(AutoId("renderable_component")) );
-    Opt<IRenderableComponent> renderableC = Get<IRenderableComponent>();
-    renderableC->SetLayer(RenderableLayer::Creeps);
-    renderableC->SetZOrder(mGUID);
 }
 
 

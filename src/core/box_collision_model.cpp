@@ -27,7 +27,14 @@ bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB
     {
         return true;
     }
-    glm::vec2 Spd( ObjB.Get<IMoveComponent>()->GetSpeedX() - ObjA.Get<IMoveComponent>()->GetSpeedX(), ObjB.Get<IMoveComponent>()->GetSpeedY() - ObjA.Get<IMoveComponent>()->GetSpeedY() );
+    Opt<IMoveComponent> ObjAmoveC = ObjA.Get<IMoveComponent>();
+    Opt<IMoveComponent> ObjBmoveC = ObjB.Get<IMoveComponent>();
+    float const ObjASpdX = ObjAmoveC.IsValid()?ObjAmoveC->GetSpeedX():0.0f;
+    float const ObjASpdY = ObjAmoveC.IsValid()?ObjAmoveC->GetSpeedY():0.0f;
+    float const ObjBSpdX = ObjBmoveC.IsValid()?ObjBmoveC->GetSpeedX():0.0f;
+    float const ObjBSpdY = ObjBmoveC.IsValid()?ObjBmoveC->GetSpeedY():0.0f;
+
+    glm::vec2 Spd( ObjBSpdX - ObjASpdX, ObjBSpdY - ObjASpdY );
     glm::vec2 T1minusB = ASize - B;
     glm::vec2 T2minusB = -ASize - B;
     glm::vec2 MinTimes( std::numeric_limits<float>::max() );

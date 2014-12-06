@@ -97,8 +97,10 @@ void Grid::AddActor( Actor* A, double Dt )
 
 glm::vec4 Grid::Box( Actor const& Obj, double Dt )const
 {
-    float const MvX = Dt * Obj.Get<IMoveComponent>()->GetSpeedX();
-    float const MvY = Dt * Obj.Get<IMoveComponent>()->GetSpeedY();
+    Opt<IMoveComponent> moveC = Obj.Get<IMoveComponent>();
+    float const MvX = moveC.IsValid()?Dt * moveC->GetSpeedX():0.0f;
+    float const MvY = moveC.IsValid()?Dt * moveC->GetSpeedY():0.0f;
+
     double const Radius = Obj.Get<ICollisionComponent>()->GetRadius();
     Opt<IPositionComponent> const objPositionC = Obj.Get<IPositionComponent>();
     double const Ox = objPositionC->GetX() - mMin.x;

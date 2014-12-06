@@ -3,8 +3,11 @@
         "name":"wall",
         "components":
         [
-            {
-                "name":"wall_collision_component",
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":0.1}]
             }
         ]
@@ -13,6 +16,10 @@
         "name":"pickup",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"players"}]
+            },
             {
                 "name":"pickup_collision_component",
                 "set":[{"class":"pickup", "radius":0.04}]
@@ -25,6 +32,13 @@
         "name":"pistol_shot",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":3}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
             {"name":"shot_collision_component",
                 "set":[{"class":"projectile", "radius":0.014, "damage":5 }]
             },
@@ -36,6 +50,14 @@
         "name":"plasma_shot",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":1}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+
             {"name":"shot_collision_component",
                 "set":[{"class":"projectile", "radius":0.03, "damage":10 }]
             },
@@ -47,6 +69,11 @@
         "name":"spider1",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":0.1}]
             },
@@ -61,6 +88,11 @@
         "name":"spider1target",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":0.1}]
             },
@@ -75,6 +107,12 @@
         "name":"spider2",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":0.1}]
             },
@@ -89,6 +127,11 @@
         "name":"spider2target",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":0.1}]
             },
@@ -103,6 +146,11 @@
         "name":"player",
         "components":
         [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"players"}]
+            },
             {"name":"collision_component",
                 "set":[{"class":"player", "radius":0.05}]
             },
@@ -112,8 +160,5 @@
                 "set":[{"hp":100}]
             }
         ]
-    },
-    {
-        "name":"shot"
     }
 ]
