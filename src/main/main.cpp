@@ -6,7 +6,9 @@
 #include "core/scene.h"
 
 #include <boost/timer.hpp>
-
+#include "engine/engine.h"
+#include "engine/collision_system.h"
+using engine::Engine;
 namespace {
 class Timer_t
 {
@@ -77,6 +79,9 @@ int main()
     FrameCounter Counter;
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
+    Engine& Eng = Engine::Get();
+    Eng.AddSystem(AutoId("collision_system"));
+    Eng.Init();
     while( true )
     {
         Curtime = glfwGetTime();
@@ -90,6 +95,7 @@ int main()
         }
         Timers.Update( Dt );
         Jerry.Update( Dt );
+        Eng.Update( Dt );
         Scen.Update( Dt );
         CycleEventServer.SendEvent( CycleEvent( Curtime ) );
         if( !Rend.Render() )

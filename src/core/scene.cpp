@@ -44,7 +44,6 @@ void Scene::Update( double DeltaTime )
     {
         return;
     }
-    mCollisionGrid.Clear();
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
         Actor& Obj = **it;
@@ -53,24 +52,6 @@ void Scene::Update( double DeltaTime )
         {
             objControllerC->Update(DeltaTime);
         }
-        mCollisionGrid.AddActor( &Obj, DeltaTime );
-    }
-    PossibleCollisions_t const& PossibleCollisions = mCollisionGrid.GetPossibleCollisions();
-    for( PossibleCollisions_t::const_iterator i = PossibleCollisions.begin(), e = PossibleCollisions.end(); i != e; ++i )
-    {
-        Actor& A = *( i->A1 );
-        Actor& B = *( i->A2 );
-        Opt<ICollisionComponent> ACollisionC = A.Get<ICollisionComponent>();
-        Opt<ICollisionComponent> BcollisionC = B.Get<ICollisionComponent>();
-        BOOST_ASSERT(ACollisionC.IsValid() && BcollisionC.IsValid()); //TODO: here this one should be true
-
-        CollisionModel const& CollModel = mCollisionStore.GetCollisionModel( ACollisionC->GetCollisionClass(), BcollisionC->GetCollisionClass() );
-        if( !CollModel.AreActorsColliding( A, B, DeltaTime ) )
-        {
-            continue;
-        }
-        ACollisionC->Collide( B );
-        BcollisionC->Collide( A );
     }
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
@@ -107,7 +88,6 @@ void Scene::Update( double DeltaTime )
 
 Scene::Scene()
     : mDimensions( -2, -2, 2, 2 )
-    , mCollisionStore( CollisionStore::Get() )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )
@@ -116,7 +96,6 @@ Scene::Scene()
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
     , mPlayerModel( "player", &RootModel::Get() )
 {
-    mCollisionGrid.Build( mDimensions, 0.4f );
 }
 
 glm::vec4 const& Scene::GetDimensions()

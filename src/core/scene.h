@@ -4,8 +4,7 @@
 #include "platform/factory.h"
 #include "platform/singleton.h"
 #include "core/i_renderable_component.h"
-#include "core/collision_store.h"
-#include "core/grid.h"
+#include "core/actor.h"
 
 class ActorHolder
 {
@@ -107,7 +106,6 @@ class Scene : public platform::Singleton<Scene>
     ActorHolder mActorHolder;
     typedef std::list< Opt<Actor> > NewActorList_t;
     NewActorList_t mNewActors;
-    CollisionStore& mCollisionStore;
     glm::vec4 mDimensions;
     int32_t mTypeId;
     friend class platform::Singleton<Scene>;
@@ -119,7 +117,6 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mResumeModel;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
-    Grid mCollisionGrid;
 public:
     enum ActorIndex
     {
@@ -139,6 +136,10 @@ public:
         mActorHolder.mAllActors.modify(it,Modifier);
     }
     ActorList_t const& GetActors() const
+    {
+        return mActorHolder.mAllActors;
+    }
+    ActorList_t& GetActors()
     {
         return mActorHolder.mAllActors;
     }
