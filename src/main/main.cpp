@@ -82,6 +82,7 @@ int main()
     Engine& Eng = Engine::Get();
     Eng.AddSystem(AutoId("collision_system"));
     Eng.Init();
+    Eng.SetEnabled(AutoId("collision_system"),true); //just for testing
     while( true )
     {
         Curtime = glfwGetTime();
