@@ -29,7 +29,9 @@ void Engine::Update(double DeltaTime)
 
 void Engine::AddSystem(int32_t Id)
 {
-    mSystemHolder.mSystems.insert(SystemElement(Id,mSystemHolder.mSystems.size(),true, Opt<System>(mSystemFactory(Id).release())));
+    std::auto_ptr<System> sys = mSystemFactory(Id);
+    int32_t typ = sys->GetType();
+    mSystemHolder.mSystems.insert(SystemElement(typ,mSystemHolder.mSystems.size(),true, Opt<System>(sys.release())));
 }
 
 Engine::~Engine()
@@ -41,17 +43,6 @@ Engine::~Engine()
     mSystemHolder.mSystems.clear();
 }
 
-void Engine::SetEnabled(int32_t Id, bool enabled)
-{
-    Systems_t::iterator it = mSystemHolder.mSystems.find(Id);
-    mSystemHolder.mSystems.modify(it,SystemEnableModifier(enabled));
-}
-
-Opt<System> Engine::GetSystem(int32_t Id)
-{
-    Systems_t::iterator it = mSystemHolder.mSystems.find(Id);
-    return it!=mSystemHolder.mSystems.end()?it->mSystem:Opt<System>(NULL);
-}
 
 
 

@@ -83,7 +83,7 @@ int main()
     Eng.AddSystem(AutoId("collision_system"));
     Eng.AddSystem(AutoId("player_controller_system"));
     Eng.Init();
-    Eng.SetEnabled(AutoId("collision_system"),true); //just for testing
+    Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
     while( true )
     {
         Curtime = glfwGetTime();

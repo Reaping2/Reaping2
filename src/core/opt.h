@@ -11,9 +11,23 @@ public:
     T& operator*() const;
     T* operator->();
     T& operator*();
+    T* Get() const;
+    T* Get();
 private:
     mutable T* mPtr;
 };
+
+template<typename T>
+T* Opt<T>::Get()
+{
+    return mPtr;
+}
+
+template<typename T>
+T* Opt<T>::Get() const
+{
+    return mPtr;
+}
 
 template<typename T>
 Opt<T>::Opt(T* Ptr)

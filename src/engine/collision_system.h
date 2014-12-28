@@ -10,13 +10,15 @@ namespace engine {
 
 class CollisionSystem : public System
 {
-    Grid mCollisionGrid;
-    CollisionStore& mCollisionStore;
-    Scene& mScene;
 public:
+    DEFINE_SYSTEM_BASE(CollisionSystem)
     CollisionSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
+private:
+    Grid mCollisionGrid;
+    CollisionStore& mCollisionStore;
+    Scene& mScene;
 };
 
 } // namespace engine

@@ -135,10 +135,36 @@ public:
     void Init();
     void Update( double DeltaTime );
     void AddSystem( int32_t Id );
-    void SetEnabled( int32_t Id, bool enabled);
-    Opt<System> GetSystem( int32_t Id );
-
+    template<typename System_t>
+    Opt<System_t> GetSystem() const;
+    template<typename System_t>
+    Opt<System_t> GetSystem();
+    template<typename System_t>
+    void SetEnabled(bool enabled);
 };
+
+template<typename System_t>
+Opt<System_t> Engine::GetSystem() const
+{
+    Systems_t::const_iterator i = mSystemHolder.mSystems.find( System_t::GetType_static() );
+    return Opt<System_t>(static_cast<System_t*>(const_cast<System*>(
+        i == mSystemHolder.mSystems.end()?NULL:i->mSystem.Get()))); 
+}
+
+template<typename System_t>
+Opt<System_t> Engine::GetSystem()
+{
+    return ( ( const Engine* )this )->GetSystem<System_t>();
+}
+template<typename System_t>
+void Engine::SetEnabled(bool enabled)
+{
+    Systems_t::iterator it = mSystemHolder.mSystems.find(System_t::GetType_static());
+    if (it!=mSystemHolder.mSystems.end())
+    {
+        mSystemHolder.mSystems.modify(it,SystemEnableModifier(enabled));
+    }
+}
 
 } // namespace engine
 
