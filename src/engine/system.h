@@ -1,7 +1,7 @@
 #ifndef INCLUDED_ENGINE_SYSTEM_H
 #define INCLUDED_ENGINE_SYSTEM_H
 
-#include "platform\auto_id.h"
+#include "platform/auto_id.h"
 
 #define DEFINE_SYSTEM_BASE( SystemType ) \
     static int32_t GetType_static() \
