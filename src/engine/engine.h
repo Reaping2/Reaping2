@@ -136,6 +136,8 @@ public:
     void Update( double DeltaTime );
     void AddSystem( int32_t Id );
     void SetEnabled( int32_t Id, bool enabled);
+    Opt<System> GetSystem( int32_t Id );
+
 };
 
 } // namespace engine

@@ -62,7 +62,6 @@ int main()
     PerfTimer.Log( "wnd" );
     TimerServer& Timers( TimerServer::Get() );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
-    Keyboard::Get().SetWindow( Wnd.GetWindow() );
     AudioEffectPlayer::Get();
     AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
     Mouse& Jerry = Mouse::Get();
@@ -80,7 +79,9 @@ int main()
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
     Engine& Eng = Engine::Get();
+    Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("collision_system"));
+    Eng.AddSystem(AutoId("player_controller_system"));
     Eng.Init();
     Eng.SetEnabled(AutoId("collision_system"),true); //just for testing
     while( true )

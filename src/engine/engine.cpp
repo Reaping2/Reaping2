@@ -47,6 +47,12 @@ void Engine::SetEnabled(int32_t Id, bool enabled)
     mSystemHolder.mSystems.modify(it,SystemEnableModifier(enabled));
 }
 
+Opt<System> Engine::GetSystem(int32_t Id)
+{
+    Systems_t::iterator it = mSystemHolder.mSystems.find(Id);
+    return it!=mSystemHolder.mSystems.end()?it->mSystem:Opt<System>(NULL);
+}
+
 
 
 

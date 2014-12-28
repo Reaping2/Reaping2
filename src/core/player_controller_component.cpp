@@ -16,7 +16,6 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mShoot( false )
     , mShootAlt( false )
 {
-    Keyboard& Keys = Keyboard::Get();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnKeyEvent, this, _1 ) );
     mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMouseMoveEvent, this, _1 ) );
     mMousePressId = EventServer<WorldMousePressEvent>::Get().Subscribe( boost::bind( &PlayerControllerComponent::OnMousePressEvent, this, _1 ) );

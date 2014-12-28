@@ -4,10 +4,9 @@ get_filename_component(dirnam ${CMAKE_CURRENT_LIST_DIR} NAME)
 file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 
 add_library(${dirnam} STATIC ${${dirnam}_source_files})
-target_link_libraries(${dirnam} platform core controllers)
+target_link_libraries(${dirnam} engine)
 
 add_precompiled_header(${dirnam} pch.h)
-add_subdirectory(controllers)
 
 INSTALL(TARGETS ${dirnam}
 	RUNTIME DESTINATION bin
