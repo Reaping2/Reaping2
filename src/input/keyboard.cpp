@@ -1,5 +1,5 @@
 #include "i_input.h"
-#include "main\window.h"
+#include "main/window.h"
 #include <boost/bind.hpp>
 namespace engine {
 
