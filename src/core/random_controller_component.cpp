@@ -12,33 +12,28 @@ RandomControllerComponent::RandomControllerComponent()
 
 }
 
-void RandomControllerComponent::SetActor( Actor* Obj )
-{
-    IControllerComponent::SetActor(Obj);
-    if( !mActor )
-    {
-        return;
-    }
-    mActor->Get<IMoveComponent>()->SetHeading( rand() % 180 );
-    mActor->AddAction( AutoId( "move" ) );
-}
-
 void RandomControllerComponent::Update( double Seconds )
 {
-    if( !mActor )
-    {
-        return;
-    }
-    mCounter += Seconds;
-    if ( mCounter > 2 )
-    {
-        mCounter = 0;
-        mHeadingModifier = ( rand() % 10 - 5 ) * .33;
+}
 
-        mActor->Get<IMoveComponent>()->SetSpeed( ( rand() % 10 )*.03 );
-    }
-    mActor->Get<IMoveComponent>()->SetHeading( mActor->Get<IMoveComponent>()->GetHeading() + Seconds * mHeadingModifier );
-    mActor->Get<IPositionComponent>()->SetOrientation( mActor->Get<IMoveComponent>()->GetHeading() );
+double RandomControllerComponent::GetCounter() const
+{
+    return mCounter;
+}
+
+void RandomControllerComponent::SetCounter(double counter)
+{
+    mCounter = counter;
+}
+
+double RandomControllerComponent::GetHeadingModifier() const
+{
+    return mHeadingModifier;
+}
+
+void RandomControllerComponent::SetHeadingModifier(double headingModifier)
+{
+    mHeadingModifier = headingModifier;
 }
 
 

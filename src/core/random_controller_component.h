@@ -8,9 +8,14 @@
 class RandomControllerComponent : public ControllerComponent
 {
 public:
+    double GetCounter() const;
+    void SetCounter(double counter);
+    double GetHeadingModifier() const;
+    void SetHeadingModifier(double headingModifier);
+
     RandomControllerComponent();
     virtual void Update( double Seconds );
-    virtual void SetActor( Actor* Obj );
+
 private:
     double mCounter;
     double mHeadingModifier;

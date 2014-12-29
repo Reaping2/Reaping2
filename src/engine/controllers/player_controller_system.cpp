@@ -29,7 +29,7 @@ void PlayerControllerSystem::Update(double DeltaTime)
     {
         Actor& actor = **it;
         Opt<PlayerControllerComponent> playerControllerC = actor.Get<PlayerControllerComponent>();
-        if (!playerControllerC.IsValid())
+        if (!playerControllerC.IsValid()||!playerControllerC->IsEnabled())
         {
             continue;
         }

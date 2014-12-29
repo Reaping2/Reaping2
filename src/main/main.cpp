@@ -82,6 +82,7 @@ int main()
     Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("collision_system"));
     Eng.AddSystem(AutoId("player_controller_system"));
+    Eng.AddSystem(AutoId("random_controller_system"));
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
     while( true )

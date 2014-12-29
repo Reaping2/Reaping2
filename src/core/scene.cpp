@@ -151,18 +151,23 @@ void Scene::Load( std::string const& Level )
         double x;
         double y;
     };
-    const size_t NumPoints = 5;
+    const size_t NumPoints = 18;
     const point points[NumPoints] =
     {
-        { -1, -1}, { -1, -0.8}, { -1, -0.6}, { -0.8, -0.6}, { -0.6, -0.6},
+        {-1,-0.4},                                      { 0.0, -0.4}, 
+        {-1,-0.6},{-0.8,-0.6},{-0.6,-0.6},              { 0.0, -0.6},
+        {-1,-0.8},                                      { 0.0, -0.8}, 
+        {-1,-1},                                        { 0.0, -1},
+        {-1,-1.2},                                      { 0.0, -1.2},{ 0.2, -1.2},{ 0.4, -1.2},
+        {-1,-1.4},            {-0.6,-1.4},{-0.4,-1.4},  { 0.0, -1.4},
     };
 
     for( size_t i = 0; i < NumPoints; ++i )
     {
         std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
         Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( points[i].x );
-        wallPositionC->SetY( points[i].y );
+        wallPositionC->SetX( points[i].x+0.6 );
+        wallPositionC->SetY( points[i].y+0.4 );
 
         AddActor( wall.release() );
     }
