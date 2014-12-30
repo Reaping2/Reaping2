@@ -12,10 +12,6 @@ RandomControllerComponent::RandomControllerComponent()
 
 }
 
-void RandomControllerComponent::Update( double Seconds )
-{
-}
-
 double RandomControllerComponent::GetCounter() const
 {
     return mCounter;

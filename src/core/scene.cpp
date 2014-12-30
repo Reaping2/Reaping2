@@ -46,15 +46,6 @@ void Scene::Update( double DeltaTime )
     }
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
-        Actor& Obj = **it;
-        Opt<IControllerComponent> objControllerC = Obj.Get<IControllerComponent>();
-        if(objControllerC.IsValid()&&objControllerC->IsEnabled())
-        {
-            objControllerC->Update(DeltaTime);
-        }
-    }
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
-    {
         (*it)->Update( DeltaTime );
     }
     size_t siz1= mActorHolder.mAllActors.size();

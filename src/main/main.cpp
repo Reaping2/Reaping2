@@ -83,6 +83,7 @@ int main()
     Eng.AddSystem(AutoId("collision_system"));
     Eng.AddSystem(AutoId("player_controller_system"));
     Eng.AddSystem(AutoId("random_controller_system"));
+    Eng.AddSystem(AutoId("target_player_controller_system"));
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
     while( true )

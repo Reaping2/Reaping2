@@ -14,7 +14,6 @@ public:
     void SetHeadingModifier(double headingModifier);
 
     RandomControllerComponent();
-    virtual void Update( double Seconds );
 
 private:
     double mCounter;

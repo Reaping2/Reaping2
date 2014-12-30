@@ -15,3 +15,8 @@ ControllerComponent::ControllerComponent()
 {
 
 }
+
+void ControllerComponent::Update(double Seconds)
+{
+
+}

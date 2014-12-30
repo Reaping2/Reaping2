@@ -8,10 +8,15 @@
 class TargetPlayerControllerComponent : public ControllerComponent
 {
 public:
-    TargetPlayerControllerComponent();
-    virtual void Update( double Seconds );
-    virtual void SetActor( Actor* Obj );
+    double GetCounter() const;
+    void SetCounter(double counter);
+    double GetHeadingModifier() const;
+    void SetHeadingModifier(double headingModifier);
+
     void SetPlayer( Actor* Player );
+    Actor* GetPlayer();
+
+    TargetPlayerControllerComponent();
 private:
     Actor* mPlayer;
     double mCounter;

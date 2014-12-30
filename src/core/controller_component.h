@@ -10,6 +10,7 @@ public:
     ControllerComponent();
     virtual void SetEnabled( bool Enabled );
     virtual bool IsEnabled();
+    virtual void Update( double Seconds );
 protected:
     bool mEnabled;
 };

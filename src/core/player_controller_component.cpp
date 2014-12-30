@@ -11,11 +11,6 @@ PlayerControllerComponent::PlayerControllerComponent()
 {
 }
 
-void PlayerControllerComponent::Update( double Seconds )
-{
-}
-
-
 
 void PlayerControllerComponentLoader::BindValues()
 {

@@ -10,7 +10,6 @@ class PlayerControllerComponent : public ControllerComponent
 {
 public:
     PlayerControllerComponent();
-    virtual void Update( double Seconds );
 };
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>

@@ -21,66 +21,32 @@ void TargetPlayerControllerComponent::SetPlayer( Actor* Player )
     mPlayer = Player;
 }
 
-void TargetPlayerControllerComponent::SetActor( Actor* Obj )
+Actor* TargetPlayerControllerComponent::GetPlayer()
 {
-    IControllerComponent::SetActor(Obj);
-    if( !mActor )
-    {
-        return;
-    }
-    mActor->Get<IMoveComponent>()->SetHeading( 0 );
-    mActor->Get<IMoveComponent>()->SetSpeed( 0.1 );
-    mActor->AddAction( AutoId( "move" ) );
+    return mPlayer;
 }
 
-void TargetPlayerControllerComponent::Update( double Seconds )
+double TargetPlayerControllerComponent::GetHeadingModifier() const
 {
-    if( !mActor )
-    {
-        return;
-    }
-    if( !mPlayer )
-    {
-        return;
-    }
-    Opt<IPositionComponent> const playerPositionC = mPlayer->Get<IPositionComponent>();
-    Opt<IPositionComponent> const actorPositionC = mActor->Get<IPositionComponent>();
-    glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
-    {
-        // todo: biteaction
-        BOOST_ASSERT(mPlayer->Get<ICollisionComponent>().IsValid()&&mActor->Get<ICollisionComponent>().IsValid());
-        double const R = mPlayer->Get<ICollisionComponent>()->GetRadius() + mActor->Get<ICollisionComponent>()->GetRadius();
-        if( std::abs( Diff.x ) < R && std::abs( Diff.y ) < R )
-        {
-            if( mCounter <= 0.0 )
-            {
-                std::auto_ptr<Action> act = ActionRepo::Get()( AutoId("damage") );
-                DamageAction* dact = static_cast<DamageAction*>(act.release());
-                dact->SetDamage( 1 );
-                mPlayer->AddAction(std::auto_ptr<Action>(static_cast<Action*>(dact)));
-                mCounter = 2.0;
-            }
-        }
-        if( mCounter >= 0.0 )
-        {
-            mCounter -= Seconds;
-        }
-    }
-    double Rot = atan2( Diff.y, Diff.x );
-    double Radians = Rot - mActor->Get<IMoveComponent>()->GetHeading();
-    static const double pi = boost::math::constants::pi<double>();
-    while ( Radians < -pi )
-    {
-        Radians += pi * 2;
-    }
-    while ( Radians > pi )
-    {
-        Radians -= pi * 2;
-    }
-    double RotSpd = ( Radians > 0 ? 1 : -1 ) * 0.01;
-    mActor->Get<IMoveComponent>()->SetHeading( mActor->Get<IMoveComponent>()->GetHeading() + RotSpd );
-    mActor->Get<IPositionComponent>()->SetOrientation( mActor->Get<IMoveComponent>()->GetHeading() );
+    return mHeadingModifier;
 }
+
+void TargetPlayerControllerComponent::SetHeadingModifier(double headingModifier)
+{
+    mHeadingModifier = headingModifier;
+}
+
+double TargetPlayerControllerComponent::GetCounter() const
+{
+    return mCounter;
+}
+
+void TargetPlayerControllerComponent::SetCounter(double counter)
+{
+    mCounter = counter;
+}
+
+
 
 void TargetPlayerControllerComponentLoader::BindValues()
 {
