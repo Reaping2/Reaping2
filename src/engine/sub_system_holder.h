@@ -1,0 +1,172 @@
+#ifndef INCLUDED_ENGINE_SUB_SYSTEM_HOLDER_H
+#define INCLUDED_ENGINE_SUB_SYSTEM_HOLDER_H
+
+#include "engine/sub_system.h"
+
+#include <boost/ptr_container/ptr_map.hpp>
+#include "platform/singleton.h"
+#include "platform/i_platform.h"
+#include "system_factory.h"
+#include "core/opt.h"
+#include "engine/sub_system_factory.h"
+
+using namespace ::boost::multi_index;
+namespace engine {
+
+    struct SubSystemElement
+    {
+        int32_t mId;
+        int32_t mBindedId;
+        int32_t mOrder;
+        bool mEnabled;
+        mutable Opt<SubSystem> mSystem;
+        SubSystemElement(int32_t id, int32_t mBindedId, int32_t order, bool enabled, Opt<SubSystem> system);
+    };
+
+
+    class SubSystemHolder
+    {
+    public:
+
+        struct SubSystemDefaultOrderer
+        { 
+            typedef int32_t result_type;
+            result_type operator()(const SubSystemElement& system)const;
+        };
+
+        struct SubSystemIdOrderer
+        { 
+            typedef int32_t result_type;
+            result_type operator()(const SubSystemElement& system)const;
+        };
+
+        struct SubSystemBindIdOrderer
+        { 
+            typedef int32_t result_type;
+            result_type operator()(const SubSystemElement& system)const;
+        };
+
+        struct IsEnabled
+        { 
+            typedef bool result_type;
+            bool operator()(const SubSystemElement& system)const;
+        };
+
+        typedef multi_index_container<
+            SubSystemElement,
+            indexed_by<
+                ordered_unique<
+                    SubSystemHolder::SubSystemIdOrderer
+                >,
+                ordered_unique<
+                    SubSystemHolder::SubSystemBindIdOrderer
+                >,
+                ordered_non_unique<
+                    composite_key<
+                        SubSystemElement,
+                        SubSystemHolder::IsEnabled,
+                        SubSystemHolder::SubSystemDefaultOrderer
+                    >
+                >
+            >
+        > SubSystems_t;
+        SubSystems_t mSubSystems;
+
+        void AddSubSystem( int32_t BindId, int32_t Id );
+      
+        Opt<SubSystem> GetSubSystem( int32_t BindId ) const;
+        Opt<SubSystem> GetSubSystem( int32_t BindId );
+        void SetEnabled( int32_t BindId, bool enabled );
+        enum SubSystemIndex
+        {
+            AllById,
+            AllByBindId,
+            EnabledSubSystems
+        };
+        SubSystemFactory& mSubSystemFactory;
+        SubSystemHolder();
+    };
+
+    typedef SubSystemHolder::SubSystems_t SubSystems_t;
+
+    template<int N>
+    class SubSystemsFilter
+    {
+    public:
+        typedef SubSystems_t::const_iterator const_iterator;
+    protected:
+        SubSystems_t::const_iterator mI;
+        SubSystems_t::const_iterator mE;
+    public:
+        SubSystemsFilter(SubSystems_t const& systems)
+        {
+            mI=systems.begin();
+            mE=systems.end();
+        }
+        const_iterator begin()
+        {
+            return mI;
+        }
+        const_iterator end()
+        {
+            return mE;
+        }
+    };
+    template<>
+    class SubSystemsFilter<1>
+    {
+    public:
+        typedef SubSystems_t::nth_index<1>::type BindId_t;
+        typedef SubSystems_t::nth_index<1>::type::const_iterator const_iterator;
+    protected:
+        BindId_t& mBindIds;
+    public:
+        SubSystemsFilter(SubSystems_t& systems)
+            : mBindIds(systems.get<1>())
+        {
+        }
+        const_iterator begin()
+        {
+            return mBindIds.begin();
+        }
+        const_iterator end()
+        {
+            return mBindIds.end();
+        }
+    };
+
+    template<>
+    class SubSystemsFilter<2>
+    {
+    public:
+        typedef SubSystems_t::nth_index<2>::type::const_iterator const_iterator;
+    protected:
+        const_iterator mI;
+        const_iterator mE;
+    public:
+        SubSystemsFilter(SubSystems_t const& systems)
+        {
+            boost::tie(mI,mE)=systems.get<2>().equal_range(boost::make_tuple(true));
+        }
+        const_iterator begin()
+        {
+            return mI;
+        }
+        const_iterator end()
+        {
+            return mE;
+        }
+    };
+
+    class SubSystemEnableModifier
+    {
+    public:
+        SubSystemEnableModifier(bool enabled);
+        void operator()(SubSystemElement& system);
+    protected:
+        bool mEnabled;
+    };
+
+} // namespace engine
+
+#endif//INCLUDED_ENGINE_SUB_SYSTEM_HOLDER_H
