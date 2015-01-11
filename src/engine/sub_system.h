@@ -1,7 +1,7 @@
 #ifndef INCLUDED_ENGINE_SUB_SYSTEM_H
 #define INCLUDED_ENGINE_SUB_SYSTEM_H
 
-#include "core\actor.h"
+#include "core/actor.h"
 
 #define DEFINE_SUB_SYSTEM_BASE( SystemType ) \
     static int32_t GetType_static() \
