@@ -3,10 +3,9 @@
 
 #include "platform/factory.h"
 #include "platform/singleton.h"
+#include "core/component.h"
 
 #include <memory>
-
-class Component;
 
 class ComponentFactory : public platform::Factory<Component>, public platform::Singleton<ComponentFactory>
 {
