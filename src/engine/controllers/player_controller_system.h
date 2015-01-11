@@ -2,20 +2,20 @@
 #define INCLUDED_PLAYER_CONTROLLER_SYSTEM_H
 
 #include "core/scene.h"
-#include "engine/system.h"
+#include "engine/sub_system.h"
 #include "input/i_input.h"
 #include "core/opt.h"
 #include "input/keyboard.h"
 
 namespace engine {
 
-class PlayerControllerSystem : public System
+class PlayerControllerSubSystem : public SubSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(PlayerControllerSystem)
-    PlayerControllerSystem();
+    DEFINE_SUB_SYSTEM_BASE(PlayerControllerSubSystem)
+    PlayerControllerSubSystem();
     virtual void Init();
-    virtual void Update( double DeltaTime );
+    virtual void Update( Actor& actor, double DeltaTime );
 
 private:
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );

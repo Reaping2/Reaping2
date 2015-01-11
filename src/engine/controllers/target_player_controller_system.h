@@ -2,17 +2,17 @@
 #define INCLUDED_ENGINE_CONTROLLERS_TARGET_PLAYER_CONTROLLER_SYSTEM_H
 
 #include "core/scene.h"
-#include "engine/system.h"
+#include "engine/sub_system.h"
 
 namespace engine {
 
-class TargetPlayerControllerSystem : public System
+class TargetPlayerControllerSubSystem : public SubSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(TargetPlayerControllerSystem)
-    TargetPlayerControllerSystem();
+    DEFINE_SUB_SYSTEM_BASE(TargetPlayerControllerSubSystem)
+    TargetPlayerControllerSubSystem();
     virtual void Init();
-    virtual void Update( double DeltaTime );
+    virtual void Update( Actor& actor, double DeltaTime );
 private:
     Scene& mScene;
 };

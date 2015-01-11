@@ -27,7 +27,10 @@ namespace engine {
     class SubSystemHolder
     {
     public:
-
+        void AddSubSystem( int32_t BindId, int32_t Id );
+        Opt<SubSystem> GetSubSystem( int32_t BindId ) const;
+        Opt<SubSystem> GetSubSystem( int32_t BindId );
+        void SetEnabled( int32_t BindId, bool enabled );
         struct SubSystemDefaultOrderer
         { 
             typedef int32_t result_type;
@@ -70,21 +73,20 @@ namespace engine {
                 >
             >
         > SubSystems_t;
-        SubSystems_t mSubSystems;
-
-        void AddSubSystem( int32_t BindId, int32_t Id );
-      
-        Opt<SubSystem> GetSubSystem( int32_t BindId ) const;
-        Opt<SubSystem> GetSubSystem( int32_t BindId );
-        void SetEnabled( int32_t BindId, bool enabled );
         enum SubSystemIndex
         {
             AllById,
             AllByBindId,
             EnabledSubSystems
         };
-        SubSystemFactory& mSubSystemFactory;
+        typedef SubSystems_t::nth_index<SubSystemHolder::AllByBindId>::type BindIds_t;
+        typedef SubSystems_t::nth_index<SubSystemHolder::EnabledSubSystems>::type EnabledSubSystems_t;
         SubSystemHolder();
+        virtual ~SubSystemHolder();
+        virtual void Init();
+    protected:
+        SubSystems_t mSubSystems;
+        SubSystemFactory& mSubSystemFactory;
     };
 
     typedef SubSystemHolder::SubSystems_t SubSystems_t;

@@ -14,6 +14,16 @@ void Component::SetActor(Actor* Obj)
     mActor=Obj;
 }
 
+void Component::SetId(int32_t id)
+{
+    mId = id;
+}
+
+int32_t Component::GetId() const
+{
+    return mId;
+}
+
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 {
     ComponentList_t::iterator i = mComponents.find( Comp->GetType() );

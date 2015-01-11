@@ -19,7 +19,9 @@ protected:
 template<typename Elem_T>
 std::auto_ptr<Component> ComponentFactory::CreateComponent( int32_t Id )
 {
-    return std::auto_ptr<Component>( new Elem_T() );
+    std::auto_ptr<Component> component( new Elem_T() );
+    component->SetId(Id);
+    return component;
 }
 
 #endif//INCLUDED_COMPONENT_REPO_H

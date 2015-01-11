@@ -13,7 +13,7 @@ namespace engine {
 
     }
 
-    void DefaultSubSystem::Update(Actor* Obj, double DeltaTime)
+    void DefaultSubSystem::Update(Actor& actor, double DeltaTime)
     {
 
     }

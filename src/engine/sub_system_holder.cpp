@@ -48,8 +48,8 @@ namespace engine {
 
     Opt<SubSystem> SubSystemHolder::GetSubSystem(int32_t BindId) const
     {
-        SubSystems_t::nth_index<SubSystemHolder::AllByBindId>::type const& BindIdSubSystens=mSubSystems.get<SubSystemHolder::AllByBindId>();
-        SubSystems_t::nth_index<SubSystemHolder::AllByBindId>::type::const_iterator it=
+        BindIds_t const& BindIdSubSystens=mSubSystems.get<SubSystemHolder::AllByBindId>();
+        BindIds_t::const_iterator it=
             BindIdSubSystens.find(BindId);
         return Opt<SubSystem>(const_cast<SubSystem*>(
             it == BindIdSubSystens.end()?NULL:it->mSystem.Get())); 
@@ -62,8 +62,8 @@ namespace engine {
 
     void SubSystemHolder::SetEnabled(int32_t BindId, bool enabled)
     {
-        SubSystems_t::nth_index<SubSystemHolder::AllByBindId>::type& BindIdSubSystens=mSubSystems.get<SubSystemHolder::AllByBindId>();
-        SubSystems_t::nth_index<SubSystemHolder::AllByBindId>::type::iterator it=
+        BindIds_t& BindIdSubSystens=mSubSystems.get<SubSystemHolder::AllByBindId>();
+        BindIds_t::iterator it=
             BindIdSubSystens.find(BindId);
         if (it!=BindIdSubSystens.end())
         {
@@ -74,6 +74,23 @@ namespace engine {
     SubSystemHolder::SubSystemHolder()
         : mSubSystemFactory(SubSystemFactory::Get())
     {
+    }
+
+    SubSystemHolder::~SubSystemHolder()
+    {
+        for( SubSystems_t::iterator it = mSubSystems.begin(), e = mSubSystems.end(); it != e; ++it )
+        {
+            delete it->mSystem.Get();
+        }
+        mSubSystems.clear();
+    }
+
+    void SubSystemHolder::Init()
+    {
+        for( SubSystems_t::iterator it = mSubSystems.begin(), e = mSubSystems.end(); it != e; ++it )
+        {
+            it->mSystem->Init();
+        }
     }
 
 

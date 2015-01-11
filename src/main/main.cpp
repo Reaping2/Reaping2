@@ -8,6 +8,8 @@
 #include <boost/timer.hpp>
 #include "engine/engine.h"
 #include "engine/collision_system.h"
+#include "engine/controllers/controller_system.h"
+#include "core/opt.h"
 using engine::Engine;
 namespace {
 class Timer_t
@@ -81,6 +83,11 @@ int main()
     Engine& Eng = Engine::Get();
     Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("collision_system"));
+    Eng.AddSystem(AutoId("controller_system"));
+    Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());
+    controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
+    controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
+    controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
     Eng.AddSystem(AutoId("player_controller_system"));
     Eng.AddSystem(AutoId("random_controller_system"));
     Eng.AddSystem(AutoId("target_player_controller_system"));

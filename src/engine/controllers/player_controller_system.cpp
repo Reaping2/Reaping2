@@ -9,44 +9,39 @@
 
 namespace engine {
 
-PlayerControllerSystem::PlayerControllerSystem()
+PlayerControllerSubSystem::PlayerControllerSubSystem()
     : mMouse( Mouse::Get() )
     , mScene( Scene::Get() )
 {
 
 }
 
-void PlayerControllerSystem::Init()
+void PlayerControllerSubSystem::Init()
 {
     mKeyboard=Engine::Get().GetSystem<KeyboardSystem>();
-    mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerSystem::OnMouseMoveEvent, this, _1 ) );
+    mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnMouseMoveEvent, this, _1 ) );
 
 }
 
-void PlayerControllerSystem::Update(double DeltaTime)
+void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    Opt<PlayerControllerComponent> playerControllerC = actor.Get<PlayerControllerComponent>();
+    if (!playerControllerC.IsValid()||!playerControllerC->IsEnabled())
     {
-        Actor& actor = **it;
-        Opt<PlayerControllerComponent> playerControllerC = actor.Get<PlayerControllerComponent>();
-        if (!playerControllerC.IsValid()||!playerControllerC->IsEnabled())
-        {
-            continue;
-        }
-        SetSpeedAndOrientation(actor);
-        Shoot(actor);
-        SetOrientation(actor);
+        return;
     }
-
+    SetSpeedAndOrientation(actor);
+    Shoot(actor);
+    SetOrientation(actor);
 }
 
-void PlayerControllerSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
+void PlayerControllerSubSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
 {
     mX = Event.Pos.x;
     mY = Event.Pos.y;
 }
 
-void PlayerControllerSystem::SetSpeedAndOrientation(Actor &actor)
+void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor)
 {
     uint32_t mCurrentMovement = 0;
     if( mKeyboard->GetKey(GLFW_KEY_W).State==KeyState::Down)
@@ -99,7 +94,7 @@ void PlayerControllerSystem::SetSpeedAndOrientation(Actor &actor)
     }
 }
 
-void PlayerControllerSystem::Shoot(Actor &actor)
+void PlayerControllerSubSystem::Shoot(Actor &actor)
 {
     if (mMouse.IsButtonPressed( Mouse::Button_Left ))
     {
@@ -118,7 +113,7 @@ void PlayerControllerSystem::Shoot(Actor &actor)
     }
 }
 
-void PlayerControllerSystem::SetOrientation(Actor &actor)
+void PlayerControllerSubSystem::SetOrientation(Actor &actor)
 {
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
     double Rot = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );

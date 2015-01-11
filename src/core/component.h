@@ -26,9 +26,11 @@ public:
     virtual int GetType() const=0;
     virtual ~Component();
     virtual void SetActor(Actor* Obj);
-
+    void SetId(int32_t id);
+    int32_t GetId() const;
 protected:
     Actor* mActor;
+    int32_t mId;
     Component();
 };
 
