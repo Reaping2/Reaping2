@@ -1,5 +1,6 @@
 #include "platform/i_platform.h"
 #include "core/component.h"
+#include "core/component_factory.h"
 
 Component::Component()
     : mActor( NULL )

@@ -1,10 +1,9 @@
 #ifndef INCLUDED_CORE_COMPONENT_H
 #define INCLUDED_CORE_COMPONENT_H
 
-#include "core/component_factory.h"
-#include "core/opt.h"
 #include "platform/auto_id.h"
 #include <boost/ptr_container/ptr_map.hpp>
+#include "core/opt.h"
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -33,6 +32,8 @@ protected:
     int32_t mId;
     Component();
 };
+
+class ComponentFactory;
 
 class ComponentHolder
 {
@@ -70,7 +71,6 @@ class DefaultComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(DefaultComponent)
     DefaultComponent();
-    friend class ComponentFactory;
 };
 
 template<typename T,typename BASE>

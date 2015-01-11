@@ -1,6 +1,6 @@
 #ifndef INCLUDED_CORE_OPT_H
 #define INCLUDED_CORE_OPT_H
-
+#include <cstdio>
 template<typename T>
 class Opt
 {
