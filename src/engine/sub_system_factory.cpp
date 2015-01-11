@@ -2,9 +2,9 @@
 #include "engine/sub_system_factory.h"
 #include "engine/sub_system.h"
 #include "platform/auto_id.h"
-#include "engine/controllers/player_controller_system.h"
-#include "engine/controllers/random_controller_system.h"
-#include "engine/controllers/target_player_controller_system.h"
+#include "engine/controllers/player_controller_sub_system.h"
+#include "engine/controllers/random_controller_sub_system.h"
+#include "engine/controllers/target_player_controller_sub_system.h"
 
 using platform::AutoId;
 namespace engine {

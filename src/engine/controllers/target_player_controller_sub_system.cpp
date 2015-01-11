@@ -1,5 +1,5 @@
 #include "platform/i_platform.h"
-#include "engine/controllers/target_player_controller_system.h"
+#include "engine/controllers/target_player_controller_sub_system.h"
 #include "engine/engine.h"
 #include "platform/auto_id.h"
 #include "core/i_move_component.h"
