@@ -10,6 +10,8 @@
 #include "engine/collision_system.h"
 #include "engine/controllers/controller_system.h"
 #include "core/opt.h"
+#include "engine/items/inventory_system.h"
+#include "core/item.h"
 using engine::Engine;
 namespace {
 class Timer_t
@@ -88,6 +90,11 @@ int main()
     controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
+
+    Eng.AddSystem(AutoId("inventory_system"));
+    Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
+    inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
+
     Eng.AddSystem(AutoId("player_controller_system"));
     Eng.AddSystem(AutoId("random_controller_system"));
     Eng.AddSystem(AutoId("target_player_controller_system"));

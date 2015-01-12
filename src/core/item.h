@@ -10,7 +10,7 @@ class Item
 public:
     enum ItemType
     {
-        Normal,
+        Normal=0,
         Weapon
     };
     virtual ~Item()

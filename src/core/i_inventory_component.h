@@ -10,6 +10,7 @@ public:
     DEFINE_COMPONENT_BASE(IInventoryComponent)
     typedef boost::ptr_list<Item> ItemList_t;
     virtual ItemList_t const& GetItems()const=0;
+    virtual ItemList_t& GetItems()=0;
     virtual void AddItem( int32_t Id )=0;
     virtual void DropItemType( Item::ItemType Type )=0;
     virtual void Update( double Seconds )=0;

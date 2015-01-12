@@ -26,8 +26,4 @@ Item::Item( int32_t Id )
 
 void Item::Update( double Seconds )
 {
-    if( !mActor )
-    {
-        return;
-    }
 }

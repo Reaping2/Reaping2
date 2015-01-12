@@ -8,6 +8,7 @@ class InventoryComponent : public IInventoryComponent
 {
 public:
     virtual ItemList_t const& GetItems()const;
+    virtual ItemList_t& GetItems();
     virtual void AddItem( int32_t Id );
     virtual void DropItemType( Item::ItemType Type );
     virtual void Update( double Seconds );

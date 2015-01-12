@@ -19,6 +19,11 @@ InventoryComponent::ItemList_t const& InventoryComponent::GetItems()const
     return mItems;
 }
 
+InventoryComponent::ItemList_t& InventoryComponent::GetItems()
+{
+    return const_cast<ItemList_t&>((static_cast<const InventoryComponent*>(this))->GetItems());
+}
+
 void InventoryComponent::AddItem( int32_t Id )
 {
     BOOST_ASSERT(mActor);
