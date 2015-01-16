@@ -6,14 +6,21 @@
 class Weapon : public Item
 {
 public:
-    virtual void Shoot();
-    virtual void ShootAlt();
-protected:
+    bool IsShoot() const;
+    void SetShoot(bool shoot);
+    bool IsShootAlt() const;
+    void SetShootAlt(bool shoot);
+    double GetCooldown() const;
+    void SetCooldown(double cooldown);
+    double GetShootCooldown() const;
+    void SetShootCooldown(double cooldown);
+    double GetShootAltCooldown() const;
+    void SetShootAltCooldown(double cooldown);
+    uint32_t GetScatter() const;
+    void SetScatter(uint32_t scatter);
+    uint32_t GetAltScatter() const;
+    void SetAltScatter(uint32_t scatter);
     Weapon( int32_t Id );
-    typedef boost::ptr_vector<Actor> Projectiles_t;
-    virtual void ShootImpl( Projectiles_t& Projectiles ) = 0;
-    virtual void ShootAltImpl( Projectiles_t& Projectiles ) = 0;
-    virtual void Update( double Seconds );
 
     ActorFactory& mActorFactory;
     double mCooldown;
@@ -21,6 +28,8 @@ protected:
     double mShootAltCooldown;
     uint32_t mScatter;
     uint32_t mAltScatter;
+    bool mShoot;
+    bool mShootAlt;
     friend class ItemFactory;
 };
 

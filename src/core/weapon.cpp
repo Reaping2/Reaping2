@@ -16,86 +16,73 @@ Weapon::Weapon( int32_t Id )
 {
     mType = Item::Weapon;
 }
-void Weapon::Update( double Seconds )
+
+bool Weapon::IsShoot() const
 {
-    Item::Update( Seconds );
-    double cd = mCooldown;
-    cd -= Seconds;
-    if( cd < 0 )
-    {
-        cd = 0;
-    }
-    mCooldown = cd;
+    return mShoot;
 }
 
-void Weapon::Shoot()
+void Weapon::SetShoot(bool shoot)
 {
-    if( !mActor )
-    {
-        return;
-    }
-    if( mCooldown != 0.0 )
-    {
-        return;
-    }
-
-    Projectiles_t Projectiles;
-    ShootImpl( Projectiles );
-    Scene& Scen( Scene::Get() );
-    double actorOrientation = mActor->Get<IPositionComponent>()->GetOrientation();
-    if( mScatter )
-    {
-        actorOrientation += ( rand() % mScatter - mScatter / 2. ) * 0.01 * boost::math::double_constants::pi;
-    }
-    for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
-    {
-        Actor& Proj = *i;
-        Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
-        Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
-        projPositionC->SetX( actorPositionC->GetX() );
-        projPositionC->SetY( actorPositionC->GetY() );
-        Proj.Get<ShotCollisionComponent>()->SetParent( mActor );
-        projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
-        Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
-        Scen.AddActor( &Proj );
-    }
-    Projectiles.release().release();
-
-    mCooldown = mShootCooldown;
+    mShoot = shoot;
 }
 
-void Weapon::ShootAlt()
+bool Weapon::IsShootAlt() const
 {
-    if( !mActor )
-    {
-        return;
-    }
-    if( mCooldown != 0.0 )
-    {
-        return;
-    }
+    return mShootAlt;
+}
 
-    Projectiles_t Projectiles;
-    ShootAltImpl( Projectiles );
-    Scene& Scen( Scene::Get() );
-    Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
-    double actorOrientation = actorPositionC->GetOrientation();
-    if( mAltScatter )
-    {
-        actorOrientation += ( rand() % mAltScatter - mAltScatter / 2. ) * 0.01 * boost::math::double_constants::pi;
-    }
-    for( Projectiles_t::iterator i = Projectiles.begin(), e = Projectiles.end(); i != e; ++i )
-    {
-        Actor& Proj = *i;
-        Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
-        projPositionC->SetX( actorPositionC->GetX() );
-        projPositionC->SetY( actorPositionC->GetY() );
-        Proj.Get<ShotCollisionComponent>()->SetParent( mActor );
-        projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
-        Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
-        Scen.AddActor( &Proj );
-    }
-    Projectiles.release().release();
+void Weapon::SetShootAlt(bool shoot)
+{
+    mShootAlt = shoot;
+}
 
-    mCooldown = mShootAltCooldown;
+double Weapon::GetCooldown() const
+{
+    return mCooldown;
+}
+
+void Weapon::SetCooldown(double cooldown)
+{
+    mCooldown = cooldown;
+}
+
+double Weapon::GetShootCooldown() const
+{
+    return mShootCooldown;
+}
+
+void Weapon::SetShootCooldown(double cooldown)
+{
+    mShootCooldown = cooldown;
+}
+
+double Weapon::GetShootAltCooldown() const
+{
+    return mShootAltCooldown;
+}
+
+void Weapon::SetShootAltCooldown(double cooldown)
+{
+    mShootAltCooldown = cooldown;
+}
+
+uint32_t Weapon::GetScatter() const
+{
+    return mScatter;
+}
+
+void Weapon::SetScatter(uint32_t scatter)
+{
+    mScatter = scatter;
+}
+
+uint32_t Weapon::GetAltScatter() const
+{
+    return mAltScatter;
+}
+
+void Weapon::SetAltScatter(uint32_t scatter)
+{
+    mAltScatter = scatter;
 }

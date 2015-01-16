@@ -18,7 +18,6 @@ public:
         LOG( "Item dead:%i", mId );
     }
     virtual void SetActor( Actor* Obj );
-    virtual void Update( double Seconds );
     ItemType GetType() const
     {
         return mType;
@@ -52,7 +51,6 @@ class DefaultItem : public Item
 public:
     DefaultItem( int32_t Id );
     ~DefaultItem() {};
-    virtual void Update( double Seconds ) ;
     friend class ItemFactory;
 };
 #endif//INCLUDED_CORE_ITEM_H

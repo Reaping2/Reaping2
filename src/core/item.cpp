@@ -11,9 +11,6 @@ void Item::SetActor( Actor* Obj )
 {
     mActor = Obj;
 }
-void DefaultItem::Update( double Seconds )
-{
-}
 
 
 Item::Item( int32_t Id )
@@ -23,7 +20,3 @@ Item::Item( int32_t Id )
     LOG( "!Item: id: %d\n", mId );
 }
 
-
-void Item::Update( double Seconds )
-{
-}

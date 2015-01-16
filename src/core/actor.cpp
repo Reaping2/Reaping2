@@ -22,14 +22,6 @@ void Actor::Update( double Seconds )
     {
         i->second->Update( Seconds );
     }
-    //TODO: maybe every component should have an update, and it should be called here
-    //they might have priority order
-    Opt<IInventoryComponent> inventoryC = Get<IInventoryComponent>();
-    if(inventoryC.IsValid())
-    {
-        inventoryC->Update( Seconds );
-    }
-
     Opt<IDropOnDeathComponent> dropOnDeathC = Get<IDropOnDeathComponent>();
     if(dropOnDeathC.IsValid())
     {

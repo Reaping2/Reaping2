@@ -6,6 +6,8 @@
 #include "core/player_controller_component.h"
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
+#include "core/i_inventory_component.h"
+#include "core/weapon.h"
 
 namespace engine {
 
@@ -96,20 +98,28 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor)
 
 void PlayerControllerSubSystem::Shoot(Actor &actor)
 {
+    Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
+    BOOST_ASSERT(inventoryC.IsValid());
+    Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
+    if (!weapon.IsValid())
+    {
+        return;
+    }
+
     if (mMouse.IsButtonPressed( Mouse::Button_Left ))
     {
-        actor.DropAction( AutoId( "shoot_alt" ) );
-        actor.AddAction( AutoId( "shoot" ) );
+        weapon->SetShoot(true);
+        weapon->SetShootAlt(false);
     }
     else if (mMouse.IsButtonPressed( Mouse::Button_Right ))
     {
-        actor.DropAction( AutoId( "shoot" ) );
-        actor.AddAction( AutoId( "shoot_alt" ) );
+        weapon->SetShoot(false);
+        weapon->SetShootAlt(true);
     }
     else
     {
-        actor.DropAction( AutoId( "shoot" ) );
-        actor.DropAction( AutoId( "shoot_alt" ) );
+        weapon->SetShoot(false);
+        weapon->SetShootAlt(false);
     }
 }
 

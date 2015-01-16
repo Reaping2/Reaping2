@@ -21,6 +21,7 @@ void PickupCollisionComponent::Collide(Actor& Other)
     {
         inventoryC->DropItemType( Item::Weapon );
         inventoryC->AddItem( mPickupContent );
+        inventoryC->SetSelectedWeapon( mPickupContent );
     }
     mActor->Get<IHealthComponent>()->SetHP(0);
 }

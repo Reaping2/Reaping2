@@ -12,6 +12,7 @@
 #include "core/opt.h"
 #include "engine/items/inventory_system.h"
 #include "core/item.h"
+#include "engine/items/weapon_item_sub_system.h"
 using engine::Engine;
 namespace {
 class Timer_t
@@ -94,6 +95,10 @@ int main()
     Eng.AddSystem(AutoId("inventory_system"));
     Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
     inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
+    inventorySystem->AddSubSystem(Item::Weapon,AutoId("weapon_item_sub_system"));
+    Opt<engine::WeaponItemSubSystem> weaponitemSS=engine::WeaponItemSubSystem::Get();
+    weaponitemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
+    weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 
     Eng.AddSystem(AutoId("player_controller_system"));
     Eng.AddSystem(AutoId("random_controller_system"));

@@ -24,12 +24,12 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
     IInventoryComponent::ItemList_t& items = inventoryC->GetItems();
     for( IInventoryComponent::ItemList_t::iterator i = items.begin(), e = items.end(); i != e; ++i )
     {
-        if (i->GetType()!=Item::Normal)
+        if ((*i)->GetType()!=Item::Normal)
         {
             continue;
         }
 
-        BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(i->GetId());
+        BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find((*i)->GetId());
         if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
         {
             itemssIt->mSystem->Update(actor,DeltaTime);

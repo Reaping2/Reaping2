@@ -60,7 +60,7 @@ void ActorRenderer::Draw( Scene const& Object )
             IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
             for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
             {
-                Item const& Act = *i;
+                Item const& Act = **i;
                 int32_t const ActId = Act.GetId();
                 Sprite const& Spr = Sprites( ActId );
                 if( !Spr.IsValid() )
