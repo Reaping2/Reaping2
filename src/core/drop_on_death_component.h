@@ -8,7 +8,8 @@ class DropOnDeathComponent : public IDropOnDeathComponent
 {
 public:
     virtual void Update( double Seconds );
-
+    virtual bool IsTriedDrop();
+    virtual void SetTriedDrop( bool triedDrop );
     DropOnDeathComponent();
     friend class ComponentFactory;
 

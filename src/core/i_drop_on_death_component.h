@@ -7,6 +7,8 @@ class IDropOnDeathComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(IDropOnDeathComponent)
     virtual void Update( double Seconds )=0;    
+    virtual bool IsTriedDrop()=0;
+    virtual void SetTriedDrop( bool triedDrop )=0;
 protected:
 	friend class ComponentFactory;
 };

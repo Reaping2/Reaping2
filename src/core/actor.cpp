@@ -22,11 +22,6 @@ void Actor::Update( double Seconds )
     {
         i->second->Update( Seconds );
     }
-    Opt<IDropOnDeathComponent> dropOnDeathC = Get<IDropOnDeathComponent>();
-    if(dropOnDeathC.IsValid())
-    {
-        dropOnDeathC->Update( Seconds );
-    }
 }
 
 Actor::Actor( int32_t Id )

@@ -9,6 +9,7 @@
 #include "engine/controllers/target_player_controller_sub_system.h"
 #include "engine/controllers/controller_system.h"
 #include "engine/items/inventory_system.h"
+#include "engine/drop_on_death_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -22,6 +23,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("keyboard_system"), &CreateSystem<KeyboardSystem>);
     Bind( AutoId("controller_system"), &CreateSystem<ControllerSystem>);
     Bind( AutoId("inventory_system"), &CreateSystem<InventorySystem>);
+    Bind( AutoId("drop_on_death_system"), &CreateSystem<DropOnDeathSystem>);
 
 
 }

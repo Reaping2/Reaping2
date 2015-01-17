@@ -12,37 +12,22 @@ using platform::AutoId;
 
 void DropOnDeathComponent::Update(double Seconds)
 {
-    BOOST_ASSERT(mActor && mActor->Get<IHealthComponent>().IsValid());
-    if(!mTriedDrop&&!mActor->Get<IHealthComponent>()->IsAlive())
-    {
-        mTriedDrop=true;
-#ifdef DEBUG
-        static const size_t Mod = 3;
-#else
-        static const size_t Mod = 10;
-#endif//DEBUG
-        if( rand() % Mod )
-        {
-            return;
-        }
-        std::auto_ptr<Actor> Pu=ActorFactory::Get()(AutoId("pickup"));
-        Pu->AddAction( AutoId( "fade_out" ) );
-        int32_t contentId=AutoId(rand() % 2 ? "pistol" : "plasma_gun");
-        Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-        Pu->SetId(contentId);
-        BOOST_ASSERT(mActor->Get<IPositionComponent>().IsValid());
-        Opt<IPositionComponent> positionC = mActor->Get<IPositionComponent>();
-        Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
-        puPositionC->SetX(positionC->GetX());
-        puPositionC->SetY(positionC->GetY());
-        Scene::Get().AddActor( Pu.release() );
-    }
 }
 
 DropOnDeathComponent::DropOnDeathComponent()
     : mTriedDrop(false)
 {
 
+}
+
+bool DropOnDeathComponent::IsTriedDrop()
+{
+    return mTriedDrop;
+}
+
+void DropOnDeathComponent::SetTriedDrop(bool triedDrop)
+{
+    mTriedDrop=triedDrop;
 }
 
 DropOnDeathComponentLoader::DropOnDeathComponentLoader()

@@ -100,9 +100,8 @@ int main()
     weaponitemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
     weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 
-    Eng.AddSystem(AutoId("player_controller_system"));
-    Eng.AddSystem(AutoId("random_controller_system"));
-    Eng.AddSystem(AutoId("target_player_controller_system"));
+    Eng.AddSystem(AutoId("drop_on_death_system"));
+
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
     while( true )
