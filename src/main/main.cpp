@@ -102,6 +102,7 @@ int main()
 
     Eng.AddSystem(AutoId("drop_on_death_system"));
     Eng.AddSystem(AutoId("health_system"));
+    Eng.AddSystem(AutoId("remove_on_death_system"));
 
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing

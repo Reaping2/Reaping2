@@ -7,7 +7,7 @@ class IRemoveOnDeathComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(IRemoveOnDeathComponent)
     virtual void Update( double Seconds )=0;  
-    virtual bool NeedDelete()=0;
+
 protected:
 	friend class ComponentFactory;
 };

@@ -8,12 +8,8 @@ class RemoveOnDeathComponent : public IRemoveOnDeathComponent
 {
 public:
     virtual void Update( double Seconds );
-    virtual bool NeedDelete();
-
     RemoveOnDeathComponent();
     friend class ComponentFactory;
-
-    bool mNeedDelete;
 };
 
 class RemoveOnDeathComponentLoader: public ComponentLoader<RemoveOnDeathComponent>

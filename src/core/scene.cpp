@@ -48,22 +48,6 @@ void Scene::Update( double DeltaTime )
     {
         (*it)->Update( DeltaTime );
     }
-    size_t siz1= mActorHolder.mAllActors.size();
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
-    {
-        Opt<IRemoveOnDeathComponent> removeOnDeathC = (*it)->Get<IRemoveOnDeathComponent>();
-        if(removeOnDeathC.IsValid())
-        {
-            removeOnDeathC->Update( DeltaTime );
-            if (removeOnDeathC->NeedDelete())
-            {
-                delete &**it;
-                mActorHolder.mAllActors.erase(it);
-            }
-        }
-
-    }
-    size_t siz2= mActorHolder.mAllActors.size();
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
@@ -217,5 +201,18 @@ void Scene::AddTestCreep(Actor* Pl, double X, double Y)
     Obj->Get<IPositionComponent>()->SetX(X);
     Obj->Get<IPositionComponent>()->SetY(Y);
     AddActor( Obj.release() );
+}
+
+void Scene::RemoveActor(ActorList_t::iterator it)
+{
+    delete (*it).Get();
+    mActorHolder.mAllActors.erase(it);
+}
+
+void Scene::RemoveActor(Actor* Object)
+{
+    ActorList_t::iterator it = mActorHolder.mAllActors.find(Object->GetGUID());
+    BOOST_ASSERT(it!=mActorHolder.mAllActors.end());
+    RemoveActor(it);
 }
 

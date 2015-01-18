@@ -6,25 +6,12 @@
 
 void RemoveOnDeathComponent::Update(double Seconds)
 {
-    BOOST_ASSERT(mActor && mActor->Get<IHealthComponent>().IsValid());
-
-    if(!mNeedDelete&&!mActor->Get<IHealthComponent>()->IsAlive())
-    {
-        mNeedDelete=true;
-    }
 }
 
 RemoveOnDeathComponent::RemoveOnDeathComponent()
-    : mNeedDelete(false)
 {
 
 }
-
-bool RemoveOnDeathComponent::NeedDelete()
-{
-    return mNeedDelete;
-}
-
 
 RemoveOnDeathComponentLoader::RemoveOnDeathComponentLoader()
 {
