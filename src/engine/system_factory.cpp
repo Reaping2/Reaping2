@@ -11,7 +11,8 @@
 #include "engine/items/inventory_system.h"
 #include "engine/drop_on_death_system.h"
 #include "engine/health_system.h"
-#include "remove_on_death_system.h"
+#include "engine/remove_on_death_system.h"
+#include "engine/fade_out_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -28,6 +29,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("drop_on_death_system"), &CreateSystem<DropOnDeathSystem>);
     Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
     Bind( AutoId("remove_on_death_system"), &CreateSystem<RemoveOnDeathSystem>);
+    Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
 
 
 }

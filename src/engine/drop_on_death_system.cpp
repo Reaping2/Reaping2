@@ -46,7 +46,6 @@ void DropOnDeathSystem::Update(double DeltaTime)
                 return;
             }
             std::auto_ptr<Actor> Pu=mActorFactory(AutoId("pickup"));
-            Pu->AddAction( AutoId( "fade_out" ) );
             int32_t contentId=AutoId(rand() % 2 ? "pistol" : "plasma_gun");
             Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
             Pu->SetId(contentId);

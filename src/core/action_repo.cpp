@@ -2,7 +2,6 @@
 #include "core/action_repo.h"
 #include "move_action.h"
 #include "idle_action.h"
-#include "fade_out_action.h"
 #include "core/action.h"
 
 ActionRepo::ActionRepo()
@@ -12,5 +11,4 @@ ActionRepo::ActionRepo()
 
     Bind<MoveAction>( AutoId( "move" ) );
     Bind<IdleAction>( AutoId( "idle" ) );
-    Bind<FadeOutAction>( AutoId( "fade_out" ) );
 }

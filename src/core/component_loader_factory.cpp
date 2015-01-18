@@ -15,6 +15,7 @@
 #include "core/renderable_component.h"
 #include "core/remove_on_death_component.h"
 #include "core/drop_on_death_component.h"
+#include "core/fade_out_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -41,6 +42,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("remove_on_death_component"), &CreateComponentLoader<RemoveOnDeathComponentLoader>);
     Bind( AutoId("drop_on_death_component"), &CreateComponentLoader<DropOnDeathComponentLoader>);
     
+    Bind( AutoId("fade_out_component"), &CreateComponentLoader<FadeOutComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

@@ -25,7 +25,11 @@
                 "set":[{"class":"pickup", "radius":0.04}]
             },
             {"name":"health_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {
+                "name":"fade_out_component",
+                "set":[{"secs_to_end":5.0}]
+            }
         ]
     },
     {
