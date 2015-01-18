@@ -11,12 +11,18 @@ public:
     virtual int32_t const& GetHP()const;
     virtual void SetHP( int32_t Hp );
     virtual bool IsAlive()const;
+    virtual void SetAlive( bool alive );
+    virtual void TakeDamage( int32_t damage );
+    virtual void ResetDamage();
+    virtual int32_t GetDamage();
     virtual double GetTimeOfDeath()const;
+    virtual void SetTimeOfDeath( double timeOfDeath );
 
     HealthComponent();
     friend class ComponentFactory;
 
     int32_t mHP;
+    int32_t mDamage;
     bool mAlive;
     double mTimeOfDeath;
 };

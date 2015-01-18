@@ -5,7 +5,7 @@
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
 #include "core/target_player_controller_component.h"
-#include "core/damage_action.h"
+#include "core/i_health_component.h"
 
 namespace engine {
 
@@ -50,10 +50,11 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
         {
             if( targetPCC->GetCounter() <= 0.0 )
             {
-                std::auto_ptr<Action> act = ActionRepo::Get()( AutoId("damage") );
-                DamageAction* dact = static_cast<DamageAction*>(act.release());
-                dact->SetDamage( 1 );
-                player.AddAction(std::auto_ptr<Action>(static_cast<Action*>(dact)));
+                Opt<IHealthComponent> healthC=player.Get<IHealthComponent>();
+                if (healthC.IsValid()&&healthC->IsAlive())
+                {
+                    healthC->TakeDamage(1);
+                }
                 targetPCC->SetCounter(2.0);
             }
         }

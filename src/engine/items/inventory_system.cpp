@@ -3,6 +3,7 @@
 #include "engine/engine.h"
 #include "platform/auto_id.h"
 #include "core/i_inventory_component.h"
+#include "core/i_health_component.h"
 namespace engine {
 
 InventorySystem::InventorySystem()
@@ -22,6 +23,12 @@ void InventorySystem::Update(double DeltaTime)
         if (!inventoryC.IsValid())
         {
             continue;
+        }
+        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        if(healthC.IsValid()&&!healthC->IsAlive())
+        {
+            //if it has no healthComponent, it should not
+            continue; 
         }
 
         for( SubSystems_t::iterator ssIt = mSubSystems.begin(), e = mSubSystems.end(); ssIt != e; ++ssIt )

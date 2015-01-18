@@ -1,7 +1,6 @@
 #include "core/shot_collision_component.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
-#include "core/damage_action.h"
 #include "core/i_health_component.h"
 #include "core/component_factory.h"
 #include "core/i_collision_component.h"
@@ -28,12 +27,12 @@ void ShotCollisionComponent::Collide(Actor& Other)
         return;
     }
 
-    //TODO: ofc not this way, factory should give me the right action type
-    std::auto_ptr<Action> act = ActionRepo::Get()( AutoId("damage") );
-    DamageAction* dact = static_cast<DamageAction*>(act.release());
-    dact->SetDamage(GetDamage());
-    Other.AddAction(std::auto_ptr<Action>(static_cast<Action*>(dact)));
-    //TODO: action
+    //TODO: no logic in components
+    Opt<IHealthComponent> healthC=Other.Get<IHealthComponent>();
+    if(healthC.IsValid()&&healthC->IsAlive())
+    {
+        healthC->TakeDamage(GetDamage());
+    }
     mActor->Get<IHealthComponent>()->SetHP(0);
 }
 

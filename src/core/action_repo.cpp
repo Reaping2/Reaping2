@@ -1,10 +1,8 @@
 #include "platform/i_platform.h"
 #include "core/action_repo.h"
-#include "core/damage_action.h"
 #include "move_action.h"
 #include "idle_action.h"
 #include "fade_out_action.h"
-#include "death_action.h"
 #include "core/action.h"
 
 ActionRepo::ActionRepo()
@@ -14,7 +12,5 @@ ActionRepo::ActionRepo()
 
     Bind<MoveAction>( AutoId( "move" ) );
     Bind<IdleAction>( AutoId( "idle" ) );
-    Bind<DeathAction>( AutoId( "death" ) );
     Bind<FadeOutAction>( AutoId( "fade_out" ) );
-    Bind<DamageAction>( AutoId( "damage" ) );
 }

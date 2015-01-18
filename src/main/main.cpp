@@ -101,6 +101,7 @@ int main()
     weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 
     Eng.AddSystem(AutoId("drop_on_death_system"));
+    Eng.AddSystem(AutoId("health_system"));
 
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing

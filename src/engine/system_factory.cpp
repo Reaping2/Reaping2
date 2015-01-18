@@ -10,6 +10,7 @@
 #include "engine/controllers/controller_system.h"
 #include "engine/items/inventory_system.h"
 #include "engine/drop_on_death_system.h"
+#include "engine/health_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -24,6 +25,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("controller_system"), &CreateSystem<ControllerSystem>);
     Bind( AutoId("inventory_system"), &CreateSystem<InventorySystem>);
     Bind( AutoId("drop_on_death_system"), &CreateSystem<DropOnDeathSystem>);
+    Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
 
 
 }

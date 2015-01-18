@@ -51,11 +51,6 @@ void Scene::Update( double DeltaTime )
     size_t siz1= mActorHolder.mAllActors.size();
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
     {
-        Opt<IHealthComponent> healthC = (*it)->Get<IHealthComponent>();
-        if(healthC.IsValid())
-        {
-            healthC->Update(DeltaTime);
-        }
         Opt<IRemoveOnDeathComponent> removeOnDeathC = (*it)->Get<IRemoveOnDeathComponent>();
         if(removeOnDeathC.IsValid())
         {
