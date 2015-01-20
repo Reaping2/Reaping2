@@ -13,6 +13,7 @@
 #include "engine/health_system.h"
 #include "engine/remove_on_death_system.h"
 #include "engine/fade_out_system.h"
+#include "engine/move_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -30,6 +31,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
     Bind( AutoId("remove_on_death_system"), &CreateSystem<RemoveOnDeathSystem>);
     Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
+    Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
 
 
 }

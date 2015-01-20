@@ -17,18 +17,4 @@ MoveAction::MoveAction( int32_t Id )
 
 void MoveAction::Update( double Seconds )
 {
-    if( !mActor )
-    {
-        return;
-    }
-    Action::Update( Seconds );
-    Opt<IPositionComponent> actorPositionC = mActor->Get<IPositionComponent>();
-    actorPositionC->SetX( actorPositionC->GetX() + Seconds * mActor->Get<IMoveComponent>()->GetSpeedX() );
-    actorPositionC->SetY( actorPositionC->GetY() + Seconds * mActor->Get<IMoveComponent>()->GetSpeedY() );
-
-    //TODO: this completly sucks. This should not be here, clipscene is one thing that i don't even like.
-    if (mActor->Get<ICollisionComponent>().IsValid())
-    {
-        mActor->Get<ICollisionComponent>()->ClipScene();
-    }
 }
