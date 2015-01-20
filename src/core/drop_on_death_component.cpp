@@ -4,7 +4,6 @@
 #include "core/i_position_component.h"
 #include "core/scene.h"
 #include "core/actor_factory.h"
-#include "core/pickup_collision_component.h"
 #include "platform/auto_id.h"
 #include <boost/assert.hpp>
 

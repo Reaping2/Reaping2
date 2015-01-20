@@ -2,6 +2,7 @@
 #include "engine/move_system.h"
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
+#include "core/i_collision_component.h"
 
 namespace engine {
 

@@ -5,7 +5,6 @@
 #include "core/i_inventory_component.h"
 #include "core/weapon.h"
 #include "core/i_position_component.h"
-#include "core/shot_collision_component.h"
 #include "core/i_move_component.h"
 #include "inventory_system.h"
 #include "core/audible_event.h"

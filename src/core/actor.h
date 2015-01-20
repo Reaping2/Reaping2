@@ -2,9 +2,6 @@
 #define INCLUDED_CORE_ACTOR_H
 
 #include "platform/i_platform.h"
-#include "core/i_collision_component.h"
-//#include "core/action.h"
-#include "core/item.h"
 #include "core/action_holder.h"
 #include "core/component.h"
 

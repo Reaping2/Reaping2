@@ -2,7 +2,6 @@
 #include "core/weapon.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
-#include "core/shot_collision_component.h"
 #include "core/scene.h"
 
 Weapon::Weapon( int32_t Id )

@@ -7,6 +7,7 @@
 #include "core/i_controller_component.h"
 #include "core/i_move_component.h"
 #include "core/damage_taken_event.h"
+#include "core/i_collision_component.h"
 
 namespace engine {
 

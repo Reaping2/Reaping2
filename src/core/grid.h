@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_GRID_H
 #define INCLUDED_CORE_GRID_H
 #include "core/actor.h"
+#include "collision_class.h"
 
 struct CollPair
 {

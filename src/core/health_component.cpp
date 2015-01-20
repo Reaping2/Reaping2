@@ -3,7 +3,6 @@
 #include "platform/auto_id.h"
 #include "platform/event.h"
 #include "core/damage_taken_event.h"
-#include "core/i_collision_component.h"
 #include "renderable_component.h"
 #include "platform/i_platform.h"
 #include "core/scene.h"

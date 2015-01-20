@@ -1,6 +1,5 @@
 #include "platform/i_platform.h"
 #include "engine/engine.h"
-#include "collision_system.h"
 
 namespace engine {
 
