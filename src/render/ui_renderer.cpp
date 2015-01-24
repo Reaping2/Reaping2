@@ -1,7 +1,7 @@
 #include "i_render.h"
 #include "main/window.h"
 
-void UiRenderer::Draw( Root const& UiRoot )
+void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
 {
     /*  for(Widget::const_iterator i=UiRoot.begin(),e=UiRoot.end();i!=e;++i)
         {
@@ -83,7 +83,7 @@ void UiRenderer::Draw( Root const& UiRoot )
     int w, h;
     Window::Get().GetWindowSize( w, h );
     ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
-
+    ShaderMgr.UploadData( "uiProjection", projMatrix );
     glActiveTexture( GL_TEXTURE0 + 4 );
     glDrawArrays( GL_TRIANGLES, 0, CurSize );
 

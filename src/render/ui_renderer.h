@@ -21,7 +21,7 @@ class UiRenderer
     void Init();
 public:
     UiRenderer();
-    void Draw( Root const& UiRoot );
+    void Draw( Root const& UiRoot, const glm::mat4& projMatrix );
 };
 
 #endif//INCLUDED_RENDER_UI_RENDERER_H

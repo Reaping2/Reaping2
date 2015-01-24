@@ -100,8 +100,9 @@ void Shader::Load( std::string const& Name )
     }
     else
     {
+
         L1( "  %s\n", Name.c_str() );
-        assert( false );
+        //assert( false );
     }
 
     GLint n = 200;

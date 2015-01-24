@@ -96,3 +96,14 @@ void ShaderManager::UploadData( std::string const& Name, glm::mat2 const& Data )
     }
     glUniformMatrix2fv( Loc, 1, GL_FALSE, glm::value_ptr( Data ) );
 }
+
+template<>
+void ShaderManager::UploadData( std::string const& Name, glm::mat4 const& Data )
+{
+    GLuint Loc = GetUniformLocation( Name );
+    if( Loc == -1 )
+    {
+        return;
+    }
+    glUniformMatrix4fv( Loc, 1, GL_FALSE, glm::value_ptr( Data ) );
+}

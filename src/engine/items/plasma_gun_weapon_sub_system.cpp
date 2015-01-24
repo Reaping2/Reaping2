@@ -55,12 +55,12 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 
         std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);
         ps->AddAction( AutoId( "move" ) );
-        ps->Get<IPositionComponent>()->SetOrientation( -0.15 );
+        ps->Get<IPositionComponent>()->SetOrientation( -0.25 );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         ps = mActorFactory(mPlasmaShotId);
         ps->AddAction( AutoId( "move" ) );
-        ps->Get<IPositionComponent>()->SetOrientation( 0.15 );
+        ps->Get<IPositionComponent>()->SetOrientation( 0.25 );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         ps = mActorFactory(mPlasmaShotId);

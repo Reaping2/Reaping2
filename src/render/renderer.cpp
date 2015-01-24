@@ -34,7 +34,7 @@ bool Renderer::Render()
     mSceneRenderer.Draw( Scen );
     mDecalEngine.Draw( DecalEngine::GroundParticle );
     mActorRenderer.Draw( Scen );
-    mUiRenderer.Draw( mUi.GetRoot() );
+    mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
 
     return EndRender();
 }
@@ -46,7 +46,7 @@ void Renderer::SetupRenderer( const Projection& Proj )
 
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, mWorldProjector.GetMatrix() );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, mCamera.GetView() );
-    mShaderManager.UploadGlobalData( GlobalShaderData::UiProjection, mUiProjector.GetMatrix() );
+    //mShaderManager.UploadGlobalData( GlobalShaderData::UiProjection, mUiProjector.GetMatrix() );
 }
 
 bool Renderer::BeginRender()
