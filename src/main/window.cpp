@@ -6,8 +6,8 @@ void Window_FramebufferSizeCallback( GLFWwindow* Window, int Width, int Height )
     EventServer<WindowResizeEvent>::Get().SendEvent( WindowResizeEvent( Width, Height ) );
 }
 }
-
-bool Window::Create( const uint32_t Width, const uint32_t Height, const std::string& Title )
+namespace engine {
+bool WindowSystem::Create( const uint32_t Width, const uint32_t Height, const std::string& Title )
 {
     if( !glfwInit() )
     {
@@ -42,7 +42,7 @@ bool Window::Create( const uint32_t Width, const uint32_t Height, const std::str
     return !!mWindow;
 }
 
-void Window::Destroy()
+void WindowSystem::Destroy()
 {
     if( mWindow )
     {
@@ -52,32 +52,21 @@ void Window::Destroy()
     mWindow = NULL;
 }
 
-bool Window::Run()
-{
-    if( !mWindow || glfwWindowShouldClose( mWindow ) || mExit )
-    {
-        return false;
-    }
 
-    glfwSwapBuffers( mWindow );
-    glfwPollEvents();
-    return true;
-}
-
-Window::Window()
+WindowSystem::WindowSystem()
     : mWindow( NULL )
-    , mExitModel( VoidFunc( this, &Window::Close ), "game.exit", &RootModel::Get() )
+    , mExitModel( VoidFunc( this, &WindowSystem::Close ), "game.exit", &RootModel::Get() )
     , mExit( false )
 {
 
 }
 
-Window::~Window()
+WindowSystem::~WindowSystem()
 {
     Destroy();
 }
 
-void Window::Resize( const uint32_t Width, const uint32_t Height )
+void WindowSystem::Resize( const uint32_t Width, const uint32_t Height )
 {
     if( !mWindow )
     {
@@ -86,7 +75,7 @@ void Window::Resize( const uint32_t Width, const uint32_t Height )
     glfwSetWindowSize( mWindow, Width, Height );
 }
 
-void Window::GetWindowSize( int& Width, int& Height ) const
+void WindowSystem::GetWindowSize( int& Width, int& Height ) const
 {
     if( mWindow )
     {
@@ -98,8 +87,27 @@ void Window::GetWindowSize( int& Width, int& Height ) const
     }
 }
 
-void Window::Close()
+void WindowSystem::Close()
 {
     mExit = true;
 }
 
+void WindowSystem::Init()
+{
+
+}
+
+void WindowSystem::Update(double DeltaTime)
+{
+    if( !mWindow || glfwWindowShouldClose( mWindow ) || mExit )
+    {
+        EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
+        PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutdown ) );
+        return;
+    }
+
+    glfwSwapBuffers( mWindow );
+    glfwPollEvents();
+}
+
+} // namespace engine

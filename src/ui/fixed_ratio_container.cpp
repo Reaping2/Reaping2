@@ -1,4 +1,6 @@
 #include "i_ui.h"
+#include "engine/engine.h"
+#include "main/window.h"
 
 FixedRatioContainer::FixedRatioContainer( int32_t Id )
     : Widget( Id )
@@ -8,7 +10,7 @@ FixedRatioContainer::FixedRatioContainer( int32_t Id )
 {
     mWindowResizeId = EventServer<WindowResizeEvent>::Get().Subscribe( boost::bind( &FixedRatioContainer::OnWindowResizeEvent, this, _1 ) );
     int w, h;
-    Window::Get().GetWindowSize( w, h );
+    engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
     Resize( w, h );
 }
 

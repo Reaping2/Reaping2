@@ -124,6 +124,7 @@ class Engine : public platform::Singleton<Engine>
     friend class platform::Singleton<Engine>;
     SystemHolder mSystemHolder;
     SystemFactory& mSystemFactory;
+    bool mIsRunning;
     enum SystemIndex
     {
         All,
@@ -141,6 +142,7 @@ public:
     Opt<System_t> GetSystem();
     template<typename System_t>
     void SetEnabled(bool enabled);
+    void OnPhaseChangedEvent( PhaseChangedEvent const& Evt );
 };
 
 template<typename System_t>

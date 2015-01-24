@@ -8,6 +8,7 @@ enum Type
 {
     Startup,
     Running,
+    InitiateShutdown,
     CloseSignal,
     Shutdown,
 };

@@ -1,6 +1,7 @@
 #include "i_input.h"
 #include "main/window.h"
 #include <boost/bind.hpp>
+#include "engine/engine.h"
 namespace engine {
 
 void KeyboardSystem::KeyCallback( GLFWwindow*, int Key, int Scan, int Action, int Mods )
@@ -34,7 +35,7 @@ void KeyboardSystem::SetWindow( GLFWwindow* Wnd )
 void KeyboardSystem::Init()
 {
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &KeyboardSystem::OnKeyEvent, this, _1 ) );
-    SetWindow(Window::Get().GetWindow());
+    SetWindow(Engine::Get().GetSystem<WindowSystem>()->GetWindow());
 }
 
 void KeyboardSystem::Update(double DeltaTime)

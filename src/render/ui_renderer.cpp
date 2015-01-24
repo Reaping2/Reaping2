@@ -1,5 +1,6 @@
 #include "i_render.h"
 #include "main/window.h"
+#include "engine/engine.h"
 
 void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
 {
@@ -81,7 +82,7 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     ShaderMgr.ActivateShader( "ui" );
     ShaderMgr.UploadData( "time", GLfloat( glfwGetTime() ) );
     int w, h;
-    Window::Get().GetWindowSize( w, h );
+    mWindow->GetWindowSize( w, h );
     ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
     ShaderMgr.UploadData( "uiProjection", projMatrix );
     glActiveTexture( GL_TEXTURE0 + 4 );
@@ -102,6 +103,7 @@ void UiRenderer::Init()
     glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     ShaderMgr.UploadData( "uiTexture", GLuint( 4 ) );
     glActiveTexture( GL_TEXTURE0 );
+    mWindow=engine::Engine::Get().GetSystem<engine::WindowSystem>();
 }
 
 UiRenderer::UiRenderer()

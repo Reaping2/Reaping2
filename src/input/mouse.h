@@ -1,6 +1,6 @@
 #ifndef INCLUDED_INPUT_MOUSE_H
 #define INCLUDED_INPUT_MOUSE_H
-#include "engine\system.h"
+#include "engine/system.h"
 namespace engine {
 class MouseSystem : public System
 {

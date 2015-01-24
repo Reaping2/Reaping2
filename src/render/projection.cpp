@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "engine/engine.h"
+#include "main/window.h"
 
 const glm::mat4& Projection::GetMatrix() const
 {
@@ -62,7 +64,7 @@ Projection::Projection( float bottom, float top, ViewMode vm/*=VM_DynamicRatio*/
 {
     mWindowResizeId = EventServer<WindowResizeEvent>::Get().Subscribe( boost::bind( &Projection::OnWindowResizeEvent, this, _1 ) );
     int w, h;
-    Window::Get().GetWindowSize( w, h );
+    engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
     Resize( w, h );
     Setup( bottom, top, vm, nearVal, farVal );
 }

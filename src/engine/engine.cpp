@@ -5,12 +5,22 @@ namespace engine {
 
 Engine::Engine()
     : mSystemFactory(SystemFactory::Get())
+    , mIsRunning(false)
 {
+}
+void Engine::OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
+{
+    if( Evt.CurrentPhase == ProgramPhase::InitiateShutdown )
+    {
+        mIsRunning=false;
+    }
 }
 
 void Engine::Init()
 {
-    
+    mIsRunning=true;
+    EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
+    AutoReg PhaseChangeId(PhaseChangeEventServer.Subscribe( boost::bind( &Engine::OnPhaseChangedEvent, this, _1 ) ));
     for (Systems_t::const_iterator it = mSystemHolder.mSystems.begin(), e = mSystemHolder.mSystems.end();it!=e;++it)
     {
         it->mSystem->Init();
@@ -22,6 +32,10 @@ void Engine::Update(double DeltaTime)
     SystemsFilter<Engine::EnabledSystems> enabledSystems(mSystemHolder.mSystems);
     for (SystemsFilter<Engine::EnabledSystems>::const_iterator it = enabledSystems.begin(), e = enabledSystems.end();it!=e;++it)
     {
+        if(!mIsRunning)
+        {
+            return;
+        }
         it->mSystem->Update( DeltaTime );
     }
 }

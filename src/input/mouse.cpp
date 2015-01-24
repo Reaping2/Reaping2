@@ -8,13 +8,17 @@ MouseSystem::MouseSystem()
     , mMousePressEventWait( 0 )
     , mMousePressEventRepeatInterval( 0.1 )
 {
-    Window& Wind( Window::Get() );
-    GLFWwindow* Wnd = Wind.GetWindow();
+}
+void MouseSystem::Init()
+{
+    Opt<WindowSystem> Wind( Engine::Get().GetSystem<WindowSystem>() );
+    GLFWwindow* Wnd = Wind->GetWindow();
     glfwSetCursorPosCallback( Wnd, &MouseSystem::OnMouseMove );
     glfwSetMouseButtonCallback( Wnd, &MouseSystem::OnMouseButton );
     glfwSetCursorEnterCallback( Wnd, &MouseSystem::OnMouseEnter );
     glfwSetScrollCallback( Wnd, &MouseSystem::OnMouseScroll );
 }
+
 
 void MouseSystem::OnMouseMove( GLFWwindow* Wnd, double x, double y )
 {
@@ -102,10 +106,6 @@ void MouseSystem::OnMouseScroll( GLFWwindow*, double x_offs, double y_offs )
     EventServer<MouseScrollEvent>::Get().SendEvent( MouseScrollEvent( glm::vec2( x_offs, y_offs ) ) );
 }
 
-void MouseSystem::Init()
-{
-
-}
 
 } // namespace engine
 MouseMoveEvent::~MouseMoveEvent()

@@ -1,5 +1,6 @@
 #ifndef INCLUDED_RENDER_UI_RENDERER_H
 #define INCLUDED_RENDER_UI_RENDERER_H
+#include "core/opt.h"
 
 struct UiVertex
 {
@@ -18,6 +19,7 @@ class UiRenderer
 {
     UiVertices_t mPrevVertices;
     VaoBase mVAO;
+    Opt<engine::WindowSystem> mWindow;
     void Init();
 public:
     UiRenderer();

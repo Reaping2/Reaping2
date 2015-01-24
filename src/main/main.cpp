@@ -13,6 +13,7 @@
 #include "engine/items/inventory_system.h"
 #include "core/item.h"
 #include "engine/items/weapon_item_sub_system.h"
+#include "platform/event.h"
 using engine::Engine;
 namespace {
 class Timer_t
@@ -54,35 +55,46 @@ public:
 };
 }
 
+static bool IsMainRunning;
+
+void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
+{
+    if( Evt.CurrentPhase == ProgramPhase::InitiateShutdown )
+    {
+        IsMainRunning=false;
+    }
+}
+
 int main()
 {
-    Window& Wnd = Window::Get(); // ez legyen az elejen
-    if( !Wnd.Create( 640, 480, "Reaping2" ) )
-    {
-        return -1;
-    }
-    RootModel::Get();
+    IsMainRunning=true;
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
+    AutoReg PhaseChangeId(PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ));
+
+    Engine& Eng = Engine::Get();
+    Eng.AddSystem(AutoId("window_system"));
+
+    if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
+    {
+        PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutdown ) );
+    }
+
+
+    RootModel::Get();
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Startup ) );
     PerfTimer.Log( "wnd" );
     TimerServer& Timers( TimerServer::Get() );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     AudioEffectPlayer::Get();
-    AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
+    AudioPlayer::Get();
+    //AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
     PerfTimer.Log( "input" );
     Renderer& Rend = Renderer::Get();
     DamageDecals::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
-    static const double MaxFrameRate = 100.;
-    static const double MinFrameTime = 1. / MaxFrameRate;
-    double Prevtime, Curtime;
-    Prevtime = Curtime = glfwGetTime();
-    FrameCounter Counter;
-    PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
-    EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
-    Engine& Eng = Engine::Get();
+
     Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("mouse_system"));
     Eng.AddSystem(AutoId("collision_system"));
@@ -113,7 +125,15 @@ int main()
 
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
-    while( true )
+
+    static const double MaxFrameRate = 100.;
+    static const double MinFrameTime = 1. / MaxFrameRate;
+    double Prevtime, Curtime;
+    Prevtime = Curtime = glfwGetTime();
+    FrameCounter Counter;
+    PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
+    EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
+    while( IsMainRunning )
     {
         Curtime = glfwGetTime();
         double Dt = Curtime - Prevtime;
@@ -126,13 +146,13 @@ int main()
         }
         Timers.Update( Dt );
         Eng.Update( Dt );
+        if (!IsMainRunning)
+        {
+            break; //TODO: temporary need to finish all system extractions
+        }
         Scen.Update( Dt );
         CycleEventServer.SendEvent( CycleEvent( Curtime ) );
         if( !Rend.Render() )
-        {
-            break;
-        }
-        if( !Wnd.Run() )
         {
             break;
         }

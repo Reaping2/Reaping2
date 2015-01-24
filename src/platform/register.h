@@ -28,6 +28,7 @@ class AutoReg
     Registration mRegistration;
     AutoReg( AutoReg const& o );
 public:
+    AutoReg( Registration const& o );
     AutoReg();
     ~AutoReg();
     AutoReg& operator=( Registration const& O );

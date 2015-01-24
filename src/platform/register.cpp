@@ -161,6 +161,11 @@ AutoReg::AutoReg()
 {
 }
 
+AutoReg::AutoReg(Registration const& o)
+{
+    mRegistration = o;
+}
+
 AutoReg::~AutoReg()
 {
     mRegistration.Unregister();

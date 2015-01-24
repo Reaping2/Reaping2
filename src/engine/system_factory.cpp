@@ -15,6 +15,7 @@
 #include "engine/fade_out_system.h"
 #include "engine/move_system.h"
 #include "input/mouse.h"
+#include "main/window.h"
 
 using platform::AutoId;
 namespace engine {
@@ -24,6 +25,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("default_system"), &CreateSystem<DefaultSystem> );
     SetDefault( AutoId("default_system") );
 
+    Bind( AutoId("window_system"), &CreateSystem<WindowSystem>);
     Bind( AutoId("collision_system"), &CreateSystem<CollisionSystem>);
     Bind( AutoId("keyboard_system"), &CreateSystem<KeyboardSystem>);
     Bind( AutoId("mouse_system"), &CreateSystem<MouseSystem>);
