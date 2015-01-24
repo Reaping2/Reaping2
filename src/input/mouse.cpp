@@ -1,33 +1,35 @@
 #include "i_input.h"
 #include "main/window.h"
-
-Mouse::Mouse()
+#include "core/opt.h"
+#include "engine/engine.h"
+namespace engine {
+MouseSystem::MouseSystem()
     : mHeldButtons( 0 )
     , mMousePressEventWait( 0 )
     , mMousePressEventRepeatInterval( 0.1 )
 {
     Window& Wind( Window::Get() );
     GLFWwindow* Wnd = Wind.GetWindow();
-    glfwSetCursorPosCallback( Wnd, &Mouse::OnMouseMove );
-    glfwSetMouseButtonCallback( Wnd, &Mouse::OnMouseButton );
-    glfwSetCursorEnterCallback( Wnd, &Mouse::OnMouseEnter );
-    glfwSetScrollCallback( Wnd, &Mouse::OnMouseScroll );
+    glfwSetCursorPosCallback( Wnd, &MouseSystem::OnMouseMove );
+    glfwSetMouseButtonCallback( Wnd, &MouseSystem::OnMouseButton );
+    glfwSetCursorEnterCallback( Wnd, &MouseSystem::OnMouseEnter );
+    glfwSetScrollCallback( Wnd, &MouseSystem::OnMouseScroll );
 }
 
-void Mouse::OnMouseMove( GLFWwindow* Wnd, double x, double y )
+void MouseSystem::OnMouseMove( GLFWwindow* Wnd, double x, double y )
 {
-    Mouse& M = Get();
-    M.mRawMouseCoord.x = ( float )x;
-    M.mRawMouseCoord.y = ( float )y;
-    EventServer<ScreenMouseMoveEvent>::Get().SendEvent( ScreenMouseMoveEvent( M.mRawMouseCoord ) );
+    Opt<MouseSystem> M(engine::Engine::Get().GetSystem<MouseSystem>());
+    M->mRawMouseCoord.x = ( float )x;
+    M->mRawMouseCoord.y = ( float )y;
+    EventServer<ScreenMouseMoveEvent>::Get().SendEvent( ScreenMouseMoveEvent( M->mRawMouseCoord ) );
 }
 
-void Mouse::OnMouseButton( GLFWwindow*, int button, int action, int mods )
+void MouseSystem::OnMouseButton( GLFWwindow*, int button, int action, int mods )
 {
-    Get().MousePressed( button, action, mods );
+    engine::Engine::Get().GetSystem<MouseSystem>()->MousePressed( button, action, mods );
 }
 
-void Mouse::MousePressed( int button, int action, int /*mods*/ )
+void MouseSystem::MousePressed( int button, int action, int /*mods*/ )
 {
     Button_t Button = Button_Left;
     switch( button )
@@ -65,16 +67,16 @@ void Mouse::MousePressed( int button, int action, int /*mods*/ )
 
 }
 
-bool Mouse::IsButtonPressed( Button_t Button ) const
+bool MouseSystem::IsButtonPressed( Button_t Button ) const
 {
     return !( !( mHeldButtons & ( 1 << Button ) ) );
 }
 
-void Mouse::Update( double Seconds )
+void MouseSystem::Update( double DeltaTime )
 {
-    if( mMousePressEventWait > Seconds )
+    if( mMousePressEventWait > DeltaTime )
     {
-        mMousePressEventWait -= Seconds;
+        mMousePressEventWait -= DeltaTime;
         return;
     }
     for( size_t i = 1; i < Num_Buttons; ++i )
@@ -89,18 +91,23 @@ void Mouse::Update( double Seconds )
     mMousePressEventWait = mMousePressEventRepeatInterval;
 }
 
-void Mouse::OnMouseEnter( GLFWwindow*, int entered )
+void MouseSystem::OnMouseEnter( GLFWwindow*, int entered )
 {
     EventServer<MouseEnterEvent>::Get().SendEvent( MouseEnterEvent( entered == GL_TRUE ) );
 }
 
-void Mouse::OnMouseScroll( GLFWwindow*, double x_offs, double y_offs )
+void MouseSystem::OnMouseScroll( GLFWwindow*, double x_offs, double y_offs )
 {
     // itt nincs space transition, az offsetek a gorgotol fuggnek csak
     EventServer<MouseScrollEvent>::Get().SendEvent( MouseScrollEvent( glm::vec2( x_offs, y_offs ) ) );
 }
 
+void MouseSystem::Init()
+{
 
+}
+
+} // namespace engine
 MouseMoveEvent::~MouseMoveEvent()
 {
 

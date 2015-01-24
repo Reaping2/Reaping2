@@ -24,7 +24,7 @@ private:
     void Shoot(Actor &actor);
 
     AutoReg mMouseMoveId;
-    Mouse& mMouse;
+    Opt<MouseSystem> mMouse;
     double mX;
     double mY;
 

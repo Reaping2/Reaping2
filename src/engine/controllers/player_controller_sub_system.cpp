@@ -12,8 +12,7 @@
 namespace engine {
 
 PlayerControllerSubSystem::PlayerControllerSubSystem()
-    : mMouse( Mouse::Get() )
-    , mScene( Scene::Get() )
+    : mScene( Scene::Get() )
 {
 
 }
@@ -21,6 +20,7 @@ PlayerControllerSubSystem::PlayerControllerSubSystem()
 void PlayerControllerSubSystem::Init()
 {
     mKeyboard=Engine::Get().GetSystem<KeyboardSystem>();
+    mMouse=Engine::Get().GetSystem<MouseSystem>();
     mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnMouseMoveEvent, this, _1 ) );
 
 }
@@ -106,12 +106,12 @@ void PlayerControllerSubSystem::Shoot(Actor &actor)
         return;
     }
 
-    if (mMouse.IsButtonPressed( Mouse::Button_Left ))
+    if (mMouse->IsButtonPressed( MouseSystem::Button_Left ))
     {
         weapon->SetShoot(true);
         weapon->SetShootAlt(false);
     }
-    else if (mMouse.IsButtonPressed( Mouse::Button_Right ))
+    else if (mMouse->IsButtonPressed( MouseSystem::Button_Right ))
     {
         weapon->SetShoot(false);
         weapon->SetShootAlt(true);

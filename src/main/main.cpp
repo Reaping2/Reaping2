@@ -69,14 +69,13 @@ int main()
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     AudioEffectPlayer::Get();
     AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
-    Mouse& Jerry = Mouse::Get();
     PerfTimer.Log( "input" );
     Renderer& Rend = Renderer::Get();
     DamageDecals::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
-    static const double MaxFrameRate = 400.;
+    static const double MaxFrameRate = 100.;
     static const double MinFrameTime = 1. / MaxFrameRate;
     double Prevtime, Curtime;
     Prevtime = Curtime = glfwGetTime();
@@ -85,6 +84,7 @@ int main()
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
     Engine& Eng = Engine::Get();
     Eng.AddSystem(AutoId("keyboard_system"));
+    Eng.AddSystem(AutoId("mouse_system"));
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
@@ -125,7 +125,6 @@ int main()
             Curtime = glfwGetTime();
         }
         Timers.Update( Dt );
-        Jerry.Update( Dt );
         Eng.Update( Dt );
         Scen.Update( Dt );
         CycleEventServer.SendEvent( CycleEvent( Curtime ) );
