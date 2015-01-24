@@ -8,8 +8,6 @@ class CollisionComponent : public ICollisionComponent
 public:
     virtual CollisionClass::Type GetCollisionClass()const;
     virtual void SetCollisionClass( CollisionClass::Type CollisionClassType );
-    virtual void Collide( Actor& Other );
-    virtual void ClipScene(); //TODO: i don't really like this concept. This might be simply just a collision with scene edges, later maybe.
     virtual double GetRadius()const;
     virtual void SetRadius( double Radius);
 

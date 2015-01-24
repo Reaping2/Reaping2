@@ -16,37 +16,6 @@ CollisionComponent::CollisionComponent()
 
 }
 
-void CollisionComponent::Collide(Actor& Other)
-{
-}
-
-void CollisionComponent::ClipScene()
-{
-    glm::vec4 AllowedDimensions = Scene::Get().GetDimensions();
-    float Radius = ( float )GetRadius();
-    AllowedDimensions.x += Radius;
-    AllowedDimensions.y += Radius;
-    AllowedDimensions.z -= Radius;
-    AllowedDimensions.w -= Radius;
-    Opt<IPositionComponent> positionC = mActor->Get<IPositionComponent>();
-    if( positionC->GetX() < AllowedDimensions.x )
-    {
-        positionC->SetX( AllowedDimensions.x );
-    }
-    else if( positionC->GetX() > AllowedDimensions.z )
-    {
-        positionC->SetX( AllowedDimensions.z );
-    }
-    if( positionC->GetY() < AllowedDimensions.y )
-    {
-        positionC->SetY( AllowedDimensions.y );
-    }
-    else if( positionC->GetY() > AllowedDimensions.w )
-    {
-        positionC->SetY( AllowedDimensions.w );
-    }
-}
-
 CollisionClass::Type CollisionComponent::GetCollisionClass() const
 {
     return mCollisionClassType;

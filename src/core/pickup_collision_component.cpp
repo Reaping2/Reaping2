@@ -13,22 +13,14 @@ PickupCollisionComponent::PickupCollisionComponent()
 
 }
 
-void PickupCollisionComponent::Collide(Actor& Other)
-{
-    //TODO: action! this should not make this fun here
-    Opt<IInventoryComponent> inventoryC = Other.Get<IInventoryComponent>();
-    if (inventoryC.IsValid())
-    {
-        inventoryC->DropItemType( Item::Weapon );
-        inventoryC->AddItem( mPickupContent );
-        inventoryC->SetSelectedWeapon( mPickupContent );
-    }
-    mActor->Get<IHealthComponent>()->SetHP(0);
-}
-
 void PickupCollisionComponent::SetPickupContent(int32_t PickupContent)
 {
     mPickupContent=PickupContent;
+}
+
+int32_t PickupCollisionComponent::GetPickupContent() const
+{
+    return mPickupContent;
 }
 
 void PickupCollisionComponentLoader::BindValues()

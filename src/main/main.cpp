@@ -76,7 +76,7 @@ int main()
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
-    static const double MaxFrameRate = 100.;
+    static const double MaxFrameRate = 400.;
     static const double MinFrameTime = 1. / MaxFrameRate;
     double Prevtime, Curtime;
     Prevtime = Curtime = glfwGetTime();
@@ -86,6 +86,11 @@ int main()
     Engine& Eng = Engine::Get();
     Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("collision_system"));
+    Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
+    collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
+
     Eng.AddSystem(AutoId("controller_system"));
     Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());
     controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));

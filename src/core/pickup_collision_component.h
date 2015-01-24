@@ -6,8 +6,8 @@
 class PickupCollisionComponent : public CollisionComponent
 {
 public:
-    virtual void Collide( Actor& Other );
     virtual void SetPickupContent( int32_t PickupContent );
+    virtual int32_t GetPickupContent() const;
 protected:
     PickupCollisionComponent();
     friend class ComponentFactory;

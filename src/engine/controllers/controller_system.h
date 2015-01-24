@@ -13,7 +13,6 @@ public:
     DEFINE_SYSTEM_BASE(ControllerSystem)
     ControllerSystem();
     virtual void Init();
-
     virtual void Update( double DeltaTime );
 private:
     Scene& mScene;

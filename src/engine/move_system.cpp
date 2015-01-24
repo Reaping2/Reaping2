@@ -34,13 +34,6 @@ void MoveSystem::Update(double DeltaTime)
 
         positionC->SetX( positionC->GetX() + DeltaTime * moveC->GetSpeedX() );
         positionC->SetY( positionC->GetY() + DeltaTime * moveC->GetSpeedY() );
-
-        //TODO: I think collision will handle this
-        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-        if (collisionC.IsValid())
-        {
-            collisionC->ClipScene();
-        }
     }
 
 }

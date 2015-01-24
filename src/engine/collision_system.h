@@ -5,10 +5,12 @@
 #include "core/grid.h"
 #include "core/scene.h"
 #include "engine/system.h"
+#include "engine/sub_system_holder.h"
+#include "engine/collisions/collision_sub_system.h"
 
 namespace engine {
 
-class CollisionSystem : public System
+class CollisionSystem : public System, public SubSystemHolder
 {
 public:
     DEFINE_SYSTEM_BASE(CollisionSystem)
@@ -16,6 +18,7 @@ public:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
+    Opt<CollisionSubSystem> GetCollisionSubSystem(int32_t id);
     Grid mCollisionGrid;
     CollisionStore& mCollisionStore;
     Scene& mScene;

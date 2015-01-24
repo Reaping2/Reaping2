@@ -6,8 +6,6 @@
 
 class WallCollisionComponent : public CollisionComponent
 {
-public:
-    virtual void Collide( Actor& Other );
 protected:
     WallCollisionComponent();
     friend class ComponentFactory;

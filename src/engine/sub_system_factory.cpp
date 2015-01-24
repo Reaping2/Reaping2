@@ -9,6 +9,9 @@
 #include "engine/items/weapon_item_sub_system.h"
 #include "engine/items/plasma_gun_weapon_sub_system.h"
 #include "engine/items/pistol_weapon_sub_system.h"
+#include "collisions/pickup_collision_sub_system.h"
+#include "collisions/wall_collision_sub_system.h"
+#include "collisions/shot_collision_sub_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -27,6 +30,10 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("weapon_item_sub_system"), &CreateSubSystem<WeaponItemSubSystem>);
     Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);
     Bind( AutoId("pistol_weapon_sub_system"), &CreateSubSystem<PistolWeaponSubSystem>);
+
+    Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
+    Bind( AutoId("wall_collision_sub_system"), &CreateSubSystem<WallCollisionSubSystem>);
+    Bind( AutoId("shot_collision_sub_system"), &CreateSubSystem<ShotCollisionSubSystem>);
 
 }
 
