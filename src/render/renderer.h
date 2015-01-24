@@ -1,11 +1,12 @@
 #ifndef INCLUDED_RENDER_RENDERER_H
 #define INCLUDED_RENDER_RENDERER_H
+#include "platform/i_platform.h"
+#include "render/i_render.h"
 
-class Renderer : public Singleton<Renderer>
+namespace engine {
+class RendererSystem : public System
 {
-    friend class Singleton<Renderer>;
-    Renderer();
-    ~Renderer();
+    ~RendererSystem();
 
     Projection mWorldProjector;
     Projection mUiProjector;
@@ -31,9 +32,12 @@ class Renderer : public Singleton<Renderer>
     void OnMousePressEvent( const ScreenMousePressEvent& Event );
     void OnMouseReleaseEvent( const ScreenMouseReleaseEvent& Event );
 
-    void Init();
 public:
-    bool Render();
+    RendererSystem();
+    DEFINE_SYSTEM_BASE(RendererSystem)
+    virtual void Init();
+    virtual void Update( double DeltaTime );
 };
+} // namespace engine
 
 #endif//INCLUDED_RENDER_RENDERER_H

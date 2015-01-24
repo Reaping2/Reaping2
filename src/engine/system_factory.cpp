@@ -18,6 +18,7 @@
 #include "main/window.h"
 #include "platform/timer.h"
 #include "engine/frame_counter_system.h"
+#include "render/renderer.h"
 
 using platform::AutoId;
 namespace engine {
@@ -30,6 +31,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("window_system"), &CreateSystem<WindowSystem>);
     Bind( AutoId("timer_server_system"), &CreateSystem<TimerServerSystem>);
     Bind( AutoId("frame_counter_system"), &CreateSystem<FrameCounterSystem>);
+    Bind( AutoId("renderer_system"), &CreateSystem<RendererSystem>);
 
     Bind( AutoId("collision_system"), &CreateSystem<CollisionSystem>);
     Bind( AutoId("keyboard_system"), &CreateSystem<KeyboardSystem>);

@@ -67,7 +67,6 @@ int main()
     AudioEffectPlayer::Get();
     AudioPlayer::Get();
     //AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
-    Renderer& Rend = Renderer::Get();
     DamageDecals::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
@@ -103,6 +102,7 @@ int main()
     Eng.AddSystem(AutoId("move_system"));
 
     Eng.AddSystem(AutoId("frame_counter_system"));
+    Eng.AddSystem(AutoId("renderer_system"));
 
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
@@ -125,16 +125,9 @@ int main()
             Curtime = glfwGetTime();
         }
         Eng.Update( Dt );
-        if (!IsMainRunning)
-        {
-            break; //TODO: temporary need to finish all system extractions
-        }
         Scen.Update( Dt );
         CycleEventServer.SendEvent( CycleEvent( Curtime ) );
-        if( !Rend.Render() )
-        {
-            break;
-        }
+
         Prevtime = Curtime;
     }
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::CloseSignal ) );

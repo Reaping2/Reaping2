@@ -12,7 +12,10 @@ class FrameCounterSystem: public System
     uint32_t mFrames;
     double mStart;
     double mPrev;
+    int32_t mFps;
 public:
+    ModelValue mFpsModel;
+    int32_t const& GetFps();
     FrameCounterSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

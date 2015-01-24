@@ -1,6 +1,6 @@
 #include "i_render.h"
-
-Renderer::Renderer()
+namespace engine {
+RendererSystem::RendererSystem()
     : mWorldProjector( -1.0f, 1.0f )
     , mUiProjector( 0.0f, 100.0f, Projection::VM_Fixed )
     , mCamera( mWorldProjector )
@@ -9,37 +9,18 @@ Renderer::Renderer()
     , mShaderManager( ShaderManager::Get() )
 {
     Font::Get();
-    mMouseMoveId = EventServer<ScreenMouseMoveEvent>::Get().Subscribe( boost::bind( &Renderer::OnMouseMoveEvent, this, _1 ) );
-    mMousePressId = EventServer<ScreenMousePressEvent>::Get().Subscribe( boost::bind( &Renderer::OnMousePressEvent, this, _1 ) );
-    mMouseReleaseId = EventServer<ScreenMouseReleaseEvent>::Get().Subscribe( boost::bind( &Renderer::OnMouseReleaseEvent, this, _1 ) );
+    mMouseMoveId = EventServer<ScreenMouseMoveEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMouseMoveEvent, this, _1 ) );
+    mMousePressId = EventServer<ScreenMousePressEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMousePressEvent, this, _1 ) );
+    mMouseReleaseId = EventServer<ScreenMouseReleaseEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMouseReleaseEvent, this, _1 ) );
     Init();
 }
 
-Renderer::~Renderer()
+RendererSystem::~RendererSystem()
 {
 
 }
 
-bool Renderer::Render()
-{
-    if( !BeginRender() )
-    {
-        return false;
-    }
-    mCamera.Update();
-
-    // render world
-    SetupRenderer( mUiProjector );
-    Scene& Scen( Scene::Get() );
-    mSceneRenderer.Draw( Scen );
-    mDecalEngine.Draw( DecalEngine::GroundParticle );
-    mActorRenderer.Draw( Scen );
-    mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
-
-    return EndRender();
-}
-
-void Renderer::SetupRenderer( const Projection& Proj )
+void RendererSystem::SetupRenderer( const Projection& Proj )
 {
     Viewport const& Vp = Proj.GetViewport();
     glViewport( Vp.X, Vp.Y, Vp.Width, Vp.Height );
@@ -49,18 +30,18 @@ void Renderer::SetupRenderer( const Projection& Proj )
     //mShaderManager.UploadGlobalData( GlobalShaderData::UiProjection, mUiProjector.GetMatrix() );
 }
 
-bool Renderer::BeginRender()
+bool RendererSystem::BeginRender()
 {
     glClear( GL_COLOR_BUFFER_BIT );
     return true;
 }
 
-bool Renderer::EndRender()
+bool RendererSystem::EndRender()
 {
     return true;
 }
 
-void Renderer::OnMouseMoveEvent( const ScreenMouseMoveEvent& Event )
+void RendererSystem::OnMouseMoveEvent( const ScreenMouseMoveEvent& Event )
 {
     glm::vec3 EvtPos( Event.Pos.x, Event.Pos.y, 0 );
     glm::vec3 UiEvtPos = mUiProjector.Unproject( EvtPos );
@@ -75,7 +56,7 @@ void Renderer::OnMouseMoveEvent( const ScreenMouseMoveEvent& Event )
     EventServer<WorldMouseMoveEvent>::Get().SendEvent( WorldEvt );
 }
 
-void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
+void RendererSystem::OnMousePressEvent( const ScreenMousePressEvent& Event )
 {
     glm::vec3 EvtPos( Event.Pos.x, Event.Pos.y, 0 );
     glm::vec3 UiEvtPos = mUiProjector.Unproject( EvtPos );
@@ -90,7 +71,7 @@ void Renderer::OnMousePressEvent( const ScreenMousePressEvent& Event )
     EventServer<WorldMousePressEvent>::Get().SendEvent( WorldEvt );
 }
 
-void Renderer::OnMouseReleaseEvent( const ScreenMouseReleaseEvent& Event )
+void RendererSystem::OnMouseReleaseEvent( const ScreenMouseReleaseEvent& Event )
 {
     glm::vec3 EvtPos( Event.Pos.x, Event.Pos.y, 0 );
     glm::vec3 UiEvtPos = mUiProjector.Unproject( EvtPos );
@@ -105,10 +86,29 @@ void Renderer::OnMouseReleaseEvent( const ScreenMouseReleaseEvent& Event )
     EventServer<WorldMouseReleaseEvent>::Get().SendEvent( WorldEvt );
 }
 
-void Renderer::Init()
+void RendererSystem::Init()
 {
     glEnable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
 }
 
+void RendererSystem::Update(double DeltaTime)
+{
+    BeginRender();
+
+    mCamera.Update();
+
+    // render world
+    SetupRenderer( mUiProjector );
+    Scene& Scen( Scene::Get() );
+    mSceneRenderer.Draw( Scen );
+    mDecalEngine.Draw( DecalEngine::GroundParticle );
+    mActorRenderer.Draw( Scen );
+    mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
+
+    EndRender();
+}
+
+
+} // namespace engine
