@@ -4,19 +4,22 @@
 #include "singleton.h"
 #include "register.h"
 #include <boost/function.hpp>
+#include "engine/system.h"
 
-namespace platform {
+namespace engine {
 typedef boost::function<void()> TimerCallback;
-
-class TimerServer : public Singleton<TimerServer>, public Registry
+using platform::Registry;
+using platform::Registration;
+class TimerServerSystem : public System, public Registry
 {
-    friend class Singleton<TimerServer>;
-    TimerServer();
     virtual void UpdateOne( void* RegistrationData, void* UpdateData );
     virtual void DeleteData( void* Data );
 public:
+    DEFINE_SYSTEM_BASE(TimerServerSystem)
     Registration AddTimer( TimerCallback Callback, double Interval );
-    void Update( double Seconds );
+    virtual void Init();
+    virtual void Update( double DeltaTime );
+    TimerServerSystem();
 };
 
 } // namespace platform

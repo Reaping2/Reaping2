@@ -2,7 +2,7 @@
 
 #include <boost/assert.hpp>
 
-namespace platform {
+namespace engine {
 namespace {
 namespace detail {
 
@@ -42,33 +42,39 @@ void Timer::Update( double Seconds )
 
 } // namespace detail
 } // namespace anonymous
+using platform::Registration;
 
-Registration TimerServer::AddTimer( TimerCallback Callback, double Interval )
+Registration TimerServerSystem::AddTimer( TimerCallback Callback, double Interval )
 {
     return Register( new detail::Timer( Callback, Interval ) );
 }
 
-void TimerServer::Update( double Seconds )
+void TimerServerSystem::Update( double DeltaTime )
 {
-    Registry::Update( &Seconds );
+    Registry::Update( &DeltaTime );
 }
 
-TimerServer::TimerServer()
+TimerServerSystem::TimerServerSystem()
 {
 
 }
 
-void TimerServer::UpdateOne( void* RegistrationData, void* UpdateData )
+void TimerServerSystem::UpdateOne( void* RegistrationData, void* UpdateData )
 {
     double Seconds = *static_cast< double* >( UpdateData );
     detail::Timer* T = static_cast< detail::Timer* >( RegistrationData );
     T->Update( Seconds );
 }
 
-void TimerServer::DeleteData( void* Data )
+void TimerServerSystem::DeleteData( void* Data )
 {
     delete static_cast< detail::Timer* >( Data );
 }
 
-} // namespace platform
+void TimerServerSystem::Init()
+{
+
+}
+
+} // namespace engine
 

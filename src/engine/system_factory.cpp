@@ -16,6 +16,8 @@
 #include "engine/move_system.h"
 #include "input/mouse.h"
 #include "main/window.h"
+#include "platform/timer.h"
+#include "engine/frame_counter_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -26,6 +28,9 @@ SystemFactory::SystemFactory()
     SetDefault( AutoId("default_system") );
 
     Bind( AutoId("window_system"), &CreateSystem<WindowSystem>);
+    Bind( AutoId("timer_server_system"), &CreateSystem<TimerServerSystem>);
+    Bind( AutoId("frame_counter_system"), &CreateSystem<FrameCounterSystem>);
+
     Bind( AutoId("collision_system"), &CreateSystem<CollisionSystem>);
     Bind( AutoId("keyboard_system"), &CreateSystem<KeyboardSystem>);
     Bind( AutoId("mouse_system"), &CreateSystem<MouseSystem>);

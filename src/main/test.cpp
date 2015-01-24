@@ -97,8 +97,9 @@ struct Tester_t
     {
         for( size_t i = 0; i < mNumRegs; ++i )
         {
-            mReg[i] = TimerServer::Get().AddTimer( i == 2 ? boost::bind( &Tester_t::RegTestUnreg, this ) :
-                                                   boost::bind( &Tester_t::RegTestEmpty, this ), 1. );
+            //TODO: fix it
+//             mReg[i] = TimerServerSystem::Get().AddTimer( i == 2 ? boost::bind( &Tester_t::RegTestUnreg, this ) :
+//                                                    boost::bind( &Tester_t::RegTestEmpty, this ), 1. );
         }
     }
 

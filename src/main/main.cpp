@@ -33,26 +33,6 @@ public:
     }
 } PerfTimer;
 
-class FrameCounter
-{
-    uint32_t mFrames;
-    double mStart;
-    double mPrev;
-public:
-    FrameCounter() : mFrames( 0 ), mStart( glfwGetTime() ), mPrev( mStart ) {}
-    void Inc()
-    {
-        ++mFrames;
-        double const Now = glfwGetTime();
-        double const Diff = Now - mPrev;
-        if( Diff >= 2.0 )
-        {
-            L1( "FPS: %f\n", mFrames / Diff );
-            mPrev = Now;
-            mFrames = 0;
-        }
-    }
-};
 }
 
 static bool IsMainRunning;
@@ -83,18 +63,17 @@ int main()
     RootModel::Get();
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Startup ) );
     PerfTimer.Log( "wnd" );
-    TimerServer& Timers( TimerServer::Get() );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     AudioEffectPlayer::Get();
     AudioPlayer::Get();
     //AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
-    PerfTimer.Log( "input" );
     Renderer& Rend = Renderer::Get();
     DamageDecals::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
 
+    Eng.AddSystem(AutoId("timer_server_system"));
     Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("mouse_system"));
     Eng.AddSystem(AutoId("collision_system"));
@@ -123,6 +102,8 @@ int main()
     Eng.AddSystem(AutoId("remove_on_death_system"));
     Eng.AddSystem(AutoId("move_system"));
 
+    Eng.AddSystem(AutoId("frame_counter_system"));
+
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
 
@@ -130,7 +111,6 @@ int main()
     static const double MinFrameTime = 1. / MaxFrameRate;
     double Prevtime, Curtime;
     Prevtime = Curtime = glfwGetTime();
-    FrameCounter Counter;
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
     while( IsMainRunning )
@@ -144,7 +124,6 @@ int main()
             Dt = MinFrameTime;
             Curtime = glfwGetTime();
         }
-        Timers.Update( Dt );
         Eng.Update( Dt );
         if (!IsMainRunning)
         {
@@ -157,7 +136,6 @@ int main()
             break;
         }
         Prevtime = Curtime;
-        Counter.Inc();
     }
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::CloseSignal ) );
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Shutdown ) );
