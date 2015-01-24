@@ -20,7 +20,7 @@ vec2[4] corners=vec2[4](vec2(-1,-1),
 	vec2(1,1));
 void main()
 {
-	inTexCoord=vec2(TexCoord[int(floor(mod(gl_VertexID,2)))],TexCoord[2+int(floor(gl_VertexID/2))]);
+	inTexCoord=vec2(TexCoord[int(floor(mod(gl_VertexID,2.0)))],TexCoord[2+int(floor(gl_VertexID/2.0))]);
 	vec2 position=corners[gl_VertexID];
 	mat2 ScaleMatrix=Radius*mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
 	gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(ScaleMatrix*position+SpriteCenter,0,1);
