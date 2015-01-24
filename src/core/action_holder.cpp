@@ -33,7 +33,8 @@ void ActionHolder::AddAction( std::auto_ptr<Action> Act )
     {
         if ( Act->Activate() )
         {
-            mActions.insert( Act->GetId(), Act );
+            int32_t actionId=Act->GetId();
+            mActions.insert( actionId, Act );
         }
     }
     else

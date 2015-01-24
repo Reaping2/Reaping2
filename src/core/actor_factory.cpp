@@ -48,7 +48,8 @@ bool ActorFactory::AddActorCreatorFromOneDesc( Json::Value& ActorsDesc, ActorCre
         Json::Value& setters=component["set"];
         actorCreator->AddComponent(AutoId(compName),setters);
     }
-    actorCreators.insert(actorCreator->GetId(), actorCreator);
+    int32_t actorCreatorId=actorCreator->GetId();
+    actorCreators.insert(actorCreatorId, actorCreator);
     return true;
 }
 
