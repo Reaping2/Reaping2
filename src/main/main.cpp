@@ -14,6 +14,7 @@
 #include "core/item.h"
 #include "engine/items/weapon_item_sub_system.h"
 #include "platform/event.h"
+#include "render/recognizer_repo.h"
 using engine::Engine;
 namespace {
 class Timer_t
@@ -71,6 +72,7 @@ int main()
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
+    render::RecognizerRepo::Get();
 
     Eng.AddSystem(AutoId("timer_server_system"));
     Eng.AddSystem(AutoId("keyboard_system"));
@@ -107,7 +109,7 @@ int main()
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
 
-    static const double MaxFrameRate = 100.;
+    static const double MaxFrameRate = 1000.;
     static const double MinFrameTime = 1. / MaxFrameRate;
     double Prevtime, Curtime;
     Prevtime = Curtime = glfwGetTime();

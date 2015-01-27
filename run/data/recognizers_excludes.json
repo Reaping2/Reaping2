@@ -1,0 +1,23 @@
+[
+	{
+		"name":"death",
+		"excludes":
+		["idle","body_move","leg_move","weapon"]
+	},
+	{
+		"name":"leg_move",
+		"excludes":
+		["idle"]
+	},
+	{
+		"name":"body_move",
+		"excludes":
+		["idle"]
+	},
+	{
+		"name":"idle"
+	},
+	{
+		"name":"weapon"
+	}
+]

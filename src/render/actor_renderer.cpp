@@ -6,12 +6,14 @@
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
 #include "core/action.h"
+#include "recognizer.h"
 void ActorRenderer::Init()
 {
     mVAO.Init();
 }
 
 ActorRenderer::ActorRenderer()
+    : mRecognizerRepo(render::RecognizerRepo::Get())
 {
     Init();
 }
@@ -32,6 +34,24 @@ void ActorRenderer::Draw( Scene const& Object )
     for(ActorListFilter<Scene::RenderableActors>::const_iterator i=wrp.begin(),e=wrp.end();i!=e;++i)
     {
         const Actor& Object = **i;
+        if (mRecognizerRepo.HasRecognizers(Object.GetId()))
+        {
+            RecognizerRepo::Recognizers_t& recognizers=mRecognizerRepo.GetRecognizers(Object.GetId());
+            RecognizerRepo::ExcludedRecognizers_t excluded;
+            for (RecognizerRepo::Recognizers_t::iterator recogIt=recognizers.begin(),recogE=recognizers.end(); recogIt!=recogE;++recogIt)
+            {
+                render::Recognizer& recognizer=*recogIt;
+                if (excluded.find(recognizer.GetId())==excluded.end()&&recognizer.Recognize(Object))
+                {
+                    if (mRecognizerRepo.HasExcludedRecognizers(recognizer.GetId()))
+                    {
+                        RecognizerRepo::ExcludedRecognizers_t& excludedRecognizers=mRecognizerRepo.GetExcludedRecognizers(recognizer.GetId());
+                        excluded.insert(excludedRecognizers.begin(),excludedRecognizers.end());
+                    }
+                }
+
+            }
+        }
         Actor::ActionList_t const& Actions = Object.GetActions();
         static RenderableRepo& Rend( RenderableRepo::Get() );
         SpriteCollection const& Sprites = Rend( Object.GetId() );

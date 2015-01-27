@@ -1,0 +1,18 @@
+[
+	{
+		"name":"player",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"body_move",
+				"renderer":"body_move"},
+			{"recognizer":"leg_move",
+				"renderer":"leg_move"},
+			{"recognizer":"weapon",
+				"renderer":"weapon"}
+		]
+	}
+]	
