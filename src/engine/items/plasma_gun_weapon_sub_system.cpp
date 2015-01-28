@@ -42,7 +42,6 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);
-        ps->AddAction( AutoId( "move" ) );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter());
@@ -54,17 +53,14 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);
-        ps->AddAction( AutoId( "move" ) );
         ps->Get<IPositionComponent>()->SetOrientation( -0.25 );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         ps = mActorFactory(mPlasmaShotId);
-        ps->AddAction( AutoId( "move" ) );
         ps->Get<IPositionComponent>()->SetOrientation( 0.25 );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         ps = mActorFactory(mPlasmaShotId);
-        ps->AddAction( AutoId( "move" ) );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetAltScatter());

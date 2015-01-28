@@ -7,18 +7,34 @@
 #include "core/actor.h"
 #include "core/action.h"
 #include "recognizer.h"
+
 void ActorRenderer::Init()
 {
     mVAO.Init();
+    mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &ActorRenderer::OnActorEvent, this, _1 ) );
+
+}
+
+void ActorRenderer::OnActorEvent(ActorEvent const& Evt)
+{
+    if(Evt.mState==ActorEvent::Added)
+    {
+        mActionRenderersMap[Evt.mActor->GetGUID()];
+    }
+    else
+    {
+        mActionRenderersMap.erase(Evt.mActor->GetGUID());
+    }
 }
 
 ActorRenderer::ActorRenderer()
-    : mRecognizerRepo(render::RecognizerRepo::Get())
+    : mRecognizerRepo(RecognizerRepo::Get())
+    , mActionRendererFactory(ActionRendererFactory::Get())
 {
     Init();
 }
 
-void ActorRenderer::Draw( Scene const& Object )
+void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
 {
     ActorList_t const& Lst = Object.GetActors();
     if( Lst.empty() )
@@ -26,7 +42,7 @@ void ActorRenderer::Draw( Scene const& Object )
         return;
     }
     static size_t PrevVecSize = 0;
-    typedef std::vector<RenderableSprite> RenderableSprites_t;
+    typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( PrevVecSize );
     //the template version works well with '=' i just dont know is it really needed, maybe this one is more self explaining
@@ -38,60 +54,95 @@ void ActorRenderer::Draw( Scene const& Object )
         {
             RecognizerRepo::Recognizers_t& recognizers=mRecognizerRepo.GetRecognizers(Object.GetId());
             RecognizerRepo::ExcludedRecognizers_t excluded;
+
+            ActionRenderersMap_t::iterator actionRenderersIt = mActionRenderersMap.find(Object.GetGUID());
+            BOOST_ASSERT(actionRenderersIt!=mActionRenderersMap.end());
+            ActionRenderers_t& actionRenderers=actionRenderersIt->second;
+
             for (RecognizerRepo::Recognizers_t::iterator recogIt=recognizers.begin(),recogE=recognizers.end(); recogIt!=recogE;++recogIt)
             {
                 render::Recognizer& recognizer=*recogIt;
-                if (excluded.find(recognizer.GetId())==excluded.end()&&recognizer.Recognize(Object))
+                if (excluded.find(recognizer.GetId())==excluded.end()
+                    &&recognizer.Recognize(Object))
                 {
+                    int32_t actionRendererId = recognizer.GetActionRenderer();
+                    ActionRenderers_t::iterator foundActionRendererIt = 
+                        std::find_if(actionRenderers.begin(),actionRenderers.end(), FindActionRenderer(actionRendererId));
+                    if (foundActionRendererIt==actionRenderers.end())
+                    {
+                        std::auto_ptr<ActionRenderer> actionRenderer(mActionRendererFactory(actionRendererId));
+                        actionRenderer->SetOrder(recognizer.GetOrder());
+                        actionRenderer->Init(Object);
+                        actionRenderers.insert(actionRenderer);
+                    }
                     if (mRecognizerRepo.HasExcludedRecognizers(recognizer.GetId()))
                     {
                         RecognizerRepo::ExcludedRecognizers_t& excludedRecognizers=mRecognizerRepo.GetExcludedRecognizers(recognizer.GetId());
                         excluded.insert(excludedRecognizers.begin(),excludedRecognizers.end());
                     }
                 }
+            }
+            for (RecognizerRepo::ExcludedRecognizers_t::iterator excludedIt=excluded.begin(), excludedE=excluded.end();excludedIt!=excludedE;++excludedIt)
+            {
+                ActionRenderers_t::iterator arIt=std::find_if(actionRenderers.begin(),actionRenderers.end(), FindActionRenderer(*excludedIt));
+                if(arIt!=actionRenderers.end())
+                {
+                    actionRenderers.erase(arIt);
 
-            }
-        }
-        Actor::ActionList_t const& Actions = Object.GetActions();
-        static RenderableRepo& Rend( RenderableRepo::Get() );
-        SpriteCollection const& Sprites = Rend( Object.GetId() );
-        for( Actor::ActionList_t::const_iterator j = Actions.begin(), k = Actions.end(); j != k; ++j )
-        {
-            Action const& Act = *j->second;
-            int32_t const ActId = j->first;
-            static RenderableActionRepo& RendActions( RenderableActionRepo::Get() );
-            RenderableActions_t const& RenderableActions( RendActions( ActId ) );
-            for( RenderableActions_t::const_iterator l = RenderableActions.begin(), m = RenderableActions.end(); l != m; ++l )
-            {
-                int32_t RendActId = *l;
-                Sprite const& Spr = Sprites( RendActId );
-                if( !Spr.IsValid() )
-                {
-                    continue;
                 }
-                SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
-                //for(size_t test=0;test<100;++test)
-                RenderableSprites.push_back( RenderableSprite( &Object, RendActId, &Spr, &Phase ) );
             }
-        }
-        Opt<IInventoryComponent> inventoryC = Object.Get<IInventoryComponent>();
-        if (inventoryC.IsValid())
-        {
-            IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
-            for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
+            for (ActionRenderers_t::iterator actionRendererIt=actionRenderers.begin(), actionRendererE=actionRenderers.end();actionRendererIt!=actionRendererE;++actionRendererIt)
             {
-                Item const& Act = **i;
-                int32_t const ActId = Act.GetId();
-                Sprite const& Spr = Sprites( ActId );
-                if( !Spr.IsValid() )
-                {
-                    continue;
-                }
-                SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
-                //for(size_t test=0;test<100;++test)
-                RenderableSprites.push_back( RenderableSprite( &Object, ActId, &Spr, &Phase ) );
+                ActionRenderer& actionRenderer=*actionRendererIt;
+                actionRenderer.FillRenderableSprites(Object,RenderableSprites);
+                actionRenderer.Update(DeltaTime);
             }
         }
+
+
+
+
+
+//         Actor::ActionList_t const& Actions = Object.GetActions();
+//         static RenderableRepo& Rend( RenderableRepo::Get() );
+//         SpriteCollection const& Sprites = Rend( Object.GetId() );
+//         for( Actor::ActionList_t::const_iterator j = Actions.begin(), k = Actions.end(); j != k; ++j )
+//         {
+//             Action const& Act = *j->second;
+//             int32_t const ActId = j->first;
+//             static RenderableActionRepo& RendActions( RenderableActionRepo::Get() );
+//             RenderableActions_t const& RenderableActions( RendActions( ActId ) );
+//             for( RenderableActions_t::const_iterator l = RenderableActions.begin(), m = RenderableActions.end(); l != m; ++l )
+//             {
+//                 int32_t RendActId = *l;
+//                 Sprite const& Spr = Sprites( RendActId );
+//                 if( !Spr.IsValid() )
+//                 {
+//                     continue;
+//                 }
+//                 SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
+//                 //for(size_t test=0;test<100;++test)
+//                 RenderableSprites.push_back( RenderableSprite( &Object, RendActId, &Spr, &Phase ) );
+//             }
+//         }
+//         Opt<IInventoryComponent> inventoryC = Object.Get<IInventoryComponent>();
+//         if (inventoryC.IsValid())
+//         {
+//             IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
+//             for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
+//             {
+//                 Item const& Act = **i;
+//                 int32_t const ActId = Act.GetId();
+//                 Sprite const& Spr = Sprites( ActId );
+//                 if( !Spr.IsValid() )
+//                 {
+//                     continue;
+//                 }
+//                 SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
+//                 //for(size_t test=0;test<100;++test)
+//                 RenderableSprites.push_back( RenderableSprite( &Object, ActId, &Spr, &Phase ) );
+//             }
+//         }
     }
 
     // TODO: sort Z order, alive state es texture id alapjan.

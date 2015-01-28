@@ -38,6 +38,10 @@ Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
     {
         mScale = 1.0;
     }
+    if( !Json::GetDouble( Anim["secs_to_end"], mSecsToEnd ) )
+    {
+        mSecsToEnd = 1.0;
+    }
     for( Json::Value::const_iterator i = Phases.begin(), e = Phases.end(); i != e; ++i, ++idx )
     {
         Json::Value const& Phase = *i;
@@ -66,6 +70,11 @@ bool Sprite::IsValid() const
 double Sprite::GetScale() const
 {
     return mScale;
+}
+
+double Sprite::GetSecsToEnd() const
+{
+    return mSecsToEnd;
 }
 
 SpritePhase Sprite::DefaultSpritePhase = SpritePhase();

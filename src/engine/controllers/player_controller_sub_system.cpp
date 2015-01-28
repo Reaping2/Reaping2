@@ -86,14 +86,6 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor)
         Heading = ( x < 0 ) ? pi * 1.25 : pi * 1.75;
     }
     actor.Get<IMoveComponent>()->SetHeading( Heading );
-    if( x == 0 && y == 0 )
-    {
-        actor.AddAction( AutoId( "idle" ) );
-    }
-    else
-    {
-        actor.AddAction( AutoId( "move" ) );
-    }
 }
 
 void PlayerControllerSubSystem::Shoot(Actor &actor)

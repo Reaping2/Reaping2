@@ -17,7 +17,7 @@ namespace render {
         }
         if (inventoryC->GetSelectedWeapon().IsValid())
         {
-            L1( " weapon RECOGNIZED! \n" );
+            //L1( " weapon RECOGNIZED! \n" );
             return true;
         }
         return false;

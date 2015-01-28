@@ -28,6 +28,7 @@ namespace render {
         {
             return true;
         }
+        int32_t orderindex=0;
         for( Json::Value::iterator i = recognizersJValue.begin(), e = recognizersJValue.end(); i != e; ++i )
         {
             Json::Value& recognizerJValue=*i;
@@ -44,6 +45,7 @@ namespace render {
                 return false;
             }
             recognizer->SetActionRenderer(AutoId(rendererName));
+            recognizer->SetOrder(orderindex++);
             recognizers.push_back(recognizer.release());
         }
         return true;

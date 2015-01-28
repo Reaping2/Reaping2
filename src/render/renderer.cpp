@@ -104,7 +104,7 @@ void RendererSystem::Update(double DeltaTime)
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
     mDecalEngine.Draw( DecalEngine::GroundParticle );
-    mActorRenderer.Draw( Scen );
+    mActorRenderer.Draw( Scen, DeltaTime );
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
 
     EndRender();

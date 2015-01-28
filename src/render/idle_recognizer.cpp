@@ -13,11 +13,11 @@ namespace render {
         Opt<IMoveComponent> moveC=actor.Get<IMoveComponent>();
         if (!moveC.IsValid())
         {
-            return false;
+            return true;
         }
         if (moveC->GetSpeed()==0)
         {
-            L1( " Idle RECOGNIZED! \n" );
+            //L1( " Idle RECOGNIZED! \n" );
             return true;
         }
         return false;

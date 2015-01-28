@@ -28,10 +28,6 @@ void RandomControllerSubSystem::Update(Actor& actor, double DeltaTime)
         return;
     }
 
-    if (actor.Get<IMoveComponent>()->GetHeading()==0.0&&actor.Get<IMoveComponent>()->GetSpeed()==0)
-    {
-        actor.AddAction( AutoId( "move" ) ); //TODO: there will be no actions, this one wont be needed
-    }
     randomCC->SetCounter(randomCC->GetCounter()+DeltaTime);
     if ( randomCC->GetCounter() > 2 )
     {

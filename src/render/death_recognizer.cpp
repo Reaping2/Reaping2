@@ -17,7 +17,7 @@ namespace render {
         }
         if (!healthC->IsAlive())
         {
-            L1( " death RECOGNIZED! (lol) (hahaha) (sofunny) ... ((U DEAD!)) (lululuuuu) \n" );
+            //L1( " death RECOGNIZED! (lol) (hahaha) (sofunny) ... ((U DEAD!)) (lululuuuu) \n" );
             return true;
         }
         return false;

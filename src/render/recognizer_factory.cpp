@@ -14,6 +14,7 @@ RecognizerFactory::RecognizerFactory()
     Bind<IdleRecognizer>( AutoId( "idle" ) );
     Bind<BodyMoveRecognizer>( AutoId( "body_move" ) );
     Bind<LegMoveRecognizer>( AutoId( "leg_move" ) );
+    Bind<LegMoveRecognizer>( AutoId( "move" ) );
     Bind<DeathRecognizer>( AutoId( "death" ) );
     Bind<WeaponRecognizer>( AutoId( "weapon" ) );
 

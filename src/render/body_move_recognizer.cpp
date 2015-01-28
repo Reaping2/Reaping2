@@ -17,7 +17,7 @@ namespace render {
         }
         if (moveC->GetSpeed()!=0)
         {
-            L1( " body move RECOGNIZED! \n" );
+            //L1( " body move RECOGNIZED! \n" );
             return true;
         }
         return false;

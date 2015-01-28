@@ -11,6 +11,7 @@
 #include "core/renderable_layer.h"
 #include "core/i_remove_on_death_component.h"
 #include "core/target_player_controller_component.h"
+#include "actor_event.h"
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
 {
@@ -51,6 +52,7 @@ void Scene::Update( double DeltaTime )
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
@@ -77,12 +79,15 @@ Scene::~Scene()
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+        
         delete &**it;
     }
     mActorHolder.mAllActors.clear();
@@ -105,12 +110,14 @@ void Scene::Load( std::string const& Level )
     
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
         delete &**it;
     }
     mActorHolder.mAllActors.clear();
@@ -151,13 +158,12 @@ void Scene::Load( std::string const& Level )
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
     inventoryC->AddItem(AutoId( "plasma_gun" ));
     inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
-    Pl->AddAction( AutoId( "idle_action" ) );
 
 
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;
 #else
-    static const size_t BenchmarkCreeps = 500;
+    static const size_t BenchmarkCreeps = 50;
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
@@ -205,6 +211,8 @@ void Scene::AddTestCreep(Actor* Pl, double X, double Y)
 
 void Scene::RemoveActor(ActorList_t::iterator it)
 {
+    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+
     delete (*it).Get();
     mActorHolder.mAllActors.erase(it);
 }

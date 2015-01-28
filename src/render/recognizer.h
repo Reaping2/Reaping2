@@ -17,10 +17,19 @@ public:
 protected:
     int32_t mId;
     int32_t mActionRenderer;
+    int32_t mOrder;
 public:
     int32_t GetId() const
     {
         return mId;
+    }
+    int32_t GetOrder() const
+    {
+        return mOrder;
+    }
+    void SetOrder(int32_t order)
+    {
+        mOrder=order;
     }
 };
 

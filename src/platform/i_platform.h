@@ -1,6 +1,7 @@
 #include <fstream>
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
+#include <boost/ptr_container/ptr_set.hpp>
 #include <boost/ptr_container/ptr_list.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/detail/endian.hpp>

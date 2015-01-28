@@ -36,7 +36,6 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
 
     if (actor.Get<IMoveComponent>()->GetHeading()==0.0&&actor.Get<IMoveComponent>()->GetSpeed()==0)
     {
-        actor.AddAction( AutoId( "move" ) ); //TODO: there will be no actions, this one wont be needed
         actor.Get<IMoveComponent>()->SetSpeed( ((rand() % 10)+5)*0.02 );
     }
     Actor& player = *targetPCC->GetPlayer();

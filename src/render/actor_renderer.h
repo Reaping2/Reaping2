@@ -2,7 +2,14 @@
 #define INCLUDED_RENDER_ACTOR_RENDERER_H
 #include "core/scene.h"
 #include "recognizer_repo.h"
+#include "action_renderer.h"
+#include "action_renderer_factory.h"
+#include "renderable_sprite.h"
+#include "core/actor_event.h"
+using render::RenderableSprite;
 using render::RecognizerRepo;
+using render::ActionRenderer;
+using render::ActionRendererFactory;
 class ActorRenderer
 {
     struct CountByTexId
@@ -13,15 +20,6 @@ class ActorRenderer
         CountByTexId( GLuint t, size_t s, size_t c ): TexId( t ), Start( s ), Count( c ) {}
     };
     typedef std::vector<CountByTexId> Counts_t;
-    struct RenderableSprite
-    {
-        Actor const* Obj;
-        int32_t ActId;
-        SpritePhase const* Spr;
-        Sprite const* Anim;
-        RenderableSprite( Actor const* o, int32_t a, Sprite const* s, SpritePhase const* p )
-            : Obj( o ), ActId( a ), Anim( s ), Spr( p ) {}
-    };
 
     struct RenderableSpriteCompare
     {
@@ -31,10 +29,29 @@ class ActorRenderer
     void Init();
     VaoBase mVAO;
     RecognizerRepo& mRecognizerRepo;
+    ActionRendererFactory& mActionRendererFactory;
+    AutoReg mOnActorEvent;
+    void OnActorEvent( ActorEvent const& Evt );
+
+    struct FindActionRenderer
+    {
+        int32_t mActionRendererId;
+        FindActionRenderer(int32_t actionRendererId)
+            : mActionRendererId(actionRendererId)
+        {
+        }
+        bool operator()(const ActionRenderer& actionRenderer)
+        {
+            return actionRenderer.GetId()==mActionRendererId;
+        }
+    };
+    typedef boost::ptr_set<ActionRenderer> ActionRenderers_t;
+    typedef std::map<int,ActionRenderers_t> ActionRenderersMap_t;
+    ActionRenderersMap_t mActionRenderersMap;
 public:
     ActorRenderer();
     ~ActorRenderer();
-    void Draw( Scene const& Object );
+    void Draw( Scene const& Object, double DeltaTime );
 };
 
 #endif//INCLUDED_RENDER_ACTOR_RENDERER_H

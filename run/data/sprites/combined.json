@@ -5,7 +5,7 @@
             "animations" : [
                {
                   "h" : 200,
-                  "name" : "default_action",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 2,
@@ -107,7 +107,7 @@
             "animations" : [
                {
                   "h" : 32,
-                  "name" : "default_action",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 976,
@@ -124,7 +124,7 @@
             "animations" : [
                {
                   "h" : 32,
-                  "name" : "default_action",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 976,
@@ -294,7 +294,7 @@
             "animations" : [
                {
                   "h" : 9,
-                  "name" : "default_action",
+                  "name" : "move",
                   "phases" : [
                      {
                         "x" : 976,
@@ -311,7 +311,7 @@
             "animations" : [
                {
                   "h" : 17,
-                  "name" : "default_action",
+                  "name" : "move",
                   "phases" : [
                      {
                         "x" : 614,
@@ -513,7 +513,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "idle",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -630,7 +630,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "idle",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -739,7 +739,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "idle",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -832,7 +832,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "idle",
+                  "name" : "body_idle",
                   "phases" : [
                      {
                         "x" : 834,

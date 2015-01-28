@@ -8,6 +8,7 @@ Recognizer::~Recognizer()
 Recognizer::Recognizer(int32_t Id)
     : mId(Id)
     , mActionRenderer(0)
+    , mOrder(0)
 {
         
 }

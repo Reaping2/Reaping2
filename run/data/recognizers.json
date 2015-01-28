@@ -7,12 +7,100 @@
 				"renderer":"death"},
 			{"recognizer":"idle",
 				"renderer":"idle"},
-			{"recognizer":"body_move",
-				"renderer":"body_move"},
 			{"recognizer":"leg_move",
 				"renderer":"leg_move"},
+			{"recognizer":"body_move",
+				"renderer":"body_move"},
 			{"recognizer":"weapon",
 				"renderer":"weapon"}
+		]
+	},
+	{
+		"name":"wall",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"pistol",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"plasma_gun",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"pistol_shot",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"plasma_shot",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"spider1",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"spider1target",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"spider2",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"spider2target",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"move",
+				"renderer":"move"}
 		]
 	}
 ]	

@@ -40,7 +40,6 @@ void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        ps->AddAction( AutoId( "move" ) );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter());
@@ -52,7 +51,6 @@ void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        ps->AddAction( AutoId( "move" ) );
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetAltScatter());

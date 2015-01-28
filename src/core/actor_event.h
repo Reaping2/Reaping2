@@ -1,0 +1,18 @@
+#ifndef INCLUDED_CORE_ACTOR_EVENT_H
+#define INCLUDED_CORE_ACTOR_EVENT_H
+#include "actor.h"
+#include "opt.h"
+
+struct ActorEvent : public Event
+{
+    enum State
+    {
+        Added,
+        Removed
+    };
+    Opt<Actor> mActor;
+    State mState;
+    ActorEvent( Opt<Actor> actor, State state ): mActor( actor ), mState(state){}
+};
+
+#endif//INCLUDED_CORE_ACTOR_EVENT_H
