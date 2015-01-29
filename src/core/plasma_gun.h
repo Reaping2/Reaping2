@@ -1,5 +1,5 @@
-#ifndef INCLUDED_CORE_PLASMA_GUN_ACTION_H
-#define INCLUDED_CORE_PLASMA_GUN_ACTION_H
+#ifndef INCLUDED_CORE_PLASMA_GUN_H
+#define INCLUDED_CORE_PLASMA_GUN_H
 #include "core/weapon.h"
 
 class PlasmaGun : public Weapon
@@ -8,4 +8,4 @@ class PlasmaGun : public Weapon
     friend class Factory<Item>;
 };
 
-#endif//INCLUDED_CORE_PLASMA_GUN_ACTION_H
+#endif//INCLUDED_CORE_PLASMA_GUN_H

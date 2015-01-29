@@ -2,14 +2,12 @@
 #define INCLUDED_CORE_ACTOR_H
 
 #include "platform/i_platform.h"
-#include "core/action_holder.h"
 #include "core/component.h"
 
 using namespace ::boost::multi_index;
 
-class ActionHolder;
 class ComponentHolder;
-class Actor : public ComponentHolder, public ActionHolder
+class Actor : public ComponentHolder
 {
 public:
 protected:
@@ -20,9 +18,6 @@ public:
     int32_t GetId()const;
     //TODO: pickup needs this for render, but it will be removed
     void SetId( int32_t Id );
-    //TODO: only one addaction
-    void AddAction( int32_t Id );
-    virtual void AddAction( std::auto_ptr<Action> Act );
     virtual void AddComponent( std::auto_ptr<Component> Comp  );
     virtual ~Actor();
 
@@ -31,7 +26,6 @@ public:
         return mGUID;
     }
 
-    virtual void Update( double Seconds );
 };
 
 

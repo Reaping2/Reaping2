@@ -45,10 +45,6 @@ void Scene::Update( double DeltaTime )
     {
         return;
     }
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
-    {
-        (*it)->Update( DeltaTime );
-    }
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
@@ -163,7 +159,7 @@ void Scene::Load( std::string const& Level )
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;
 #else
-    static const size_t BenchmarkCreeps = 50;
+    static const size_t BenchmarkCreeps = 500;
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {

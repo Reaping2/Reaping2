@@ -43,7 +43,6 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<IPositionComponent> const actorPositionC = actor.Get<IPositionComponent>();
     glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
     {
-        // todo: biteaction
         BOOST_ASSERT(player.Get<ICollisionComponent>().IsValid()&&actor.Get<ICollisionComponent>().IsValid());
         double const R = player.Get<ICollisionComponent>()->GetRadius() + actor.Get<ICollisionComponent>()->GetRadius();
         if( std::abs( Diff.x ) < R && std::abs( Diff.y ) < R )

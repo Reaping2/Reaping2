@@ -57,7 +57,6 @@ void HealthSystem::Update(double DeltaTime)
             healthC->SetAlive(false);
             actor.Get<ICollisionComponent>()->SetCollisionClass( CollisionClass::No_Collision );
             healthC->SetTimeOfDeath(glfwGetTime());
-            //TODO: will be removed after actions are removed
             Scene::Get().ModifyActor(&actor,RenderableComponentModifier(RenderableLayer::Corpses,healthC->GetTimeOfDeath()));
 
             Opt<IControllerComponent> controllerC = actor.Get<IControllerComponent>();

@@ -1,8 +1,6 @@
 #include "platform/i_platform.h"
 #include "ui/i_ui.h"
 
-#include "renderable_actions.h"
-#include "renderable_action_repo.h"
 #include "vao_base.h"
 #include "shader.h"
 #include "shader_repo.h"

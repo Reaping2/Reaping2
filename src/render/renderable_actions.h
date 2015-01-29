@@ -1,6 +1,0 @@
-#ifndef INCLUDED_RENDER_RENDERABLE_ACTIONS_H
-#define INCLUDED_RENDER_RENDERABLE_ACTIONS_H
-
-typedef std::vector<int32_t> RenderableActions_t;
-
-#endif//INCLUDED_RENDER_RENDERABLE_ACTIONS_H

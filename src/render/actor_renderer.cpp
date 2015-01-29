@@ -5,7 +5,6 @@
 #include "core/i_collision_component.h"
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
-#include "core/action.h"
 #include "recognizer.h"
 
 void ActorRenderer::Init()
@@ -98,51 +97,6 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
                 actionRenderer.Update(DeltaTime);
             }
         }
-
-
-
-
-
-//         Actor::ActionList_t const& Actions = Object.GetActions();
-//         static RenderableRepo& Rend( RenderableRepo::Get() );
-//         SpriteCollection const& Sprites = Rend( Object.GetId() );
-//         for( Actor::ActionList_t::const_iterator j = Actions.begin(), k = Actions.end(); j != k; ++j )
-//         {
-//             Action const& Act = *j->second;
-//             int32_t const ActId = j->first;
-//             static RenderableActionRepo& RendActions( RenderableActionRepo::Get() );
-//             RenderableActions_t const& RenderableActions( RendActions( ActId ) );
-//             for( RenderableActions_t::const_iterator l = RenderableActions.begin(), m = RenderableActions.end(); l != m; ++l )
-//             {
-//                 int32_t RendActId = *l;
-//                 Sprite const& Spr = Sprites( RendActId );
-//                 if( !Spr.IsValid() )
-//                 {
-//                     continue;
-//                 }
-//                 SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
-//                 //for(size_t test=0;test<100;++test)
-//                 RenderableSprites.push_back( RenderableSprite( &Object, RendActId, &Spr, &Phase ) );
-//             }
-//         }
-//         Opt<IInventoryComponent> inventoryC = Object.Get<IInventoryComponent>();
-//         if (inventoryC.IsValid())
-//         {
-//             IInventoryComponent::ItemList_t const& items = inventoryC->GetItems();
-//             for( IInventoryComponent::ItemList_t::const_iterator i = items.begin(), e = items.end(); i != e; ++i )
-//             {
-//                 Item const& Act = **i;
-//                 int32_t const ActId = Act.GetId();
-//                 Sprite const& Spr = Sprites( ActId );
-//                 if( !Spr.IsValid() )
-//                 {
-//                     continue;
-//                 }
-//                 SpritePhase const& Phase = Spr( ( int32_t )Act.GetState() );
-//                 //for(size_t test=0;test<100;++test)
-//                 RenderableSprites.push_back( RenderableSprite( &Object, ActId, &Spr, &Phase ) );
-//             }
-//         }
     }
 
     // TODO: sort Z order, alive state es texture id alapjan.

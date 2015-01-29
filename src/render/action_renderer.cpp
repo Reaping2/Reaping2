@@ -10,7 +10,7 @@ namespace render{
     ActionRenderer::ActionRenderer(int32_t Id)
         : mId(Id)
         , mSecsToEnd(1.0)
-        , mState(100)
+        , mState(0)
         , mRenderableRepo(RenderableRepo::Get())
         , mOrder(0)
     {
@@ -19,8 +19,6 @@ namespace render{
 
     void ActionRenderer::Init(const Actor& actor)
     {
-//         SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-//         Sprites();
     }
 
     void ActionRenderer::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)
@@ -34,14 +32,7 @@ namespace render{
 
         if( nextState >= 100 )
         {
-//             if( mIsLoop )
-//             {
-                nextState = fmod( nextState, 100. );
-//            }
-//             else
-//             {
-//                 nextState = 100.;
-//             }
+            nextState = fmod( nextState, 100. );
         }
         mState = nextState;
     }
