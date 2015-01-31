@@ -66,7 +66,7 @@ void ServerSystem::Update(double DeltaTime)
                 event.peer -> address.host,
                 event.peer -> address.port);
             /* Store any relevant client information here. */
-            event.peer -> data = "Client information";
+            //event.peer -> data = "Client information";
             break;
         case ENET_EVENT_TYPE_RECEIVE:
             L1 ("A packet of length %u containing %s was received from %s on channel %u.\n",
