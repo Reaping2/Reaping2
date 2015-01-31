@@ -8,4 +8,5 @@ add_subdirectory(render)
 add_subdirectory(ui)
 add_subdirectory(main)
 add_subdirectory(engine)
+add_subdirectory(network)
 

@@ -10,7 +10,7 @@ Engine::Engine()
 }
 void Engine::OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
 {
-    if( Evt.CurrentPhase == ProgramPhase::InitiateShutdown )
+    if( Evt.CurrentPhase == ProgramPhase::InitiateShutDown )
     {
         mIsRunning=false;
     }

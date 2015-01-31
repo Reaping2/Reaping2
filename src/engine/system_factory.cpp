@@ -19,6 +19,7 @@
 #include "platform/timer.h"
 #include "engine/frame_counter_system.h"
 #include "render/renderer.h"
+#include "network/server_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -44,6 +45,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
     Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
 
+    Bind( AutoId("server_system"), &CreateSystem<network::ServerSystem>);
 
 }
 

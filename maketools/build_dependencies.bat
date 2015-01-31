@@ -89,7 +89,7 @@ rem ************************************************************
 rem Setup finished, you can select what dependency to build next
 rem ************************************************************
 
-rem goto Build_GLEW
+goto Build_ENET
 
 :Build_Boost
 cd %BASEDIR%\deps\boost_1_54_0
@@ -187,3 +187,14 @@ if !VCBUILDER!=="" (
 	%VCBUILD% glew_static.vcproj
 )
 echo "end of building glew"
+:Build_ENET
+echo "start of building enet"
+cd %PWD%
+cd ..\deps\enet-1.3.12
+;%DEVENV% enet.dsp /upgrade
+echo "start of building enet debug"
+%DEVENV% enet.sln /Build "Debug"
+echo "start of building enet release"
+%DEVENV% enet.sln /Build "Release"
+echo "end of building enet"
+

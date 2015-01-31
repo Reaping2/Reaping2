@@ -73,6 +73,8 @@ my_find_package( PNG png.h png libpng16 libpng16_static libpng16d libpng16_stati
 
 my_find_package( PORTAUDIO portaudio.h portaudio portaudio_x86 portaudio_static_x86 portaudio_x64 portaudio_static_x64 )
 
+my_find_package( ENET enet/enet.h enet.lib enet64.lib )
+
 if(WIN32)
     set( PLATFORM_LIBS "" )
 else()

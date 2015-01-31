@@ -102,7 +102,7 @@ void WindowSystem::Update(double DeltaTime)
     if( !mWindow || glfwWindowShouldClose( mWindow ) || mExit )
     {
         EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
-        PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutdown ) );
+        PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
         return;
     }
 

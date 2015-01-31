@@ -15,6 +15,8 @@
 #include "engine/items/weapon_item_sub_system.h"
 #include "platform/event.h"
 #include "render/recognizer_repo.h"
+
+
 using engine::Engine;
 namespace {
 class Timer_t
@@ -40,7 +42,7 @@ static bool IsMainRunning;
 
 void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
 {
-    if( Evt.CurrentPhase == ProgramPhase::InitiateShutdown )
+    if( Evt.CurrentPhase == ProgramPhase::InitiateShutDown )
     {
         IsMainRunning=false;
     }
@@ -57,7 +59,7 @@ int main()
 
     if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
     {
-        PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutdown ) );
+        PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
     }
 
 
@@ -73,7 +75,7 @@ int main()
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
     render::RecognizerRepo::Get();
-
+    Eng.AddSystem(AutoId("server_system"));
     Eng.AddSystem(AutoId("timer_server_system"));
     Eng.AddSystem(AutoId("keyboard_system"));
     Eng.AddSystem(AutoId("mouse_system"));
