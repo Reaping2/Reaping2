@@ -20,6 +20,8 @@
 #include "engine/frame_counter_system.h"
 #include "render/renderer.h"
 #include "network/server_system.h"
+#include "network/client_system.h"
+#include "network/message_handler_sub_system_holder.h"
 
 using platform::AutoId;
 namespace engine {
@@ -46,6 +48,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
 
     Bind( AutoId("server_system"), &CreateSystem<network::ServerSystem>);
+    Bind( AutoId("client_system"), &CreateSystem<network::ClientSystem>);
+    Bind( AutoId("message_handler_sub_system_holder"), &CreateSystem<network::MessageHandlerSubSystemHolder>);
 
 }
 

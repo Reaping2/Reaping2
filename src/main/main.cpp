@@ -15,7 +15,12 @@
 #include "engine/items/weapon_item_sub_system.h"
 #include "platform/event.h"
 #include "render/recognizer_repo.h"
-
+#include <boost/program_options.hpp>
+#include "core/program_state.h"
+#include "network/client_id_message.h"
+#include "network/my_name_message.h"
+#include "boost/serialization/export.hpp"
+#include "network/message_handler_sub_system_holder.h"
 
 using engine::Engine;
 namespace {
@@ -48,15 +53,50 @@ void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
     }
 }
 
-int main()
+struct message_order
 {
+    message_order()
+    {
+        int32_t type;
+        type=network::ClientIdMessage::GetType_static();
+        type=network::MyNameMessage::GetType_static();
+    }
+} _msg_order;
+BOOST_CLASS_EXPORT(network::MyNameMessage)
+
+BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
+int main(int argc, char* argv[])
+{
+    using core::ProgramState;
+    ProgramState& programState=ProgramState::Get();
+    namespace po=boost::program_options;
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("-c", po::value<std::string>(&programState.mServerIp), "client")
+        ("-s", "server ip")
+        ("-n", po::value<std::string>(&programState.mClientName), "client name")
+        ;
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);    
+    if (vm.count("-c")) {
+        L1("run as client");
+        programState.mMode=ProgramState::Client;
+    } else if (vm.count("-s")) {
+        L1("run as server");
+        programState.mMode=ProgramState::Server;
+    } else {
+        L1("run local");
+        programState.mMode=ProgramState::Local;
+    }
     IsMainRunning=true;
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
     AutoReg PhaseChangeId(PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ));
 
     Engine& Eng = Engine::Get();
+    
     Eng.AddSystem(AutoId("window_system"));
-
     if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
     {
         PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
@@ -75,10 +115,18 @@ int main()
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
     render::RecognizerRepo::Get();
-    Eng.AddSystem(AutoId("server_system"));
+    if (programState.mMode==ProgramState::Server) Eng.AddSystem(AutoId("server_system"));
+    if (programState.mMode==ProgramState::Client) Eng.AddSystem(AutoId("client_system"));
+    if (programState.mMode!=ProgramState::Local)
+    {
+        Eng.AddSystem(AutoId("message_handler_sub_system_holder"));
+        Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
+        messageHandlerSSH->AddSubSystem(network::ClientIdMessage::GetType_static(),AutoId("client_id_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::MyNameMessage::GetType_static(),AutoId("my_name_message_handler_sub_system"));
+    }
     Eng.AddSystem(AutoId("timer_server_system"));
-    Eng.AddSystem(AutoId("keyboard_system"));
-    Eng.AddSystem(AutoId("mouse_system"));
+    if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("keyboard_system"));
+    if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("mouse_system"));
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
@@ -87,7 +135,7 @@ int main()
 
     Eng.AddSystem(AutoId("controller_system"));
     Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());
-    controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
+    if (programState.mMode!=ProgramState::Server) controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
 
