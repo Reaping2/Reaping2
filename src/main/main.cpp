@@ -19,7 +19,7 @@
 #include "core/program_state.h"
 #include "network/client_id_message.h"
 #include "network/my_name_message.h"
-#include "boost/serialization/export.hpp"
+
 #include "network/message_handler_sub_system_holder.h"
 
 using engine::Engine;
@@ -52,19 +52,8 @@ void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
         IsMainRunning=false;
     }
 }
+#include "network/message_order.h"
 
-struct message_order
-{
-    message_order()
-    {
-        int32_t type;
-        type=network::ClientIdMessage::GetType_static();
-        type=network::MyNameMessage::GetType_static();
-    }
-} _msg_order;
-BOOST_CLASS_EXPORT(network::MyNameMessage)
-
-BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
 int main(int argc, char* argv[])
 {
     using core::ProgramState;

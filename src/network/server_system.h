@@ -25,6 +25,7 @@ public:
 
     void Receive(ENetEvent& event);
 
+    void SetSenderId(MessageList& msglist, ENetEvent &event);
 };
 
 } // namespace network

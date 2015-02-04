@@ -153,7 +153,17 @@ void ClientSystem::Receive(ENetEvent& event)
         event.channelID);
     std::istringstream iss((char*)(event.packet->data));
     boost::archive::text_iarchive ia(iss);
-    ia >> mMessageHolder.GetIncomingMessages();
+    if (mMessageHolder.GetIncomingMessages().mMessages.empty())
+    {
+        ia >> mMessageHolder.GetIncomingMessages();
+    }
+    else
+    {
+        MessageList msglist;
+        ia >> msglist;
+        mMessageHolder.GetIncomingMessages().mMessages.transfer(
+            msglist.mMessages.begin(),msglist.mMessages.end(),msglist.mMessages);
+    }
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy (event.packet);
 }

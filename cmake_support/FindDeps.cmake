@@ -3,7 +3,7 @@ if(WIN32)
 	# ugly boost bug workaround, boost w/ static build crashes in codecvt
 	set( Boost_USE_STATIC_LIBS ON )
 endif(WIN32)
-find_package( Boost 1.51 COMPONENTS filesystem system thread date_time program_options atomic )
+find_package( Boost 1.51 COMPONENTS filesystem system thread date_time program_options atomic serialization )
 
 if( NOT Boost_FOUND )
 	message( FATAL_ERROR "Cannot find Boost!" )
@@ -42,7 +42,7 @@ macro( my_find_package pkg_name header default_lib_name )
 	endif(WIN32)
 endmacro( my_find_package )
 
-my_find_package( GLEW GL/glew.h GLEW glew32 glew glew32s )
+my_find_package( GLEW GL/glew.h GLEW glew32s glew glew32 )
 
 my_find_package( GLFW GLFW/glfw3.h glfw glfw3 glfw3dll )
 

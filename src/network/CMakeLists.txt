@@ -4,7 +4,7 @@ get_filename_component(dirnam ${CMAKE_CURRENT_LIST_DIR} NAME)
 file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 
 add_library(${dirnam} STATIC ${${dirnam}_source_files})
-target_link_libraries(${dirnam} platform core engine ${WIN32_ENET_INCLUDE_WS2_32} ${WIN32_ENET_INCLUDE_WINMM} ${ENET_LIBRARIES} )
+target_link_libraries(${dirnam} platform core engine ${Boost_LIBRARIES} ${WIN32_ENET_INCLUDE_WS2_32} ${WIN32_ENET_INCLUDE_WINMM} ${ENET_LIBRARIES} )
 
 add_precompiled_header(${dirnam} pch.h)
 

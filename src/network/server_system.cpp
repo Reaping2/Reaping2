@@ -119,13 +119,30 @@ void ServerSystem::Receive(ENetEvent& event)
         event.channelID);
     std::istringstream iss((char*)(event.packet->data));
     boost::archive::text_iarchive ia(iss);
-    ia >> mMessageHolder.GetIncomingMessages();
-    for(MessageList::Messages_t::iterator i=mMessageHolder.GetIncomingMessages().mMessages.begin(), e=mMessageHolder.GetIncomingMessages().mMessages.end();i!=e;++i)
+    if (mMessageHolder.GetIncomingMessages().mMessages.empty())
     {
-        i->mSenderId=*(static_cast<int*>(event.peer->data));
+        ia >> mMessageHolder.GetIncomingMessages();
+        SetSenderId(mMessageHolder.GetIncomingMessages(),event);
+
+    }
+    else
+    {
+        MessageList msglist;
+        ia >> msglist;
+        SetSenderId(msglist,event);
+        mMessageHolder.GetIncomingMessages().mMessages.transfer(
+            msglist.mMessages.begin(),msglist.mMessages.end(),msglist.mMessages);
     }
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy (event.packet);
+}
+
+void ServerSystem::SetSenderId(MessageList& msglist, ENetEvent &event)
+{
+    for(MessageList::Messages_t::iterator i=msglist.mMessages.begin(), e=msglist.mMessages.end();i!=e;++i)
+    {
+        i->mSenderId=*(static_cast<int*>(event.peer->data));
+    }
 }
 
 } // namespace engine
