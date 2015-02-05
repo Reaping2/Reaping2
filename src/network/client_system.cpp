@@ -118,7 +118,7 @@ void ClientSystem::Connect()
         ENetEvent event;
         /* Connect to some.server.net:1234. */
         address.port = 1234;
-        enet_address_set_host (& address, "localhost");//core::ProgramState::Get().mServerIp.c_str());
+        enet_address_set_host (& address, core::ProgramState::Get().mServerIp.c_str());//core::ProgramState::Get().mServerIp.c_str());
         /* Initiate the connection, allocating the two channels 0 and 1. */
         mPeer = enet_host_connect (mClient, & address, 2, 0);    
         if (mPeer == NULL)

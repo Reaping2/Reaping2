@@ -17,7 +17,7 @@
         }
     } _msg_order;
 
-    BOOST_CLASS_EXPORT(network::MyNameMessage,"my_name")
+    BOOST_CLASS_EXPORT_GUID(network::MyNameMessage,"my_name")
     BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
     BOOST_CLASS_EXPORT_GUID(network::LifecycleMessage, "lifecycle")
 
