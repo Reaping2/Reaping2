@@ -63,6 +63,7 @@ Scene::Scene()
     , mPauseModel( VoidFunc( this, &Scene::Pause ), "pause", &mSceneModel )
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
     , mPlayerModel( "player", &RootModel::Get() )
+    , mProgramState(ProgramState::Get())
 {
 }
 
@@ -119,6 +120,11 @@ void Scene::Load( std::string const& Level )
     mActorHolder.mAllActors.clear();
 
     SetType( "grass" );
+    if (mProgramState.mMode==ProgramState::Client
+        ||mProgramState.mMode==ProgramState::Server)
+    {
+        return;
+    }
     struct point
     {
         double x;

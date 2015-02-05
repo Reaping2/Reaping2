@@ -1,6 +1,6 @@
 #ifndef INCLUDED_UI_UI_H
 #define INCLUDED_UI_UI_H
-
+#include "ui/i_ui.h"
 class Ui : public Singleton<Ui>
 {
     friend class Singleton<Ui>;

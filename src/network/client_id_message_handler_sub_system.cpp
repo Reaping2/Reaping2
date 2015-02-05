@@ -20,7 +20,7 @@ namespace network {
         L1("executing clientid: name %s name's id: %d \n",msg.mName.c_str(),msg.mClientId );
         if (msg.mName==core::ProgramState::Get().mClientName)
         {
-            L1("that is my id");
+            L1("that is my id\n");
             core::ProgramState::Get().mClientId=msg.mClientId;
         }
     }

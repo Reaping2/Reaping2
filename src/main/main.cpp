@@ -105,13 +105,18 @@ int main(int argc, char* argv[])
     PerfTimer.Log( "scene" );
     render::RecognizerRepo::Get();
     if (programState.mMode==ProgramState::Server) Eng.AddSystem(AutoId("server_system"));
-    if (programState.mMode==ProgramState::Client) Eng.AddSystem(AutoId("client_system"));
+    if (programState.mMode==ProgramState::Client) 
+    {
+        Eng.AddSystem(AutoId("client_system"));
+        Eng.AddSystem(AutoId("lifecycle_sender_system"));
+    }
     if (programState.mMode!=ProgramState::Local)
     {
         Eng.AddSystem(AutoId("message_handler_sub_system_holder"));
         Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
         messageHandlerSSH->AddSubSystem(network::ClientIdMessage::GetType_static(),AutoId("client_id_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::MyNameMessage::GetType_static(),AutoId("my_name_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::LifecycleMessage::GetType_static(),AutoId("lifecycle_message_handler_sub_system"));
     }
     Eng.AddSystem(AutoId("timer_server_system"));
     if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("keyboard_system"));

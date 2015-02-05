@@ -18,6 +18,7 @@ public:
         Server
     };
     Mode mMode;
+    bool mClientConnected;
     std::string mServerIp;
     std::string mClientName;
     std::string mClientId;

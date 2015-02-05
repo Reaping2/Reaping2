@@ -14,7 +14,7 @@ ClientSystem::ClientSystem()
     , mClientModel( "client", &RootModel::Get() )
     , mConnectModel( VoidFunc( this, &ClientSystem::Connect ), "connect", &mClientModel )
     , mMessageHolder(MessageHolder::Get())
-    , mConnected(false)
+    , mProgramState(ProgramState::Get())
 {
 }
 
@@ -49,7 +49,7 @@ void ClientSystem::Init()
 
 void ClientSystem::Update(double DeltaTime)
 {
-    if (!mConnected)
+    if (!mProgramState.mClientConnected)
     {
         return;
     }
@@ -67,7 +67,7 @@ void ClientSystem::Update(double DeltaTime)
 
         case ENET_EVENT_TYPE_DISCONNECT:
             L1 ("%s disconnected.\n", event.peer -> data);
-            mConnected=false;
+            mProgramState.mClientConnected=false;
         }
     }
 
@@ -95,6 +95,10 @@ void ClientSystem::Update(double DeltaTime)
 
 void ClientSystem::Connect()
 {
+    if (mProgramState.mClientConnected)
+    {
+        L1("Already connected, won't try it again!\n");
+    }
 //        ENetAddress address2;
 //         address2.host = ENET_HOST_ANY;
 //         /* Bind the server to port 1234. */
@@ -139,7 +143,7 @@ void ClientSystem::Connect()
             enet_peer_reset (mPeer);
             exit (EXIT_FAILURE);
         }
-        mConnected=true;
+        mProgramState.mClientConnected=true;
         std::auto_ptr<MyNameMessage> msg(new MyNameMessage);
         msg->mName=core::ProgramState::Get().mClientName;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));

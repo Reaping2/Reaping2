@@ -15,4 +15,9 @@ struct ActorEvent : public Event
     ActorEvent( Opt<Actor> actor, State state ): mActor( actor ), mState(state){}
 };
 
+struct SceneLoadEvent : public Event
+{
+
+};
+
 #endif//INCLUDED_CORE_ACTOR_EVENT_H

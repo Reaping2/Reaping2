@@ -7,6 +7,7 @@
 #include "platform/i_platform.h"
 #include "messsage_holder.h"
 using platform::ModelValue;
+using core::ProgramState;
 namespace network {
 
 class ClientSystem: public engine::System
@@ -19,7 +20,7 @@ class ClientSystem: public engine::System
     ModelValue mClientModel;
     ModelValue mConnectModel;
     MessageHolder& mMessageHolder;
-    bool mConnected;
+    ProgramState& mProgramState;
 public:
     ClientSystem();
     virtual void Init();

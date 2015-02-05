@@ -5,7 +5,8 @@
 #include "platform/singleton.h"
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
-
+#include "program_state.h"
+using core::ProgramState;
 class ActorHolder
 {
 public:
@@ -117,6 +118,7 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mResumeModel;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
+    ProgramState& mProgramState;
 public:
     enum ActorIndex
     {

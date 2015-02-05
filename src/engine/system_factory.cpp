@@ -22,6 +22,7 @@
 #include "network/server_system.h"
 #include "network/client_system.h"
 #include "network/message_handler_sub_system_holder.h"
+#include "network/lifecycle_sender_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -49,6 +50,7 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("server_system"), &CreateSystem<network::ServerSystem>);
     Bind( AutoId("client_system"), &CreateSystem<network::ClientSystem>);
+    Bind( AutoId("lifecycle_sender_system"), &CreateSystem<network::LifecycleSenderSystem>);
     Bind( AutoId("message_handler_sub_system_holder"), &CreateSystem<network::MessageHandlerSubSystemHolder>);
 
 }
