@@ -17,11 +17,6 @@ namespace network {
         return mIncomingMessages;
     }
 
-    void MessageHolder::AddOutgoingMessage(std::auto_ptr<Message> message)
-    {
-        mOutgoingMessages.mMessages.push_back(message);
-    }
-
     void MessageHolder::AddIncomingMessage(std::auto_ptr<Message> message)
     {
         mIncomingMessages.mMessages.push_back(message);

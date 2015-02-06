@@ -4,6 +4,7 @@
 #include "message.h"
 #include "boost/ptr_container/ptr_list.hpp"
 #include <boost/ptr_container/serialize_ptr_list.hpp>
+#include "boost/static_assert.hpp"
 
 namespace network {
 
@@ -29,12 +30,26 @@ public:
     MessageHolder();
     MessageList& GetOutgoingMessages();
     MessageList& GetIncomingMessages();
-    void AddOutgoingMessage(std::auto_ptr<Message> message);
+    template<typename MESSAGE>
+    void AddOutgoingMessage(std::auto_ptr<MESSAGE> message);
+
     void AddIncomingMessage(std::auto_ptr<Message> message);
     void ClearOutgoingMessages();
     void ClearIncomingMessages();
 
 };
+
+template<typename MESSAGE>
+void MessageHolder::AddOutgoingMessage(std::auto_ptr<MESSAGE> message)
+{
+    {
+        BOOST_STATIC_ASSERT_MSG(
+            ( boost::is_base_of<Message, MESSAGE>::value ),
+            "MESSAGE must be a descendant of Message!"
+            );
+        mOutgoingMessages.mMessages.push_back(std::auto_ptr<Message>(message.release()));
+    }
+}
 
 } // namespace network
 

@@ -286,7 +286,7 @@
                   ],
                   "scale" : 2.0,
                   "w" : 90,
-                  "secs_to_end" : 10 
+                  "secs_to_end" : 1 
                }
             ],
             "name" : "player"
@@ -511,7 +511,7 @@
                   ],
                   "scale" : 1.0,
                   "w" : 100,
-                  "secs_to_end" : 5
+                  "secs_to_end" : 1
                },
                {
                   "h" : 100,

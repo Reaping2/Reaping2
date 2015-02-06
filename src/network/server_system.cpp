@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include "boost/archive/text_iarchive.hpp"
 #include "my_name_message.h"
+#include "client_system.h"
 namespace network {
 
 ServerSystem::ServerSystem()
@@ -67,13 +68,7 @@ void ServerSystem::Update(double DeltaTime)
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
-            L1 ("A new client connected from %x:%u.\n", 
-                event.peer -> address.host,
-                event.peer -> address.port);
-            /* Store any relevant client information here. */
-
-            event.peer -> data = static_cast<void*>(new int32_t(mClientId));
-            mClients[mClientId++]=event.peer;
+            ClientConnect(event);
             break;
         case ENET_EVENT_TYPE_RECEIVE:
             Receive(event);
@@ -143,6 +138,17 @@ void ServerSystem::SetSenderId(MessageList& msglist, ENetEvent &event)
     {
         i->mSenderId=*(static_cast<int*>(event.peer->data));
     }
+}
+
+void ServerSystem::ClientConnect(ENetEvent& event)
+{
+    L1 ("A new client connected from %x:%u.\n", 
+        event.peer -> address.host,
+        event.peer -> address.port);
+    /* Store any relevant client information here. */
+
+    event.peer -> data = static_cast<void*>(new int32_t(mClientId));
+    mClients[mClientId++]=event.peer;
 }
 
 } // namespace engine

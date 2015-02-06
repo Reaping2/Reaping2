@@ -6,6 +6,7 @@
 #include <enet/enet.h>
 #include "platform/i_platform.h"
 #include "messsage_holder.h"
+#include "core/program_state.h"
 using platform::ModelValue;
 using core::ProgramState;
 namespace network {

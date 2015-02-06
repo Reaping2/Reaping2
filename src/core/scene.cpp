@@ -12,6 +12,9 @@
 #include "core/i_remove_on_death_component.h"
 #include "core/target_player_controller_component.h"
 #include "actor_event.h"
+#include "player_controller_component.h"
+#include "program_state.h"
+using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
 {
@@ -63,7 +66,6 @@ Scene::Scene()
     , mPauseModel( VoidFunc( this, &Scene::Pause ), "pause", &mSceneModel )
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
     , mPlayerModel( "player", &RootModel::Get() )
-    , mProgramState(ProgramState::Get())
 {
 }
 
@@ -120,8 +122,8 @@ void Scene::Load( std::string const& Level )
     mActorHolder.mAllActors.clear();
 
     SetType( "grass" );
-    if (mProgramState.mMode==ProgramState::Client
-        ||mProgramState.mMode==ProgramState::Server)
+    if (ProgramState::Get().mMode==ProgramState::Client
+        ||ProgramState::Get().mMode==ProgramState::Server)
     {
         return;
     }
@@ -161,6 +163,7 @@ void Scene::Load( std::string const& Level )
     inventoryC->AddItem(AutoId( "plasma_gun" ));
     inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
 
+    Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
 
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;
@@ -175,13 +178,7 @@ void Scene::Load( std::string const& Level )
 
     }
 
-    mPlayerModels.clear();
-    mPlayerModels.push_back( new ModelValue( Pl->Get<IHealthComponent>()->GetHP(), "hp", &mPlayerModel ) );
-    Opt<IPositionComponent> objPositionC = Pl->Get<IPositionComponent>();
-    mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
-
-
+    SetPlayerModels(Opt<Actor>(Pl.get()));
     AddActor( Pl.release() );
 
 }
@@ -224,5 +221,31 @@ void Scene::RemoveActor(Actor* Object)
     ActorList_t::iterator it = mActorHolder.mAllActors.find(Object->GetGUID());
     BOOST_ASSERT(it!=mActorHolder.mAllActors.end());
     RemoveActor(it);
+}
+
+Opt<Actor> Scene::GetActor(int32_t guid)
+{
+    ActorList_t::iterator it = mActorHolder.mAllActors.find(guid);
+    if (it!=mActorHolder.mAllActors.end())
+    {
+        return (*it);
+    }
+    for(NewActorList_t::iterator i=mNewActors.begin(),e=mNewActors.end();i!=e;++i)
+    {
+        if ((*i)->GetGUID()==guid)
+        {
+            return (*i);
+        }
+    }
+    return Opt<Actor>(NULL);
+}
+
+void Scene::SetPlayerModels(Opt<Actor> actor)
+{
+    mPlayerModels.clear();
+    mPlayerModels.push_back( new ModelValue( actor->Get<IHealthComponent>()->GetHP(), "hp", &mPlayerModel ) );
+    Opt<IPositionComponent> objPositionC = actor->Get<IPositionComponent>();
+    mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
 }
 

@@ -23,6 +23,8 @@ public:
     virtual void Init();
     virtual void Update( double DeltaTime );
 
+    void ClientConnect(ENetEvent& event);
+
     void Receive(ENetEvent& event);
 
     void SetSenderId(MessageList& msglist, ENetEvent &event);

@@ -4,6 +4,10 @@
 #include "network/my_name_message.h"
 #include "network/client_id_message.h"
 #include "network/lifecycle_message.h"
+#include "create_actor_message.h"
+#include "set_ownership_message.h"
+#include "position_message.h"
+#include "platform/auto_id.h"
 
 
     struct message_order
@@ -14,12 +18,20 @@
             type=network::ClientIdMessage::GetType_static();
             type=network::MyNameMessage::GetType_static();
             type=network::LifecycleMessage::GetType_static();
+            type=network::CreateActorMessage::GetType_static();
+            type=network::SetOwnershipMessage::GetType_static();
+            type=network::PositionMessage::GetType_static();
+
+            type=platform::AutoId("player");
         }
     } _msg_order;
 
     BOOST_CLASS_EXPORT_GUID(network::MyNameMessage,"my_name")
     BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
     BOOST_CLASS_EXPORT_GUID(network::LifecycleMessage, "lifecycle")
+    BOOST_CLASS_EXPORT_GUID(network::CreateActorMessage, "create_actor")
+    BOOST_CLASS_EXPORT_GUID(network::SetOwnershipMessage, "set_ownership")
+    BOOST_CLASS_EXPORT_GUID(network::PositionMessage, "position")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

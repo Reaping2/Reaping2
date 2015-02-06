@@ -21,6 +21,13 @@
 #include "network/my_name_message.h"
 
 #include "network/message_handler_sub_system_holder.h"
+#include "network/position_message.h"
+#include "network/set_ownership_message.h"
+#include <stdlib.h>
+#include "boost/date_time/posix_time/posix_time_types.hpp"
+#include "boost/date_time/posix_time/ptime.hpp"
+#include "boost/date_time/posix_time/posix_time_config.hpp"
+#include "boost/date_time/gregorian/greg_date.hpp"
 
 using engine::Engine;
 namespace {
@@ -56,6 +63,12 @@ void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
 
 int main(int argc, char* argv[])
 {
+    boost::posix_time::ptime t = boost::posix_time::microsec_clock::local_time();
+
+    // convert to int64_t
+    boost::posix_time::ptime myEpoch(boost::gregorian::date(1970,boost::gregorian::Jan,1));
+    boost::posix_time::time_duration myTimeFromEpoch = t - myEpoch;
+    srand (int32_t(myTimeFromEpoch.total_milliseconds()));
     using core::ProgramState;
     ProgramState& programState=ProgramState::Get();
     namespace po=boost::program_options;
@@ -117,6 +130,9 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ClientIdMessage::GetType_static(),AutoId("client_id_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::MyNameMessage::GetType_static(),AutoId("my_name_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::LifecycleMessage::GetType_static(),AutoId("lifecycle_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::CreateActorMessage::GetType_static(),AutoId("create_actor_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::SetOwnershipMessage::GetType_static(),AutoId("set_ownership_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
     }
     Eng.AddSystem(AutoId("timer_server_system"));
     if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("keyboard_system"));
@@ -153,7 +169,7 @@ int main(int argc, char* argv[])
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
 
-    static const double MaxFrameRate = 1000.;
+    static const double MaxFrameRate = 100.;
     static const double MinFrameTime = 1. / MaxFrameRate;
     double Prevtime, Curtime;
     Prevtime = Curtime = glfwGetTime();

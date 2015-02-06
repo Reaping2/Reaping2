@@ -79,7 +79,7 @@ void ClientSystem::Update(double DeltaTime)
         std::ostringstream oss;
         boost::archive::text_oarchive oa(oss);
         std::cout<<oss.str()<<std::endl;
-        oa << messages;
+        oa & messages;
         std::string astr(oss.str());
         L1("Client sends - %s:\n",astr.c_str());
         ENetPacket * packet = enet_packet_create (astr.c_str(), 

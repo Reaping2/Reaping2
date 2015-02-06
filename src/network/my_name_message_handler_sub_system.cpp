@@ -2,6 +2,8 @@
 #include "network/my_name_message_handler_sub_system.h"
 #include "my_name_message.h"
 #include "client_id_message.h"
+#include "client_system.h"
+#include "core/program_state.h"
 namespace network {
 
     MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
@@ -23,6 +25,9 @@ namespace network {
         std::auto_ptr<ClientIdMessage> newmsg(new ClientIdMessage);
         newmsg->mName=msg.mName;
         newmsg->mClientId=msg.mSenderId;
+
+        core::ProgramState::Get().mClientDatas.push_back(core::ClientData(msg.mSenderId,msg.mName));
+
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(newmsg.release()));
     }
 

@@ -63,7 +63,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":0.03, "damage":10 }]
+                "set":[{"class":"projectile", "radius":0.03, "damage":5 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}

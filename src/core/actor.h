@@ -21,6 +21,12 @@ public:
     virtual void AddComponent( std::auto_ptr<Component> Comp  );
     virtual ~Actor();
 
+    // dont use it pls its for network guid sync
+    void SetGUID(int32_t guid)
+    {
+        mGUID=guid;
+    }
+
     int32_t GetGUID()const
     {
         return mGUID;

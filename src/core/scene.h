@@ -5,8 +5,6 @@
 #include "platform/singleton.h"
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
-#include "program_state.h"
-using core::ProgramState;
 class ActorHolder
 {
 public:
@@ -118,7 +116,6 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mResumeModel;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
-    ProgramState& mProgramState;
 public:
     enum ActorIndex
     {
@@ -133,6 +130,8 @@ public:
     void RemoveActor( Actor* Object );
     void RemoveActor( ActorList_t::iterator it );
     glm::vec4 const& GetDimensions();
+    Opt<Actor> GetActor(int32_t guid);
+    void SetPlayerModels(Opt<Actor> actor);
     template<typename MODIFIER>
     void ModifyActor(Actor* Obj, MODIFIER const& Modifier)
     {

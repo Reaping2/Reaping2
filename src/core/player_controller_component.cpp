@@ -9,6 +9,7 @@
 PlayerControllerComponent::PlayerControllerComponent()
     : ControllerComponent()
 {
+    SetEnabled(false);
 }
 
 
