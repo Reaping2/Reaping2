@@ -2,7 +2,6 @@
 #define INCLUDED_NETWORK_POSITION_MESSAGE_SENDER_SYSTEM_H
 
 #include "message_sender_system.h"
-#include "core/scene.h"
 
 namespace network {
 

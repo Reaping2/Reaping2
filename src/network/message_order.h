@@ -8,6 +8,7 @@
 #include "set_ownership_message.h"
 #include "position_message.h"
 #include "platform/auto_id.h"
+#include "move_message.h"
 
 
     struct message_order
@@ -21,6 +22,7 @@
             type=network::CreateActorMessage::GetType_static();
             type=network::SetOwnershipMessage::GetType_static();
             type=network::PositionMessage::GetType_static();
+            type=network::MoveMessage::GetType_static();
 
             type=platform::AutoId("player");
         }
@@ -32,6 +34,7 @@
     BOOST_CLASS_EXPORT_GUID(network::CreateActorMessage, "create_actor")
     BOOST_CLASS_EXPORT_GUID(network::SetOwnershipMessage, "set_ownership")
     BOOST_CLASS_EXPORT_GUID(network::PositionMessage, "position")
+    BOOST_CLASS_EXPORT_GUID(network::MoveMessage, "move")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

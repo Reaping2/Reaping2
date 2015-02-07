@@ -24,6 +24,7 @@
 #include "network/message_handler_sub_system_holder.h"
 #include "network/lifecycle_sender_system.h"
 #include "network/position_message_sender_system.h"
+#include "network/move_message_sender_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -54,6 +55,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("lifecycle_sender_system"), &CreateSystem<network::LifecycleSenderSystem>);
     Bind( AutoId("message_handler_sub_system_holder"), &CreateSystem<network::MessageHandlerSubSystemHolder>);
     Bind( AutoId("position_message_sender_system"), &CreateSystem<network::PositionMessageSenderSystem>);
+    Bind( AutoId("move_message_sender_system"), &CreateSystem<network::MoveMessageSenderSystem>);
     
 }
 

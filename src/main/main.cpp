@@ -28,6 +28,7 @@
 #include "boost/date_time/posix_time/ptime.hpp"
 #include "boost/date_time/posix_time/posix_time_config.hpp"
 #include "boost/date_time/gregorian/greg_date.hpp"
+#include "network/move_message.h"
 
 using engine::Engine;
 namespace {
@@ -121,12 +122,14 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("server_system"));
         Eng.AddSystem(AutoId("position_message_sender_system"));
+        Eng.AddSystem(AutoId("move_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
         Eng.AddSystem(AutoId("client_system"));
         Eng.AddSystem(AutoId("lifecycle_sender_system"));
         Eng.AddSystem(AutoId("position_message_sender_system"));
+        Eng.AddSystem(AutoId("move_message_sender_system"));
     }
     if (programState.mMode!=ProgramState::Local)
     {
@@ -138,6 +141,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::CreateActorMessage::GetType_static(),AutoId("create_actor_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SetOwnershipMessage::GetType_static(),AutoId("set_ownership_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::MoveMessage::GetType_static(),AutoId("move_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
