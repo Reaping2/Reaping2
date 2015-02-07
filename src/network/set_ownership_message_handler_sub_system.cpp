@@ -9,8 +9,7 @@
 namespace network {
 
     SetOwnershipMessageHandlerSubSystem::SetOwnershipMessageHandlerSubSystem()
-        : mMessageHolder(MessageHolder::Get())
-        , mScene(Scene::Get())
+        : MessageHandlerSubSystem()
     {
 
     }
@@ -24,7 +23,7 @@ namespace network {
     {
         SetOwnershipMessage const& msg=static_cast<SetOwnershipMessage const&>(message);
         L1("executing setownership: clientId %d \n",msg.mClientId );
-        if (msg.mClientId!=core::ProgramState::Get().mClientId)
+        if (msg.mClientId!=mProgramState.mClientId)
         {
             L1("thats not my id :( \n");
             return;
@@ -33,6 +32,7 @@ namespace network {
         {
             L1("thats my id! actorguid: %d \n",msg.mActorGUID);
         }
+        mProgramState.mControlledActorGUID=msg.mActorGUID;
         Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
         if (!actor.IsValid())
         {

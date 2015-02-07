@@ -4,6 +4,7 @@ namespace core {
     ProgramState::ProgramState()
         : mMode(ProgramState::Local)
         , mClientConnected(false)
+        , mControlledActorGUID(-1)
     {
     }
 

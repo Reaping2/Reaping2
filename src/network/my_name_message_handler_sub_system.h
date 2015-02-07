@@ -7,7 +7,6 @@ namespace network {
 
     class MyNameMessageHandlerSubSystem: public MessageHandlerSubSystem
     {
-        MessageHolder& mMessageHolder;
     public:
         DEFINE_SUB_SYSTEM_BASE(MyNameMessageHandlerSubSystem)
         MyNameMessageHandlerSubSystem();

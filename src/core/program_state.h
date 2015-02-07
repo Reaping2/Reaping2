@@ -24,12 +24,21 @@ public:
         Client,
         Server
     };
+    // main type of this instance (local,client,server)
     Mode mMode;
+    // is this client connected to server
     bool mClientConnected;
-    std::string mServerIp;
+    // current client's name
     std::string mClientName;
+    // current client's id (got from server in exchange for name)
     int32_t mClientId;
+    // currently controlled actor for client //TODO: need to find a better place
+    int32_t mControlledActorGUID;
+
+    // target servers ip
+    std::string mServerIp;
     typedef std::vector<ClientData> ClientDatas_t;
+    // currently connected clients to server
     ClientDatas_t mClientDatas;
     
 };

@@ -7,7 +7,7 @@
 namespace network {
 
     MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
-        : mMessageHolder(MessageHolder::Get())
+        : MessageHandlerSubSystem()
     {
 
     }
@@ -26,7 +26,7 @@ namespace network {
         newmsg->mName=msg.mName;
         newmsg->mClientId=msg.mSenderId;
 
-        core::ProgramState::Get().mClientDatas.push_back(core::ClientData(msg.mSenderId,msg.mName));
+        mProgramState.mClientDatas.push_back(core::ClientData(msg.mSenderId,msg.mName));
 
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(newmsg.release()));
     }

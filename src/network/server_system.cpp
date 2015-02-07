@@ -1,7 +1,6 @@
 #include "platform/i_platform.h"
 #include "network/server_system.h"
 #include <boost/timer.hpp>
-#include <iosfwd>
 #include "boost/archive/text_iarchive.hpp"
 #include "my_name_message.h"
 #include "client_system.h"
@@ -89,7 +88,7 @@ void ServerSystem::Update(double DeltaTime)
         std::ostringstream oss;
         boost::archive::text_oarchive oa(oss);
         std::cout<<oss.str()<<std::endl;
-        oa << messages;
+        oa & messages;
         std::string astr(oss.str());
         L1("Client sends - %s:\n",astr.c_str());
         ENetPacket * packet = enet_packet_create (astr.c_str(), 
@@ -107,11 +106,11 @@ void ServerSystem::Update(double DeltaTime)
 
 void ServerSystem::Receive(ENetEvent& event)
 {
-    L1 ("A packet of length %u containing %s was received from %s on channel %u.\n",
-        event.packet -> dataLength,
-        event.packet -> data,
-        event.peer -> data,
-        event.channelID);
+//     L1 ("A packet of length %u containing %s was received from %s on channel %u.\n",
+//         event.packet -> dataLength,
+//         event.packet -> data,
+//         event.peer -> data,
+//         event.channelID);
     std::istringstream iss((char*)(event.packet->data));
     boost::archive::text_iarchive ia(iss);
     if (mMessageHolder.GetIncomingMessages().mMessages.empty())
@@ -124,9 +123,10 @@ void ServerSystem::Receive(ENetEvent& event)
     {
         MessageList msglist;
         ia >> msglist;
+//        L1("msgList.mMessages.size: %d",msglist.mMessages.size());
         SetSenderId(msglist,event);
         mMessageHolder.GetIncomingMessages().mMessages.transfer(
-            msglist.mMessages.begin(),msglist.mMessages.end(),msglist.mMessages);
+            mMessageHolder.GetIncomingMessages().mMessages.end(),msglist.mMessages);
     }
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy (event.packet);

@@ -9,9 +9,7 @@ namespace network {
 
     class CreateActorMessageHandlerSubSystem: public MessageHandlerSubSystem
     {
-        MessageHolder& mMessageHolder;
         ActorFactory& mActorFactory;
-        Scene& mScene;
     public:
         DEFINE_SUB_SYSTEM_BASE(CreateActorMessageHandlerSubSystem)
         CreateActorMessageHandlerSubSystem();

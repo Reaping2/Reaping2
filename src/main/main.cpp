@@ -117,11 +117,16 @@ int main(int argc, char* argv[])
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
     render::RecognizerRepo::Get();
-    if (programState.mMode==ProgramState::Server) Eng.AddSystem(AutoId("server_system"));
+    if (programState.mMode==ProgramState::Server) 
+    {
+        Eng.AddSystem(AutoId("server_system"));
+        Eng.AddSystem(AutoId("position_message_sender_system"));
+    }
     if (programState.mMode==ProgramState::Client) 
     {
         Eng.AddSystem(AutoId("client_system"));
         Eng.AddSystem(AutoId("lifecycle_sender_system"));
+        Eng.AddSystem(AutoId("position_message_sender_system"));
     }
     if (programState.mMode!=ProgramState::Local)
     {
@@ -134,6 +139,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::SetOwnershipMessage::GetType_static(),AutoId("set_ownership_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
     }
+
     Eng.AddSystem(AutoId("timer_server_system"));
     if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("keyboard_system"));
     if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("mouse_system"));

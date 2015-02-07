@@ -8,6 +8,14 @@ namespace network {
 
     }
 
+    MessageHandlerSubSystem::MessageHandlerSubSystem()
+        : mMessageHolder(MessageHolder::Get())
+        , mScene(Scene::Get())
+        , mProgramState(ProgramState::Get())
+    {
+
+    }
+
     void DefaultMessageHandlerSubSystem::Init()
     {
 

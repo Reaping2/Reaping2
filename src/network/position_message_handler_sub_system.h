@@ -3,13 +3,13 @@
 #include "message_handler_sub_system.h"
 #include "messsage_holder.h"
 #include "core/scene.h"
+#include "core/program_state.h"
+using core::ProgramState;
 
 namespace network {
 
     class PositionMessageHandlerSubSystem: public MessageHandlerSubSystem
     {
-        MessageHolder& mMessageHolder;
-        Scene& mScene;
     public:
         DEFINE_SUB_SYSTEM_BASE(PositionMessageHandlerSubSystem)
         PositionMessageHandlerSubSystem();

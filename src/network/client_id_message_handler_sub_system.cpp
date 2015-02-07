@@ -5,6 +5,7 @@
 namespace network {
 
     ClientIdMessageHandlerSubSystem::ClientIdMessageHandlerSubSystem()
+        : MessageHandlerSubSystem()
     {
 
     }
@@ -18,10 +19,10 @@ namespace network {
     {
         ClientIdMessage const& msg=static_cast<ClientIdMessage const&>(message);
         L1("executing clientid: name %s name's id: %d \n",msg.mName.c_str(),msg.mClientId );
-        if (msg.mName==core::ProgramState::Get().mClientName)
+        if (msg.mName==mProgramState.mClientName)
         {
             L1("that is my id\n");
-            core::ProgramState::Get().mClientId=msg.mClientId;
+            mProgramState.mClientId=msg.mClientId;
         }
     }
 

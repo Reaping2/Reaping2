@@ -8,8 +8,6 @@ namespace network {
 
     class SetOwnershipMessageHandlerSubSystem: public MessageHandlerSubSystem
     {
-        MessageHolder& mMessageHolder;
-        Scene& mScene;
     public:
         DEFINE_SUB_SYSTEM_BASE(SetOwnershipMessageHandlerSubSystem)
         SetOwnershipMessageHandlerSubSystem();

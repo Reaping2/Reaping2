@@ -15,6 +15,7 @@
 namespace network {
 
     LifecycleMessageHandlerSubSystem::LifecycleMessageHandlerSubSystem()
+        : MessageHandlerSubSystem()
     {
 
     }
@@ -28,37 +29,35 @@ namespace network {
     {
         LifecycleMessage const& msg=static_cast<LifecycleMessage const&>(message);
         L1("executing lifecycle: state: %d \n",msg.mState );
-        if (core::ProgramState::Get().mMode==core::ProgramState::Client)
+        if (mProgramState.mMode==ProgramState::Client)
         {
-            Scene::Get().Load("level1");
+            mScene.Load("level1");
             Ui::Get().Load("hud");
         }
         else
         {
-            Scene::Get().Load("level1");
+            mScene.Load("level1");
             Ui::Get().Load("hud");
             std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
             lifecycleMsg->mState=lifecycleMsg->mState;
-            MessageHolder& messageHolder=MessageHolder::Get();
-            messageHolder.AddOutgoingMessage(lifecycleMsg);
+            mMessageHolder.AddOutgoingMessage(lifecycleMsg);
 
             ActorFactory& actorFactory=ActorFactory::Get();
             int32_t playerAutoId=AutoId("player");
-            Scene& scene=Scene::Get();
-            glm::vec4 const& dimensions=scene.GetDimensions();
+            glm::vec4 const& dimensions=mScene.GetDimensions();
 
-            for (core::ProgramState::ClientDatas_t::iterator i=core::ProgramState::Get().mClientDatas.begin(), e=core::ProgramState::Get().mClientDatas.end();i!=e;++i)
+            for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
             {
                 std::auto_ptr<Actor> player(actorFactory(playerAutoId));
                 std::auto_ptr<CreateActorMessage> createActorMsg(new CreateActorMessage);
                 createActorMsg->mActorGUID=player->GetGUID();
                 createActorMsg->mActorId=playerAutoId;
-                messageHolder.AddOutgoingMessage(createActorMsg);
+                mMessageHolder.AddOutgoingMessage(createActorMsg);
 
                 std::auto_ptr<SetOwnershipMessage> setOwnershipMsg(new SetOwnershipMessage);
                 setOwnershipMsg->mActorGUID=player->GetGUID();
                 setOwnershipMsg->mClientId=i->mClientId;
-                messageHolder.AddOutgoingMessage(setOwnershipMsg);
+                mMessageHolder.AddOutgoingMessage(setOwnershipMsg);
 
                 Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
                 positionC->SetX(dimensions.x + ( rand() % ( int )( 500 * ( dimensions.z - dimensions.x ) ) ) / 500.);
@@ -67,10 +66,11 @@ namespace network {
                 positionMsg->mX=double(positionC->GetX());
                 positionMsg->mY=double(positionC->GetY());
                 positionMsg->mOrientation=positionC->GetOrientation();
+                positionMsg->mForce=true;
                 positionMsg->mActorGUID=player->GetGUID();
-                messageHolder.AddOutgoingMessage(positionMsg);
+                mMessageHolder.AddOutgoingMessage(positionMsg);
 
-                scene.AddActor(player.release());
+                mScene.AddActor(player.release());
             }
         }
     }

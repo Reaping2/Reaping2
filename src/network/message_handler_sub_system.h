@@ -3,12 +3,24 @@
 
 #include "message.h"
 #include "engine/sub_system.h"
-
+#include "messsage_holder.h"
+#include "core/scene.h"
+#include "core/program_state.h"
+using core::ProgramState;
 namespace network {
 
     class MessageHandlerSubSystem
     {
+    protected:
+        MessageHolder& mMessageHolder;
+        Scene& mScene;
+        ProgramState& mProgramState;
+        bool mIsClient;
+        bool IsClient();
+        bool mIsServer;
+        bool IsServer();
     public:
+        MessageHandlerSubSystem();
         virtual int32_t GetType() const=0;
         virtual void Init()=0;
         virtual void Execute( Message const&  message )=0;

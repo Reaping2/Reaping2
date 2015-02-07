@@ -6,8 +6,7 @@
 namespace network {
 
     PositionMessageHandlerSubSystem::PositionMessageHandlerSubSystem()
-        : mMessageHolder(MessageHolder::Get())
-        , mScene(Scene::Get())
+        : MessageHandlerSubSystem()
     {
 
     }
@@ -20,7 +19,13 @@ namespace network {
     void PositionMessageHandlerSubSystem::Execute(Message const& message)
     {
         PositionMessage const& msg=static_cast<PositionMessage const&>(message);
-        L1("executing position: %d \n",msg.mSenderId );
+//        L1("executing position: %d \n",msg.mSenderId );
+        if(msg.mActorGUID==mProgramState.mControlledActorGUID
+            && !msg.mForce) //TODO: playercontroller states will be synced
+        {
+            return;
+        }
+
         Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
         if (!actor.IsValid())
         {
@@ -31,7 +36,7 @@ namespace network {
         Opt<IPositionComponent> positionC(actor->Get<IPositionComponent>());
         if (!positionC.IsValid())
         {
-            L1("position is called on an actor that is not position_component \n" );
+            L1("position is called on an actor that has no position_component \n" );
             return;
         }
         positionC->SetX(msg.mX);

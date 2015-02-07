@@ -4,9 +4,8 @@
 namespace network {
 
     CreateActorMessageHandlerSubSystem::CreateActorMessageHandlerSubSystem()
-        : mMessageHolder(MessageHolder::Get())
+        : MessageHandlerSubSystem()
         , mActorFactory(ActorFactory::Get())
-        , mScene(Scene::Get())
     {
 
     }
