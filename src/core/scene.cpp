@@ -58,7 +58,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -2, -2, 2, 2 )
+    : mDimensions( -2000, -2000, 2000, 2000 )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )
@@ -135,20 +135,20 @@ void Scene::Load( std::string const& Level )
     const size_t NumPoints = 18;
     const point points[NumPoints] =
     {
-        {-1,-0.4},                                      { 0.0, -0.4}, 
-        {-1,-0.6},{-0.8,-0.6},{-0.6,-0.6},              { 0.0, -0.6},
-        {-1,-0.8},                                      { 0.0, -0.8}, 
-        {-1,-1},                                        { 0.0, -1},
-        {-1,-1.2},                                      { 0.0, -1.2},{ 0.2, -1.2},{ 0.4, -1.2},
-        {-1,-1.4},            {-0.6,-1.4},{-0.4,-1.4},  { 0.0, -1.4},
+        {-1000,-400},                                      { 0.0, -400}, 
+        {-1000,-600},{-800,-600},{-600,-600},              { 0.0, -600},
+        {-1000,-800},                                      { 0.0, -800}, 
+        {-1000,-1000},                                        { 0.0, -1000},
+        {-1000,-1200},                                      { 0.0, -1200},{ 200, -1200},{ 400, -1200},
+        {-1000,-1400},            {-600,-1400},{-400,-1400},  { 0.0, -1400},
     };
 
     for( size_t i = 0; i < NumPoints; ++i )
     {
         std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
         Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( points[i].x+0.6 );
-        wallPositionC->SetY( points[i].y+0.4 );
+        wallPositionC->SetX( points[i].x+600 );
+        wallPositionC->SetY( points[i].y+400 );
 
         AddActor( wall.release() );
     }
@@ -173,8 +173,8 @@ void Scene::Load( std::string const& Level )
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
         AddTestCreep(Pl.get()
-            , mDimensions.x + ( rand() % ( int )( 1000 * ( mDimensions.z - mDimensions.x ) ) ) / 1000.
-            , mDimensions.y + ( rand() % ( int )( 1000 * ( mDimensions.w - mDimensions.y ) ) ) / 1000.);
+            , mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
+            , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
 
     }
 

@@ -15,7 +15,7 @@ CollisionSystem::CollisionSystem()
 
 void CollisionSystem::Init()
 {
-    mCollisionGrid.Build( mScene.GetDimensions(), 0.4f );
+    mCollisionGrid.Build( mScene.GetDimensions(), 400.0f );
 }
 
 void CollisionSystem::Update(double DeltaTime)

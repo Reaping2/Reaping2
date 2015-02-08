@@ -144,7 +144,7 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
 
         Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
         //TODO: this one should not depend on collision radius
-        Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius():0.05)*i->Anim->GetScale() ) ); 
+        Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius():50)*i->Anim->GetScale() ) ); 
         TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
     }
     if( Count )

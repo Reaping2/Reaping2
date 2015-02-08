@@ -1,7 +1,7 @@
 #include "i_render.h"
 namespace engine {
 RendererSystem::RendererSystem()
-    : mWorldProjector( -1.0f, 1.0f )
+    : mWorldProjector( -1000.0f, 1000.0f )
     , mUiProjector( 0.0f, 100.0f, Projection::VM_Fixed )
     , mCamera( mWorldProjector )
     , mUi( Ui::Get() )

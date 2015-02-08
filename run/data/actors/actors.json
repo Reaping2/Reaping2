@@ -8,7 +8,7 @@
                 "set":[{"layer":"buildings"}]
             },
             {"name":"wall_collision_component",
-                "set":[{"class":"wall", "radius":0.1}]
+                "set":[{"class":"wall", "radius":100}]
             }
         ]
     },
@@ -22,7 +22,7 @@
             },
             {
                 "name":"pickup_collision_component",
-                "set":[{"class":"pickup", "radius":0.04}]
+                "set":[{"class":"pickup", "radius":40}]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"},
@@ -38,13 +38,13 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3}]
+                "set":[{"speed":3000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":0.014, "damage":5 }]
+                "set":[{"class":"projectile", "radius":14, "damage":5 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -56,14 +56,14 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1}]
+                "set":[{"speed":1000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":0.03, "damage":5 }]
+                "set":[{"class":"projectile", "radius":30, "damage":5 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -79,7 +79,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":0.1}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
                 "set":[{"hp":10}]
@@ -98,7 +98,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":0.1}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
                 "set":[{"hp":10}]
@@ -118,7 +118,7 @@
             },
 
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":0.1}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
                 "set":[{"hp":30}]
@@ -137,7 +137,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":0.1}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
                 "set":[{"hp":30}]
@@ -156,7 +156,7 @@
                 "set":[{"layer":"players"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"player", "radius":0.05}]
+                "set":[{"class":"player", "radius":50}]
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component"},

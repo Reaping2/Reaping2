@@ -65,7 +65,7 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor)
 
     int x = ( ( mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( mCurrentMovement & MF_Down ) ? -1 : 0 );
-    actor.Get<IMoveComponent>()->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*.35 );
+    actor.Get<IMoveComponent>()->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*350 );
 
     double Heading = 0;
     static const double pi = boost::math::constants::pi<double>();

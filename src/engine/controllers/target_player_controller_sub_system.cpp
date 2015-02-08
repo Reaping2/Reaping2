@@ -36,7 +36,7 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
 
     if (actor.Get<IMoveComponent>()->GetHeading()==0.0&&actor.Get<IMoveComponent>()->GetSpeed()==0)
     {
-        actor.Get<IMoveComponent>()->SetSpeed( ((rand() % 10)+5)*0.02 );
+        actor.Get<IMoveComponent>()->SetSpeed( ((rand() % 10)+5)*20 );
     }
     Actor& player = *targetPCC->GetPlayer();
     Opt<IPositionComponent> const playerPositionC = player.Get<IPositionComponent>();
