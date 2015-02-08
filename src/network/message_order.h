@@ -27,6 +27,7 @@
             type=network::PlayerControllerMessage::GetType_static();
 
             type=platform::AutoId("player");
+            type=platform::AutoId("plasma_shot");
         }
     } _msg_order;
 

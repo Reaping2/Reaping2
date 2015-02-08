@@ -23,6 +23,7 @@ namespace network {
         MessageHandlerSubSystem();
         virtual int32_t GetType() const=0;
         virtual void Init()=0;
+        virtual void Update( double DeltaTime );
         virtual void Execute( Message const&  message )=0;
         virtual ~MessageHandlerSubSystem();
     };

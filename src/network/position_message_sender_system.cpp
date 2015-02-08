@@ -26,19 +26,26 @@ namespace network {
         for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
             Actor& actor=**it;
-            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-            if (!positionC.IsValid())
-            {
-                continue;
-            }
-            std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
-            positionMsg->mX=double(positionC->GetX());
-            positionMsg->mY=double(positionC->GetY());
-            positionMsg->mOrientation=positionC->GetOrientation();
-            positionMsg->mActorGUID=actor.GetGUID();
-            mMessageHolder.AddOutgoingMessage(positionMsg);
+            GeneratePositionMessage(actor);
+
+            mMessageHolder.AddOutgoingMessage(GeneratePositionMessage(actor));
         }
 
+    }
+
+    std::auto_ptr<PositionMessage> PositionMessageSenderSystem::GeneratePositionMessage(Actor const& actor)
+    {
+        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        if (!positionC.IsValid())
+        {
+            return std::auto_ptr<PositionMessage>();
+        }
+        std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
+        positionMsg->mX=double(positionC->GetX());
+        positionMsg->mY=double(positionC->GetY());
+        positionMsg->mOrientation=positionC->GetOrientation();
+        positionMsg->mActorGUID=actor.GetGUID();
+        return positionMsg;
     }
 
 } // namespace engine

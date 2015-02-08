@@ -159,7 +159,9 @@
                 "set":[{"class":"player", "radius":50}]
             },
             {"name":"player_controller_component"},
-            {"name":"inventory_component"},
+            {"name":"inventory_component",
+                "set":[{"add_item":"plasma_gun"}]
+            },
             {"name":"health_component",
                 "set":[{"hp":100}]
             }

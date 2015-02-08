@@ -26,6 +26,7 @@
 #include "network/position_message_sender_system.h"
 #include "network/move_message_sender_system.h"
 #include "network/player_controller_message.h"
+#include "network/create_actor_message_sender_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -58,6 +59,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("position_message_sender_system"), &CreateSystem<network::PositionMessageSenderSystem>);
     Bind( AutoId("move_message_sender_system"), &CreateSystem<network::MoveMessageSenderSystem>);
     Bind( AutoId("player_controller_message_sender_system"), &CreateSystem<network::PlayerControllerMessageSenderSystem>);
+    Bind( AutoId("create_actor_message_sender_system"), &CreateSystem<network::CreateActorMessageSenderSystem>);
     
 }
 

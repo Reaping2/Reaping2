@@ -12,6 +12,9 @@ namespace network {
 
         int32_t mActorId;
         int32_t mActorGUID;
+        int32_t mParentGUID; //for shots atm, //TODO: there will be an engine upgrade for this
+        CreateActorMessage():mActorId(-1), mActorGUID(-1),mParentGUID(-1){}
+
         template<class Archive>
         void serialize(Archive& ar, const unsigned int version);
     };
@@ -22,6 +25,7 @@ namespace network {
         ar & boost::serialization::base_object<Message>(*this);
         ar & mActorId;
         ar & mActorGUID;
+        ar & mParentGUID;
     }
 
 } // namespace network

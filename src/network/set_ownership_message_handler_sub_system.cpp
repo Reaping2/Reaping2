@@ -23,35 +23,44 @@ namespace network {
     {
         SetOwnershipMessage const& msg=static_cast<SetOwnershipMessage const&>(message);
         L1("executing setownership: clientId %d \n",msg.mClientId );
-        if (msg.mClientId!=mProgramState.mClientId)
-        {
-            L1("thats not my id :( \n");
-            return;
-        }
-        else
-        {
-            L1("thats my id! actorguid: %d \n",msg.mActorGUID);
-        }
-        mProgramState.mControlledActorGUID=msg.mActorGUID;
-        Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
-        if (!actor.IsValid())
-        {
-            L1("cannot find actor with GUID: (that is not possible) %d \n",msg.mActorGUID );
-            return;
-        }
+        mPendingOwnerships.push_back(PendingOwnership(msg.mActorGUID,msg.mClientId));
+    }
 
-        Opt<PlayerControllerComponent> playerControllerC(actor->Get<PlayerControllerComponent>());
-        if (!playerControllerC.IsValid())
+    void SetOwnershipMessageHandlerSubSystem::Update(double DeltaTime)
+    {
+        for(PendingOwnerships_t::iterator i=mPendingOwnerships.begin();i!=mPendingOwnerships.end();)
         {
-            L1("setownership is called on an actor that is not playerControllable \n" );
-            return;
+            Opt<Actor> actor=mScene.GetActor(i->mActorGUID);
+            if (!actor.IsValid())
+            {
+                L1("cannot find actor with GUID: (that is not possible) %d \n",i->mActorGUID );
+                ++i;
+                continue;
+            }
+
+            Opt<PlayerControllerComponent> playerControllerC(actor->Get<PlayerControllerComponent>());
+            if (!playerControllerC.IsValid())
+            {
+                L1("setownership is called on an actor that is not playerControllable \n" );
+                i=mPendingOwnerships.erase(i);
+                continue;
+            }
+            Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
+            if (inventoryC.IsValid())
+            {
+                inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
+            }
+            if (i->mClientId==mProgramState.mClientId)
+            {
+                L1("thats my id! actorguid: %d \n",i->mActorGUID);
+
+                mProgramState.mControlledActorGUID=i->mActorGUID;
+                playerControllerC->SetEnabled(true);
+                playerControllerC->mActive=true;
+                mScene.SetPlayerModels(actor);
+            }
+            i=mPendingOwnerships.erase(i);
         }
-        Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
-        inventoryC->AddItem(AutoId( "plasma_gun" ));
-        inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
-        playerControllerC->SetEnabled(true);
-        playerControllerC->mActive=true;
-        mScene.SetPlayerModels(actor);
     }
 
 } // namespace engine

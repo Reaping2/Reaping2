@@ -124,6 +124,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("server_system"));
         Eng.AddSystem(AutoId("position_message_sender_system"));
         Eng.AddSystem(AutoId("move_message_sender_system"));
+        Eng.AddSystem(AutoId("create_actor_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {

@@ -16,6 +16,11 @@ namespace network {
 
     }
 
+    void MessageHandlerSubSystem::Update(double DeltaTime)
+    {
+
+    }
+
     void DefaultMessageHandlerSubSystem::Init()
     {
 

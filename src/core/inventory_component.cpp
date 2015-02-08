@@ -22,9 +22,11 @@ InventoryComponent::ItemList_t& InventoryComponent::GetItems()
 
 void InventoryComponent::AddItem( int32_t Id )
 {
-    BOOST_ASSERT(mActor);
     std::auto_ptr<Item> a = mItemFactory( Id );
-    a->SetActor( mActor );
+    if (mActor)
+    {
+        a->SetActor(mActor);
+    }
     mItems.push_back( Opt<Item>(a.release()) );
 }
 
@@ -71,10 +73,21 @@ InventoryComponent::~InventoryComponent()
     mItems.clear();
 }
 
+void InventoryComponent::SetActor(Actor* Obj)
+{
+    IInventoryComponent::SetActor(Obj);
+    for(ItemList_t::iterator i=mItems.begin(), e=mItems.end();i!=e;++i)
+    {
+        (*i)->SetActor( mActor );
+    }
+
+}
+
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;
-    if( Json::GetStr( (*mSetters)["additem"], istr))
+    //TODO: handle more than one items (additem in an array nothing much)
+    if( Json::GetStr( (*mSetters)["add_item"], istr))
     {
         Bind<int32_t>(&InventoryComponent::AddItem,AutoId(istr));
     }

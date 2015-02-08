@@ -104,6 +104,10 @@ namespace network {
                 messageHandlerSS->Execute(*i);
             }
         }
+        for( SubSystems_t::iterator it = mSubSystems.begin(), e = mSubSystems.end(); it != e; ++it )
+        {
+            it->mSystem->Update(DeltaTime);
+        }
         mMessageHolder.ClearIncomingMessages();
     }
 

@@ -11,6 +11,7 @@
 #include "set_ownership_message.h"
 #include "position_message.h"
 #include "core/program_state.h"
+#include "core/i_inventory_component.h"
 
 namespace network {
 
@@ -48,27 +49,22 @@ namespace network {
 
             for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
             {
-                std::auto_ptr<Actor> player(actorFactory(playerAutoId));
-                std::auto_ptr<CreateActorMessage> createActorMsg(new CreateActorMessage);
-                createActorMsg->mActorGUID=player->GetGUID();
-                createActorMsg->mActorId=playerAutoId;
-                mMessageHolder.AddOutgoingMessage(createActorMsg);
-
+                 std::auto_ptr<Actor> player(actorFactory(playerAutoId));
                 std::auto_ptr<SetOwnershipMessage> setOwnershipMsg(new SetOwnershipMessage);
                 setOwnershipMsg->mActorGUID=player->GetGUID();
                 setOwnershipMsg->mClientId=i->mClientId;
                 mMessageHolder.AddOutgoingMessage(setOwnershipMsg);
 
-                Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-                positionC->SetX(dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x )/2 ) ) );
-                positionC->SetY(dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y )/2 ) ) );
-                std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
-                positionMsg->mX=double(positionC->GetX());
-                positionMsg->mY=double(positionC->GetY());
-                positionMsg->mOrientation=positionC->GetOrientation();
-                positionMsg->mActorGUID=player->GetGUID();
-                mMessageHolder.AddOutgoingMessage(positionMsg);
+                 Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
+                 positionC->SetX(dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x )/2 ) ) );
+                 positionC->SetY(dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y )/2 ) ) );
 
+                //TODO: temporary till normal inventory sync 
+                Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
+                if (inventoryC.IsValid())
+                {
+                    inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
+                }
                 mScene.AddActor(player.release());
             }
         }

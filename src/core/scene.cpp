@@ -160,7 +160,7 @@ void Scene::Load( std::string const& Level )
     positionC->SetY(0.0);
     
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-    inventoryC->AddItem(AutoId( "plasma_gun" ));
+//    inventoryC->AddItem(AutoId( "plasma_gun" ));
     inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
 
     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);

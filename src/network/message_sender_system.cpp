@@ -10,6 +10,11 @@ namespace network {
 
     bool FrequencyTimer::Update(double DeltaTime)
     {
+        if (mFrequency==0.0)
+        {
+            return true;
+        }
+
         mIsTime=false;
         mElapsedTime+=DeltaTime*1000;
         if(mElapsedTime>=mFrequency)
