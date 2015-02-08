@@ -2,8 +2,8 @@
 #define INCLUDED_NETWORK_CREATE_ACTOR_MESSAGE_SENDER_SYSTEM_H
 
 #include "message_sender_system.h"
-#include "platform\register.h"
-#include "core\actor_event.h"
+#include "platform/register.h"
+#include "core/actor_event.h"
 
 namespace network {
 
