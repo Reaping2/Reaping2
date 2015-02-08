@@ -164,6 +164,7 @@ void Scene::Load( std::string const& Level )
     inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
 
     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
+    Pl->Get<PlayerControllerComponent>()->mActive=true;
 
 #ifdef DEBUG
     static const size_t BenchmarkCreeps = 500;

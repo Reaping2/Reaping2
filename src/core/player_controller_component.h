@@ -10,6 +10,12 @@ class PlayerControllerComponent : public ControllerComponent
 {
 public:
     PlayerControllerComponent();
+    double mOrientation;
+    double mHeading;
+    bool mShoot;
+    bool mShootAlt;
+    uint32_t mCurrentMovement;
+    bool mActive; //controlled by current client
 };
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>

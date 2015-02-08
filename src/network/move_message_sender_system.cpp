@@ -23,48 +23,28 @@ namespace network {
         {
             return;
         }
-        if (IsClient())
+       
+        for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
-            //TODO: might need optimization
-            Opt<Actor> actor=mScene.GetActor(mProgramState.mControlledActorGUID);
-            if (actor.IsValid())
+            Actor& actor=**it;
+            Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+            if (!moveC.IsValid())
             {
-                Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
-                if (moveC.IsValid())
-                {
-                    std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
-                    moveMsg->mHeading=moveC->GetHeading();
-                    moveMsg->mSpeed=moveC->GetSpeed();
-                    moveMsg->mSpeedX=moveC->GetSpeedX();
-                    moveMsg->mSpeedY=moveC->GetSpeedY();
-                    moveMsg->mActorGUID=actor->GetGUID();
-                    mMessageHolder.AddOutgoingMessage(moveMsg);
-                }
+                continue;
             }
-        }
-        else
-        {
-            for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+            if (moveC.IsValid())
             {
-                Actor& actor=**it;
-                Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-                if (!moveC.IsValid())
-                {
-                    continue;
-                }
-                if (moveC.IsValid())
-                {
-                    std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
-                    moveMsg->mHeading=moveC->GetHeading();
-                    moveMsg->mSpeed=moveC->GetSpeed();
-                    moveMsg->mSpeedX=moveC->GetSpeedX();
-                    moveMsg->mSpeedY=moveC->GetSpeedY();
-                    moveMsg->mActorGUID=actor.GetGUID();
+                std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
+                moveMsg->mHeading=moveC->GetHeading();
+                moveMsg->mSpeed=moveC->GetSpeed();
+                moveMsg->mSpeedX=moveC->GetSpeedX();
+                moveMsg->mSpeedY=moveC->GetSpeedY();
+                moveMsg->mActorGUID=actor.GetGUID();
 
-                    mMessageHolder.AddOutgoingMessage(moveMsg);
-                }
+                mMessageHolder.AddOutgoingMessage(moveMsg);
             }
         }
+        
 
     }
 

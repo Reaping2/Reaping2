@@ -13,7 +13,7 @@ namespace network {
     void PositionMessageSenderSystem::Init()
     {
         MessageSenderSystem::Init();
-        SetFrequency(50);
+        SetFrequency(10);
     }
 
     void PositionMessageSenderSystem::Update(double DeltaTime)
@@ -23,41 +23,20 @@ namespace network {
         {
             return;
         }
-        if (IsClient())
+        for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
-            //TODO: might need optimization
-            Opt<Actor> actor=mScene.GetActor(mProgramState.mControlledActorGUID);
-            if (actor.IsValid())
+            Actor& actor=**it;
+            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+            if (!positionC.IsValid())
             {
-                Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
-                if (positionC.IsValid())
-                {
-                    std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
-                    positionMsg->mX=double(positionC->GetX());
-                    positionMsg->mY=double(positionC->GetY());
-                    positionMsg->mOrientation=positionC->GetOrientation();
-                    positionMsg->mActorGUID=actor->GetGUID();
-                    mMessageHolder.AddOutgoingMessage(positionMsg);
-                }
+                continue;
             }
-        }
-        else
-        {
-            for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-            {
-                Actor& actor=**it;
-                Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-                if (!positionC.IsValid())
-                {
-                    continue;
-                }
-                std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
-                positionMsg->mX=double(positionC->GetX());
-                positionMsg->mY=double(positionC->GetY());
-                positionMsg->mOrientation=positionC->GetOrientation();
-                positionMsg->mActorGUID=actor.GetGUID();
-                mMessageHolder.AddOutgoingMessage(positionMsg);
-            }
+            std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
+            positionMsg->mX=double(positionC->GetX());
+            positionMsg->mY=double(positionC->GetY());
+            positionMsg->mOrientation=positionC->GetOrientation();
+            positionMsg->mActorGUID=actor.GetGUID();
+            mMessageHolder.AddOutgoingMessage(positionMsg);
         }
 
     }

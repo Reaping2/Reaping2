@@ -13,6 +13,7 @@ namespace engine {
 
 PlayerControllerSubSystem::PlayerControllerSubSystem()
     : mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
 {
 
 }
@@ -28,13 +29,24 @@ void PlayerControllerSubSystem::Init()
 void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
 {
     Opt<PlayerControllerComponent> playerControllerC = actor.Get<PlayerControllerComponent>();
-    if (!playerControllerC.IsValid()||!playerControllerC->IsEnabled())
+    if (!playerControllerC.IsValid())
     {
         return;
     }
-    SetSpeedAndOrientation(actor);
-    Shoot(actor);
-    SetOrientation(actor);
+
+    if(playerControllerC->mActive)
+    {
+        HandleInputs(actor,playerControllerC);
+    }
+
+    if (mProgramState.mMode==core::ProgramState::Client)
+    {
+        return;
+    }
+
+    SetSpeedAndOrientation(actor,playerControllerC);
+    Shoot(actor,playerControllerC);
+    SetOrientation(actor,playerControllerC);
 }
 
 void PlayerControllerSubSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
@@ -43,28 +55,10 @@ void PlayerControllerSubSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Even
     mY = Event.Pos.y;
 }
 
-void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor)
+void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
-    uint32_t mCurrentMovement = 0;
-    if( mKeyboard->GetKey(GLFW_KEY_W).State==KeyState::Down)
-    {
-        mCurrentMovement |= MF_Up;
-    }
-    if( mKeyboard->GetKey(GLFW_KEY_A).State==KeyState::Down )
-    {
-        mCurrentMovement |= MF_Left;
-    }
-    if( mKeyboard->GetKey(GLFW_KEY_S).State==KeyState::Down )
-    {
-        mCurrentMovement |= MF_Down;
-    }
-    if( mKeyboard->GetKey(GLFW_KEY_D).State==KeyState::Down )
-    {
-        mCurrentMovement |= MF_Right;
-    }
-
-    int x = ( ( mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( mCurrentMovement & MF_Right ) ? 1 : 0 );
-    int y = ( ( mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( mCurrentMovement & MF_Down ) ? -1 : 0 );
+    int x = ( ( playerControllerC->mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Right ) ? 1 : 0 );
+    int y = ( ( playerControllerC->mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Down ) ? -1 : 0 );
     actor.Get<IMoveComponent>()->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*350 );
 
     double Heading = 0;
@@ -88,7 +82,7 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor)
     actor.Get<IMoveComponent>()->SetHeading( Heading );
 }
 
-void PlayerControllerSubSystem::Shoot(Actor &actor)
+void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
     Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
     BOOST_ASSERT(inventoryC.IsValid());
@@ -97,29 +91,54 @@ void PlayerControllerSubSystem::Shoot(Actor &actor)
     {
         return;
     }
+    weapon->SetShoot(playerControllerC->mShoot);
+    weapon->SetShootAlt(playerControllerC->mShootAlt);
+}
+
+void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+{
+    Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
+    actorPositionC->SetOrientation( playerControllerC->mOrientation );
+}
+
+void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+{
+    playerControllerC->mCurrentMovement = 0;
+    if( mKeyboard->GetKey(GLFW_KEY_W).State==KeyState::Down)
+    {
+        playerControllerC->mCurrentMovement |= MF_Up;
+    }
+    if( mKeyboard->GetKey(GLFW_KEY_A).State==KeyState::Down )
+    {
+        playerControllerC->mCurrentMovement |= MF_Left;
+    }
+    if( mKeyboard->GetKey(GLFW_KEY_S).State==KeyState::Down )
+    {
+        playerControllerC->mCurrentMovement |= MF_Down;
+    }
+    if( mKeyboard->GetKey(GLFW_KEY_D).State==KeyState::Down )
+    {
+        playerControllerC->mCurrentMovement |= MF_Right;
+    }
+
+    Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
+    playerControllerC->mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
 
     if (mMouse->IsButtonPressed( MouseSystem::Button_Left ))
     {
-        weapon->SetShoot(true);
-        weapon->SetShootAlt(false);
+        playerControllerC->mShoot=true;
+        playerControllerC->mShootAlt=false;
     }
     else if (mMouse->IsButtonPressed( MouseSystem::Button_Right ))
     {
-        weapon->SetShoot(false);
-        weapon->SetShootAlt(true);
+        playerControllerC->mShoot=false;
+        playerControllerC->mShootAlt=true;
     }
     else
     {
-        weapon->SetShoot(false);
-        weapon->SetShootAlt(false);
+        playerControllerC->mShoot=false;
+        playerControllerC->mShootAlt=false;
     }
-}
-
-void PlayerControllerSubSystem::SetOrientation(Actor &actor)
-{
-    Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-    double Rot = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
-    actorPositionC->SetOrientation( Rot );
 }
 
 } // namespace engine

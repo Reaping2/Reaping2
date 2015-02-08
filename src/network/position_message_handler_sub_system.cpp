@@ -20,11 +20,6 @@ namespace network {
     {
         PositionMessage const& msg=static_cast<PositionMessage const&>(message);
 //        L1("executing position: %d \n",msg.mSenderId );
-        if(msg.mActorGUID==mProgramState.mControlledActorGUID
-            && !msg.mForce) //TODO: playercontroller states will be synced
-        {
-            return;
-        }
 
         Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
         if (!actor.IsValid())

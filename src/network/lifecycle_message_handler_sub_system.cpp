@@ -60,13 +60,12 @@ namespace network {
                 mMessageHolder.AddOutgoingMessage(setOwnershipMsg);
 
                 Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-                positionC->SetX(dimensions.x + ( rand() % ( int )( 500 * ( dimensions.z - dimensions.x ) ) ) / 500.);
-                positionC->SetY(dimensions.y + ( rand() % ( int )( 500 * ( dimensions.w - dimensions.y ) ) ) / 500.);
+                positionC->SetX(dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x )/2 ) ) );
+                positionC->SetY(dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y )/2 ) ) );
                 std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
                 positionMsg->mX=double(positionC->GetX());
                 positionMsg->mY=double(positionC->GetY());
                 positionMsg->mOrientation=positionC->GetOrientation();
-                positionMsg->mForce=true;
                 positionMsg->mActorGUID=player->GetGUID();
                 mMessageHolder.AddOutgoingMessage(positionMsg);
 

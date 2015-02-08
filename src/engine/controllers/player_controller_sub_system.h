@@ -6,6 +6,8 @@
 #include "input/i_input.h"
 #include "core/opt.h"
 #include "input/keyboard.h"
+#include "core/player_controller_component.h"
+#include "core/program_state.h"
 
 namespace engine {
 
@@ -19,16 +21,17 @@ public:
 
 private:
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
-    void SetSpeedAndOrientation(Actor &actor);
-    void SetOrientation(Actor &actor);
-    void Shoot(Actor &actor);
-
+    void SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
+    void SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
+    void Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
+    void HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     AutoReg mMouseMoveId;
     Opt<MouseSystem> mMouse;
     double mX;
     double mY;
 
     Scene& mScene;
+    core::ProgramState& mProgramState;
     Opt<KeyboardSystem> mKeyboard;
     enum MoveFlags
     {

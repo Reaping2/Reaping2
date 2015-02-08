@@ -97,6 +97,7 @@ void ClientSystem::Connect()
     if (mProgramState.mClientConnected)
     {
         L1("Already connected, won't try it again!\n");
+        return; //Really wont try again
     }
 //        ENetAddress address2;
 //         address2.host = ENET_HOST_ANY;

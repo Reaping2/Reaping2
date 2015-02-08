@@ -50,6 +50,7 @@ namespace network {
         inventoryC->AddItem(AutoId( "plasma_gun" ));
         inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
         playerControllerC->SetEnabled(true);
+        playerControllerC->mActive=true;
         mScene.SetPlayerModels(actor);
     }
 

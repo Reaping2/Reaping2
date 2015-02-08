@@ -29,6 +29,7 @@
 #include "boost/date_time/posix_time/posix_time_config.hpp"
 #include "boost/date_time/gregorian/greg_date.hpp"
 #include "network/move_message.h"
+#include "network/player_controller_message.h"
 
 using engine::Engine;
 namespace {
@@ -128,8 +129,7 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("client_system"));
         Eng.AddSystem(AutoId("lifecycle_sender_system"));
-        Eng.AddSystem(AutoId("position_message_sender_system"));
-        Eng.AddSystem(AutoId("move_message_sender_system"));
+        Eng.AddSystem(AutoId("player_controller_message_sender_system"));
     }
     if (programState.mMode!=ProgramState::Local)
     {
@@ -142,6 +142,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::SetOwnershipMessage::GetType_static(),AutoId("set_ownership_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::MoveMessage::GetType_static(),AutoId("move_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::PlayerControllerMessage::GetType_static(),AutoId("player_controller_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -155,7 +156,7 @@ int main(int argc, char* argv[])
 
     Eng.AddSystem(AutoId("controller_system"));
     Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());
-    if (programState.mMode!=ProgramState::Server) controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
+    controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
 
@@ -179,7 +180,7 @@ int main(int argc, char* argv[])
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
 
-    static const double MaxFrameRate = 100.;
+    static const double MaxFrameRate = 60.;
     static const double MinFrameTime = 1. / MaxFrameRate;
     double Prevtime, Curtime;
     Prevtime = Curtime = glfwGetTime();

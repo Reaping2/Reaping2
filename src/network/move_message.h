@@ -14,8 +14,6 @@ namespace network {
         double mSpeed;
         double mSpeedX;
         double mSpeedY;
-        //server wants to put this actor to that position (it's fresh, it collided, it cannot be calculated)
-        bool mForce;
         MoveMessage()
             : mActorGUID(0)
             , mHeading(0.0)

@@ -12,6 +12,8 @@ Weapon::Weapon( int32_t Id )
     , mShootAltCooldown( 1.0 )
     , mScatter( 0 )
     , mAltScatter( 0 )
+    , mShoot(false)
+    , mShootAlt(false)
 {
     mType = Item::Weapon;
 }

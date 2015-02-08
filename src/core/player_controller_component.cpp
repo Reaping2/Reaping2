@@ -8,8 +8,13 @@
 
 PlayerControllerComponent::PlayerControllerComponent()
     : ControllerComponent()
+    , mOrientation(0.0)
+    , mHeading(0.0)
+    , mShoot(false)
+    , mShootAlt(false)
+    , mCurrentMovement(0)
+    , mActive(false)
 {
-    SetEnabled(false);
 }
 
 
