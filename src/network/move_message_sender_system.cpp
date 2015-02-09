@@ -13,7 +13,8 @@ namespace network {
     void MoveMessageSenderSystem::Init()
     {
         MessageSenderSystem::Init();
-        SetFrequency(50);
+        SetFrequency(10);
+        mSendMoves.insert(platform::AutoId("player"));
     }
 
     void MoveMessageSenderSystem::Update(double DeltaTime)
@@ -27,25 +28,31 @@ namespace network {
         for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
             Actor& actor=**it;
-            Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-            if (!moveC.IsValid())
+            if (mSendMoves.find(actor.GetId())==mSendMoves.end())
             {
                 continue;
             }
-            if (moveC.IsValid())
-            {
-                std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
-                moveMsg->mHeading=moveC->GetHeading();
-                moveMsg->mSpeed=moveC->GetSpeed();
-                moveMsg->mSpeedX=moveC->GetSpeedX();
-                moveMsg->mSpeedY=moveC->GetSpeedY();
-                moveMsg->mActorGUID=actor.GetGUID();
-
-                mMessageHolder.AddOutgoingMessage(moveMsg);
-            }
+            mMessageHolder.AddOutgoingMessage(GenerateMoveMessage(actor));
+            L1("Sending move for actor: %d\n",actor.GetId());
         }
         
 
+    }
+
+    std::auto_ptr<MoveMessage> MoveMessageSenderSystem::GenerateMoveMessage(Actor &actor)
+    {
+        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+        if (!moveC.IsValid())
+        {
+            return std::auto_ptr<MoveMessage>();
+        }
+        std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
+        moveMsg->mHeading=moveC->GetHeading();
+        moveMsg->mSpeed=moveC->GetSpeed();
+        moveMsg->mSpeedX=moveC->GetSpeedX();
+        moveMsg->mSpeedY=moveC->GetSpeedY();
+        moveMsg->mActorGUID=actor.GetGUID();
+        return moveMsg;
     }
 
 } // namespace engine

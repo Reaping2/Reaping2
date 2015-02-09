@@ -33,7 +33,7 @@ namespace network {
             Opt<Actor> actor=mScene.GetActor(i->mActorGUID);
             if (!actor.IsValid())
             {
-                L1("cannot find actor with GUID: (that is not possible) %d \n",i->mActorGUID );
+                L1("cannot find actor for setownership with GUID: %d (will try again later)\n",i->mActorGUID );
                 ++i;
                 continue;
             }

@@ -67,7 +67,7 @@ void MouseSystem::MousePressed( int button, int action, int /*mods*/ )
         }
         mHeldButtons &= ~( 1 << Button );
     }
-    LOG( "Held buttons:%d", mHeldButtons );
+//    LOG( "Held buttons:%d", mHeldButtons );
 
 }
 
@@ -88,7 +88,7 @@ void MouseSystem::Update( double DeltaTime )
         const Button_t Button( ( Button_t )i );
         if( IsButtonPressed( Button ) )
         {
-            LOG( "Held buttons and is pressed:%d,%d,%d \n", mHeldButtons, !( !mHeldButtons & ( 1 << Button ) ), Button );
+            //LOG( "Held buttons and is pressed:%d,%d,%d \n", mHeldButtons, !( !mHeldButtons & ( 1 << Button ) ), Button );
             EventServer<ScreenMousePressEvent>::Get().SendEvent( ScreenMousePressEvent( mRawMouseCoord, Button ) );
         }
     }

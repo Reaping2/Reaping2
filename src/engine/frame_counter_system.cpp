@@ -27,7 +27,7 @@ void FrameCounterSystem::Update(double DeltaTime)
     double const Diff = Now - mPrev;
     if( Diff >= 2.0 )
     {
-        L1( "FPS: %f\n", mFrames / Diff );
+        //L1( "FPS: %f\n", mFrames / Diff );
         mFps=mFrames / Diff;
         mPrev = Now;
         mFrames = 0;

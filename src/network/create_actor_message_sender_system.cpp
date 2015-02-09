@@ -3,6 +3,7 @@
 #include "core/shot_collision_component.h"
 #include "set_ownership_message.h"
 #include "position_message_sender_system.h"
+#include "move_message_sender_system.h"
 namespace network {
 
 
@@ -37,6 +38,7 @@ namespace network {
             }
             mMessageHolder.AddOutgoingMessage(createActorMsg);
             mMessageHolder.AddOutgoingMessage(PositionMessageSenderSystem::GeneratePositionMessage(*Evt.mActor));
+            mMessageHolder.AddOutgoingMessage(MoveMessageSenderSystem::GenerateMoveMessage(*Evt.mActor));
         }
         else
         {

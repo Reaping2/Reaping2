@@ -43,6 +43,10 @@ template<typename MESSAGE>
 void MessageHolder::AddOutgoingMessage(std::auto_ptr<MESSAGE> message)
 {
     {
+        if (message.get()==NULL)
+        {
+            return;
+        }
         BOOST_STATIC_ASSERT_MSG(
             ( boost::is_base_of<Message, MESSAGE>::value ),
             "MESSAGE must be a descendant of Message!"

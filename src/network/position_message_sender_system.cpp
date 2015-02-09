@@ -1,6 +1,7 @@
 #include "network/position_message_sender_system.h"
 #include "core/i_position_component.h"
 #include "position_message.h"
+#include "platform/auto_id.h"
 namespace network {
 
 
@@ -14,6 +15,7 @@ namespace network {
     {
         MessageSenderSystem::Init();
         SetFrequency(10);
+        mSendPositions.insert(platform::AutoId("player"));
     }
 
     void PositionMessageSenderSystem::Update(double DeltaTime)
@@ -26,9 +28,12 @@ namespace network {
         for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
             Actor& actor=**it;
-            GeneratePositionMessage(actor);
-
+            if (mSendPositions.find(actor.GetId())==mSendPositions.end())
+            {
+                continue;
+            }
             mMessageHolder.AddOutgoingMessage(GeneratePositionMessage(actor));
+            L1("Sending position for actor: %d\n",actor.GetId());
         }
 
     }

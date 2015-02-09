@@ -3,11 +3,14 @@
 
 #include "message_sender_system.h"
 #include "position_message.h"
+#include <set>
 
 namespace network {
 
 class PositionMessageSenderSystem: public MessageSenderSystem
 {
+    typedef std::set<int32_t> SendPositions_t;
+    SendPositions_t mSendPositions;
 public:
     DEFINE_SYSTEM_BASE(PositionMessageSenderSystem)
     PositionMessageSenderSystem();

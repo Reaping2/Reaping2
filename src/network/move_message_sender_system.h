@@ -2,16 +2,22 @@
 #define INCLUDED_NETWORK_MOVE_MESSAGE_SENDER_SYSTEM_H
 
 #include "message_sender_system.h"
+#include "move_message.h"
 
 namespace network {
 
 class MoveMessageSenderSystem: public MessageSenderSystem
 {
+    typedef std::set<int32_t> SendMovess_t;
+    SendMovess_t mSendMoves;
 public:
     DEFINE_SYSTEM_BASE(MoveMessageSenderSystem)
     MoveMessageSenderSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    static std::auto_ptr<MoveMessage> GenerateMoveMessage(Actor &actor);
+
 };
 
 } // namespace network
