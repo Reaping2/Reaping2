@@ -56,7 +56,7 @@ void main()
 	float Heading=random(SpriteCenter)*3.141592654;
 	inTexCoord=vec3(TexCoord[int(floor(mod(gl_VertexID,2)))],TexCoord[2+int(floor(gl_VertexID/2))],random(vec3(SpriteCenter,Heading).yzx));
 	vec2 position=corners[gl_VertexID];
-	float Radius=0.2*random(SpriteCenter.yx);
+	float Radius=200.0*random(SpriteCenter.yx);
 	mat2 ScaleMatrix=Radius*mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
 	gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(ScaleMatrix*position+SpriteCenter,0,1);
 }
