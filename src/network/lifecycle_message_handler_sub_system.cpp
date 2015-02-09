@@ -56,8 +56,8 @@ namespace network {
                 mMessageHolder.AddOutgoingMessage(setOwnershipMsg);
 
                  Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-                 positionC->SetX(dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x )/2 ) ) );
-                 positionC->SetY(dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y )/2 ) ) );
+                 positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
+                 positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
 
                 //TODO: temporary till normal inventory sync 
                 Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();

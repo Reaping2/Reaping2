@@ -19,23 +19,36 @@ namespace network {
     void CreateActorMessageHandlerSubSystem::Execute(Message const& message)
     {
         CreateActorMessage const& msg=static_cast<CreateActorMessage const&>(message);
-        //L1("executing createactor: %d \n",msg.mSenderId );
-        std::auto_ptr<Actor> actor(mActorFactory(msg.mActorId));
-        actor->SetGUID(msg.mActorGUID);
-        //TODO: handle parent from lower engine level (not only for shots)
-        if (msg.mParentGUID!=-1)
+        if (msg.mState==ActorEvent::Added)
         {
-            Opt<ShotCollisionComponent> collisionC=actor->Get<ShotCollisionComponent>();
-            if (collisionC.IsValid())
+            //L1("executing createactor: %d \n",msg.mSenderId );
+            std::auto_ptr<Actor> actor(mActorFactory(msg.mActorId));
+            actor->SetGUID(msg.mActorGUID);
+            //TODO: handle parent from lower engine level (not only for shots)
+            if (msg.mParentGUID!=-1)
             {
-                Opt<Actor> parent=mScene.GetActor(msg.mParentGUID);
-                if(parent.IsValid())
+                Opt<ShotCollisionComponent> collisionC=actor->Get<ShotCollisionComponent>();
+                if (collisionC.IsValid())
                 {
-                    collisionC->SetParent(parent.Get());
+                    Opt<Actor> parent=mScene.GetActor(msg.mParentGUID);
+                    if(parent.IsValid())
+                    {
+                        collisionC->SetParent(parent.Get());
+                    }
                 }
             }
+            mScene.AddActor(actor.release());
         }
-        mScene.AddActor(actor.release());
+        else 
+        {
+            ActorList_t::iterator it=mScene.GetActors().find(msg.mActorGUID);
+            if (it==mScene.GetActors().end())
+            {
+                L1("cannot find actor with GUID: (actor delete! noo good sign) %d \n",msg.mActorGUID );
+                return;
+            }
+            mScene.RemoveActor(it);
+        }
     }
 
 } // namespace engine

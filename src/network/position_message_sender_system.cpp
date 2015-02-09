@@ -33,7 +33,7 @@ namespace network {
                 continue;
             }
             mMessageHolder.AddOutgoingMessage(GeneratePositionMessage(actor));
-            L1("Sending position for actor: %d\n",actor.GetId());
+            //L1("Sending position for actor: %d\n",actor.GetId());
         }
 
     }

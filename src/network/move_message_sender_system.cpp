@@ -33,7 +33,7 @@ namespace network {
                 continue;
             }
             mMessageHolder.AddOutgoingMessage(GenerateMoveMessage(actor));
-            L1("Sending move for actor: %d\n",actor.GetId());
+//            L1("Sending move for actor: %d\n",actor.GetId());
         }
         
 

@@ -7,7 +7,7 @@ struct ActorEvent : public Event
 {
     enum State
     {
-        Added,
+        Added=0,
         Removed
     };
     Opt<Actor> mActor;

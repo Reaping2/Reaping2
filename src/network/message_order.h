@@ -25,6 +25,7 @@
             type=network::PositionMessage::GetType_static();
             type=network::MoveMessage::GetType_static();
             type=network::PlayerControllerMessage::GetType_static();
+            type=network::DamageTakenMessage::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_shot");
@@ -39,6 +40,7 @@
     BOOST_CLASS_EXPORT_GUID(network::PositionMessage, "position")
     BOOST_CLASS_EXPORT_GUID(network::MoveMessage, "move")
     BOOST_CLASS_EXPORT_GUID(network::PlayerControllerMessage, "player_c")
+    BOOST_CLASS_EXPORT_GUID(network::DamageTakenMessage, "damage_taken")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

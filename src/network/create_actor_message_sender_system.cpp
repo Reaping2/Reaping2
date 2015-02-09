@@ -26,22 +26,20 @@ namespace network {
 
     void CreateActorMessageSenderSystem::OnActorEvent(ActorEvent const& Evt)
     {
+        std::auto_ptr<CreateActorMessage> createActorMsg(new CreateActorMessage);
+        createActorMsg->mActorGUID=Evt.mActor->GetGUID();
+        createActorMsg->mActorId=Evt.mActor->GetId();
+        createActorMsg->mState=Evt.mState;
+        Opt<ShotCollisionComponent> shotCollisionC=Evt.mActor->Get<ShotCollisionComponent>();
+        if (shotCollisionC.IsValid())
+        {
+            createActorMsg->mParentGUID=shotCollisionC->GetParentGuid();
+        }
+        mMessageHolder.AddOutgoingMessage(createActorMsg);
         if(Evt.mState==ActorEvent::Added)
         {
-            std::auto_ptr<CreateActorMessage> createActorMsg(new CreateActorMessage);
-            createActorMsg->mActorGUID=Evt.mActor->GetGUID();
-            createActorMsg->mActorId=Evt.mActor->GetId();
-            Opt<ShotCollisionComponent> shotCollisionC=Evt.mActor->Get<ShotCollisionComponent>();
-            if (shotCollisionC.IsValid())
-            {
-                createActorMsg->mParentGUID=shotCollisionC->GetParentGuid();
-            }
-            mMessageHolder.AddOutgoingMessage(createActorMsg);
             mMessageHolder.AddOutgoingMessage(PositionMessageSenderSystem::GeneratePositionMessage(*Evt.mActor));
             mMessageHolder.AddOutgoingMessage(MoveMessageSenderSystem::GenerateMoveMessage(*Evt.mActor));
-        }
-        else
-        {
         }
     }
 

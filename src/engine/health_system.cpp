@@ -47,7 +47,10 @@ void HealthSystem::Update(double DeltaTime)
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
             if(positionC.IsValid())
             {
-                EventServer<core::DamageTakenEvent>::Get().SendEvent( core::DamageTakenEvent( positionC->GetX(), positionC->GetY() ) );
+                core::DamageTakenEvent damageTakeEvent = core::DamageTakenEvent( positionC->GetX(), positionC->GetY() );
+                damageTakeEvent.ActorGUID=actor.GetGUID();
+                damageTakeEvent.Damage=healthC->GetDamage();
+                EventServer<core::DamageTakenEvent>::Get().SendEvent( damageTakeEvent );
             }
         }
 

@@ -120,13 +120,12 @@ void Scene::Load( std::string const& Level )
         delete &**it;
     }
     mActorHolder.mAllActors.clear();
-
     SetType( "grass" );
-    if (ProgramState::Get().mMode==ProgramState::Client
-        ||ProgramState::Get().mMode==ProgramState::Server)
+    if (ProgramState::Get().mMode==ProgramState::Client)
     {
         return;
     }
+
     struct point
     {
         double x;
@@ -153,6 +152,26 @@ void Scene::Load( std::string const& Level )
         AddActor( wall.release() );
     }
 
+    for( int32_t i = -5; i < 5; ++i )
+    {
+        std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
+        Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
+        wallPositionC->SetX( i*200 );
+        wallPositionC->SetY( std::abs(i)*-100+1200 );
+
+        AddActor( wall.release() );
+        wall = ActorFactory::Get()(AutoId("wall"));
+        wallPositionC = wall->Get<IPositionComponent>();
+        wallPositionC->SetX( (i+2)*100 );
+        wallPositionC->SetY( (i-5)*50-1400 );
+
+        AddActor( wall.release() );
+    }
+
+    if (ProgramState::Get().mMode==ProgramState::Server)
+    {
+        return;
+    }
     std::auto_ptr<Actor> Pl = ActorFactory::Get()(AutoId("player"));
     
     Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();

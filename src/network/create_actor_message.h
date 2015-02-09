@@ -2,6 +2,7 @@
 #define INCLUDED_NETWORK_CREATE_ACTOR_MESSAGE_H
 
 #include "network/message.h"
+#include "core/actor_event.h"
 namespace network {
 
     class CreateActorMessage: public Message
@@ -13,6 +14,8 @@ namespace network {
         int32_t mActorId;
         int32_t mActorGUID;
         int32_t mParentGUID; //for shots atm, //TODO: there will be an engine upgrade for this
+        ActorEvent::State mState;
+
         CreateActorMessage():mActorId(-1), mActorGUID(-1),mParentGUID(-1){}
 
         template<class Archive>
@@ -26,6 +29,7 @@ namespace network {
         ar & mActorId;
         ar & mActorGUID;
         ar & mParentGUID;
+        ar & mState;
     }
 
 } // namespace network

@@ -30,6 +30,7 @@
 #include "boost/date_time/gregorian/greg_date.hpp"
 #include "network/move_message.h"
 #include "network/player_controller_message.h"
+#include "network/damage_taken_message.h"
 
 using engine::Engine;
 namespace {
@@ -125,6 +126,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("position_message_sender_system"));
         Eng.AddSystem(AutoId("move_message_sender_system"));
         Eng.AddSystem(AutoId("create_actor_message_sender_system"));
+        Eng.AddSystem(AutoId("damage_taken_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -144,16 +146,24 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::MoveMessage::GetType_static(),AutoId("move_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PlayerControllerMessage::GetType_static(),AutoId("player_controller_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::DamageTakenMessage::GetType_static(),AutoId("damage_taken_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
-    if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("keyboard_system"));
-    if (programState.mMode!=ProgramState::Server) Eng.AddSystem(AutoId("mouse_system"));
-    Eng.AddSystem(AutoId("collision_system"));
-    Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
-    collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
+    if (programState.mMode!=ProgramState::Server) 
+    {
+        Eng.AddSystem(AutoId("keyboard_system"));
+        Eng.AddSystem(AutoId("mouse_system"));
+    }
+
+    if (programState.mMode!=ProgramState::Client) 
+    {
+        Eng.AddSystem(AutoId("collision_system"));
+        Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
+        collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
+    }
 
     Eng.AddSystem(AutoId("controller_system"));
     Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());

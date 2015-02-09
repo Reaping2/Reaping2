@@ -6,6 +6,8 @@ namespace core {
 struct DamageTakenEvent : public Event
 {
     glm::vec2 const Pos;
+    int32_t Damage;
+    int32_t ActorGUID;
     DamageTakenEvent( double x, double y ): Pos( x, y ) {}
     DamageTakenEvent( glm::vec2 const& p ): Pos( p ) {}
 };

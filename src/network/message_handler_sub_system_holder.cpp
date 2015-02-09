@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/message_handler_sub_system_holder.h"
 #include "platform/auto_id.h"
+#include "move_message.h"
+#include "position_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -102,6 +104,10 @@ namespace network {
             if (messageHandlerSS.IsValid())
             {
                 messageHandlerSS->Execute(*i);
+            }
+            else
+            {
+                L1("cannot find subsystem for type! %d",i->GetType());
             }
         }
         for( SubSystems_t::iterator it = mSubSystems.begin(), e = mSubSystems.end(); it != e; ++it )

@@ -9,6 +9,7 @@
 #include "position_message_handler_sub_system.h"
 #include "move_message_handler_sub_system.h"
 #include "player_controller_message.h"
+#include "damage_taken_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -26,6 +27,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("position_message_handler_sub_system"), &CreateSubSystem<PositionMessageHandlerSubSystem> );
     Bind( AutoId("move_message_handler_sub_system"), &CreateSubSystem<MoveMessageHandlerSubSystem>);
     Bind( AutoId("player_controller_message_handler_sub_system"), &CreateSubSystem<PlayerControllerMessageHandlerSubSystem>);
+    Bind( AutoId("damage_taken_message_handler_sub_system"), &CreateSubSystem<DamageTakenMessageHandlerSubSystem>);
 }
 
 } // namespace engine
