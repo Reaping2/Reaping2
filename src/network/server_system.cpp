@@ -4,11 +4,13 @@
 #include "boost/archive/text_iarchive.hpp"
 #include "my_name_message.h"
 #include "client_system.h"
+#include "engine/frame_counter_system.h"
 namespace network {
 
 ServerSystem::ServerSystem()
     : mClientId(0)
     , mMessageHolder(MessageHolder::Get())
+    , mSentMessagesSize(0)
 {
 }
 
@@ -39,6 +41,7 @@ void ServerSystem::Init()
         L1 ("An error occurred while initializing ENet.\n");
     }
     atexit (enet_deinitialize);
+    mOnFrameCounterEvent = EventServer<engine::FrameCounterEvent>::Get().Subscribe( boost::bind( &ServerSystem::OnFrameCounterEvent, this, _1 ) );
 
     /* Bind the server to the default localhost.     */
     /* A specific host address can be specified by   */
@@ -93,7 +96,8 @@ void ServerSystem::Update(double DeltaTime)
         ENetPacket * packet = enet_packet_create (astr.c_str(), 
             strlen (astr.c_str()) + 1, 
             ENET_PACKET_FLAG_RELIABLE);
-
+        mSentMessagesSize+=packet->dataLength*mClients.size();
+        
         enet_host_broadcast(mServer, 0, packet);
         enet_host_flush(mServer);
 
@@ -148,6 +152,12 @@ void ServerSystem::ClientConnect(ENetEvent& event)
 
     event.peer -> data = static_cast<void*>(new int32_t(mClientId));
     mClients[mClientId++]=event.peer;
+}
+
+void ServerSystem::OnFrameCounterEvent(engine::FrameCounterEvent const& Evt)
+{
+    L1("sent messages size (approx): %f\n",mSentMessagesSize/Evt.mDiff);
+    mSentMessagesSize=0;
 }
 
 } // namespace engine

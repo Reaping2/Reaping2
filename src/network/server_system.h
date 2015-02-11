@@ -6,6 +6,8 @@
 #include <enet/enet.h>
 #include <map>
 #include "messsage_holder.h"
+#include "engine/frame_counter_system.h"
+#include "platform/register.h"
 
 namespace network {
 
@@ -18,6 +20,9 @@ class ServerSystem: public engine::System
     Clients_t mClients;
     int32_t mClientId;
     MessageHolder& mMessageHolder;
+    AutoReg mOnFrameCounterEvent;
+    void OnFrameCounterEvent( engine::FrameCounterEvent const& Evt );
+    int32_t mSentMessagesSize;
 public:
     ServerSystem();
     virtual void Init();

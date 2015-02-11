@@ -22,6 +22,13 @@ namespace network {
         }
         template<class Archive>
         void serialize(Archive& ar, const unsigned int version);
+        bool operator==(PositionMessage const& other)
+        {
+            return mActorGUID==other.mActorGUID
+                && mX==other.mX
+                && mY==other.mY
+                && mOrientation==other.mOrientation;
+        }
     };
 
     template<class Archive>

@@ -3,8 +3,15 @@
 
 #include "core/scene.h"
 #include "engine/system.h"
+#include "platform/event.h"
 
 namespace engine {
+
+    struct FrameCounterEvent : platform::Event
+    {
+        double mDiff;
+        FrameCounterEvent(double diff):mDiff(diff){}
+    };
 
 class FrameCounterSystem: public System
 {

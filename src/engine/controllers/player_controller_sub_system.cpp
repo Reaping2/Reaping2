@@ -59,6 +59,7 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerC
 {
     int x = ( ( playerControllerC->mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( playerControllerC->mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Down ) ? -1 : 0 );
+
     actor.Get<IMoveComponent>()->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*350 );
 
     double Heading = 0;

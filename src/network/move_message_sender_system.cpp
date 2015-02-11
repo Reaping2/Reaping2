@@ -24,7 +24,6 @@ namespace network {
         {
             return;
         }
-       
         for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
             Actor& actor=**it;
@@ -32,8 +31,11 @@ namespace network {
             {
                 continue;
             }
-            mMessageHolder.AddOutgoingMessage(GenerateMoveMessage(actor));
-//            L1("Sending move for actor: %d\n",actor.GetId());
+            std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(actor));
+            if (moveMessage.get()!=NULL)
+            {
+                mSingleMessageSender.Add(actor.GetGUID(),moveMessage);
+            }
         }
         
 

@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "engine/frame_counter_system.h"
 #include "platform/model_value.h"
+#include "platform/event.h"
 namespace engine {
 
 FrameCounterSystem::FrameCounterSystem()
@@ -31,6 +32,7 @@ void FrameCounterSystem::Update(double DeltaTime)
         mFps=mFrames / Diff;
         mPrev = Now;
         mFrames = 0;
+        platform::EventServer<FrameCounterEvent>::Get().SendEvent(FrameCounterEvent(Diff));
     }
 }
 

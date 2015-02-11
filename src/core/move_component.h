@@ -4,6 +4,8 @@
 #include "i_move_component.h"
 #include "core/property_loader.h"
 
+
+
 class MoveComponent : public IMoveComponent
 {
 public:

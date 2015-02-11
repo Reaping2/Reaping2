@@ -32,8 +32,12 @@ namespace network {
             {
                 continue;
             }
-            mMessageHolder.AddOutgoingMessage(GeneratePositionMessage(actor));
-            //L1("Sending position for actor: %d\n",actor.GetId());
+            std::auto_ptr<PositionMessage> positionMessage(GeneratePositionMessage(actor));
+            if (positionMessage.get()!=NULL)
+            {
+                mSingleMessageSender.Add(actor.GetGUID(),positionMessage);
+            }
+
         }
 
     }

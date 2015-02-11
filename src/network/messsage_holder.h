@@ -55,6 +55,8 @@ void MessageHolder::AddOutgoingMessage(std::auto_ptr<MESSAGE> message)
     }
 }
 
+
+
 } // namespace network
 
 #endif//INCLUDED_NETWORK_MESSAGE_HOLDER_H

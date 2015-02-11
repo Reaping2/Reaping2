@@ -1,6 +1,13 @@
 #ifndef INCLUDED_CORE_I_POSITION_COMPONENT_H
 #define INCLUDED_CORE_I_POSITION_COMPONENT_H
 #include "component.h"
+#include "platform/event.h"
+
+struct PositionChangedEvent : public platform::Event
+{
+    Opt<Actor> mActor;
+    PositionChangedEvent( Opt<Actor> actor ): mActor( actor ){}
+};
 
 class IPositionComponent : public Component
 {

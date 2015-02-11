@@ -1,6 +1,13 @@
 #ifndef INCLUDED_CORE_I_MOVE_COMPONENT_H
 #define INCLUDED_CORE_I_MOVE_COMPONENT_H
 #include "component.h"
+#include "platform/event.h"
+
+struct MoveChangedEvent : public platform::Event
+{
+    Opt<Actor> mActor;
+    MoveChangedEvent( Opt<Actor> actor ): mActor( actor ){}
+};
 
 class IMoveComponent : public Component
 {
