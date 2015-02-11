@@ -54,7 +54,7 @@ float random( vec4  v ) { return floatConstruct(hash(floatBitsToUint(v))); }
 void main()
 {
 	float Heading=random(SpriteCenter)*3.141592654;
-	inTexCoord=vec3(TexCoord[int(floor(mod(gl_VertexID,2)))],TexCoord[2+int(floor(gl_VertexID/2))],random(vec3(SpriteCenter,Heading).yzx));
+	inTexCoord=vec3(TexCoord[int(floor(mod(gl_VertexID,2.0)))],TexCoord[2+int(floor(gl_VertexID/2.0))],random(vec3(SpriteCenter,Heading).yzx));
 	vec2 position=corners[gl_VertexID];
 	float Radius=200.0*random(SpriteCenter.yx);
 	mat2 ScaleMatrix=Radius*mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
