@@ -40,7 +40,7 @@ void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Remove(MESSAGE_ID messag
 template<class MESSAGE_ID, class MESSAGE>
 void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Add(MESSAGE_ID messageId, std::auto_ptr<MESSAGE> message)
 {
-    MessageMap_t::iterator it = mMessageMap.find(messageId);
+    typename MessageMap_t::iterator it = mMessageMap.find(messageId);
     if (it!=mMessageMap.end())
     {
         if (it->second==*message.get())
