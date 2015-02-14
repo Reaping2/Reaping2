@@ -12,7 +12,7 @@ class PositionMessageSenderSystem: public MessageSenderSystem
 {
     typedef std::set<int32_t> SendPositions_t;
     SendPositions_t mSendPositions;
-    SingleMessageSender<int32_t,PositionMessage> mSingleMessageSender;
+    AutoActorGUIDSingleMessageSender<PositionMessage> mSingleMessageSender;
 public:
     DEFINE_SYSTEM_BASE(PositionMessageSenderSystem)
     PositionMessageSenderSystem();

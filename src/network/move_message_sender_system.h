@@ -14,7 +14,7 @@ class MoveMessageSenderSystem: public MessageSenderSystem
 {
     typedef std::set<int32_t> SendMovess_t;
     SendMovess_t mSendMoves;
-    SingleMessageSender<int32_t,MoveMessage> mSingleMessageSender;
+    AutoActorGUIDSingleMessageSender<MoveMessage> mSingleMessageSender;
 public:
     DEFINE_SYSTEM_BASE(MoveMessageSenderSystem)
     MoveMessageSenderSystem();
