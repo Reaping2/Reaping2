@@ -24,19 +24,11 @@
 		]
 	},
 	{
-		"name":"pistol",
+		"name":"pickup",
 		"recognizers":
 		[
-			{"recognizer":"idle",
-				"renderer":"idle"}
-		]
-	},
-	{
-		"name":"plasma_gun",
-		"recognizers":
-		[
-			{"recognizer":"idle",
-				"renderer":"idle"}
+			{"recognizer":"pickup",
+				"renderer":"pickup"}
 		]
 	},
 	{

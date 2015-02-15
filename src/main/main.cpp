@@ -130,6 +130,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("damage_taken_message_sender_system"));
         Eng.AddSystem(AutoId("orientation_message_sender_system"));
         Eng.AddSystem(AutoId("heading_message_sender_system"));
+        Eng.AddSystem(AutoId("pickup_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -152,6 +153,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::DamageTakenMessage::GetType_static(),AutoId("damage_taken_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::OrientationMessage::GetType_static(),AutoId("orientation_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::PickupMessage::GetType_static(),AutoId("pickup_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::SetPickupContentMessage::GetType_static(),AutoId("set_pickup_content_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -185,8 +188,10 @@ int main(int argc, char* argv[])
     weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 
     Eng.AddSystem(AutoId("fade_out_system"));
-    if (programState.mMode==ProgramState::Local) 
+    if (programState.mMode!=ProgramState::Client) 
+    {
         Eng.AddSystem(AutoId("drop_on_death_system"));
+    }
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client) 
         Eng.AddSystem(AutoId("remove_on_death_system"));

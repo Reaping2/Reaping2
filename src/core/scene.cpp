@@ -52,7 +52,7 @@ void Scene::Update( double DeltaTime )
     //TODO: testing
     if (ProgramState::Get().mMode!=ProgramState::Client
         &&rand()%60==1
-        &&mActorHolder.mAllActors.size()<50)
+        &&mActorHolder.mAllActors.size()<150)
     {
         std::auto_ptr<Actor> Obj(ActorFactory::Get()(AutoId("spider1")));
 

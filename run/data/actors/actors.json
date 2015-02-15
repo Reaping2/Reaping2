@@ -28,7 +28,7 @@
             {"name":"remove_on_death_component"},
             {
                 "name":"fade_out_component",
-                "set":[{"secs_to_end":5.0}]
+                "set":[{"secs_to_end":15.0}]
             }
         ]
     },
@@ -82,7 +82,7 @@
                 "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
-                "set":[{"hp":10}]
+                "set":[{"hp":40}]
             },
             {"name":"random_controller_component"},
             {"name":"drop_on_death_component"}

@@ -12,6 +12,7 @@
 #include "damage_taken_message.h"
 #include "orientation_message.h"
 #include "heading_message.h"
+#include "pickup_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -32,6 +33,8 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("damage_taken_message_handler_sub_system"), &CreateSubSystem<DamageTakenMessageHandlerSubSystem>);
     Bind( AutoId("orientation_message_handler_sub_system"), &CreateSubSystem<OrientationMessageHandlerSubSystem>);
     Bind( AutoId("heading_message_handler_sub_system"), &CreateSubSystem<HeadingMessageHandlerSubSystem>);
+    Bind( AutoId("pickup_message_handler_sub_system"), &CreateSubSystem<PickupMessageHandlerSubSystem>);
+    Bind( AutoId("set_pickup_content_message_handler_sub_system"), &CreateSubSystem<SetPickupContentMessageHandlerSubSystem>);
 }
 
 } // namespace engine

@@ -92,7 +92,7 @@ void ServerSystem::Update(double DeltaTime)
         boost::archive::text_oarchive oa(oss);
         oa & messages;
         std::string astr(oss.str());
-        L1("server sends - %s:\n",astr.c_str());
+       // L1("server sends - %s:\n",astr.c_str());
         ENetPacket * packet = enet_packet_create (astr.c_str(), 
             strlen (astr.c_str()) + 1, 
             ENET_PACKET_FLAG_RELIABLE);

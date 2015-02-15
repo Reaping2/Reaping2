@@ -5,6 +5,7 @@
 #include "render/leg_move_recognizer.h"
 #include "render/death_recognizer.h"
 #include "render/weapon_recognizer.h"
+#include "render/pickup_recognizer.h"
 namespace render {
 RecognizerFactory::RecognizerFactory()
 {
@@ -17,6 +18,6 @@ RecognizerFactory::RecognizerFactory()
     Bind<LegMoveRecognizer>( AutoId( "move" ) );
     Bind<DeathRecognizer>( AutoId( "death" ) );
     Bind<WeaponRecognizer>( AutoId( "weapon" ) );
-
+    Bind<PickupRecognizer>( AutoId( "pickup" ) );
 }
 } // namespace render

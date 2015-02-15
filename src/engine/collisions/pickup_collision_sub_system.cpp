@@ -33,6 +33,7 @@ void PickupCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         inventoryC->DropItemType( Item::Weapon );
         inventoryC->AddItem( pickupCC->GetPickupContent() );
         inventoryC->SetSelectedWeapon( pickupCC->GetPickupContent() );
+        EventServer<PickupEvent>::Get().SendEvent(PickupEvent(Opt<Actor>(mOther),Item::Weapon,pickupCC->GetPickupContent()));
     }
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if (healthC.IsValid())

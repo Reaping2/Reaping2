@@ -30,6 +30,7 @@
 #include "network/damage_taken_message.h"
 #include "network/orientation_message.h"
 #include "network/heading_message.h"
+#include "network/pickup_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -66,6 +67,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("damage_taken_message_sender_system"), &CreateSystem<network::DamageTakenMessageSenderSystem>);
     Bind( AutoId("orientation_message_sender_system"), &CreateSystem<network::OrientationMessageSenderSystem>);
     Bind( AutoId("heading_message_sender_system"), &CreateSystem<network::HeadingMessageSenderSystem>);
+    Bind( AutoId("pickup_message_sender_system"), &CreateSystem<network::PickupMessageSenderSystem>);
     
 }
 

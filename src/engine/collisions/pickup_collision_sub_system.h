@@ -3,8 +3,18 @@
 
 #include "core/scene.h"
 #include "engine/collisions/collision_sub_system.h"
+#include "core/item.h"
 
 namespace engine {
+
+struct PickupEvent : Event
+{
+    Opt<Actor> mActor;
+    Item::ItemType mItemType;
+    int32_t mItemId;
+    PickupEvent(Opt<Actor> actor, Item::ItemType itemType, int32_t itemId)
+        :mActor(actor),mItemType(itemType),mItemId(itemId){}
+};
 
 class PickupCollisionSubSystem : public CollisionSubSystem
 {

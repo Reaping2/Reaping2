@@ -39,7 +39,7 @@ void DropOnDeathSystem::Update(double DeltaTime)
 #ifdef DEBUG
             static const size_t Mod = 3;
 #else
-            static const size_t Mod = 10;
+            static const size_t Mod = 3;
 #endif//DEBUG
             if( rand() % Mod )
             {
@@ -48,7 +48,6 @@ void DropOnDeathSystem::Update(double DeltaTime)
             std::auto_ptr<Actor> Pu=mActorFactory(AutoId("pickup"));
             int32_t contentId=AutoId(rand() % 2 ? "pistol" : "plasma_gun");
             Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-            Pu->SetId(contentId);
             BOOST_ASSERT(actor.Get<IPositionComponent>().IsValid());
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
             Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();

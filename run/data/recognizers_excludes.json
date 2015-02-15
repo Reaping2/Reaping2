@@ -26,5 +26,8 @@
 	},
 	{
 		"name":"weapon"
+	},
+	{
+		"name":"pickup"
 	}
 ]

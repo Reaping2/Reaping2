@@ -23,6 +23,10 @@ namespace network {
         {
             //L1("executing createactor: %d \n",msg.mSenderId );
             std::auto_ptr<Actor> actor(mActorFactory(msg.mActorId));
+            if(msg.mActorId==AutoId("pickup"))
+            {
+                L1("executing createactor: pickup! %d \n",msg.mSenderId );
+            }
             actor->SetGUID(msg.mActorGUID);
             //TODO: handle parent from lower engine level (not only for shots)
             if (msg.mParentGUID!=-1)

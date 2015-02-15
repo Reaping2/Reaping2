@@ -31,10 +31,10 @@ void DamageDecals::OnDamageTaken( DamageTakenEvent const& Evt )
     {
         return;
     }
-    if( !( rand() % 3 ) )
-    {
-        return;
-    }
+//     if( !( rand() % 3 ) )
+//     {
+//         return;
+//     }
     Decal Part;
     Part.mCenter = Evt.Pos + glm::vec2( ( rand() % 10 - 5.f ) / 200.f, ( rand() % 10 - 5.f ) / 200.f );
     Part.mId = mValidIds[rand() % mValidIds.size()];
