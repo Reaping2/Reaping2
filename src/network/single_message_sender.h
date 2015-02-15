@@ -85,7 +85,7 @@ void AutoActorGUIDSingleMessageSender<MESSAGE>::OnActorEvent(ActorEvent const& E
 {
     if(Evt.mState==ActorEvent::Removed)
     {
-        Remove(Evt.mActor->GetGUID());
+        AutoActorGUIDSingleMessageSender<MESSAGE>::Remove(Evt.mActor->GetGUID());
     }
 }
 
