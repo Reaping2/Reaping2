@@ -15,13 +15,22 @@ namespace network {
     {
         MessageSenderSystem::Init();
         SetFrequency(10);
-        mSendPositions.insert(platform::AutoId("player"));
+//         mSendPositions.insert(platform::AutoId("player"));
+//         mSendPositions.insert(platform::AutoId("spider1"));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(600.0,platform::AutoId("spider1")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("player")));
     }
 
     void PositionMessageSenderSystem::Update(double DeltaTime)
     {
         MessageSenderSystem::Update(DeltaTime);
+        mActorFrequencyTimerHolder.Update(DeltaTime);
         if (!IsTime())
+        {
+            return;
+        }
+        mSendPositions=mActorFrequencyTimerHolder.GetActorIds();
+        if (mSendPositions.empty())
         {
             return;
         }
@@ -50,9 +59,9 @@ namespace network {
             return std::auto_ptr<PositionMessage>();
         }
         std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
-        positionMsg->mX=double(positionC->GetX());
-        positionMsg->mY=double(positionC->GetY());
-        positionMsg->mOrientation=positionC->GetOrientation();
+        positionMsg->mX=std::floor(positionC->GetX()*PRECISION);
+        positionMsg->mY=std::floor(positionC->GetY()*PRECISION);
+        //positionMsg->mOrientation=positionC->GetOrientation();
         positionMsg->mActorGUID=actor.GetGUID();
         return positionMsg;
     }

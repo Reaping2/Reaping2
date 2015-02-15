@@ -12,15 +12,15 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(PlayerControllerMessage)
         int32_t mActorGUID;
-        double mOrientation;
-        double mHeading;
+        int32_t mOrientation;
+        int32_t mHeading;
         bool mShoot;
         bool mShootAlt;
         uint32_t mCurrentMovement;
         PlayerControllerMessage()
             : mActorGUID(0)
-            , mOrientation(0.0)
-            , mHeading(0.0)
+            , mOrientation(0)
+            , mHeading(0)
             , mShoot(false)
             , mShootAlt(false)
             , mCurrentMovement(0)

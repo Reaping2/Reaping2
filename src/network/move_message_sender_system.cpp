@@ -15,6 +15,7 @@ namespace network {
         MessageSenderSystem::Init();
         SetFrequency(10);
         mSendMoves.insert(platform::AutoId("player"));
+        mSendMoves.insert(platform::AutoId("spider1"));
     }
 
     void MoveMessageSenderSystem::Update(double DeltaTime)
@@ -49,10 +50,11 @@ namespace network {
             return std::auto_ptr<MoveMessage>();
         }
         std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
-        moveMsg->mHeading=moveC->GetHeading();
-        moveMsg->mSpeed=moveC->GetSpeed();
-        moveMsg->mSpeedX=moveC->GetSpeedX();
-        moveMsg->mSpeedY=moveC->GetSpeedY();
+        //moveMsg->mHeading=moveC->GetHeading();
+        moveMsg->mHeadingModifier=std::floor(moveC->GetHeadingModifier()*PRECISION);
+        moveMsg->mSpeed=std::floor(moveC->GetSpeed()*PRECISION);
+        //moveMsg->mSpeedX=moveC->GetSpeedX();
+        //moveMsg->mSpeedY=moveC->GetSpeedY();
         moveMsg->mActorGUID=actor.GetGUID();
         return moveMsg;
     }

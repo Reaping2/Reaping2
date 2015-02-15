@@ -10,14 +10,14 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(PositionMessage)
         int32_t mActorGUID;
-        double mX;
-        double mY;
-        double mOrientation;
+        int32_t mX;
+        int32_t mY;
+        //double mOrientation;
         PositionMessage()
             : mActorGUID(0)
-            , mX(0.0)
-            , mY(0.0)
-            , mOrientation(0.0)
+            , mX(0)
+            , mY(0)
+            //, mOrientation(0.0)
         {
         }
         template<class Archive>
@@ -26,8 +26,8 @@ namespace network {
         {
             return mActorGUID==other.mActorGUID
                 && mX==other.mX
-                && mY==other.mY
-                && mOrientation==other.mOrientation;
+                && mY==other.mY;
+          //      && mOrientation==other.mOrientation;
         }
     };
 
@@ -38,7 +38,7 @@ namespace network {
         ar & mActorGUID;
         ar & mX;
         ar & mY;
-        ar & mOrientation;
+        //ar & mOrientation;
     }
 
 } // namespace network

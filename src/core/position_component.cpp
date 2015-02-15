@@ -23,15 +23,15 @@ double const& PositionComponent::GetOrientation()const
 }
 void PositionComponent::SetX( double X )
 {
-    mX = X;
+    mX = std::floor(X*PRECISION)/PRECISION;
 }
 void PositionComponent::SetY( double Y )
 {
-    mY = Y;
+    mY = std::floor(Y*PRECISION)/PRECISION;
 }
 void PositionComponent::SetOrientation( double Orientation )
 {
-    mOrientation = Orientation;
+    mOrientation = std::floor(Orientation*PRECISION)/PRECISION;
 }
 
 void PositionComponentLoader::BindValues()

@@ -71,6 +71,7 @@ void HealthSystem::Update(double DeltaTime)
             if(moveC.IsValid())
             {
                 moveC->SetSpeed(0);
+                moveC->SetHeadingModifier(0);
             }
         }
         healthC->SetHP(newHp);

@@ -4,6 +4,8 @@
 #include "set_ownership_message.h"
 #include "position_message_sender_system.h"
 #include "move_message_sender_system.h"
+#include "orientation_message.h"
+#include "heading_message.h"
 namespace network {
 
 
@@ -40,6 +42,8 @@ namespace network {
         {
             mMessageHolder.AddOutgoingMessage(PositionMessageSenderSystem::GeneratePositionMessage(*Evt.mActor));
             mMessageHolder.AddOutgoingMessage(MoveMessageSenderSystem::GenerateMoveMessage(*Evt.mActor));
+            mMessageHolder.AddOutgoingMessage(OrientationMessageSenderSystem::GenerateOrientationMessage(*Evt.mActor));
+            mMessageHolder.AddOutgoingMessage(HeadingMessageSenderSystem::GenerateHeadingMessage(*Evt.mActor));
         }
     }
 

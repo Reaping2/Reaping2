@@ -31,6 +31,7 @@
 #include "network/move_message.h"
 #include "network/player_controller_message.h"
 #include "network/damage_taken_message.h"
+#include "network/orientation_message.h"
 
 using engine::Engine;
 namespace {
@@ -127,6 +128,8 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("move_message_sender_system"));
         Eng.AddSystem(AutoId("create_actor_message_sender_system"));
         Eng.AddSystem(AutoId("damage_taken_message_sender_system"));
+        Eng.AddSystem(AutoId("orientation_message_sender_system"));
+        Eng.AddSystem(AutoId("heading_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -147,6 +150,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::MoveMessage::GetType_static(),AutoId("move_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PlayerControllerMessage::GetType_static(),AutoId("player_controller_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::DamageTakenMessage::GetType_static(),AutoId("damage_taken_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::OrientationMessage::GetType_static(),AutoId("orientation_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -156,12 +161,12 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("mouse_system"));
     }
 
+    Eng.AddSystem(AutoId("collision_system"));
+    Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
+    collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
-        Eng.AddSystem(AutoId("collision_system"));
-        Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
         collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
         collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
     }
 
@@ -180,9 +185,11 @@ int main(int argc, char* argv[])
     weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 
     Eng.AddSystem(AutoId("fade_out_system"));
-    Eng.AddSystem(AutoId("drop_on_death_system"));
+    if (programState.mMode==ProgramState::Local) 
+        Eng.AddSystem(AutoId("drop_on_death_system"));
     Eng.AddSystem(AutoId("health_system"));
-    Eng.AddSystem(AutoId("remove_on_death_system"));
+    if (programState.mMode!=ProgramState::Client) 
+        Eng.AddSystem(AutoId("remove_on_death_system"));
     Eng.AddSystem(AutoId("move_system"));
 
     Eng.AddSystem(AutoId("frame_counter_system"));

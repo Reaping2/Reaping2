@@ -30,8 +30,8 @@ namespace network {
             {
                 std::auto_ptr<PlayerControllerMessage> playerControllerMsg(new PlayerControllerMessage);
                 playerControllerMsg->mActorGUID=actor->GetGUID();
-                playerControllerMsg->mOrientation=playerControllerC->mOrientation;
-                playerControllerMsg->mHeading=playerControllerC->mHeading;
+                playerControllerMsg->mOrientation=std::floor(playerControllerC->mOrientation*PRECISION);
+                playerControllerMsg->mHeading=std::floor(playerControllerC->mHeading*PRECISION);
                 playerControllerMsg->mShoot=playerControllerC->mShoot;
                 playerControllerMsg->mShootAlt=playerControllerC->mShootAlt;
                 playerControllerMsg->mCurrentMovement=playerControllerC->mCurrentMovement;
@@ -68,8 +68,8 @@ namespace network {
             L1("playercontroller is called on an actor that has no player_controller_component \n" );
             return;
         }
-        playerControllerC->mOrientation=msg.mOrientation;
-        playerControllerC->mHeading=msg.mHeading;
+        playerControllerC->mOrientation=msg.mOrientation/PRECISION;
+        playerControllerC->mHeading=msg.mHeading/PRECISION;
         playerControllerC->mShoot=msg.mShoot;
         playerControllerC->mShootAlt=msg.mShootAlt;
         playerControllerC->mCurrentMovement=msg.mCurrentMovement;

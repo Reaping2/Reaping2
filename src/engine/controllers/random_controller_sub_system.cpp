@@ -10,6 +10,7 @@ namespace engine {
 
 RandomControllerSubSystem::RandomControllerSubSystem()
     : mScene( Scene::Get() )
+    , mProgramState (core::ProgramState::Get())
 {
 
 }
@@ -27,16 +28,18 @@ void RandomControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
-
-    randomCC->SetCounter(randomCC->GetCounter()+DeltaTime);
-    if ( randomCC->GetCounter() > 2 )
+    if (mProgramState.mMode!=core::ProgramState::Client)
     {
-        randomCC->SetCounter(0);
-        randomCC->SetHeadingModifier(( rand() % 10 - 5 ) * .33);
+        randomCC->SetCounter(randomCC->GetCounter()+DeltaTime);
+        if ( randomCC->GetCounter() > 2 )
+        {
+            randomCC->SetCounter(0);
+            randomCC->SetHeadingModifier(( rand() % 10 - 5 ) * .33);
 
-        actor.Get<IMoveComponent>()->SetSpeed( ( rand() % 10 )*30 );
+            actor.Get<IMoveComponent>()->SetSpeed( ( rand() % 10 )*30 );
+            actor.Get<IMoveComponent>()->SetHeadingModifier( randomCC->GetHeadingModifier() );
+        }
     }
-    actor.Get<IMoveComponent>()->SetHeading( actor.Get<IMoveComponent>()->GetHeading() + DeltaTime * randomCC->GetHeadingModifier() );
     actor.Get<IPositionComponent>()->SetOrientation( actor.Get<IMoveComponent>()->GetHeading() );
 }
 

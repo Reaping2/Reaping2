@@ -16,6 +16,7 @@
         return ComponentType::GetType_static(); \
     } \
 
+extern const double PRECISION;
 
 class Actor;
 

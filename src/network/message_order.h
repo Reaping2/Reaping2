@@ -10,6 +10,8 @@
 #include "platform/auto_id.h"
 #include "move_message.h"
 #include "player_controller_message.h"
+#include "orientation_message.h"
+#include "heading_message.h"
 
 
     struct message_order
@@ -26,9 +28,12 @@
             type=network::MoveMessage::GetType_static();
             type=network::PlayerControllerMessage::GetType_static();
             type=network::DamageTakenMessage::GetType_static();
+            type=network::OrientationMessage::GetType_static();
+            type=network::HeadingMessage::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_shot");
+            type=platform::AutoId("spider1");
         }
     } _msg_order;
 
@@ -41,6 +46,8 @@
     BOOST_CLASS_EXPORT_GUID(network::MoveMessage, "move")
     BOOST_CLASS_EXPORT_GUID(network::PlayerControllerMessage, "player_c")
     BOOST_CLASS_EXPORT_GUID(network::DamageTakenMessage, "damage_taken")
+    BOOST_CLASS_EXPORT_GUID(network::OrientationMessage, "orientation")
+    BOOST_CLASS_EXPORT_GUID(network::HeadingMessage, "heading")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

@@ -74,8 +74,10 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         Radians -= pi * 2;
     }
-    double RotSpd = ( Radians > 0 ? 1 : -1 ) * 0.05;
-    actor.Get<IMoveComponent>()->SetHeading( actor.Get<IMoveComponent>()->GetHeading() + RotSpd );
+    double RotSpd = ( Radians > 0 ? 1 : -1 ) * 0.5;
+    actor.Get<IMoveComponent>()->SetHeadingModifier( RotSpd );
+
+    //actor.Get<IMoveComponent>()->SetHeading( actor.Get<IMoveComponent>()->GetHeading() + RotSpd );
     actor.Get<IPositionComponent>()->SetOrientation( actor.Get<IMoveComponent>()->GetHeading() );
 }
 

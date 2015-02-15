@@ -32,10 +32,11 @@ namespace network {
             L1("move is called on an actor that has no move_component \n" );
             return;
         }
-        moveC->SetHeading(msg.mHeading);
-        moveC->SetSpeed(msg.mSpeed);
-        moveC->SetSpeedX(msg.mSpeedX);
-        moveC->SetSpeedY(msg.mSpeedY);
+//        moveC->SetHeading(msg.mHeading);
+        moveC->SetHeadingModifier(msg.mHeadingModifier/PRECISION);
+        moveC->SetSpeed(msg.mSpeed/PRECISION);
+        //moveC->SetSpeedX(msg.mSpeedX);
+        //moveC->SetSpeedY(msg.mSpeedY);
     }
 
 } // namespace network

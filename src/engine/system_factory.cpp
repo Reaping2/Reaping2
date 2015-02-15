@@ -28,6 +28,8 @@
 #include "network/player_controller_message.h"
 #include "network/create_actor_message_sender_system.h"
 #include "network/damage_taken_message.h"
+#include "network/orientation_message.h"
+#include "network/heading_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -62,6 +64,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("player_controller_message_sender_system"), &CreateSystem<network::PlayerControllerMessageSenderSystem>);
     Bind( AutoId("create_actor_message_sender_system"), &CreateSystem<network::CreateActorMessageSenderSystem>);
     Bind( AutoId("damage_taken_message_sender_system"), &CreateSystem<network::DamageTakenMessageSenderSystem>);
+    Bind( AutoId("orientation_message_sender_system"), &CreateSystem<network::OrientationMessageSenderSystem>);
+    Bind( AutoId("heading_message_sender_system"), &CreateSystem<network::HeadingMessageSenderSystem>);
     
 }
 

@@ -34,9 +34,9 @@ namespace network {
             L1("position is called on an actor that has no position_component \n" );
             return;
         }
-        positionC->SetX(msg.mX);
-        positionC->SetY(msg.mY);
-        positionC->SetOrientation(msg.mOrientation);
+        positionC->SetX(msg.mX/PRECISION);
+        positionC->SetY(msg.mY/PRECISION);
+        //positionC->SetOrientation(msg.mOrientation);
 
     }
 

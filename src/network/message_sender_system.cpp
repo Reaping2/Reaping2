@@ -40,6 +40,21 @@ namespace network {
         mElapsedTime=0.0;
     }
 
+    FrequencyTimer::~FrequencyTimer()
+    {
+
+    }
+    ActorFrequencyTimer::ActorFrequencyTimer(double frequency, int32_t actorId)
+        : FrequencyTimer()
+        , mActorId(actorId)
+    {
+        SetFrequency(frequency);
+    }
+
+    int32_t ActorFrequencyTimer::GetActorId() const
+    {
+        return mActorId;
+    }
 
     MessageSenderSystem::MessageSenderSystem()
         : mFrequencyTimer()
@@ -79,6 +94,36 @@ namespace network {
     bool MessageSenderSystem::IsServer()
     {
         return mIsServer;
+    }
+
+
+
+
+
+    void ActorFrequencyTimerHolder::Add(ActorFrequencyTimer const& actorFrequencyTimer)
+    {
+        mActorFrequencyTimers.push_back(actorFrequencyTimer);
+    }
+
+    void ActorFrequencyTimerHolder::Update(double DeltaTime)
+    {
+        for( ActorFrequencyTimers_t::iterator it = mActorFrequencyTimers.begin(), e = mActorFrequencyTimers.end(); it != e; ++it )
+        {
+            it->Update(DeltaTime);
+        }
+    }
+
+    ActorFrequencyTimerHolder::ActorIds_t ActorFrequencyTimerHolder::GetActorIds()
+    {
+        ActorIds_t actorIds;
+        for( ActorFrequencyTimers_t::iterator it = mActorFrequencyTimers.begin(), e = mActorFrequencyTimers.end(); it != e; ++it )
+        {
+            if (it->IsTime())
+            {
+                actorIds.insert(it->GetActorId());
+            }
+        }
+        return actorIds;
     }
 
 } // namespace engine

@@ -3,6 +3,7 @@
 
 #include "core/scene.h"
 #include "engine/sub_system.h"
+#include "core/program_state.h"
 
 namespace engine {
 
@@ -15,6 +16,7 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
 private:
     Scene& mScene;
+    core::ProgramState& mProgramState;
 };
 
 } // namespace engine

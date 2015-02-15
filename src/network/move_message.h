@@ -10,16 +10,18 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(MoveMessage)
         int32_t mActorGUID;
-        double mHeading;
-        double mSpeed;
-        double mSpeedX;
-        double mSpeedY;
+        //double mHeading;
+        int32_t mHeadingModifier;
+        int32_t mSpeed;
+        //double mSpeedX;
+        //double mSpeedY;
         MoveMessage()
             : mActorGUID(0)
-            , mHeading(0.0)
-            , mSpeed(0.0)
-            , mSpeedX(0.0)
-            , mSpeedY(0.0)
+          //  , mHeading(0.0)
+            , mHeadingModifier(0)
+            , mSpeed(0)
+            //, mSpeedX(0.0)
+            //, mSpeedY(0.0)
         {
         }
         template<class Archive>
@@ -27,10 +29,11 @@ namespace network {
         bool operator==(MoveMessage const& other)
         {
             return mActorGUID==other.mActorGUID
-                && mHeading==other.mHeading
-                && mSpeed==other.mSpeed
-                && mSpeedX==other.mSpeedX
-                && mSpeedY==other.mSpeedY;
+            //    && mHeading==other.mHeading
+                && mHeadingModifier==other.mHeadingModifier
+                && mSpeed==other.mSpeed;
+                //&& mSpeedX==other.mSpeedX
+                //&& mSpeedY==other.mSpeedY;
         }
     };
 
@@ -39,10 +42,11 @@ namespace network {
     {
         ar & boost::serialization::base_object<Message>(*this);
         ar & mActorGUID;
-        ar & mHeading;
+        //ar & mHeading;
+        ar & mHeadingModifier;
         ar & mSpeed;
-        ar & mSpeedX;
-        ar & mSpeedY;
+        //ar & mSpeedX;
+        //ar & mSpeedY;
     }
 
 } // namespace network

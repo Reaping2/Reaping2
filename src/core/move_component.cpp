@@ -2,6 +2,7 @@
 
 MoveComponent::MoveComponent()
     : mHeading(0.0)
+    , mHeadingModifier(0.0)
     , mSpeed(0.0)
     , mSpeedX(0.0)
     , mSpeedY(0.0)
@@ -35,21 +36,31 @@ double const& MoveComponent::GetSpeedY() const
 }
 void MoveComponent::SetHeading( double Heading )
 {
-    mHeading = Heading;
+    mHeading = std::floor(Heading*PRECISION)/PRECISION;
     UpdateProjections();
 }
 void MoveComponent::SetSpeed( double Speed )
 {
-    mSpeed = Speed;
+    mSpeed = std::floor(Speed*PRECISION)/PRECISION;
     UpdateProjections();
 }
 void MoveComponent::SetSpeedX( double SpeedX )
 {
-    mSpeedX = SpeedX;
+    mSpeedX = std::floor(SpeedX*PRECISION)/PRECISION;
 }
 void MoveComponent::SetSpeedY( double SpeedY )
 {
-    mSpeedY = SpeedY;
+    mSpeedY = std::floor(SpeedY*PRECISION)/PRECISION;
+}
+
+double const& MoveComponent::GetHeadingModifier() const
+{
+    return mHeadingModifier;
+}
+
+void MoveComponent::SetHeadingModifier(double HeadingModifier)
+{
+    mHeadingModifier=std::floor(HeadingModifier*PRECISION)/PRECISION;
 }
 
 void MoveComponentLoader::BindValues()

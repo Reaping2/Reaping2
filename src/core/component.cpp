@@ -2,6 +2,8 @@
 #include "core/component.h"
 #include "core/component_factory.h"
 
+const double PRECISION=100.0;
+
 Component::Component()
     : mActor( NULL )
 {

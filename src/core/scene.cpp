@@ -49,6 +49,19 @@ void Scene::Update( double DeltaTime )
         return;
     }
 
+    //TODO: testing
+    if (ProgramState::Get().mMode!=ProgramState::Client
+        &&rand()%60==1
+        &&mActorHolder.mAllActors.size()<50)
+    {
+        std::auto_ptr<Actor> Obj(ActorFactory::Get()(AutoId("spider1")));
+
+        Obj->Get<IPositionComponent>()->SetX(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ));
+        Obj->Get<IPositionComponent>()->SetY(mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ));
+        AddActor( Obj.release() );
+    }
+    //testing end
+
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
@@ -170,6 +183,11 @@ void Scene::Load( std::string const& Level )
 
     if (ProgramState::Get().mMode==ProgramState::Server)
     {
+        std::auto_ptr<Actor> Obj(ActorFactory::Get()(AutoId("spider1")));
+
+        Obj->Get<IPositionComponent>()->SetX(0.0);//mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ));
+        Obj->Get<IPositionComponent>()->SetY(0.0);//mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ));
+        AddActor( Obj.release() );
         return;
     }
     std::auto_ptr<Actor> Pl = ActorFactory::Get()(AutoId("player"));
@@ -186,9 +204,9 @@ void Scene::Load( std::string const& Level )
     Pl->Get<PlayerControllerComponent>()->mActive=true;
 
 #ifdef DEBUG
-    static const size_t BenchmarkCreeps = 500;
+    static const size_t BenchmarkCreeps = 10;
 #else
-    static const size_t BenchmarkCreeps = 500;
+    static const size_t BenchmarkCreeps = 10;
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
