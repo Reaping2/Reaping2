@@ -50,10 +50,10 @@ namespace network {
         {
             return std::auto_ptr<HeadingMessage>();
         }
-        std::auto_ptr<HeadingMessage> HeadingMessage(new HeadingMessage);
-        HeadingMessage->mHeading=std::floor(moveC->GetHeading()*PRECISION);
-        HeadingMessage->mActorGUID=actor.GetGUID();
-        return HeadingMessage;
+        std::auto_ptr<HeadingMessage> headingMsg(new HeadingMessage);
+        headingMsg->mHeading=std::floor(moveC->GetHeading()*PRECISION);
+        headingMsg->mActorGUID=actor.GetGUID();
+        return headingMsg;
     }
 
     HeadingMessageHandlerSubSystem::HeadingMessageHandlerSubSystem()
