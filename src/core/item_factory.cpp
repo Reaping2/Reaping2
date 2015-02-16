@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "core/rocket_launcher.h"
 #include "core/plasma_gun.h"
 #include "core/pistol.h"
 #include "core/item.h"
@@ -8,4 +9,5 @@ ItemFactory::ItemFactory()
     SetDefault( AutoId( "default_item" ) );
     Bind<PlasmaGun>( AutoId( "plasma_gun" ) );
     Bind<Pistol>( AutoId( "pistol" ) );
+	Bind<RocketLauncher>(AutoId("rocket_launcher"));
 }

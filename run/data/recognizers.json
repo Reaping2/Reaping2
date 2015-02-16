@@ -32,6 +32,14 @@
 		]
 	},
 	{
+		"name":"rocket_launcher",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"pistol_shot",
 		"recognizers":
 		[
@@ -41,6 +49,14 @@
 	},
 	{
 		"name":"plasma_shot",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"rocket_launcher_projectile",
 		"recognizers":
 		[
 			{"recognizer":"move",

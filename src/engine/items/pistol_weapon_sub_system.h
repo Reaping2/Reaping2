@@ -1,12 +1,7 @@
 #ifndef INCLUDED_ENGINE_ITEMS_PISTOL_WEAPON_SUB_SYSTEM_H
 #define INCLUDED_ENGINE_ITEMS_PISTOL_WEAPON_SUB_SYSTEM_H
 
-#include "core/scene.h"
-#include "engine/sub_system.h"
-#include "core/opt.h"
-#include "engine/sub_system_holder.h"
-#include "weapon_item_sub_system.h"
-#include "core/actor_factory.h"
+#include "engine/items/common_sub_system_includes.h"
 
 namespace engine {
 

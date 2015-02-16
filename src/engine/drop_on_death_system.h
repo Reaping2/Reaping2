@@ -17,6 +17,8 @@ public:
 private:
     Scene& mScene;
     ActorFactory& mActorFactory;
+
+	AutoId Roll(int32_t n);
 };
 
 } // namespace engine

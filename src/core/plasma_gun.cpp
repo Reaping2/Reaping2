@@ -1,8 +1,4 @@
-#include "platform/i_platform.h"
 #include "core/plasma_gun.h"
-#include "core/audible_event.h"
-#include "core/i_position_component.h"
-#include "core/i_move_component.h"
 
 PlasmaGun::PlasmaGun( int32_t Id )
     : Weapon( Id )

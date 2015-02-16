@@ -46,7 +46,7 @@ void DropOnDeathSystem::Update(double DeltaTime)
                 return;
             }
             std::auto_ptr<Actor> Pu=mActorFactory(AutoId("pickup"));
-            int32_t contentId=AutoId(rand() % 2 ? "pistol" : "plasma_gun");
+            int32_t contentId=Roll(3);
             Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
             BOOST_ASSERT(actor.Get<IPositionComponent>().IsValid());
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
@@ -57,6 +57,22 @@ void DropOnDeathSystem::Update(double DeltaTime)
         }
     }
 
+}
+
+AutoId DropOnDeathSystem::Roll( int32_t n )
+{
+	// TODO: need a way to ask about available drops, this way
+	switch(rand() % n)
+	{
+	case 0:
+		return AutoId("pistol");
+	case 1:
+		return AutoId("plasma_gun");
+	case 2:
+		return AutoId("rocket_launcher");
+	}
+	BOOST_ASSERT(false);
+	return AutoId("default_item");
 }
 
 } // namespace engine

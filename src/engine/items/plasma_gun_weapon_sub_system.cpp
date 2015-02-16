@@ -1,13 +1,4 @@
-#include "platform/i_platform.h"
 #include "engine/items/plasma_gun_weapon_sub_system.h"
-#include "engine/engine.h"
-#include "platform/auto_id.h"
-#include "core/i_inventory_component.h"
-#include "core/weapon.h"
-#include "core/i_position_component.h"
-#include "core/i_move_component.h"
-#include "inventory_system.h"
-#include "core/audible_event.h"
 
 namespace engine {
 
