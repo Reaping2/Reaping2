@@ -12,6 +12,7 @@
 #include "collisions/pickup_collision_sub_system.h"
 #include "collisions/wall_collision_sub_system.h"
 #include "collisions/shot_collision_sub_system.h"
+#include "collisions/normal_collision_sub_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -34,7 +35,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
     Bind( AutoId("wall_collision_sub_system"), &CreateSubSystem<WallCollisionSubSystem>);
     Bind( AutoId("shot_collision_sub_system"), &CreateSubSystem<ShotCollisionSubSystem>);
-
+    Bind( AutoId("normal_collision_sub_system"), &CreateSubSystem<NormalCollisionSubSystem>);
 }
 
 } // namespace engine

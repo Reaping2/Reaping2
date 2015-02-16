@@ -167,6 +167,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("collision_component"),AutoId("normal_collision_sub_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
         collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
@@ -179,14 +180,16 @@ int main(int argc, char* argv[])
     controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
 
-    Eng.AddSystem(AutoId("inventory_system"));
-    Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
-    inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
-    inventorySystem->AddSubSystem(Item::Weapon,AutoId("weapon_item_sub_system"));
-    Opt<engine::WeaponItemSubSystem> weaponitemSS=engine::WeaponItemSubSystem::Get();
-    weaponitemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
-    weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
-
+    if (programState.mMode!=ProgramState::Client) 
+    {
+        Eng.AddSystem(AutoId("inventory_system"));
+        Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
+        inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
+        inventorySystem->AddSubSystem(Item::Weapon,AutoId("weapon_item_sub_system"));
+        Opt<engine::WeaponItemSubSystem> weaponitemSS=engine::WeaponItemSubSystem::Get();
+        weaponitemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
+        weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
+    }
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
