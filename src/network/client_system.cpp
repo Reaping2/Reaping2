@@ -27,7 +27,7 @@ namespace {
         void Log( std::string const& Str = std::string() )
         {
             double Now = mMeasurer.elapsed();
-            L1( "Timer - %s: %f %f\n", Str.c_str(), Now, Now - mPrevMeasurement );
+            L2( "Timer - %s: %f %f\n", Str.c_str(), Now, Now - mPrevMeasurement );
             mPrevMeasurement = Now;
         }
         Timer_t(): mMeasurer(), mPrevMeasurement( mMeasurer.elapsed() )
@@ -49,9 +49,12 @@ void ClientSystem::Init()
 
 void ClientSystem::Update(double DeltaTime)
 {
+    PerfTimer.Log("client update started");
+
     if (!mProgramState.mClientConnected)
     {
         return;
+        PerfTimer.Log("client not connected client update ended");
     }
     ENetEvent event;
     while(enet_host_service (mClient, & event, 0) > 0)
@@ -70,6 +73,7 @@ void ClientSystem::Update(double DeltaTime)
             mProgramState.mClientConnected=false;
         }
     }
+    PerfTimer.Log("client receive ended");
 
 
     MessageList& messages=mMessageHolder.GetOutgoingMessages();
@@ -90,6 +94,7 @@ void ClientSystem::Update(double DeltaTime)
     
         mMessageHolder.ClearOutgoingMessages();
     }
+    PerfTimer.Log("client update ended");
 }
 
 void ClientSystem::Connect()

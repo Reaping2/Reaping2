@@ -43,7 +43,7 @@ public:
     void Log( std::string const& Str = std::string() )
     {
         double Now = mMeasurer.elapsed();
-        L1( "Timer - %s: %f %f\n", Str.c_str(), Now, Now - mPrevMeasurement );
+        L2( "Timer - %s: %f %f\n", Str.c_str(), Now, Now - mPrevMeasurement );
         mPrevMeasurement = Now;
     }
     Timer_t(): mMeasurer(), mPrevMeasurement( mMeasurer.elapsed() )
@@ -225,11 +225,13 @@ int main(int argc, char* argv[])
             Dt = MinFrameTime;
             Curtime = glfwGetTime();
         }
+        PerfTimer.Log("Frame started");
         Eng.Update( Dt );
         Scen.Update( Dt );
         CycleEventServer.SendEvent( CycleEvent( Curtime ) );
 
         Prevtime = Curtime;
+        PerfTimer.Log("Frame ended");
     }
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::CloseSignal ) );
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Shutdown ) );

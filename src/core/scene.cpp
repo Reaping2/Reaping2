@@ -38,6 +38,7 @@ int32_t ActorHolder::GetZOrder::operator ()(const Opt<Actor>& Obj)const
 
 void Scene::AddActor( Actor* Object )
 {
+    L2("AddActor called (GUID:%d)\n",Object->GetGUID());
     mNewActors.push_back( Opt<Actor>(Object) );
 }
 
@@ -65,6 +66,7 @@ void Scene::Update( double DeltaTime )
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        L2("new actor inserted at update (GUID:%d)\n",(*it)->GetGUID());
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
@@ -92,6 +94,7 @@ Scene::~Scene()
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        L2("new actor inserted at destruct (GUID:%d)\n",(*it)->GetGUID());
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
@@ -99,7 +102,7 @@ Scene::~Scene()
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
-        
+        L2("actor delete at destruct (GUID:%d)\n",(*it)->GetGUID());
         delete &**it;
     }
     mActorHolder.mAllActors.clear();
@@ -123,6 +126,7 @@ void Scene::Load( std::string const& Level )
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        L2("new actor inserted at Load (GUID:%d)\n",(*it)->GetGUID());
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
@@ -130,6 +134,7 @@ void Scene::Load( std::string const& Level )
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+        L2("actor delete at Load (GUID:%d)\n",(*it)->GetGUID());
         delete &**it;
     }
     mActorHolder.mAllActors.clear();
@@ -249,7 +254,7 @@ void Scene::AddTestCreep(Actor* Pl, double X, double Y)
 void Scene::RemoveActor(ActorList_t::iterator it)
 {
     EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
-
+    L2("removeActor it (GUID:%d)\n",(*it)->GetGUID());
     delete (*it).Get();
     mActorHolder.mAllActors.erase(it);
 }
@@ -258,6 +263,7 @@ void Scene::RemoveActor(Actor* Object)
 {
     ActorList_t::iterator it = mActorHolder.mAllActors.find(Object->GetGUID());
     BOOST_ASSERT(it!=mActorHolder.mAllActors.end());
+    L2("removeActor object (GUID:%d)\n",(*it)->GetGUID());
     RemoveActor(it);
 }
 

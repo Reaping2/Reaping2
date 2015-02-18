@@ -2,12 +2,21 @@
 #define INCLUDED_PLATFORM_LOG_H
 
 #include "singleton.h"
+#include <stdio.h>
 
 namespace platform {
+
+struct AutoNormalFile
+{
+    FILE* mFile;
+    AutoNormalFile(const char* name, const char* mode);
+    ~AutoNormalFile();
+};
 
 class Logger : public Singleton<Logger>
 {
     friend class Singleton<Logger>;
+    AutoNormalFile mLogFile;
     Logger();
     size_t mDisabledLevels;
 public:

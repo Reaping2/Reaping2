@@ -32,6 +32,7 @@ void RemoveOnDeathSystem::Update(double DeltaTime)
         }
         if(!healthC->IsAlive())
         {
+            
             mScene.RemoveActor(it);
         }
     }

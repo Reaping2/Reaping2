@@ -5,6 +5,8 @@
 #include <cstdio>
 #include <cstdarg>
 #include <memory>
+#include <iosfwd>
+#include "GLFW/glfw3.h"
 
 namespace platform {
 
@@ -16,14 +18,17 @@ void Logger::Log( int Level, char const* format, ... )
     }
     va_list arg;
     int done;
-
+    fprintf(mLogFile.mFile, "[%f]",glfwGetTime());
     va_start ( arg, format );
-    done = vfprintf ( stderr, format, arg );
+    done = vfprintf ( mLogFile.mFile, format, arg );
+    if(Level==1) done = vfprintf ( stderr, format, arg );
+    fflush(mLogFile.mFile);
     va_end ( arg );
 }
 
 Logger::Logger()
     : mDisabledLevels( 0 )
+    , mLogFile("log.txt","w")
 {
     std::auto_ptr<File> f( new OsFile( "debug.json" ) );
     if( !f.get() || !f->IsValid() )
@@ -56,6 +61,17 @@ Logger::Logger()
         }
         mDisabledLevels |= ( 1 << Val );
     }
+}
+
+
+AutoNormalFile::AutoNormalFile(const char* name, const char* mode)
+{
+    mFile = fopen (name,mode);
+}
+
+AutoNormalFile::~AutoNormalFile()
+{
+    fclose(mFile);
 }
 
 } // namespace platform

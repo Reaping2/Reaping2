@@ -41,6 +41,8 @@ namespace network {
                     }
                 }
             }
+            L2("createactormessage executed with (GUID:%d)\n",actor->GetGUID());
+
             mScene.AddActor(actor.release());
         }
         else 
@@ -51,6 +53,7 @@ namespace network {
                 L1("cannot find actor with GUID: (actor delete! noo good sign) %d \n",msg.mActorGUID );
                 return;
             }
+            L2("createactormessage remove with (GUID:%d)\n",(*it)->GetGUID());
             mScene.RemoveActor(it);
         }
     }

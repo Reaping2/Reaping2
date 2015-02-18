@@ -23,7 +23,7 @@ namespace {
         void Log( std::string const& Str = std::string() )
         {
             double Now = mMeasurer.elapsed();
-            L1( "Timer - %s: %f %f\n", Str.c_str(), Now, Now - mPrevMeasurement );
+            L2( "Timer - %s: %f %f\n", Str.c_str(), Now, Now - mPrevMeasurement );
             mPrevMeasurement = Now;
         }
         Timer_t(): mMeasurer(), mPrevMeasurement( mMeasurer.elapsed() )
@@ -62,7 +62,7 @@ void ServerSystem::Init()
 
 void ServerSystem::Update(double DeltaTime)
 {
-    //PerfTimer.Log("server start");
+    PerfTimer.Log("server update started");
     ENetEvent event;
     while(enet_host_service (mServer, & event, 0) > 0)
     {
@@ -83,6 +83,7 @@ void ServerSystem::Update(double DeltaTime)
             event.peer -> data = NULL;
         }
     }
+    PerfTimer.Log("server receive ended");
 
     MessageList& messages=mMessageHolder.GetOutgoingMessages();
     if (messages.mMessages.size()>0)
@@ -103,7 +104,7 @@ void ServerSystem::Update(double DeltaTime)
 
         mMessageHolder.ClearOutgoingMessages();
     }
-    //PerfTimer.Log("server end");
+    PerfTimer.Log("server update ended");
 
 }
 
