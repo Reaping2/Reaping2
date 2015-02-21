@@ -32,6 +32,7 @@
 #include "network/player_controller_message.h"
 #include "network/damage_taken_message.h"
 #include "network/orientation_message.h"
+#include "network/ping_message.h"
 
 using engine::Engine;
 namespace {
@@ -88,13 +89,13 @@ int main(int argc, char* argv[])
     po::notify(vm);    
     if (vm.count("-c")) {
         L1("run as client");
-        programState.mMode=ProgramState::Client;
+        programState.SetMode(ProgramState::Client);
     } else if (vm.count("-s")) {
         L1("run as server");
-        programState.mMode=ProgramState::Server;
+        programState.SetMode(ProgramState::Server);
     } else {
         L1("run local");
-        programState.mMode=ProgramState::Local;
+        programState.SetMode(ProgramState::Local);
     }
     IsMainRunning=true;
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
@@ -137,6 +138,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("client_system"));
         Eng.AddSystem(AutoId("lifecycle_sender_system"));
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
+        Eng.AddSystem(AutoId("ping_message_sender_system"));
     }
     if (programState.mMode!=ProgramState::Local)
     {
@@ -155,6 +157,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PickupMessage::GetType_static(),AutoId("pickup_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SetPickupContentMessage::GetType_static(),AutoId("set_pickup_content_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

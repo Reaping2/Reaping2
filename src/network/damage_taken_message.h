@@ -13,13 +13,13 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(DamageTakenMessage)
         int32_t mActorGUID;
-        double mX;
-        double mY;
+        int32_t mX;
+        int32_t mY;
         int32_t mDamage;
         DamageTakenMessage()
             : mActorGUID(0)
-            , mX(0.0)
-            , mY(0.0)
+            , mX(0)
+            , mY(0)
             , mDamage(0)
         {
         }

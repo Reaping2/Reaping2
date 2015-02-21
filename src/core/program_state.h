@@ -17,6 +17,9 @@ class ProgramState : public platform::Singleton<ProgramState>
     friend class platform::Singleton<ProgramState>;
 
 public:
+    platform::ModelValue mProgramStateModel;
+    platform::ModelValue mIsClientModel;
+    int32_t mIsClient;
     ProgramState();
     enum Mode
     {
@@ -26,6 +29,7 @@ public:
     };
     // main type of this instance (local,client,server)
     Mode mMode;
+    void SetMode(ProgramState::Mode mode);
     // is this client connected to server
     bool mClientConnected;
     // current client's name

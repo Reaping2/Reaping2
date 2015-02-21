@@ -25,8 +25,8 @@ namespace network {
     {
         std::auto_ptr<DamageTakenMessage> damageTakenMsg(new DamageTakenMessage);
         damageTakenMsg->mActorGUID=Evt.ActorGUID;
-        damageTakenMsg->mX=Evt.Pos.x;
-        damageTakenMsg->mY=Evt.Pos.y;
+        damageTakenMsg->mX=Evt.Pos.x*PRECISION;
+        damageTakenMsg->mY=Evt.Pos.y*PRECISION;
         damageTakenMsg->mDamage=Evt.Damage;
         mMessageHolder.AddOutgoingMessage(damageTakenMsg);
     }

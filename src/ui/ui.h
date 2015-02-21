@@ -24,6 +24,7 @@ public:
     void Load( std::string const& Name );
     Root const& GetRoot() const;
     Root& GetRoot();
+    Root& GetRoot( std::string const& Name );
 };
 
 #endif//INCLUDED_UI_UI_H

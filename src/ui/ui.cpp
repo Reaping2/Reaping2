@@ -39,6 +39,16 @@ Root& Ui::GetRoot()
     return *mActiveRoot;
 }
 
+Root& Ui::GetRoot(std::string const& Name)
+{
+    Roots_t::iterator it = mRoots.find( Name );
+    if( mRoots.end() != it )
+    {
+        return *it->second;
+    }
+    return *mActiveRoot;
+}
+
 Ui::Ui()
     : mUiModel( "ui", &RootModel::Get() )
     , mLoad( StringFunc( this, &Ui::Load ), "load", &mUiModel )

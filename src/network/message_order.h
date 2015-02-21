@@ -13,6 +13,7 @@
 #include "orientation_message.h"
 #include "heading_message.h"
 #include "pickup_message.h"
+#include "ping_message.h"
 
 
     struct message_order
@@ -33,6 +34,7 @@
             type=network::HeadingMessage::GetType_static();
             type=network::PickupMessage::GetType_static();
             type=network::SetPickupContentMessage::GetType_static();
+            type=network::PingMessage::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_gun");
@@ -41,6 +43,10 @@
             type=platform::AutoId("pickup");
             type=platform::AutoId("pistol");
             type=platform::AutoId("pistol_shot");
+            type=platform::AutoId("rocket_launcher");
+            type=platform::AutoId("rocket_launcher_primary");
+            type=platform::AutoId("rocket_launcher_secondary");
+            type=platform::AutoId("rocket_launcher_projectile");
         }
     } _msg_order;
 
@@ -57,6 +63,7 @@
     BOOST_CLASS_EXPORT_GUID(network::HeadingMessage, "heading")
     BOOST_CLASS_EXPORT_GUID(network::PickupMessage, "pickup")
     BOOST_CLASS_EXPORT_GUID(network::SetPickupContentMessage, "set_pickup")
+    BOOST_CLASS_EXPORT_GUID(network::PingMessage, "ping")
     
 
 
