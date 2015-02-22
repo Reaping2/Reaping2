@@ -139,6 +139,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("lifecycle_sender_system"));
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
+        Eng.AddSystem(AutoId("revive_message_sender_system"));
     }
     if (programState.mMode!=ProgramState::Local)
     {
@@ -158,6 +159,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::PickupMessage::GetType_static(),AutoId("pickup_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SetPickupContentMessage::GetType_static(),AutoId("set_pickup_content_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ReviveMessage::GetType_static(),AutoId("revive_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

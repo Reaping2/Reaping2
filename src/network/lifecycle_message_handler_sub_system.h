@@ -11,6 +11,7 @@ public:
     LifecycleMessageHandlerSubSystem();
     virtual void Init();
     virtual void Execute(Message const& message );
+    static void AddNewPlayer(core::ClientData& clientDataToSet, std::auto_ptr<Actor> player);
 };
 
 } // namespace network

@@ -3,12 +3,14 @@
 
 #include "platform/singleton.h"
 #include "platform/i_platform.h"
+#include "actor.h"
 
 namespace core {
 struct ClientData
 {
     int32_t mClientId;
     std::string mClientName;
+    Opt<Actor> mClientActor;
     ClientData(int32_t clientId, std::string const& clientName):mClientId(clientId),mClientName(clientName) {}
 };
 class ProgramState : public platform::Singleton<ProgramState>

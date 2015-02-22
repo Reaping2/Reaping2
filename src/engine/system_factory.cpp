@@ -32,6 +32,7 @@
 #include "network/heading_message.h"
 #include "network/pickup_message.h"
 #include "network/ping_message.h"
+#include "network/revive_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -70,6 +71,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("heading_message_sender_system"), &CreateSystem<network::HeadingMessageSenderSystem>);
     Bind( AutoId("pickup_message_sender_system"), &CreateSystem<network::PickupMessageSenderSystem>);
     Bind( AutoId("ping_message_sender_system"), &CreateSystem<network::PingMessageSenderSystem>);
+    Bind( AutoId("revive_message_sender_system"), &CreateSystem<network::ReviveMessageSenderSystem>);
     
 }
 

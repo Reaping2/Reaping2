@@ -14,6 +14,9 @@
 #include "actor_event.h"
 #include "player_controller_component.h"
 #include "program_state.h"
+#include "ui/ui.h"
+#include "ui/widget_factory.h"
+#include "ui/text_widget.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -223,6 +226,10 @@ void Scene::Load( std::string const& Level )
 
     SetPlayerModels(Opt<Actor>(Pl.get()));
     AddActor( Pl.release() );
+//     Root& hudRoot=Ui::Get().GetRoot("hud");
+//     std::auto_ptr<TextWidget> wdg(new TextWidget(AutoId("text_widget")));
+// 
+//     hudRoot.AddChild(wdg.release());
 
 }
 

@@ -49,15 +49,10 @@ namespace network {
 
             for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
             {
-                 std::auto_ptr<Actor> player(actorFactory(playerAutoId));
-                std::auto_ptr<SetOwnershipMessage> setOwnershipMsg(new SetOwnershipMessage);
-                setOwnershipMsg->mActorGUID=player->GetGUID();
-                setOwnershipMsg->mClientId=i->mClientId;
-                mMessageHolder.AddOutgoingMessage(setOwnershipMsg);
-
-                 Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-                 positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
-                 positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
+                std::auto_ptr<Actor> player(actorFactory(playerAutoId));
+                Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
+                positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
+                positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
 
                 //TODO: temporary till normal inventory sync 
                 Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
@@ -65,9 +60,19 @@ namespace network {
                 {
                     inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
                 }
-                mScene.AddActor(player.release());
+                AddNewPlayer(*i,player);
             }
         }
+    }
+
+    void LifecycleMessageHandlerSubSystem::AddNewPlayer(core::ClientData& clientDataToSet, std::auto_ptr<Actor> player)
+    {
+        std::auto_ptr<SetOwnershipMessage> setOwnershipMsg(new SetOwnershipMessage);
+        setOwnershipMsg->mActorGUID=player->GetGUID();
+        setOwnershipMsg->mClientId=clientDataToSet.mClientId;
+        MessageHolder::Get().AddOutgoingMessage(setOwnershipMsg);
+        clientDataToSet.mClientActor=Opt<Actor>(player.get());
+        Scene::Get().AddActor(player.release());
     }
 
 } // namespace engine

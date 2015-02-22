@@ -14,6 +14,7 @@
 #include "heading_message.h"
 #include "pickup_message.h"
 #include "ping_message.h"
+#include "revive_message.h"
 
 
     struct message_order
@@ -35,6 +36,7 @@
             type=network::PickupMessage::GetType_static();
             type=network::SetPickupContentMessage::GetType_static();
             type=network::PingMessage::GetType_static();
+            type=network::ReviveMessage::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_gun");
@@ -64,6 +66,7 @@
     BOOST_CLASS_EXPORT_GUID(network::PickupMessage, "pickup")
     BOOST_CLASS_EXPORT_GUID(network::SetPickupContentMessage, "set_pickup")
     BOOST_CLASS_EXPORT_GUID(network::PingMessage, "ping")
+    BOOST_CLASS_EXPORT_GUID(network::ReviveMessage, "revive")
     
 
 
