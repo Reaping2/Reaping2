@@ -13,12 +13,12 @@ namespace render{
     {
         int32_t i=0;
         mElements.insert(i,new glm::vec4(0.8,0.0,0.0,1));++i;
-        mElements.insert(i,new glm::vec4(0.0,0.7,0.0,1));++i;
-        mElements.insert(i,new glm::vec4(0.0,0.0,0.8,1));++i;
-        mElements.insert(i,new glm::vec4(0.9,0.9,0.0,1));++i;
-        mElements.insert(i,new glm::vec4(0.8,0.0,0.8,1));++i;
         mElements.insert(i,new glm::vec4(0.0,0.8,0.8,1));++i;
-        mElements.insert(i,new glm::vec4(0.8,0.8,0.8,1));++i;
+        mElements.insert(i,new glm::vec4(0.9,0.9,0.0,1));++i;
+        mElements.insert(i,new glm::vec4(0.0,0.7,0.0,1));++i;
+        mElements.insert(i,new glm::vec4(0.8,0.0,0.8,1));++i;
+        mElements.insert(i,new glm::vec4(0.3,0.3,0.3,1));++i;
+        mElements.insert(i,new glm::vec4(0.95,0.95,0.95,1));++i;
         mElements.insert(i,new glm::vec4(1.0,0.6,0.0,1));++i;
         mElements.insert(i,new glm::vec4(0.5,0.8,0.5,1));++i;
         mElements.insert(i,new glm::vec4(0.6,0.0,1.0,1));++i;
