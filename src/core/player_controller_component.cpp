@@ -14,6 +14,7 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mShootAlt(false)
     , mCurrentMovement(0)
     , mActive(false)
+    , mControllerId(0)
 {
 }
 

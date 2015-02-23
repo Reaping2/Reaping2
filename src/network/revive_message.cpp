@@ -31,6 +31,7 @@ namespace network {
         {
             return;
         }
+        L2("handle revive request!\n");
         //TODO: might need optimization
         Opt<Actor> actor=mScene.GetActor(mProgramState.mControlledActorGUID);
         if (actor.IsValid())
@@ -40,6 +41,11 @@ namespace network {
             {
                 std::auto_ptr<ReviveMessage> reviveMsg(new ReviveMessage);
                 mMessageHolder.AddOutgoingMessage(reviveMsg);
+                L2("revive message sent clientId: %d!\n",mProgramState.mClientId);
+            }
+            else
+            {
+                L1("health is not available, or actor still alive:%d\n",actor->GetGUID());
             }
         }
         mIsRivevePressed=false;
@@ -51,6 +57,7 @@ namespace network {
         if( Event.Key == GLFW_KEY_SPACE && Event.State == KeyState::Up )
         {
             mIsRivevePressed=true;
+            L2("space pressed for revive!\n");
         }
     }
 
@@ -69,13 +76,15 @@ namespace network {
     void ReviveMessageHandlerSubSystem::Execute(Message const& message)
     {
         ReviveMessage const& msg=static_cast<ReviveMessage const&>(message);
+        L2("got revive message: senderId:%d\n",msg.mSenderId);
         for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
         {
             if (i->mClientId==msg.mSenderId)
             {
+                L2("found client for revive: senderId:%d\n",msg.mSenderId);
                 if(!i->mClientActor.IsValid())
                 {
-                    L1("revive called and clientactor for %d is not valid!(error)",msg.mSenderId);
+                    L1("revive called and clientactor for %d is not valid!(error)\n",msg.mSenderId);
                     return;
                 }
                 Opt<IHealthComponent> healthC = i->mClientActor->Get<IHealthComponent>();
@@ -95,8 +104,13 @@ namespace network {
                     }
                     LifecycleMessageHandlerSubSystem::AddNewPlayer(*i,player);
                 }
+                else
+                {
+                    L1("health is not available, or actor still alive:%d\n",i->mClientActor->GetGUID());
+                }
             }
         }
+        L2("end revive message: senderId:%d\n",msg.mSenderId);
     }
 
 } // namespace engine

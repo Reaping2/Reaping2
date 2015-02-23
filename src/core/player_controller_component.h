@@ -16,6 +16,7 @@ public:
     bool mShootAlt;
     uint32_t mCurrentMovement;
     bool mActive; //controlled by current client
+    int32_t mControllerId; //controller client id
 };
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>

@@ -12,8 +12,9 @@ layout(location=0) in vec4 TexCoord;
 layout(location=1) in vec2 SpriteCenter;
 layout(location=2) in float Heading;
 layout(location=3) in float Radius;
+layout(location=4) in vec4 color;
 smooth out vec2 inTexCoord;
-
+smooth out vec4 inColor;
 vec2[4] corners=vec2[4](vec2(-1,-1),
 	vec2(1,-1),
 	vec2(-1,1),
@@ -21,6 +22,7 @@ vec2[4] corners=vec2[4](vec2(-1,-1),
 void main()
 {
 	inTexCoord=vec2(TexCoord[int(floor(mod(gl_VertexID,2.0)))],TexCoord[2+int(floor(gl_VertexID/2.0))]);
+	inColor=color;
 	vec2 position=corners[gl_VertexID];
 	mat2 ScaleMatrix=Radius*mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
 	gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(ScaleMatrix*position+SpriteCenter,0,1);

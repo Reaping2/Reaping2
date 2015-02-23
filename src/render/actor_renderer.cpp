@@ -116,6 +116,10 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     TexCoords_t TexCoords;
     TexCoords.reserve( CurSize );
 
+    typedef std::vector<glm::vec4> Colors_t;
+    Colors_t Colors;
+    Colors.reserve( CurSize );
+
     Counts_t Counts;
     GLuint TexId = -1;
     size_t Count = 0;
@@ -146,6 +150,8 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
         //TODO: this one should not depend on collision radius
         Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius():50)*i->Anim->GetScale() ) ); 
         TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
+        Colors.push_back( i->Color );
+
     }
     if( Count )
     {
@@ -161,7 +167,7 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     if( CurSize != PrevVecSize )
     {
         PrevVecSize = CurSize;
-        size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) );
+        size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + sizeof( glm::vec4 ) );
         glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
     }
 
@@ -192,6 +198,13 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Sizes[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     size_t const SizeIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Colors[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    size_t const ColorIndex = CurrentOffset;
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( "sprite2" );
@@ -211,6 +224,9 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
         glVertexAttribDivisor( CurrentAttribIndex, 1 );
         ++CurrentAttribIndex;
         glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( SizeIndex + sizeof( GLfloat )*Part.Start ) );
+        glVertexAttribDivisor( CurrentAttribIndex, 1 );
+        ++CurrentAttribIndex;
+        glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( ColorIndex + sizeof( glm::vec4 )*Part.Start ) );
         glVertexAttribDivisor( CurrentAttribIndex, 1 );
         glBindTexture( GL_TEXTURE_2D, Part.TexId );
         glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );

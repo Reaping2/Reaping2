@@ -72,6 +72,7 @@ namespace network {
         setOwnershipMsg->mClientId=clientDataToSet.mClientId;
         MessageHolder::Get().AddOutgoingMessage(setOwnershipMsg);
         clientDataToSet.mClientActor=Opt<Actor>(player.get());
+        L2("player added clientId:%d clientName:%s actorId:%d\n",clientDataToSet.mClientId,clientDataToSet.mClientName.c_str(),clientDataToSet.mClientActor->GetGUID());
         Scene::Get().AddActor(player.release());
     }
 

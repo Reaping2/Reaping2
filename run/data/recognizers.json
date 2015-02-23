@@ -12,7 +12,9 @@
 			{"recognizer":"body_move",
 				"renderer":"body_move"},
 			{"recognizer":"weapon",
-				"renderer":"weapon"}
+				"renderer":"weapon"},
+			{"recognizer":"hat",
+				"renderer":"hat"}
 		]
 	},
 	{

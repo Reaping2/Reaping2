@@ -45,6 +45,9 @@ namespace network {
                 i=mPendingOwnerships.erase(i);
                 continue;
             }
+
+            playerControllerC->mControllerId=i->mClientId;
+
             Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
             if (inventoryC.IsValid())
             {

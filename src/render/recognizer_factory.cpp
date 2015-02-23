@@ -6,6 +6,7 @@
 #include "render/death_recognizer.h"
 #include "render/weapon_recognizer.h"
 #include "render/pickup_recognizer.h"
+#include "render/hat_recognizer.h"
 namespace render {
 RecognizerFactory::RecognizerFactory()
 {
@@ -19,5 +20,6 @@ RecognizerFactory::RecognizerFactory()
     Bind<DeathRecognizer>( AutoId( "death" ) );
     Bind<WeaponRecognizer>( AutoId( "weapon" ) );
     Bind<PickupRecognizer>( AutoId( "pickup" ) );
+    Bind<HatRecognizer>( AutoId( "hat" ) );
 }
 } // namespace render

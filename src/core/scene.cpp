@@ -230,7 +230,21 @@ void Scene::Load( std::string const& Level )
 //     std::auto_ptr<TextWidget> wdg(new TextWidget(AutoId("text_widget")));
 // 
 //     hudRoot.AddChild(wdg.release());
+    for( int i = 0; i < 11; ++i )
+    {
+        Pl = ActorFactory::Get()(AutoId("player"));
 
+        Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
+        positionC->SetX(-240+i*60);
+        positionC->SetY(0.0);
+        Pl->Get<IInventoryComponent>();
+        //    inventoryC->AddItem(AutoId( "plasma_gun" ));
+        inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
+        Pl->Get<PlayerControllerComponent>()->SetEnabled(false);
+        Pl->Get<PlayerControllerComponent>()->mActive=false;
+        Pl->Get<PlayerControllerComponent>()->mControllerId=i;
+        AddActor( Pl.release() );
+    }
 }
 
 void Scene::AddTestCreep(Actor* Pl, double X, double Y)

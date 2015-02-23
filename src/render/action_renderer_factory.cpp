@@ -6,6 +6,7 @@
 #include "render/death_action_renderer.h"
 #include "render/weapon_action_renderer.h"
 #include "render/pickup_action_renderer.h"
+#include "render/hat_action_renderer.h"
 namespace render {
     ActionRendererFactory::ActionRendererFactory()
     {
@@ -19,6 +20,7 @@ namespace render {
         Bind<DeathActionRenderer>( AutoId( "death" ) );
         Bind<WeaponActionRenderer>( AutoId( "weapon" ) );
         Bind<PickupActionRenderer>( AutoId( "pickup" ) );
+        Bind<HatActionRenderer>( AutoId( "hat" ) );
 
     }
 } // namespace render

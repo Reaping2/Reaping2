@@ -17,5 +17,24 @@
 				]
 			}
 		]
+	},
+	{
+		"texture_path":"textures/soldier_hat.png",
+		"actor_visuals":
+		[
+			{
+				"name":"player",
+				"animations":
+				[
+					{
+						"name":"hat",
+						"w":30,
+						"h":30,
+						"scale":1.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
 	}
 ]
