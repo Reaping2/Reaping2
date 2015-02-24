@@ -127,7 +127,7 @@ public:
     int32_t GetTypeId()const;
     void Update( double DeltaTime );
     void AddActor( Actor* Object );
-    void RemoveActor( Actor* Object );
+    void RemoveActor( int32_t guid );
     void RemoveActor( ActorList_t::iterator it );
     glm::vec4 const& GetDimensions();
     Opt<Actor> GetActor(int32_t guid);

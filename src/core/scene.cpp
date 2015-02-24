@@ -280,12 +280,28 @@ void Scene::RemoveActor(ActorList_t::iterator it)
     mActorHolder.mAllActors.erase(it);
 }
 
-void Scene::RemoveActor(Actor* Object)
+void Scene::RemoveActor(int32_t guid)
 {
-    ActorList_t::iterator it = mActorHolder.mAllActors.find(Object->GetGUID());
-    BOOST_ASSERT(it!=mActorHolder.mAllActors.end());
-    L2("removeActor object (GUID:%d)\n",(*it)->GetGUID());
-    RemoveActor(it);
+    ActorList_t::iterator it = mActorHolder.mAllActors.find(guid);
+    if (it!=mActorHolder.mAllActors.end())
+    {
+        L2("removeActor from existing actors (GUID:%d)\n",(*it)->GetGUID());
+        RemoveActor(it);
+        return;
+    }
+    else
+    {
+        for(NewActorList_t::iterator i=mNewActors.begin(),e=mNewActors.end();i!=e;++i)
+        {
+            if ((*i)->GetGUID()==guid)
+            {
+                mNewActors.erase(i);
+                L2("removeActor from new actors (GUID:%d)\n",(*i)->GetGUID());
+                return;
+            }
+        }
+    }
+    L1("removeActor is called on an actor that does not exist (no good at all) (GUID:%d)\n",guid);
 }
 
 Opt<Actor> Scene::GetActor(int32_t guid)

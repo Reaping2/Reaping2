@@ -47,14 +47,8 @@ namespace network {
         }
         else 
         {
-            ActorList_t::iterator it=mScene.GetActors().find(msg.mActorGUID);
-            if (it==mScene.GetActors().end())
-            {
-                L1("cannot find actor with GUID: (actor delete! noo good sign) %d \n",msg.mActorGUID );
-                return;
-            }
-            L2("createactormessage remove with (GUID:%d)\n",(*it)->GetGUID());
-            mScene.RemoveActor(it);
+            L2("createactormessage remove with (GUID:%d)\n",msg.mActorGUID);
+            mScene.RemoveActor(msg.mActorGUID);
         }
     }
 
