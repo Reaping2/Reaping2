@@ -14,6 +14,7 @@ public:
     double mHeading;
     bool mShoot;
     bool mShootAlt;
+    bool mUseNormalItem;
     uint32_t mCurrentMovement;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id

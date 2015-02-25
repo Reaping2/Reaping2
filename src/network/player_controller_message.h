@@ -16,6 +16,7 @@ namespace network {
         int32_t mHeading;
         bool mShoot;
         bool mShootAlt;
+        bool mUseNormalItem;
         uint32_t mCurrentMovement;
         PlayerControllerMessage()
             : mActorGUID(0)
@@ -23,6 +24,7 @@ namespace network {
             , mHeading(0)
             , mShoot(false)
             , mShootAlt(false)
+            , mUseNormalItem(false)
             , mCurrentMovement(0)
         {
         }
@@ -39,6 +41,7 @@ namespace network {
         ar & mHeading;
         ar & mShoot;
         ar & mShootAlt;
+        ar & mUseNormalItem;
         ar & mCurrentMovement;
     }
 

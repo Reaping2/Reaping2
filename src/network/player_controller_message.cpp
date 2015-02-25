@@ -34,6 +34,7 @@ namespace network {
                 playerControllerMsg->mHeading=std::floor(playerControllerC->mHeading*PRECISION);
                 playerControllerMsg->mShoot=playerControllerC->mShoot;
                 playerControllerMsg->mShootAlt=playerControllerC->mShootAlt;
+                playerControllerMsg->mUseNormalItem=playerControllerC->mUseNormalItem;
                 playerControllerMsg->mCurrentMovement=playerControllerC->mCurrentMovement;
                 mMessageHolder.AddOutgoingMessage(playerControllerMsg);
             }
@@ -72,6 +73,7 @@ namespace network {
         playerControllerC->mHeading=msg.mHeading/PRECISION;
         playerControllerC->mShoot=msg.mShoot;
         playerControllerC->mShootAlt=msg.mShootAlt;
+        playerControllerC->mUseNormalItem=msg.mUseNormalItem;
         playerControllerC->mCurrentMovement=msg.mCurrentMovement;
     }
 

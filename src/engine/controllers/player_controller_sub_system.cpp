@@ -88,12 +88,17 @@ void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponen
     Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
     BOOST_ASSERT(inventoryC.IsValid());
     Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
-    if (!weapon.IsValid())
+    if (weapon.IsValid())
     {
-        return;
+        weapon->SetShoot(playerControllerC->mShoot);
+        weapon->SetShootAlt(playerControllerC->mShootAlt);
     }
-    weapon->SetShoot(playerControllerC->mShoot);
-    weapon->SetShootAlt(playerControllerC->mShootAlt);
+
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    if (normalItem.IsValid())
+    {
+        normalItem->SetUse(playerControllerC->mUseNormalItem);
+    }
 }
 
 void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
@@ -139,6 +144,15 @@ void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerC
     {
         playerControllerC->mShoot=false;
         playerControllerC->mShootAlt=false;
+    }
+
+    if( mKeyboard->GetKey(GLFW_KEY_Q).State==KeyState::Down )
+    {
+        playerControllerC->mUseNormalItem=true;
+    }
+    else
+    {
+        playerControllerC->mUseNormalItem=false;
     }
 }
 

@@ -15,7 +15,7 @@ public:
     NormalItemSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
-
+    static Opt<NormalItemSubSystem> Get();
 private:
     Scene& mScene;
 };

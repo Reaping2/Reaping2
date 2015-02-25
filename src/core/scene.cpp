@@ -212,9 +212,9 @@ void Scene::Load( std::string const& Level )
     Pl->Get<PlayerControllerComponent>()->mActive=true;
 
 #ifdef DEBUG
-    static const size_t BenchmarkCreeps = 10;
+    static const size_t BenchmarkCreeps = 100;
 #else
-    static const size_t BenchmarkCreeps = 10;
+    static const size_t BenchmarkCreeps = 100;
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
@@ -250,7 +250,7 @@ void Scene::Load( std::string const& Level )
 void Scene::AddTestCreep(Actor* Pl, double X, double Y)
 {
     std::auto_ptr<Actor> Obj;
-    switch(rand()%4)
+    switch(2/*rand()%4*/)
     {
     case 0:
         Obj=ActorFactory::Get()(AutoId("spider1"));

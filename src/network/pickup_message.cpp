@@ -34,7 +34,7 @@ namespace network {
             std::auto_ptr<SetPickupContentMessage> setPickupMsg(new SetPickupContentMessage);
             setPickupMsg->mActorGUID=Evt.mActor->GetGUID();
             setPickupMsg->mContentId=pickupCC->GetPickupContent();
-            setPickupMsg->mItemType=Item::Weapon;//TODO: pickupCC->GetItemType();
+            setPickupMsg->mItemType=pickupCC->GetItemType();
             mMessageHolder.AddOutgoingMessage(setPickupMsg);
         }
     }
@@ -73,9 +73,17 @@ namespace network {
         Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
         if (inventoryC.IsValid())
         {
+            L2("pickup picked up with itemtype:%d,itemid:%d",msg.mItemType,msg.mItemId);
             inventoryC->DropItemType( msg.mItemType );
             inventoryC->AddItem( msg.mItemId );
-            inventoryC->SetSelectedWeapon( msg.mItemId );
+            if (msg.mItemType==Item::Weapon)
+            {
+                inventoryC->SetSelectedWeapon( msg.mItemId );
+            }
+            else if (msg.mItemType==Item::Normal)
+            {
+                inventoryC->SetSelectedNormalItem( msg.mItemId );
+            }
         }
     }
 
@@ -105,6 +113,7 @@ namespace network {
         if(pickupCC.IsValid())
         {
             pickupCC->SetPickupContent(msg.mContentId);
+            pickupCC->SetItemType(msg.mItemType);
         }
     }
 

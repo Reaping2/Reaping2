@@ -13,9 +13,17 @@ public:
     T& operator*();
     T* Get() const;
     T* Get();
+    void Reset();
 private:
     mutable T* mPtr;
 };
+
+// sets contained ptr to NULL does not delete it!
+template<typename T>
+void Opt<T>::Reset()
+{
+    mPtr=NULL;
+}
 
 template<typename T>
 T* Opt<T>::Get()

@@ -5,6 +5,7 @@
 #include "core/opt.h"
 #include <list>
 #include "weapon.h"
+#include "normal_item.h"
 
 class IInventoryComponent : public Component
 {
@@ -18,6 +19,8 @@ public:
     virtual void DropItemType( Item::ItemType Type )=0;
     virtual Opt<Weapon> GetSelectedWeapon()=0;
     virtual void SetSelectedWeapon( int32_t Id )=0;
+    virtual Opt<NormalItem> GetSelectedNormalItem()=0;
+    virtual void SetSelectedNormalItem( int32_t Id )=0;
     virtual void Update( double Seconds )=0;
 protected:
     friend class ComponentFactory;

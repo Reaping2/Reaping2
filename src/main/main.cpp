@@ -33,6 +33,7 @@
 #include "network/damage_taken_message.h"
 #include "network/orientation_message.h"
 #include "network/ping_message.h"
+#include "engine/items/normal_item_sub_system.h"
 
 using engine::Engine;
 namespace {
@@ -189,12 +190,15 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("inventory_system"));
         Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
-        inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
         inventorySystem->AddSubSystem(Item::Weapon,AutoId("weapon_item_sub_system"));
         Opt<engine::WeaponItemSubSystem> weaponitemSS=engine::WeaponItemSubSystem::Get();
         weaponitemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
         weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 		weaponitemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
+
+        inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
+        Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
+        normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
     }
 
     Eng.AddSystem(AutoId("fade_out_system"));

@@ -10,6 +10,7 @@
 #include "engine/items/plasma_gun_weapon_sub_system.h"
 #include "engine/items/pistol_weapon_sub_system.h"
 #include "engine/items/rocket_launcher_weapon_sub_system.h"
+#include "engine/items/grenade_normal_item_sub_system.h"
 #include "collisions/pickup_collision_sub_system.h"
 #include "collisions/wall_collision_sub_system.h"
 #include "collisions/shot_collision_sub_system.h"
@@ -33,6 +34,8 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);
     Bind( AutoId("pistol_weapon_sub_system"), &CreateSubSystem<PistolWeaponSubSystem>);
 	Bind( AutoId("rocket_launcher_weapon_sub_system"), &CreateSubSystem<RocketLauncherWeaponSubSystem>);
+
+    Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
 
     Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
     Bind( AutoId("wall_collision_sub_system"), &CreateSubSystem<WallCollisionSubSystem>);

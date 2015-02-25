@@ -52,6 +52,14 @@ void InventoryComponent::DropItemType( Item::ItemType Type )
             mItems.erase( i );
         } 
     }
+    if (Type==Item::Weapon)//TODO: handle multiple items, and handle this situation
+    {
+        SetSelectedWeapon( -1 );
+    }
+    else if (Type==Item::Normal)
+    {
+        SetSelectedNormalItem( -1 );
+    }
 }
 
 Opt<Weapon> InventoryComponent::GetSelectedWeapon()
@@ -81,6 +89,16 @@ void InventoryComponent::SetActor(Actor* Obj)
         (*i)->SetActor( mActor );
     }
 
+}
+
+Opt<NormalItem> InventoryComponent::GetSelectedNormalItem()
+{
+    return mSelectedNormalItem;
+}
+
+void InventoryComponent::SetSelectedNormalItem(int32_t Id)
+{
+    mSelectedNormalItem=Opt<NormalItem>(dynamic_cast<NormalItem*>(GetItem(Id).Get()));
 }
 
 void InventoryComponentLoader::BindValues()

@@ -36,5 +36,44 @@
 				]
 			}
 		]
+	},
+	{
+		"texture_path":"textures/grenade.png",
+		"actor_visuals":
+		[
+			{
+				"name":"grenade_normal_item",
+				"animations":
+				[
+					{
+						"name":"body_idle",
+						"w":32,
+						"h":32,
+						"scale":1.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/grenade_projectile.png",
+		"actor_visuals":
+		[
+			{
+				"name":"grenade_projectile",
+				"animations":
+				[
+					{
+						"name":"move",
+						"w":14,
+						"h":14,
+						"scale":1.5,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
 	}
+
 ]

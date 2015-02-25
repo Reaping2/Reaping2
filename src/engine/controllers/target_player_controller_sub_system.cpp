@@ -65,6 +65,7 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     }
     double Rot = atan2( Diff.y, Diff.x );
     double Radians = Rot - actor.Get<IMoveComponent>()->GetHeading();
+    L2("Radians:%f, Heading:%f",Radians,actor.Get<IMoveComponent>()->GetHeading());
     static const double pi = boost::math::constants::pi<double>();
     while ( Radians < -pi )
     {
@@ -74,7 +75,8 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         Radians -= pi * 2;
     }
-    double RotSpd = ( Radians > 0 ? 1 : -1 ) * 0.5;
+    double RotSpd = ( Radians > 0 ? 1 : -1 ) * 1;
+    L2("Rot:%f, Radian:%f, RotSpd:%f, Heading:%f",Rot,Radians,RotSpd,actor.Get<IMoveComponent>()->GetHeading());
     actor.Get<IMoveComponent>()->SetHeadingModifier( RotSpd );
 
     //actor.Get<IMoveComponent>()->SetHeading( actor.Get<IMoveComponent>()->GetHeading() + RotSpd );

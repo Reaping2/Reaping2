@@ -46,8 +46,17 @@ void DropOnDeathSystem::Update(double DeltaTime)
                 return;
             }
             std::auto_ptr<Actor> Pu=mActorFactory(AutoId("pickup"));
-            int32_t contentId=Roll(3);
-            Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
+            if(rand() % 2)
+            {
+                int32_t contentId=Roll(3);
+                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
+                Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Weapon );
+            }
+            else
+            {
+                Pu->Get<PickupCollisionComponent>()->SetPickupContent( AutoId("grenade_normal_item") );
+                Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Normal );
+            }
             BOOST_ASSERT(actor.Get<IPositionComponent>().IsValid());
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
             Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();

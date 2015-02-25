@@ -3,6 +3,7 @@
 #include "engine/engine.h"
 #include "platform/auto_id.h"
 #include "core/i_inventory_component.h"
+#include "inventory_system.h"
 
 namespace engine {
 
@@ -16,12 +17,32 @@ NormalItemSubSystem::NormalItemSubSystem()
 void NormalItemSubSystem::Init()
 {
     SubSystemHolder::Init();
+    L1("normal item sub system init");
 }
 
 void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     IInventoryComponent::ItemList_t& items = inventoryC->GetItems();
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    if (!normalItem.IsValid())
+    {
+        return;
+    }
+    BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(normalItem->GetId());
+    if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
+    {
+        itemssIt->mSystem->Update(actor,DeltaTime);
+        if (normalItem->IsConsumed())
+        {
+            inventoryC->DropItemType(Item::Normal);
+        }
+    }
+
+    // NO MORE ACTIONS HERE. Item is dropped!
+
+
+    /*
     for( IInventoryComponent::ItemList_t::iterator i = items.begin(), e = items.end(); i != e; ++i )
     {
         if ((*i)->GetType()!=Item::Normal)
@@ -34,7 +55,14 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
         {
             itemssIt->mSystem->Update(actor,DeltaTime);
         }
-    }
+    }*/
+}
+
+Opt<NormalItemSubSystem> NormalItemSubSystem::Get()
+{
+    return Opt<NormalItemSubSystem>(
+        dynamic_cast<NormalItemSubSystem*>(
+        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Normal).Get()));
 }
 
 } // namespace engine

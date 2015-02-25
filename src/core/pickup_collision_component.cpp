@@ -9,6 +9,7 @@ using platform::AutoId;
 PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()
     , mPickupContent( 0 )
+    , mItemType(Item::Weapon)
 {
 
 }
@@ -21,6 +22,16 @@ void PickupCollisionComponent::SetPickupContent(int32_t PickupContent)
 int32_t PickupCollisionComponent::GetPickupContent() const
 {
     return mPickupContent;
+}
+
+void PickupCollisionComponent::SetItemType(Item::ItemType itemType)
+{
+    mItemType=itemType;
+}
+
+Item::ItemType PickupCollisionComponent::GetItemType() const
+{
+    return mItemType;
 }
 
 void PickupCollisionComponentLoader::BindValues()

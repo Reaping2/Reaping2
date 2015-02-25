@@ -18,6 +18,8 @@ public:
     virtual Opt<Weapon> GetSelectedWeapon();
     virtual void SetSelectedWeapon( int32_t Id );
     virtual void SetActor(Actor* Obj);
+    virtual Opt<NormalItem> GetSelectedNormalItem();
+    virtual void SetSelectedNormalItem( int32_t Id );
     virtual ~InventoryComponent();
 protected:
     InventoryComponent();
@@ -26,6 +28,7 @@ private:
     ItemFactory& mItemFactory;
     ItemList_t mItems;
     Opt<Weapon> mSelectedWeapon;
+    Opt<NormalItem> mSelectedNormalItem;
 };
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>
