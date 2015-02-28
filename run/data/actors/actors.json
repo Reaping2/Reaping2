@@ -94,17 +94,23 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":500}]
+                "set":[{"speed":800}]
+            },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":-300,"min_speed":0}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"players"}]
             },
 
             {"name":"shot_collision_component",
                 "set":[{"class":"projectile", "radius":14, "damage":50 }]
             },
             {"name":"health_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":5.0}]
+            }
         ]
     },	
     {

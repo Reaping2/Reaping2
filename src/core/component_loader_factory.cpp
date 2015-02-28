@@ -16,6 +16,7 @@
 #include "core/remove_on_death_component.h"
 #include "core/drop_on_death_component.h"
 #include "core/fade_out_component.h"
+#include "core/acceleration_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -25,6 +26,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
 
     Bind( AutoId("position_component"), &CreateComponentLoader<PositionComponentLoader>);
     Bind( AutoId("move_component"), &CreateComponentLoader<MoveComponentLoader>);
+    Bind( AutoId("acceleration_component"), &CreateComponentLoader<AccelerationComponentLoader>);
     Bind( AutoId("player_controller_component"), &CreateComponentLoader<PlayerControllerComponentLoader>);
     Bind( AutoId("target_player_controller_component"), &CreateComponentLoader<TargetPlayerControllerComponentLoader>);
     Bind( AutoId("random_controller_component"), &CreateComponentLoader<RandomControllerComponentLoader>);

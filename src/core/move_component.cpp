@@ -41,7 +41,7 @@ void MoveComponent::SetHeading( double Heading )
 }
 void MoveComponent::SetSpeed( double Speed )
 {
-    mSpeed = std::floor(Speed*PRECISION)/PRECISION;
+    mSpeed = Speed;//std::floor(Speed*PRECISION)/PRECISION;
     UpdateProjections();
 }
 void MoveComponent::SetSpeedX( double SpeedX )

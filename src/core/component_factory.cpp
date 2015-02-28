@@ -15,7 +15,8 @@
 #include "core/renderable_component.h"
 #include "core/remove_on_death_component.h"
 #include "core/drop_on_death_component.h"
-#include "fade_out_component.h"
+#include "core/fade_out_component.h"
+#include "core/acceleration_component.h"
 
 using platform::AutoId;
 
@@ -26,9 +27,12 @@ ComponentFactory::ComponentFactory()
 
     Bind( AutoId("position_component"), &CreateComponent<PositionComponent>);
     Bind( AutoId("move_component"), &CreateComponent<MoveComponent>);
+    Bind( AutoId("acceleration_component"), &CreateComponent<AccelerationComponent>);
+
     Bind( AutoId("player_controller_component"), &CreateComponent<PlayerControllerComponent>);
     Bind( AutoId("target_player_controller_component"), &CreateComponent<TargetPlayerControllerComponent>);
     Bind( AutoId("random_controller_component"), &CreateComponent<RandomControllerComponent>);
+
     Bind( AutoId("inventory_component"), &CreateComponent<InventoryComponent>);
     
     Bind( AutoId("health_component"), &CreateComponent<HealthComponent>);

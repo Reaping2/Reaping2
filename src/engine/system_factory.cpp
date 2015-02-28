@@ -14,6 +14,7 @@
 #include "engine/remove_on_death_system.h"
 #include "engine/fade_out_system.h"
 #include "engine/move_system.h"
+#include "engine/acceleration_system.h"
 #include "input/mouse.h"
 #include "main/window.h"
 #include "platform/timer.h"
@@ -57,6 +58,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("remove_on_death_system"), &CreateSystem<RemoveOnDeathSystem>);
     Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
     Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
+    Bind( AutoId("acceleration_system"), &CreateSystem<AccelerationSystem>);
 
     Bind( AutoId("server_system"), &CreateSystem<network::ServerSystem>);
     Bind( AutoId("client_system"), &CreateSystem<network::ClientSystem>);

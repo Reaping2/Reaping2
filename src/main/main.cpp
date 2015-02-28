@@ -209,6 +209,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client) 
         Eng.AddSystem(AutoId("remove_on_death_system"));
+    Eng.AddSystem(AutoId("acceleration_system"));
     Eng.AddSystem(AutoId("move_system"));
 
     Eng.AddSystem(AutoId("frame_counter_system"));

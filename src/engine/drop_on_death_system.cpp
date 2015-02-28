@@ -37,9 +37,9 @@ void DropOnDeathSystem::Update(double DeltaTime)
         {
             dropOnDeathC->SetTriedDrop(true);
 #ifdef DEBUG
-            static const size_t Mod = 3;
+            static const size_t Mod = 2;
 #else
-            static const size_t Mod = 3;
+            static const size_t Mod = 2;
 #endif//DEBUG
             if( rand() % Mod )
             {
