@@ -17,6 +17,7 @@
 #include "core/drop_on_death_component.h"
 #include "core/fade_out_component.h"
 #include "core/acceleration_component.h"
+#include "core/explode_on_death_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -42,6 +43,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("renderable_component"), &CreateComponentLoader<RenderableComponentLoader>);
 
     Bind( AutoId("remove_on_death_component"), &CreateComponentLoader<RemoveOnDeathComponentLoader>);
+    Bind( AutoId("explode_on_death_component"), &CreateComponentLoader<ExplodeOnDeathComponentLoader>);
     Bind( AutoId("drop_on_death_component"), &CreateComponentLoader<DropOnDeathComponentLoader>);
     
     Bind( AutoId("fade_out_component"), &CreateComponentLoader<FadeOutComponentLoader>);

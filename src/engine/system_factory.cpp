@@ -12,6 +12,7 @@
 #include "engine/drop_on_death_system.h"
 #include "engine/health_system.h"
 #include "engine/remove_on_death_system.h"
+#include "engine/explode_on_death_system.h"
 #include "engine/fade_out_system.h"
 #include "engine/move_system.h"
 #include "engine/acceleration_system.h"
@@ -35,6 +36,7 @@
 #include "network/ping_message.h"
 #include "network/revive_message.h"
 
+
 using platform::AutoId;
 namespace engine {
 
@@ -56,6 +58,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("drop_on_death_system"), &CreateSystem<DropOnDeathSystem>);
     Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
     Bind( AutoId("remove_on_death_system"), &CreateSystem<RemoveOnDeathSystem>);
+    Bind( AutoId("explode_on_death_system"), &CreateSystem<ExplodeOnDeathSystem>);
     Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
     Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
     Bind( AutoId("acceleration_system"), &CreateSystem<AccelerationSystem>);

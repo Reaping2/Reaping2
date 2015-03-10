@@ -57,6 +57,25 @@
 		]
 	},
 	{
+		"texture_path":"textures/pow_projectile.png",
+		"actor_visuals":
+		[
+			{
+				"name":"pow_projectile",
+				"animations":
+				[
+					{
+						"name":"body_idle",
+						"w":295,
+						"h":295,
+						"scale":1.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
+	},
+	{
 		"texture_path":"textures/grenade_projectile.png",
 		"actor_visuals":
 		[

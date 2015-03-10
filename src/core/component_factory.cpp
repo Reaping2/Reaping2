@@ -17,6 +17,7 @@
 #include "core/drop_on_death_component.h"
 #include "core/fade_out_component.h"
 #include "core/acceleration_component.h"
+#include "core/explode_on_death_component.h"
 
 using platform::AutoId;
 
@@ -45,6 +46,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
 
     Bind( AutoId("remove_on_death_component"), &CreateComponent<RemoveOnDeathComponent>);
+    Bind( AutoId("explode_on_death_component"), &CreateComponent<ExplodeOnDeathComponent>);
     Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
 
     Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);

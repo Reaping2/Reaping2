@@ -7,9 +7,7 @@
 class RemoveOnDeathComponent : public IRemoveOnDeathComponent
 {
 public:
-    virtual void Update( double Seconds );
     RemoveOnDeathComponent();
-    friend class ComponentFactory;
 };
 
 class RemoveOnDeathComponentLoader: public ComponentLoader<RemoveOnDeathComponent>

@@ -4,10 +4,6 @@
 #include "core/actor.h"
 #include <boost/assert.hpp>
 
-void RemoveOnDeathComponent::Update(double Seconds)
-{
-}
-
 RemoveOnDeathComponent::RemoveOnDeathComponent()
 {
 

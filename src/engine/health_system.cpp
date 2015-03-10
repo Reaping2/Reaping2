@@ -58,7 +58,11 @@ void HealthSystem::Update(double DeltaTime)
         {
             newHp=0;
             healthC->SetAlive(false);
-            actor.Get<ICollisionComponent>()->SetCollisionClass( CollisionClass::No_Collision );
+            Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
+            if(collisionC.IsValid())
+            {
+                collisionC->SetCollisionClass( CollisionClass::No_Collision );
+            }
             healthC->SetTimeOfDeath(glfwGetTime());
             Scene::Get().ModifyActor(&actor,RenderableComponentModifier(RenderableLayer::Corpses,healthC->GetTimeOfDeath()));
 
