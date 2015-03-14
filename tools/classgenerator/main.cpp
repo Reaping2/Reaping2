@@ -142,7 +142,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
     template<typename Elem_T>
     static std::auto_ptr<Generator> CreateGenerator( int32_t Id );
 
-    GeneratorFactory::GeneratorFactory()
+    GeneratorFactory()
     {
         Bind( AutoId( "default_generator" ), &CreateGenerator<Generator> );
         SetDefault( AutoId( "default_generator" ) );
