@@ -80,6 +80,7 @@ int main(int argc, char* argv[])
     namespace po=boost::program_options;
     po::options_description desc("Allowed options");
     desc.add_options()
+        ("help", "produce help message")
         ("-c", po::value<std::string>(&programState.mServerIp), "client")
         ("-s", "server ip")
         ("-n", po::value<std::string>(&programState.mClientName), "client name")
@@ -88,6 +89,10 @@ int main(int argc, char* argv[])
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);    
+    if (vm.count("help")) {
+        std::cout << desc << "\n";
+        return 1;
+    }
     if (vm.count("-c")) {
         L1("run as client");
         programState.SetMode(ProgramState::Client);
