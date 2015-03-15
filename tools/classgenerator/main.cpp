@@ -7,6 +7,7 @@
 
 class Generator
 {
+public:
     typedef std::pair<std::string,std::string> Type_Member_Pair_t;
     typedef std::vector<Type_Member_Pair_t> Type_Member_Pairs_t;
 protected:
