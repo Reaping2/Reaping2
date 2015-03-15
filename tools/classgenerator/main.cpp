@@ -7,24 +7,28 @@
 
 class Generator
 {
+    typedef std::pair<std::string,std::string> Type_Member_Pair_t;
+    typedef std::vector<Type_Member_Pair_t> Type_Member_Pairs_t;
 protected:
     std::string classCamelCase;
     std::string classUpperCaseUnderscore;
     std::string parentCamelCase;
     std::string nameSpaceUpperCase;
     std::string headerGuard;
+    Type_Member_Pairs_t typeMemberPairs;
 public:
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase)
+    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
     {
         L1("default generator implementation, do nothing\n");
     }
-    void Init(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase)
+    void Init(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
     {
         classCamelCase=UnderScoreToCamelCase(classUnderscore);
-        parentCamelCase=UnderScoreToCamelCase(classUnderscore);
+        parentCamelCase=UnderScoreToCamelCase(parentUnderscore);
         classUpperCaseUnderscore=boost::to_upper_copy(classUnderscore);
         nameSpaceUpperCase=boost::to_upper_copy(namespaceLowerCase);
         headerGuard="INCLUDED_"+nameSpaceUpperCase+"_"+classUpperCaseUnderscore+"_H";
+        typeMemberPairs=SplitMemberPairs(membersArg);
     }
     virtual ~Generator() {}
     std::string UnderScoreToCamelCase(std::string underscore)
@@ -40,97 +44,245 @@ public:
         camelCase=boost::join(parts,camelCase);
         return camelCase;
     }
+
+    Type_Member_Pairs_t SplitMemberPairs(std::string membersArg)
+    {
+        if (membersArg.empty())
+        {
+            return Type_Member_Pairs_t();
+        }
+        std::vector<std::string> typeMemberSplit;
+        boost::split(typeMemberSplit,membersArg,boost::is_any_of(" "));
+
+        Type_Member_Pairs_t typeMemberPairs;
+        for(std::vector<std::string>::iterator i=typeMemberSplit.begin(),e=typeMemberSplit.end();i!=e;++i)
+        {
+            std::vector<std::string> parts;
+            boost::split(parts,*i,boost::is_any_of(":"));
+            if(parts.size()==2)
+            {
+                typeMemberPairs.push_back(Type_Member_Pair_t(parts[0],parts[1]));
+            }
+            else
+            {
+                L1("members are not correctly separated: %s",i->c_str());
+            }
+        }
+        return typeMemberPairs;
+    }
+
+    // from targetActor -> mTargetActor
+    std::string CreateMemberName(std::string memberName)
+    {
+        std::string r="m"+memberName;
+        r[1]=toupper(r[1]);
+        return r;
+    }
+
+    // from targetActor -> GetTargetActor
+    std::string CreateGetMember(std::string memberName)
+    {
+        std::string r="Get"+memberName;
+        r[3]=toupper(r[3]);
+        return r;
+    }
+    // from targetActor -> SetTargetActor
+    std::string CreateSetMember(std::string memberName)
+    {
+        std::string r="Set"+memberName;
+        r[3]=toupper(r[3]);
+        return r;
+    }
+    // from targetActor,int32_t -> virtual int32_t GetTargetActor()const
+    std::string CreateGetMember(std::string memberType, std::string memberName)
+    {
+        std::string r="virtual "+memberType+" "+CreateGetMember(memberName)+"()const";
+        return r;
+    }
+    // from targetActor,int32_t -> virtual void SetTargetActor(int32_t targetActor)
+    std::string CreateSetMember(std::string memberType, std::string memberName)
+    {
+        std::string r="virtual void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")";
+        return r;
+    }
+
+    /// from targetActor,int32_t -> virtual int32_t GetTargetActor()const=0
+    std::string CreateAbstractGetMember(std::string memberType, std::string memberName)
+    {
+        std::string r="virtual "+memberType+" "+CreateGetMember(memberName)+"()const=0";
+        return r;
+    }
+
+    /// from targetActor,int32_t -> virtual void SetTargetActor(int32_t targetActor)=0
+    std::string CreateAbstractSetMember(std::string memberType, std::string memberName)
+    {
+        std::string r="virtual void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")=0";
+        return r;
+    }
+
+    // from targetActor,int32_t -> int32_t mTargetActor
+    std::string CreateMemberWithType(std::string memberType, std::string memberName)
+    {
+        std::string r=memberType+" "+CreateMemberName(memberName);
+        return r;
+    }
+
+    // from targetActor,int32_t,TargetComponent -> 
+    // int32_t GetTargetActor() const
+    // {
+    //     return mTargetActor;
+    // }
+    // 
+    std::string CreateGetMemberCppDefiniton(std::string memberType, std::string memberName,std::string ClassCamelCase)
+    {
+        
+        std::string r=memberType+" "+ClassCamelCase+"::"+CreateGetMember(memberName)+"()const\n";
+        r=r+"{\n";
+        r=r+"    return "+CreateMemberName(memberName)+";\n";
+        r=r+"}\n";
+        r=r+"\n";
+        return r;
+    }
+
+    // from targetActor,int32_t,TargetComponent -> 
+    // virtual void SetTargetActor(int32_t targetActor)
+    // {
+    //     mTargetActor=targetActor;
+    // }
+    // 
+    std::string CreateSetMemberCppDefiniton(std::string memberType, std::string memberName,std::string ClassCamelCase)
+    {
+        std::string r="void "+ClassCamelCase+"::"+CreateSetMember(memberName)+"("+memberType+" "+memberName+")\n";
+        r=r+"{\n";
+        r=r+"    "+CreateMemberName(memberName)+"="+memberName+";\n";
+        r=r+"}\n";
+        r=r+"\n";
+        return r;
+    }
 };
 
 class IComponentGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase)
+    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
     {
         L1("IComponentGenerator started\n");
         if (parentUnderscore.empty())
         {
             parentUnderscore="component";
         }
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase);
+        Init(classUnderscore,parentUnderscore,namespaceLowerCase, membersArg);
 
-        AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-        fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-        fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-        fprintf(file.mFile, "\n");
-        fprintf(file.mFile, "#include \"component.h\"\n");
-        fprintf(file.mFile, "\n");
-        fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-        fprintf(file.mFile, "{\n");
-        fprintf(file.mFile, "public:\n");
-        fprintf(file.mFile, "    DEFINE_COMPONENT_BASE(%s)\n",classCamelCase.c_str());
-        fprintf(file.mFile, "};\n");
-        fprintf(file.mFile, "\n");
-        fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"component.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_COMPONENT_BASE(%s)\n",classCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateAbstractSetMember(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateAbstractGetMember(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+        }
         L1("IComponentGenerator ended\n");
     }
 };
 
 class ComponentGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase)
+    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
     {
         L1("ComponentGenerator started\n");
         if (parentUnderscore.empty())
         {
             parentUnderscore="i_"+classUnderscore;
         }
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase);
+        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"%s.h\"\n",parentUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/property_loader.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateSetMember(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateGetMember(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    friend class ComponentFactory;\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
 
-        AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-        fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-        fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-        fprintf(file.mFile, "\n");
-        fprintf(file.mFile, "#include \"%s.h\"\n",parentUnderscore.c_str());
-        fprintf(file.mFile, "#include \"core/property_loader.h\"\n");
-        fprintf(file.mFile, "\n");
-        fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-        fprintf(file.mFile, "{\n");
-        fprintf(file.mFile, "public:\n");
-        fprintf(file.mFile, "protected:\n");
-        fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-        fprintf(file.mFile, "    friend class ComponentFactory;\n");
-        fprintf(file.mFile, "private:\n");
-        fprintf(file.mFile, "};\n");
-        fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %sLoader : public ComponentLoader<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    virtual void BindValues();\n");
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    %sLoader();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    friend class ComponentLoaderFactory;\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
 
-        fprintf(file.mFile, "class %sLoader : public ComponentLoader<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
-        fprintf(file.mFile, "{\n");
-        fprintf(file.mFile, "    virtual void BindValues();\n");
-        fprintf(file.mFile, "protected:\n");
-        fprintf(file.mFile, "    %sLoader();\n",classCamelCase.c_str());
-        fprintf(file.mFile, "    friend class ComponentLoaderFactory;\n");
-        fprintf(file.mFile, "};\n");
-        fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
 
-        fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-
-        fprintf(file.mFile, "\\TODO: to component_factory.cpp:\n");
-        fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-        fprintf(file.mFile, "\\TODO: to component_loader_factory.cpp:\n");
-        fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-
+            fprintf(file.mFile, "\\TODO: to component_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "\\TODO: to component_loader_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+        }
         
-        AutoNormalFile filecpp((classUnderscore+".cpp").c_str(),"w" );
-        fprintf(filecpp.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
-        fprintf(filecpp.mFile, "\n");
-        fprintf(filecpp.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-        fprintf(filecpp.mFile, "{\n");
-        fprintf(filecpp.mFile, "}\n");
-        fprintf(filecpp.mFile, "\n");
-        fprintf(filecpp.mFile, "\n");
-        fprintf(filecpp.mFile, "%sLoader::BindValues()\n",classCamelCase.c_str());
-        fprintf(filecpp.mFile, "{\n");
-        fprintf(filecpp.mFile, "}\n");
-        fprintf(filecpp.mFile, "\n");
-        fprintf(filecpp.mFile, "%sLoader::%sLoader()\n",classCamelCase.c_str(),classCamelCase.c_str());
-        fprintf(filecpp.mFile, "{\n");
-        fprintf(filecpp.mFile, "}\n");
 
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            bool isFirst=true;
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
+                    isFirst?":":",",CreateMemberName(i->first).c_str());
+                isFirst=false;
+            }
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+            }
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%sLoader::BindValues()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%sLoader::%sLoader()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+        }
 
         L1("ComponentGenerator ended\n");
     }
@@ -167,13 +319,21 @@ int main(int argc, char* argv[])
 	std::string generatorType;
     std::string parentUnderscore;
     std::string namespaceLowerCase;
+    std::string membersArg;
 	desc.add_options()
         ("help", "produce help message")
 		("-c", po::value<std::string>(&classUnderscore), "class_name_underscore")
 		("-g", po::value<std::string>(&generatorType), "type of generator")
 		("-p", po::value<std::string>(&parentUnderscore), "parent_name_underscore")
         ("-n", po::value<std::string>(&namespaceLowerCase), "namespacelowercase")
-		;
+        ("-m", po::value<std::string>(&membersArg), "optional: members: \"double:radius int32_t:targetId\"")
+		("generators:", 
+        "\ndefault_generator\n does nothing\n" 
+        "\ni_component\n generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component. class_name shall start with i_.\n" 
+        "\ncomponent\n generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n" 
+        //"\n\n\n"
+           )
+        ;
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -187,7 +347,7 @@ int main(int argc, char* argv[])
         return 2;
     }
 
-    GeneratorFactory::Get()(AutoId(generatorType))->Generate(classUnderscore,parentUnderscore,namespaceLowerCase);
+    GeneratorFactory::Get()(AutoId(generatorType))->Generate(classUnderscore,parentUnderscore,namespaceLowerCase, membersArg);
 
 	return 0;
 }
