@@ -47,6 +47,8 @@ public:
     void Bind(std::string const& val, func_int32_t func);
     typedef boost::function<void (T*,double)> func_double;
     void Bind(std::string const& val, func_double func);
+    typedef boost::function<void (T*,bool)> func_bool;
+    void Bind(std::string const& val, func_bool func);
 
     virtual void Load(Json::Value& setters);
     virtual void BindValues()=0;
@@ -113,6 +115,16 @@ void PropertyLoader<T, BASE>::Bind(std::string const& val,func_double func)
     if( Json::GetDouble( (*mSetters)[val], dv))
     {
         Bind<double>(func,dv);
+    }
+}
+
+template<typename T, typename BASE>
+void PropertyLoader<T, BASE>::Bind(std::string const& val,func_bool func)
+{
+    int iv;
+    if( Json::GetInt( (*mSetters)[val], iv))
+    {
+        Bind<bool>(func,(iv!=0));
     }
 }
 

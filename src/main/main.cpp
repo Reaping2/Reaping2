@@ -183,6 +183,7 @@ int main(int argc, char* argv[])
     {
         collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
         collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("aoe_collision_component"),AutoId("aoe_collision_sub_system"));
     }
 
     Eng.AddSystem(AutoId("controller_system"));
@@ -217,6 +218,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("remove_on_death_system"));
         Eng.AddSystem(AutoId("explode_on_death_system"));
     }
+    Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));
     Eng.AddSystem(AutoId("move_system"));
 

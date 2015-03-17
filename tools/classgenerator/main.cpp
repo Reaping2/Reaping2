@@ -75,60 +75,60 @@ public:
     // from targetActor -> mTargetActor
     std::string CreateMemberName(std::string memberName)
     {
+        memberName[0]=toupper(memberName[0]);
         std::string r="m"+memberName;
-        r[1]=toupper(r[1]);
         return r;
     }
 
     // from targetActor -> GetTargetActor
-    std::string CreateGetMember(std::string memberName)
+    std::string CreateGetMember(std::string memberType, std::string memberName)
     {
-        std::string r="Get"+memberName;
-        r[3]=toupper(r[3]);
+        memberName[0]=toupper(memberName[0]);
+        std::string r=memberType=="bool"?"Is":"Get"+memberName;
         return r;
     }
     // from targetActor -> SetTargetActor
     std::string CreateSetMember(std::string memberName)
     {
+        memberName[0]=toupper(memberName[0]);
         std::string r="Set"+memberName;
-        r[3]=toupper(r[3]);
         return r;
     }
-    // from targetActor,int32_t -> virtual int32_t GetTargetActor()const
-    std::string CreateGetMember(std::string memberType, std::string memberName)
+    // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
+    std::string CreateGetMemberFull(std::string memberType, std::string memberName)
     {
-        std::string r="virtual "+memberType+" "+CreateGetMember(memberName)+"()const";
+        std::string r="virtual "+memberType+" "+CreateGetMember(memberType,memberName)+"()const";
         return r;
     }
-    // from targetActor,int32_t -> virtual void SetTargetActor(int32_t targetActor)
-    std::string CreateSetMember(std::string memberType, std::string memberName)
+    // from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)
+    std::string CreateSetMemberFull(std::string memberType, std::string memberName)
     {
         std::string r="virtual void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")";
         return r;
     }
 
-    /// from targetActor,int32_t -> virtual int32_t GetTargetActor()const=0
+    /// from int32_t,targetActor -> virtual int32_t GetTargetActor()const=0
     std::string CreateAbstractGetMember(std::string memberType, std::string memberName)
     {
-        std::string r="virtual "+memberType+" "+CreateGetMember(memberName)+"()const=0";
+        std::string r="virtual "+memberType+" "+CreateGetMember(memberType,memberName)+"()const=0";
         return r;
     }
 
-    /// from targetActor,int32_t -> virtual void SetTargetActor(int32_t targetActor)=0
+    /// from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)=0
     std::string CreateAbstractSetMember(std::string memberType, std::string memberName)
     {
         std::string r="virtual void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")=0";
         return r;
     }
 
-    // from targetActor,int32_t -> int32_t mTargetActor
+    // from int32_t,targetActor -> int32_t mTargetActor
     std::string CreateMemberWithType(std::string memberType, std::string memberName)
     {
         std::string r=memberType+" "+CreateMemberName(memberName);
         return r;
     }
 
-    // from targetActor,int32_t,TargetComponent -> 
+    // from int32_t,targetActor,TargetComponent -> 
     // int32_t GetTargetActor() const
     // {
     //     return mTargetActor;
@@ -137,7 +137,7 @@ public:
     std::string CreateGetMemberCppDefiniton(std::string memberType, std::string memberName,std::string ClassCamelCase)
     {
         
-        std::string r=memberType+" "+ClassCamelCase+"::"+CreateGetMember(memberName)+"()const\n";
+        std::string r=memberType+" "+ClassCamelCase+"::"+CreateGetMember(memberType,memberName)+"()const\n";
         r=r+"{\n";
         r=r+"    return "+CreateMemberName(memberName)+";\n";
         r=r+"}\n";
@@ -145,7 +145,7 @@ public:
         return r;
     }
 
-    // from targetActor,int32_t,TargetComponent -> 
+    // from int32_t,targetActor,TargetComponent -> 
     // virtual void SetTargetActor(int32_t targetActor)
     // {
     //     mTargetActor=targetActor;
@@ -227,13 +227,13 @@ class ComponentGenerator : public Generator
             fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    %s;\n",CreateSetMember(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateGetMember(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
             }
             fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
             fprintf(file.mFile, "    friend class ComponentFactory;\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
@@ -270,7 +270,7 @@ class ComponentGenerator : public Generator
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
                 fprintf(file.mFile, "    %s %s(_fill_me_)\n",
-                    isFirst?":":",",CreateMemberName(i->first).c_str());
+                    isFirst?":":",",CreateMemberName(i->second).c_str());
                 isFirst=false;
             }
             fprintf(file.mFile, "{\n");
@@ -285,7 +285,7 @@ class ComponentGenerator : public Generator
 
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%sLoader::BindValues()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "void %sLoader::BindValues()\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
@@ -338,8 +338,8 @@ class SystemGenerator : public Generator
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
             fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
             fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "protected:\n");
             fprintf(file.mFile, "    virtual void Init();\n");
             fprintf(file.mFile, "    virtual void Update( double DeltaTime );\n");
             fprintf(file.mFile, "private:\n");
@@ -441,8 +441,8 @@ class CollisionSubSystemGenerator : public Generator
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
             fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
             fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "protected:\n");
             fprintf(file.mFile, "    virtual void Init();\n");
             fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
             fprintf(file.mFile, "    virtual void ClipScene( Actor& actor );\n");

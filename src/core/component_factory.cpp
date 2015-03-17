@@ -18,6 +18,9 @@
 #include "core/fade_out_component.h"
 #include "core/acceleration_component.h"
 #include "core/explode_on_death_component.h"
+#include "explosion_component.h"
+#include "platform/factory.h"
+#include "aoe_collision_component.h"
 
 using platform::AutoId;
 
@@ -42,6 +45,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("shot_collision_component"), &CreateComponent<ShotCollisionComponent>);
     Bind( AutoId("wall_collision_component"), &CreateComponent<WallCollisionComponent>);
     Bind( AutoId("pickup_collision_component"), &CreateComponent<PickupCollisionComponent>);
+    Bind( AutoId("aoe_collision_component"), &CreateComponent<AoeCollisionComponent>);
 
     Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
 
@@ -50,4 +54,6 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
 
     Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);
+
+    Bind( AutoId("explosion_component"), &CreateComponent<ExplosionComponent>);
 }

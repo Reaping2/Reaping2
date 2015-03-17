@@ -7,6 +7,8 @@ CollisionClass::CollisionClass()
 {
     mIdToCollClassMap[AutoId("no_collision")]=CollisionClass::No_Collision;
     mIdToCollClassMap[AutoId("projectile")]=CollisionClass::Projectile;
+    mIdToCollClassMap[AutoId("aoe")]=CollisionClass::AoeDamage;
+
     mIdToCollClassMap[AutoId("creep")]=CollisionClass::Creep;
     mIdToCollClassMap[AutoId("mine")]=CollisionClass::Mine;
     mIdToCollClassMap[AutoId("player")]=CollisionClass::Player;

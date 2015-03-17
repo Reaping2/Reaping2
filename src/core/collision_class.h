@@ -13,6 +13,7 @@ public:
     {
         No_Collision=0,
         Projectile,
+        AoeDamage,
         Creep,
         Mine,
         Player,
