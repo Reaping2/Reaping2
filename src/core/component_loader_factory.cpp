@@ -20,6 +20,7 @@
 #include "core/explode_on_death_component.h"
 #include "explosion_component.h"
 #include "aoe_collision_component.h"
+#include "bounce_collision_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -42,6 +43,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("wall_collision_component"), &CreateComponentLoader<WallCollisionComponentLoader>);
     Bind( AutoId("pickup_collision_component"), &CreateComponentLoader<PickupCollisionComponentLoader>);
     Bind( AutoId("aoe_collision_component"), &CreateComponentLoader<AoeCollisionComponentLoader>);
+    Bind( AutoId("bounce_collision_component"), &CreateComponentLoader<BounceCollisionComponentLoader>);
 
     Bind( AutoId("renderable_component"), &CreateComponentLoader<RenderableComponentLoader>);
 

@@ -50,6 +50,7 @@
             type=platform::AutoId("rocket_launcher_secondary");
             type=platform::AutoId("rocket_launcher_projectile");
             type=platform::AutoId("grenade_projectile");
+            type=platform::AutoId("pow_projectile");
         }
     } _msg_order;
 

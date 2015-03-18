@@ -21,6 +21,7 @@
 #include "explosion_component.h"
 #include "platform/factory.h"
 #include "aoe_collision_component.h"
+#include "bounce_collision_component.h"
 
 using platform::AutoId;
 
@@ -46,6 +47,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("wall_collision_component"), &CreateComponent<WallCollisionComponent>);
     Bind( AutoId("pickup_collision_component"), &CreateComponent<PickupCollisionComponent>);
     Bind( AutoId("aoe_collision_component"), &CreateComponent<AoeCollisionComponent>);
+    Bind( AutoId("bounce_collision_component"), &CreateComponent<BounceCollisionComponent>);
 
     Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
 
