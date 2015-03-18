@@ -223,6 +223,8 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("acceleration_system"));
     Eng.AddSystem(AutoId("move_system"));
 
+    Eng.AddSystem(AutoId("stop_on_death_system"));
+
     Eng.AddSystem(AutoId("frame_counter_system"));
     Eng.AddSystem(AutoId("renderer_system"));
 

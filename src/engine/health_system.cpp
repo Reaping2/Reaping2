@@ -71,12 +71,6 @@ void HealthSystem::Update(double DeltaTime)
             {
                 controllerC->SetEnabled(false);
             }
-            Opt<IMoveComponent> moveC=actor.Get<IMoveComponent>();
-            if(moveC.IsValid())
-            {
-                moveC->SetSpeed(0);
-                moveC->SetHeadingModifier(0);
-            }
         }
         healthC->SetHP(newHp);
         healthC->ResetDamage();

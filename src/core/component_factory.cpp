@@ -22,6 +22,7 @@
 #include "platform/factory.h"
 #include "aoe_collision_component.h"
 #include "bounce_collision_component.h"
+#include "stop_on_death_component.h"
 
 using platform::AutoId;
 
@@ -54,6 +55,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("remove_on_death_component"), &CreateComponent<RemoveOnDeathComponent>);
     Bind( AutoId("explode_on_death_component"), &CreateComponent<ExplodeOnDeathComponent>);
     Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
+    Bind( AutoId("stop_on_death_component"), &CreateComponent<StopOnDeathComponent>);
 
     Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);
 

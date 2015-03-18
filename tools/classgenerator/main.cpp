@@ -84,7 +84,7 @@ public:
     std::string CreateGetMember(std::string memberType, std::string memberName)
     {
         memberName[0]=toupper(memberName[0]);
-        std::string r=memberType=="bool"?"Is":"Get"+memberName;
+        std::string r=(memberType=="bool"?"Is":"Get")+memberName;
         return r;
     }
     // from targetActor -> SetTargetActor

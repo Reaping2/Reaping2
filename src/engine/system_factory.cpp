@@ -36,6 +36,7 @@
 #include "network/ping_message.h"
 #include "network/revive_message.h"
 #include "explosion_system.h"
+#include "stop_on_death_system.h"
 
 
 using platform::AutoId;
@@ -56,10 +57,13 @@ SystemFactory::SystemFactory()
     Bind( AutoId("mouse_system"), &CreateSystem<MouseSystem>);
     Bind( AutoId("controller_system"), &CreateSystem<ControllerSystem>);
     Bind( AutoId("inventory_system"), &CreateSystem<InventorySystem>);
+
     Bind( AutoId("drop_on_death_system"), &CreateSystem<DropOnDeathSystem>);
-    Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
     Bind( AutoId("remove_on_death_system"), &CreateSystem<RemoveOnDeathSystem>);
     Bind( AutoId("explode_on_death_system"), &CreateSystem<ExplodeOnDeathSystem>);
+    Bind( AutoId("stop_on_death_system"), &CreateSystem<StopOnDeathSystem>);
+
+    Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
     Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
     Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
     Bind( AutoId("acceleration_system"), &CreateSystem<AccelerationSystem>);

@@ -72,7 +72,20 @@
 						"phases":[{"x":0,"y":0}]
 					}
 				]
-			}
+			},
+			{
+				"name":"rocket_pow_projectile",
+				"animations":
+				[
+					{
+						"name":"body_idle",
+						"w":295,
+						"h":295,
+						"scale":2.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}			
 		]
 	},
 	{

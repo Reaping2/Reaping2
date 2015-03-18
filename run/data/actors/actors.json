@@ -82,10 +82,12 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":50, "damage":20 }]
+                "set":[{"class":"projectile", "radius":25, "damage":10 }]
             },
             {"name":"health_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"explode_on_death_component",
+                "set":[{"explosion_projectile":"rocket_pow_projectile"}]
+			}
         ]
     },
     {
@@ -137,6 +139,27 @@
         ]
     },	
     {
+        "name":"rocket_pow_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"aoe_collision_component",
+                "set":[{"class":"aoe", "radius":14, "damage":10, "damage_once":1 }]
+            },
+            {"name":"explosion_component",
+                "set":[{"scale_speed":1000.0, "max_radius":75.0}]
+            },
+            {"name":"health_component"},
+			{"name":"remove_on_death_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":0.125}]
+            }
+        ]
+    },	
+    {
         "name":"spider1",
         "components":
         [
@@ -146,13 +169,14 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":50}]
             },
             {"name":"health_component",
                 "set":[{"hp":40}]
             },
             {"name":"random_controller_component"},
-            {"name":"drop_on_death_component"}
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"}
         ]
     },
     {
@@ -165,13 +189,14 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":50}]
             },
             {"name":"health_component",
                 "set":[{"hp":10}]
             },
             {"name":"target_player_controller_component"},
-            {"name":"drop_on_death_component"}
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"}
         ]
     },
     {
@@ -185,14 +210,15 @@
             },
 
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":50}]
             },
             {"name":"health_component",
                 "set":[{"hp":30}]
             },
             {"name":"random_controller_component"},
-            {"name":"drop_on_death_component"}
-        ]
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"}
+       ]
     },
     {
         "name":"spider2target",
@@ -204,13 +230,14 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":50}]
             },
             {"name":"health_component",
                 "set":[{"hp":30}]
             },
             {"name":"target_player_controller_component"},
-            {"name":"drop_on_death_component"}
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"}
         ]
     },    
     {
@@ -231,7 +258,8 @@
             },
             {"name":"health_component",
                 "set":[{"hp":100}]
-            }
-        ]
+            },
+            {"name":"stop_on_death_component"}
+         ]
     }
 ]

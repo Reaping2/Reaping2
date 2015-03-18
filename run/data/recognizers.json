@@ -82,6 +82,14 @@
 		]
 	},
 	{
+		"name":"rocket_pow_projectile",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},	
+	{
 		"name":"spider1",
 		"recognizers":
 		[

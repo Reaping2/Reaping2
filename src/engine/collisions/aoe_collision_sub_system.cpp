@@ -41,10 +41,8 @@ void AoeCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 
 void AoeCollisionSubSystem::ClipScene(Actor& actor)
 {
-    CollisionSubSystem::ClipScene(actor);
-    Opt<AoeCollisionComponent> aoeCC=actor.Get<AoeCollisionComponent>();
-
-
+//     CollisionSubSystem::ClipScene(actor);
+//     Opt<AoeCollisionComponent> aoeCC=actor.Get<AoeCollisionComponent>();
 }
 
 

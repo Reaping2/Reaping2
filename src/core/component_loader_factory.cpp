@@ -21,6 +21,7 @@
 #include "explosion_component.h"
 #include "aoe_collision_component.h"
 #include "bounce_collision_component.h"
+#include "stop_on_death_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -50,7 +51,8 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("remove_on_death_component"), &CreateComponentLoader<RemoveOnDeathComponentLoader>);
     Bind( AutoId("explode_on_death_component"), &CreateComponentLoader<ExplodeOnDeathComponentLoader>);
     Bind( AutoId("drop_on_death_component"), &CreateComponentLoader<DropOnDeathComponentLoader>);
-    
+    Bind( AutoId("stop_on_death_component"), &CreateComponentLoader<StopOnDeathComponentLoader>);
+
     Bind( AutoId("fade_out_component"), &CreateComponentLoader<FadeOutComponentLoader>);
 
     Bind( AutoId("explosion_component"), &CreateComponentLoader<ExplosionComponentLoader>);

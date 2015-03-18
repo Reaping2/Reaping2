@@ -206,7 +206,7 @@ void Scene::Load( std::string const& Level )
     
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
 //    inventoryC->AddItem(AutoId( "plasma_gun" ));
-    inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
+    inventoryC->SetSelectedWeapon(AutoId( "rocket_launcher" ));
 
     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
     Pl->Get<PlayerControllerComponent>()->mActive=true;
