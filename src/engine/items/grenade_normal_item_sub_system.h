@@ -2,10 +2,11 @@
 #define INCLUDED_ENGINE_ITEMS_GRENADE_NORMAL_ITEM_SUB_SYSTEM_H
 
 #include "engine/items/common_sub_system_includes.h"
+#include "normal_item_sub_system.h"
 
 namespace engine {
 
-class GrenadeNormalItemSubSystem : public SubSystem, public SubSystemHolder
+class GrenadeNormalItemSubSystem : public SubSystem
 {
 public:
     DEFINE_SUB_SYSTEM_BASE(GrenadeNormalItemSubSystem)
@@ -15,7 +16,7 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
 private:
     Scene& mScene;
-    Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
+    Opt<NormalItemSubSystem> mNormalItemSubSystem;
     ActorFactory& mActorFactory;
     int32_t mProjectileId;
 };

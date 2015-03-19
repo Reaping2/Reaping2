@@ -1,15 +1,14 @@
 #include "engine/items/grenade_normal_item_sub_system.h"
-#include "weapon_item_sub_system.h"
 #include "core/i_move_component.h"
 #include "core/shot_collision_component.h"
 #include "core/i_position_component.h"
+#include "normal_item_sub_system.h"
 
 namespace engine {
 
 GrenadeNormalItemSubSystem::GrenadeNormalItemSubSystem()
-    : SubSystemHolder()
-    , mScene( Scene::Get() )
-    , mWeaponItemSubSystem(WeaponItemSubSystem::Get())
+    : mScene( Scene::Get() )
+    , mNormalItemSubSystem(NormalItemSubSystem::Get())
     , mActorFactory(ActorFactory::Get())
     , mProjectileId( AutoId( "grenade_projectile" ) )
 {
@@ -17,7 +16,6 @@ GrenadeNormalItemSubSystem::GrenadeNormalItemSubSystem()
 
 void GrenadeNormalItemSubSystem::Init()
 {
-    SubSystemHolder::Init();
 }
 
 void GrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)

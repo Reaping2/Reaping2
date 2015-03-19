@@ -198,10 +198,10 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("inventory_system"));
         Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
         inventorySystem->AddSubSystem(Item::Weapon,AutoId("weapon_item_sub_system"));
-        Opt<engine::WeaponItemSubSystem> weaponitemSS=engine::WeaponItemSubSystem::Get();
-        weaponitemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
-        weaponitemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
-		weaponitemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
+        Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
+        weaponItemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
+        weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
+		weaponItemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
 
         inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
