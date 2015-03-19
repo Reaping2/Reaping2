@@ -22,6 +22,9 @@ class RendererSystem : public System
     AutoReg mMousePressId;
     AutoReg mMouseReleaseId;
 
+    glm::vec3 mMouseRawPos;
+    glm::vec3 mMouseWorldPos;
+
     bool BeginRender();
     bool EndRender();
     void SetupRenderer( const Projection& Proj );
@@ -37,6 +40,9 @@ public:
     DEFINE_SYSTEM_BASE(RendererSystem)
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    void SendWorldMouseMoveEvent();
+
 };
 } // namespace engine
 

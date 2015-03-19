@@ -7,6 +7,8 @@ RendererSystem::RendererSystem()
     , mUi( Ui::Get() )
     , mDecalEngine( DecalEngine::Get() )
     , mShaderManager( ShaderManager::Get() )
+    , mMouseRawPos(0)
+    , mMouseWorldPos(0)
 {
     Font::Get();
     mMouseMoveId = EventServer<ScreenMouseMoveEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMouseMoveEvent, this, _1 ) );
@@ -44,16 +46,13 @@ bool RendererSystem::EndRender()
 void RendererSystem::OnMouseMoveEvent( const ScreenMouseMoveEvent& Event )
 {
     glm::vec3 EvtPos( Event.Pos.x, Event.Pos.y, 0 );
+    mMouseRawPos=EvtPos;
     glm::vec3 UiEvtPos = mUiProjector.Unproject( EvtPos );
     UiMouseMoveEvent UiEvt( glm::vec2( UiEvtPos.x, UiEvtPos.y ) );
     if( EventServer<UiMouseMoveEvent>::Get().SendEvent( UiEvt ) )
     {
         return;
     }
-
-    glm::vec3 WorldEvtPos( mCamera.GetInverseView()*glm::vec4( mWorldProjector.Unproject( EvtPos ), 1.0 ) );
-    WorldMouseMoveEvent WorldEvt( glm::vec2( WorldEvtPos.x, WorldEvtPos.y ) );
-    EventServer<WorldMouseMoveEvent>::Get().SendEvent( WorldEvt );
 }
 
 void RendererSystem::OnMousePressEvent( const ScreenMousePressEvent& Event )
@@ -67,6 +66,7 @@ void RendererSystem::OnMousePressEvent( const ScreenMousePressEvent& Event )
     }
 
     glm::vec3 WorldEvtPos( mCamera.GetInverseView()*glm::vec4( mWorldProjector.Unproject( EvtPos ), 1.0 ) );
+
     WorldMousePressEvent WorldEvt( glm::vec2( WorldEvtPos.x, WorldEvtPos.y ), Event.Button );
     EventServer<WorldMousePressEvent>::Get().SendEvent( WorldEvt );
 }
@@ -95,6 +95,8 @@ void RendererSystem::Init()
 
 void RendererSystem::Update(double DeltaTime)
 {
+    SendWorldMouseMoveEvent();
+
     BeginRender();
 
     mCamera.Update();
@@ -108,6 +110,17 @@ void RendererSystem::Update(double DeltaTime)
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
 
     EndRender();
+}
+
+void RendererSystem::SendWorldMouseMoveEvent()
+{
+    glm::vec3 newMouseWorldPos= glm::vec3(mCamera.GetInverseView()*glm::vec4( mWorldProjector.Unproject( mMouseRawPos ), 1.0 ));
+    if (newMouseWorldPos!=mMouseWorldPos)
+    {
+        mMouseWorldPos=newMouseWorldPos;
+        WorldMouseMoveEvent WorldEvt( glm::vec2( mMouseWorldPos.x, mMouseWorldPos.y ) );
+        EventServer<WorldMouseMoveEvent>::Get().SendEvent( WorldEvt );
+    }
 }
 
 
