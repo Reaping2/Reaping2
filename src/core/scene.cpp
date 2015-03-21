@@ -39,6 +39,12 @@ int32_t ActorHolder::GetZOrder::operator ()(const Opt<Actor>& Obj)const
     return Obj->Get<IRenderableComponent>().IsValid()?Obj->Get<IRenderableComponent>()->GetZOrder():0;
 }
 
+int32_t ActorHolder::GetCollisionClass::operator()(const Opt<Actor>& Obj) const
+{
+    return Obj->Get<ICollisionComponent>().IsValid()?int32_t(Obj->Get<ICollisionComponent>()->GetCollisionClass()):0;
+}
+
+
 void Scene::AddActor( Actor* Object )
 {
     L2("AddActor called (GUID:%d)\n",Object->GetGUID());
@@ -58,11 +64,8 @@ void Scene::Update( double DeltaTime )
         &&rand()%60==1
         &&mActorHolder.mAllActors.size()<150)
     {
-        std::auto_ptr<Actor> Obj(ActorFactory::Get()(AutoId("spider1")));
-
-        Obj->Get<IPositionComponent>()->SetX(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ));
-        Obj->Get<IPositionComponent>()->SetY(mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ));
-        AddActor( Obj.release() );
+        AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
+            , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
     }
     //testing end
 
@@ -106,7 +109,7 @@ Scene::~Scene()
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
         L2("actor delete at destruct (GUID:%d)\n",(*it)->GetGUID());
-        delete &**it;
+        delete (*it).Get();
     }
     mActorHolder.mAllActors.clear();
     mPlayerModels.clear();
@@ -138,7 +141,7 @@ void Scene::Load( std::string const& Level )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
         L2("actor delete at Load (GUID:%d)\n",(*it)->GetGUID());
-        delete &**it;
+        delete (*it).Get();
     }
     mActorHolder.mAllActors.clear();
     SetType( "grass" );
@@ -218,8 +221,7 @@ void Scene::Load( std::string const& Level )
 #endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
-        AddTestCreep(Pl.get()
-            , mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
+        AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
             , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
 
     }
@@ -247,10 +249,10 @@ void Scene::Load( std::string const& Level )
     }
 }
 
-void Scene::AddTestCreep(Actor* Pl, double X, double Y)
+void Scene::AddTestCreep(double X, double Y)
 {
     std::auto_ptr<Actor> Obj;
-    switch(2/*rand()%4*/)
+    switch(rand()%4)
     {
     case 0:
         Obj=ActorFactory::Get()(AutoId("spider1"));
@@ -260,11 +262,9 @@ void Scene::AddTestCreep(Actor* Pl, double X, double Y)
         break;
     case 2:
         Obj=ActorFactory::Get()(AutoId("spider1target"));
-        Obj->Get<TargetPlayerControllerComponent>()->SetPlayer(Pl);
         break;
     case 3:
         Obj=ActorFactory::Get()(AutoId("spider2target"));
-        Obj->Get<TargetPlayerControllerComponent>()->SetPlayer(Pl);
         break;
     }
     Obj->Get<IPositionComponent>()->SetX(X);

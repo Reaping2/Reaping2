@@ -23,6 +23,7 @@
 #include "aoe_collision_component.h"
 #include "bounce_collision_component.h"
 #include "stop_on_death_component.h"
+#include "target_holder_component.h"
 
 using platform::AutoId;
 
@@ -60,4 +61,6 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);
 
     Bind( AutoId("explosion_component"), &CreateComponent<ExplosionComponent>);
+
+    Bind( AutoId("target_holder_component"), &CreateComponent<TargetHolderComponent>);
 }

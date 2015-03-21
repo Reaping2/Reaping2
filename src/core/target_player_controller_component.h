@@ -8,18 +8,23 @@
 class TargetPlayerControllerComponent : public ControllerComponent
 {
 public:
-    double GetCounter() const;
-    void SetCounter(double counter);
+    double GetAttackCounter() const;
+    void SetAttackCounter(double counter);
+    double GetAttackFrequency() const;
+    void SetAttackFrequency(double frequency);
+    double GetHeadingModifierCounter() const;
+    void SetHeadingModifierCounter(double counter);
     double GetHeadingModifier() const;
     void SetHeadingModifier(double headingModifier);
-
-    void SetPlayer( Actor* Player );
-    Actor* GetPlayer();
+    double GetHeadingModifierFrequency() const;
+    void SetHeadingModifierFrequency(double frequency);
 
     TargetPlayerControllerComponent();
 private:
-    Actor* mPlayer;
-    double mCounter;
+    double mAttackCounter;
+    double mAttackFrequency;
+    double mHeadingModifierCounter;
+    double mHeadingModifierFrequency;
     double mHeadingModifier;
 };
 

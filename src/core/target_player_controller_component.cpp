@@ -6,22 +6,16 @@
 
 TargetPlayerControllerComponent::TargetPlayerControllerComponent()
     : ControllerComponent()
-    , mPlayer( NULL )
-    , mCounter( 0.0 )
+    , mAttackCounter( 0.0 )
+    , mAttackFrequency( 2.0 )
+    , mHeadingModifierCounter ( 0.0 )
+    , mHeadingModifierFrequency ( 0.2 )
     , mHeadingModifier( 0 )
 {
 
 }
 
-void TargetPlayerControllerComponent::SetPlayer( Actor* Player )
-{
-    mPlayer = Player;
-}
 
-Actor* TargetPlayerControllerComponent::GetPlayer()
-{
-    return mPlayer;
-}
 
 double TargetPlayerControllerComponent::GetHeadingModifier() const
 {
@@ -33,21 +27,52 @@ void TargetPlayerControllerComponent::SetHeadingModifier(double headingModifier)
     mHeadingModifier = headingModifier;
 }
 
-double TargetPlayerControllerComponent::GetCounter() const
+double TargetPlayerControllerComponent::GetAttackCounter() const
 {
-    return mCounter;
+    return mAttackCounter;
 }
 
-void TargetPlayerControllerComponent::SetCounter(double counter)
+void TargetPlayerControllerComponent::SetAttackCounter(double counter)
 {
-    mCounter = counter;
+    mAttackCounter = counter;
+}
+
+double TargetPlayerControllerComponent::GetHeadingModifierCounter() const
+{
+    return mHeadingModifierCounter;
+}
+
+void TargetPlayerControllerComponent::SetHeadingModifierCounter(double counter)
+{
+    mHeadingModifierCounter=counter;
+}
+
+double TargetPlayerControllerComponent::GetAttackFrequency() const
+{
+    return mAttackFrequency;
+}
+
+void TargetPlayerControllerComponent::SetAttackFrequency(double frequency)
+{
+    mAttackFrequency=frequency;
+}
+
+double TargetPlayerControllerComponent::GetHeadingModifierFrequency() const
+{
+    return mHeadingModifierFrequency;
+}
+
+void TargetPlayerControllerComponent::SetHeadingModifierFrequency(double frequency)
+{
+    mHeadingModifierFrequency=frequency;
 }
 
 
 
 void TargetPlayerControllerComponentLoader::BindValues()
 {
-
+    Bind("attack_frequency",func_double(&TargetPlayerControllerComponent::SetAttackFrequency));
+    Bind("heading_modifier_frequency",func_double(&TargetPlayerControllerComponent::SetHeadingModifierFrequency));
 }
 
 TargetPlayerControllerComponentLoader::TargetPlayerControllerComponentLoader()

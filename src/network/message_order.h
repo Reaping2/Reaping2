@@ -42,6 +42,9 @@
             type=platform::AutoId("plasma_gun");
             type=platform::AutoId("plasma_shot");
             type=platform::AutoId("spider1");
+            type=platform::AutoId("spider2");
+            type=platform::AutoId("spider1target");
+            type=platform::AutoId("spider2target");
             type=platform::AutoId("pickup");
             type=platform::AutoId("pistol");
             type=platform::AutoId("pistol_shot");

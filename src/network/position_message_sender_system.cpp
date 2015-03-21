@@ -18,7 +18,12 @@ namespace network {
 //         mSendPositions.insert(platform::AutoId("player"));
 //         mSendPositions.insert(platform::AutoId("spider1"));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(600.0,platform::AutoId("spider1")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(600.0,platform::AutoId("spider2")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider1target")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider2target")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("player")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("grenade_projectile")));
+
     }
 
     void PositionMessageSenderSystem::Update(double DeltaTime)

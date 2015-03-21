@@ -14,6 +14,9 @@ namespace network {
         SetFrequency(10);
         //mSendOrientations.insert(platform::AutoId("player"));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider1")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider2")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider1target")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider2target")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(0.0,platform::AutoId("player")));
     }
 

@@ -5,6 +5,7 @@
 #include "platform/singleton.h"
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
+#include "collision_class.h"
 class ActorHolder
 {
 public:
@@ -29,6 +30,11 @@ public:
         typedef int32_t result_type;
         result_type operator()(const Opt<Actor>& Obj)const;
     };
+    struct GetCollisionClass
+    { 
+        typedef int32_t result_type;
+        result_type operator()(const Opt<Actor>& Obj)const;
+    };
 
     typedef multi_index_container<
         Opt<Actor>,
@@ -42,6 +48,12 @@ public:
                     ActorHolder::IsRenderable,
                     ActorHolder::GetLayer,
                     ActorHolder::GetZOrder
+                >
+            >,
+            ordered_non_unique<
+                composite_key<
+                    Opt<Actor>,
+                    ActorHolder::GetCollisionClass
                 >
             >
         >
@@ -61,11 +73,13 @@ public:
 protected:
     ActorList_t::const_iterator mI;
     ActorList_t::const_iterator mE;
+    size_t mSize;
 public:
     ActorListFilter(ActorList_t const& actorlist)
     {
         mI=actorlist.begin();
         mE=actorlist.end();
+        mSize=actorlist.size();
     }
     const_iterator begin()
     {
@@ -74,6 +88,10 @@ public:
     const_iterator end()
     {
         return mE;
+    }
+    size_t size()
+    {
+        return mSize;
     }
 };
 
@@ -85,10 +103,12 @@ public:
 protected:
     const_iterator mI;
     const_iterator mE;
+    size_t mSize;
 public:
     ActorListFilter(ActorList_t const& actorlist)
     {
         boost::tie(mI,mE)=actorlist.get<1>().equal_range(boost::make_tuple(true));
+        mSize=std::distance(mI,mE);
     }
     const_iterator begin()
     {
@@ -98,6 +118,40 @@ public:
     {
         return mE;
     }
+    size_t size()
+    {
+        return mSize;
+    }
+};
+
+template<>
+class ActorListFilter<2>
+{
+public:
+    typedef ActorList_t::nth_index<2>::type::const_iterator const_iterator;
+protected:
+    const_iterator mI;
+    const_iterator mE;
+    size_t mSize;
+public:
+    ActorListFilter(ActorList_t const& actorlist, CollisionClass::Type collisionClass)
+    {
+        boost::tie(mI,mE)=actorlist.get<2>().equal_range(boost::make_tuple(int32_t(collisionClass)));
+        mSize=std::distance(mI,mE);
+    }
+    const_iterator begin()
+    {
+        return mI;
+    }
+    const_iterator end()
+    {
+        return mE;
+    }
+    size_t size()
+    {
+        return mSize;
+    }
+
 };
 
 class Scene : public platform::Singleton<Scene>
@@ -119,8 +173,9 @@ class Scene : public platform::Singleton<Scene>
 public:
     enum ActorIndex
     {
-        All,
-        RenderableActors
+        All=0,
+        RenderableActors,
+        CollisionClassActors
     };
     ~Scene();
     void SetType( std::string const& Type );
@@ -155,7 +210,7 @@ public:
 //     }
     void Load( std::string const& Level );
 
-    void AddTestCreep(Actor* Pl, double X, double Y);
+    void AddTestCreep(double X, double Y);
 
     void Pause()
     {

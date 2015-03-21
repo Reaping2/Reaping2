@@ -195,6 +195,7 @@
                 "set":[{"hp":10}]
             },
             {"name":"target_player_controller_component"},
+            {"name":"target_holder_component"},
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"}
         ]
@@ -236,6 +237,7 @@
                 "set":[{"hp":30}]
             },
             {"name":"target_player_controller_component"},
+            {"name":"target_holder_component"},
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"}
         ]

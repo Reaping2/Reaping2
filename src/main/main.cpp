@@ -212,6 +212,7 @@ int main(int argc, char* argv[])
     if (programState.mMode!=ProgramState::Client) 
     {
         Eng.AddSystem(AutoId("drop_on_death_system"));
+        Eng.AddSystem(AutoId("target_holder_system"));
     }
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client)

@@ -37,6 +37,7 @@
 #include "network/revive_message.h"
 #include "explosion_system.h"
 #include "stop_on_death_system.h"
+#include "target_holder_system.h"
 
 
 using platform::AutoId;
@@ -83,6 +84,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("pickup_message_sender_system"), &CreateSystem<network::PickupMessageSenderSystem>);
     Bind( AutoId("ping_message_sender_system"), &CreateSystem<network::PingMessageSenderSystem>);
     Bind( AutoId("revive_message_sender_system"), &CreateSystem<network::ReviveMessageSenderSystem>);
+
+    Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     
 }
 

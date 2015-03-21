@@ -8,11 +8,13 @@
 #include "core/i_health_component.h"
 #include "core/i_collision_component.h"
 #include "platform/event.h"
+#include "core/i_target_holder_component.h"
 
 namespace engine {
 
 TargetPlayerControllerSubSystem::TargetPlayerControllerSubSystem()
     : mScene( Scene::Get() )
+    , mProgramState (core::ProgramState::Get())
 {
 
 }
@@ -30,7 +32,21 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
-    if (!targetPCC->GetPlayer())
+    actor.Get<IPositionComponent>()->SetOrientation( actor.Get<IMoveComponent>()->GetHeading() );
+
+    Opt<ITargetHolderComponent> targetHolderC = actor.Get<ITargetHolderComponent>();
+    if (!targetHolderC.IsValid())
+    {
+        return;
+    }
+    if (mProgramState.mMode==core::ProgramState::Client)
+    {
+        return;
+    }
+
+    UpdateTarget(targetHolderC);
+
+    if(targetHolderC->GetTarget()==NULL)
     {
         return;
     }
@@ -39,34 +55,89 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         actor.Get<IMoveComponent>()->SetSpeed( ((rand() % 10)+5)*20 );
     }
-    Actor& player = *targetPCC->GetPlayer();
-    Opt<IPositionComponent> const playerPositionC = player.Get<IPositionComponent>();
-    Opt<IPositionComponent> const actorPositionC = actor.Get<IPositionComponent>();
-    glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
+
+    Actor& targetedActor = *targetHolderC->GetTarget();
+    double Radians=TargetPlayerControllerSubSystem::GetRotationDiffRadians(actor,targetedActor);
+
+
+    if(targetPCC->GetHeadingModifierCounter()>0.0)
     {
-        BOOST_ASSERT(player.Get<ICollisionComponent>().IsValid()&&actor.Get<ICollisionComponent>().IsValid());
-        double const R = player.Get<ICollisionComponent>()->GetRadius() + actor.Get<ICollisionComponent>()->GetRadius();
+        targetPCC->SetHeadingModifierCounter(targetPCC->GetHeadingModifierCounter() - DeltaTime);
+    }
+    if(targetPCC->GetHeadingModifierCounter()<=0.0)
+    {
+        targetPCC->SetHeadingModifierCounter(targetPCC->GetHeadingModifierFrequency());
+        actor.Get<IMoveComponent>()->SetHeadingModifier( (Radians>0?1:-1)*1.5 );
+    }
+
+    if(std::abs(Radians)<0.1)
+    {
+        actor.Get<IMoveComponent>()->SetHeadingModifier( 0.0 );
+    }
+
+    {
+        Opt<IPositionComponent> const playerPositionC = targetedActor.Get<IPositionComponent>();
+        Opt<IPositionComponent> const actorPositionC = actor.Get<IPositionComponent>();
+        glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
+        BOOST_ASSERT(targetedActor.Get<ICollisionComponent>().IsValid()&&actor.Get<ICollisionComponent>().IsValid());
+        double const R = targetedActor.Get<ICollisionComponent>()->GetRadius() + actor.Get<ICollisionComponent>()->GetRadius();
         if( std::abs( Diff.x ) < R && std::abs( Diff.y ) < R )
         {
-            if( targetPCC->GetCounter() <= 0.0 )
+            if( targetPCC->GetAttackCounter() <= 0.0 )
             {
-                Opt<IHealthComponent> healthC=player.Get<IHealthComponent>();
+                Opt<IHealthComponent> healthC=targetedActor.Get<IHealthComponent>();
                 if (healthC.IsValid()&&healthC->IsAlive())
                 {
                     healthC->TakeDamage(1);
                 }
-                targetPCC->SetCounter(2.0);
+                targetPCC->SetAttackCounter(targetPCC->GetAttackFrequency());
             }
         }
-        if( targetPCC->GetCounter() >= 0.0 )
+        if( targetPCC->GetAttackCounter() > 0.0 )
         {
-            targetPCC->SetCounter(targetPCC->GetCounter() - DeltaTime);
+            targetPCC->SetAttackCounter(targetPCC->GetAttackCounter() - DeltaTime);
         }
     }
-    double Rot = atan2( Diff.y, Diff.x );
-    double Radians = Rot - actor.Get<IMoveComponent>()->GetHeading();
-    L2("Radians:%f, Heading:%f",Radians,actor.Get<IMoveComponent>()->GetHeading());
+}
+
+void TargetPlayerControllerSubSystem::UpdateTarget(Opt<ITargetHolderComponent> targetHolderC)
+{
+    if (targetHolderC->GetTarget()==NULL)
+    {
+        ActorListFilter<Scene::CollisionClassActors> wrp(mScene.GetActors(),CollisionClass::Player);//=Object.GetActors<Scene::RenderableComponents>();
+
+        if(wrp.size()!=0)
+        {
+            size_t selectedTarget=rand()%wrp.size();
+            ActorListFilter<Scene::CollisionClassActors>::const_iterator i=wrp.begin(),e=wrp.end();
+            for(size_t c=0; i!=e&&c<selectedTarget; ++i,++c)
+            {
+            }
+            if(i!=e)
+            {
+                targetHolderC->SetTarget((*i).Get());
+            }
+        }
+    }
+    if(targetHolderC->GetTarget()!=NULL)
+    {
+        Opt<IHealthComponent> healthC=targetHolderC->GetTarget()->Get<IHealthComponent>();
+        if(!healthC.IsValid()||!healthC->IsAlive())
+        {
+            targetHolderC->SetTarget(NULL);
+        }
+    }
+}
+// return value usage: direction:( Radians > 0 ? 1 : -1 ) * 1;
+double TargetPlayerControllerSubSystem::GetRotationDiffRadians(Actor const& actor,Actor const& target)
+{
+    Opt<IPositionComponent> const playerPositionC = target.Get<IPositionComponent>();
+    Opt<IPositionComponent> const actorPositionC = actor.Get<IPositionComponent>();
+    glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
     static const double pi = boost::math::constants::pi<double>();
+    double Radians=2*pi;
+    double Rot = atan2( Diff.y, Diff.x );
+    Radians = Rot - actor.Get<IMoveComponent>()->GetHeading();
     while ( Radians < -pi )
     {
         Radians += pi * 2;
@@ -75,12 +146,7 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         Radians -= pi * 2;
     }
-    double RotSpd = ( Radians > 0 ? 1 : -1 ) * 1;
-    L2("Rot:%f, Radian:%f, RotSpd:%f, Heading:%f",Rot,Radians,RotSpd,actor.Get<IMoveComponent>()->GetHeading());
-    actor.Get<IMoveComponent>()->SetHeadingModifier( RotSpd );
-
-    //actor.Get<IMoveComponent>()->SetHeading( actor.Get<IMoveComponent>()->GetHeading() + RotSpd );
-    actor.Get<IPositionComponent>()->SetOrientation( actor.Get<IMoveComponent>()->GetHeading() );
+    return Radians; // direction:( Radians > 0 ? 1 : -1 ) * 1;
 }
 
 } // namespace engine

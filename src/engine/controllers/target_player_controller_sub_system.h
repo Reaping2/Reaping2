@@ -3,6 +3,8 @@
 
 #include "core/scene.h"
 #include "engine/sub_system.h"
+#include "core/program_state.h"
+#include "core/i_target_holder_component.h"
 
 namespace engine {
 
@@ -13,8 +15,14 @@ public:
     TargetPlayerControllerSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
+
+    static double GetRotationDiffRadians(Actor const& actor,Actor const& target);
+
+    void UpdateTarget(Opt<ITargetHolderComponent> targetHolderC);
+
 private:
     Scene& mScene;
+    core::ProgramState& mProgramState;
 };
 
 } // namespace engine
