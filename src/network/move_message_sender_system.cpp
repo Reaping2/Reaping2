@@ -19,6 +19,8 @@ namespace network {
         mSendMoves.insert(platform::AutoId("spider2"));
         mSendMoves.insert(platform::AutoId("spider1target"));
         mSendMoves.insert(platform::AutoId("spider2target"));
+        mSendMoves.insert(platform::AutoId("rocket_launcher_target_projectile"));
+
     }
 
     void MoveMessageSenderSystem::Update(double DeltaTime)

@@ -5,6 +5,7 @@
 #include "engine/controllers/player_controller_sub_system.h"
 #include "engine/controllers/random_controller_sub_system.h"
 #include "engine/controllers/target_player_controller_sub_system.h"
+#include "engine/controllers/pointer_target_controller_sub_system.h"
 #include "engine/items/normal_item_sub_system.h"
 #include "engine/items/weapon_item_sub_system.h"
 #include "engine/items/plasma_gun_weapon_sub_system.h"
@@ -29,6 +30,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("player_controller_sub_system"), &CreateSubSystem<PlayerControllerSubSystem>);
     Bind( AutoId("random_controller_sub_system"), &CreateSubSystem<RandomControllerSubSystem>);
     Bind( AutoId("target_player_controller_sub_system"), &CreateSubSystem<TargetPlayerControllerSubSystem>);
+    Bind( AutoId("pointer_target_controller_sub_system"), &CreateSubSystem<PointerTargetControllerSubSystem>);
 
     Bind( AutoId("normal_item_sub_system"), &CreateSubSystem<NormalItemSubSystem>);
 
@@ -45,6 +47,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("normal_collision_sub_system"), &CreateSubSystem<NormalCollisionSubSystem>);
     Bind( AutoId("aoe_collision_sub_system"), &CreateSubSystem<AoeCollisionSubSystem>);
     Bind( AutoId("bounce_collision_sub_system"), &CreateSubSystem<BounceCollisionSubSystem>);
+
 }
 
 } // namespace engine

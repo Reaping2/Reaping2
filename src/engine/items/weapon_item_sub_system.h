@@ -20,6 +20,7 @@ public:
 
     void AddProjectiles( Actor& actor, Projectiles_t& projectiles, uint32_t scatter);
     static Opt<WeaponItemSubSystem> Get();
+    static void SetProjectilePosition(Actor& projectile, Actor& actor);
 private:
     Scene& mScene;
 };

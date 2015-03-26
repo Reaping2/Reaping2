@@ -208,7 +208,7 @@ void Scene::Load( std::string const& Level )
     positionC->SetY(0.0);
     
     Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-//    inventoryC->AddItem(AutoId( "plasma_gun" ));
+    inventoryC->AddItem(AutoId( "rocket_launcher" ));
     inventoryC->SetSelectedWeapon(AutoId( "rocket_launcher" ));
 
     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
@@ -240,7 +240,8 @@ void Scene::Load( std::string const& Level )
         positionC->SetX(-240+i*60);
         positionC->SetY(0.0);
         Pl->Get<IInventoryComponent>();
-        //    inventoryC->AddItem(AutoId( "plasma_gun" ));
+        Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
+        inventoryC->AddItem(AutoId( "plasma_gun" ));
         inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
         Pl->Get<PlayerControllerComponent>()->SetEnabled(false);
         Pl->Get<PlayerControllerComponent>()->mActive=false;

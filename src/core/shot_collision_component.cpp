@@ -10,7 +10,7 @@
 ShotCollisionComponent::ShotCollisionComponent()
     : CollisionComponent()
     , mDamage( 0 )
-    , mParentGuid( -1 )
+    , mParentGUID( -1 )
 {
 
 }
@@ -25,14 +25,14 @@ int32_t ShotCollisionComponent::GetDamage() const
     return mDamage;
 }
 
-void ShotCollisionComponent::SetParent( Actor* Parent )
+void ShotCollisionComponent::SetParentGUID( int32_t parentGUID )
 {
-    mParentGuid = Parent->GetGUID();
+    mParentGUID = parentGUID;
 }
 
 int32_t ShotCollisionComponent::GetParentGuid() const
 {
-    return mParentGuid;
+    return mParentGUID;
 }
 
 void ShotCollisionComponentLoader::BindValues()

@@ -4,6 +4,7 @@
 #include "core/scene.h"
 #include "engine/system.h"
 #include "core/actor_event.h"
+#include "removed_actors_system.h"
 
 namespace engine {
 
@@ -13,10 +14,7 @@ public:
     DEFINE_SYSTEM_BASE(TargetHolderSystem)
     TargetHolderSystem();
 protected:
-    typedef std::set<int32_t> RemovedActorsGUIDs_t;
-    RemovedActorsGUIDs_t mRemovedActorGUIDs;
-    AutoReg mOnActorEvent;
-    void OnActorEvent( ActorEvent const& Evt );
+    Opt<RemovedActorsSystem> mRemovedActorsSystem;
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:

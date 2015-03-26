@@ -192,6 +192,8 @@ int main(int argc, char* argv[])
     controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
+    controllserSystem->AddSubSystem(AutoId("pointer_target_controller_component"),AutoId("pointer_target_controller_sub_system"));
+
 
     if (programState.mMode!=ProgramState::Client) 
     {
@@ -217,6 +219,8 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client)
     {
+        Eng.AddSystem(AutoId("notify_parent_on_death_system"));
+        Eng.AddSystem(AutoId("listen_child_death_system"));
         Eng.AddSystem(AutoId("remove_on_death_system"));
         Eng.AddSystem(AutoId("explode_on_death_system"));
     }
@@ -229,6 +233,10 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("frame_counter_system"));
     Eng.AddSystem(AutoId("renderer_system"));
 
+    if (programState.mMode!=ProgramState::Client)
+    {
+        Eng.AddSystem(AutoId("removed_actors_system"));
+    }
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
 

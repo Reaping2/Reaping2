@@ -5,6 +5,7 @@
 #include "core/i_health_component.h"
 #include "core/shot_collision_component.h"
 #include "core/i_position_component.h"
+#include "core/i_notify_parent_on_death_component.h"
 
 namespace engine {
 
@@ -41,6 +42,11 @@ void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     if (healthC.IsValid())
     {
         healthC->SetHP(0);
+    }
+    Opt<INotifyParentOnDeathComponent> notifyParentC=actor.Get<INotifyParentOnDeathComponent>();
+    if(notifyParentC.IsValid())
+    {
+        notifyParentC->SetKillerGUID(mOther->GetGUID());
     }
 
 

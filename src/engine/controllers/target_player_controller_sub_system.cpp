@@ -45,8 +45,9 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     }
 
     UpdateTarget(targetHolderC);
+    Opt<Actor> currentTarget(mScene.GetActor(targetHolderC->GetTargetGUID()));
 
-    if(targetHolderC->GetTarget()==NULL)
+    if(!currentTarget.IsValid())
     {
         return;
     }
@@ -56,8 +57,8 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
         actor.Get<IMoveComponent>()->SetSpeed( ((rand() % 10)+5)*20 );
     }
 
-    Actor& targetedActor = *targetHolderC->GetTarget();
-    double Radians=TargetPlayerControllerSubSystem::GetRotationDiffRadians(actor,targetedActor);
+
+    double Radians=TargetPlayerControllerSubSystem::GetRotationDiffRadians(actor,*currentTarget);
 
 
     if(targetPCC->GetHeadingModifierCounter()>0.0)
@@ -76,16 +77,16 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     }
 
     {
-        Opt<IPositionComponent> const playerPositionC = targetedActor.Get<IPositionComponent>();
+        Opt<IPositionComponent> const playerPositionC = currentTarget->Get<IPositionComponent>();
         Opt<IPositionComponent> const actorPositionC = actor.Get<IPositionComponent>();
         glm::vec2 const Diff( playerPositionC->GetX() - actorPositionC->GetX(), playerPositionC->GetY() - actorPositionC->GetY() );
-        BOOST_ASSERT(targetedActor.Get<ICollisionComponent>().IsValid()&&actor.Get<ICollisionComponent>().IsValid());
-        double const R = targetedActor.Get<ICollisionComponent>()->GetRadius() + actor.Get<ICollisionComponent>()->GetRadius();
+        BOOST_ASSERT(currentTarget->Get<ICollisionComponent>().IsValid()&&actor.Get<ICollisionComponent>().IsValid());
+        double const R = currentTarget->Get<ICollisionComponent>()->GetRadius() + actor.Get<ICollisionComponent>()->GetRadius();
         if( std::abs( Diff.x ) < R && std::abs( Diff.y ) < R )
         {
             if( targetPCC->GetAttackCounter() <= 0.0 )
             {
-                Opt<IHealthComponent> healthC=targetedActor.Get<IHealthComponent>();
+                Opt<IHealthComponent> healthC=currentTarget->Get<IHealthComponent>();
                 if (healthC.IsValid()&&healthC->IsAlive())
                 {
                     healthC->TakeDamage(1);
@@ -102,7 +103,9 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
 
 void TargetPlayerControllerSubSystem::UpdateTarget(Opt<ITargetHolderComponent> targetHolderC)
 {
-    if (targetHolderC->GetTarget()==NULL)
+    Opt<Actor> currentTarget(mScene.GetActor(targetHolderC->GetTargetGUID()));
+
+    if (!currentTarget.IsValid())
     {
         ActorListFilter<Scene::CollisionClassActors> wrp(mScene.GetActors(),CollisionClass::Player);//=Object.GetActors<Scene::RenderableComponents>();
 
@@ -111,20 +114,21 @@ void TargetPlayerControllerSubSystem::UpdateTarget(Opt<ITargetHolderComponent> t
             size_t selectedTarget=rand()%wrp.size();
             ActorListFilter<Scene::CollisionClassActors>::const_iterator i=wrp.begin(),e=wrp.end();
             for(size_t c=0; i!=e&&c<selectedTarget; ++i,++c)
-            {
-            }
+            {}
+
             if(i!=e)
             {
-                targetHolderC->SetTarget((*i).Get());
+                targetHolderC->SetTargetGUID((*i)->GetGUID());
             }
         }
     }
-    if(targetHolderC->GetTarget()!=NULL)
+    currentTarget=mScene.GetActor(targetHolderC->GetTargetGUID());
+    if(currentTarget.IsValid())
     {
-        Opt<IHealthComponent> healthC=targetHolderC->GetTarget()->Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC=currentTarget->Get<IHealthComponent>();
         if(!healthC.IsValid()||!healthC->IsAlive())
         {
-            targetHolderC->SetTarget(NULL);
+            targetHolderC->SetTargetGUID(-1);
         }
     }
 }

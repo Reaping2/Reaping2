@@ -311,6 +311,23 @@
          {
             "animations" : [
                {
+                  "h" : 9,
+                  "name" : "move",
+                  "phases" : [
+                     {
+                        "x" : 976,
+                        "y" : 142
+                     }
+                  ],
+                  "scale" : 0.5,
+                  "w" : 15
+               }
+            ],
+            "name" : "laser_pointer_projectile"
+         },		 
+         {
+            "animations" : [
+               {
                   "h" : 17,
                   "name" : "move",
                   "phases" : [

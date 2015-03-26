@@ -39,7 +39,7 @@ void GrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
         projPositionC->SetY( actorPositionC->GetY() );
         if (shotCC.IsValid())
         {
-            shotCC->SetParent( &actor );
+            shotCC->SetParentGUID( actor.GetGUID() );
         }
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
         projMoveC->SetHeading( projPositionC->GetOrientation() );

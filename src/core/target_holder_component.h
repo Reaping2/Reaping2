@@ -8,11 +8,11 @@ class TargetHolderComponent : public ITargetHolderComponent
 {
 public:
     TargetHolderComponent();
-    virtual void SetTarget(Actor* target);
-    virtual Actor* GetTarget()const;
+    virtual void SetTargetGUID(int32_t targetId);
+    virtual int32_t GetTargetGUID()const;
 protected:
     friend class ComponentFactory;
-    Actor* mTarget;
+    int32_t mTargetGUID;
 private:
 };
 

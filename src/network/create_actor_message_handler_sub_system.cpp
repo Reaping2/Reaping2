@@ -37,7 +37,7 @@ namespace network {
                     Opt<Actor> parent=mScene.GetActor(msg.mParentGUID);
                     if(parent.IsValid())
                     {
-                        collisionC->SetParent(parent.Get());
+                        collisionC->SetParentGUID(parent->GetGUID());
                     }
                 }
             }

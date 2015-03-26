@@ -53,7 +53,20 @@
 						"phases":[{"x":0,"y":0}]
 					}
 				]
-			}
+			},
+			{
+				"name":"rocket_launcher_target_projectile",
+				"animations":
+				[
+					{
+						"name":"move",
+						"w":30,
+						"h":17,
+						"scale":2.5,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}			
 		]
 	}
 ]

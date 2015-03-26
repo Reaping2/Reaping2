@@ -5,6 +5,7 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"
+#include "items/weapon_item_sub_system.h"
 
 namespace engine {
 
@@ -37,22 +38,15 @@ void ExplodeOnDeathSystem::Update(double DeltaTime)
         if(!healthC->IsAlive())
         {
             std::auto_ptr<Actor> explosionProjectile=mActorFactory(explodeOnDeathC->GetExplosionProjectile());
-            Opt<IPositionComponent> projPositionC = explosionProjectile->Get<IPositionComponent>();
-            Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-            Opt<IMoveComponent> actorMoveC = actor.Get<IMoveComponent>();
-            double actorSpeedX=actorMoveC.IsValid()?actorMoveC->GetSpeedX():0.0;
-            double actorSpeedY=actorMoveC.IsValid()?actorMoveC->GetSpeedY():0.0;
-            Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-            double radius=collisionC.IsValid()?collisionC->GetRadius():0.0;
-            double actorSpeedXNormalized=actorMoveC->GetSpeed()==0.0?0.0:actorSpeedX/abs(actorMoveC->GetSpeed());
-            double actorSpeedYNormalized=actorMoveC->GetSpeed()==0.0?0.0:actorSpeedY/abs(actorMoveC->GetSpeed());
-            projPositionC->SetX( actorPositionC->GetX()+actorSpeedXNormalized*radius);
-            projPositionC->SetY( actorPositionC->GetY()+actorSpeedYNormalized*radius);
+            WeaponItemSubSystem::SetProjectilePosition(*explosionProjectile, actor);
+
             mScene.AddActor(explosionProjectile.release());
             mScene.RemoveActor(it);
         }
     }
 }
+
+
 
 } // namespace engine
 

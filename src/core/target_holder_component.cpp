@@ -1,18 +1,18 @@
 #include "core/target_holder_component.h"
 
 TargetHolderComponent::TargetHolderComponent()
-    : mTarget(NULL)
+    : mTargetGUID(-1)
 {
 }
 
-void TargetHolderComponent::SetTarget(Actor* target)
+void TargetHolderComponent::SetTargetGUID(int32_t targetId)
 {
-    mTarget=target;
+    mTargetGUID=targetId;
 }
 
-Actor* TargetHolderComponent::GetTarget()const
+int32_t TargetHolderComponent::GetTargetGUID()const
 {
-    return mTarget;
+    return mTargetGUID;
 }
 
 

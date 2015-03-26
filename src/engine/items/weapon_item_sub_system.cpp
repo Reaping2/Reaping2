@@ -67,17 +67,17 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
     }
 
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
+    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )
     {
         Actor& Proj = **i;
-        Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
-        projPositionC->SetX( actorPositionC->GetX() );
-        projPositionC->SetY( actorPositionC->GetY() );
+        SetProjectilePosition(Proj,actor);
         Opt<ShotCollisionComponent> shotCC=Proj.Get<ShotCollisionComponent>();
         if (shotCC.IsValid())
         {
-            shotCC->SetParent( &actor );
+            shotCC->SetParentGUID( actor.GetGUID() );
         }
+        Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
         Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
         mScene.AddActor( &Proj );
@@ -90,6 +90,26 @@ Opt<WeaponItemSubSystem> WeaponItemSubSystem::Get()
         dynamic_cast<WeaponItemSubSystem*>(
         Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Weapon).Get()));
 }
-
+void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
+{
+    Opt<IPositionComponent> projPositionC = projectile.Get<IPositionComponent>();
+    Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
+    Opt<IMoveComponent> actorMoveC = actor.Get<IMoveComponent>();
+    const double h = actorPositionC->GetOrientation();
+    const double c = cos( h );
+    const double s = sin( h );
+    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+    double radius=collisionC.IsValid()?collisionC->GetRadius():0.0;
+    projPositionC->SetX( actorPositionC->GetX()+c*radius);
+    projPositionC->SetY( actorPositionC->GetY()+s*radius);
+//     double actorSpeedX=actorMoveC.IsValid()?actorMoveC->GetSpeedX():0.0;
+//     double actorSpeedY=actorMoveC.IsValid()?actorMoveC->GetSpeedY():0.0;
+//     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+//     double radius=collisionC.IsValid()?collisionC->GetRadius():0.0;
+//     double actorSpeedXNormalized=actorMoveC->GetSpeed()==0.0?0.0:actorSpeedX/abs(actorMoveC->GetSpeed());
+//     double actorSpeedYNormalized=actorMoveC->GetSpeed()==0.0?0.0:actorSpeedY/abs(actorMoveC->GetSpeed());
+//     projPositionC->SetX( actorPositionC->GetX()+actorSpeedXNormalized*radius);
+//     projPositionC->SetY( actorPositionC->GetY()+actorSpeedYNormalized*radius);
+}
 } // namespace engine
 

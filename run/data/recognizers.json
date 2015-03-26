@@ -66,6 +66,14 @@
 		]
 	},
 	{
+		"name":"rocket_launcher_target_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
 		"name":"grenade_projectile",
 		"recognizers":
 		[
@@ -88,7 +96,15 @@
 			{"recognizer":"idle",
 				"renderer":"idle"}
 		]
-	},	
+	},
+	{
+		"name":"rocket_target_pow_projectile",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},		
 	{
 		"name":"spider1",
 		"recognizers":

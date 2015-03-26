@@ -14,6 +14,9 @@ public:
     ExplodeOnDeathSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    void SetProjectilePosition(Actor& projectile, Actor& actor);
+
 private:
     Scene& mScene;
     ActorFactory& mActorFactory;

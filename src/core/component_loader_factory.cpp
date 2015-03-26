@@ -23,6 +23,9 @@
 #include "bounce_collision_component.h"
 #include "stop_on_death_component.h"
 #include "target_holder_component.h"
+#include "listen_child_death_component.h"
+#include "notify_parent_on_death_component.h"
+#include "pointer_target_controller_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -53,6 +56,10 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("explode_on_death_component"), &CreateComponentLoader<ExplodeOnDeathComponentLoader>);
     Bind( AutoId("drop_on_death_component"), &CreateComponentLoader<DropOnDeathComponentLoader>);
     Bind( AutoId("stop_on_death_component"), &CreateComponentLoader<StopOnDeathComponentLoader>);
+
+    Bind( AutoId("notify_parent_on_death_component"), &CreateComponentLoader<NotifyParentOnDeathComponentLoader>);
+    Bind( AutoId("listen_child_death_component"), &CreateComponentLoader<ListenChildDeathComponentLoader>);
+    Bind( AutoId("pointer_target_controller_component"), &CreateComponentLoader<PointerTargetControllerComponentLoader>);
 
     Bind( AutoId("fade_out_component"), &CreateComponentLoader<FadeOutComponentLoader>);
 

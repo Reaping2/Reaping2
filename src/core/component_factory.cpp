@@ -24,6 +24,9 @@
 #include "bounce_collision_component.h"
 #include "stop_on_death_component.h"
 #include "target_holder_component.h"
+#include "listen_child_death_component.h"
+#include "notify_parent_on_death_component.h"
+#include "pointer_target_controller_component.h"
 
 using platform::AutoId;
 
@@ -57,6 +60,10 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("explode_on_death_component"), &CreateComponent<ExplodeOnDeathComponent>);
     Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
     Bind( AutoId("stop_on_death_component"), &CreateComponent<StopOnDeathComponent>);
+
+    Bind( AutoId("notify_parent_on_death_component"), &CreateComponent<NotifyParentOnDeathComponent>);
+    Bind( AutoId("listen_child_death_component"), &CreateComponent<ListenChildDeathComponent>);
+    Bind( AutoId("pointer_target_controller_component"), &CreateComponent<PointerTargetControllerComponent>);
 
     Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);
 

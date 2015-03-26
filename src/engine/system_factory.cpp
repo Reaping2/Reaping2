@@ -38,6 +38,9 @@
 #include "explosion_system.h"
 #include "stop_on_death_system.h"
 #include "target_holder_system.h"
+#include "removed_actors_system.h"
+#include "listen_child_death_system.h"
+#include "notify_parent_on_death_system.h"
 
 
 using platform::AutoId;
@@ -64,6 +67,10 @@ SystemFactory::SystemFactory()
     Bind( AutoId("explode_on_death_system"), &CreateSystem<ExplodeOnDeathSystem>);
     Bind( AutoId("stop_on_death_system"), &CreateSystem<StopOnDeathSystem>);
 
+    Bind( AutoId("notify_parent_on_death_system"), &CreateSystem<NotifyParentOnDeathSystem>);
+
+    Bind( AutoId("listen_child_death_system"), &CreateSystem<ListenChildDeathSystem>);
+
     Bind( AutoId("health_system"), &CreateSystem<HealthSystem>);
     Bind( AutoId("fade_out_system"), &CreateSystem<FadeOutSystem>);
     Bind( AutoId("move_system"), &CreateSystem<MoveSystem>);
@@ -86,6 +93,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("revive_message_sender_system"), &CreateSystem<network::ReviveMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
+    Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
+
     
 }
 

@@ -7,8 +7,8 @@ class ITargetHolderComponent : public Component
 {
 public:
     DEFINE_COMPONENT_BASE(ITargetHolderComponent)
-    virtual void SetTarget(Actor* target)=0;
-    virtual Actor* GetTarget()const=0;
+    virtual void SetTargetGUID(int32_t targetId)=0;
+    virtual int32_t GetTargetGUID()const=0;
 };
 
 #endif//INCLUDED_CORE_I_TARGET_HOLDER_COMPONENT_H

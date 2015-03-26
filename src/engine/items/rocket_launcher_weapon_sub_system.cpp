@@ -9,7 +9,7 @@ namespace engine
 		, mWeaponItemSubSystem(WeaponItemSubSystem::Get())
 		, mActorFactory(ActorFactory::Get())
 		, mShotId(AutoId("rocket_launcher_primary"))
-		, mAltShotId(AutoId("rocket_launcher_secondary"))
+		, mAltShotId(AutoId("rocket_launcher_target_projectile"))
 		, mRocketId(AutoId("rocket_launcher_projectile"))
 	{
 	}
@@ -44,7 +44,8 @@ namespace engine
 		{
 			IdToSend = mAltShotId;
 			ScatterToSend = weapon->GetAltScatter();
-			// TODO: how to make it homing?
+            rocket=mActorFactory(mAltShotId);
+			// TODO: how to make it homing? this way faka
 		}
 		else
 		{

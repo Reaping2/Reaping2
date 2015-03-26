@@ -23,6 +23,7 @@ namespace network {
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider2target")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("player")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("grenade_projectile")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("rocket_launcher_target_projectile")));
 
     }
 
