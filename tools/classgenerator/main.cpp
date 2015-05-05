@@ -10,30 +10,76 @@ class Generator
 public:
     typedef std::pair<std::string,std::string> Type_Member_Pair_t;
     typedef std::vector<Type_Member_Pair_t> Type_Member_Pairs_t;
+    typedef std::pair<std::string,std::string> Namespace_Event_Pair_t;
+    typedef std::vector<Namespace_Event_Pair_t> Namespace_Event_Pairs_t;
+    std::string classUnderscore;
+    std::string parentUnderscore;
+    std::string namespaceLowerCase;
+    std::string membersArg;
+    std::string eventsArg;
+    std::string targetComponentUnderscore;
+    std::string targetItemTypeUnderscore;
+    std::string targetItemNameUnderscore;
 protected:
     std::string classCamelCase;
     std::string classUpperCaseUnderscore;
+    std::string classVariable;
     std::string parentCamelCase;
     std::string nameSpaceUpperCase;
+    std::string targetComponentCamelCase;
+    std::string targetComponentVariableName;
+    std::string targetItemTypeCamelCase;
+    std::string targetItemTypeVariableName;
+    std::string targetItemNameCamelCase;
+    std::string targetItemNameVariableName;
     std::string headerGuard;
     Type_Member_Pairs_t typeMemberPairs;
+    Namespace_Event_Pairs_t namespaceEventPairs;
 public:
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("default generator implementation, do nothing\n");
     }
-    virtual void Init(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Init()
     {
         classCamelCase=UnderscoreToCamelCase(classUnderscore);
-        parentCamelCase=UnderscoreToCamelCase(parentUnderscore);
+        classVariable=classCamelCase;
+        classVariable[0]=tolower(classCamelCase[0]);
         classUpperCaseUnderscore=boost::to_upper_copy(classUnderscore);
+        parentCamelCase=UnderscoreToCamelCase(parentUnderscore);
         nameSpaceUpperCase=boost::to_upper_copy(namespaceLowerCase);
+        if (!targetComponentUnderscore.empty())
+        {
+            targetComponentCamelCase=UnderscoreToCamelCase(targetComponentUnderscore);
+            targetComponentVariableName=targetComponentCamelCase;
+            targetComponentVariableName[0]=tolower(targetComponentVariableName[0]);
+        }
+
+        if (!targetItemTypeUnderscore.empty())
+        {
+            targetItemTypeCamelCase=UnderscoreToCamelCase(targetItemTypeUnderscore);
+            targetItemTypeVariableName=targetItemTypeCamelCase;
+            targetItemTypeVariableName[0]=tolower(targetItemTypeVariableName[0]);
+        }
+        if (!targetItemNameUnderscore.empty())
+        {
+            targetItemNameCamelCase=UnderscoreToCamelCase(targetItemNameUnderscore);
+            targetItemNameVariableName=targetItemNameCamelCase;
+            targetItemNameVariableName[0]=tolower(targetItemNameVariableName[0]);
+        }
+
+
         headerGuard="INCLUDED_"+nameSpaceUpperCase+"_"+classUpperCaseUnderscore+"_H";
         typeMemberPairs=SplitMemberPairs(membersArg);
+        namespaceEventPairs=SplitEventPairs(eventsArg);
     }
     virtual ~Generator() {}
     std::string UnderscoreToCamelCase(std::string underscore)
     {
+        if (underscore.empty())
+        {
+            return std::string();
+        }
         boost::to_lower(underscore);
         std::vector<std::string> parts;
         boost::split(parts,underscore,boost::is_any_of("_"));
@@ -66,10 +112,36 @@ public:
             }
             else
             {
-                L1("members are not correctly separated: %s",i->c_str());
+                L1("members are not correctly separated: %s\n",i->c_str());
             }
         }
         return typeMemberPairs;
+    }
+
+    Namespace_Event_Pairs_t SplitEventPairs(std::string eventsArg)
+    {
+        if (eventsArg.empty())
+        {
+            return Namespace_Event_Pairs_t();
+        }
+        std::vector<std::string> namespaceEventSplit;
+        boost::split(namespaceEventSplit,eventsArg,boost::is_any_of(" "));
+
+        Type_Member_Pairs_t namespaceEventPairs;
+        for(std::vector<std::string>::iterator i=namespaceEventSplit.begin(),e=namespaceEventSplit.end();i!=e;++i)
+        {
+            std::vector<std::string> parts;
+            boost::split(parts,*i,boost::is_any_of("-"));
+            if(parts.size()==2)
+            {
+                namespaceEventPairs.push_back(Type_Member_Pair_t(parts[0],parts[1]));
+            }
+            else
+            {
+                L1("events are not correctly separated: %s\n",i->c_str());
+            }
+        }
+        return namespaceEventPairs;
     }
 
     // from targetActor -> mTargetActor
@@ -78,6 +150,13 @@ public:
         memberName[0]=toupper(memberName[0]);
         std::string r="m"+memberName;
         return r;
+    }
+
+    // from damageTaken -> mOnDamageTaken
+    std::string VariableToCamelCase(std::string variableName)
+    {
+        variableName[0]=toupper(variableName[0]);
+        return variableName;
     }
 
     // from targetActor -> GetTargetActor
@@ -128,6 +207,13 @@ public:
         return r;
     }
 
+    // from int32_t,targetActor -> int32_t targetActor
+    std::string CreateArgumentWithType(std::string memberType, std::string memberName)
+    {
+        std::string r=memberType+" "+memberName;
+        return r;
+    }
+
     // from int32_t,targetActor,TargetComponent -> 
     // int32_t GetTargetActor() const
     // {
@@ -164,7 +250,7 @@ public:
 
 class IComponentGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("IComponentGenerator started\n");
         if (parentUnderscore.empty())
@@ -175,7 +261,7 @@ class IComponentGenerator : public Generator
         {
             namespaceLowerCase="core";
         }
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase, membersArg);
+        Init();
 
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
@@ -203,7 +289,7 @@ class IComponentGenerator : public Generator
 
 class ComponentGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("ComponentGenerator started\n");
         if (parentUnderscore.empty())
@@ -215,7 +301,7 @@ class ComponentGenerator : public Generator
             namespaceLowerCase="core";
         }
 
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
+        Init();
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
@@ -300,19 +386,19 @@ class ComponentGenerator : public Generator
 
 class NormalItemGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("NormalItemGenerator started\n");
         if (parentUnderscore.empty())
         {
-            parentUnderscore="NormalItem";
+            parentUnderscore="normal_item";
         }
         if (namespaceLowerCase.empty())
         {
             namespaceLowerCase="core";
         }
 
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
+        Init();
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
@@ -337,6 +423,8 @@ class NormalItemGenerator : public Generator
             }
             fprintf(file.mFile, "private:\n");
             fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "//TODO: to item_factory.cpp:\n");
             fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),classUnderscore.c_str());
@@ -374,7 +462,7 @@ class NormalItemGenerator : public Generator
 
 class SystemGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("SystemGenerator started\n");
         if (parentUnderscore.empty())
@@ -386,22 +474,12 @@ class SystemGenerator : public Generator
             namespaceLowerCase="engine";
         }
 
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
-
-        std::string targetComponentCamelCase="SomeTarget";
-        std::string targetComponentVariableName="someTarget";
-        std::string targetComponentUnderscore="some_target";
-        for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+        if (targetComponentUnderscore.empty())
         {
-            if(i->first=="component")
-            {
-                targetComponentUnderscore=i->second;
-                targetComponentCamelCase=UnderscoreToCamelCase(targetComponentUnderscore);
-                targetComponentVariableName=targetComponentCamelCase;
-                targetComponentVariableName[0]=tolower(targetComponentVariableName[0]);
-                break;
-            }
+            targetComponentUnderscore="some_target";
         }
+        Init();
+
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
@@ -484,30 +562,16 @@ class SystemGenerator : public Generator
 class SubSystemGenerator : public Generator
 {
 protected:
-    std::string targetComponentCamelCase;
-    std::string targetComponentVariableName;
-    std::string targetComponentUnderscore;
-
-    virtual void Init(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Init()
     {
-        Generator::Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
-        targetComponentCamelCase="SomeTarget";
-        targetComponentVariableName="someTarget";
-        targetComponentUnderscore="some_target";
-        for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+        if (targetComponentUnderscore.empty())
         {
-            if(i->first=="component")
-            {
-                targetComponentUnderscore=i->second;
-                targetComponentCamelCase=UnderscoreToCamelCase(targetComponentUnderscore);
-                targetComponentVariableName=targetComponentCamelCase;
-                targetComponentVariableName[0]=tolower(targetComponentVariableName[0]);
-                break;
-            }
+            targetComponentUnderscore="some_target";
         }
+        Generator::Init();
     }
 
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("SubSystemGenerator started\n");
         L1("SubSystemGenerator ended\n");
@@ -518,7 +582,7 @@ protected:
 
 class CollisionSubSystemGenerator : public SubSystemGenerator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("CollisionSubSystemGenerator started\n");
         if (parentUnderscore.empty())
@@ -530,22 +594,8 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             namespaceLowerCase="engine";
         }
 
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
+        Init();
 
-        std::string targetComponentCamelCase="SomeTarget";
-        std::string targetComponentVariableName="someTarget";
-        std::string targetComponentUnderscore="some_target";
-        for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
-        {
-            if(i->first=="component")
-            {
-                targetComponentUnderscore=i->second;
-                targetComponentCamelCase=UnderscoreToCamelCase(targetComponentUnderscore);
-                targetComponentVariableName=targetComponentCamelCase;
-                targetComponentVariableName[0]=tolower(targetComponentVariableName[0]);
-                break;
-            }
-        }
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
@@ -629,7 +679,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
 
 class ControllerSubSystemGenerator : public SubSystemGenerator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("ControllerSubSystemGenerator started\n");
         if (parentUnderscore.empty())
@@ -641,7 +691,7 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
             namespaceLowerCase="engine";
         }
 
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
+        Init();
 
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
@@ -724,7 +774,7 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
 
 class NormalItemSubSystemGenerator : public Generator
 {
-    virtual void Generate(std::string classUnderscore,std::string parentUnderscore,std::string namespaceLowerCase,std::string membersArg)
+    virtual void Generate()
     {
         L1("NormalItemSubSystemGenerator started\n");
         if (parentUnderscore.empty())
@@ -735,32 +785,16 @@ class NormalItemSubSystemGenerator : public Generator
         {
             namespaceLowerCase="engine";
         }
-
-        Init(classUnderscore,parentUnderscore,namespaceLowerCase,membersArg);
-
-        std::string targetItemTypeCamelCase="NormalItem";
-        std::string targetItemTypeVariableName="normalItem";
-        std::string targetItemTypeUnderscore="normal_item";
-        std::string targetItemNameCamelCase="ItemName";
-        std::string targetItemNameVariableName="itemName";
-        std::string targetItemNameUnderscore="item_name";
-        for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+        if (targetItemTypeUnderscore.empty())
         {
-            if(i->first=="type")
-            {
-                targetItemTypeUnderscore=i->second;
-                targetItemTypeCamelCase=UnderscoreToCamelCase(targetItemTypeUnderscore);
-                targetItemTypeVariableName=targetItemTypeCamelCase;
-                targetItemTypeVariableName[0]=tolower(targetItemTypeVariableName[0]);
-            }
-            else if (i->first=="item")
-            {
-                targetItemNameUnderscore=i->second;
-                targetItemNameCamelCase=UnderscoreToCamelCase(targetItemNameUnderscore);
-                targetItemNameVariableName=targetItemNameCamelCase;
-                targetItemNameVariableName[0]=tolower(targetItemNameVariableName[0]);
-            }
+            targetItemTypeUnderscore="normal_item";
         }
+        if (targetItemNameUnderscore.empty())
+        {
+            targetItemNameUnderscore="item_name";
+        }
+        Init();
+
         {
             AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
@@ -841,6 +875,268 @@ class NormalItemSubSystemGenerator : public Generator
     }
 };
 
+class EventGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="event";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="engine";
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"platform/event.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "struct %s : public platform::%s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+            }
+
+            fprintf(file.mFile, "    %s(",classCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                if (e-1!=i)
+                {
+                    fprintf(file.mFile, "%s, ",CreateArgumentWithType(i->first,i->second).c_str());
+                }
+                else
+                {
+                    fprintf(file.mFile, "%s)\n",CreateArgumentWithType(i->first,i->second).c_str());
+                }
+            }
+            fprintf(file.mFile, "        :");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                if (e-1!=i)
+                {
+                    fprintf(file.mFile, "%s(%s),",CreateMemberName(i->second).c_str(), i->second.c_str());
+                }
+                else
+                {
+                    fprintf(file.mFile, "%s(%s){}\n",CreateMemberName(i->second).c_str(), i->second.c_str());
+                }
+            }
+
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
+class MessageGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="network";
+        }
+
+        Init();
+        {
+            AutoNormalFile file((classUnderscore+"_message.h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"network/message.h\"\n");
+            fprintf(file.mFile, "#include \"network/message_handler_sub_system.h\"\n");
+            fprintf(file.mFile, "#include \"network/message_sender_system.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %sMessage : public Message\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    friend class ::boost::serialization::access;\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_MESSAGE_BASE(%sMessage)\n",classCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+            }
+
+            fprintf(file.mFile, "    %sMessage()\n",classCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                if (i==typeMemberPairs.begin())
+                {
+                    fprintf(file.mFile, "        : %s(_fill_me_)\n",CreateMemberName(i->second).c_str());
+                }
+                else
+                {
+                    fprintf(file.mFile, "        , %s(_fill_me_)\n",CreateMemberName(i->second).c_str());
+                }
+            }
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "    template<class Archive>\n");
+            fprintf(file.mFile, "    void serialize(Archive& ar, const unsigned int version);\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "template<class Archive>\n");
+            fprintf(file.mFile, "void %sMessage::serialize(Archive& ar, const unsigned int version)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    ar & boost::serialization::base_object<Message>(*this);\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    ar & %s;\n",CreateMemberName(i->second).c_str());
+            }
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "class %sMessageHandlerSubSystem : public MessageHandlerSubSystem\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%sMessageHandlerSubSystem)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %sMessageHandlerSubSystem();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    virtual void Init();\n");
+            fprintf(file.mFile, "    virtual void Execute(Message const& message );\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "class %sMessageSenderSystem : public MessageSenderSystem\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
+                fprintf(file.mFile, "    void On%s(%s::%s const& Evt);\n"
+                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+            }
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%sMessageSenderSystem)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %sMessageSenderSystem();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    virtual void Init();\n");
+            fprintf(file.mFile, "    virtual void Update(double DeltaTime);\n");
+            fprintf(file.mFile, "};\n");
+
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "//TODO: to message_order.h\n");
+            fprintf(file.mFile, "BOOST_CLASS_EXPORT_GUID(%s::%sMessage, \"%s\")\n",namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
+            fprintf(file.mFile, "//TODO: to message_handler_sub_system_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s_message_handler_sub_system\"), &CreateSubSystem<%sMessageHandlerSubSystem>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s_message_sender_system\"), &CreateSystem<%s::%sMessageSenderSystem>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to main.cpp:\n");
+            fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s_message_sender_system\"));\n",classUnderscore.c_str());
+            fprintf(file.mFile, "messageHandlerSSH->AddSubSystem(%s::%sMessage::GetType_static(),AutoId(\"%s_message_handler_sub_system\"));\n",
+                namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+"_message.cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
+            fprintf(file.mFile, "#include \"network/%s_message.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%sMessageSenderSystem::%sMessageSenderSystem()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : MessageSenderSystem()\n");
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            L1("%s ended1\n",__FUNCTION__);
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %sMessageSenderSystem::Init()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    MessageSenderSystem::Init();\n");
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    mOn%s=EventServer<%s::%s>::Get().Subscribe( boost::bind( &%sMessageSenderSystem::On%s, this, _1 ) );\n"
+                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
+            }
+            L1("%s ended2\n",__FUNCTION__);
+           fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %sMessageSenderSystem::Update(double DeltaTime)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    MessageSenderSystem::Update(DeltaTime);\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            L1("%s ended3\n",__FUNCTION__);
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "void %sMessageSenderSystem::On%s(%s::%s const& Evt)\n"
+                    ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf(file.mFile, "{\n");
+                fprintf(file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n",classCamelCase.c_str(),classVariable.c_str(),classCamelCase.c_str());
+                for(Type_Member_Pairs_t::iterator itTypeMember=typeMemberPairs.begin(),eitTypeMember=typeMemberPairs.end();itTypeMember!=eitTypeMember;++itTypeMember)
+                {
+                    fprintf(file.mFile, "    %sMsg->%s=Evt.%s;\n",classVariable.c_str(),CreateMemberName(itTypeMember->second).c_str(),CreateMemberName(itTypeMember->second).c_str());
+                }
+                fprintf(file.mFile, "    mMessageHolder.AddOutgoingMessage(%sMsg);\n",classVariable.c_str());
+                fprintf(file.mFile, "}\n");
+                fprintf(file.mFile, "\n");
+            }
+            L1("%s ended4\n",__FUNCTION__);
+
+
+            fprintf(file.mFile, "%sMessageHandlerSubSystem::%sMessageHandlerSubSystem()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : MessageHandlerSubSystem()\n");
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %sMessageHandlerSubSystem::Init()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            L1("%s ended5\n",__FUNCTION__);
+           fprintf(file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);\n");
+            fprintf(file.mFile, "    if (!actor.IsValid())\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        L1(\"cannot find actor with GUID: (%%s) %%d \\n\",__FUNCTION__,msg.mActorGUID );\n");
+            fprintf(file.mFile, "        return;\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "    \n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
+
 class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
 {
     friend class platform::Singleton<GeneratorFactory>;
@@ -858,6 +1154,8 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "collision_sub_system" ), &CreateGenerator<CollisionSubSystemGenerator> );
         Bind( AutoId( "controller_sub_system" ), &CreateGenerator<ControllerSubSystemGenerator> );
         Bind( AutoId( "normal_item_sub_system" ), &CreateGenerator<NormalItemSubSystemGenerator> );
+        Bind( AutoId( "event" ), &CreateGenerator<EventGenerator> );
+        Bind( AutoId( "message" ), &CreateGenerator<MessageGenerator> );
     }
 };
 
@@ -876,24 +1174,34 @@ int main(int argc, char* argv[])
 	std::string classUnderscore;
 	std::string generatorType;
     std::string parentUnderscore;
+    std::string targetComponentUnderscore;
+    std::string targetItemTypeUnderscore;
+    std::string targetItemNameUnderscore;
     std::string namespaceLowerCase;
     std::string membersArg;
+    std::string eventsArg;
 	desc.add_options()
         ("help", "produce help message")
 		("-c", po::value<std::string>(&classUnderscore), "class_name_underscore")
 		("-g", po::value<std::string>(&generatorType), "type of generator")
 		("-p", po::value<std::string>(&parentUnderscore), "parent_name_underscore")
+        ("target_component", po::value<std::string>(&targetComponentUnderscore), "target_component_name_without_component")
+        ("target_item_type", po::value<std::string>(&targetItemTypeUnderscore), "target_item_type")
+        ("target_item_name", po::value<std::string>(&targetItemNameUnderscore), "target_item_name")
         ("-n", po::value<std::string>(&namespaceLowerCase), "namespacelowercase")
         ("-m", po::value<std::string>(&membersArg), "optional: members: \"double-radius int32_t-targetId\"")
+        ("-e", po::value<std::string>(&eventsArg), "optional: events to subscribe: \"core-damageTaken\" -> AutoReg mOnDamageTaken; void OnDamageTaken (core::DamageTakenEvent const& Evt);")
 		("generators:", 
         "\n*** default_generator ***\n does nothing\n" 
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
         "\n*** component ***\n class_name shall be in \"{the_name_underscore}_component\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n" 
-        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -m \"component-target_component_name_without_component\" (e.g. for drop_on_death_component: -m \"component-drop_on_death\")\n" 
-        "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -m \"component-target_component_name_without_collision_component\" (e.g. for shot_collision_component -m \"component-shot\")\n" 
-        "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -m \"component-target_component_name_without_controller_component\" (e.g. for random_controller_component -m \"component-random\")\n" 
+        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_component \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
+        "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_component \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n" 
+        "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_component \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set \n" 
-        "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -m \"item-target_item_name_without_normal_item\" (e.g. for grenade_normal_item -m \"item-grenade\")\n" 
+        "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
+        "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
+        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_underscore.h class_name_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events - subscribing to event)\n" 
         //"\n\n\n"
            )
         ;
@@ -910,7 +1218,15 @@ int main(int argc, char* argv[])
         return 2;
     }
 
-    GeneratorFactory::Get()(AutoId(generatorType))->Generate(classUnderscore,parentUnderscore,namespaceLowerCase, membersArg);
-
+    std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId(generatorType)));
+    generator->classUnderscore=classUnderscore;
+    generator->parentUnderscore=parentUnderscore;
+    generator->namespaceLowerCase=namespaceLowerCase;
+    generator->membersArg=membersArg;
+    generator->eventsArg=eventsArg;
+    generator->targetComponentUnderscore=targetComponentUnderscore;
+    generator->targetItemTypeUnderscore=targetItemTypeUnderscore;
+    generator->targetItemNameUnderscore=targetItemNameUnderscore;
+    generator->Generate();
 	return 0;
 }

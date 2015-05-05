@@ -45,7 +45,6 @@ namespace network {
     void DamageTakenMessageHandlerSubSystem::Execute(Message const& message)
     {
         DamageTakenMessage const& msg=static_cast<DamageTakenMessage const&>(message);
-        //        L1("executing PlayerController: %d \n",msg.mSenderId );
         Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
         if (!actor.IsValid())
         {

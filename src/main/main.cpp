@@ -34,6 +34,7 @@
 #include "network/orientation_message.h"
 #include "network/ping_message.h"
 #include "engine/items/normal_item_sub_system.h"
+#include "network/flash_message.h"
 
 using engine::Engine;
 namespace {
@@ -138,6 +139,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("orientation_message_sender_system"));
         Eng.AddSystem(AutoId("heading_message_sender_system"));
         Eng.AddSystem(AutoId("pickup_message_sender_system"));
+        Eng.AddSystem(AutoId("flash_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -166,6 +168,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::SetPickupContentMessage::GetType_static(),AutoId("set_pickup_content_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ReviveMessage::GetType_static(),AutoId("revive_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::FlashMessage::GetType_static(),AutoId("flash_message_handler_sub_system"));
+
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -208,6 +212,7 @@ int main(int argc, char* argv[])
         inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
         normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
+        normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));
     }
 
     Eng.AddSystem(AutoId("fade_out_system"));

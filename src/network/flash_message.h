@@ -1,0 +1,65 @@
+#ifndef INCLUDED_NETWORK_FLASH_H
+#define INCLUDED_NETWORK_FLASH_H
+
+#include "network/message.h"
+#include "network/message_handler_sub_system.h"
+#include "network/message_sender_system.h"
+#include "engine/items/flash_event.h"
+
+namespace network {
+
+class FlashMessage : public Message
+{
+    friend class ::boost::serialization::access;
+public:
+    DEFINE_MESSAGE_BASE(FlashMessage)
+    int32_t mActorGUID;
+    double mOriginalX;
+    double mOriginalY;
+    double mX;
+    double mY;
+    FlashMessage()
+        : mActorGUID(0)
+        , mOriginalX(0.0)
+        , mOriginalY(0.0)
+        , mX(0.0)
+        , mY(0.0)
+    {
+    }
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
+};
+
+template<class Archive>
+void FlashMessage::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Message>(*this);
+    ar & mActorGUID;
+    ar & mOriginalX;
+    ar & mOriginalY;
+    ar & mX;
+    ar & mY;
+}
+
+class FlashMessageHandlerSubSystem : public MessageHandlerSubSystem
+{
+public:
+    DEFINE_SUB_SYSTEM_BASE(FlashMessageHandlerSubSystem)
+    FlashMessageHandlerSubSystem();
+    virtual void Init();
+    virtual void Execute(Message const& message );
+};
+
+class FlashMessageSenderSystem : public MessageSenderSystem
+{
+    AutoReg mOnFlashEvent;
+    void OnFlashEvent(engine::FlashEvent const& Evt);
+public:
+    DEFINE_SYSTEM_BASE(FlashMessageSenderSystem)
+    FlashMessageSenderSystem();
+    virtual void Init();
+    virtual void Update(double DeltaTime);
+};
+} // namespace network
+
+#endif//INCLUDED_NETWORK_FLASH_H

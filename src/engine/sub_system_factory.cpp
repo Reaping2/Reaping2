@@ -18,6 +18,7 @@
 #include "collisions/normal_collision_sub_system.h"
 #include "collisions/aoe_collision_sub_system.h"
 #include "collisions/bounce_collision_sub_system.h"
+#include "items/flash_normal_item_sub_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -33,13 +34,14 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("pointer_target_controller_sub_system"), &CreateSubSystem<PointerTargetControllerSubSystem>);
 
     Bind( AutoId("normal_item_sub_system"), &CreateSubSystem<NormalItemSubSystem>);
+    Bind( AutoId("flash_normal_item_sub_system"), &CreateSubSystem<FlashNormalItemSubSystem>);
+    Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
 
     Bind( AutoId("weapon_item_sub_system"), &CreateSubSystem<WeaponItemSubSystem>);
     Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);
     Bind( AutoId("pistol_weapon_sub_system"), &CreateSubSystem<PistolWeaponSubSystem>);
 	Bind( AutoId("rocket_launcher_weapon_sub_system"), &CreateSubSystem<RocketLauncherWeaponSubSystem>);
 
-    Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
 
     Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
     Bind( AutoId("wall_collision_sub_system"), &CreateSubSystem<WallCollisionSubSystem>);

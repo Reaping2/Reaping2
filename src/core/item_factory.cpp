@@ -4,6 +4,7 @@
 #include "core/pistol.h"
 #include "core/item.h"
 #include "grenade_normal_item.h"
+#include "flash_normal_item.h"
 ItemFactory::ItemFactory()
 {
     Bind<DefaultItem>( AutoId( "default_item" ) );
@@ -13,4 +14,6 @@ ItemFactory::ItemFactory()
 	Bind<RocketLauncher>(AutoId("rocket_launcher"));
 
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
+    Bind<FlashNormalItem>(AutoId("flash_normal_item"));
+
 }

@@ -41,6 +41,7 @@
 #include "removed_actors_system.h"
 #include "listen_child_death_system.h"
 #include "notify_parent_on_death_system.h"
+#include "network/flash_message.h"
 
 
 using platform::AutoId;
@@ -91,6 +92,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("pickup_message_sender_system"), &CreateSystem<network::PickupMessageSenderSystem>);
     Bind( AutoId("ping_message_sender_system"), &CreateSystem<network::PingMessageSenderSystem>);
     Bind( AutoId("revive_message_sender_system"), &CreateSystem<network::ReviveMessageSenderSystem>);
+    Bind( AutoId("flash_message_sender_system"), &CreateSystem<network::FlashMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

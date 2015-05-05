@@ -54,7 +54,8 @@ void DropOnDeathSystem::Update(double DeltaTime)
             }
             else
             {
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( AutoId("grenade_normal_item") );
+                int32_t contentId=RollNormalItem(2);
+                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Normal );
             }
             BOOST_ASSERT(actor.Get<IPositionComponent>().IsValid());
@@ -66,6 +67,19 @@ void DropOnDeathSystem::Update(double DeltaTime)
         }
     }
 
+}
+AutoId DropOnDeathSystem::RollNormalItem( int32_t n )
+{
+    // TODO: need a way to ask about available drops, this way
+    switch(rand() % n)
+    {
+    case 0:
+        return AutoId("grenade_normal_item");
+    case 1:
+        return AutoId("flash_normal_item");
+    }
+    BOOST_ASSERT(false);
+    return AutoId("default_item");
 }
 
 AutoId DropOnDeathSystem::Roll( int32_t n )

@@ -19,6 +19,7 @@ private:
     ActorFactory& mActorFactory;
 
 	AutoId Roll(int32_t n);
+    AutoId RollNormalItem( int32_t n );
 };
 
 } // namespace engine

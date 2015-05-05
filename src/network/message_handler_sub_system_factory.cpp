@@ -15,6 +15,7 @@
 #include "pickup_message.h"
 #include "ping_message.h"
 #include "revive_message.h"
+#include "flash_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -39,6 +40,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("set_pickup_content_message_handler_sub_system"), &CreateSubSystem<SetPickupContentMessageHandlerSubSystem>);
     Bind( AutoId("ping_message_handler_sub_system"), &CreateSubSystem<PingMessageHandlerSubSystem>);
     Bind( AutoId("revive_message_handler_sub_system"), &CreateSubSystem<ReviveMessageHandlerSubSystem>);
+    Bind( AutoId("flash_message_handler_sub_system"), &CreateSubSystem<FlashMessageHandlerSubSystem>);
 }
 
 } // namespace engine

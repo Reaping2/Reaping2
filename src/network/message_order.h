@@ -75,6 +75,7 @@
     BOOST_CLASS_EXPORT_GUID(network::SetPickupContentMessage, "set_pickup")
     BOOST_CLASS_EXPORT_GUID(network::PingMessage, "ping")
     BOOST_CLASS_EXPORT_GUID(network::ReviveMessage, "revive")
+    BOOST_CLASS_EXPORT_GUID(network::FlashMessage, "flash")
     
 
 
