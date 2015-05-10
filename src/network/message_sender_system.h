@@ -6,22 +6,10 @@
 #include "core/scene.h"
 #include "core/program_state.h"
 #include <set>
+#include "platform/frequency_timer.h"
 using core::ProgramState;
 
 namespace network {
-class FrequencyTimer
-{
-    double mElapsedTime;
-    double mFrequency;
-    bool mIsTime;
-public:
-    FrequencyTimer();
-    bool Update( double DeltaTime );
-    bool IsTime();
-    void SetFrequency( double frequency );
-    void Reset();
-    virtual ~FrequencyTimer();
-};
 
 class ActorFrequencyTimer : public FrequencyTimer
 {

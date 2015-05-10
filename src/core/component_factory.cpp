@@ -27,6 +27,7 @@
 #include "listen_child_death_component.h"
 #include "notify_parent_on_death_component.h"
 #include "pointer_target_controller_component.h"
+#include "buffs/buff_holder_component.h"
 
 using platform::AutoId;
 
@@ -70,4 +71,5 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("explosion_component"), &CreateComponent<ExplosionComponent>);
 
     Bind( AutoId("target_holder_component"), &CreateComponent<TargetHolderComponent>);
+    Bind( AutoId("buff_holder_component"), &CreateComponent<BuffHolderComponent>);
 }

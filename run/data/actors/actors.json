@@ -331,7 +331,8 @@
             {"name":"health_component",
                 "set":[{"hp":100}]
             },
-            {"name":"stop_on_death_component"}
+            {"name":"stop_on_death_component"},
+            {"name":"buff_holder_component"}
          ]
     }
 ]

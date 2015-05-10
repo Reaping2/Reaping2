@@ -26,6 +26,7 @@
 #include "listen_child_death_component.h"
 #include "notify_parent_on_death_component.h"
 #include "pointer_target_controller_component.h"
+#include "buffs/buff_holder_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -66,6 +67,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("explosion_component"), &CreateComponentLoader<ExplosionComponentLoader>);
 
     Bind( AutoId("target_holder_component"), &CreateComponentLoader<TargetHolderComponentLoader>);
+    Bind( AutoId("buff_holder_component"), &CreateComponentLoader<BuffHolderComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

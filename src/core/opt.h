@@ -6,6 +6,11 @@ class Opt
 {
 public:
     Opt(T* Ptr=NULL);
+    template<typename U>
+    Opt(const Opt<U>& Other)
+    {
+        mPtr=dynamic_cast<T*>(Other.Get());
+    }
     bool IsValid()const;
     T* operator->() const;
     T& operator*() const;

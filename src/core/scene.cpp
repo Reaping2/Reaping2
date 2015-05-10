@@ -296,6 +296,7 @@ void Scene::RemoveActor(int32_t guid)
         {
             if ((*i)->GetGUID()==guid)
             {
+                delete (*i).Get();
                 mNewActors.erase(i);
                 L2("removeActor from new actors (GUID:%d)\n",(*i)->GetGUID());
                 return;

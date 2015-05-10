@@ -42,6 +42,7 @@
 #include "listen_child_death_system.h"
 #include "notify_parent_on_death_system.h"
 #include "network/flash_message.h"
+#include "engine/buffs_engine/buff_holder_system.h"
 
 
 using platform::AutoId;
@@ -97,6 +98,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
 
+    Bind( AutoId("buff_holder_system"), &CreateSystem<BuffHolderSystem>);
     
 }
 

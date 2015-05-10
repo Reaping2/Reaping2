@@ -19,6 +19,7 @@
 #include "collisions/aoe_collision_sub_system.h"
 #include "collisions/bounce_collision_sub_system.h"
 #include "items/flash_normal_item_sub_system.h"
+#include "buffs_engine/heal_over_time_buff_sub_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -50,6 +51,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("aoe_collision_sub_system"), &CreateSubSystem<AoeCollisionSubSystem>);
     Bind( AutoId("bounce_collision_sub_system"), &CreateSubSystem<BounceCollisionSubSystem>);
 
+    Bind( AutoId("heal_over_time_buff_sub_system"), &CreateSubSystem<HealOverTimeBuffSubSystem>);
 }
 
 } // namespace engine

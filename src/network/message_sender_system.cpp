@@ -1,49 +1,6 @@
 #include "network/message_sender_system.h"
 namespace network {
 
-    FrequencyTimer::FrequencyTimer()
-        : mFrequency(0.0)
-        , mElapsedTime(0.0)
-        , mIsTime(true)
-    {
-    }
-
-    bool FrequencyTimer::Update(double DeltaTime)
-    {
-        if (mFrequency==0.0)
-        {
-            return true;
-        }
-
-        mIsTime=false;
-        mElapsedTime+=DeltaTime*1000;
-        if(mElapsedTime>=mFrequency)
-        {
-            mIsTime=true;
-            mElapsedTime=(int(mElapsedTime)%int(mFrequency));
-        }
-        return mIsTime;
-    }
-
-    bool FrequencyTimer::IsTime()
-    {
-        return mIsTime;
-    }
-
-    void FrequencyTimer::SetFrequency(double frequency)
-    {
-        mFrequency=frequency;
-    }
-
-    void FrequencyTimer::Reset()
-    {
-        mElapsedTime=0.0;
-    }
-
-    FrequencyTimer::~FrequencyTimer()
-    {
-
-    }
     ActorFrequencyTimer::ActorFrequencyTimer(double frequency, int32_t actorId)
         : FrequencyTimer()
         , mActorId(actorId)
@@ -126,5 +83,5 @@ namespace network {
         return actorIds;
     }
 
-} // namespace engine
+} // namespace network
 

@@ -17,7 +17,7 @@ public:
     std::string namespaceLowerCase;
     std::string membersArg;
     std::string eventsArg;
-    std::string targetComponentUnderscore;
+    std::string targetUnderscore;
     std::string targetItemTypeUnderscore;
     std::string targetItemNameUnderscore;
 protected:
@@ -26,8 +26,8 @@ protected:
     std::string classVariable;
     std::string parentCamelCase;
     std::string nameSpaceUpperCase;
-    std::string targetComponentCamelCase;
-    std::string targetComponentVariableName;
+    std::string targetCamelCase;
+    std::string targetVariableName;
     std::string targetItemTypeCamelCase;
     std::string targetItemTypeVariableName;
     std::string targetItemNameCamelCase;
@@ -48,11 +48,11 @@ public:
         classUpperCaseUnderscore=boost::to_upper_copy(classUnderscore);
         parentCamelCase=UnderscoreToCamelCase(parentUnderscore);
         nameSpaceUpperCase=boost::to_upper_copy(namespaceLowerCase);
-        if (!targetComponentUnderscore.empty())
+        if (!targetUnderscore.empty())
         {
-            targetComponentCamelCase=UnderscoreToCamelCase(targetComponentUnderscore);
-            targetComponentVariableName=targetComponentCamelCase;
-            targetComponentVariableName[0]=tolower(targetComponentVariableName[0]);
+            targetCamelCase=UnderscoreToCamelCase(targetUnderscore);
+            targetVariableName=targetCamelCase;
+            targetVariableName[0]=tolower(targetVariableName[0]);
         }
 
         if (!targetItemTypeUnderscore.empty())
@@ -474,9 +474,9 @@ class SystemGenerator : public Generator
             namespaceLowerCase="engine";
         }
 
-        if (targetComponentUnderscore.empty())
+        if (targetUnderscore.empty())
         {
-            targetComponentUnderscore="some_target";
+            targetUnderscore="some_target";
         }
         Init();
 
@@ -518,7 +518,7 @@ class SystemGenerator : public Generator
             AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
             fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
             fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/i_%s_component.h\"\n",targetComponentUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/i_%s_component.h\"\n",targetUnderscore.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
@@ -540,8 +540,8 @@ class SystemGenerator : public Generator
             fprintf(file.mFile, "    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )\n");
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "       Actor& actor = **it;\n");
-            fprintf(file.mFile, "       Opt<I%sComponent> %sC=actor.Get<I%sComponent>();\n",targetComponentCamelCase.c_str(),targetComponentVariableName.c_str(),targetComponentCamelCase.c_str());
-            fprintf(file.mFile, "       if (!%sC.IsValid())\n",targetComponentVariableName.c_str());
+            fprintf(file.mFile, "       Opt<I%sComponent> %sC=actor.Get<I%sComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
+            fprintf(file.mFile, "       if (!%sC.IsValid())\n",targetVariableName.c_str());
             fprintf(file.mFile, "       {\n");
             fprintf(file.mFile, "           continue;\n");
             fprintf(file.mFile, "       }\n");
@@ -564,9 +564,9 @@ class SubSystemGenerator : public Generator
 protected:
     virtual void Init()
     {
-        if (targetComponentUnderscore.empty())
+        if (targetUnderscore.empty())
         {
-            targetComponentUnderscore="some_target";
+            targetUnderscore="some_target";
         }
         Generator::Init();
     }
@@ -624,7 +624,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "collisionSS->AddSubSystem(AutoId(\"%s_collision_component\"),AutoId(\"%s\"));\n",targetComponentUnderscore.c_str(),classUnderscore.c_str());
+            fprintf(file.mFile, "collisionSS->AddSubSystem(AutoId(\"%s_collision_component\"),AutoId(\"%s\"));\n",targetUnderscore.c_str(),classUnderscore.c_str());
         }
 
 
@@ -633,7 +633,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
             fprintf(file.mFile, "#include \"engine/engine.h\"\n");
             fprintf(file.mFile, "#include \"engine/collisions/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/%s_collision_component.h\"\n",targetComponentUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/%s_collision_component.h\"\n",targetUnderscore.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
@@ -656,7 +656,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "        return;\n");
             fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n",targetComponentCamelCase.c_str(),targetComponentVariableName.c_str(),targetComponentCamelCase.c_str());
+            fprintf(file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
@@ -664,7 +664,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "void %s::ClipScene(Actor& actor)\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "    CollisionSubSystem::ClipScene(actor);\n");
-            fprintf(file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n",targetComponentCamelCase.c_str(),targetComponentVariableName.c_str(),targetComponentCamelCase.c_str());
+            fprintf(file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
@@ -726,7 +726,7 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "controllserSystem->AddSubSystem(AutoId(\"%s_controller_component\"),AutoId(\"%s\"));\n",targetComponentUnderscore.c_str(),classUnderscore.c_str());
+            fprintf(file.mFile, "controllserSystem->AddSubSystem(AutoId(\"%s_controller_component\"),AutoId(\"%s\"));\n",targetUnderscore.c_str(),classUnderscore.c_str());
         }
 
 
@@ -735,7 +735,7 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
             fprintf(file.mFile, "#include \"engine/engine.h\"\n");
             fprintf(file.mFile, "#include \"engine/controllers/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/%s_controller_component.h\"\n",targetComponentUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/%s_controller_component.h\"\n",targetUnderscore.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
@@ -755,8 +755,8 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    Opt<%sControllerComponent> %sCC=actor.Get<%sControllerComponent>();\n",targetComponentCamelCase.c_str(),targetComponentVariableName.c_str(),targetComponentCamelCase.c_str());
-            fprintf(file.mFile, "    if (!%sCC.IsValid()||!%sCC->IsEnabled())\n",targetComponentVariableName.c_str(),targetComponentVariableName.c_str());
+            fprintf(file.mFile, "    Opt<%sControllerComponent> %sCC=actor.Get<%sControllerComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
+            fprintf(file.mFile, "    if (!%sCC.IsValid()||!%sCC->IsEnabled())\n",targetVariableName.c_str(),targetVariableName.c_str());
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "        return;\n");
             fprintf(file.mFile, "    }\n");
@@ -1137,6 +1137,77 @@ class MessageGenerator : public Generator
 };
 
 
+class FactoryGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="core";
+        }
+
+        if (targetUnderscore.empty())
+        {
+            targetUnderscore="some_target";
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"platform/factory.h\"\n");
+            fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
+            fprintf(file.mFile, "#include \"%s.h\"\n",targetUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public platform::Factory<%s>, public platform::Singleton<%s>\n",classCamelCase.c_str(),targetCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    friend class platform::Singleton<%s>;\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    template<typename Elem_T>\n");
+            fprintf(file.mFile, "    static std::auto_ptr<%s> Create%s( int32_t Id );\n",targetCamelCase.c_str(),targetCamelCase.c_str());
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "template<typename Elem_T>\n");
+            fprintf(file.mFile, "std::auto_ptr<%s> %s::Create%s( int32_t Id )\n",targetCamelCase.c_str(),classCamelCase.c_str(),targetCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    return std::auto_ptr<%s>( new Elem_T() );\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
+            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "using platform::AutoId;\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    Bind( AutoId(\"default_%s\"), &Create%s<Default%s> );\n",targetUnderscore.c_str(),targetCamelCase.c_str(),targetCamelCase.c_str());
+            fprintf(file.mFile, "    SetDefault( AutoId(\"default_%s\") );\n",targetUnderscore.c_str());
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
 class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
 {
     friend class platform::Singleton<GeneratorFactory>;
@@ -1156,6 +1227,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "normal_item_sub_system" ), &CreateGenerator<NormalItemSubSystemGenerator> );
         Bind( AutoId( "event" ), &CreateGenerator<EventGenerator> );
         Bind( AutoId( "message" ), &CreateGenerator<MessageGenerator> );
+        Bind( AutoId( "factory" ), &CreateGenerator<FactoryGenerator> );
     }
 };
 
@@ -1174,7 +1246,7 @@ int main(int argc, char* argv[])
 	std::string classUnderscore;
 	std::string generatorType;
     std::string parentUnderscore;
-    std::string targetComponentUnderscore;
+    std::string targetUnderscore;
     std::string targetItemTypeUnderscore;
     std::string targetItemNameUnderscore;
     std::string namespaceLowerCase;
@@ -1185,7 +1257,7 @@ int main(int argc, char* argv[])
 		("-c", po::value<std::string>(&classUnderscore), "class_name_underscore")
 		("-g", po::value<std::string>(&generatorType), "type of generator")
 		("-p", po::value<std::string>(&parentUnderscore), "parent_name_underscore")
-        ("target_component", po::value<std::string>(&targetComponentUnderscore), "target_component_name_without_component")
+        ("-t", po::value<std::string>(&targetUnderscore), "target_name_underscore")
         ("target_item_type", po::value<std::string>(&targetItemTypeUnderscore), "target_item_type")
         ("target_item_name", po::value<std::string>(&targetItemNameUnderscore), "target_item_name")
         ("-n", po::value<std::string>(&namespaceLowerCase), "namespacelowercase")
@@ -1195,13 +1267,14 @@ int main(int argc, char* argv[])
         "\n*** default_generator ***\n does nothing\n" 
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
         "\n*** component ***\n class_name shall be in \"{the_name_underscore}_component\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n" 
-        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_component \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
-        "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_component \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n" 
-        "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_component \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n" 
+        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
+        "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n" 
+        "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
         "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
-        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_underscore.h class_name_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events - subscribing to event)\n" 
+        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events - subscribing to event)\n" 
+        "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
         //"\n\n\n"
            )
         ;
@@ -1224,7 +1297,7 @@ int main(int argc, char* argv[])
     generator->namespaceLowerCase=namespaceLowerCase;
     generator->membersArg=membersArg;
     generator->eventsArg=eventsArg;
-    generator->targetComponentUnderscore=targetComponentUnderscore;
+    generator->targetUnderscore=targetUnderscore;
     generator->targetItemTypeUnderscore=targetItemTypeUnderscore;
     generator->targetItemNameUnderscore=targetItemNameUnderscore;
     generator->Generate();

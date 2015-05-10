@@ -35,6 +35,8 @@
 #include "network/ping_message.h"
 #include "engine/items/normal_item_sub_system.h"
 #include "network/flash_message.h"
+#include "engine/buffs_engine/buff_holder_system.h"
+#include "core/buffs/heal_over_time_buff.h"
 
 using engine::Engine;
 namespace {
@@ -178,7 +180,12 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("keyboard_system"));
         Eng.AddSystem(AutoId("mouse_system"));
     }
-
+    Eng.AddSystem(AutoId("buff_holder_system"));
+    Opt<engine::BuffHolderSystem> buffHolderS(Eng.GetSystem<engine::BuffHolderSystem>());
+    if (programState.mMode!=ProgramState::Client) 
+    {
+        buffHolderS->AddSubSystem(HealOverTimeBuff::GetType_static(),AutoId("heal_over_time_buff_sub_system"));
+    }
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
