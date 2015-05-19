@@ -36,12 +36,10 @@ void HealOverTimeBuffSubSystem::Update(Actor& actor, double DeltaTime)
 
     if (mProgramState.mMode!=core::ProgramState::Client)
     {
-        BuffList_t& buffList=buffHolderC->GetBuffList();
-        BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffList,HealOverTimeBuff::GetType_static());
+        BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),HealOverTimeBuff::GetType_static());
         for( BuffListFilter<IBuffHolderComponent::All>::const_iterator healOverTimeBuffIt = buffListFilter.begin(), healOverTimeBuffE = buffListFilter.end(); healOverTimeBuffIt != healOverTimeBuffE; ++healOverTimeBuffIt )
         {
-            Opt<Buff> b=*healOverTimeBuffIt;
-            Opt<HealOverTimeBuff> healOverTimeBuff(b);
+            Opt<HealOverTimeBuff> healOverTimeBuff(*healOverTimeBuffIt);
             healOverTimeBuff->GetFrequencyTimer().Update(DeltaTime);
             healthC->TakeHeal(healOverTimeBuff->GetFrequencyTimer().GetElapsedTicks()*healOverTimeBuff->GetHealPerTick());
         }

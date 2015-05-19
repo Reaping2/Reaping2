@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 #include <ctype.h>
+#include "boost/algorithm/string/find.hpp"
+#include "boost/range/iterator_range_core.hpp"
+#include <xutility>
 
 class Generator
 {
@@ -1208,6 +1211,190 @@ class FactoryGenerator : public Generator
     }
 };
 
+class BuffGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="buff";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="core";
+        }
+
+        Init();
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"buff.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_BUFF_BASE(%s)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "protected:\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "//TODO: to buff_factory.cpp:\n");
+            fprintf(file.mFile, "Bind(AutoId(\"%s\"), &CreateBuff<%s> );\n",classUnderscore.c_str(),classCamelCase.c_str());
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"core/buffs/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : Buff()\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
+                    ",",CreateMemberName(i->second).c_str());
+            }
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    mSecsToEnd=0.0\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+            }
+
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
+class BuffSubSystemGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="sub_system";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="engine";
+        }
+        if (targetUnderscore.empty())
+        {
+            size_t pos=classUnderscore.find("_sub_system");
+            if (pos!=std::string::npos)
+            {
+                targetUnderscore=classUnderscore.substr(0,pos);
+            }
+            else 
+            {
+                targetUnderscore="some_target";
+            }
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"core/scene.h\"\n");
+            fprintf(file.mFile, "#include \"engine/sub_system.h\"\n");
+            fprintf(file.mFile, "#include \"core/program_state.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    virtual void Init();\n");
+            fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "    Scene& mScene;\n");
+            fprintf(file.mFile, "    core::ProgramState& mProgramState;\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to main.cpp:\n");
+            fprintf(file.mFile, "buffHolderS->AddSubSystem(%s::GetType_static(),AutoId(\"%s\"));\n",targetCamelCase.c_str(),classUnderscore.c_str());
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"engine/buffs_engine/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/buffs/%s.h\"\n",targetUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/buffs/i_buff_holder_component.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : mScene(Scene::Get())\n");
+            fprintf(file.mFile, "    , mProgramState(core::ProgramState::Get())\n");
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();\n");
+            fprintf(file.mFile, "    if (!buffHolderC.IsValid())\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        return;\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "    BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),%s::GetType_static());\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "    for( BuffListFilter<IBuffHolderComponent::All>::const_iterator %sIt = buffListFilter.begin(), %sE = buffListFilter.end(); %sIt != %sE; ++%sIt )\n",targetVariableName.c_str(),targetVariableName.c_str(),targetVariableName.c_str(),targetVariableName.c_str(),targetVariableName.c_str());
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        Opt<%s> %s(*%sIt);\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetVariableName.c_str());
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
 class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
 {
     friend class platform::Singleton<GeneratorFactory>;
@@ -1228,6 +1415,8 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "event" ), &CreateGenerator<EventGenerator> );
         Bind( AutoId( "message" ), &CreateGenerator<MessageGenerator> );
         Bind( AutoId( "factory" ), &CreateGenerator<FactoryGenerator> );
+        Bind( AutoId( "buff" ), &CreateGenerator<BuffGenerator> );
+        Bind( AutoId( "buff_sub_system" ), &CreateGenerator<BuffSubSystemGenerator> );
     }
 };
 
@@ -1237,6 +1426,9 @@ std::auto_ptr<Generator> GeneratorFactory::CreateGenerator( int32_t Id )
     std::auto_ptr<Generator> generator( new Elem_T() );
     return generator;
 }
+
+
+
 
 int main(int argc, char* argv[])
 {
@@ -1264,17 +1456,19 @@ int main(int argc, char* argv[])
         ("-m", po::value<std::string>(&membersArg), "optional: members: \"double-radius int32_t-targetId\"")
         ("-e", po::value<std::string>(&eventsArg), "optional: events to subscribe: \"core-damageTaken\" -> AutoReg mOnDamageTaken; void OnDamageTaken (core::DamageTakenEvent const& Evt);")
 		("generators:", 
-        "\n*** default_generator ***\n does nothing\n" 
-        "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
-        "\n*** component ***\n class_name shall be in \"{the_name_underscore}_component\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n" 
-        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
+        "\n*** buff ***\n class_name shall be in \"{the_name_underscore}_buff\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to buff if not set. uses -m members \n" 
+        "\n*** buff_sub_system ***\n class_name shall be in \"{the_name_underscore}_buff_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp. guesses the parent to buff if not set. \n" 
         "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n" 
+        "\n*** component ***\n class_name shall be in \"{the_name_underscore}_component\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n" 
         "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n" 
-        "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set \n" 
-        "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
+        "\n*** default_generator ***\n does nothing\n" 
         "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
-        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events - subscribing to event)\n" 
         "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
+        "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
+        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events - subscribing to event)\n" 
+        "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
+        "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
+        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
         //"\n\n\n"
            )
         ;
