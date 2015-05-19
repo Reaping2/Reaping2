@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_BUFFS_HEAL_OVER_TIME_BUFF_H
 
 #include "buff.h"
-#include "platform\frequency_timer.h"
+#include "platform/frequency_timer.h"
 
 class HealOverTimeBuff : public Buff
 {
