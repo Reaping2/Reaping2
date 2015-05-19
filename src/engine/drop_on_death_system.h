@@ -20,6 +20,7 @@ private:
 
 	AutoId Roll(int32_t n);
     AutoId RollNormalItem( int32_t n );
+    AutoId RollBuff( int32_t n );
 };
 
 } // namespace engine

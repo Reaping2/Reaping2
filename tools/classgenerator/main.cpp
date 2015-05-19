@@ -1021,7 +1021,7 @@ class MessageGenerator : public Generator
             for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
             {
                 fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "    void On%s(%s::%s const& Evt);\n"
+                fprintf(file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
                     ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
             }
             fprintf(file.mFile, "public:\n");
@@ -1070,7 +1070,7 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "    MessageSenderSystem::Init();\n");
             for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    mOn%s=EventServer<%s::%s>::Get().Subscribe( boost::bind( &%sMessageSenderSystem::On%s, this, _1 ) );\n"
+                fprintf(file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%sMessageSenderSystem::On%s, this, _1 ) );\n"
                     ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
             }
             L1("%s ended2\n",__FUNCTION__);
@@ -1086,7 +1086,7 @@ class MessageGenerator : public Generator
             L1("%s ended3\n",__FUNCTION__);
             for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "void %sMessageSenderSystem::On%s(%s::%s const& Evt)\n"
+                fprintf(file.mFile, "void %sMessageSenderSystem::On%s(%s::%sEvent const& Evt)\n"
                     ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
                 fprintf(file.mFile, "{\n");
                 fprintf(file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n",classCamelCase.c_str(),classVariable.c_str(),classCamelCase.c_str());

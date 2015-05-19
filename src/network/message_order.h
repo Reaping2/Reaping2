@@ -15,6 +15,7 @@
 #include "pickup_message.h"
 #include "ping_message.h"
 #include "revive_message.h"
+#include "heal_taken_message.h"
 
 
     struct message_order
@@ -76,6 +77,7 @@
     BOOST_CLASS_EXPORT_GUID(network::PingMessage, "ping")
     BOOST_CLASS_EXPORT_GUID(network::ReviveMessage, "revive")
     BOOST_CLASS_EXPORT_GUID(network::FlashMessage, "flash")
+    BOOST_CLASS_EXPORT_GUID(network::HealTakenMessage, "heal_taken")
     
 
 

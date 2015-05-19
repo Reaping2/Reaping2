@@ -8,6 +8,7 @@
 #include "core/i_move_component.h"
 #include "core/damage_taken_event.h"
 #include "core/i_collision_component.h"
+#include "core/heal_taken_event.h"
 
 namespace engine {
 
@@ -35,13 +36,26 @@ void HealthSystem::Update(double DeltaTime)
         {
             continue;
         }
-        int32_t damage=healthC->GetDamage();
-
-
         int32_t currHp=healthC->GetHP();
-        int32_t newHp=currHp-damage;
+        int32_t newHp=currHp;
 
-        if (newHp<currHp)
+        int32_t heal=healthC->GetHeal();
+        newHp+=heal;
+        //TODO: soft cap. shall be something like max health.
+        newHp=std::min(100,newHp);
+        if (heal>0)
+        {
+            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+            if(positionC.IsValid())
+            {
+                EventServer<core::HealTakenEvent>::Get().SendEvent( core::HealTakenEvent(positionC->GetX(), positionC->GetY(),healthC->GetHeal(),actor.GetGUID()) );
+            }
+        }
+        healthC->ResetHeal();
+
+        int32_t damage=healthC->GetDamage();
+        newHp-=damage;
+        if (damage>0)
         {
             //TODO: thats not enough. This way walls bleed too.
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
@@ -53,6 +67,7 @@ void HealthSystem::Update(double DeltaTime)
                 EventServer<core::DamageTakenEvent>::Get().SendEvent( damageTakeEvent );
             }
         }
+        healthC->ResetDamage();
 
         if (newHp<=0)
         {
@@ -73,7 +88,7 @@ void HealthSystem::Update(double DeltaTime)
             }
         }
         healthC->SetHP(newHp);
-        healthC->ResetDamage();
+
     }
 
 }

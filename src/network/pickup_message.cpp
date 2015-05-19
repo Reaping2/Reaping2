@@ -3,6 +3,9 @@
 #include "core/actor_event.h"
 #include "core/pickup_collision_component.h"
 #include "core/item.h"
+#include "core/buffs/i_buff_holder_component.h"
+#include "platform/auto_id.h"
+#include "core/buffs/buff_factory.h"
 namespace network {
 
     PickupMessageSenderSystem::PickupMessageSenderSystem()
@@ -62,7 +65,6 @@ namespace network {
     void PickupMessageHandlerSubSystem::Execute(Message const& message)
     {
         PickupMessage const& msg=static_cast<PickupMessage const&>(message);
-        //        L1("executing PlayerController: %d \n",msg.mSenderId );
         Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
         if (!actor.IsValid())
         {
@@ -74,16 +76,29 @@ namespace network {
         if (inventoryC.IsValid())
         {
             L2("pickup picked up with itemtype:%d,itemid:%d",msg.mItemType,msg.mItemId);
-            inventoryC->DropItemType( msg.mItemType );
-            inventoryC->AddItem( msg.mItemId );
+
+            //TODO item selection will be syncronized, not pickup event
             if (msg.mItemType==Item::Weapon)
             {
+                inventoryC->DropItemType( msg.mItemType );
+                inventoryC->AddItem( msg.mItemId );
                 inventoryC->SetSelectedWeapon( msg.mItemId );
             }
             else if (msg.mItemType==Item::Normal)
             {
+                inventoryC->DropItemType( msg.mItemType );
+                inventoryC->AddItem( msg.mItemId );
                 inventoryC->SetSelectedNormalItem( msg.mItemId );
             }
+            else if (msg.mItemType==Item::Buff)
+            {
+                Opt<IBuffHolderComponent> buffHolderC=actor->Get<IBuffHolderComponent>();
+                if (buffHolderC.IsValid())
+                {
+                    buffHolderC->AddBuff(core::BuffFactory::Get()(msg.mItemId));
+                }
+            }
+
         }
     }
 

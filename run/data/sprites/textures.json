@@ -138,6 +138,24 @@
 				]
 			}
 		]
+	},
+	{
+		"texture_path":"textures/heal_over_time_buff_pickup.png",
+		"actor_visuals":
+		[
+			{
+				"name":"heal_over_time_buff",
+				"animations":
+				[
+					{
+						"name":"body_idle",
+						"w":32,
+						"h":32,
+						"scale":1.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
 	}
-
 ]

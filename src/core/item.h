@@ -11,7 +11,8 @@ public:
     enum ItemType
     {
         Normal=0,
-        Weapon
+        Weapon,
+        Buff
     };
     virtual ~Item()
     {

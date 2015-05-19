@@ -14,16 +14,16 @@ class FlashMessage : public Message
 public:
     DEFINE_MESSAGE_BASE(FlashMessage)
     int32_t mActorGUID;
-    double mOriginalX;
-    double mOriginalY;
-    double mX;
-    double mY;
+    int32_t mOriginalX;
+    int32_t mOriginalY;
+    int32_t mX;
+    int32_t mY;
     FlashMessage()
         : mActorGUID(0)
-        , mOriginalX(0.0)
-        , mOriginalY(0.0)
-        , mX(0.0)
-        , mY(0.0)
+        , mOriginalX(0)
+        , mOriginalY(0)
+        , mX(0)
+        , mY(0)
     {
     }
     template<class Archive>

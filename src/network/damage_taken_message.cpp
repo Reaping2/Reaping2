@@ -55,7 +55,7 @@ namespace network {
         Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if (!healthC.IsValid())
         {
-            L1("playercontroller is called on an actor that has no player_controller_component \n" );
+            L1("damage taken on an actor withot heal component \n" );
             return;
         }
         healthC->TakeDamage(msg.mDamage);

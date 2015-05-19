@@ -15,6 +15,7 @@ using platform::EventServer;
 HealthComponent::HealthComponent()
     : mHP( 1 )
     , mDamage( 0 ) 
+    , mHeal( 0 ) 
     , mAlive( true )
     , mTimeOfDeath( 0 )
 {
@@ -67,6 +68,21 @@ void HealthComponent::ResetDamage()
 int32_t HealthComponent::GetDamage()
 {
     return mDamage;
+}
+
+void HealthComponent::TakeHeal(int32_t heal)
+{
+    mHeal+=heal;
+}
+
+int32_t HealthComponent::GetHeal()
+{
+    return mHeal;
+}
+
+void HealthComponent::ResetHeal()
+{
+    mHeal=0;
 }
 
 

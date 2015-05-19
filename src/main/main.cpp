@@ -137,6 +137,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("position_message_sender_system"));
         Eng.AddSystem(AutoId("move_message_sender_system"));
         Eng.AddSystem(AutoId("create_actor_message_sender_system"));
+        Eng.AddSystem(AutoId("heal_taken_message_sender_system"));
         Eng.AddSystem(AutoId("damage_taken_message_sender_system"));
         Eng.AddSystem(AutoId("orientation_message_sender_system"));
         Eng.AddSystem(AutoId("heading_message_sender_system"));
@@ -163,6 +164,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::MoveMessage::GetType_static(),AutoId("move_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PlayerControllerMessage::GetType_static(),AutoId("player_controller_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::HealTakenMessage::GetType_static(),AutoId("heal_taken_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::DamageTakenMessage::GetType_static(),AutoId("damage_taken_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::OrientationMessage::GetType_static(),AutoId("orientation_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));

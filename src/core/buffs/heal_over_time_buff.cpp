@@ -3,9 +3,10 @@
 
 HealOverTimeBuff::HealOverTimeBuff()
     : Buff()
-    , mHealPerTick(0)
+    , mHealPerTick(5)
 {
     mSecsToEnd=2;
+    mFrequencyTimer.SetFrequency(333);
 }
 
 void HealOverTimeBuff::SetHealPerTick(int32_t healPerTick)

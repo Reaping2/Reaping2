@@ -43,6 +43,7 @@
 #include "notify_parent_on_death_system.h"
 #include "network/flash_message.h"
 #include "engine/buffs_engine/buff_holder_system.h"
+#include "network/heal_taken_message.h"
 
 
 using platform::AutoId;
@@ -88,6 +89,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("player_controller_message_sender_system"), &CreateSystem<network::PlayerControllerMessageSenderSystem>);
     Bind( AutoId("create_actor_message_sender_system"), &CreateSystem<network::CreateActorMessageSenderSystem>);
     Bind( AutoId("damage_taken_message_sender_system"), &CreateSystem<network::DamageTakenMessageSenderSystem>);
+    Bind( AutoId("heal_taken_message_sender_system"), &CreateSystem<network::HealTakenMessageSenderSystem>);
     Bind( AutoId("orientation_message_sender_system"), &CreateSystem<network::OrientationMessageSenderSystem>);
     Bind( AutoId("heading_message_sender_system"), &CreateSystem<network::HeadingMessageSenderSystem>);
     Bind( AutoId("pickup_message_sender_system"), &CreateSystem<network::PickupMessageSenderSystem>);

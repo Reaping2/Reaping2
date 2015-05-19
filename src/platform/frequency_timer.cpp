@@ -32,7 +32,7 @@ int32_t FrequencyTimer::GetElapsedTicks()
 
 bool FrequencyTimer::IsTime()
 {
-    return mElapsedTicks>0;
+    return mElapsedTicks>0||mFrequency==0.0;
 }
 
 void FrequencyTimer::SetFrequency(double frequency)

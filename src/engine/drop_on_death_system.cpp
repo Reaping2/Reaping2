@@ -46,17 +46,24 @@ void DropOnDeathSystem::Update(double DeltaTime)
                 return;
             }
             std::auto_ptr<Actor> Pu=mActorFactory(AutoId("pickup"));
-            if(rand() % 2)
+            int32_t rolled=rand() % 3;
+            if(rolled==0)
             {
                 int32_t contentId=Roll(3);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Weapon );
             }
-            else
+            else if (rolled==1)
             {
                 int32_t contentId=RollNormalItem(2);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Normal );
+            }
+            else if (rolled==2)
+            {
+                int32_t contentId=RollBuff(1);
+                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
+                Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Buff );
             }
             BOOST_ASSERT(actor.Get<IPositionComponent>().IsValid());
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
@@ -96,6 +103,18 @@ AutoId DropOnDeathSystem::Roll( int32_t n )
 	}
 	BOOST_ASSERT(false);
 	return AutoId("default_item");
+}
+
+AutoId DropOnDeathSystem::RollBuff( int32_t n )
+{
+    // TODO: need a way to ask about available drops, this way
+    switch(rand() % n)
+    {
+    case 0:
+        return AutoId("heal_over_time_buff");
+    }
+    BOOST_ASSERT(false);
+    return AutoId("default_buff");
 }
 
 } // namespace engine

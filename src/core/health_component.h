@@ -13,8 +13,11 @@ public:
     virtual bool IsAlive()const;
     virtual void SetAlive( bool alive );
     virtual void TakeDamage( int32_t damage );
-    virtual void ResetDamage();
     virtual int32_t GetDamage();
+    virtual void ResetDamage();
+    virtual void TakeHeal( int32_t heal );
+    virtual int32_t GetHeal();
+    virtual void ResetHeal();
     virtual double GetTimeOfDeath()const;
     virtual void SetTimeOfDeath( double timeOfDeath );
 
@@ -23,6 +26,7 @@ public:
 
     int32_t mHP;
     int32_t mDamage;
+    int32_t mHeal;
     bool mAlive;
     double mTimeOfDeath;
 };

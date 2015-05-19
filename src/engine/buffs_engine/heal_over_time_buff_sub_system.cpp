@@ -43,8 +43,7 @@ void HealOverTimeBuffSubSystem::Update(Actor& actor, double DeltaTime)
             Opt<Buff> b=*healOverTimeBuffIt;
             Opt<HealOverTimeBuff> healOverTimeBuff(b);
             healOverTimeBuff->GetFrequencyTimer().Update(DeltaTime);
-            healthC->SetHP(std::min(100
-                ,healthC->GetHP()+healOverTimeBuff->GetFrequencyTimer().GetElapsedTicks()*healOverTimeBuff->GetHealPerTick()));
+            healthC->TakeHeal(healOverTimeBuff->GetFrequencyTimer().GetElapsedTicks()*healOverTimeBuff->GetHealPerTick());
         }
 
     }

@@ -89,7 +89,7 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
                 Opt<IHealthComponent> healthC=currentTarget->Get<IHealthComponent>();
                 if (healthC.IsValid()&&healthC->IsAlive())
                 {
-                    healthC->TakeDamage(1);
+                    healthC->TakeDamage(4);
                 }
                 targetPCC->SetAttackCounter(targetPCC->GetAttackFrequency());
             }

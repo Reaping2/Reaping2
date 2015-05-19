@@ -16,6 +16,7 @@
 #include "ping_message.h"
 #include "revive_message.h"
 #include "flash_message.h"
+#include "heal_taken_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -34,6 +35,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("move_message_handler_sub_system"), &CreateSubSystem<MoveMessageHandlerSubSystem>);
     Bind( AutoId("player_controller_message_handler_sub_system"), &CreateSubSystem<PlayerControllerMessageHandlerSubSystem>);
     Bind( AutoId("damage_taken_message_handler_sub_system"), &CreateSubSystem<DamageTakenMessageHandlerSubSystem>);
+    Bind( AutoId("heal_taken_message_handler_sub_system"), &CreateSubSystem<HealTakenMessageHandlerSubSystem>);
     Bind( AutoId("orientation_message_handler_sub_system"), &CreateSubSystem<OrientationMessageHandlerSubSystem>);
     Bind( AutoId("heading_message_handler_sub_system"), &CreateSubSystem<HeadingMessageHandlerSubSystem>);
     Bind( AutoId("pickup_message_handler_sub_system"), &CreateSubSystem<PickupMessageHandlerSubSystem>);

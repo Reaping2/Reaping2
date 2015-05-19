@@ -12,8 +12,11 @@ public:
     virtual bool IsAlive()const=0;
     virtual void SetAlive( bool alive )=0;
     virtual void TakeDamage( int32_t damage )=0;
-    virtual void ResetDamage()=0;
     virtual int32_t GetDamage()=0;
+    virtual void ResetDamage()=0;
+    virtual void TakeHeal( int32_t damage )=0;
+    virtual int32_t GetHeal()=0;
+    virtual void ResetHeal()=0;
     virtual double GetTimeOfDeath()const=0;
     virtual void SetTimeOfDeath(double timeOfDeath)=0;
 protected:
