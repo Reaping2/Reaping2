@@ -15,7 +15,7 @@ namespace render {
         {
             return true;
         }
-        if (moveC->GetSpeed()==0)
+        if (!moveC->IsMoving())
         {
             //L1( " Idle RECOGNIZED! \n" );
             return true;

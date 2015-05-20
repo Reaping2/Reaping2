@@ -36,8 +36,15 @@ void RandomControllerSubSystem::Update(Actor& actor, double DeltaTime)
             randomCC->SetCounter(0);
             randomCC->SetHeadingModifier(( rand() % 10 - 5 ) * .33);
 
-            actor.Get<IMoveComponent>()->SetSpeed( ( rand() % 10 )*30 );
-            actor.Get<IMoveComponent>()->SetHeadingModifier( randomCC->GetHeadingModifier() );
+            Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+            if (!moveC.IsValid())
+            {
+                return;
+            }
+            moveC->GetSpeed().mBase.Set(( rand() % 10 )*30);
+            moveC->SetMoving(moveC->GetSpeed().Get()!=0);
+
+            moveC->SetHeadingModifier( randomCC->GetHeadingModifier() );
         }
     }
     actor.Get<IPositionComponent>()->SetOrientation( actor.Get<IMoveComponent>()->GetHeading() );

@@ -52,9 +52,12 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
         return;
     }
 
-    if (actor.Get<IMoveComponent>()->GetHeading()==0.0&&actor.Get<IMoveComponent>()->GetSpeed()==0)
+    if (targetPCC->IsNeedInit())
     {
-        actor.Get<IMoveComponent>()->SetSpeed( ((rand() % 10)+5)*20 );
+        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+        moveC->GetSpeed().mBase.Set(((rand() % 10)+5)*20);
+        moveC->SetMoving(true);
+        targetPCC->SetNeedInit(false);
     }
 
 

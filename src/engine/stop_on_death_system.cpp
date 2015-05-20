@@ -41,7 +41,7 @@ void StopOnDeathSystem::Update(double DeltaTime)
        Opt<IMoveComponent> moveC=actor.Get<IMoveComponent>();
        if(moveC.IsValid())
        {
-           moveC->SetSpeed(0);
+           moveC->SetMoving(false);
            moveC->SetHeadingModifier(0);
        }
     }

@@ -17,6 +17,7 @@
 #include "ui/ui.h"
 #include "ui/widget_factory.h"
 #include "ui/text_widget.h"
+#include "i_move_component.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -246,6 +247,7 @@ void Scene::Load( std::string const& Level )
         Pl->Get<PlayerControllerComponent>()->SetEnabled(false);
         Pl->Get<PlayerControllerComponent>()->mActive=false;
         Pl->Get<PlayerControllerComponent>()->mControllerId=i;
+        Pl->Get<IMoveComponent>()->SetMoving(false);
         AddActor( Pl.release() );
     }
 }

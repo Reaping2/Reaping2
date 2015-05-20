@@ -31,13 +31,13 @@ void AccelerationSystem::Update(double DeltaTime)
             continue;
         }
         
-        double speed=moveC->GetSpeed();
+        double speed=moveC->GetSpeed().mBase.Get();
         double acceleration=accelerationC->GetAcceleration();
         speed+=acceleration*DeltaTime;
         speed=(acceleration>0.0)?
             std::min(speed,accelerationC->GetMaxSpeed()):
             std::max(speed,accelerationC->GetMinSpeed());
-        moveC->SetSpeed(speed);
+        moveC->GetSpeed().mBase.Set(speed);
     }
 
 }

@@ -19,6 +19,8 @@ public:
     double GetHeadingModifierFrequency() const;
     void SetHeadingModifierFrequency(double frequency);
 
+    bool IsNeedInit() const;
+    void SetNeedInit(bool needInit);
     TargetPlayerControllerComponent();
 private:
     double mAttackCounter;
@@ -26,6 +28,7 @@ private:
     double mHeadingModifierCounter;
     double mHeadingModifierFrequency;
     double mHeadingModifier;
+    bool mNeedInit;
 };
 
 class TargetPlayerControllerComponentLoader: public ComponentLoader<TargetPlayerControllerComponent>

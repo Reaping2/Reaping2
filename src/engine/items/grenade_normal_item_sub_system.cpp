@@ -50,7 +50,8 @@ void GrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
         {
             double sumSpeedX=projMoveC->GetSpeedX()+actorMoveC->GetSpeedX()*0.8;
             double sumSpeedY=projMoveC->GetSpeedY()+actorMoveC->GetSpeedY()*0.8;
-            projMoveC->SetSpeed(std::sqrt(sumSpeedX*sumSpeedX+sumSpeedY*sumSpeedY));
+            projMoveC->GetSpeed().mBase.Set(std::sqrt(sumSpeedX*sumSpeedX+sumSpeedY*sumSpeedY));
+            projMoveC->SetMoving(true);
         }
 
         mScene.AddActor( Proj.release() );

@@ -58,7 +58,7 @@ void BounceCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         s*=-1;
     }
     moveC->SetHeading(atan2(s,c));
-    moveC->SetSpeed(moveC->GetSpeed()*(1.0-bounceCC->GetSpeedLossPercent()));
+    moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
 }
 
 
@@ -92,7 +92,7 @@ void BounceCollisionSubSystem::ClipScene(Actor& actor)
     if (bounced)
     {
         moveC->SetHeading(atan2(s,c));
-        moveC->SetSpeed(moveC->GetSpeed()*(1.0-bounceCC->GetSpeedLossPercent()));
+        moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
     }
     CollisionSubSystem::ClipScene(actor);
 }

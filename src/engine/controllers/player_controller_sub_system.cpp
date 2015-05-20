@@ -23,7 +23,6 @@ void PlayerControllerSubSystem::Init()
     mKeyboard=Engine::Get().GetSystem<KeyboardSystem>();
     mMouse=Engine::Get().GetSystem<MouseSystem>();
     mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnMouseMoveEvent, this, _1 ) );
-
 }
 
 void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
@@ -60,7 +59,8 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerC
     int x = ( ( playerControllerC->mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( playerControllerC->mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Down ) ? -1 : 0 );
 
-    actor.Get<IMoveComponent>()->SetSpeed( std::max<double>( std::abs( x ), std::abs( y ) )*350 );
+    Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+    moveC->SetMoving(std::max<double>( std::abs( x ), std::abs( y ) )!=0);
 
     double Heading = 0;
     static const double pi = boost::math::constants::pi<double>();

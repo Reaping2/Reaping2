@@ -32,8 +32,11 @@ void MoveSystem::Update(double DeltaTime)
             continue;
         }
         moveC->SetHeading(moveC->GetHeading()+DeltaTime*moveC->GetHeadingModifier());
-        positionC->SetX( positionC->GetX() + DeltaTime * moveC->GetSpeedX() );
-        positionC->SetY( positionC->GetY() + DeltaTime * moveC->GetSpeedY() );
+        if (moveC->IsMoving())
+        {
+            positionC->SetX( positionC->GetX() + DeltaTime * moveC->GetSpeedX() );
+            positionC->SetY( positionC->GetY() + DeltaTime * moveC->GetSpeedY() );
+        }
     }
 
 }

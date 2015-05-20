@@ -55,11 +55,11 @@ namespace network {
             return std::auto_ptr<MoveMessage>();
         }
         std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
-        //moveMsg->mHeading=moveC->GetHeading();
         moveMsg->mHeadingModifier=std::floor(moveC->GetHeadingModifier()*PRECISION);
-        moveMsg->mSpeed=std::floor(moveC->GetSpeed()*PRECISION);
-        //moveMsg->mSpeedX=moveC->GetSpeedX();
-        //moveMsg->mSpeedY=moveC->GetSpeedY();
+        moveMsg->mSpeed=std::floor(moveC->GetSpeed().mBase.Get()*PRECISION);
+        moveMsg->mPercent=std::floor(moveC->GetSpeed().mPercent.Get()*PRECISION);
+        moveMsg->mFlat=std::floor(moveC->GetSpeed().mFlat.Get()*PRECISION);
+        moveMsg->mMoving=moveC->IsMoving();
         moveMsg->mActorGUID=actor.GetGUID();
         return moveMsg;
     }

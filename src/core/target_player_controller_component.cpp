@@ -11,6 +11,7 @@ TargetPlayerControllerComponent::TargetPlayerControllerComponent()
     , mHeadingModifierCounter ( 0.0 )
     , mHeadingModifierFrequency ( 0.2 )
     , mHeadingModifier( 0 )
+    , mNeedInit( true )
 {
 
 }
@@ -65,6 +66,16 @@ double TargetPlayerControllerComponent::GetHeadingModifierFrequency() const
 void TargetPlayerControllerComponent::SetHeadingModifierFrequency(double frequency)
 {
     mHeadingModifierFrequency=frequency;
+}
+
+bool TargetPlayerControllerComponent::IsNeedInit() const
+{
+    return mNeedInit;
+}
+
+void TargetPlayerControllerComponent::SetNeedInit(bool needInit)
+{
+    mNeedInit=needInit;
 }
 
 

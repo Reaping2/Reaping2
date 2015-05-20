@@ -4,31 +4,31 @@
 #include "i_move_component.h"
 #include "core/property_loader.h"
 
-
-
 class MoveComponent : public IMoveComponent
 {
 public:
     virtual double const& GetHeading() const; 
     virtual double const& GetHeadingModifier() const; 
-    virtual double const& GetSpeed() const;
-    virtual double const& GetSpeedX() const;
-    virtual double const& GetSpeedY() const;
+    virtual double GetSpeedX() const;
+    virtual double GetSpeedY() const;
+    virtual bool const& IsMoving() const;
+    virtual void SetSpeed( double Speed ); //dont use this
     virtual void SetHeading( double Heading );
     virtual void SetHeadingModifier( double HeadingModifier );
-    virtual void SetSpeed( double Speed );
-    virtual void SetSpeedX( double SpeedX );
-    virtual void SetSpeedY( double SpeedY );
+    virtual void SetMoving( bool moving );
+    virtual Buffable<double>& GetSpeed();
 protected:
     MoveComponent();
     friend class ComponentFactory;
 private:
     double mHeading;
+    double mHeadingCos;
+    double mHeadingSin;
     double mHeadingModifier;
-    double mSpeed;
     double mSpeedX;
     double mSpeedY;
-    void UpdateProjections();
+    bool mMoving;
+    Buffable<double> mSpeed;
 };
 
 class MoveComponentLoader: public ComponentLoader<MoveComponent>
