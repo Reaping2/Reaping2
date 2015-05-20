@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include "boost/algorithm/string/find.hpp"
 #include "boost/range/iterator_range_core.hpp"
-#include <xutility>
 
 class Generator
 {
