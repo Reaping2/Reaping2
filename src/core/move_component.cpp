@@ -9,9 +9,9 @@ MoveComponent::MoveComponent()
     , mSpeedY(0.0)
     , mMoving(true)
 {
-    mSpeed.mBase.Init(350.0,0.0,10000.0);
+    mSpeed.mBase.Init(350.0,0.0,100000.0);
     mSpeed.mFlat.Init(0.0,0.0,1000.0);
-    mSpeed.mPercent.Init(0.0,0.0,1000.0);
+    mSpeed.mPercent.Init(0.0,0.0,100.0);
 }
 
 double const& MoveComponent::GetHeading() const

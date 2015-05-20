@@ -1254,6 +1254,9 @@ class BuffGenerator : public Generator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "//TODO: to buff_factory.cpp:\n");
             fprintf(file.mFile, "Bind(AutoId(\"%s\"), &CreateBuff<%s> );\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to message_order.h:\n");
+            fprintf(file.mFile, "type=%s::GetType_static();\n",classCamelCase.c_str());
+
         }
 
 
@@ -1269,7 +1272,7 @@ class BuffGenerator : public Generator
                     ",",CreateMemberName(i->second).c_str());
             }
             fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    mSecsToEnd=0.0\n");
+            fprintf(file.mFile, "    mSecsToEnd=0.0;\n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 

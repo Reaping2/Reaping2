@@ -16,6 +16,8 @@
 #include "ping_message.h"
 #include "revive_message.h"
 #include "heal_taken_message.h"
+#include "core/buffs/heal_over_time_buff.h"
+#include "core/buffs/move_speed_buff.h"
 
 
     struct message_order
@@ -38,6 +40,9 @@
             type=network::SetPickupContentMessage::GetType_static();
             type=network::PingMessage::GetType_static();
             type=network::ReviveMessage::GetType_static();
+
+            type=HealOverTimeBuff::GetType_static();
+            type=MoveSpeedBuff::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_gun");

@@ -30,20 +30,24 @@ void BuffHolderSystem::Update(double DeltaTime)
 
         Opt<Buff> prevBuff;
         BuffList_t& buffList=buffHolderC->GetBuffList();
-        for( BuffList_t::iterator buffIt = buffList.begin(), buffE = buffList.end(); buffIt != buffE; ++buffIt )
+//         for( BuffList_t::iterator buffIt = buffList.begin(), buffE = buffList.end(); buffIt != buffE; ++buffIt )
+//         {
+//             Buff& buff = **buffIt;
+//             if (prevBuff.IsValid()&&prevBuff->GetType()==buff.GetType())
+//             {
+//                 continue;
+//             }
+// 
+//             prevBuff=*buffIt;
+//             BindIds_t::iterator buffssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(buff.GetType());
+//             if (buffssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
+//             {
+//                 buffssIt->mSystem->Update(actor,DeltaTime);
+//             }
+//         }
+        for( SubSystems_t::iterator ssIt = mSubSystems.begin(), e = mSubSystems.end(); ssIt != e; ++ssIt )
         {
-            Buff& buff = **buffIt;
-            if (prevBuff.IsValid()&&prevBuff->GetType()==buff.GetType())
-            {
-                continue;
-            }
-
-            prevBuff=*buffIt;
-            BindIds_t::iterator buffssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(buff.GetType());
-            if (buffssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
-            {
-                buffssIt->mSystem->Update(actor,DeltaTime);
-            }
+            ssIt->mSystem->Update(actor,DeltaTime);
         }
 
         for( BuffList_t::iterator buffIt = buffList.begin(), buffE = buffList.end(); buffIt != buffE; ++buffIt )
