@@ -22,7 +22,7 @@ namespace network {
     void SetOwnershipMessageHandlerSubSystem::Execute(Message const& message)
     {
         SetOwnershipMessage const& msg=static_cast<SetOwnershipMessage const&>(message);
-        L1("executing setownership: clientId %d \n",msg.mClientId );
+        L1("stashing setownership: clientId %d \n",msg.mClientId );
         mPendingOwnerships.push_back(PendingOwnership(msg.mActorGUID,msg.mClientId));
     }
 

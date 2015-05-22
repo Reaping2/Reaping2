@@ -15,7 +15,6 @@ DropOnDeathSystem::DropOnDeathSystem()
     : mScene( Scene::Get() )
     , mActorFactory(ActorFactory::Get())
 {
-
 }
 
 void DropOnDeathSystem::Init()

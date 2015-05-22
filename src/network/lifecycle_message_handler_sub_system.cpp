@@ -12,6 +12,11 @@
 #include "position_message.h"
 #include "core/program_state.h"
 #include "core/i_inventory_component.h"
+#include "core/i_move_component.h"
+#include "core/buffs/i_buff_holder_component.h"
+#include "core/buffs/buff_factory.h"
+#include "core/buffs/move_speed_buff.h"
+#include "client_datas_message.h"
 
 namespace network {
 
@@ -42,6 +47,9 @@ namespace network {
             std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
             lifecycleMsg->mState=lifecycleMsg->mState;
             mMessageHolder.AddOutgoingMessage(lifecycleMsg);
+            std::auto_ptr<ClientDatasMessage> clientDatasMsg(new ClientDatasMessage);
+            clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
+            mMessageHolder.AddOutgoingMessage(clientDatasMsg);
 
             ActorFactory& actorFactory=ActorFactory::Get();
             int32_t playerAutoId=AutoId("player");
@@ -71,8 +79,15 @@ namespace network {
         setOwnershipMsg->mActorGUID=player->GetGUID();
         setOwnershipMsg->mClientId=clientDataToSet.mClientId;
         MessageHolder::Get().AddOutgoingMessage(setOwnershipMsg);
-        clientDataToSet.mClientActor=Opt<Actor>(player.get());
-        L2("player added clientId:%d clientName:%s actorId:%d\n",clientDataToSet.mClientId,clientDataToSet.mClientName.c_str(),clientDataToSet.mClientActor->GetGUID());
+        clientDataToSet.mClientActorGUID=player->GetGUID();
+
+        L2("player added clientId:%d clientName:%s actorId:%d\n",clientDataToSet.mClientId,clientDataToSet.mClientName.c_str(),clientDataToSet.mClientActorGUID);
+        //TODO: for debugging server:
+        if (ProgramState::Get().mClientDatas.begin()->mClientActorGUID==player->GetGUID())
+        {
+            Scene::Get().SetPlayerModels(Opt<Actor>(player.get()));
+        }
+
         Scene::Get().AddActor(player.release());
     }
 

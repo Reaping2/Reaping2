@@ -17,6 +17,9 @@
 #include "revive_message.h"
 #include "flash_message.h"
 #include "heal_taken_message.h"
+#include "soldier_properties_message.h"
+#include "client_datas_message.h"
+#include "health_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -43,6 +46,10 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("ping_message_handler_sub_system"), &CreateSubSystem<PingMessageHandlerSubSystem>);
     Bind( AutoId("revive_message_handler_sub_system"), &CreateSubSystem<ReviveMessageHandlerSubSystem>);
     Bind( AutoId("flash_message_handler_sub_system"), &CreateSubSystem<FlashMessageHandlerSubSystem>);
+    Bind( AutoId("soldier_properties_message_handler_sub_system"), &CreateSubSystem<SoldierPropertiesMessageHandlerSubSystem>);
+    Bind( AutoId("client_datas_message_handler_sub_system"), &CreateSubSystem<ClientDatasMessageHandlerSubSystem>);
+    Bind( AutoId("health_message_handler_sub_system"), &CreateSubSystem<HealthMessageHandlerSubSystem>);
+
 }
 
 } // namespace engine

@@ -77,39 +77,43 @@ namespace network {
     {
         ReviveMessage const& msg=static_cast<ReviveMessage const&>(message);
         L2("got revive message: senderId:%d\n",msg.mSenderId);
-        for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
-        {
-            if (i->mClientId==msg.mSenderId)
-            {
-                L2("found client for revive: senderId:%d\n",msg.mSenderId);
-                if(!i->mClientActor.IsValid())
-                {
-                    L1("revive called and clientactor for %d is not valid!(error)\n",msg.mSenderId);
-                    return;
-                }
-                Opt<IHealthComponent> healthC = i->mClientActor->Get<IHealthComponent>();
-                if (healthC.IsValid()&&!healthC->IsAlive())
-                {
-                    std::auto_ptr<Actor> player(ActorFactory::Get()(AutoId("player")));
-                    Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-                    glm::vec4 const& dimensions=mScene.GetDimensions();
-                    positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
-                    positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
 
-                    //TODO: temporary till normal inventory sync 
-                    Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
-                    if (inventoryC.IsValid())
-                    {
-                        inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
-                    }
-                    LifecycleMessageHandlerSubSystem::AddNewPlayer(*i,player);
-                }
-                else
-                {
-                    L1("health is not available, or actor still alive:%d\n",i->mClientActor->GetGUID());
-                }
-            }
+        Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(msg.mSenderId));
+        if (!clientData.IsValid())
+        {
+            L1("cannot find clientdata for revive: senderId: %d\n",msg.mSenderId);
+            return;
         }
+
+        L2("found client for revive: senderId:%d\n",msg.mSenderId);
+        Opt<Actor> clientActor(mScene.GetActor(clientData->mClientActorGUID));
+        if(!clientActor.IsValid())
+        {
+            L1("revive called and clientactor for %d is not valid!(error)\n",msg.mSenderId);
+            return;
+        }
+        Opt<IHealthComponent> healthC = clientActor->Get<IHealthComponent>();
+        if (healthC.IsValid()&&!healthC->IsAlive())
+        {
+            std::auto_ptr<Actor> player(ActorFactory::Get()(AutoId("player")));
+            Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
+            glm::vec4 const& dimensions=mScene.GetDimensions();
+            positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
+            positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
+
+            //TODO: temporary till normal inventory sync 
+            Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
+            if (inventoryC.IsValid())
+            {
+                inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
+            }
+            LifecycleMessageHandlerSubSystem::AddNewPlayer(*clientData,player);
+        }
+        else
+        {
+            L1("health is not available, or actor still alive:%d\n",clientData->mClientActorGUID);
+        }
+
         L2("end revive message: senderId:%d\n",msg.mSenderId);
     }
 

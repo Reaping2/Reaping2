@@ -41,8 +41,8 @@ void HealthSystem::Update(double DeltaTime)
 
         int32_t heal=healthC->GetHeal();
         newHp+=heal;
-        //TODO: soft cap. shall be something like max health.
-        newHp=std::min(100,newHp);
+
+        newHp=std::min(healthC->GetMaxHP().Get(),newHp);
         if (heal>0)
         {
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();

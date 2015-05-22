@@ -26,7 +26,14 @@ public:
             return buff->GetSecsToEnd();
         }
     };
-
+    struct AutoRemoveOrderer
+    { 
+        typedef bool result_type;
+        result_type operator()(const Opt<Buff>& buff)const
+        {
+            return buff->IsAutoRemove();
+        }
+    };
     typedef multi_index_container<
         Opt<Buff>,
         indexed_by<
@@ -39,7 +46,8 @@ public:
             ordered_non_unique<
                 composite_key<
                     Opt<Buff>,
-                    BuffHolder::SecsToEndOrderer
+                    BuffHolder::SecsToEndOrderer,
+                    BuffHolder::AutoRemoveOrderer
                 >
             >
         >
@@ -122,7 +130,7 @@ protected:
 public:
     BuffListFilter(BuffList_t const& bufflist, int32_t secsToEnd)
     {
-        boost::tie(mI,mE)=bufflist.get<1>().equal_range(boost::make_tuple(secsToEnd));
+        boost::tie(mI,mE)=bufflist.get<1>().equal_range(boost::make_tuple(secsToEnd,true));
         mSize=std::distance(mI,mE);
     }
     const_iterator begin()

@@ -20,12 +20,19 @@ class Buff
 public:
     virtual int GetType() const=0;
     virtual ~Buff();
-    virtual double GetSecsToEnd();
-    virtual void SetSecsToEnd( double secsToEnd );
-
+    virtual void SetSecsToEnd(double secsToEnd);
+    virtual double GetSecsToEnd()const;
+    virtual void SetAutoRemove(bool autoRemove);
+    virtual bool IsAutoRemove()const;
+    virtual void SetUID(int32_t uID);
+    virtual int32_t GetUID()const;
 protected:
-    Buff();
     double mSecsToEnd;
+    bool mAutoRemove;
+    int32_t mUID;
+    Buff();
+private:
+    static int32_t mNextUId;
 };
 
 

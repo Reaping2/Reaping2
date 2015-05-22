@@ -37,6 +37,10 @@
 #include "network/flash_message.h"
 #include "engine/buffs_engine/buff_holder_system.h"
 #include "core/buffs/heal_over_time_buff.h"
+#include "network/soldier_properties_message.h"
+#include "network/client_datas_message.h"
+#include "core/buffs/max_health_buff.h"
+#include "network/health_message.h"
 
 using engine::Engine;
 namespace {
@@ -151,10 +155,12 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
-    }
+   }
     if (programState.mMode!=ProgramState::Local)
     {
         Eng.AddSystem(AutoId("message_handler_sub_system_holder"));
+        Eng.AddSystem(AutoId("soldier_properties_message_sender_system"));
+
         Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
         messageHandlerSSH->AddSubSystem(network::ClientIdMessage::GetType_static(),AutoId("client_id_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::MyNameMessage::GetType_static(),AutoId("my_name_message_handler_sub_system"));
@@ -173,9 +179,12 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ReviveMessage::GetType_static(),AutoId("revive_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FlashMessage::GetType_static(),AutoId("flash_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::SoldierPropertiesMessage::GetType_static(),AutoId("soldier_properties_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ClientDatasMessage::GetType_static(),AutoId("client_datas_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::HealthMessage::GetType_static(),AutoId("health_message_handler_sub_system"));
 
     }
-
+    Eng.AddSystem(AutoId("soldier_properties_system"));
     Eng.AddSystem(AutoId("timer_server_system"));
     if (programState.mMode!=ProgramState::Server) 
     {
@@ -188,6 +197,7 @@ int main(int argc, char* argv[])
     {
         buffHolderS->AddSubSystem(HealOverTimeBuff::GetType_static(),AutoId("heal_over_time_buff_sub_system"));
         buffHolderS->AddSubSystem(MoveSpeedBuff::GetType_static(),AutoId("move_speed_buff_sub_system"));
+        buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
     }
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());

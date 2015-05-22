@@ -44,6 +44,10 @@
 #include "network/flash_message.h"
 #include "engine/buffs_engine/buff_holder_system.h"
 #include "network/heal_taken_message.h"
+#include "soldier_properties_system.h"
+#include "network/soldier_properties_message.h"
+#include "network/client_datas_message.h"
+#include "network/health_message.h"
 
 
 using platform::AutoId;
@@ -82,6 +86,9 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("server_system"), &CreateSystem<network::ServerSystem>);
     Bind( AutoId("client_system"), &CreateSystem<network::ClientSystem>);
+
+    Bind( AutoId("soldier_properties_system"), &CreateSystem<SoldierPropertiesSystem>);
+
     Bind( AutoId("lifecycle_sender_system"), &CreateSystem<network::LifecycleSenderSystem>);
     Bind( AutoId("message_handler_sub_system_holder"), &CreateSystem<network::MessageHandlerSubSystemHolder>);
     Bind( AutoId("position_message_sender_system"), &CreateSystem<network::PositionMessageSenderSystem>);
@@ -96,6 +103,9 @@ SystemFactory::SystemFactory()
     Bind( AutoId("ping_message_sender_system"), &CreateSystem<network::PingMessageSenderSystem>);
     Bind( AutoId("revive_message_sender_system"), &CreateSystem<network::ReviveMessageSenderSystem>);
     Bind( AutoId("flash_message_sender_system"), &CreateSystem<network::FlashMessageSenderSystem>);
+    Bind( AutoId("soldier_properties_message_sender_system"), &CreateSystem<network::SoldierPropertiesMessageSenderSystem>);
+    Bind( AutoId("client_datas_message_sender_system"), &CreateSystem<network::ClientDatasMessageSenderSystem>);
+    Bind( AutoId("health_message_sender_system"), &CreateSystem<network::HealthMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

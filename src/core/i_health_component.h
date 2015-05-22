@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_I_HEALTH_COMPONENT_H
 #define INCLUDED_CORE_I_HEALTH_COMPONENT_H
 #include "component.h"
+#include "buffable.h"
 
 class IHealthComponent : public Component
 {
@@ -19,6 +20,7 @@ public:
     virtual void ResetHeal()=0;
     virtual double GetTimeOfDeath()const=0;
     virtual void SetTimeOfDeath(double timeOfDeath)=0;
+    virtual Buffable<int32_t>& GetMaxHP()=0;
 protected:
     friend class ComponentFactory;
 };

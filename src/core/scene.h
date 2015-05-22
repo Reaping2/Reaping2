@@ -6,6 +6,7 @@
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
 #include "collision_class.h"
+#include "program_state.h"
 class ActorHolder
 {
 public:
@@ -170,6 +171,8 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mResumeModel;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
+    int32_t mMaxHP;
+    core::ProgramState& mProgramState;
 public:
     enum ActorIndex
     {

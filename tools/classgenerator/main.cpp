@@ -1015,6 +1015,7 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "    %sMessageHandlerSubSystem();\n",classCamelCase.c_str());
             fprintf(file.mFile, "    virtual void Init();\n");
             fprintf(file.mFile, "    virtual void Execute(Message const& message );\n");
+            fprintf(file.mFile, "    virtual void Update(double DeltaTime);\n");
             fprintf(file.mFile, "};\n");
             fprintf(file.mFile, "\n");
 
@@ -1031,6 +1032,10 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "    %sMessageSenderSystem();\n",classCamelCase.c_str());
             fprintf(file.mFile, "    virtual void Init();\n");
             fprintf(file.mFile, "    virtual void Update(double DeltaTime);\n");
+            if (!targetUnderscore.empty())
+            {
+                fprintf(file.mFile, "    static std::auto_ptr<%sMessage> Generate%sMessage(Actor &actor);\n",classCamelCase.c_str(),classCamelCase.c_str());
+            }
             fprintf(file.mFile, "};\n");
 
             fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
@@ -1056,6 +1061,11 @@ class MessageGenerator : public Generator
             AutoNormalFile file((classUnderscore+"_message.cpp").c_str(),"w" );
             fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
             fprintf(file.mFile, "#include \"network/%s_message.h\"\n",classUnderscore.c_str());
+            if (!targetUnderscore.empty())
+            {
+                fprintf(file.mFile, "#include \"core/i_%s_component.h\"\n",targetUnderscore.c_str());
+            }
+
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
@@ -1076,7 +1086,7 @@ class MessageGenerator : public Generator
                     ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
             }
             L1("%s ended2\n",__FUNCTION__);
-           fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "void %sMessageSenderSystem::Update(double DeltaTime)\n",classCamelCase.c_str());
@@ -1115,8 +1125,14 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
+            fprintf(file.mFile, "void %sMessageHandlerSubSystem::Update(double DeltaTime)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    MessageHandlerSubSystem::Update(DeltaTime);\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
             L1("%s ended5\n",__FUNCTION__);
-           fprintf(file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);\n");
@@ -1128,8 +1144,24 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "    \n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
-
-            fprintf(file.mFile, "\n");
+            if (!targetUnderscore.empty())
+            {
+                fprintf(file.mFile, "std::auto_ptr<%sMessage> %sMessageSenderSystem::Generate%sMessage(Actor &actor)\n",classCamelCase.c_str(),classCamelCase.c_str(),classCamelCase.c_str());
+                fprintf(file.mFile, "{\n");
+                fprintf(file.mFile, "    Opt<I%sComponent> %sC = actor.Get<I%sComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
+                fprintf(file.mFile, "    if (!%sC.IsValid())\n",targetVariableName.c_str());
+                fprintf(file.mFile, "    {\n");
+                fprintf(file.mFile, "        return std::auto_ptr<%sMessage>();\n",classCamelCase.c_str());
+                fprintf(file.mFile, "    }\n");
+                fprintf(file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n",classCamelCase.c_str(),classVariable.c_str(),classCamelCase.c_str());
+                for(Type_Member_Pairs_t::iterator itTypeMember=typeMemberPairs.begin(),eitTypeMember=typeMemberPairs.end();itTypeMember!=eitTypeMember;++itTypeMember)
+                {
+                    fprintf(file.mFile, "    %sMsg->%s=%sC->%s();\n",classVariable.c_str(),CreateMemberName(itTypeMember->second).c_str(),targetVariableName.c_str(),CreateGetMember(itTypeMember->first, itTypeMember->second).c_str());
+                }
+                fprintf(file.mFile, "    return %sMsg;\n",classVariable.c_str());
+                fprintf(file.mFile, "}\n");
+                fprintf(file.mFile, "\n");
+            }
             fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
         }
@@ -1467,7 +1499,7 @@ int main(int argc, char* argv[])
         "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
         "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
-        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events - subscribing to event)\n" 
+        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
         "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 

@@ -18,6 +18,10 @@
 #include "ui/widget_factory.h"
 #include "ui/text_widget.h"
 #include "i_move_component.h"
+#include "buffs/i_buff_holder_component.h"
+#include "buffs/buff_factory.h"
+#include "buffs/max_health_buff.h"
+#include "engine/buffs_engine/max_health_buff_sub_system.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -60,6 +64,12 @@ void Scene::Update( double DeltaTime )
         return;
     }
 
+    Opt<Actor> player(GetActor(mProgramState.mControlledActorGUID));
+    if (player.IsValid())
+    {
+        Opt<IHealthComponent> healthC=player->Get<IHealthComponent>();
+        mMaxHP=healthC->GetMaxHP().Get();
+    }
     //TODO: testing
     if (ProgramState::Get().mMode!=ProgramState::Client
         &&rand()%60==1
@@ -88,6 +98,8 @@ Scene::Scene()
     , mPauseModel( VoidFunc( this, &Scene::Pause ), "pause", &mSceneModel )
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
     , mPlayerModel( "player", &RootModel::Get() )
+    , mMaxHP( 0 )
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -228,6 +240,15 @@ void Scene::Load( std::string const& Level )
     }
 
     SetPlayerModels(Opt<Actor>(Pl.get()));
+    std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("max_health_buff")));
+    MaxHealthBuff* maxHealthBuff=(MaxHealthBuff*)buff.get();
+    maxHealthBuff->SetFlatBonus(30);
+    maxHealthBuff->SetSecsToEnd(15);
+    Pl->Get<IBuffHolderComponent>()->AddBuff(buff);
+    engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Pl.get());
+    Opt<IHealthComponent> healthC=Pl->Get<IHealthComponent>();
+    healthC->SetHP(healthC->GetMaxHP().Get());
+    mProgramState.mControlledActorGUID=Pl->GetGUID();
     AddActor( Pl.release() );
 //     Root& hudRoot=Ui::Get().GetRoot("hud");
 //     std::auto_ptr<TextWidget> wdg(new TextWidget(AutoId("text_widget")));
@@ -328,9 +349,11 @@ Opt<Actor> Scene::GetActor(int32_t guid)
 void Scene::SetPlayerModels(Opt<Actor> actor)
 {
     mPlayerModels.clear();
-    mPlayerModels.push_back( new ModelValue( actor->Get<IHealthComponent>()->GetHP(), "hp", &mPlayerModel ) );
-    Opt<IPositionComponent> objPositionC = actor->Get<IPositionComponent>();
-    mPlayerModels.push_back( new ModelValue( objPositionC->GetX(), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( objPositionC->GetY(), "y", &mPlayerModel ) );
+    Opt<IHealthComponent> healthC=actor->Get<IHealthComponent>();
+    mPlayerModels.push_back( new ModelValue( healthC->GetHP(), "hp", &mPlayerModel ) );
+    Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
+    mPlayerModels.push_back( new ModelValue( positionC->GetX(), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( positionC->GetY(), "y", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( mMaxHP, "max_hp", &mPlayerModel ) );
 }
 

@@ -19,6 +19,11 @@ void MoveSpeedBuffSubSystem::Init()
 
 void MoveSpeedBuffSubSystem::Update(Actor& actor, double DeltaTime)
 {
+    RecalculateBuffs(actor);
+}
+
+void MoveSpeedBuffSubSystem::RecalculateBuffs(Actor &actor)
+{
     Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
     if (!buffHolderC.IsValid())
     {

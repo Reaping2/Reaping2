@@ -19,6 +19,9 @@ HealthComponent::HealthComponent()
     , mAlive( true )
     , mTimeOfDeath( 0 )
 {
+    mMaxHP.mBase.Init(100.0,0.0,10000.0);
+    mMaxHP.mFlat.Init(0.0,0.0,1000.0);
+    mMaxHP.mPercent.Init(0.0,0.0,100.0);
 }
 
 void HealthComponent::Update( double Seconds )
@@ -85,10 +88,21 @@ void HealthComponent::ResetHeal()
     mHeal=0;
 }
 
+Buffable<int32_t>& HealthComponent::GetMaxHP()
+{
+    return mMaxHP;
+}
+
+void HealthComponent::SetHPandMaxHP(int32_t Hp)
+{
+    mMaxHP.mBase.Set(Hp);
+    SetHP(mMaxHP.Get());
+}
+
 
 void HealthComponentLoader::BindValues()
 {
-    Bind("hp",func_int32_t(&HealthComponent::SetHP));
+    Bind("hp",func_int32_t(&HealthComponent::SetHPandMaxHP));
 }
 
 HealthComponentLoader::HealthComponentLoader()

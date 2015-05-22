@@ -43,7 +43,6 @@ void HealOverTimeBuffSubSystem::Update(Actor& actor, double DeltaTime)
             healOverTimeBuff->GetFrequencyTimer().Update(DeltaTime);
             healthC->TakeHeal(healOverTimeBuff->GetFrequencyTimer().GetElapsedTicks()*healOverTimeBuff->GetHealPerTick());
         }
-
     }
 }
 

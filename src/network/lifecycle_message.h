@@ -2,6 +2,7 @@
 #define INCLUDED_NETWORK_LIFECYCLE_MESSAGE_H
 
 #include "network/message.h"
+#include "core/program_state.h"
 namespace network {
 
     class LifecycleMessage: public Message

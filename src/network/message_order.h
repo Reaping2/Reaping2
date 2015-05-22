@@ -18,6 +18,13 @@
 #include "heal_taken_message.h"
 #include "core/buffs/heal_over_time_buff.h"
 #include "core/buffs/move_speed_buff.h"
+#include "soldier_properties_message.h"
+#include "core/soldier_properties.h"
+#include "core/program_state.h"
+#include "health_message.h"
+#include "damage_taken_message.h"
+#include "core/buffs/max_health_buff.h"
+#include "client_datas_message.h"
 
 
     struct message_order
@@ -40,9 +47,15 @@
             type=network::SetPickupContentMessage::GetType_static();
             type=network::PingMessage::GetType_static();
             type=network::ReviveMessage::GetType_static();
+            type=network::FlashMessage::GetType_static();
+            type=network::HealTakenMessage::GetType_static();
+            type=network::SoldierPropertiesMessage::GetType_static();
+            type=network::ClientDatasMessage::GetType_static();
+            type=network::HealthMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
+            type=MaxHealthBuff::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_gun");
@@ -66,6 +79,9 @@
         }
     } _msg_order;
 
+    BOOST_CLASS_EXPORT_GUID(core::SoldierProperties, "soldier_prop_base")    
+    BOOST_CLASS_EXPORT_GUID(core::ClientData, "client_data")    
+
     BOOST_CLASS_EXPORT_GUID(network::MyNameMessage,"my_name")
     BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
     BOOST_CLASS_EXPORT_GUID(network::LifecycleMessage, "lifecycle")
@@ -83,7 +99,9 @@
     BOOST_CLASS_EXPORT_GUID(network::ReviveMessage, "revive")
     BOOST_CLASS_EXPORT_GUID(network::FlashMessage, "flash")
     BOOST_CLASS_EXPORT_GUID(network::HealTakenMessage, "heal_taken")
-    
+    BOOST_CLASS_EXPORT_GUID(network::SoldierPropertiesMessage, "soldier_properties")    
+    BOOST_CLASS_EXPORT_GUID(network::ClientDatasMessage, "client_datas")
+    BOOST_CLASS_EXPORT_GUID(network::HealthMessage, "health")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

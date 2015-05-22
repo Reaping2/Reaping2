@@ -20,6 +20,8 @@ public:
     virtual void ResetHeal();
     virtual double GetTimeOfDeath()const;
     virtual void SetTimeOfDeath( double timeOfDeath );
+    virtual Buffable<int32_t>& GetMaxHP();
+    void SetHPandMaxHP( int32_t Hp );
 
     HealthComponent();
     friend class ComponentFactory;
@@ -29,6 +31,7 @@ public:
     int32_t mHeal;
     bool mAlive;
     double mTimeOfDeath;
+    Buffable<int32_t> mMaxHP;
 };
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>
