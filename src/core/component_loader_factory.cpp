@@ -27,6 +27,7 @@
 #include "notify_parent_on_death_component.h"
 #include "pointer_target_controller_component.h"
 #include "buffs/buff_holder_component.h"
+#include "accuracy_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -68,6 +69,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
 
     Bind( AutoId("target_holder_component"), &CreateComponentLoader<TargetHolderComponentLoader>);
     Bind( AutoId("buff_holder_component"), &CreateComponentLoader<BuffHolderComponentLoader>);
+    Bind( AutoId("accuracy_component"), &CreateComponentLoader<AccuracyComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

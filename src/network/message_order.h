@@ -25,6 +25,9 @@
 #include "damage_taken_message.h"
 #include "core/buffs/max_health_buff.h"
 #include "client_datas_message.h"
+#include "accuracy_message.h"
+#include "flash_message.h"
+#include "core/buffs/accuracy_buff.h"
 
 
     struct message_order
@@ -52,10 +55,12 @@
             type=network::SoldierPropertiesMessage::GetType_static();
             type=network::ClientDatasMessage::GetType_static();
             type=network::HealthMessage::GetType_static();
+            type=network::AccuracyMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
             type=MaxHealthBuff::GetType_static();
+            type=AccuracyBuff::GetType_static();
 
             type=platform::AutoId("player");
             type=platform::AutoId("plasma_gun");
@@ -102,6 +107,6 @@
     BOOST_CLASS_EXPORT_GUID(network::SoldierPropertiesMessage, "soldier_properties")    
     BOOST_CLASS_EXPORT_GUID(network::ClientDatasMessage, "client_datas")
     BOOST_CLASS_EXPORT_GUID(network::HealthMessage, "health")
-
+    BOOST_CLASS_EXPORT_GUID(network::AccuracyMessage, "accuracy")
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

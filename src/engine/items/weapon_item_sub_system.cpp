@@ -8,6 +8,7 @@
 #include "core/shot_collision_component.h"
 #include "core/i_move_component.h"
 #include "inventory_system.h"
+#include "core/i_accuracy_component.h"
 
 namespace engine {
 
@@ -61,9 +62,15 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
 void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectiles, uint32_t scatter)
 {
     double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
+    Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
+    scatter*=100;
+    if(accuracyC.IsValid())
+    {
+        scatter=scatter*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
+    }
     if( scatter )
     {
-        actorOrientation += ( rand() % scatter - scatter / 2. ) * 0.01 * boost::math::double_constants::pi;
+        actorOrientation += ( rand() % (scatter+1) - scatter / 2. ) * 0.0001 * boost::math::double_constants::pi;
     }
 
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();

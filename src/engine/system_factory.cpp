@@ -48,6 +48,7 @@
 #include "network/soldier_properties_message.h"
 #include "network/client_datas_message.h"
 #include "network/health_message.h"
+#include "network/accuracy_message.h"
 
 
 using platform::AutoId;
@@ -106,6 +107,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("soldier_properties_message_sender_system"), &CreateSystem<network::SoldierPropertiesMessageSenderSystem>);
     Bind( AutoId("client_datas_message_sender_system"), &CreateSystem<network::ClientDatasMessageSenderSystem>);
     Bind( AutoId("health_message_sender_system"), &CreateSystem<network::HealthMessageSenderSystem>);
+    Bind( AutoId("accuracy_message_sender_system"), &CreateSystem<network::AccuracyMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

@@ -7,6 +7,10 @@
 #include "engine/buffs_engine/max_health_buff_sub_system.h"
 #include "core/i_health_component.h"
 #include "health_message.h"
+#include "core/buffs/accuracy_buff.h"
+#include "core/i_accuracy_component.h"
+#include "engine/buffs_engine/accuracy_buff_sub_system.h"
+#include "accuracy_message.h"
 
 namespace network {
 
@@ -46,6 +50,17 @@ void SoldierPropertiesMessageSenderSystem::OnActorEvent(ActorEvent const& Evt)
             healthC->SetHP(healthC->GetMaxHP().Get());
             L1("setting health to hp:%d, maxHP calculated:%d guid: %d\n",healthC->GetHP(),healthC->GetMaxHP().Get(),Evt.mActor->GetGUID());
             mMessageHolder.AddOutgoingMessage(network::HealthMessageSenderSystem::GenerateHealthMessage(*Evt.mActor));
+
+            buff=core::BuffFactory::Get()(AutoId("accuracy_buff"));
+            AccuracyBuff* accuracyBuff=(AccuracyBuff*)buff.get();
+            accuracyBuff->SetFlatBonus(clientData->mSoldierProperties.mAccuracy*50);
+            accuracyBuff->SetAutoRemove(false);
+            buffHolderC->AddBuff(buff);
+            Opt<IAccuracyComponent> accuracyC=Evt.mActor->Get<IAccuracyComponent>();
+            engine::AccuracyBuffSubSystem::RecalculateBuffs(*Evt.mActor);
+            L1("setting accuracy calculated:%d guid: %d\n",accuracyC->GetAccuracy().Get(),Evt.mActor->GetGUID());
+            mMessageHolder.AddOutgoingMessage(network::AccuracyMessageSenderSystem::GenerateAccuracyMessage(*Evt.mActor));
+
         }
 
     }

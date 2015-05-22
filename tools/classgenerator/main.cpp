@@ -957,6 +957,7 @@ class MessageGenerator : public Generator
         }
 
         Init();
+        bool pending=parentUnderscore=="pending";
         {
             AutoNormalFile file((classUnderscore+"_message.h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
@@ -1007,15 +1008,28 @@ class MessageGenerator : public Generator
             }
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
-
-            fprintf(file.mFile, "class %sMessageHandlerSubSystem : public MessageHandlerSubSystem\n",classCamelCase.c_str());
+            if (pending)
+            {
+                fprintf(file.mFile, "class %sMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<%sMessage>\n",classCamelCase.c_str(),classCamelCase.c_str());
+            }
+            else
+            {
+                fprintf(file.mFile, "class %sMessageHandlerSubSystem : public MessageHandlerSubSystem\n",classCamelCase.c_str());
+            }
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
             fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%sMessageHandlerSubSystem)\n",classCamelCase.c_str());
             fprintf(file.mFile, "    %sMessageHandlerSubSystem();\n",classCamelCase.c_str());
             fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Execute(Message const& message );\n");
+            if (!pending)
+            {
+                fprintf(file.mFile, "    virtual void Execute(Message const& message );\n");
+            }
             fprintf(file.mFile, "    virtual void Update(double DeltaTime);\n");
+            if (pending)
+            {
+                fprintf(file.mFile, "    virtual bool ProcessPending(Message const& message);\n");
+            }
             fprintf(file.mFile, "};\n");
             fprintf(file.mFile, "\n");
 
@@ -1046,6 +1060,7 @@ class MessageGenerator : public Generator
 
             fprintf(file.mFile, "//TODO: to message_order.h\n");
             fprintf(file.mFile, "BOOST_CLASS_EXPORT_GUID(%s::%sMessage, \"%s\")\n",namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
+            fprintf(file.mFile, "type=%s::%sMessage::GetType_satic();\n",namespaceLowerCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to message_handler_sub_system_factory.cpp:\n");
             fprintf(file.mFile, "Bind( AutoId(\"%s_message_handler_sub_system\"), &CreateSubSystem<%sMessageHandlerSubSystem>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
@@ -1114,7 +1129,14 @@ class MessageGenerator : public Generator
 
 
             fprintf(file.mFile, "%sMessageHandlerSubSystem::%sMessageHandlerSubSystem()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : MessageHandlerSubSystem()\n");
+            if (pending)
+            {
+                fprintf(file.mFile, "    : PendingMessageHandlerSubSystem()\n");
+            }
+            else
+            {
+                fprintf(file.mFile, "    : MessageHandlerSubSystem()\n");
+            }
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
@@ -1127,22 +1149,43 @@ class MessageGenerator : public Generator
 
             fprintf(file.mFile, "void %sMessageHandlerSubSystem::Update(double DeltaTime)\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    MessageHandlerSubSystem::Update(DeltaTime);\n");
+            if (pending)
+            {
+                fprintf(file.mFile, "    PendingMessageHandlerSubSystem::Update(DeltaTime)\n");
+            }
+            else
+            {
+                fprintf(file.mFile, "    MessageHandlerSubSystem::Update(DeltaTime);\n");
+            }
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
             L1("%s ended5\n",__FUNCTION__);
-            fprintf(file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);\n");
-            fprintf(file.mFile, "    if (!actor.IsValid())\n");
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        L1(\"cannot find actor with GUID: (%%s) %%d \\n\",__FUNCTION__,msg.mActorGUID );\n");
-            fprintf(file.mFile, "        return;\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "    \n");
-            fprintf(file.mFile, "}\n");
+            if (pending)
+            {
+                fprintf(file.mFile, "bool %sMessageHandlerSubSystem::ProcessPending(Message const& message)\n",classCamelCase.c_str());
+                fprintf(file.mFile, "{\n");
+                fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
+                fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed\n");
+                fprintf(file.mFile, "    L1(\"executing %%s: actorGUID %%d \\n\",__FUNCTION__,msg.mActorGUID );\n");
+                fprintf(file.mFile, "    \n");
+                fprintf(file.mFile, "    return true;\n");
+                fprintf(file.mFile, "}\n");
+            }
+            else
+            {
+                fprintf(file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n",classCamelCase.c_str());
+                fprintf(file.mFile, "{\n");
+                fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
+                fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);\n");
+                fprintf(file.mFile, "    if (!actor.IsValid())\n");
+                fprintf(file.mFile, "    {\n");
+                fprintf(file.mFile, "        L1(\"cannot find actor with GUID: (%%s) %%d \\n\",__FUNCTION__,msg.mActorGUID );\n");
+                fprintf(file.mFile, "        return;\n");
+                fprintf(file.mFile, "    }\n");
+                fprintf(file.mFile, "    \n");
+                fprintf(file.mFile, "}\n");
+            }
             fprintf(file.mFile, "\n");
             if (!targetUnderscore.empty())
             {
@@ -1499,7 +1542,7 @@ int main(int argc, char* argv[])
         "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
         "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
-        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 
+        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -p pending (for delayed process) -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
         "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 

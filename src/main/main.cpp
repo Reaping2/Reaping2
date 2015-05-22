@@ -41,6 +41,8 @@
 #include "network/client_datas_message.h"
 #include "core/buffs/max_health_buff.h"
 #include "network/health_message.h"
+#include "network/accuracy_message.h"
+#include "core/buffs/accuracy_buff.h"
 
 using engine::Engine;
 namespace {
@@ -182,7 +184,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::SoldierPropertiesMessage::GetType_static(),AutoId("soldier_properties_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ClientDatasMessage::GetType_static(),AutoId("client_datas_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::HealthMessage::GetType_static(),AutoId("health_message_handler_sub_system"));
-
+        messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
     }
     Eng.AddSystem(AutoId("soldier_properties_system"));
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -198,6 +200,7 @@ int main(int argc, char* argv[])
         buffHolderS->AddSubSystem(HealOverTimeBuff::GetType_static(),AutoId("heal_over_time_buff_sub_system"));
         buffHolderS->AddSubSystem(MoveSpeedBuff::GetType_static(),AutoId("move_speed_buff_sub_system"));
         buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
+        buffHolderS->AddSubSystem(AccuracyBuff::GetType_static(),AutoId("accuracy_buff_sub_system"));
     }
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());

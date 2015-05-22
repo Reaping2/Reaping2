@@ -40,16 +40,14 @@ void HealthMessage::serialize(Archive& ar, const unsigned int version)
     ar & mMaxHPFlat;
 }
 
-class HealthMessageHandlerSubSystem : public MessageHandlerSubSystem
+class HealthMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<HealthMessage>
 {
-    typedef std::vector<HealthMessage> PendingHealthMessages_t;
-    PendingHealthMessages_t mPendingHealthMessages;
 public:
     DEFINE_SUB_SYSTEM_BASE(HealthMessageHandlerSubSystem)
     HealthMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
     virtual void Update(double DeltaTime);
+    virtual bool ProcessPending(Message const& message);
 };
 
 class HealthMessageSenderSystem : public MessageSenderSystem

@@ -60,7 +60,7 @@ void DropOnDeathSystem::Update(double DeltaTime)
             }
             else if (rolled==2)
             {
-                int32_t contentId=RollBuff(2);
+                int32_t contentId=RollBuff(3);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Buff );
             }
@@ -113,6 +113,8 @@ AutoId DropOnDeathSystem::RollBuff( int32_t n )
         return AutoId("heal_over_time_buff");
     case 1:
         return AutoId("move_speed_buff");
+    case 2:
+        return AutoId("accuracy_buff");
     }
     BOOST_ASSERT(false);
     return AutoId("default_buff");
