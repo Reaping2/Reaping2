@@ -84,8 +84,8 @@
         }
     } _msg_order;
 
-    BOOST_CLASS_EXPORT_GUID(core::SoldierProperties, "soldier_prop_base")    
-    BOOST_CLASS_EXPORT_GUID(core::ClientData, "client_data")    
+    BOOST_CLASS_EXPORT_GUID(::core::SoldierProperties, "soldier_prop_base")    
+    BOOST_CLASS_EXPORT_GUID(::core::ClientData, "client_data")    
 
     BOOST_CLASS_EXPORT_GUID(network::MyNameMessage,"my_name")
     BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
