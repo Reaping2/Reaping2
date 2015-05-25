@@ -52,7 +52,7 @@ namespace network {
      template<class T>
     void PendingMessageHandlerSubSystem<T>::Update(double DeltaTime)
     {
-        for(PendingMessages_t::iterator i=mPendingMessages.begin();i!=mPendingMessages.end();)
+        for(typename PendingMessages_t::iterator i=mPendingMessages.begin();i!=mPendingMessages.end();)
         {
             T const& msg=*i;
             Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
