@@ -910,28 +910,35 @@ class EventGenerator : public Generator
             }
 
             fprintf(file.mFile, "    %s(",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            if (typeMemberPairs.size()>0)
             {
-                if (e-1!=i)
+                for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
                 {
-                    fprintf(file.mFile, "%s, ",CreateArgumentWithType(i->first,i->second).c_str());
+                    if (e-1!=i)
+                    {
+                        fprintf(file.mFile, "%s, ",CreateArgumentWithType(i->first,i->second).c_str());
+                    }
+                    else
+                    {
+                        fprintf(file.mFile, "%s)\n",CreateArgumentWithType(i->first,i->second).c_str());
+                    }
                 }
-                else
+                fprintf(file.mFile, "        :");
+                for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
                 {
-                    fprintf(file.mFile, "%s)\n",CreateArgumentWithType(i->first,i->second).c_str());
+                    if (e-1!=i)
+                    {
+                        fprintf(file.mFile, "%s(%s),",CreateMemberName(i->second).c_str(), i->second.c_str());
+                    }
+                    else
+                    {
+                        fprintf(file.mFile, "%s(%s){}\n",CreateMemberName(i->second).c_str(), i->second.c_str());
+                    }
                 }
             }
-            fprintf(file.mFile, "        :");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            else
             {
-                if (e-1!=i)
-                {
-                    fprintf(file.mFile, "%s(%s),",CreateMemberName(i->second).c_str(), i->second.c_str());
-                }
-                else
-                {
-                    fprintf(file.mFile, "%s(%s){}\n",CreateMemberName(i->second).c_str(), i->second.c_str());
-                }
+                fprintf(file.mFile, "){}\n");
             }
 
             fprintf(file.mFile, "};\n");

@@ -16,9 +16,10 @@ namespace network {
 
 SoldierPropertiesMessageSenderSystem::SoldierPropertiesMessageSenderSystem()
     : MessageSenderSystem()
-    , mClientReadyModel( VoidFunc( this, &SoldierPropertiesMessageSenderSystem::OnClientReady ), "client.ready", &RootModel::Get() )
 {
     mOnActorEvent=EventServer<ActorEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnActorEvent, this, _1 ) );
+    mOnSoldierPropertiesReady= EventServer<engine::SoldierPropertiesReadyEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady, this, _1 ) );
+
 }
 
 void SoldierPropertiesMessageSenderSystem::OnActorEvent(ActorEvent const& Evt)
@@ -34,33 +35,8 @@ void SoldierPropertiesMessageSenderSystem::OnActorEvent(ActorEvent const& Evt)
         Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();
         if(buffHolderC.IsValid())
         {
-            std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("move_speed_buff")));
-            MoveSpeedBuff* moveSpeedBuff= (MoveSpeedBuff*)buff.get();
-            moveSpeedBuff->SetAutoRemove(false);
-            moveSpeedBuff->SetFlatBonus(clientData->mSoldierProperties.mMoveSpeed*20);
-            buffHolderC->AddBuff(buff);
-
-            buff=core::BuffFactory::Get()(AutoId("max_health_buff"));
-            MaxHealthBuff* maxHealthBuff=(MaxHealthBuff*)buff.get();
-            maxHealthBuff->SetFlatBonus(clientData->mSoldierProperties.mHealth*15);
-            maxHealthBuff->SetAutoRemove(false);
-            buffHolderC->AddBuff(buff);
-            engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Evt.mActor);
-            Opt<IHealthComponent> healthC=Evt.mActor->Get<IHealthComponent>();
-            healthC->SetHP(healthC->GetMaxHP().Get());
-            L1("setting health to hp:%d, maxHP calculated:%d guid: %d\n",healthC->GetHP(),healthC->GetMaxHP().Get(),Evt.mActor->GetGUID());
             mMessageHolder.AddOutgoingMessage(network::HealthMessageSenderSystem::GenerateHealthMessage(*Evt.mActor));
-
-            buff=core::BuffFactory::Get()(AutoId("accuracy_buff"));
-            AccuracyBuff* accuracyBuff=(AccuracyBuff*)buff.get();
-            accuracyBuff->SetFlatBonus(clientData->mSoldierProperties.mAccuracy*50);
-            accuracyBuff->SetAutoRemove(false);
-            buffHolderC->AddBuff(buff);
-            Opt<IAccuracyComponent> accuracyC=Evt.mActor->Get<IAccuracyComponent>();
-            engine::AccuracyBuffSubSystem::RecalculateBuffs(*Evt.mActor);
-            L1("setting accuracy calculated:%d guid: %d\n",accuracyC->GetAccuracy().Get(),Evt.mActor->GetGUID());
             mMessageHolder.AddOutgoingMessage(network::AccuracyMessageSenderSystem::GenerateAccuracyMessage(*Evt.mActor));
-
         }
 
     }
@@ -77,7 +53,7 @@ void SoldierPropertiesMessageSenderSystem::Update(double DeltaTime)
     MessageSenderSystem::Update(DeltaTime);
 }
 
-void SoldierPropertiesMessageSenderSystem::OnClientReady()
+void SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady(engine::SoldierPropertiesReadyEvent const& Evt)
 {
     if (mProgramState.mMode!=ProgramState::Server)
     {
@@ -85,7 +61,6 @@ void SoldierPropertiesMessageSenderSystem::OnClientReady()
         soldierPorpertiesMessage->mSoldierProperties=mProgramState.mSoldierProperties;
         mMessageHolder.AddOutgoingMessage(soldierPorpertiesMessage);
     }
-
 }
 
 SoldierPropertiesMessageHandlerSubSystem::SoldierPropertiesMessageHandlerSubSystem()

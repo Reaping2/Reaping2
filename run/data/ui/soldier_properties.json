@@ -285,7 +285,7 @@
 					"highlight_color":"0xaaaaaa77",
 					"align_h":"center",
 					"align_v":"center",
-					"action":[["client.ready"],["ui.load","waiting_start"]],
+					"action":[["soldier_properties.ready"]],
 					"children":[
 						{
 							"type":"text_widget",

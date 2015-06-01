@@ -157,7 +157,12 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
-   }
+    }
+    if (programState.mMode==ProgramState::Local) 
+    {
+        Eng.AddSystem(AutoId("local_system"));
+    }
+    Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
     if (programState.mMode!=ProgramState::Local)
     {
         Eng.AddSystem(AutoId("message_handler_sub_system_holder"));
@@ -186,7 +191,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::HealthMessage::GetType_static(),AutoId("health_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
     }
-    Eng.AddSystem(AutoId("soldier_properties_system"));
+
     Eng.AddSystem(AutoId("timer_server_system"));
     if (programState.mMode!=ProgramState::Server) 
     {

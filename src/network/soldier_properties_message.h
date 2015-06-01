@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/actor_event.h"
+#include "engine/soldier_properties_ready_event.h"
 
 using core::SoldierProperties;
 namespace network {
@@ -40,15 +41,16 @@ public:
 
 class SoldierPropertiesMessageSenderSystem : public MessageSenderSystem
 {
-    ModelValue mClientReadyModel;
-    void OnClientReady();
     AutoReg mOnActorEvent;
     void OnActorEvent(ActorEvent const& Evt);
+    AutoReg mOnSoldierPropertiesReady;
+    void OnSoldierPropertiesReady( engine::SoldierPropertiesReadyEvent const& Evt );
 public:
     DEFINE_SYSTEM_BASE(SoldierPropertiesMessageSenderSystem)
     SoldierPropertiesMessageSenderSystem();
     virtual void Init();
     virtual void Update(double DeltaTime);
+
 };
 } // namespace network
 

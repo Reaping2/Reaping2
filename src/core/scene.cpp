@@ -227,11 +227,7 @@ void Scene::Load( std::string const& Level )
     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
     Pl->Get<PlayerControllerComponent>()->mActive=true;
 
-#ifdef DEBUG
     static const size_t BenchmarkCreeps = 100;
-#else
-    static const size_t BenchmarkCreeps = 100;
-#endif
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
     {
         AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
@@ -242,13 +238,14 @@ void Scene::Load( std::string const& Level )
     SetPlayerModels(Opt<Actor>(Pl.get()));
     std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("max_health_buff")));
     MaxHealthBuff* maxHealthBuff=(MaxHealthBuff*)buff.get();
-    maxHealthBuff->SetFlatBonus(30);
-    maxHealthBuff->SetSecsToEnd(15);
-    Pl->Get<IBuffHolderComponent>()->AddBuff(buff);
-    engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Pl.get());
-    Opt<IHealthComponent> healthC=Pl->Get<IHealthComponent>();
-    healthC->SetHP(healthC->GetMaxHP().Get());
+//     maxHealthBuff->SetFlatBonus(30);
+//     maxHealthBuff->SetSecsToEnd(15);
+//     Pl->Get<IBuffHolderComponent>()->AddBuff(buff);
+//     engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Pl.get());
+//     Opt<IHealthComponent> healthC=Pl->Get<IHealthComponent>();
+//     healthC->SetHP(healthC->GetMaxHP().Get());
     mProgramState.mControlledActorGUID=Pl->GetGUID();
+    mProgramState.FindClientDataByClientId(mProgramState.mClientId)->mClientActorGUID=mProgramState.mControlledActorGUID; //TODO: remove when revive/spawn_system added
     AddActor( Pl.release() );
 //     Root& hudRoot=Ui::Get().GetRoot("hud");
 //     std::auto_ptr<TextWidget> wdg(new TextWidget(AutoId("text_widget")));

@@ -1,6 +1,16 @@
 #include "platform/i_platform.h"
 #include "soldier_properties_system.h"
 #include "ui/ui.h"
+#include "soldier_properties_ready_event.h"
+#include "core/buffs/i_buff_holder_component.h"
+#include "core/buffs/buff_factory.h"
+#include "core/buffs/move_speed_buff.h"
+#include "core/buffs/max_health_buff.h"
+#include "buffs_engine/max_health_buff_sub_system.h"
+#include "core/i_accuracy_component.h"
+#include "core/buffs/accuracy_buff.h"
+#include "buffs_engine/accuracy_buff_sub_system.h"
+#include "core/i_health_component.h"
 
 namespace engine {
 
@@ -12,6 +22,7 @@ SoldierPropertiesSystem::SoldierPropertiesSystem()
     , mAccuracyPressModel( StringFunc ( this, &SoldierPropertiesSystem::AccuracyPress ), "accuracy_press", &mSoldierModel ) 
     , mSpeedPressModel( StringFunc ( this, &SoldierPropertiesSystem::SpeedPress ), "speed_press", &mSoldierModel ) 
 {
+    mOnActorEvent=EventServer<ActorEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesSystem::OnActorEvent, this, _1 ) );
 }
 
 
@@ -21,6 +32,7 @@ void SoldierPropertiesSystem::Init()
      mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mAccuracy, "accuracy", &mSoldierModel));
      mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mMoveSpeed, "speed", &mSoldierModel));
      mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mPoints, "points", &mSoldierModel));
+     mPropertyModels.push_back(new ModelValue( VoidFunc( this, &SoldierPropertiesSystem::OnSoldierPropertiesReady ), "soldier_properties.ready", &RootModel::Get()));
 }
 
 
@@ -66,6 +78,59 @@ bool SoldierPropertiesSystem::ModifyPoints( int32_t& currentProperty, std::strin
 SoldierPropertiesSystem::~SoldierPropertiesSystem()
 {
     mPropertyModels.clear();
+}
+
+void SoldierPropertiesSystem::OnSoldierPropertiesReady()
+{
+    if (mProgramState.mMode!=core::ProgramState::Local)
+    {
+        //TODO client_workflow_system to handle this. 
+        Ui::Get().Load("waiting_start");
+    }
+    EventServer<SoldierPropertiesReadyEvent>::Get().SendEvent(SoldierPropertiesReadyEvent());
+}
+
+void SoldierPropertiesSystem::OnActorEvent(ActorEvent const& Evt)
+{
+    if(mProgramState.mMode!=core::ProgramState::Client
+        &&Evt.mState==ActorEvent::Added)
+    {
+        Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(Evt.mActor->GetGUID()));
+        if (!clientData.IsValid())
+        {
+            return;
+        }
+        Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();
+        if(buffHolderC.IsValid())
+        {
+            std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("move_speed_buff")));
+            MoveSpeedBuff* moveSpeedBuff= (MoveSpeedBuff*)buff.get();
+            moveSpeedBuff->SetAutoRemove(false);
+            moveSpeedBuff->SetFlatBonus(clientData->mSoldierProperties.mMoveSpeed*20);
+            buffHolderC->AddBuff(buff);
+
+            buff=core::BuffFactory::Get()(AutoId("max_health_buff"));
+            MaxHealthBuff* maxHealthBuff=(MaxHealthBuff*)buff.get();
+            maxHealthBuff->SetFlatBonus(clientData->mSoldierProperties.mHealth*15);
+            maxHealthBuff->SetAutoRemove(false);
+            buffHolderC->AddBuff(buff);
+            engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Evt.mActor);
+            Opt<IHealthComponent> healthC=Evt.mActor->Get<IHealthComponent>();
+            healthC->SetHP(healthC->GetMaxHP().Get());
+            L1("setting health to hp:%d, maxHP calculated:%d guid: %d\n",healthC->GetHP(),healthC->GetMaxHP().Get(),Evt.mActor->GetGUID());
+
+            buff=core::BuffFactory::Get()(AutoId("accuracy_buff"));
+            AccuracyBuff* accuracyBuff=(AccuracyBuff*)buff.get();
+            accuracyBuff->SetFlatBonus(clientData->mSoldierProperties.mAccuracy*50);
+            accuracyBuff->SetAutoRemove(false);
+            buffHolderC->AddBuff(buff);
+            Opt<IAccuracyComponent> accuracyC=Evt.mActor->Get<IAccuracyComponent>();
+            engine::AccuracyBuffSubSystem::RecalculateBuffs(*Evt.mActor);
+            L1("setting accuracy calculated:%d guid: %d\n",accuracyC->GetAccuracy().Get(),Evt.mActor->GetGUID());
+
+        }
+
+    }
 }
 
 

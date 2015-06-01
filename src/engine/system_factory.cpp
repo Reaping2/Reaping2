@@ -49,6 +49,7 @@
 #include "network/client_datas_message.h"
 #include "network/health_message.h"
 #include "network/accuracy_message.h"
+#include "local_system.h"
 
 
 using platform::AutoId;
@@ -87,6 +88,7 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("server_system"), &CreateSystem<network::ServerSystem>);
     Bind( AutoId("client_system"), &CreateSystem<network::ClientSystem>);
+    Bind( AutoId("local_system"), &CreateSystem<LocalSystem>);
 
     Bind( AutoId("soldier_properties_system"), &CreateSystem<SoldierPropertiesSystem>);
 
