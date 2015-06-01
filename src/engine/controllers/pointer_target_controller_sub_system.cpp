@@ -10,6 +10,7 @@
 #include "target_player_controller_sub_system.h"
 #include "core/i_position_component.h"
 #include "core/shot_collision_component.h"
+#include "core/i_health_component.h"
 
 namespace engine {
 
@@ -47,6 +48,12 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<Actor> pointedTarget(mScene.GetActor(pointerTargetCC->GetPointedTargetGUID()));
     Opt<Actor> killerOfChild(mScene.GetActor(listenChildDeathC->GetKillerOfChildGUID()));
     Opt<Actor> currentTarget(mScene.GetActor(targetHolderC->GetTargetGUID()));
+    bool currentTargetIsAlive=false;
+    if(currentTarget.IsValid())
+    {
+        Opt<IHealthComponent> currentTargetHealthC=currentTarget->Get<IHealthComponent>();
+        currentTargetIsAlive=!currentTargetHealthC.IsValid()||currentTargetHealthC->IsAlive();
+    }
     Opt<ShotCollisionComponent> shotCC(actor.Get<ShotCollisionComponent>());
     if (shotCC.IsValid()&&killerOfChild.IsValid()&&killerOfChild->GetGUID()==shotCC->GetParentGuid())
     {
@@ -59,14 +66,9 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
         L1("ERROR -there should be target_holder and listen_child_death if pointer_target_controller is used!");
         return;
     }
-    if(!pointedTarget.IsValid()&&killerOfChild.IsValid())
+    if(killerOfChild.IsValid())
     {
-        pointerTargetCC->SetPointedTargetGUID(killerOfChild->GetGUID());
-        pointerTargetCC->SetPointedTargetCounter(0);
-    }
-    if(pointedTarget.IsValid()&&killerOfChild.IsValid())
-    {
-        if(pointedTarget->GetGUID()==killerOfChild->GetGUID())
+        if(pointedTarget.IsValid()&&pointedTarget->GetGUID()==killerOfChild->GetGUID())
         {
             pointerTargetCC->SetPointedTargetCounter(pointerTargetCC->GetPointedTargetCounter()+1);
         }
@@ -74,19 +76,15 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
         {
             pointerTargetCC->SetPointedTargetGUID(killerOfChild->GetGUID());
             pointerTargetCC->SetPointedTargetCounter(0);
+            pointedTarget=mScene.GetActor(pointerTargetCC->GetPointedTargetGUID());
         }
     }
-//     if(pointerTargetCC->GetPointedTargetCounter()>=2)
-//     {
-//         targetHolderC->SetTargetId(pointedTarget->GetGUID());
-//         currentTarget=mScene.GetActor(targetHolderC->GetTargetId());
-//     }
     if(!pointedTarget.IsValid())
     {
         pointerTargetCC->SetPointedTargetCounter(0);
     }
 
-    if(!currentTarget.IsValid()&&pointedTarget.IsValid()||pointerTargetCC->GetPointedTargetCounter()>=3)
+    if((!currentTarget.IsValid()||!currentTargetIsAlive)&&pointedTarget.IsValid()||pointerTargetCC->GetPointedTargetCounter()>=2)
     {
         targetHolderC->SetTargetGUID(pointedTarget->GetGUID());
         currentTarget=mScene.GetActor(targetHolderC->GetTargetGUID());
@@ -94,10 +92,7 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
     listenChildDeathC->SetKillerOfChildGUID(-1);
     killerOfChild.Reset(); //just to be sure
 
-    if(pointerTargetCC->GetNextLaserCounter()>0.0)
-    {
-        pointerTargetCC->SetNextLaserCounter(pointerTargetCC->GetNextLaserCounter() - DeltaTime);
-    }
+    pointerTargetCC->SetNextLaserCounter(pointerTargetCC->GetNextLaserCounter() - DeltaTime);
     if(pointerTargetCC->GetNextLaserCounter()<=0.0)
     {
         pointerTargetCC->SetNextLaserCounter(pointerTargetCC->GetNextLaserFrequency());
@@ -116,10 +111,7 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         double Radians=TargetPlayerControllerSubSystem::GetRotationDiffRadians(actor,*currentTarget);
 
-        if(pointerTargetCC->GetHeadingModifierCounter()>0.0)
-        {
-            pointerTargetCC->SetHeadingModifierCounter(pointerTargetCC->GetHeadingModifierCounter() - DeltaTime);
-        }
+        pointerTargetCC->SetHeadingModifierCounter(pointerTargetCC->GetHeadingModifierCounter() - DeltaTime);
         if(pointerTargetCC->GetHeadingModifierCounter()<=0.0)
         {
             pointerTargetCC->SetHeadingModifierCounter(pointerTargetCC->GetHeadingModifierFrequency());
