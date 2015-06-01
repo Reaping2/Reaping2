@@ -117,7 +117,9 @@ std::auto_ptr<Actor> ActorCreator::Create()const
     std::auto_ptr<Actor> actor(new Actor(mId));
     for(ComponentLoaderMap_t::const_iterator i=mComponentLoaders.begin(), e=mComponentLoaders.end();i!=e;++i)
     {
-        actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
+//        actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
+        actor->AddComponent(mComponentFactory(i->first));
+        i->second->FillProperties(actor.get());
     }
     //TODO: guid will come from outside zorder will be done by ordering at renderer
     Opt<IRenderableComponent> renderableC = actor->Get<IRenderableComponent>();

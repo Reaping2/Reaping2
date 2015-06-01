@@ -5,6 +5,7 @@
 #include "platform/singleton.h"
 #include "core/property_loader.h"
 #include "platform/i_platform.h"
+#include "component.h"
 
 template<typename BASE>
 class PropertyLoaderBase;
@@ -21,7 +22,7 @@ std::auto_ptr<PropertyLoaderBase<Component> > ComponentLoaderFactory::CreateComp
     return std::auto_ptr<PropertyLoaderBase<Component> >( new Elem_T() );
 }
 
-class DefaultComponentLoader: public ComponentLoader<Component>
+class DefaultComponentLoader: public ComponentLoader<DefaultComponent>
 {
 public:
     virtual void BindValues();

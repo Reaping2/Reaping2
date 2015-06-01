@@ -12,6 +12,7 @@
 #include <boost/bind.hpp>
 #include <boost/static_assert.hpp>
 #include "platform/i_platform.h"
+#include "actor.h"
 
 template<typename BASE>
 class PropertyLoaderBase
@@ -20,6 +21,7 @@ public:
     virtual ~PropertyLoaderBase();
     virtual void Load(Json::Value& setters)=0;
     virtual std::auto_ptr<BASE> FillProperties(std::auto_ptr<BASE> target)const=0;
+    virtual void FillProperties(Actor* actor)const=0;
 };
 
 template<typename BASE>
@@ -54,6 +56,8 @@ public:
     virtual void BindValues()=0;
 
 	virtual std::auto_ptr<BASE> FillProperties(std::auto_ptr<BASE> target)const;
+    virtual void FillProperties(Actor* actor)const;
+
     template<typename PARENT>
     void SetBase();
     virtual ~PropertyLoader();
@@ -63,6 +67,7 @@ protected:
     PropertyLoader();
     void Add(SetterFunc_t func);
 };
+
 template<typename T, typename BASE>
 template<typename PARENT>
 void PropertyLoader<T, BASE>::SetBase()
@@ -90,6 +95,26 @@ std::auto_ptr<BASE> PropertyLoader<T, BASE>::FillProperties(std::auto_ptr<BASE> 
     }
     return std::auto_ptr<BASE>(static_cast<BASE*>(castedTarget));
 }
+
+
+template<typename T, typename BASE>
+void PropertyLoader<T, BASE>::FillProperties(Actor* actor) const
+{
+    if (mBase.get())
+    {
+        mBase->FillProperties(actor);
+    }
+    if(mSetterFuncList.empty())
+    {
+        return;
+    }
+    Opt<T> castedTarget=actor->Get<T>();
+    for(typename SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
+    {
+        (*i)(castedTarget.Get());
+    }
+}
+
 
 template<typename T, typename BASE>
 template<class VALUE_T>
