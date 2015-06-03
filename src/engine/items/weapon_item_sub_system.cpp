@@ -94,8 +94,7 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
 Opt<WeaponItemSubSystem> WeaponItemSubSystem::Get()
 {
     return Opt<WeaponItemSubSystem>(
-        dynamic_cast<WeaponItemSubSystem*>(
-        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Weapon).Get()));
+        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Weapon));
 }
 void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
 {

@@ -17,6 +17,7 @@
 #include "core/buffs/buff_factory.h"
 #include "core/buffs/move_speed_buff.h"
 #include "client_datas_message.h"
+#include "engine/soldier_spawn_system.h"
 
 namespace network {
 
@@ -45,7 +46,7 @@ namespace network {
             mScene.Load("level1");
             Ui::Get().Load("hud");
             std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-            lifecycleMsg->mState=lifecycleMsg->mState;
+            lifecycleMsg->mState=msg.mState;
             mMessageHolder.AddOutgoingMessage(lifecycleMsg);
             std::auto_ptr<ClientDatasMessage> clientDatasMsg(new ClientDatasMessage);
             clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
@@ -54,41 +55,13 @@ namespace network {
             ActorFactory& actorFactory=ActorFactory::Get();
             int32_t playerAutoId=AutoId("player");
             glm::vec4 const& dimensions=mScene.GetDimensions();
-
+            Opt<engine::SoldierSpawnSystem> soldierSpawnS(engine::SoldierSpawnSystem::Get());
             for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
             {
-                std::auto_ptr<Actor> player(actorFactory(playerAutoId));
-                Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-                positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
-                positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
-
-                //TODO: temporary till normal inventory sync 
-                Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
-                if (inventoryC.IsValid())
-                {
-                    inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
-                }
-                AddNewPlayer(*i,player);
+                std::auto_ptr<Actor> player(soldierSpawnS->Spawn(*i));
+                mScene.AddActor(player.release());
             }
         }
-    }
-
-    void LifecycleMessageHandlerSubSystem::AddNewPlayer(core::ClientData& clientDataToSet, std::auto_ptr<Actor> player)
-    {
-        std::auto_ptr<SetOwnershipMessage> setOwnershipMsg(new SetOwnershipMessage);
-        setOwnershipMsg->mActorGUID=player->GetGUID();
-        setOwnershipMsg->mClientId=clientDataToSet.mClientId;
-        MessageHolder::Get().AddOutgoingMessage(setOwnershipMsg);
-        clientDataToSet.mClientActorGUID=player->GetGUID();
-
-        L2("player added clientId:%d clientName:%s actorId:%d\n",clientDataToSet.mClientId,clientDataToSet.mClientName.c_str(),clientDataToSet.mClientActorGUID);
-        //TODO: for debugging server:
-        if (ProgramState::Get().mClientDatas.begin()->mClientActorGUID==player->GetGUID())
-        {
-            Scene::Get().SetPlayerModels(Opt<Actor>(player.get()));
-        }
-
-        Scene::Get().AddActor(player.release());
     }
 
 } // namespace engine

@@ -50,6 +50,8 @@
 #include "network/health_message.h"
 #include "network/accuracy_message.h"
 #include "local_system.h"
+#include "soldier_spawn_system.h"
+#include "network/set_ownership_message.h"
 
 
 using platform::AutoId;
@@ -91,6 +93,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("local_system"), &CreateSystem<LocalSystem>);
 
     Bind( AutoId("soldier_properties_system"), &CreateSystem<SoldierPropertiesSystem>);
+    Bind( AutoId("soldier_spawn_system"), &CreateSystem<SoldierSpawnSystem>);
 
     Bind( AutoId("lifecycle_sender_system"), &CreateSystem<network::LifecycleSenderSystem>);
     Bind( AutoId("message_handler_sub_system_holder"), &CreateSystem<network::MessageHandlerSubSystemHolder>);
@@ -110,6 +113,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("client_datas_message_sender_system"), &CreateSystem<network::ClientDatasMessageSenderSystem>);
     Bind( AutoId("health_message_sender_system"), &CreateSystem<network::HealthMessageSenderSystem>);
     Bind( AutoId("accuracy_message_sender_system"), &CreateSystem<network::AccuracyMessageSenderSystem>);
+    Bind( AutoId("set_ownership_message_sender_system"), &CreateSystem<network::SetOwnershipMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

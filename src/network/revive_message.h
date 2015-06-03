@@ -37,9 +37,6 @@ namespace network {
 
     class ReviveMessageSenderSystem: public MessageSenderSystem
     {
-        AutoReg mKeyId;
-        bool mIsRivevePressed;
-        void OnKeyEvent( const KeyEvent& Event );
     public:
         DEFINE_SYSTEM_BASE(ReviveMessageSenderSystem)
         ReviveMessageSenderSystem();

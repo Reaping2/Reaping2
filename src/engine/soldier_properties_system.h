@@ -5,6 +5,7 @@
 #include "engine/system.h"
 #include "core/program_state.h"
 #include "core/actor_event.h"
+#include "soldier_created_event.h"
 
 namespace engine {
 
@@ -32,8 +33,8 @@ private:
     void SpeedPress( std::string modifier );
     bool ModifyPoints( int32_t& currentProperty, std::string modifier );
     void OnSoldierPropertiesReady();
-    AutoReg mOnActorEvent;
-    void OnActorEvent(ActorEvent const& Evt);
+    AutoReg mOnSoldierCreatedEvent;
+    void OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt);
 };
 
 } // namespace engine

@@ -6,6 +6,7 @@
 #include "network/message_sender_system.h"
 #include "core/actor_event.h"
 #include "engine/soldier_properties_ready_event.h"
+#include "engine/soldier_created_event.h"
 
 using core::SoldierProperties;
 namespace network {
@@ -41,8 +42,8 @@ public:
 
 class SoldierPropertiesMessageSenderSystem : public MessageSenderSystem
 {
-    AutoReg mOnActorEvent;
-    void OnActorEvent(ActorEvent const& Evt);
+    AutoReg mOnSoldierCreatedEvent;
+    void OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt);
     AutoReg mOnSoldierPropertiesReady;
     void OnSoldierPropertiesReady( engine::SoldierPropertiesReadyEvent const& Evt );
 public:

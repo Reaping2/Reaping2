@@ -18,6 +18,7 @@ public:
     uint32_t mCurrentMovement;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
+    bool mReviveTyped;
 };
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>

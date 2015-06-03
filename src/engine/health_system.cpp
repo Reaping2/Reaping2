@@ -84,7 +84,7 @@ void HealthSystem::Update(double DeltaTime)
             Opt<IControllerComponent> controllerC = actor.Get<IControllerComponent>();
             if(controllerC.IsValid())
             {
-                controllerC->SetEnabled(false);
+                //controllerC->SetEnabled(false);
             }
         }
         healthC->SetHP(newHp);

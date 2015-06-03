@@ -17,21 +17,15 @@ namespace network {
 SoldierPropertiesMessageSenderSystem::SoldierPropertiesMessageSenderSystem()
     : MessageSenderSystem()
 {
-    mOnActorEvent=EventServer<ActorEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnActorEvent, this, _1 ) );
+    mOnSoldierCreatedEvent=EventServer<engine::SoldierCreatedEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent, this, _1 ) );
     mOnSoldierPropertiesReady= EventServer<engine::SoldierPropertiesReadyEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady, this, _1 ) );
 
 }
 
-void SoldierPropertiesMessageSenderSystem::OnActorEvent(ActorEvent const& Evt)
+void SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt)
 {
-    if(mProgramState.mMode==ProgramState::Server
-        &&Evt.mState==ActorEvent::Added)
+    if(mProgramState.mMode==ProgramState::Server)
     {
-        Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(Evt.mActor->GetGUID()));
-        if (!clientData.IsValid())
-        {
-            return;
-        }
         Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();
         if(buffHolderC.IsValid())
         {

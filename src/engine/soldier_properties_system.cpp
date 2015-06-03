@@ -22,7 +22,7 @@ SoldierPropertiesSystem::SoldierPropertiesSystem()
     , mAccuracyPressModel( StringFunc ( this, &SoldierPropertiesSystem::AccuracyPress ), "accuracy_press", &mSoldierModel ) 
     , mSpeedPressModel( StringFunc ( this, &SoldierPropertiesSystem::SpeedPress ), "speed_press", &mSoldierModel ) 
 {
-    mOnActorEvent=EventServer<ActorEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesSystem::OnActorEvent, this, _1 ) );
+    mOnSoldierCreatedEvent=EventServer<engine::SoldierCreatedEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesSystem::OnSoldierCreatedEvent, this, _1 ) );
 }
 
 
@@ -90,28 +90,22 @@ void SoldierPropertiesSystem::OnSoldierPropertiesReady()
     EventServer<SoldierPropertiesReadyEvent>::Get().SendEvent(SoldierPropertiesReadyEvent());
 }
 
-void SoldierPropertiesSystem::OnActorEvent(ActorEvent const& Evt)
+void SoldierPropertiesSystem::OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt)
 {
-    if(mProgramState.mMode!=core::ProgramState::Client
-        &&Evt.mState==ActorEvent::Added)
+    if(mProgramState.mMode!=core::ProgramState::Client)
     {
-        Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(Evt.mActor->GetGUID()));
-        if (!clientData.IsValid())
-        {
-            return;
-        }
         Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();
         if(buffHolderC.IsValid())
         {
             std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("move_speed_buff")));
             MoveSpeedBuff* moveSpeedBuff= (MoveSpeedBuff*)buff.get();
             moveSpeedBuff->SetAutoRemove(false);
-            moveSpeedBuff->SetFlatBonus(clientData->mSoldierProperties.mMoveSpeed*20);
+            moveSpeedBuff->SetFlatBonus(Evt.mClientData.mSoldierProperties.mMoveSpeed*20);
             buffHolderC->AddBuff(buff);
 
             buff=core::BuffFactory::Get()(AutoId("max_health_buff"));
             MaxHealthBuff* maxHealthBuff=(MaxHealthBuff*)buff.get();
-            maxHealthBuff->SetFlatBonus(clientData->mSoldierProperties.mHealth*15);
+            maxHealthBuff->SetFlatBonus(Evt.mClientData.mSoldierProperties.mHealth*15);
             maxHealthBuff->SetAutoRemove(false);
             buffHolderC->AddBuff(buff);
             engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Evt.mActor);
@@ -121,7 +115,7 @@ void SoldierPropertiesSystem::OnActorEvent(ActorEvent const& Evt)
 
             buff=core::BuffFactory::Get()(AutoId("accuracy_buff"));
             AccuracyBuff* accuracyBuff=(AccuracyBuff*)buff.get();
-            accuracyBuff->SetFlatBonus(clientData->mSoldierProperties.mAccuracy*50);
+            accuracyBuff->SetFlatBonus(Evt.mClientData.mSoldierProperties.mAccuracy*50);
             accuracyBuff->SetAutoRemove(false);
             buffHolderC->AddBuff(buff);
             Opt<IAccuracyComponent> accuracyC=Evt.mActor->Get<IAccuracyComponent>();

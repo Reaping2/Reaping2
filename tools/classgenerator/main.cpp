@@ -1158,7 +1158,7 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "{\n");
             if (pending)
             {
-                fprintf(file.mFile, "    PendingMessageHandlerSubSystem::Update(DeltaTime)\n");
+                fprintf(file.mFile, "    PendingMessageHandlerSubSystem::Update(DeltaTime);\n");
             }
             else
             {

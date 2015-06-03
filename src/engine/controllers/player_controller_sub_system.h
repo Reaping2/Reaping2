@@ -24,6 +24,7 @@ private:
     void SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
+    void HandleRevive(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     AutoReg mMouseMoveId;
     Opt<MouseSystem> mMouse;
@@ -33,6 +34,11 @@ private:
     Scene& mScene;
     core::ProgramState& mProgramState;
     Opt<KeyboardSystem> mKeyboard;
+
+    AutoReg mKeyId;
+    bool mSpaceTyped;
+    void OnKeyEvent( const KeyEvent& Event );
+
     enum MoveFlags
     {
         MF_Up       = 1 << 0,

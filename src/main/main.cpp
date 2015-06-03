@@ -149,6 +149,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("heading_message_sender_system"));
         Eng.AddSystem(AutoId("pickup_message_sender_system"));
         Eng.AddSystem(AutoId("flash_message_sender_system"));
+        Eng.AddSystem(AutoId("set_ownership_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -163,6 +164,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("local_system"));
     }
     Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
+    Eng.AddSystem(AutoId("soldier_spawn_system"));
     if (programState.mMode!=ProgramState::Local)
     {
         Eng.AddSystem(AutoId("message_handler_sub_system_holder"));

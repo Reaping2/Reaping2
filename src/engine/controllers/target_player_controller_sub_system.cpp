@@ -32,6 +32,12 @@ void TargetPlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid()&&!healthC->IsAlive())
+    {
+        return;
+    }
+
     actor.Get<IPositionComponent>()->SetOrientation( actor.Get<IMoveComponent>()->GetHeading() );
 
     Opt<ITargetHolderComponent> targetHolderC = actor.Get<ITargetHolderComponent>();

@@ -16,6 +16,7 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mCurrentMovement(0)
     , mActive(false)
     , mControllerId(0)
+    , mReviveTyped(false)
 {
 }
 

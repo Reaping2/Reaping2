@@ -5,6 +5,7 @@
 #include "core/random_controller_component.h"
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
+#include "core/i_health_component.h"
 
 namespace engine {
 
@@ -25,6 +26,11 @@ void RandomControllerSubSystem::Update(Actor& actor, double DeltaTime)
 {
     Opt<RandomControllerComponent> randomCC = actor.Get<RandomControllerComponent>();
     if (!randomCC.IsValid()||!randomCC->IsEnabled())
+    {
+        return;
+    }
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid()&&!healthC->IsAlive())
     {
         return;
     }

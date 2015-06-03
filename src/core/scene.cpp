@@ -22,6 +22,7 @@
 #include "buffs/buff_factory.h"
 #include "buffs/max_health_buff.h"
 #include "engine/buffs_engine/max_health_buff_sub_system.h"
+#include "engine/soldier_spawn_system.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -214,18 +215,14 @@ void Scene::Load( std::string const& Level )
         AddActor( Obj.release() );
         return;
     }
-    std::auto_ptr<Actor> Pl = ActorFactory::Get()(AutoId("player"));
-    
-    Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
-    positionC->SetX(0.0);
-    positionC->SetY(0.0);
-    
-    Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-    inventoryC->AddItem(AutoId( "rocket_launcher" ));
-    inventoryC->SetSelectedWeapon(AutoId( "rocket_launcher" ));
+    Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
+    std::auto_ptr<Actor> Pl(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));     
 
     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
     Pl->Get<PlayerControllerComponent>()->mActive=true;
+    SetPlayerModels(Opt<Actor>(Pl.get()));
+    mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
+    AddActor( Pl.release() );
 
     static const size_t BenchmarkCreeps = 100;
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
@@ -235,22 +232,6 @@ void Scene::Load( std::string const& Level )
 
     }
 
-    SetPlayerModels(Opt<Actor>(Pl.get()));
-    std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("max_health_buff")));
-    MaxHealthBuff* maxHealthBuff=(MaxHealthBuff*)buff.get();
-//     maxHealthBuff->SetFlatBonus(30);
-//     maxHealthBuff->SetSecsToEnd(15);
-//     Pl->Get<IBuffHolderComponent>()->AddBuff(buff);
-//     engine::MaxHealthBuffSubSystem::RecalculateBuffs(*Pl.get());
-//     Opt<IHealthComponent> healthC=Pl->Get<IHealthComponent>();
-//     healthC->SetHP(healthC->GetMaxHP().Get());
-    mProgramState.mControlledActorGUID=Pl->GetGUID();
-    mProgramState.FindClientDataByClientId(mProgramState.mClientId)->mClientActorGUID=mProgramState.mControlledActorGUID; //TODO: remove when revive/spawn_system added
-    AddActor( Pl.release() );
-//     Root& hudRoot=Ui::Get().GetRoot("hud");
-//     std::auto_ptr<TextWidget> wdg(new TextWidget(AutoId("text_widget")));
-// 
-//     hudRoot.AddChild(wdg.release());
     for( int i = 0; i < 11; ++i )
     {
         Pl = ActorFactory::Get()(AutoId("player"));

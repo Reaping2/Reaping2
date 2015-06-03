@@ -8,14 +8,17 @@
 #include "core/i_position_component.h"
 #include "core/i_inventory_component.h"
 #include "core/weapon.h"
+#include "core/i_health_component.h"
+#include "../soldier_spawn_system.h"
 
 namespace engine {
 
 PlayerControllerSubSystem::PlayerControllerSubSystem()
     : mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
+    , mSpaceTyped(false)
 {
-
+    mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnKeyEvent, this, _1 ) );
 }
 
 void PlayerControllerSubSystem::Init()
@@ -46,6 +49,7 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     SetSpeedAndOrientation(actor,playerControllerC);
     Shoot(actor,playerControllerC);
     SetOrientation(actor,playerControllerC);
+    HandleRevive(actor,playerControllerC);
 }
 
 void PlayerControllerSubSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
@@ -56,6 +60,11 @@ void PlayerControllerSubSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Even
 
 void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid()&&!healthC->IsAlive())
+    {
+        return;
+    }
     int x = ( ( playerControllerC->mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Right ) ? 1 : 0 );
     int y = ( ( playerControllerC->mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Down ) ? -1 : 0 );
 
@@ -85,6 +94,11 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerC
 
 void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid()&&!healthC->IsAlive())
+    {
+        return;
+    }
     Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
     BOOST_ASSERT(inventoryC.IsValid());
     Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
@@ -103,6 +117,11 @@ void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponen
 
 void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid()&&!healthC->IsAlive())
+    {
+        return;
+    }
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
     actorPositionC->SetOrientation( playerControllerC->mOrientation );
 }
@@ -154,6 +173,55 @@ void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerC
     {
         playerControllerC->mUseNormalItem=false;
     }
+    
+    if( mSpaceTyped )
+    {
+        playerControllerC->mReviveTyped=true;
+        L2("space Typed for revive!\n");
+    }
+    mSpaceTyped=false;
+}
+
+void PlayerControllerSubSystem::OnKeyEvent(const KeyEvent& Event)
+{
+    if( Event.Key == GLFW_KEY_SPACE && Event.State == KeyState::Up )
+    {
+        mSpaceTyped=true;
+        L2("space typed!\n");
+    }
+}
+
+void PlayerControllerSubSystem::HandleRevive(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+{
+    if (!playerControllerC->mReviveTyped)
+    {
+        return;
+    }
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid()&&!healthC->IsAlive())
+    {
+        L2("revive!\n");
+        Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(actor.GetGUID()));
+        if(clientData.IsValid())
+        {
+            std::auto_ptr<Actor> player(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));
+            if (player.get())
+            {
+                player->Get<PlayerControllerComponent>()->SetEnabled(true);
+                player->Get<PlayerControllerComponent>()->mActive=true;
+                playerControllerC->SetEnabled(false);
+                playerControllerC->mActive=false;
+                mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
+                mScene.SetPlayerModels(Opt<Actor>(player.get()));
+                mScene.AddActor(player.release());
+            }
+        }
+    }
+    else
+    {
+        L1("%s health is not available, or actor still alive:%d\n",__FUNCTION__,actor.GetGUID());
+    }
+    playerControllerC->mReviveTyped=false;
 }
 
 } // namespace engine

@@ -61,8 +61,7 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
 Opt<NormalItemSubSystem> NormalItemSubSystem::Get()
 {
     return Opt<NormalItemSubSystem>(
-        dynamic_cast<NormalItemSubSystem*>(
-        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Normal).Get()));
+        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Normal));
 }
 
 } // namespace engine
