@@ -386,6 +386,102 @@ class ComponentGenerator : public Generator
     }
 };
 
+class MapElementGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="map_element";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="core";
+        }
+
+        Init();
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"core/map/%s.h\"\n",parentUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    friend class ComponentFactory;\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+            }
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "class %sLoader : public ComponentLoader<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    virtual void BindValues();\n");
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    %sLoader();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    friend class ComponentLoaderFactory;\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+            fprintf(file.mFile, "//TODO: to component_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to component_loader_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            bool isFirst=true;
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
+                    isFirst?":":",",CreateMemberName(i->second).c_str());
+                isFirst=false;
+            }
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+            }
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %sLoader::BindValues()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%sLoader::%sLoader()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
 class NormalItemGenerator : public Generator
 {
     virtual void Generate()
@@ -492,7 +588,8 @@ class SystemGenerator : public Generator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "class %s : public %s%s\n"
+                ,classCamelCase.c_str(),namespaceLowerCase=="engine"?"":"engine::",parentCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
             fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
@@ -502,6 +599,12 @@ class SystemGenerator : public Generator
             fprintf(file.mFile, "    virtual void Update( double DeltaTime );\n");
             fprintf(file.mFile, "private:\n");
             fprintf(file.mFile, "    Scene& mScene;\n");
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
+                fprintf(file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
+                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+            }
             fprintf(file.mFile, "};\n");
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
@@ -533,6 +636,11 @@ class SystemGenerator : public Generator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
+                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
+            }
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
@@ -550,6 +658,15 @@ class SystemGenerator : public Generator
             fprintf(file.mFile, "    }\n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
+
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "void %s::On%s(%s::%sEvent const& Evt)\n"
+                    ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf(file.mFile, "{\n");
+                fprintf(file.mFile, "}\n");
+                fprintf(file.mFile, "\n");
+            }
 
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());

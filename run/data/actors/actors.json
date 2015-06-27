@@ -102,7 +102,7 @@
             {"name":"target_holder_component"},
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":450}]
+                "set":[{"speed":700}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]

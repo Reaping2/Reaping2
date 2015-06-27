@@ -32,7 +32,8 @@ void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
     ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
     if( i == mComponents.end() )
     {
-        mComponents.insert( Comp->GetType(), Comp );
+        int type=Comp->GetType();
+        mComponents.insert( type, Comp );
     }
 }
 

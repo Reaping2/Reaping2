@@ -4,7 +4,7 @@ RocketLauncher::RocketLauncher( int32_t Id )
 	: Weapon( Id )
 {
 	mScatter = 20;
-	mAltScatter = 10;
+	mAltScatter = 5;
 	mShootCooldown = 0.25;
-	mShootAltCooldown = 0.5;
+	mShootAltCooldown = 1.5;
 }

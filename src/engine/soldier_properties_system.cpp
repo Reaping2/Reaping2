@@ -100,7 +100,7 @@ void SoldierPropertiesSystem::OnSoldierCreatedEvent(engine::SoldierCreatedEvent 
             std::auto_ptr<Buff> buff(core::BuffFactory::Get()(AutoId("move_speed_buff")));
             MoveSpeedBuff* moveSpeedBuff= (MoveSpeedBuff*)buff.get();
             moveSpeedBuff->SetAutoRemove(false);
-            moveSpeedBuff->SetFlatBonus(Evt.mClientData.mSoldierProperties.mMoveSpeed*20);
+            moveSpeedBuff->SetFlatBonus(Evt.mClientData.mSoldierProperties.mMoveSpeed*10);
             buffHolderC->AddBuff(buff);
 
             buff=core::BuffFactory::Get()(AutoId("max_health_buff"));

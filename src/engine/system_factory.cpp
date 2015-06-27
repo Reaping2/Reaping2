@@ -52,6 +52,8 @@
 #include "local_system.h"
 #include "soldier_spawn_system.h"
 #include "network/set_ownership_message.h"
+#include "core/map/map_system.h"
+#include "core/map/link_map_element_system.h"
 
 
 using platform::AutoId;
@@ -120,6 +122,8 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("buff_holder_system"), &CreateSystem<BuffHolderSystem>);
     
+    Bind( AutoId("map_system"), &CreateSystem<map::MapSystem>);
+    Bind( AutoId("link_map_element_system"), &CreateSystem<map::LinkMapElementSystem>);
 }
 
 } // namespace engine

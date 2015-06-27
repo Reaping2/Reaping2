@@ -46,14 +46,15 @@ void GrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
 
         //TODO: this is absolutely not correct. speed does not work this way in real life.
         // speed vector is not synced atm, so this is the best that i can do.
-        if (actorMoveC.IsValid()&&projMoveC.IsValid())
-        {
-            double sumSpeedX=projMoveC->GetSpeedX()+actorMoveC->GetSpeedX()*0.8;
-            double sumSpeedY=projMoveC->GetSpeedY()+actorMoveC->GetSpeedY()*0.8;
-            projMoveC->GetSpeed().mBase.Set(std::sqrt(sumSpeedX*sumSpeedX+sumSpeedY*sumSpeedY));
-            projMoveC->SetMoving(true);
-        }
+//         if (actorMoveC.IsValid()&&projMoveC.IsValid())
+//         {
+//             double sumSpeedX=projMoveC->GetSpeedX()+actorMoveC->GetSpeedX()*0.8;
+//             double sumSpeedY=projMoveC->GetSpeedY()+actorMoveC->GetSpeedY()*0.8;
+//             projMoveC->GetSpeed().mBase.Set(std::sqrt(sumSpeedX*sumSpeedX+sumSpeedY*sumSpeedY));
+//            projMoveC->SetMoving(true);
+//        }
 
+        projMoveC->SetMoving(true);
         mScene.AddActor( Proj.release() );
 
         normalItem->SetConsumed(true);

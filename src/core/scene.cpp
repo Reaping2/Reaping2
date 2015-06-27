@@ -23,6 +23,7 @@
 #include "buffs/max_health_buff.h"
 #include "engine/buffs_engine/max_health_buff_sub_system.h"
 #include "engine/soldier_spawn_system.h"
+#include "map_load_event.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -113,7 +114,7 @@ Scene::~Scene()
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        //EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
         L2("new actor inserted at destruct (GUID:%d)\n",(*it)->GetGUID());
         mActorHolder.mAllActors.insert( *it );
     }
@@ -121,7 +122,7 @@ Scene::~Scene()
 
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
     {
-        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+        //EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
         L2("actor delete at destruct (GUID:%d)\n",(*it)->GetGUID());
         delete (*it).Get();
     }
@@ -141,6 +142,7 @@ int32_t Scene::GetTypeId() const
 
 void Scene::Load( std::string const& Level )
 {
+    EventServer<core::MapLoadEvent>::Get().SendEvent(core::MapLoadEvent("map/"+Level));
     mPaused = false;
     
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
