@@ -54,6 +54,8 @@
 #include "network/set_ownership_message.h"
 #include "core/map/map_system.h"
 #include "core/map/link_map_element_system.h"
+#include "core/map/map_start_map_element_system.h"
+#include "core/map/spawn_soldiers_map_element_system.h"
 
 
 using platform::AutoId;
@@ -124,6 +126,9 @@ SystemFactory::SystemFactory()
     
     Bind( AutoId("map_system"), &CreateSystem<map::MapSystem>);
     Bind( AutoId("link_map_element_system"), &CreateSystem<map::LinkMapElementSystem>);
+    Bind( AutoId("map_start_map_element_system"), &CreateSystem<map::MapStartMapElementSystem>);
+    Bind( AutoId("spawn_soldiers_map_element_system"), &CreateSystem<map::SpawnSoldiersMapElementSystem>);
+
 }
 
 } // namespace engine

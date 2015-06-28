@@ -18,14 +18,19 @@ int32_t MapElement::GetUID()
     return mUID;
 }
 
+void MapElement::Load(Json::Value& setters)
+{
+    std::string identifier;
+    if (Json::GetStr(setters["identifier"],identifier))
+    {
+        mUID=AutoId(identifier);
+    }
+}
+
 DefaultMapElement::DefaultMapElement()
     : MapElement()
 {
 
 }
 
-void DefaultMapElement::Load(Json::Value& setters)
-{
-
-}
 } // namespace map

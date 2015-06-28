@@ -24,6 +24,7 @@
 #include "engine/buffs_engine/max_health_buff_sub_system.h"
 #include "engine/soldier_spawn_system.h"
 #include "map_load_event.h"
+#include "map_start_event.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -251,6 +252,9 @@ void Scene::Load( std::string const& Level )
         Pl->Get<IMoveComponent>()->SetMoving(false);
         AddActor( Pl.release() );
     }
+
+    EventServer<core::MapStartEvent>::Get().SendEvent(core::MapStartEvent());
+
 }
 
 void Scene::AddTestCreep(double X, double Y)

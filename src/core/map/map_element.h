@@ -22,7 +22,7 @@ class MapElement
 public:
     virtual int GetType() const=0;
     virtual ~MapElement();
-    virtual void Load(Json::Value& setters)=0;
+    virtual void Load(Json::Value& setters);
     int32_t GetUID();
 protected:
     MapElement();
@@ -35,7 +35,6 @@ class DefaultMapElement : public MapElement
 public:
     DEFINE_MAP_ELEMENT_BASE(DefaultMapElement)
     DefaultMapElement();
-    void Load(Json::Value& setters);
 };
 } // namespace map
 #endif//INCLUDED_CORE_MAP_MAP_ELEMENT_H

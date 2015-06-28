@@ -16,6 +16,7 @@ LinkMapElement::LinkMapElement()
 
 void LinkMapElement::Load(Json::Value& setters)
 {
+    MapElement::Load(setters);
     Json::Value const& targetOutput = setters["from"];
     if(!targetOutput.isObject())
     {

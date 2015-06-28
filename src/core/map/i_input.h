@@ -10,7 +10,7 @@ namespace map {
 class IInput 
 {
 public:
-    virtual ~IInput()=0;
+    virtual ~IInput() {};
     virtual int_function_t GetInputNode(int32_t ordinal)=0;
     virtual int_function_t GetInputNodeId(int32_t id)=0;
 protected:

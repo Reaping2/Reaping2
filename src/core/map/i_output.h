@@ -10,12 +10,12 @@ namespace map {
 class IOutput 
 {
 public:
-    virtual ~IOutput()=0;
+    virtual ~IOutput() {};
     virtual void PlugInNode(int32_t ordinal, int_function_t node)=0;
     virtual void PlugInNodeId(int32_t id, int_function_t node)=0;
-protected:
     virtual void DoOutput(int32_t ordinal, int32_t val)=0;
     virtual void DoOutputId(int32_t id, int32_t val)=0;
+protected:
     virtual void AddOutputNode(int32_t id)=0;
 };
 

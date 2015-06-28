@@ -17,10 +17,10 @@ protected:
     void AddInputNode(int32_t ordinal, int_function_t inputNode);
     template<typename BASE, typename FUN>
     void AddInputNode(int32_t ordinal, BASE* b, FUN f);
-    typedef std::map<int32_t, int_function_t> InputNodes_t;
-    InputNodes_t mInputNodes;
-    typedef std::vector<int_function_t> InputNodesId_t;
+    typedef std::map<int32_t, int_function_t> InputNodesId_t;
     InputNodesId_t mInputNodesId;
+    typedef std::vector<int_function_t> InputNodes_t;
+    InputNodes_t mInputNodes;
 };
 
 template<typename BASE, typename FUN>

@@ -9,21 +9,21 @@
 namespace map {
 
 LinkMapElementSystem::LinkMapElementSystem()
-    : mScene( Scene::Get() )
+    : MapElementSystem()
 {
 }
 
 
 void LinkMapElementSystem::Init()
 {
-    mMapSystem=MapSystem::Get();
+    MapElementSystem::Init();
     mOnMapLoaded=EventServer<core::MapLoadedEvent>::Get().Subscribe( boost::bind( &LinkMapElementSystem::OnMapLoaded, this, _1 ) );
 }
 
 
 void LinkMapElementSystem::Update(double DeltaTime)
 {
-
+    MapElementSystem::Update(DeltaTime);
 }
 
 void LinkMapElementSystem::OnMapLoaded(core::MapLoadedEvent const& Evt)

@@ -453,7 +453,7 @@ class MapElementGenerator : public Generator
 
         {
             AutoNormalFile file((classUnderscore+"_map_element.cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/%s_map_element.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/map/%s_map_element.h\"\n",classUnderscore.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
@@ -469,6 +469,7 @@ class MapElementGenerator : public Generator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "void %sMapElement::Load(Json::Value& setters)\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    MapElement::Load(setters);\n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
@@ -677,6 +678,122 @@ class SystemGenerator : public Generator
         }
 
         L1("SystemGenerator ended\n");
+    }
+};
+
+class MapElementSystemGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="map_element_system";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="map";
+        }
+
+        if (targetUnderscore.empty())
+        {
+            targetUnderscore="some_target";
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"core/map/%s.h\"\n",parentUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s%s\n"
+                ,classCamelCase.c_str(),namespaceLowerCase=="map"?"":"map::",parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    virtual void Init();\n");
+            fprintf(file.mFile, "    virtual void Update( double DeltaTime );\n");
+            fprintf(file.mFile, "private:\n");
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
+                fprintf(file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
+                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+            }
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to main.cpp:\n");
+            fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n",classUnderscore.c_str());
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
+            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/map/%s.h\"\n",targetUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : %s()\n", parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    %s::Init();\n", parentCamelCase.c_str());
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
+                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
+            }
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Update(double DeltaTime)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    %s::Update(DeltaTime);\n", parentCamelCase.c_str());
+            fprintf(file.mFile, "    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),%s::GetType_static());\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "    for( MapElementListFilter<MapSystem::All>::const_iterator %sIt = mapElementListFilter.begin(), %sE = mapElementListFilter.end(); %sIt != %sE; ++%sIt )\n"
+                                        , targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(),targetVariableName.c_str());
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        Opt<%s> %s(*%sIt);\n", targetCamelCase.c_str() , targetVariableName.c_str(), targetVariableName.c_str());
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "void %s::On%s(%s::%sEvent const& Evt)\n"
+                    ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf(file.mFile, "{\n");
+                fprintf(file.mFile, "}\n");
+                fprintf(file.mFile, "\n");
+            }
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
     }
 };
 
@@ -1622,6 +1739,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "buff" ), &CreateGenerator<BuffGenerator> );
         Bind( AutoId( "buff_sub_system" ), &CreateGenerator<BuffSubSystemGenerator> );
         Bind( AutoId( "map_element" ), &CreateGenerator<MapElementGenerator> );
+        Bind( AutoId( "map_element_system" ), &CreateGenerator<MapElementSystemGenerator> );
     }
 };
 
@@ -1672,6 +1790,7 @@ int main(int argc, char* argv[])
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
         "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -p pending (for delayed process) -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 
         "\n*** map_element ***\n class_name shall be in \"{the_name_underscore}\" format (without _map_element). generates a class_name_underscore_map_element.h and class_name_underscore_map_element.cpp with getters setters and member variables. guesses the parent to map_element if not set. uses -m members \n" 
+        "\n*** map_element_system ***\n class_name shall be in \"{the_name_underscore}_map_element_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_map_element_name\" uses -m members\n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
         "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 

@@ -166,6 +166,8 @@ int main(int argc, char* argv[])
 
     Eng.AddSystem(AutoId("map_system"));
     Eng.AddSystem(AutoId("link_map_element_system"));
+    Eng.AddSystem(AutoId("map_start_map_element_system"));
+    Eng.AddSystem(AutoId("spawn_soldiers_map_element_system"));
 
     Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
     Eng.AddSystem(AutoId("soldier_spawn_system"));

@@ -53,6 +53,7 @@ void MapSystem::ClearMapElements()
 
 void MapSystem::OnMapLoad(core::MapLoadEvent const& Evt)
 {
+    ClearMapElements();
     PathVect_t Paths;
     Filesys& FSys = Filesys::Get();
     FSys.GetFileNames( Paths, Evt.mMapName );
