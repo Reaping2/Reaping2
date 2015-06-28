@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_MAP_FUNCTION_DECLARATION_H
 #define INCLUDED_CORE_MAP_FUNCTION_DECLARATION_H
 
-#include "boost\function.hpp"
+#include "boost/function.hpp"
 
 namespace map {
 
