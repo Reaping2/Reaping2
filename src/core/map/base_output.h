@@ -5,19 +5,29 @@
 #include "i_output.h"
 #include <map>
 #include <list>
-
+#include <boost/bimap.hpp>
 namespace map {
 
 class BaseOutput : public IOutput
 {
 public:
+    BaseOutput();
     ~BaseOutput();
     void PlugInNode(int32_t ordinal, int_function_t node);
+    void PlugInNodeId(int32_t id, int_function_t node);
 protected:
+    void DoOutput(int32_t ordinal, int32_t val);
+    void DoOutputId(int32_t id, int32_t val);
+    void AddOutputNode(int32_t id);
     typedef std::list<int_function_t> PluggedInFunctions_t;
     typedef std::map<int32_t, PluggedInFunctions_t> OutputNodes_t;
     OutputNodes_t mOutputNodes;
-    void DoOutput(int32_t ordinal, int32_t val);
+    typedef std::vector<PluggedInFunctions_t> OutputNodesId_t;
+    OutputNodesId_t mOutputNodesId;
+    typedef boost::bimap<int32_t, int32_t> OrdinalIdBimap_t;
+    typedef OrdinalIdBimap_t::value_type OrdinalIdPair;
+    OrdinalIdBimap_t mOrdinalIdBimap;
+    int32_t mNextOrdinal;
 };
 
 

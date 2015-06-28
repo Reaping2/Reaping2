@@ -4,17 +4,19 @@
 #include "platform/auto_id.h"
 #include "core/opt.h"
 #include "boost/function.hpp"
+#include "function_declarations.h"
 namespace map {
-
-typedef boost::function<void( int32_t )> int_function_t;
 
 class IOutput 
 {
 public:
     virtual ~IOutput()=0;
     virtual void PlugInNode(int32_t ordinal, int_function_t node)=0;
+    virtual void PlugInNodeId(int32_t id, int_function_t node)=0;
 protected:
     virtual void DoOutput(int32_t ordinal, int32_t val)=0;
+    virtual void DoOutputId(int32_t id, int32_t val)=0;
+    virtual void AddOutputNode(int32_t id)=0;
 };
 
 

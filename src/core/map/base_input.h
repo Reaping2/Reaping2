@@ -12,12 +12,15 @@ class BaseInput : public IInput
 public:
     ~BaseInput();
     int_function_t GetInputNode(int32_t ordinal);
+    int_function_t GetInputNodeId(int32_t id);
 protected:
     void AddInputNode(int32_t ordinal, int_function_t inputNode);
     template<typename BASE, typename FUN>
     void AddInputNode(int32_t ordinal, BASE* b, FUN f);
     typedef std::map<int32_t, int_function_t> InputNodes_t;
     InputNodes_t mInputNodes;
+    typedef std::vector<int_function_t> InputNodesId_t;
+    InputNodesId_t mInputNodesId;
 };
 
 template<typename BASE, typename FUN>

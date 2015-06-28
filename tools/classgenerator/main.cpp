@@ -178,13 +178,25 @@ public:
     // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
     std::string CreateGetMemberFull(std::string memberType, std::string memberName)
     {
-        std::string r="virtual "+memberType+" "+CreateGetMember(memberType,memberName)+"()const";
+        std::string r=memberType+" "+CreateGetMember(memberType,memberName)+"()const";
         return r;
     }
     // from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)
     std::string CreateSetMemberFull(std::string memberType, std::string memberName)
     {
-        std::string r="virtual void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")";
+        std::string r="void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")";
+        return r;
+    }
+    // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
+    std::string CreateVirtualGetMemberFull(std::string memberType, std::string memberName)
+    {
+        std::string r="virtual "+CreateGetMemberFull(memberType,memberName);
+        return r;
+    }
+    // from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)
+    std::string CreateVirtualSetMemberFull(std::string memberType, std::string memberName)
+    {
+        std::string r="virtual "+CreateSetMemberFull(memberType,memberName);
         return r;
     }
 
@@ -318,8 +330,8 @@ class ComponentGenerator : public Generator
             fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateVirtualSetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateVirtualGetMemberFull(i->first,i->second).c_str());
             }
             fprintf(file.mFile, "protected:\n");
             fprintf(file.mFile, "    friend class ComponentFactory;\n");
@@ -397,85 +409,76 @@ class MapElementGenerator : public Generator
         }
         if (namespaceLowerCase.empty())
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase="map";
         }
 
         Init();
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            AutoNormalFile file((classUnderscore+"_map_element.h").c_str(),"w" );
             fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
             fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "#include \"core/map/%s.h\"\n",parentUnderscore.c_str());
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
             fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %sMapElement : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    DEFINE_MAP_ELEMENT_BASE(%sMapElement)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %sMapElement();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    void Load(Json::Value& setters);\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
                 fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
                 fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
             }
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    friend class ComponentFactory;\n");
+            fprintf(file.mFile, "private:\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
                 fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
             }
-            fprintf(file.mFile, "private:\n");
             fprintf(file.mFile, "};\n");
             fprintf(file.mFile, "\n");
-
-            fprintf(file.mFile, "class %sLoader : public ComponentLoader<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    virtual void BindValues();\n");
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    %sLoader();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    friend class ComponentLoaderFactory;\n");
-            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
 
             fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
 
-            fprintf(file.mFile, "//TODO: to component_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to component_loader_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to map_element_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateMapElement<%sMapElement>);\n",classUnderscore.c_str(),classCamelCase.c_str());
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
+            AutoNormalFile file((classUnderscore+"_map_element.cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"core/%s_map_element.h\"\n",classUnderscore.c_str());
             fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            bool isFirst=true;
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%sMapElement::%sMapElement()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : MapElement()\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
-                    isFirst?":":",",CreateMemberName(i->second).c_str());
-                isFirst=false;
+                fprintf(file.mFile, "    , %s(_fill_me_)\n",
+                    CreateMemberName(i->second).c_str());
             }
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %sMapElement::Load(Json::Value& setters)\n",classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
 
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
-                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase+"MapElement").c_str());
+                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase+"MapElement").c_str());
             }
-
             fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %sLoader::BindValues()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%sLoader::%sLoader()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
         }
 
         L1("%s ended\n",__FUNCTION__);
@@ -511,8 +514,8 @@ class NormalItemGenerator : public Generator
             fprintf(file.mFile, "    %s( int32_t id );\n",classCamelCase.c_str());
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateVirtualSetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateVirtualGetMemberFull(i->first,i->second).c_str());
             }
             fprintf(file.mFile, "protected:\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
@@ -1438,8 +1441,8 @@ class BuffGenerator : public Generator
             fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateVirtualSetMemberFull(i->first,i->second).c_str());
+                fprintf(file.mFile, "    %s;\n",CreateVirtualGetMemberFull(i->first,i->second).c_str());
             }
             fprintf(file.mFile, "protected:\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
@@ -1618,6 +1621,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "factory" ), &CreateGenerator<FactoryGenerator> );
         Bind( AutoId( "buff" ), &CreateGenerator<BuffGenerator> );
         Bind( AutoId( "buff_sub_system" ), &CreateGenerator<BuffSubSystemGenerator> );
+        Bind( AutoId( "map_element" ), &CreateGenerator<MapElementGenerator> );
     }
 };
 
@@ -1667,6 +1671,7 @@ int main(int argc, char* argv[])
         "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
         "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -p pending (for delayed process) -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 
+        "\n*** map_element ***\n class_name shall be in \"{the_name_underscore}\" format (without _map_element). generates a class_name_underscore_map_element.h and class_name_underscore_map_element.cpp with getters setters and member variables. guesses the parent to map_element if not set. uses -m members \n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
         "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 

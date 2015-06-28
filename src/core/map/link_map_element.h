@@ -12,12 +12,26 @@ public:
     DEFINE_MAP_ELEMENT_BASE(LinkMapElement)
     LinkMapElement();
     void Load(Json::Value& setters);
+    void SetTargetInputUID(int32_t targetInputUID);
+    int32_t GetTargetInputUID()const;
+    void SetTargetInputNodeId(int32_t targetInputNodeId);
+    int32_t GetTargetInputNodeId()const;
+    void SetTargetInputNodeOrdinal(int32_t targetInputNodeOrdinal);
+    int32_t GetTargetInputNodeOrdinal()const;
+    void SetTargetOutputUID(int32_t targetOutputUID);
+    int32_t GetTargetOutputUID()const;
+    void SetTargetOutputNodeId(int32_t targetOutputNodeId);
+    int32_t GetTargetOutputNodeId()const;
+    void SetTargetOutputNodeOrdinal(int32_t targetOutputNodeOrdinal);
+    int32_t GetTargetOutputNodeOrdinal()const;
 private:
     int32_t mTargetInputUID;
-    int32_t mTargetInputOrdinal;
-
+    int32_t mTargetInputNodeId;
+    int32_t mTargetInputNodeOrdinal;
     int32_t mTargetOutputUID;
-    int32_t mTargetOutputOrdinal;
+    int32_t mTargetOutputNodeId;
+    int32_t mTargetOutputNodeOrdinal;
 };
+
 } // namespace map
 #endif//INCLUDED_CORE_MAP_LINK_MAP_ELEMENT_H
