@@ -13,20 +13,28 @@ public:
     ~BaseInput();
     int_function_t GetInputNode(int32_t ordinal);
     int_function_t GetInputNodeId(int32_t id);
+    void ResetValues();
+    void ResetValueId(int32_t id);
+    int32_t GetValueId(int32_t id);
 protected:
-    void AddInputNode(int32_t ordinal, int_function_t inputNode);
+    void AddInputNodeId(int32_t id, int_function_t inputNode);
     template<typename BASE, typename FUN>
-    void AddInputNode(int32_t ordinal, BASE* b, FUN f);
+    void AddInputNodeId(int32_t id, BASE* b, FUN f);
+    void AddInputNodeId(int32_t id);
     typedef std::map<int32_t, int_function_t> InputNodesId_t;
     InputNodesId_t mInputNodesId;
     typedef std::vector<int_function_t> InputNodes_t;
     InputNodes_t mInputNodes;
+private:
+    typedef std::map<int32_t, int32_t> BaseInputNodesId_t;
+    BaseInputNodesId_t mBaseInputNodesId;
+    void BaseInputNode(int32_t in, int32_t id);
 };
 
 template<typename BASE, typename FUN>
-void map::BaseInput::AddInputNode(int32_t ordinal, BASE* b, FUN f)
+void map::BaseInput::AddInputNodeId(int32_t ordinal, BASE* b, FUN f)
 {
-    AddInputNode(ordinal,boost::bind(f,b,_1));
+    AddInputNodeId(ordinal,boost::bind(f,b,_1));
 }
 
 } // namespace map

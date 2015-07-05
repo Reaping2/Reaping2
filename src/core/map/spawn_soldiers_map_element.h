@@ -13,10 +13,7 @@ public:
     DEFINE_MAP_ELEMENT_BASE(SpawnSoldiersMapElement)
     SpawnSoldiersMapElement();
     void Load(Json::Value& setters);
-    static int32_t SpawnNodeId;
-    int32_t mSpawnInputCounter;
-private:
-    void SpawnInput(int32_t in);
+    static const int32_t SpawnNodeId;
 };
 
 } // namespace map

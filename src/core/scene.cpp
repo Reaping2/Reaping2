@@ -216,16 +216,10 @@ void Scene::Load( std::string const& Level )
         Obj->Get<IPositionComponent>()->SetX(0.0);//mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ));
         Obj->Get<IPositionComponent>()->SetY(0.0);//mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ));
         AddActor( Obj.release() );
+        EventServer<core::MapStartEvent>::Get().SendEvent(core::MapStartEvent());
+
         return;
     }
-    Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
-    std::auto_ptr<Actor> Pl(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));     
-
-    Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
-    Pl->Get<PlayerControllerComponent>()->mActive=true;
-    SetPlayerModels(Opt<Actor>(Pl.get()));
-    mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
-    AddActor( Pl.release() );
 
     static const size_t BenchmarkCreeps = 100;
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
@@ -234,7 +228,7 @@ void Scene::Load( std::string const& Level )
             , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
 
     }
-
+    std::auto_ptr<Actor> Pl;
     for( int i = 0; i < 11; ++i )
     {
         Pl = ActorFactory::Get()(AutoId("player"));

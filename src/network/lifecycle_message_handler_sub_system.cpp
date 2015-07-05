@@ -43,24 +43,14 @@ namespace network {
         }
         else
         {
-            mScene.Load("level1");
-            Ui::Get().Load("hud");
             std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
             lifecycleMsg->mState=msg.mState;
             mMessageHolder.AddOutgoingMessage(lifecycleMsg);
             std::auto_ptr<ClientDatasMessage> clientDatasMsg(new ClientDatasMessage);
             clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
             mMessageHolder.AddOutgoingMessage(clientDatasMsg);
-
-            ActorFactory& actorFactory=ActorFactory::Get();
-            int32_t playerAutoId=AutoId("player");
-            glm::vec4 const& dimensions=mScene.GetDimensions();
-            Opt<engine::SoldierSpawnSystem> soldierSpawnS(engine::SoldierSpawnSystem::Get());
-            for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
-            {
-                std::auto_ptr<Actor> player(soldierSpawnS->Spawn(*i));
-                mScene.AddActor(player.release());
-            }
+            mScene.Load("level1");
+            Ui::Get().Load("hud");
         }
     }
 

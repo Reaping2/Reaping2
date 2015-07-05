@@ -13,7 +13,7 @@ public:
     DEFINE_MAP_ELEMENT_BASE(MapStartMapElement)
     MapStartMapElement();
     void Load(Json::Value& setters);
-    static int32_t StartNodeId;
+    static const int32_t StartNodeId;
 private:
 };
 

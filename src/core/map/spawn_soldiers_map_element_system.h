@@ -14,6 +14,7 @@ protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
+    core::ProgramState& mProgramState;
 };
 
 } // namespace map

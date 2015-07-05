@@ -54,7 +54,8 @@ namespace render{
         {
             SpritePhase const& Phase = Spr( (int32_t)GetState() );
             Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
-            renderableSprites.push_back( RenderableSprite( &actor, mHatId, &Spr, &Phase, ColorRepo::Get()(playerCC->mControllerId) ) );
+            renderableSprites.push_back( 
+                RenderableSprite( &actor, mHatId, &Spr, &Phase, ColorRepo::Get()(playerCC->mControllerId) ) );
         }
     }
 

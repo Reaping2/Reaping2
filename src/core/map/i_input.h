@@ -14,7 +14,7 @@ public:
     virtual int_function_t GetInputNode(int32_t ordinal)=0;
     virtual int_function_t GetInputNodeId(int32_t id)=0;
 protected:
-    virtual void AddInputNode(int32_t ordinal, int_function_t inputNode)=0;
+    virtual void AddInputNodeId(int32_t id, int_function_t inputNode)=0;
 
 };
 

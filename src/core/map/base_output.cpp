@@ -50,7 +50,7 @@ void BaseOutput::DoOutputId(int32_t id, int32_t val)
     }
 }
 
-void BaseOutput::AddOutputNode(int32_t id)
+void BaseOutput::AddOutputNodeId(int32_t id)
 {
     BOOST_ASSERT(mOutputNodesId.find(id)==mOutputNodesId.end());
     BOOST_ASSERT(mNextOrdinal==mOutputNodes.size());

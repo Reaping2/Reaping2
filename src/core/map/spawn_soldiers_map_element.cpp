@@ -2,25 +2,18 @@
 
 namespace map {
 
-int SpawnSoldiersMapElement::SpawnNodeId=AutoId("spawn");
+const int SpawnSoldiersMapElement::SpawnNodeId=AutoId("spawn");
 
 SpawnSoldiersMapElement::SpawnSoldiersMapElement()
     : MapElement()
     , BaseInput()
-    , mSpawnInputCounter(0)
 {
 }
 
 void SpawnSoldiersMapElement::Load(Json::Value& setters)
 {
     MapElement::Load(setters);
-    AddInputNode(SpawnNodeId,this,&SpawnSoldiersMapElement::SpawnInput);
+    AddInputNodeId(SpawnNodeId);
 }
-
-void SpawnSoldiersMapElement::SpawnInput(int32_t in)
-{
-    mSpawnInputCounter+=in;
-}
-
 
 } // namespace map

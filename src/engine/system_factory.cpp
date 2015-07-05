@@ -56,6 +56,7 @@
 #include "core/map/link_map_element_system.h"
 #include "core/map/map_start_map_element_system.h"
 #include "core/map/spawn_soldiers_map_element_system.h"
+#include "core/map/soldier_spawn_point_map_element_system.h"
 
 
 using platform::AutoId;
@@ -128,7 +129,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("link_map_element_system"), &CreateSystem<map::LinkMapElementSystem>);
     Bind( AutoId("map_start_map_element_system"), &CreateSystem<map::MapStartMapElementSystem>);
     Bind( AutoId("spawn_soldiers_map_element_system"), &CreateSystem<map::SpawnSoldiersMapElementSystem>);
-
+    Bind( AutoId("soldier_spawn_point_map_element_system"), &CreateSystem<map::SoldierSpawnPointMapElementSystem>);
+    
 }
 
 } // namespace engine

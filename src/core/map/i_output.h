@@ -16,7 +16,7 @@ public:
     virtual void DoOutput(int32_t ordinal, int32_t val)=0;
     virtual void DoOutputId(int32_t id, int32_t val)=0;
 protected:
-    virtual void AddOutputNode(int32_t id)=0;
+    virtual void AddOutputNodeId(int32_t id)=0;
 };
 
 

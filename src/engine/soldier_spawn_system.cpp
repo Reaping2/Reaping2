@@ -6,6 +6,8 @@
 #include "core/i_position_component.h"
 #include "core/i_inventory_component.h"
 #include "soldier_created_event.h"
+#include "core/map/soldier_spawn_point_map_element_system.h"
+#include "core/player_controller_component.h"
 
 namespace engine {
 
@@ -49,9 +51,13 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData)
     }
     std::auto_ptr<Actor> player(mActorFactory(mPlayerAutoId));
     Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-    glm::vec4 const& dimensions=mScene.GetDimensions();
-    positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
-    positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
+    map::SpawnPoints_t spawnPoints(map::SoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints());
+    map::SpawnPoint spawnPoint(spawnPoints[rand()%spawnPoints.size()]);
+    positionC->SetX(spawnPoint.mX);
+    positionC->SetY(spawnPoint.mY);
+//     glm::vec4 const& dimensions=mScene.GetDimensions();
+//     positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
+//     positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
 
     //TODO: temporary till normal inventory sync 
     Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
@@ -61,7 +67,11 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData)
     }
 
     clientData.mClientActorGUID=player->GetGUID(); //TODO: might seek for a better place
-
+    Opt<PlayerControllerComponent> playerControllerC(player->Get<PlayerControllerComponent>());
+    if (playerControllerC.IsValid())
+    {
+        playerControllerC->mControllerId=clientData.mClientId;
+    }
     L2("player created clientId:%d clientName:%s actorId:%d\n",clientData.mClientId,clientData.mClientName.c_str(),clientData.mClientActorGUID);
     //TODO: for debugging server:
     if (core::ProgramState::Get().mClientDatas.begin()->mClientActorGUID==player->GetGUID())

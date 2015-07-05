@@ -18,7 +18,7 @@ public:
     void DoOutput(int32_t ordinal, int32_t val);
     void DoOutputId(int32_t id, int32_t val);
 protected:
-    void AddOutputNode(int32_t id);
+    void AddOutputNodeId(int32_t id);
     typedef std::list<int_function_t> PluggedInFunctions_t;
     typedef std::map<int32_t, PluggedInFunctions_t> OutputNodesId_t;
     OutputNodesId_t mOutputNodesId;

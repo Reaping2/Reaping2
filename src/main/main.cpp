@@ -164,11 +164,14 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("local_system"));
     }
 
-    Eng.AddSystem(AutoId("map_system"));
-    Eng.AddSystem(AutoId("link_map_element_system"));
-    Eng.AddSystem(AutoId("map_start_map_element_system"));
-    Eng.AddSystem(AutoId("spawn_soldiers_map_element_system"));
-
+    if (programState.mMode!=ProgramState::Client) 
+    {
+        Eng.AddSystem(AutoId("map_system"));
+        Eng.AddSystem(AutoId("link_map_element_system"));
+        Eng.AddSystem(AutoId("map_start_map_element_system"));
+        Eng.AddSystem(AutoId("spawn_soldiers_map_element_system"));
+        Eng.AddSystem(AutoId("soldier_spawn_point_map_element_system"));
+    }
     Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
     Eng.AddSystem(AutoId("soldier_spawn_system"));
     if (programState.mMode!=ProgramState::Local)
