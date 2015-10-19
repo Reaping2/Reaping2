@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "local_system.h"
 #include "ui/ui.h"
+#include "core/start_game_mode_event.h"
 
 namespace engine {
 
@@ -35,8 +36,7 @@ void LocalSystem::OnSoldierPropertiesReady(SoldierPropertiesReadyEvent const& Ev
 {
     Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
     clientData->mSoldierProperties=mProgramState.mSoldierProperties;
-    Ui::Get().Load("hud");
-    mScene.Load("level1");
+    EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( "ffa" ));
 }
 
 

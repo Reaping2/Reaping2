@@ -17,6 +17,7 @@ namespace network {
             Exit
         };
         State mState;
+        std::string mMode;
         template<class Archive>
         void serialize(Archive& ar, const unsigned int version);
     };
@@ -26,6 +27,7 @@ namespace network {
     {
         ar & boost::serialization::base_object<Message>(*this);
         ar & mState;
+        ar & mMode;
     }
 
 } // namespace network

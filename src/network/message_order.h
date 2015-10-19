@@ -28,6 +28,7 @@
 #include "accuracy_message.h"
 #include "flash_message.h"
 #include "core/buffs/accuracy_buff.h"
+#include "core/ctf_program_state.h"
 
 
     struct message_order
@@ -54,6 +55,7 @@
             type=network::HealTakenMessage::GetType_static();
             type=network::SoldierPropertiesMessage::GetType_static();
             type=network::ClientDatasMessage::GetType_static();
+            type=network::ctf::ClientDatasMessage::GetType_static();
             type=network::HealthMessage::GetType_static();
             type=network::AccuracyMessage::GetType_static();
 
@@ -86,6 +88,7 @@
 
     BOOST_CLASS_EXPORT_GUID(::core::SoldierProperties, "soldier_prop_base")    
     BOOST_CLASS_EXPORT_GUID(::core::ClientData, "client_data")    
+    BOOST_CLASS_EXPORT_GUID(::ctf::ClientData, "ctf_client_data")    
 
     BOOST_CLASS_EXPORT_GUID(network::MyNameMessage,"my_name")
     BOOST_CLASS_EXPORT_GUID(network::ClientIdMessage, "client_id")
@@ -106,6 +109,7 @@
     BOOST_CLASS_EXPORT_GUID(network::HealTakenMessage, "heal_taken")
     BOOST_CLASS_EXPORT_GUID(network::SoldierPropertiesMessage, "soldier_properties")    
     BOOST_CLASS_EXPORT_GUID(network::ClientDatasMessage, "client_datas")
+    BOOST_CLASS_EXPORT_GUID(network::ctf::ClientDatasMessage, "ctf_client_datas")
     BOOST_CLASS_EXPORT_GUID(network::HealthMessage, "health")
     BOOST_CLASS_EXPORT_GUID(network::AccuracyMessage, "accuracy")
 

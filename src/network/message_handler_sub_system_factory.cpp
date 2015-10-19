@@ -21,6 +21,7 @@
 #include "health_message.h"
 #include "accuracy_message.h"
 #include "set_ownership_message.h"
+#include "ctf_client_datas_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -49,8 +50,9 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("flash_message_handler_sub_system"), &CreateSubSystem<FlashMessageHandlerSubSystem>);
     Bind( AutoId("soldier_properties_message_handler_sub_system"), &CreateSubSystem<SoldierPropertiesMessageHandlerSubSystem>);
     Bind( AutoId("client_datas_message_handler_sub_system"), &CreateSubSystem<ClientDatasMessageHandlerSubSystem>);
+    Bind( AutoId("ctf_client_datas_message_handler_sub_system"), &CreateSubSystem<ctf::ClientDatasMessageHandlerSubSystem>);
     Bind( AutoId("health_message_handler_sub_system"), &CreateSubSystem<HealthMessageHandlerSubSystem>);
     Bind( AutoId("accuracy_message_handler_sub_system"), &CreateSubSystem<AccuracyMessageHandlerSubSystem>);
 }
 
-} // namespace engine
+} // namespace network

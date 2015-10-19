@@ -22,6 +22,7 @@ public:
     std::string targetUnderscore;
     std::string targetItemTypeUnderscore;
     std::string targetItemNameUnderscore;
+    std::string command;
 protected:
     std::string classCamelCase;
     std::string classUpperCaseUnderscore;
@@ -38,6 +39,10 @@ protected:
     Type_Member_Pairs_t typeMemberPairs;
     Namespace_Event_Pairs_t namespaceEventPairs;
 public:
+    void WriteCommand(AutoNormalFile& file)
+    {
+        fprintf(file.mFile, "\n//command: %s\n",command.c_str());
+    }
     virtual void Generate()
     {
         L1("default generator implementation, do nothing\n");
@@ -296,6 +301,8 @@ class IComponentGenerator : public Generator
             fprintf(file.mFile, "};\n");
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            WriteCommand(file);
+
         }
         L1("IComponentGenerator ended\n");
     }
@@ -358,6 +365,7 @@ class ComponentGenerator : public Generator
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to component_loader_factory.cpp:\n");
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            WriteCommand(file);
         }
         
 
@@ -530,7 +538,8 @@ class NormalItemGenerator : public Generator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "//TODO: to item_factory.cpp:\n");
             fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),classUnderscore.c_str());
-        }
+            WriteCommand(file);
+       }
 
 
         {
@@ -617,9 +626,10 @@ class SystemGenerator : public Generator
 
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
             fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n",classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 
@@ -737,6 +747,7 @@ class MapElementSystemGenerator : public Generator
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
             fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n",classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 
@@ -864,6 +875,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
             fprintf(file.mFile, "collisionSS->AddSubSystem(AutoId(\"%s_collision_component\"),AutoId(\"%s\"));\n",targetUnderscore.c_str(),classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 
@@ -966,6 +978,7 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
             fprintf(file.mFile, "controllserSystem->AddSubSystem(AutoId(\"%s_controller_component\"),AutoId(\"%s\"));\n",targetUnderscore.c_str(),classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 
@@ -1068,6 +1081,7 @@ class NormalItemSubSystemGenerator : public Generator
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
             fprintf(file.mFile, "%sSS->AddSubSystem(AutoId(\"%s_%s\"),AutoId(\"%s\"));\n",targetItemTypeVariableName.c_str(),targetItemNameUnderscore.c_str(),targetItemTypeUnderscore.c_str(),classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 
@@ -1183,7 +1197,7 @@ class EventGenerator : public Generator
             fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-
+            WriteCommand(file);
         }
 
         L1("%s ended\n",__FUNCTION__);
@@ -1503,6 +1517,7 @@ class FactoryGenerator : public Generator
             fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            WriteCommand(file);
         }
 
 
@@ -1575,6 +1590,7 @@ class BuffGenerator : public Generator
             fprintf(file.mFile, "Bind(AutoId(\"%s\"), &CreateBuff<%s> );\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to message_order.h:\n");
             fprintf(file.mFile, "type=%s::GetType_static();\n",classCamelCase.c_str());
+            WriteCommand(file);
 
         }
 
@@ -1668,6 +1684,7 @@ class BuffSubSystemGenerator : public Generator
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to main.cpp:\n");
             fprintf(file.mFile, "buffHolderS->AddSubSystem(%s::GetType_static(),AutoId(\"%s\"));\n",targetCamelCase.c_str(),classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 
@@ -1809,8 +1826,22 @@ int main(int argc, char* argv[])
         L1("need to specify a valid generator!");
         return 2;
     }
+    std::string command;
+    for (int i=0; i<argc; ++i)
+    {
+        if (argv[i][0]=='-')
+        {
+            command=command+" "+std::string(argv[i]);
+        }
+        else
+        {
+            command=command+" \""+std::string(argv[i])+"\"";
+        }
+    }
+    L1("//command: %s\n", command.c_str());
 
     std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId(generatorType)));
+    generator->command=command;
     generator->classUnderscore=classUnderscore;
     generator->parentUnderscore=parentUnderscore;
     generator->namespaceLowerCase=namespaceLowerCase;

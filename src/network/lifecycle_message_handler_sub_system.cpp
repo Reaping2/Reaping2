@@ -18,6 +18,7 @@
 #include "core/buffs/move_speed_buff.h"
 #include "client_datas_message.h"
 #include "engine/soldier_spawn_system.h"
+#include "core/start_game_mode_event.h"
 
 namespace network {
 
@@ -38,19 +39,18 @@ namespace network {
         L1("executing lifecycle: state: %d \n",msg.mState );
         if (mProgramState.mMode==ProgramState::Client)
         {
-            mScene.Load("level1");
-            Ui::Get().Load("hud");
+            EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mMode ));
         }
         else
         {
-            std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+            EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mMode ));
+            std::auto_ptr<network::LifecycleMessage> lifecycleMsg(new network::LifecycleMessage);
             lifecycleMsg->mState=msg.mState;
+            lifecycleMsg->mMode=msg.mMode;
             mMessageHolder.AddOutgoingMessage(lifecycleMsg);
-            std::auto_ptr<ClientDatasMessage> clientDatasMsg(new ClientDatasMessage);
+            std::auto_ptr<network::ClientDatasMessage> clientDatasMsg(new network::ClientDatasMessage);
             clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
             mMessageHolder.AddOutgoingMessage(clientDatasMsg);
-            mScene.Load("level1");
-            Ui::Get().Load("hud");
         }
     }
 

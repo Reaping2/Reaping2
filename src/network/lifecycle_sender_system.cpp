@@ -7,7 +7,7 @@ namespace network {
 LifecycleSenderSystem::LifecycleSenderSystem()
     : mMessageHolder(MessageHolder::Get())
     , mLifecycleModel( "lifecycle", &RootModel::Get() )
-    , mHostModel( VoidFunc( this, &LifecycleSenderSystem::Host ), "host", &mLifecycleModel )
+    , mHostModel( StringFunc( this, &LifecycleSenderSystem::Host ), "host", &mLifecycleModel )
 {
 }
 
@@ -20,7 +20,7 @@ void LifecycleSenderSystem::Update(double DeltaTime)
   
 }
 
-void LifecycleSenderSystem::Host()
+void LifecycleSenderSystem::Host(std::string const& mode)
 {
     if(!core::ProgramState::Get().mClientConnected)
     {
@@ -29,6 +29,7 @@ void LifecycleSenderSystem::Host()
     }
     std::auto_ptr<LifecycleMessage> msg(new LifecycleMessage);
     msg->mState=LifecycleMessage::Start;
+    msg->mMode=mode;
     mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));
 }
 

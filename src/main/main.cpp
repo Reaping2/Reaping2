@@ -43,6 +43,7 @@
 #include "network/health_message.h"
 #include "network/accuracy_message.h"
 #include "core/buffs/accuracy_buff.h"
+#include "network/ctf_client_datas_message.h"
 
 using engine::Engine;
 namespace {
@@ -137,6 +138,10 @@ int main(int argc, char* argv[])
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
     render::RecognizerRepo::Get();
+
+    Eng.AddSystem(AutoId("free_for_all_game_mode_system"));
+    Eng.AddSystem(AutoId("capture_the_flag_game_mode_system"));
+
     if (programState.mMode==ProgramState::Server) 
     {
         Eng.AddSystem(AutoId("server_system"));
@@ -199,6 +204,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::FlashMessage::GetType_static(),AutoId("flash_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SoldierPropertiesMessage::GetType_static(),AutoId("soldier_properties_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ClientDatasMessage::GetType_static(),AutoId("client_datas_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ctf::ClientDatasMessage::GetType_static(),AutoId("ctf_client_datas_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::HealthMessage::GetType_static(),AutoId("health_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
     }
@@ -290,6 +296,10 @@ int main(int argc, char* argv[])
     Prevtime = Curtime = glfwGetTime();
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
+
+    L1("ctf_client_datas_message type: %d\n",network::ctf::ClientDatasMessage::GetType_static());
+    L1("client_datas_message type: %d\n",network::ClientDatasMessage::GetType_static());
+    L1("soldier_properties_message type: %d\n",network::SoldierPropertiesMessage::GetType_static());
     while( IsMainRunning )
     {
         Curtime = glfwGetTime();

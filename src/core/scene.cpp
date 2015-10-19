@@ -76,7 +76,7 @@ void Scene::Update( double DeltaTime )
     //TODO: testing
     if (ProgramState::Get().mMode!=ProgramState::Client
         &&rand()%60==1
-        &&mActorHolder.mAllActors.size()<150)
+        &&mActorHolder.mAllActors.size()<1500)
     {
         AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
             , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
@@ -162,90 +162,6 @@ void Scene::Load( std::string const& Level )
     }
     mActorHolder.mAllActors.clear();
     SetType( "grass" );
-    if (ProgramState::Get().mMode==ProgramState::Client)
-    {
-        return;
-    }
-
-    struct point
-    {
-        double x;
-        double y;
-    };
-    const size_t NumPoints = 18;
-    const point points[NumPoints] =
-    {
-        {-1000,-400},                                      { 0.0, -400}, 
-        {-1000,-600},{-800,-600},{-600,-600},              { 0.0, -600},
-        {-1000,-800},                                      { 0.0, -800}, 
-        {-1000,-1000},                                        { 0.0, -1000},
-        {-1000,-1200},                                      { 0.0, -1200},{ 200, -1200},{ 400, -1200},
-        {-1000,-1400},            {-600,-1400},{-400,-1400},  { 0.0, -1400},
-    };
-
-    for( size_t i = 0; i < NumPoints; ++i )
-    {
-        std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
-        Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( points[i].x+600 );
-        wallPositionC->SetY( points[i].y+400 );
-
-        AddActor( wall.release() );
-    }
-
-    for( int32_t i = -5; i < 5; ++i )
-    {
-        std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
-        Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( i*200 );
-        wallPositionC->SetY( std::abs(i)*-100+1200 );
-
-        AddActor( wall.release() );
-        wall = ActorFactory::Get()(AutoId("wall"));
-        wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( (i+2)*100 );
-        wallPositionC->SetY( (i-5)*50-1400 );
-
-        AddActor( wall.release() );
-    }
-
-    if (ProgramState::Get().mMode==ProgramState::Server)
-    {
-        std::auto_ptr<Actor> Obj(ActorFactory::Get()(AutoId("spider1")));
-
-        Obj->Get<IPositionComponent>()->SetX(0.0);//mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ));
-        Obj->Get<IPositionComponent>()->SetY(0.0);//mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ));
-        AddActor( Obj.release() );
-        EventServer<core::MapStartEvent>::Get().SendEvent(core::MapStartEvent());
-
-        return;
-    }
-
-    static const size_t BenchmarkCreeps = 100;
-    for( size_t i = 0; i < BenchmarkCreeps; ++i )
-    {
-        AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
-            , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
-
-    }
-    std::auto_ptr<Actor> Pl;
-    for( int i = 0; i < 11; ++i )
-    {
-        Pl = ActorFactory::Get()(AutoId("player"));
-
-        Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
-        positionC->SetX(-240+i*60);
-        positionC->SetY(0.0);
-        Pl->Get<IInventoryComponent>();
-        Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-        inventoryC->AddItem(AutoId( "plasma_gun" ));
-        inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
-        Pl->Get<PlayerControllerComponent>()->SetEnabled(false);
-        Pl->Get<PlayerControllerComponent>()->mActive=false;
-        Pl->Get<PlayerControllerComponent>()->mControllerId=i;
-        Pl->Get<IMoveComponent>()->SetMoving(false);
-        AddActor( Pl.release() );
-    }
 
     EventServer<core::MapStartEvent>::Get().SendEvent(core::MapStartEvent());
 
