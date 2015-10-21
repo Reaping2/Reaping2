@@ -4,8 +4,6 @@
 #include "platform/singleton.h"
 #include "platform/i_platform.h"
 #include "opt.h"
-#include <boost\assign.hpp>
-#include "boost\assign\list_of.hpp"
 #include <map>
 
 namespace ctf {
