@@ -34,8 +34,8 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
     {
         return;
     }
-    ::engine::Engine::Get().SetEnabled<::engine::SoldierSpawnSystem>(false);
-    ::engine::Engine::Get().SetEnabled<::engine::ctf::CtfSoldierSpawnSystem>(true);
+    ::engine::Engine::Get().SetEnabled< ::engine::SoldierSpawnSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>(true);
 
     if (mProgramState.mMode==core::ProgramState::Server)
     {

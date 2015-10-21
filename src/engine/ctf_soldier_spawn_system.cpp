@@ -29,7 +29,7 @@ void CtfSoldierSpawnSystem::OnRevive(core::ReviveEvent const& Evt)
 {
     if (mEnabled)
     {
-        Opt<::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(Evt.mClientData->mClientId));
+        Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(Evt.mClientData->mClientId));
         if (ctfClientData.IsValid())
         {
             std::auto_ptr<Actor> player(Spawn(*Evt.mClientData, ctfClientData->mTeam));

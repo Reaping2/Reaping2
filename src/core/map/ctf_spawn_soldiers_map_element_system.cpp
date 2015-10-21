@@ -35,7 +35,7 @@ void CtfSpawnSoldiersMapElementSystem::Update(double DeltaTime)
                 Opt<engine::ctf::CtfSoldierSpawnSystem> ctfSoldierSpawnS(engine::ctf::CtfSoldierSpawnSystem::Get());
                 for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
                 {
-                    Opt<::ctf::ClientData> ctfClientData(mCtfProgramState.FindClientDataByClientId(i->mClientId));
+                    Opt< ::ctf::ClientData> ctfClientData(mCtfProgramState.FindClientDataByClientId(i->mClientId));
                     if (ctfClientData.IsValid())
                     {
                         std::auto_ptr<Actor> player(ctfSoldierSpawnS->Spawn(*i, ctfClientData->mTeam));

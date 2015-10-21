@@ -37,8 +37,8 @@ void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& E
     {
         return;
     }
-    ::engine::Engine::Get().SetEnabled<::engine::SoldierSpawnSystem>(true);
-    ::engine::Engine::Get().SetEnabled<::engine::ctf::CtfSoldierSpawnSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::engine::SoldierSpawnSystem>(true);
+    ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>(false);
     mScene.Load("level1");
     Ui::Get().Load("hud");
     if (ProgramState::Get().mMode==ProgramState::Client)
