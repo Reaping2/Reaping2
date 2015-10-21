@@ -100,6 +100,7 @@ SystemEnableModifier::SystemEnableModifier(bool enabled)
 void SystemEnableModifier::operator()(SystemElement& system)
 {
     system.mEnabled=mEnabled;
+    system.mSystem->SetEnabled(mEnabled);
 }
 
 } // namespace engine

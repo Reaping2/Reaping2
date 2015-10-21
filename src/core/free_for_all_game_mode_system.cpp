@@ -9,6 +9,9 @@
 #include "i_inventory_component.h"
 #include "player_controller_component.h"
 #include "i_move_component.h"
+#include "engine/engine.h"
+#include "engine/soldier_spawn_system.h"
+#include "engine/ctf_soldier_spawn_system.h"
 
 namespace core {
 
@@ -30,10 +33,12 @@ void FreeForAllGameModeSystem::Update(double DeltaTime)
 
 void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& Evt)
 {
-    if (Evt.mMode=="ffa")
+    if (Evt.mMode!="ffa")
     {
         return;
     }
+    ::engine::Engine::Get().SetEnabled<::engine::SoldierSpawnSystem>(true);
+    ::engine::Engine::Get().SetEnabled<::engine::ctf::CtfSoldierSpawnSystem>(false);
     mScene.Load("level1");
     Ui::Get().Load("hud");
     if (ProgramState::Get().mMode==ProgramState::Client)

@@ -59,6 +59,9 @@
 #include "core/map/soldier_spawn_point_map_element_system.h"
 #include "core/free_for_all_game_mode_system.h"
 #include "core/capture_the_flag_game_mode_system.h"
+#include "core/map/ctf_soldier_spawn_point_map_element_system.h"
+#include "core/map/ctf_spawn_soldiers_map_element_system.h"
+#include "ctf_soldier_spawn_system.h"
 
 
 using platform::AutoId;
@@ -135,7 +138,9 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("free_for_all_game_mode_system"), &CreateSystem<core::FreeForAllGameModeSystem>);
     Bind( AutoId("capture_the_flag_game_mode_system"), &CreateSystem<core::CaptureTheFlagGameModeSystem>);
-
+    Bind( AutoId("ctf_soldier_spawn_point_map_element_system"), &CreateSystem<map::ctf::CtfSoldierSpawnPointMapElementSystem>);
+    Bind( AutoId("ctf_spawn_soldiers_map_element_system"), &CreateSystem<map::ctf::CtfSpawnSoldiersMapElementSystem>);
+    Bind( AutoId("ctf_soldier_spawn_system"), &CreateSystem<engine::ctf::CtfSoldierSpawnSystem>);
 
     
 }

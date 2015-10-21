@@ -18,7 +18,9 @@ protected:
 template<typename Elem_T>
 std::auto_ptr<System> SystemFactory::CreateSystem( int32_t Id )
 {
-    return std::auto_ptr<System>( new Elem_T() );
+    std::auto_ptr<System> r( new Elem_T() );
+    r->SetEnabled(true);
+    return r;
 }
 } // namespace engine
 #endif//INCLUDED_ENGINE_SYSTEM_FACTORY_H

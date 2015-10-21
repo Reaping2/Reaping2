@@ -176,9 +176,12 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("map_start_map_element_system"));
         Eng.AddSystem(AutoId("spawn_soldiers_map_element_system"));
         Eng.AddSystem(AutoId("soldier_spawn_point_map_element_system"));
+        Eng.AddSystem(AutoId("ctf_soldier_spawn_point_map_element_system"));
+        Eng.AddSystem(AutoId("ctf_spawn_soldiers_map_element_system"));
     }
     Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
     Eng.AddSystem(AutoId("soldier_spawn_system"));
+    Eng.AddSystem(AutoId("ctf_soldier_spawn_system"));
     if (programState.mMode!=ProgramState::Local)
     {
         Eng.AddSystem(AutoId("message_handler_sub_system_holder"));

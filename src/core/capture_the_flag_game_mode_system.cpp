@@ -4,6 +4,9 @@
 #include "core/ctf_program_state.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/messsage_holder.h"
+#include "engine/soldier_spawn_system.h"
+#include "engine/engine.h"
+#include "engine/ctf_soldier_spawn_system.h"
 
 namespace core {
 
@@ -31,6 +34,9 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
     {
         return;
     }
+    ::engine::Engine::Get().SetEnabled<::engine::SoldierSpawnSystem>(false);
+    ::engine::Engine::Get().SetEnabled<::engine::ctf::CtfSoldierSpawnSystem>(true);
+
     if (mProgramState.mMode==core::ProgramState::Server)
     {
         ctf::ProgramState& ctfProgramState=ctf::ProgramState::Get();
@@ -39,7 +45,7 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
         for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
         {
             ctfProgramState.mClientDatas.push_back(ctf::ClientData((*i).mClientId,
-                isBlueTeam?(ctf::ClientData::Blue):(ctf::ClientData::Red)));
+                isBlueTeam?(ctf::Team::Blue):(ctf::Team::Red)));
             isBlueTeam=!isBlueTeam;
         }
         std::auto_ptr<network::ctf::ClientDatasMessage> clientDatasMsg(new network::ctf::ClientDatasMessage);

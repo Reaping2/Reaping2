@@ -6,6 +6,7 @@
 #include "lifecycle_message_handler_sub_system.h"
 #include "engine/soldier_spawn_system.h"
 #include "core/player_controller_component.h"
+#include "core/revive_event.h"
 namespace network {
 
     ReviveMessageSenderSystem::ReviveMessageSenderSystem()
@@ -84,8 +85,10 @@ namespace network {
         }
 
         L2("found client for revive: senderId:%d\n",msg.mSenderId);
-        std::auto_ptr<Actor> player(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));       
-        mScene.AddActor(player.release());
+        EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( clientData ) );
+
+//         std::auto_ptr<Actor> player(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));       
+//         mScene.AddActor(player.release());
        
         L2("end revive message: senderId:%d\n",msg.mSenderId);
     }

@@ -456,7 +456,8 @@ class MapElementGenerator : public Generator
 
             fprintf(file.mFile, "//TODO: to map_element_factory.cpp:\n");
             fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateMapElement<%sMapElement>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-        }
+            WriteCommand(file);
+       }
 
 
         {
@@ -1327,6 +1328,7 @@ class MessageGenerator : public Generator
             fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s_message_sender_system\"));\n",classUnderscore.c_str());
             fprintf(file.mFile, "messageHandlerSSH->AddSubSystem(%s::%sMessage::GetType_static(),AutoId(\"%s_message_handler_sub_system\"));\n",
                 namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
+            WriteCommand(file);
         }
 
 

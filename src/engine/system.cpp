@@ -7,6 +7,12 @@ namespace engine {
 
     }
 
+    // when enabled is changed on this system
+    void System::SetEnabled(bool enabled)
+    {
+        mEnabled=enabled;
+    }
+
 
     void DefaultSystem::Init()
     {

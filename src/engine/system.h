@@ -23,7 +23,10 @@ public:
     virtual int32_t GetType() const=0;
     virtual void Init()=0;
     virtual void Update( double DeltaTime )=0;
+    virtual void SetEnabled ( bool enabled );
     virtual ~System();
+protected:
+    bool mEnabled;
 };
 
 class DefaultSystem : public System

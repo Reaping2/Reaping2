@@ -21,11 +21,21 @@ SoldierSpawnSystem::SoldierSpawnSystem()
 
 void SoldierSpawnSystem::Init()
 {
+    mOnRevive=EventServer<core::ReviveEvent>::Get().Subscribe( boost::bind( &SoldierSpawnSystem::OnRevive, this, _1 ) );
 }
 
 
 void SoldierSpawnSystem::Update(double DeltaTime)
 {
+}
+
+void SoldierSpawnSystem::OnRevive(core::ReviveEvent const& Evt)
+{
+    if (mEnabled)
+    {
+        std::auto_ptr<Actor> player(Spawn(*Evt.mClientData));       
+        mScene.AddActor(player.release());
+    }
 }
 
 Opt<SoldierSpawnSystem> SoldierSpawnSystem::Get()
@@ -34,6 +44,19 @@ Opt<SoldierSpawnSystem> SoldierSpawnSystem::Get()
 }
 
 std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData)
+{
+    map::SpawnPoints_t spawnPoints(map::SoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints());
+    map::SpawnPoint spawnPoint(spawnPoints[rand()%spawnPoints.size()]);
+    return Spawn(clientData,spawnPoint);
+}
+
+std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map::SpawnPoint spawnPoint)
+{
+    std::auto_ptr<Actor> player(mActorFactory(mPlayerAutoId));
+    return Spawn(clientData, spawnPoint, player);
+}
+
+std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map::SpawnPoint spawnPoint, std::auto_ptr<Actor> player)
 {
     Opt<Actor> clientActor(mScene.GetActor(clientData.mClientActorGUID));
     if(clientActor.IsValid())
@@ -49,15 +72,12 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData)
     {
         L2("No actor for clientData(%s). (it might be an error on revive)\n",clientData.mClientName.c_str());
     }
-    std::auto_ptr<Actor> player(mActorFactory(mPlayerAutoId));
     Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-    map::SpawnPoints_t spawnPoints(map::SoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints());
-    map::SpawnPoint spawnPoint(spawnPoints[rand()%spawnPoints.size()]);
     positionC->SetX(spawnPoint.mX);
     positionC->SetY(spawnPoint.mY);
-//     glm::vec4 const& dimensions=mScene.GetDimensions();
-//     positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
-//     positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
+    //     glm::vec4 const& dimensions=mScene.GetDimensions();
+    //     positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
+    //     positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
 
     //TODO: temporary till normal inventory sync 
     Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();

@@ -4,24 +4,40 @@
 #include "platform/singleton.h"
 #include "platform/i_platform.h"
 #include "opt.h"
+#include <boost\assign.hpp>
+#include "boost\assign\list_of.hpp"
+#include <map>
 
 namespace ctf {
-struct ClientData
+
+class Team : public platform::Singleton<Team>
 {
-    int32_t mClientId;
-    enum Team
+protected:
+    friend class platform::Singleton<Team>;
+    Team();
+public:
+    enum Type
     {
         Blue=0,
         Red
     };
-    Team mTeam;
+    Team::Type operator()( int32_t Id ) const;
+private:
+    typedef std::map<int32_t,Team::Type> IdToTeamMap_t;
+    IdToTeamMap_t mIdToTeamMap;
+};
+
+struct ClientData
+{
+    int32_t mClientId;
+    Team::Type mTeam;
     ClientData()
         :mClientId(0)
-        ,mTeam(Blue)
+        ,mTeam(Team::Blue)
     {
     }
 
-    ClientData(int32_t clientId, Team team)
+    ClientData(int32_t clientId, Team::Type team)
         :mClientId(clientId),mTeam(team) {}
 
     template<class Archive>
