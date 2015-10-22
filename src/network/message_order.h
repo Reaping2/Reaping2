@@ -65,6 +65,7 @@
             type=AccuracyBuff::GetType_static();
 
             type=platform::AutoId("player");
+            type=platform::AutoId("ctf_player");
             type=platform::AutoId("plasma_gun");
             type=platform::AutoId("plasma_shot");
             type=platform::AutoId("spider1");

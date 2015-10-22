@@ -337,5 +337,31 @@
             {"name":"stop_on_death_component"},
             {"name":"buff_holder_component"}
          ]
+    },
+    {
+        "name":"ctf_player",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"players"}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"player", "radius":50}]
+            },
+            {"name":"player_controller_component"},
+            {"name":"inventory_component",
+                "set":[{"add_item":"plasma_gun"}]
+            },
+            {"name":"health_component",
+                "set":[{"hp":100}]
+            },
+            {"name":"accuracy_component",
+                "set":[{"accuracy":0}]
+            },
+            {"name":"stop_on_death_component"},
+            {"name":"buff_holder_component"}
+         ]
     }
 ]

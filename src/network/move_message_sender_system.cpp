@@ -15,6 +15,7 @@ namespace network {
         MessageSenderSystem::Init();
         SetFrequency(10);
         mSendMoves.insert(platform::AutoId("player"));
+        mSendMoves.insert(platform::AutoId("ctf_player"));
         mSendMoves.insert(platform::AutoId("spider1"));
         mSendMoves.insert(platform::AutoId("spider2")); //tutucskaa :)
         mSendMoves.insert(platform::AutoId("spider1target"));

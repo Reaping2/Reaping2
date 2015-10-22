@@ -10,7 +10,7 @@ namespace ctf {
 CtfSoldierSpawnSystem::CtfSoldierSpawnSystem()
     : mScene( Scene::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mPlayerAutoId(AutoId("player"))
+    , mPlayerAutoId(AutoId("ctf_player"))
 {
 }
 

@@ -18,6 +18,24 @@
 		]
 	},
 	{
+		"name":"ctf_player",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"leg_move",
+				"renderer":"leg_move"},
+			{"recognizer":"body_move",
+				"renderer":"body_move"},
+			{"recognizer":"weapon",
+				"renderer":"weapon"},
+			{"recognizer":"ctf_hat",
+				"renderer":"ctf_hat"}
+		]
+	},
+	{
 		"name":"wall",
 		"recognizers":
 		[

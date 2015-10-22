@@ -1735,6 +1735,196 @@ class BuffSubSystemGenerator : public Generator
     }
 };
 
+class ActionRendererGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="action_renderer";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="render";
+        }
+        if (targetUnderscore.empty())
+        {
+            size_t pos=classUnderscore.find("_action_renderer");
+            if (pos!=std::string::npos)
+            {
+                targetUnderscore=classUnderscore.substr(0,pos);
+            }
+            else 
+            {
+                targetUnderscore="some_target";
+            }
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
+            fprintf(file.mFile, "#include \"render/action_renderer.h\"\n");
+            fprintf(file.mFile, "#include \"core/actor.h\"\n");
+            fprintf(file.mFile, "#include \"renderable_sprite.h\"\n");
+            fprintf(file.mFile, "#include \"renderable_repo.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    int32_t m%sId;\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    %s( int32_t Id );\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    virtual void Init(const Actor& actor);\n");
+            fprintf(file.mFile, "    virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);\n");
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "//TODO: to action_renderer_factory.cpp:\n");
+            fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),targetUnderscore.c_str());
+            WriteCommand(file);
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"render/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s(int32_t Id)\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : ActionRenderer(Id)\n");
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    m%sId=AutoId(\"%s\");\n",targetCamelCase.c_str(),targetUnderscore.c_str());
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Init(Actor const& actor)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());\n");
+            fprintf(file.mFile, "    Sprite const& Spr=Sprites(m%sId);\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "    if( Spr.IsValid() )\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        mSecsToEnd=Spr.GetSecsToEnd();\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());\n");
+            fprintf(file.mFile, "    Sprite const& Spr=Sprites(m%sId);\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "    if( Spr.IsValid() )\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        SpritePhase const& Phase = Spr( (int32_t)GetState() );\n");
+            fprintf(file.mFile, "        renderableSprites.push_back(\n");
+            fprintf(file.mFile, "            RenderableSprite( &actor, m%sId, &Spr, &Phase/*, color*/) );\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
+class RecognizerGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore="recognizer";
+        }
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="render";
+        }
+        if (targetUnderscore.empty())
+        {
+            size_t pos=classUnderscore.find("_recognizerr");
+            if (pos!=std::string::npos)
+            {
+                targetUnderscore=classUnderscore.substr(0,pos);
+            }
+            else 
+            {
+                targetUnderscore="some_target";
+            }
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
+            fprintf(file.mFile, "#include \"render/recognizer.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    %s( int32_t Id );\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    virtual bool Recognize(Actor const&);\n");
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "//TODO: to recognizer_factory.cpp:\n");
+            fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),targetUnderscore.c_str());
+            WriteCommand(file);
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"render/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s(int32_t Id)\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : Recognizer(Id)\n");
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "bool %s::Recognize(Actor const& actor)\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    return true;\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
 class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
 {
     friend class platform::Singleton<GeneratorFactory>;
@@ -1759,6 +1949,8 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "buff_sub_system" ), &CreateGenerator<BuffSubSystemGenerator> );
         Bind( AutoId( "map_element" ), &CreateGenerator<MapElementGenerator> );
         Bind( AutoId( "map_element_system" ), &CreateGenerator<MapElementSystemGenerator> );
+        Bind( AutoId( "recognizer" ), &CreateGenerator<RecognizerGenerator> );
+        Bind( AutoId( "action_renderer" ), &CreateGenerator<ActionRendererGenerator> );
     }
 };
 
@@ -1798,6 +1990,7 @@ int main(int argc, char* argv[])
         ("-m", po::value<std::string>(&membersArg), "optional: members: \"double-radius int32_t-targetId\"")
         ("-e", po::value<std::string>(&eventsArg), "optional: events to subscribe: \"core-damageTaken\" -> AutoReg mOnDamageTaken; void OnDamageTaken (core::DamageTakenEvent const& Evt);")
 		("generators:", 
+        "\n*** action_renderer ***\n class_name shall be in \"{the_name_underscore}_action_renderer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n" 
         "\n*** buff ***\n class_name shall be in \"{the_name_underscore}_buff\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to buff if not set. uses -m members \n" 
         "\n*** buff_sub_system ***\n class_name shall be in \"{the_name_underscore}_buff_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp. guesses the parent to buff if not set. \n" 
         "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n" 
@@ -1812,6 +2005,7 @@ int main(int argc, char* argv[])
         "\n*** map_element_system ***\n class_name shall be in \"{the_name_underscore}_map_element_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_map_element_name\" uses -m members\n" 
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
+        "\n*** recognizer ***\n class_name shall be in \"{the_name_underscore}_recognizer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n" 
         "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
         //"\n\n\n"
            )
