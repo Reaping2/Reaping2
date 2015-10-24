@@ -17,7 +17,7 @@ public:
     DEFINE_SYSTEM_BASE(CtfSoldierSpawnSystem)
     CtfSoldierSpawnSystem();
     static Opt<CtfSoldierSpawnSystem> Get();
-    std::auto_ptr<Actor> Spawn(::core::ClientData& clientData, ::ctf::Team::Type team);
+    std::auto_ptr<Actor> Spawn(::core::ClientData& clientData, Team::Type team);
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

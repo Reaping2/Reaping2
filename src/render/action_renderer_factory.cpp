@@ -8,6 +8,7 @@
 #include "render/pickup_action_renderer.h"
 #include "render/hat_action_renderer.h"
 #include "ctf_hat_action_renderer.h"
+#include "ctf_flag_action_renderer.h"
 namespace render {
     ActionRendererFactory::ActionRendererFactory()
     {
@@ -23,5 +24,6 @@ namespace render {
         Bind<PickupActionRenderer>( AutoId( "pickup" ) );
         Bind<HatActionRenderer>( AutoId( "hat" ) );
         Bind<ctf::CtfHatActionRenderer>(AutoId("ctf_hat"));
+        Bind<ctf::CtfFlagActionRenderer>(AutoId("flag"));
     }
 } // namespace render

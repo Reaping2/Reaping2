@@ -6,8 +6,6 @@
 #include "opt.h"
 #include <map>
 
-namespace ctf {
-
 class Team : public platform::Singleton<Team>
 {
 protected:
@@ -24,6 +22,9 @@ private:
     typedef std::map<int32_t,Team::Type> IdToTeamMap_t;
     IdToTeamMap_t mIdToTeamMap;
 };
+
+
+namespace ctf {
 
 struct ClientData
 {

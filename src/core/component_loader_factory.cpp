@@ -28,6 +28,10 @@
 #include "pointer_target_controller_component.h"
 #include "buffs/buff_holder_component.h"
 #include "accuracy_component.h"
+#include "team_component.h"
+#include "flag_collision_component.h"
+#include "attachable_component.h"
+#include "flag_carrier_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -51,6 +55,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("pickup_collision_component"), &CreateComponentLoader<PickupCollisionComponentLoader>);
     Bind( AutoId("aoe_collision_component"), &CreateComponentLoader<AoeCollisionComponentLoader>);
     Bind( AutoId("bounce_collision_component"), &CreateComponentLoader<BounceCollisionComponentLoader>);
+    Bind( AutoId("flag_collision_component"), &CreateComponentLoader<ctf::FlagCollisionComponentLoader>);
 
     Bind( AutoId("renderable_component"), &CreateComponentLoader<RenderableComponentLoader>);
 
@@ -70,6 +75,9 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("target_holder_component"), &CreateComponentLoader<TargetHolderComponentLoader>);
     Bind( AutoId("buff_holder_component"), &CreateComponentLoader<BuffHolderComponentLoader>);
     Bind( AutoId("accuracy_component"), &CreateComponentLoader<AccuracyComponentLoader>);
+    Bind( AutoId("team_component"), &CreateComponentLoader<TeamComponentLoader>);
+    Bind( AutoId("attachable_component"), &CreateComponentLoader<ctf::AttachableComponentLoader>);
+    Bind( AutoId("flag_carrier_component"), &CreateComponentLoader<ctf::FlagCarrierComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

@@ -29,6 +29,7 @@
 #include "flash_message.h"
 #include "core/buffs/accuracy_buff.h"
 #include "core/ctf_program_state.h"
+#include "set_team_message.h"
 
 
     struct message_order
@@ -58,14 +59,15 @@
             type=network::ctf::ClientDatasMessage::GetType_static();
             type=network::HealthMessage::GetType_static();
             type=network::AccuracyMessage::GetType_static();
+            type=network::SetTeamMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
             type=MaxHealthBuff::GetType_static();
             type=AccuracyBuff::GetType_static();
-
             type=platform::AutoId("player");
             type=platform::AutoId("ctf_player");
+            type=platform::AutoId("flag");
             type=platform::AutoId("plasma_gun");
             type=platform::AutoId("plasma_shot");
             type=platform::AutoId("spider1");
@@ -113,5 +115,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ctf::ClientDatasMessage, "ctf_client_datas")
     BOOST_CLASS_EXPORT_GUID(network::HealthMessage, "health")
     BOOST_CLASS_EXPORT_GUID(network::AccuracyMessage, "accuracy")
+    BOOST_CLASS_EXPORT_GUID(network::SetTeamMessage, "set_team")
+
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

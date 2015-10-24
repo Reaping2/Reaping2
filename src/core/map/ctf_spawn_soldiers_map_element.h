@@ -7,6 +7,7 @@
 
 namespace map {
 namespace ctf {
+
 class CtfSpawnSoldiersMapElement : public MapElement, public BaseInput
 {
 public:

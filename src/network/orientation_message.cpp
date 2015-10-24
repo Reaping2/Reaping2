@@ -19,6 +19,7 @@ namespace network {
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider2target")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(0.0,platform::AutoId("player")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(0.0,platform::AutoId("ctf_player")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(0.0,platform::AutoId("flag")));
     }
 
     void OrientationMessageSenderSystem::Update(double DeltaTime)

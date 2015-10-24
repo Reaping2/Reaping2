@@ -45,7 +45,7 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
         for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
         {
             ctfProgramState.mClientDatas.push_back(ctf::ClientData((*i).mClientId,
-                isBlueTeam?(ctf::Team::Blue):(ctf::Team::Red)));
+                isBlueTeam?(Team::Blue):(Team::Red)));
             isBlueTeam=!isBlueTeam;
         }
         std::auto_ptr<network::ctf::ClientDatasMessage> clientDatasMsg(new network::ctf::ClientDatasMessage);

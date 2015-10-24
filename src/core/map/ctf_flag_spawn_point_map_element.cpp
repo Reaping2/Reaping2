@@ -1,9 +1,9 @@
-#include "core/map/ctf_soldier_spawn_point_map_element.h"
+#include "core/map/ctf_flag_spawn_point_map_element.h"
 
 namespace map {
 namespace ctf {
 
-CtfSoldierSpawnPointMapElement::CtfSoldierSpawnPointMapElement()
+CtfFlagSpawnPointMapElement::CtfFlagSpawnPointMapElement()
     : MapElement()
     , mX(0.0)
     , mY(0.0)
@@ -11,7 +11,7 @@ CtfSoldierSpawnPointMapElement::CtfSoldierSpawnPointMapElement()
 {
 }
 
-void CtfSoldierSpawnPointMapElement::Load(Json::Value& setters)
+void CtfFlagSpawnPointMapElement::Load(Json::Value& setters)
 {
     MapElement::Load(setters);
     Json::Value const& position=setters["position"];
@@ -37,35 +37,34 @@ void CtfSoldierSpawnPointMapElement::Load(Json::Value& setters)
         return;
     }
     SetTeam(Team::Get()(AutoId(teamStr)));
-
 }
 
-void CtfSoldierSpawnPointMapElement::SetX(int32_t x)
+void CtfFlagSpawnPointMapElement::SetX(int32_t x)
 {
     mX=x;
 }
 
-int32_t CtfSoldierSpawnPointMapElement::GetX()const
+int32_t CtfFlagSpawnPointMapElement::GetX()const
 {
     return mX;
 }
 
-void CtfSoldierSpawnPointMapElement::SetY(int32_t y)
+void CtfFlagSpawnPointMapElement::SetY(int32_t y)
 {
     mY=y;
 }
 
-int32_t CtfSoldierSpawnPointMapElement::GetY()const
+int32_t CtfFlagSpawnPointMapElement::GetY()const
 {
     return mY;
 }
 
-void CtfSoldierSpawnPointMapElement::SetTeam(Team::Type team)
+void CtfFlagSpawnPointMapElement::SetTeam(Team::Type team)
 {
     mTeam=team;
 }
 
-Team::Type CtfSoldierSpawnPointMapElement::GetTeam()const
+Team::Type CtfFlagSpawnPointMapElement::GetTeam()const
 {
     return mTeam;
 }

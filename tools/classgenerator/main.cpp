@@ -1319,7 +1319,7 @@ class MessageGenerator : public Generator
 
             fprintf(file.mFile, "//TODO: to message_order.h\n");
             fprintf(file.mFile, "BOOST_CLASS_EXPORT_GUID(%s::%sMessage, \"%s\")\n",namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
-            fprintf(file.mFile, "type=%s::%sMessage::GetType_satic();\n",namespaceLowerCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "type=%s::%sMessage::GetType_static();\n",namespaceLowerCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to message_handler_sub_system_factory.cpp:\n");
             fprintf(file.mFile, "Bind( AutoId(\"%s_message_handler_sub_system\"), &CreateSubSystem<%sMessageHandlerSubSystem>);\n",classUnderscore.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");

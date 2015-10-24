@@ -36,6 +36,14 @@
 		]
 	},
 	{
+		"name":"flag",
+		"recognizers":
+		[
+			{"recognizer":"flag",
+				"renderer":"flag"}
+		]
+	},
+	{
 		"name":"wall",
 		"recognizers":
 		[

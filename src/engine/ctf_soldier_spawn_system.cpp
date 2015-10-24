@@ -4,6 +4,7 @@
 #include "soldier_spawn_system.h"
 #include "core/map/ctf_soldier_spawn_point_map_element_system.h"
 #include "core/ctf_program_state.h"
+#include "core/i_team_component.h"
 
 namespace engine {
 namespace ctf {
@@ -38,11 +39,16 @@ void CtfSoldierSpawnSystem::OnRevive(core::ReviveEvent const& Evt)
     }
 }
 
-std::auto_ptr<Actor> CtfSoldierSpawnSystem::Spawn(::core::ClientData& clientData, ::ctf::Team::Type team)
+std::auto_ptr<Actor> CtfSoldierSpawnSystem::Spawn(::core::ClientData& clientData, Team::Type team)
 {
     map::SpawnPoints_t spawnPoints(map::ctf::CtfSoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints(team));
     map::SpawnPoint spawnPoint(spawnPoints[rand()%spawnPoints.size()]);
     std::auto_ptr<Actor> player(mActorFactory(mPlayerAutoId));
+    Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
+    if (teamC.IsValid())
+    {
+        teamC->SetTeam(team);
+    }
     return SoldierSpawnSystem::Get()->Spawn(clientData,spawnPoint,player);
 }
 

@@ -62,6 +62,9 @@
 #include "core/map/ctf_soldier_spawn_point_map_element_system.h"
 #include "core/map/ctf_spawn_soldiers_map_element_system.h"
 #include "ctf_soldier_spawn_system.h"
+#include "network/set_team_message.h"
+#include "core/map/ctf_spawn_flags_map_element_system.h"
+#include "attachable_system.h"
 
 
 using platform::AutoId;
@@ -124,6 +127,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("health_message_sender_system"), &CreateSystem<network::HealthMessageSenderSystem>);
     Bind( AutoId("accuracy_message_sender_system"), &CreateSystem<network::AccuracyMessageSenderSystem>);
     Bind( AutoId("set_ownership_message_sender_system"), &CreateSystem<network::SetOwnershipMessageSenderSystem>);
+    Bind( AutoId("set_team_message_sender_system"), &CreateSystem<network::SetTeamMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
@@ -141,8 +145,10 @@ SystemFactory::SystemFactory()
     Bind( AutoId("ctf_soldier_spawn_point_map_element_system"), &CreateSystem<map::ctf::CtfSoldierSpawnPointMapElementSystem>);
     Bind( AutoId("ctf_spawn_soldiers_map_element_system"), &CreateSystem<map::ctf::CtfSpawnSoldiersMapElementSystem>);
     Bind( AutoId("ctf_soldier_spawn_system"), &CreateSystem<engine::ctf::CtfSoldierSpawnSystem>);
+    Bind( AutoId("ctf_spawn_flags_map_element_system"), &CreateSystem<map::ctf::CtfSpawnFlagsMapElementSystem>);
 
-    
+
+    Bind( AutoId("attachable_system"), &CreateSystem<engine::ctf::AttachableSystem>);
 }
 
 } // namespace engine

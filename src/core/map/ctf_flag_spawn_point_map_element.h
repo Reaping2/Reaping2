@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MAP_CTF_SOLDIER_SPAWN_POINT_H
-#define INCLUDED_MAP_CTF_SOLDIER_SPAWN_POINT_H
+#ifndef INCLUDED_MAP_CTF_FLAG_SPAWN_POINT_H
+#define INCLUDED_MAP_CTF_FLAG_SPAWN_POINT_H
 
 #include "core/map/map_element.h"
 #include "platform/i_platform.h"
@@ -7,11 +7,11 @@
 
 namespace map {
 namespace ctf {
-class CtfSoldierSpawnPointMapElement : public MapElement
+class CtfFlagSpawnPointMapElement : public MapElement
 {
 public:
-    DEFINE_MAP_ELEMENT_BASE(CtfSoldierSpawnPointMapElement)
-    CtfSoldierSpawnPointMapElement();
+    DEFINE_MAP_ELEMENT_BASE(CtfFlagSpawnPointMapElement)
+    CtfFlagSpawnPointMapElement();
     void Load(Json::Value& setters);
     void SetX(int32_t x);
     int32_t GetX()const;
@@ -27,6 +27,6 @@ private:
 } // namespace ctf
 } // namespace map
 
-#endif//INCLUDED_MAP_CTF_SOLDIER_SPAWN_POINT_H
+#endif//INCLUDED_MAP_CTF_FLAG_SPAWN_POINT_H
 
-//command:  "classgenerator.exe" -c "ctf_soldier_spawn_point" -g "map_element" -m "int32_t-x int32_t-y Team-team"
+//command:  "classgenerator.exe" -c "ctf_flag_spawn_point" -g "map_element" -m "int32_t-x int32_t-y Team::Type-team"

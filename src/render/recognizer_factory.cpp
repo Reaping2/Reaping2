@@ -8,6 +8,7 @@
 #include "render/pickup_recognizer.h"
 #include "render/hat_recognizer.h"
 #include "ctf_hat_recognizer.h"
+#include "ctf_flag_recognizer.h"
 namespace render {
 RecognizerFactory::RecognizerFactory()
 {
@@ -23,5 +24,6 @@ RecognizerFactory::RecognizerFactory()
     Bind<PickupRecognizer>( AutoId( "pickup" ) );
     Bind<HatRecognizer>( AutoId( "hat" ) );
     Bind<ctf::CtfHatRecognizer>(AutoId("ctf_hat"));
+    Bind<ctf::CtfFlagRecognizer>(AutoId("flag"));
 }
 } // namespace render

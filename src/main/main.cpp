@@ -44,6 +44,7 @@
 #include "network/accuracy_message.h"
 #include "core/buffs/accuracy_buff.h"
 #include "network/ctf_client_datas_message.h"
+#include "network/set_team_message.h"
 
 using engine::Engine;
 namespace {
@@ -155,6 +156,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("pickup_message_sender_system"));
         Eng.AddSystem(AutoId("flash_message_sender_system"));
         Eng.AddSystem(AutoId("set_ownership_message_sender_system"));
+        Eng.AddSystem(AutoId("set_team_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -178,7 +180,10 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("soldier_spawn_point_map_element_system"));
         Eng.AddSystem(AutoId("ctf_soldier_spawn_point_map_element_system"));
         Eng.AddSystem(AutoId("ctf_spawn_soldiers_map_element_system"));
+        Eng.AddSystem(AutoId("ctf_spawn_flags_map_element_system"));
     }
+
+    Eng.AddSystem(AutoId("attachable_system"));
     Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
     Eng.AddSystem(AutoId("soldier_spawn_system"));
     Eng.AddSystem(AutoId("ctf_soldier_spawn_system"));
@@ -210,6 +215,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ctf::ClientDatasMessage::GetType_static(),AutoId("ctf_client_datas_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::HealthMessage::GetType_static(),AutoId("health_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::SetTeamMessage::GetType_static(),AutoId("set_team_message_handler_sub_system"));
+
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -237,6 +244,7 @@ int main(int argc, char* argv[])
         collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
         collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
         collisionSS->AddSubSystem(AutoId("aoe_collision_component"),AutoId("aoe_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("flag_collision_component"),AutoId("flag_collision_sub_system"));
     }
 
     Eng.AddSystem(AutoId("controller_system"));

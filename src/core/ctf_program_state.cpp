@@ -1,5 +1,5 @@
 #include "core/ctf_program_state.h"
-namespace ctf {
+
 
 using platform::AutoId;
 
@@ -15,6 +15,8 @@ Team::Type Team::operator()( int32_t Id ) const
     BOOST_ASSERT(i!=mIdToTeamMap.end());
     return (i!=mIdToTeamMap.end())?i->second:Blue;
 }
+
+namespace ctf {
 
 ProgramState::ProgramState()
 {

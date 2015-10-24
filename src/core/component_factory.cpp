@@ -29,6 +29,10 @@
 #include "pointer_target_controller_component.h"
 #include "buffs/buff_holder_component.h"
 #include "accuracy_component.h"
+#include "team_component.h"
+#include "flag_collision_component.h"
+#include "attachable_component.h"
+#include "flag_carrier_component.h"
 
 using platform::AutoId;
 
@@ -74,4 +78,9 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("target_holder_component"), &CreateComponent<TargetHolderComponent>);
     Bind( AutoId("buff_holder_component"), &CreateComponent<BuffHolderComponent>);
     Bind( AutoId("accuracy_component"), &CreateComponent<AccuracyComponent>);
+
+    Bind( AutoId("team_component"), &CreateComponent<TeamComponent>);
+    Bind( AutoId("flag_collision_component"), &CreateComponent<ctf::FlagCollisionComponent>);
+    Bind( AutoId("attachable_component"), &CreateComponent<ctf::AttachableComponent>);
+    Bind( AutoId("flag_carrier_component"), &CreateComponent<ctf::FlagCarrierComponent>);
 }

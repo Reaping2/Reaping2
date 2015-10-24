@@ -47,7 +47,7 @@ void CtfSpawnSoldiersMapElementSystem::Update(double DeltaTime)
             {
                 // no local support for ctf
             }
-            L1("spawn soldiers!");
+            L1("ctf_spawn soldiers!");
         }
         ctfSpawnSoldiersMapElement->ResetValues();
     }

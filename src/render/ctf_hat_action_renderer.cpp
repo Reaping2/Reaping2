@@ -1,6 +1,7 @@
 #include "render/ctf_hat_action_renderer.h"
 #include "core/ctf_program_state.h"
 #include "core/player_controller_component.h"
+#include "core/i_team_component.h"
 
 namespace render {
 namespace ctf {
@@ -30,18 +31,22 @@ void CtfHatActionRenderer::FillRenderableSprites(const Actor& actor, RenderableS
     Sprite const& Spr=Sprites(mCtfHatId);
     if( Spr.IsValid() )
     {
-        Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
-        if (playerCC.IsValid())
+//         Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
+//         if (playerCC.IsValid())
+//         {
+//             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));
+//             if (ctfClientData.IsValid())
+//             {
+        Opt<ITeamComponent> teamC(actor.Get<ITeamComponent>());
+        if (teamC.IsValid())
         {
-            Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));
-            if (ctfClientData.IsValid())
-            {
-                SpritePhase const& Phase = Spr( (int32_t)GetState() );
-                renderableSprites.push_back(
-                    RenderableSprite( &actor, mCtfHatId, &Spr, &Phase, mColorRepo(ctfClientData->mTeam) ) );
-            }
-
+            SpritePhase const& Phase = Spr( (int32_t)GetState() );
+            renderableSprites.push_back(
+                RenderableSprite( &actor, mCtfHatId, &Spr, &Phase, mColorRepo(teamC->GetTeam()) ) );
         }
+//             }
+// 
+//         }
     }
 }
 

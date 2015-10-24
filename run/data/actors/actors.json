@@ -361,7 +361,24 @@
                 "set":[{"accuracy":0}]
             },
             {"name":"stop_on_death_component"},
-            {"name":"buff_holder_component"}
+            {"name":"buff_holder_component"},
+            {"name":"team_component"},
+            {"name":"flag_carrier_component"}
+         ]
+    },
+	{
+        "name":"flag",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"flag_collision_component",
+                "set":[{"class":"projectile", "radius":20}]
+            },
+            {"name":"team_component"},
+			{"name":"attachable_component"}
          ]
     }
 ]

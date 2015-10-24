@@ -33,7 +33,7 @@ void CtfSoldierSpawnPointMapElementSystem::OnMapStart(core::MapStartEvent const&
 {
 }
 
-SpawnPoints_t CtfSoldierSpawnPointMapElementSystem::GetActiveSpawnPoints(::ctf::Team::Type team)
+SpawnPoints_t CtfSoldierSpawnPointMapElementSystem::GetActiveSpawnPoints(Team::Type team)
 {
     SpawnPoints_t r;
     MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfSoldierSpawnPointMapElement::GetType_static());

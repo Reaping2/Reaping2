@@ -14,7 +14,7 @@ class CtfSoldierSpawnPointMapElementSystem : public MapElementSystem
 public:
     DEFINE_SYSTEM_BASE(CtfSoldierSpawnPointMapElementSystem)
     CtfSoldierSpawnPointMapElementSystem();
-    SpawnPoints_t GetActiveSpawnPoints(::ctf::Team::Type team);
+    SpawnPoints_t GetActiveSpawnPoints(Team::Type team);
     static Opt<CtfSoldierSpawnPointMapElementSystem> Get();
 protected:
     virtual void Init();
