@@ -18,7 +18,7 @@ private:
 class FlagCarrierComponentLoader : public ComponentLoader<FlagCarrierComponent>
 {
     virtual void BindValues();
-protected:
+public:
     FlagCarrierComponentLoader();
     friend class ComponentLoaderFactory;
 };

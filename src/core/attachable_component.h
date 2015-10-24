@@ -21,7 +21,7 @@ private:
 class AttachableComponentLoader : public ComponentLoader<AttachableComponent>
 {
     virtual void BindValues();
-protected:
+public:
     AttachableComponentLoader();
     friend class ComponentLoaderFactory;
 };

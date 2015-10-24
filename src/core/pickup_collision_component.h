@@ -21,9 +21,10 @@ protected:
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>
 {
     virtual void BindValues();
-protected:
+public:
     PickupCollisionComponentLoader();
     friend class ComponentLoaderFactory;
+protected:
     CollisionClass& mCollisionClass;
 };
 
