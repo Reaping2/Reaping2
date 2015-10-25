@@ -18,7 +18,7 @@ private:
 class FlagCollisionComponentLoader : public ComponentLoader<FlagCollisionComponent>
 {
     virtual void BindValues();
-protected:
+public:
     FlagCollisionComponentLoader();
     friend class ComponentLoaderFactory;
 };
