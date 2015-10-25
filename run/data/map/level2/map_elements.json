@@ -26,12 +26,12 @@
 	
 	{
         "name":"ctf_flag_spawn_point",
-        "position":{"x":-1150,"y":-1150},
+        "position":{"x":1150,"y":1150},
 		"team":"red"
     },
     {
         "name":"ctf_flag_spawn_point",
-        "position":{"x":1150,"y":1150},
+        "position":{"x":-1150,"y":-1150},
 		"team":"blue"
     },
 	

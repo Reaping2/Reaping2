@@ -33,6 +33,7 @@
 #include "flag_collision_component.h"
 #include "attachable_component.h"
 #include "flag_carrier_component.h"
+#include "flag_receiver_component.h"
 
 using platform::AutoId;
 
@@ -83,4 +84,5 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("flag_collision_component"), &CreateComponent<ctf::FlagCollisionComponent>);
     Bind( AutoId("attachable_component"), &CreateComponent<ctf::AttachableComponent>);
     Bind( AutoId("flag_carrier_component"), &CreateComponent<ctf::FlagCarrierComponent>);
+    Bind( AutoId("flag_receiver_component"), &CreateComponent<ctf::FlagReceiverComponent>);
 }

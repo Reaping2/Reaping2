@@ -19,6 +19,7 @@ private:
     ::core::ProgramState& mProgramState;
     ActorFactory& mActorFactory;
     int32_t mFlagAutoId;
+    int32_t mPlatformAutoId;
 };
 
 } // namespace ctf

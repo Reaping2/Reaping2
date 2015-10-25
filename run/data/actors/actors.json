@@ -380,5 +380,20 @@
             {"name":"team_component"},
 			{"name":"attachable_component"}
          ]
+    },
+	{
+        "name":"platform",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"background"}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"creep", "radius":50}]
+            },
+            {"name":"team_component"},
+			{"name":"flag_receiver_component"}
+         ]
     }
 ]

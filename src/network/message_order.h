@@ -30,6 +30,7 @@
 #include "core/buffs/accuracy_buff.h"
 #include "core/ctf_program_state.h"
 #include "set_team_message.h"
+#include "ctf_client_datas_message.h"
 
 
     struct message_order
@@ -68,6 +69,7 @@
             type=platform::AutoId("player");
             type=platform::AutoId("ctf_player");
             type=platform::AutoId("flag");
+            type=platform::AutoId("platform");
             type=platform::AutoId("plasma_gun");
             type=platform::AutoId("plasma_shot");
             type=platform::AutoId("spider1");

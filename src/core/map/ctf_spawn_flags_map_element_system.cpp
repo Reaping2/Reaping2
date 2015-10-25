@@ -14,6 +14,7 @@ CtfSpawnFlagsMapElementSystem::CtfSpawnFlagsMapElementSystem()
     , mProgramState(::core::ProgramState::Get())
     , mActorFactory( ActorFactory::Get() )
     , mFlagAutoId(AutoId("flag"))
+    , mPlatformAutoId(AutoId("platform"))
 {
 }
 
@@ -39,17 +40,34 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
                 for( MapElementListFilter<MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
                 {
                     Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement(*ctfFlagSpawnPointMapElementIt);
-                    std::auto_ptr<Actor> ctfFlag(mActorFactory(mFlagAutoId));
-                    Opt<ITeamComponent> teamC(ctfFlag->Get<ITeamComponent>());
+                    std::auto_ptr<Actor> ctfPlatform(mActorFactory(mPlatformAutoId));
+                    Opt<ITeamComponent> teamC(ctfPlatform->Get<ITeamComponent>());
                     if (teamC.IsValid())
                     {
-                        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam());
+                        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam()/*==Team::Red?Team::Blue:Team::Red*/);
                     }
-                    Opt<IPositionComponent> positionC = ctfFlag->Get<IPositionComponent>();
+                    Opt<IPositionComponent> positionC = ctfPlatform->Get<IPositionComponent>();
                     if (positionC.IsValid())
                     {
                         positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
                         positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
+                        positionC->SetOrientation(0.0);
+                    }
+                    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfPlatform.get())));
+                    mScene.AddActor(ctfPlatform.release()); 
+
+                    std::auto_ptr<Actor> ctfFlag(mActorFactory(mFlagAutoId));
+                    teamC = ctfFlag->Get<ITeamComponent>();
+                    if (teamC.IsValid())
+                    {
+                        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam());
+                    }
+                    positionC = ctfFlag->Get<IPositionComponent>();
+                    if (positionC.IsValid())
+                    {
+                        positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
+                        positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
+                        positionC->SetOrientation(0.0);
                     }
                     EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfFlag.get())));
 

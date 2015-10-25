@@ -32,6 +32,7 @@
 #include "flag_collision_component.h"
 #include "attachable_component.h"
 #include "flag_carrier_component.h"
+#include "flag_receiver_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -78,6 +79,8 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("team_component"), &CreateComponentLoader<TeamComponentLoader>);
     Bind( AutoId("attachable_component"), &CreateComponentLoader<ctf::AttachableComponentLoader>);
     Bind( AutoId("flag_carrier_component"), &CreateComponentLoader<ctf::FlagCarrierComponentLoader>);
+    Bind( AutoId("flag_receiver_component"), &CreateComponentLoader<ctf::FlagReceiverComponentLoader>);
+
 }
 
 void DefaultComponentLoader::BindValues()

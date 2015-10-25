@@ -13,16 +13,16 @@ CtfHatRecognizer::CtfHatRecognizer(int32_t Id)
 
 bool CtfHatRecognizer::Recognize(Actor const& actor)
 {
-    Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
-    if (!playerCC.IsValid())
-    {
-        return false;
-    }
-    Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-    if (!healthC.IsValid()||!healthC->IsAlive())
-    {
-        return false;
-    }
+//     Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
+//     if (!playerCC.IsValid())
+//     {
+//         return false;
+//     }
+//     Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
+//     if (!healthC.IsValid()||!healthC->IsAlive())
+//     {
+//         return false;
+//     }
     return true;
 }
 

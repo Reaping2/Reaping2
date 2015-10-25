@@ -76,6 +76,44 @@
 		]
 	},
 	{
+		"texture_path":"textures/platform.png",
+		"actor_visuals":
+		[
+			{
+				"name":"platform",
+				"animations":
+				[
+					{
+						"name":"body_idle",
+						"w":200,
+						"h":200,
+						"scale":4.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
+	},
+	{
+		"texture_path":"textures/platform2.png",
+		"actor_visuals":
+		[
+			{
+				"name":"platform",
+				"animations":
+				[
+					{
+						"name":"ctf_hat",
+						"w":200,
+						"h":200,
+						"scale":4.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
+	},
+	{
 	    "texture_path" : "textures/combined.tga",
 		"actor_visuals":
 		[
