@@ -19,7 +19,10 @@ Team::Type Team::operator()( int32_t Id ) const
 namespace ctf {
 
 ProgramState::ProgramState()
+    : mBlueScore(0)
+    , mRedScore(0)
 {
+    ResetScores();
 }
 
 Opt<ClientData> ProgramState::FindClientDataByClientId(int32_t clientId)
@@ -32,6 +35,22 @@ Opt<ClientData> ProgramState::FindClientDataByClientId(int32_t clientId)
         }
     }
     return Opt<ClientData>();
+}
+
+void ProgramState::ResetScores()
+{
+    mBlueScore=0;
+    mRedScore=0;
+}
+
+int32_t const& ProgramState::GetBlueScore()
+{
+    return mBlueScore;
+}
+
+int32_t const& ProgramState::GetRedScore()
+{
+    return mRedScore;
 }
 
 

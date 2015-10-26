@@ -9,6 +9,8 @@
 #include "core/map/ctf_flag_spawn_point_map_element.h"
 #include "core/i_position_component.h"
 #include "core/i_flag_receiver_component.h"
+#include "../flag_spawn_system.h"
+#include "core/flag_state_changed_event.h"
 
 namespace engine {
 namespace ctf {
@@ -62,23 +64,9 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         {
             if (otherTeamC->GetTeam()!=actorTeamC->GetTeam())
             {
-                map::MapElementListFilter<map::MapSystem::All> mapElementListFilter(map::MapSystem::Get()->GetMapElementList(),map::ctf::CtfFlagSpawnPointMapElement::GetType_static());
-                for( map::MapElementListFilter<map::MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
-                {
-                    Opt<map::ctf::CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement(*ctfFlagSpawnPointMapElementIt);
-                    if(ctfFlagSpawnPointMapElement->GetTeam()==actorTeamC->GetTeam())
-                    {
-                        actorAttachableC->SetAttachedGUID(-1);
-                        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-                        if (positionC.IsValid())
-                        {
-                            positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
-                            positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
-                            positionC->SetOrientation(0.0);
-                        }
-                        break;
-                    }
-                }
+                actorAttachableC->SetAttachedGUID(-1);
+                FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
+                EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Scored,actorTeamC->GetTeam()));
             }
         }
         return;
@@ -89,22 +77,7 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         if (otherTeamC->GetTeam()==actorTeamC->GetTeam())
         {
             //TODO: return flag to base
-            map::MapElementListFilter<map::MapSystem::All> mapElementListFilter(map::MapSystem::Get()->GetMapElementList(),map::ctf::CtfFlagSpawnPointMapElement::GetType_static());
-            for( map::MapElementListFilter<map::MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
-            {
-                Opt<map::ctf::CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement(*ctfFlagSpawnPointMapElementIt);
-                if(ctfFlagSpawnPointMapElement->GetTeam()==actorTeamC->GetTeam())
-                {
-                    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-                    if (positionC.IsValid())
-                    {
-                        positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
-                        positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
-                        positionC->SetOrientation(0.0);
-                    }
-                    break;
-                }
-            }
+            FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
         }
         else
         {

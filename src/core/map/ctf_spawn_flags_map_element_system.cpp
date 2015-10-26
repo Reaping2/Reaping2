@@ -5,6 +5,7 @@
 #include "../i_team_component.h"
 #include "../i_position_component.h"
 #include "engine/flag_created_event.h"
+#include "engine/flag_spawn_system.h"
 
 namespace map {
 namespace ctf {
@@ -46,13 +47,7 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
                     {
                         teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam()/*==Team::Red?Team::Blue:Team::Red*/);
                     }
-                    Opt<IPositionComponent> positionC = ctfPlatform->Get<IPositionComponent>();
-                    if (positionC.IsValid())
-                    {
-                        positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
-                        positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
-                        positionC->SetOrientation(0.0);
-                    }
+                    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfPlatform.get());
                     EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfPlatform.get())));
                     mScene.AddActor(ctfPlatform.release()); 
 
@@ -62,13 +57,7 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
                     {
                         teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam());
                     }
-                    positionC = ctfFlag->Get<IPositionComponent>();
-                    if (positionC.IsValid())
-                    {
-                        positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
-                        positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
-                        positionC->SetOrientation(0.0);
-                    }
+                    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfFlag.get());
                     EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfFlag.get())));
 
                     mScene.AddActor(ctfFlag.release());                   

@@ -13,6 +13,8 @@ namespace core {
 CaptureTheFlagGameModeSystem::CaptureTheFlagGameModeSystem()
     : mScene( Scene::Get() )
     , mProgramState(core::ProgramState::Get())
+    , mCtfProgramState(ctf::ProgramState::Get())
+    , mCtfModel( "ctf", &RootModel::Get() )
 {
 }
 
@@ -20,6 +22,10 @@ CaptureTheFlagGameModeSystem::CaptureTheFlagGameModeSystem()
 void CaptureTheFlagGameModeSystem::Init()
 {
     mOnStartGameMode=EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnStartGameMode, this, _1 ) );
+    mOnFlagStateChanged=EventServer<ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnFlagStateChanged, this, _1 ) );
+    mTeamModels.clear();
+    mTeamModels.push_back(new ModelValue( mCtfProgramState.GetBlueScore(), "blue", &mCtfModel ));
+    mTeamModels.push_back(new ModelValue( mCtfProgramState.GetRedScore(), "red", &mCtfModel ));
 }
 
 
@@ -34,6 +40,8 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
     {
         return;
     }
+    mCtfProgramState.ResetScores();
+
     ::engine::Engine::Get().SetEnabled< ::engine::SoldierSpawnSystem>(false);
     ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>(true);
 
@@ -53,9 +61,23 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
         network::MessageHolder::Get().AddOutgoingMessage(clientDatasMsg);
     }
     mScene.Load("level2");
-    Ui::Get().Load("hud");
+    Ui::Get().Load("ctf_hud");
 }
 
+void CaptureTheFlagGameModeSystem::OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt)
+{
+    if (Evt.mType==ctf::FlagStateChangedEvent::Scored)
+    {
+        if(Evt.mTeam==Team::Blue)
+        {
+            mCtfProgramState.mBlueScore+=5;
+        }
+        else
+        {
+            mCtfProgramState.mRedScore+=5;
+        }
+    }
+}
 
 } // namespace core
 

@@ -31,6 +31,7 @@
 #include "core/ctf_program_state.h"
 #include "set_team_message.h"
 #include "ctf_client_datas_message.h"
+#include "ctf_score_message.h"
 
 
     struct message_order
@@ -58,6 +59,7 @@
             type=network::SoldierPropertiesMessage::GetType_static();
             type=network::ClientDatasMessage::GetType_static();
             type=network::ctf::ClientDatasMessage::GetType_static();
+            type=network::ctf::CtfScoreMessage::GetType_static();
             type=network::HealthMessage::GetType_static();
             type=network::AccuracyMessage::GetType_static();
             type=network::SetTeamMessage::GetType_static();
@@ -118,6 +120,6 @@
     BOOST_CLASS_EXPORT_GUID(network::HealthMessage, "health")
     BOOST_CLASS_EXPORT_GUID(network::AccuracyMessage, "accuracy")
     BOOST_CLASS_EXPORT_GUID(network::SetTeamMessage, "set_team")
-
+    BOOST_CLASS_EXPORT_GUID(network::ctf::CtfScoreMessage, "ctf_score")
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

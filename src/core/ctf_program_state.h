@@ -5,6 +5,7 @@
 #include "platform/i_platform.h"
 #include "opt.h"
 #include <map>
+#include <vector>
 
 class Team : public platform::Singleton<Team>
 {
@@ -52,9 +53,15 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
 class ProgramState : public platform::Singleton<ctf::ProgramState>
 {
     friend class platform::Singleton<ctf::ProgramState>;
-
 public:
     ProgramState();
+
+    void ResetScores();
+
+    int32_t mBlueScore;
+    int32_t mRedScore;
+    int32_t const& GetBlueScore();
+    int32_t const& GetRedScore();
     typedef std::vector<ClientData> ClientDatas_t;
     // currently connected clients to server
     ClientDatas_t mClientDatas;

@@ -23,6 +23,7 @@
 #include "set_ownership_message.h"
 #include "ctf_client_datas_message.h"
 #include "set_team_message.h"
+#include "ctf_score_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -55,6 +56,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("health_message_handler_sub_system"), &CreateSubSystem<HealthMessageHandlerSubSystem>);
     Bind( AutoId("accuracy_message_handler_sub_system"), &CreateSubSystem<AccuracyMessageHandlerSubSystem>);
     Bind( AutoId("set_team_message_handler_sub_system"), &CreateSubSystem<SetTeamMessageHandlerSubSystem>);
+    Bind( AutoId("ctf_score_message_handler_sub_system"), &CreateSubSystem<ctf::CtfScoreMessageHandlerSubSystem>);
 
 }
 

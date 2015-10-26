@@ -5,8 +5,11 @@
 #include "engine/system.h"
 #include "start_game_mode_event.h"
 #include "core/program_state.h"
+#include "ctf_program_state.h"
+#include "flag_state_changed_event.h"
 
 namespace core {
+using platform::ModelValue;
 
 class CaptureTheFlagGameModeSystem : public engine::System
 {
@@ -20,7 +23,12 @@ private:
     Scene& mScene;
     AutoReg mOnStartGameMode;
     core::ProgramState& mProgramState;
+    ctf::ProgramState& mCtfProgramState;
+    ModelValue mCtfModel;
+    boost::ptr_vector<ModelValue> mTeamModels;
     void OnStartGameMode(core::StartGameModeEvent const& Evt);
+    AutoReg mOnFlagStateChanged;
+    void OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt);
 };
 
 } // namespace core
