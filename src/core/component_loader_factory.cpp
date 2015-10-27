@@ -33,6 +33,7 @@
 #include "attachable_component.h"
 #include "flag_carrier_component.h"
 #include "flag_receiver_component.h"
+#include "score_on_death_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -64,6 +65,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("explode_on_death_component"), &CreateComponentLoader<ExplodeOnDeathComponentLoader>);
     Bind( AutoId("drop_on_death_component"), &CreateComponentLoader<DropOnDeathComponentLoader>);
     Bind( AutoId("stop_on_death_component"), &CreateComponentLoader<StopOnDeathComponentLoader>);
+    Bind( AutoId("score_on_death_component"), &CreateComponentLoader<ScoreOnDeathComponentLoader>);
 
     Bind( AutoId("notify_parent_on_death_component"), &CreateComponentLoader<NotifyParentOnDeathComponentLoader>);
     Bind( AutoId("listen_child_death_component"), &CreateComponentLoader<ListenChildDeathComponentLoader>);

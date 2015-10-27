@@ -67,6 +67,9 @@
 #include "attachable_system.h"
 #include "flag_spawn_system.h"
 #include "network/ctf_score_message.h"
+#include "score_on_death_system.h"
+#include "show_text_system.h"
+#include "network/show_text_message_message.h"
 
 
 using platform::AutoId;
@@ -92,6 +95,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("remove_on_death_system"), &CreateSystem<RemoveOnDeathSystem>);
     Bind( AutoId("explode_on_death_system"), &CreateSystem<ExplodeOnDeathSystem>);
     Bind( AutoId("stop_on_death_system"), &CreateSystem<StopOnDeathSystem>);
+    Bind( AutoId("score_on_death_system"), &CreateSystem<engine::ScoreOnDeathSystem>);
 
     Bind( AutoId("notify_parent_on_death_system"), &CreateSystem<NotifyParentOnDeathSystem>);
 
@@ -130,6 +134,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("accuracy_message_sender_system"), &CreateSystem<network::AccuracyMessageSenderSystem>);
     Bind( AutoId("set_ownership_message_sender_system"), &CreateSystem<network::SetOwnershipMessageSenderSystem>);
     Bind( AutoId("set_team_message_sender_system"), &CreateSystem<network::SetTeamMessageSenderSystem>);
+    Bind( AutoId("show_text_message_message_sender_system"), &CreateSystem<network::ShowTextMessageMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
@@ -152,6 +157,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("ctf_score_message_sender_system"), &CreateSystem<network::ctf::CtfScoreMessageSenderSystem>);
 
     Bind( AutoId("attachable_system"), &CreateSystem<engine::ctf::AttachableSystem>);
+    Bind( AutoId("show_text_system"), &CreateSystem<engine::ShowTextSystem>);
 }
 
 } // namespace engine

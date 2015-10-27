@@ -76,12 +76,22 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     {
         if (otherTeamC->GetTeam()==actorTeamC->GetTeam())
         {
-            //TODO: return flag to base
+            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+            if (!positionC.IsValid())
+            {
+                return;
+            }
+            double x=positionC->GetX();
+            double y=positionC->GetY();
             FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
+            if (positionC->GetX()!=x||positionC->GetY()!=y)
+            {
+                EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Returned,actorTeamC->GetTeam()));
+            }
         }
         else
         {
-            //touching enemy flag
+            EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Captured,actorTeamC->GetTeam()));
             actorAttachableC->SetAttachedGUID(mOther->GetGUID());
         }
     }

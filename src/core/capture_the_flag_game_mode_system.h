@@ -7,6 +7,7 @@
 #include "core/program_state.h"
 #include "ctf_program_state.h"
 #include "flag_state_changed_event.h"
+#include "engine/score_event.h"
 
 namespace core {
 using platform::ModelValue;
@@ -29,6 +30,8 @@ private:
     void OnStartGameMode(core::StartGameModeEvent const& Evt);
     AutoReg mOnFlagStateChanged;
     void OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt);
+    AutoReg mOnScore;
+    void OnScore(engine::ScoreEvent const& Evt);
 };
 
 } // namespace core

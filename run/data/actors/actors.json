@@ -355,7 +355,7 @@
                 "set":[{"add_item":"plasma_gun"}]
             },
             {"name":"health_component",
-                "set":[{"hp":100}]
+                "set":[{"hp":1}]
             },
             {"name":"accuracy_component",
                 "set":[{"accuracy":0}]
@@ -363,7 +363,8 @@
             {"name":"stop_on_death_component"},
             {"name":"buff_holder_component"},
             {"name":"team_component"},
-            {"name":"flag_carrier_component"}
+            {"name":"flag_carrier_component"},
+			{"name":"score_on_death_component"}
          ]
     },
 	{

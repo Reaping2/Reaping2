@@ -15,8 +15,8 @@ protected:
 public:
     enum Type
     {
-        Blue=0,
-        Red
+        Red=0,
+        Blue
     };
     Team::Type operator()( int32_t Id ) const;
 private:

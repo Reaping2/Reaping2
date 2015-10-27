@@ -46,6 +46,7 @@
 #include "network/ctf_client_datas_message.h"
 #include "network/set_team_message.h"
 #include "network/ctf_score_message.h"
+#include "network/show_text_message_message.h"
 
 using engine::Engine;
 namespace {
@@ -159,6 +160,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("set_ownership_message_sender_system"));
         Eng.AddSystem(AutoId("set_team_message_sender_system"));
         Eng.AddSystem(AutoId("ctf_score_message_sender_system"));
+        Eng.AddSystem(AutoId("show_text_message_message_sender_system"));
 
     }
     if (programState.mMode==ProgramState::Client) 
@@ -221,6 +223,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SetTeamMessage::GetType_static(),AutoId("set_team_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ctf::CtfScoreMessage::GetType_static(),AutoId("ctf_score_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ShowTextMessageMessage::GetType_static(),AutoId("show_text_message_message_handler_sub_system"));
 
     }
 
@@ -281,6 +284,7 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("drop_on_death_system"));
         Eng.AddSystem(AutoId("target_holder_system"));
+        Eng.AddSystem(AutoId("score_on_death_system"));
     }
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client)
@@ -298,6 +302,7 @@ int main(int argc, char* argv[])
 
     Eng.AddSystem(AutoId("frame_counter_system"));
     Eng.AddSystem(AutoId("renderer_system"));
+    Eng.AddSystem(AutoId("show_text_system"));
 
     if (programState.mMode!=ProgramState::Client)
     {
