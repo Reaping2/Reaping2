@@ -7,6 +7,7 @@
 #include "core/i_health_component.h"
 #include "core/buffs/i_buff_holder_component.h"
 #include "core/buffs/buff_factory.h"
+#include "core/item_type.h"
 
 namespace engine {
 
@@ -32,19 +33,19 @@ void PickupCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<IInventoryComponent> inventoryC = mOther->Get<IInventoryComponent>();
     if (inventoryC.IsValid())
     {
-        if (pickupCC->GetItemType()==Item::Weapon)
+        if (pickupCC->GetItemType()==ItemType::Weapon)
         {
             inventoryC->DropItemType( pickupCC->GetItemType() );
             inventoryC->AddItem( pickupCC->GetPickupContent() );
             inventoryC->SetSelectedWeapon( pickupCC->GetPickupContent() );
         }
-        else if (pickupCC->GetItemType()==Item::Normal)
+        else if (pickupCC->GetItemType()==ItemType::Normal)
         {
             inventoryC->DropItemType( pickupCC->GetItemType() );
             inventoryC->AddItem( pickupCC->GetPickupContent() );
             inventoryC->SetSelectedNormalItem( pickupCC->GetPickupContent() );
         }
-        else if (pickupCC->GetItemType()==Item::Buff)
+        else if (pickupCC->GetItemType()==ItemType::Buff)
         {
             Opt<IBuffHolderComponent> buffHolderC=mOther->Get<IBuffHolderComponent>();
             if (buffHolderC.IsValid())

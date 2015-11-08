@@ -7,21 +7,25 @@ namespace network {
 HealthMessageSenderSystem::HealthMessageSenderSystem()
     : MessageSenderSystem()
 {
-        //This one is not used yet you should wire it before use
 }
 
 
 void HealthMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-        //This one is not used yet you should wire it before use
+    mOnHealthChanged=EventServer<core::HealthChangedEvent>::Get().Subscribe( boost::bind( &HealthMessageSenderSystem::OnHealthChanged, this, _1 ) );
+
+}
+
+void HealthMessageSenderSystem::OnHealthChanged(core::HealthChangedEvent const& Evt)
+{
+    mMessageHolder.AddOutgoingMessage(GenerateHealthMessage(Evt.mActor));
 }
 
 
 void HealthMessageSenderSystem::Update(double DeltaTime)
 {
     MessageSenderSystem::Update(DeltaTime);
-        //This one is not used yet you should wire it before use
 }
 
 HealthMessageHandlerSubSystem::HealthMessageHandlerSubSystem()

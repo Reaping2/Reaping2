@@ -4,29 +4,24 @@
 #include "core/item_factory.h"
 #include "platform/log.h"
 #include "core/actor.h"
+#include "item_type.h"
 
 class Item
 {
 public:
-    enum ItemType
-    {
-        Normal=0,
-        Weapon,
-        Buff
-    };
     virtual ~Item()
     {
         LOG( "Item dead:%i", mId );
     }
     virtual void SetActor( Actor* Obj );
-    ItemType GetType() const
+    ItemType::Type GetType() const
     {
         return mType;
     }
 protected:
     int32_t mId;
     Actor* mActor;
-    ItemType mType;
+    ItemType::Type mType;
 
     friend class ItemFactory;
     Item( int32_t Id );

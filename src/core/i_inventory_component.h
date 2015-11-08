@@ -6,6 +6,7 @@
 #include <list>
 #include "weapon.h"
 #include "normal_item.h"
+#include "item_type.h"
 
 class IInventoryComponent : public Component
 {
@@ -16,7 +17,7 @@ public:
     virtual ItemList_t& GetItems()=0;
     virtual void AddItem( int32_t Id )=0;
     virtual Opt<Item> GetItem( int32_t Id )=0;
-    virtual void DropItemType( Item::ItemType Type )=0;
+    virtual void DropItemType( ItemType::Type Type )=0;
     virtual Opt<Weapon> GetSelectedWeapon()=0;
     virtual void SetSelectedWeapon( int32_t Id )=0;
     virtual Opt<NormalItem> GetSelectedNormalItem()=0;

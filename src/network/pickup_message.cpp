@@ -78,19 +78,19 @@ namespace network {
             L2("pickup picked up with itemtype:%d,itemid:%d",msg.mItemType,msg.mItemId);
 
             //TODO item selection will be syncronized, not pickup event
-            if (msg.mItemType==Item::Weapon)
+            if (msg.mItemType==ItemType::Weapon)
             {
                 inventoryC->DropItemType( msg.mItemType );
                 inventoryC->AddItem( msg.mItemId );
                 inventoryC->SetSelectedWeapon( msg.mItemId );
             }
-            else if (msg.mItemType==Item::Normal)
+            else if (msg.mItemType==ItemType::Normal)
             {
                 inventoryC->DropItemType( msg.mItemType );
                 inventoryC->AddItem( msg.mItemId );
                 inventoryC->SetSelectedNormalItem( msg.mItemId );
             }
-            else if (msg.mItemType==Item::Buff)
+            else if (msg.mItemType==ItemType::Buff)
             {
                 Opt<IBuffHolderComponent> buffHolderC=actor->Get<IBuffHolderComponent>();
                 if (buffHolderC.IsValid())

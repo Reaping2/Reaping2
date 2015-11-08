@@ -33,7 +33,7 @@ namespace network {
     class PendingMessageHandlerSubSystem : public MessageHandlerSubSystem
     {
     protected:
-        typedef std::vector<T> PendingMessages_t;
+        typedef std::vector<std::pair<T,int32_t> > PendingMessages_t;
         PendingMessages_t mPendingMessages;
     public:
         PendingMessageHandlerSubSystem();
@@ -54,15 +54,24 @@ namespace network {
     {
         for(typename PendingMessages_t::iterator i=mPendingMessages.begin();i!=mPendingMessages.end();)
         {
-            T const& msg=*i;
+            T const& msg=i->first;
             Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
             if (!actor.IsValid())
             {
-                L1("cannot find actor with GUID: (%s) %d (will try again later) \n",__FUNCTION__,msg.mActorGUID );
-                ++i;
+                L1("cannot find actor with GUID: %d, tries: %d (%s) (will try again later) \n",msg.mActorGUID,i->second,__FUNCTION__ );
+                ++i->second;
+                if (i->second>5)
+                {
+                    i=mPendingMessages.erase(i);
+                    L1("cannot find actor with GUID: %d, tries: %d (%s) (----remove message----) \n",msg.mActorGUID,i->second,__FUNCTION__ );
+                }
+                else
+                {
+                    ++i;
+                }
                 continue;
             }
-            if (ProcessPending(static_cast<Message const&>(msg)))
+            if (i->second>5||ProcessPending(static_cast<Message const&>(msg)))
             {
                 i=mPendingMessages.erase(i);
             }
@@ -73,7 +82,7 @@ namespace network {
     void PendingMessageHandlerSubSystem<T>::Execute(Message const& message)
     {
         T const& msg=static_cast<T const&>(message);
-        mPendingMessages.push_back(msg);
+        mPendingMessages.push_back(std::make_pair<T,int32_t>(msg,0));
     }
 
 

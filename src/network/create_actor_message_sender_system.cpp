@@ -6,6 +6,7 @@
 #include "move_message_sender_system.h"
 #include "orientation_message.h"
 #include "heading_message.h"
+#include "collision_message.h"
 namespace network {
 
 
@@ -44,6 +45,7 @@ namespace network {
             mMessageHolder.AddOutgoingMessage(MoveMessageSenderSystem::GenerateMoveMessage(*Evt.mActor));
             mMessageHolder.AddOutgoingMessage(OrientationMessageSenderSystem::GenerateOrientationMessage(*Evt.mActor));
             mMessageHolder.AddOutgoingMessage(HeadingMessageSenderSystem::GenerateHeadingMessage(*Evt.mActor));
+            mMessageHolder.AddOutgoingMessage(CollisionMessageSenderSystem::GenerateCollisionMessage(*Evt.mActor));
         }
     }
 

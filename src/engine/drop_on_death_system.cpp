@@ -50,19 +50,19 @@ void DropOnDeathSystem::Update(double DeltaTime)
             {
                 int32_t contentId=Roll(3);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Weapon );
+                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Weapon );
             }
             else if (rolled==1)
             {
                 int32_t contentId=RollNormalItem(2);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Normal );
+                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Normal );
             }
             else if (rolled==2)
             {
                 int32_t contentId=RollBuff(3);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( Item::Buff );
+                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Buff );
             }
             BOOST_ASSERT(actor.Get<IPositionComponent>().IsValid());
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();

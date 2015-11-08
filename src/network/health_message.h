@@ -4,6 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include "core/health_changed_event.h"
 
 namespace network {
 
@@ -52,6 +53,8 @@ public:
 
 class HealthMessageSenderSystem : public MessageSenderSystem
 {
+    AutoReg mOnHealthChanged;
+    void OnHealthChanged(core::HealthChangedEvent const& Evt);
 public:
     DEFINE_SYSTEM_BASE(HealthMessageSenderSystem)
     HealthMessageSenderSystem();

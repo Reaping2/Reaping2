@@ -23,7 +23,6 @@
         "position":{"x":-700,"y":-1000},
 		"team":"blue"
     },
-	
 	{
         "name":"ctf_flag_spawn_point",
         "position":{"x":750,"y":750},
@@ -43,6 +42,48 @@
         "name":"ctf_spawn_flags",
         "identifier":"ctf_spawn_flags"
     },
+	
+	{
+        "name":"spawn_actor",
+		"actor":"wall","components":
+        [{"name":"position_component",
+				"set":[{"x":400, "y":800}]}],
+        "identifier":"spawn_at_start"
+    },
+	{
+        "name":"spawn_actor",
+		"actor":"wall","components":
+        [{"name":"position_component",
+				"set":[{"x":-400, "y":-800}]}],
+        "identifier":"spawn_at_start"
+    },
+	{
+        "name":"spawn_actor",
+		"actor":"wall","components":
+        [
+			{"name":"position_component",
+					"set":[{"x":-200, "y":-600}]
+			},
+			{"name":"wall_collision_component",
+					"set":[{"radius":50}]
+			}
+		],
+        "identifier":"spawn_at_start"
+    },
+	{
+        "name":"respawn_actor",
+		"actor":"revive_pickup","components":
+        [
+			{"name":"pickup_collision_component",
+					"set":[{"type":"normal","content":"grenade_normal_item"}]
+			}
+		],
+        "identifier":"spawn_at_start",
+		"secs_to_respawn":5
+    },	
+	
+	
+	
     {
         "name":"link",
         "from":{"identifier":"map_start","node":0},
@@ -52,6 +93,11 @@
         "name":"link",
         "from":{"identifier":"map_start","node":0},
         "to":{"identifier":"ctf_spawn_flags","node":0}
-    }	
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":0},
+        "to":{"identifier":"spawn_at_start","node":0}
+    }		
 
 ]

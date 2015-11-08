@@ -42,7 +42,7 @@ Opt<Item> InventoryComponent::GetItem(int32_t Id)
     return Opt<Item>();
 }
 
-void InventoryComponent::DropItemType( Item::ItemType Type )
+void InventoryComponent::DropItemType( ItemType::Type Type )
 {
     for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
     {
@@ -52,11 +52,11 @@ void InventoryComponent::DropItemType( Item::ItemType Type )
             mItems.erase( i );
         } 
     }
-    if (Type==Item::Weapon)//TODO: handle multiple items, and handle this situation
+    if (Type==ItemType::Weapon)//TODO: handle multiple items, and handle this situation
     {
         SetSelectedWeapon( -1 );
     }
-    else if (Type==Item::Normal)
+    else if (Type==ItemType::Normal)
     {
         SetSelectedNormalItem( -1 );
     }

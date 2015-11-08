@@ -5,7 +5,7 @@ NormalItem::NormalItem(int32_t Id)
     , mUse(false)
     , mConsumed(false)
 {
-    mType = Item::Normal;
+    mType = ItemType::Normal;
 }
 
 void NormalItem::SetUse(bool use)

@@ -47,6 +47,7 @@
 #include "network/set_team_message.h"
 #include "network/ctf_score_message.h"
 #include "network/show_text_message_message.h"
+#include "network/collision_message.h"
 
 using engine::Engine;
 namespace {
@@ -161,7 +162,8 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("set_team_message_sender_system"));
         Eng.AddSystem(AutoId("ctf_score_message_sender_system"));
         Eng.AddSystem(AutoId("show_text_message_message_sender_system"));
-
+        Eng.AddSystem(AutoId("collision_message_sender_system"));
+        Eng.AddSystem(AutoId("health_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -183,9 +185,11 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("map_start_map_element_system"));
         Eng.AddSystem(AutoId("spawn_soldiers_map_element_system"));
         Eng.AddSystem(AutoId("soldier_spawn_point_map_element_system"));
+        Eng.AddSystem(AutoId("spawn_actor_map_element_system"));
         Eng.AddSystem(AutoId("ctf_soldier_spawn_point_map_element_system"));
         Eng.AddSystem(AutoId("ctf_spawn_soldiers_map_element_system"));
         Eng.AddSystem(AutoId("ctf_spawn_flags_map_element_system"));
+        Eng.AddSystem(AutoId("respawn_actor_map_element_system"));
     }
 
     Eng.AddSystem(AutoId("attachable_system"));
@@ -224,6 +228,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::SetTeamMessage::GetType_static(),AutoId("set_team_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ctf::CtfScoreMessage::GetType_static(),AutoId("ctf_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ShowTextMessageMessage::GetType_static(),AutoId("show_text_message_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::CollisionMessage::GetType_static(),AutoId("collision_message_handler_sub_system"));
 
     }
 
@@ -267,13 +272,13 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("inventory_system"));
         Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
-        inventorySystem->AddSubSystem(Item::Weapon,AutoId("weapon_item_sub_system"));
+        inventorySystem->AddSubSystem(ItemType::Weapon,AutoId("weapon_item_sub_system"));
         Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
         weaponItemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
 		weaponItemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
 
-        inventorySystem->AddSubSystem(Item::Normal,AutoId("normal_item_sub_system"));
+        inventorySystem->AddSubSystem(ItemType::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
         normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
         normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));

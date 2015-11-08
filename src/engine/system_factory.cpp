@@ -70,6 +70,9 @@
 #include "score_on_death_system.h"
 #include "show_text_system.h"
 #include "network/show_text_message_message.h"
+#include "core/map/spawn_actor_map_element_system.h"
+#include "network/collision_message.h"
+#include "core/map/respawn_actor_map_element_system.h"
 
 
 using platform::AutoId;
@@ -135,6 +138,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("set_ownership_message_sender_system"), &CreateSystem<network::SetOwnershipMessageSenderSystem>);
     Bind( AutoId("set_team_message_sender_system"), &CreateSystem<network::SetTeamMessageSenderSystem>);
     Bind( AutoId("show_text_message_message_sender_system"), &CreateSystem<network::ShowTextMessageMessageSenderSystem>);
+    Bind( AutoId("collision_message_sender_system"), &CreateSystem<network::CollisionMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
@@ -146,6 +150,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("map_start_map_element_system"), &CreateSystem<map::MapStartMapElementSystem>);
     Bind( AutoId("spawn_soldiers_map_element_system"), &CreateSystem<map::SpawnSoldiersMapElementSystem>);
     Bind( AutoId("soldier_spawn_point_map_element_system"), &CreateSystem<map::SoldierSpawnPointMapElementSystem>);
+    Bind( AutoId("spawn_actor_map_element_system"), &CreateSystem<map::SpawnActorMapElementSystem>);
+    Bind( AutoId("respawn_actor_map_element_system"), &CreateSystem<map::RespawnActorMapElementSystem>);
 
     Bind( AutoId("free_for_all_game_mode_system"), &CreateSystem<core::FreeForAllGameModeSystem>);
     Bind( AutoId("capture_the_flag_game_mode_system"), &CreateSystem<core::CaptureTheFlagGameModeSystem>);

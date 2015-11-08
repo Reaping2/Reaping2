@@ -36,7 +36,8 @@ void PositionComponent::SetOrientation( double Orientation )
 
 void PositionComponentLoader::BindValues()
 {
-
+    Bind("x",func_double(&PositionComponent::SetX));
+    Bind("y",func_double(&PositionComponent::SetY));
 }
 
 PositionComponentLoader::PositionComponentLoader()

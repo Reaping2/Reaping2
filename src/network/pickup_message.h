@@ -7,6 +7,7 @@
 #include "core/item.h"
 #include "engine/collisions/pickup_collision_sub_system.h"
 #include "core/actor_event.h"
+#include "core/item_type.h"
 namespace network {
 
     class PickupMessage: public Message
@@ -15,11 +16,11 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(PickupMessage)
         int32_t mActorGUID;
-        Item::ItemType mItemType;
+        ItemType::Type mItemType;
         int32_t mItemId;
         PickupMessage()
             : mActorGUID(0)
-            , mItemType(Item::Normal)
+            , mItemType(ItemType::Normal)
             , mItemId(0)
         {
         }
@@ -42,11 +43,11 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(SetPickupContentMessage)
         int32_t mActorGUID;
-        Item::ItemType mItemType;
+        ItemType::Type mItemType;
         int32_t mContentId;
         SetPickupContentMessage()
             : mActorGUID(0)
-            , mItemType(Item::Normal)
+            , mItemType(ItemType::Normal)
             , mContentId(0)
         {
         }

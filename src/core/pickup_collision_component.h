@@ -9,13 +9,13 @@ class PickupCollisionComponent : public CollisionComponent
 public:
     virtual void SetPickupContent( int32_t PickupContent );
     virtual int32_t GetPickupContent() const;
-    virtual void SetItemType( Item::ItemType itemType );
-    virtual Item::ItemType GetItemType() const;
+    virtual void SetItemType( ItemType::Type itemType );
+    virtual ItemType::Type GetItemType() const;
 protected:
     PickupCollisionComponent();
     friend class ComponentFactory;
     int32_t mPickupContent;
-    Item::ItemType mItemType;
+    ItemType::Type mItemType;
 };
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>

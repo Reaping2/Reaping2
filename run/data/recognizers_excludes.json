@@ -2,7 +2,7 @@
 	{
 		"name":"death",
 		"excludes":
-		["idle","body_move","leg_move","weapon","move","hat","ctf_hat"]
+		["idle","body_move","leg_move","weapon","move","hat","ctf_hat","pickup"]
 	},
 	{
 		"name":"move",

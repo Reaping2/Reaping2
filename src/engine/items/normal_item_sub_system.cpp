@@ -35,7 +35,7 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
         itemssIt->mSystem->Update(actor,DeltaTime);
         if (normalItem->IsConsumed())
         {
-            inventoryC->DropItemType(Item::Normal);
+            inventoryC->DropItemType(ItemType::Normal);
         }
     }
 
@@ -61,7 +61,7 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
 Opt<NormalItemSubSystem> NormalItemSubSystem::Get()
 {
     return Opt<NormalItemSubSystem>(
-        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(Item::Normal));
+        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(ItemType::Normal));
 }
 
 } // namespace engine

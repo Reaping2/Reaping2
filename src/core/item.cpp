@@ -4,7 +4,7 @@
 DefaultItem::DefaultItem( int32_t Id )
     : Item( Id )
 {
-    mType = Normal;
+    mType = ItemType::Normal;
 }
 
 void Item::SetActor( Actor* Obj )

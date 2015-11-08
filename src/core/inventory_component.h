@@ -13,7 +13,7 @@ public:
     virtual ItemList_t& GetItems();
     virtual void AddItem( int32_t Id );
     virtual Opt<Item> GetItem( int32_t Id );
-    virtual void DropItemType( Item::ItemType Type );
+    virtual void DropItemType( ItemType::Type Type );
     virtual void Update( double Seconds );
     virtual Opt<Weapon> GetSelectedWeapon();
     virtual void SetSelectedWeapon( int32_t Id );

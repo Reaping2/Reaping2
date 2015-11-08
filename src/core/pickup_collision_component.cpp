@@ -3,13 +3,14 @@
 #include "core/pickup_collision_component.h"
 #include "platform/i_platform.h"
 #include "platform/auto_id.h"
+#include "item_type.h"
 
 using platform::AutoId;
 
 PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()
     , mPickupContent( 0 )
-    , mItemType(Item::Weapon)
+    , mItemType(ItemType::Weapon)
 {
 
 }
@@ -24,12 +25,12 @@ int32_t PickupCollisionComponent::GetPickupContent() const
     return mPickupContent;
 }
 
-void PickupCollisionComponent::SetItemType(Item::ItemType itemType)
+void PickupCollisionComponent::SetItemType(ItemType::Type itemType)
 {
     mItemType=itemType;
 }
 
-Item::ItemType PickupCollisionComponent::GetItemType() const
+ItemType::Type PickupCollisionComponent::GetItemType() const
 {
     return mItemType;
 }
@@ -40,6 +41,10 @@ void PickupCollisionComponentLoader::BindValues()
     if( Json::GetStr( (*mSetters)["content"], istr))
     {
         Bind<int32_t>(&PickupCollisionComponent::SetPickupContent,AutoId(istr));
+    }
+    if( Json::GetStr( (*mSetters)["type"], istr))
+    {
+        Bind<ItemType::Type>(&PickupCollisionComponent::SetItemType,ItemType::Get()(AutoId(istr)));
     }
 }
 

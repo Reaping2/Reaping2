@@ -4,15 +4,16 @@
 #include "core/scene.h"
 #include "engine/collisions/collision_sub_system.h"
 #include "core/item.h"
+#include "core/item_type.h"
 
 namespace engine {
 
 struct PickupEvent : Event
 {
     Opt<Actor> mActor;
-    Item::ItemType mItemType;
+    ItemType::Type mItemType;
     int32_t mItemId;
-    PickupEvent(Opt<Actor> actor, Item::ItemType itemType, int32_t itemId)
+    PickupEvent(Opt<Actor> actor, ItemType::Type itemType, int32_t itemId)
         :mActor(actor),mItemType(itemType),mItemId(itemId){}
 };
 

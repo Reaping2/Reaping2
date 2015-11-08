@@ -1925,6 +1925,103 @@ class RecognizerGenerator : public Generator
     }
 };
 
+class EnumGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        Init();
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
+            fprintf(file.mFile, "#include \"<map>\"\n");
+            fprintf(file.mFile, "\n");
+            if (!namespaceLowerCase.empty())
+            {
+                fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+                fprintf(file.mFile, "\n");
+            }
+
+            fprintf(file.mFile, "class %s : public platform::Singleton<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "protected:\n");
+            fprintf(file.mFile, "    friend class platform::Singleton<%s>;\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    enum Type\n");
+            fprintf(file.mFile, "    {\n");
+            bool isFirst=true;
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "        %s%s,\n",i->first.c_str(),isFirst?"=0":"");
+                isFirst=false;
+            }
+            fprintf(file.mFile, "        Num_Classes\n");
+            fprintf(file.mFile, "    };\n");
+            fprintf(file.mFile, "    %s::Type operator()( int32_t Id ) const;\n",classCamelCase.c_str());
+
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "    typedef std::map<int32_t,%s::Type> IdTo%sMap_t;\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    IdTo%sMap_t mIdTo%sMap;\n",classCamelCase.c_str(),classCamelCase.c_str());
+
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+
+            if (!namespaceLowerCase.empty())
+            {
+                fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+                fprintf(file.mFile, "\n");
+            }
+
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            WriteCommand(file);
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "#include \"platform/auto_id.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "using platform::AutoId;\n");
+            fprintf(file.mFile, "\n");
+            if (!namespaceLowerCase.empty())
+            {
+                fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+                fprintf(file.mFile, "\n");
+            }
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            {
+                fprintf(file.mFile, "    mIdTo%sMap[AutoId(\"%s\")]=%s::%s;\n",classCamelCase.c_str(),i->second.c_str(),classCamelCase.c_str(),i->first.c_str());
+            }
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::Type %s::operator()( int32_t Id ) const\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    IdTo%sMap_t::const_iterator i=mIdTo%sMap.find(Id);\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.end());\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    return (i!=mIdTo%sMap.end())?i->second:%s::%s;\n",classCamelCase.c_str(),classCamelCase.c_str(),typeMemberPairs.begin()->first.c_str());
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            if (!namespaceLowerCase.empty())
+            {
+                fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+                fprintf(file.mFile, "\n");
+            }
+
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
+
 class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
 {
     friend class platform::Singleton<GeneratorFactory>;
@@ -1951,6 +2048,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "map_element_system" ), &CreateGenerator<MapElementSystemGenerator> );
         Bind( AutoId( "recognizer" ), &CreateGenerator<RecognizerGenerator> );
         Bind( AutoId( "action_renderer" ), &CreateGenerator<ActionRendererGenerator> );
+        Bind( AutoId( "enum" ), &CreateGenerator<EnumGenerator> );
     }
 };
 
@@ -1998,6 +2096,7 @@ int main(int argc, char* argv[])
         "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n" 
         "\n*** default_generator ***\n does nothing\n" 
         "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
+        "\n*** enum ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_underscore.h with string to enum map.\n  uses: -m members (enum values paired with string values)\n" 
         "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
         "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
         "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -p pending (for delayed process) -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 

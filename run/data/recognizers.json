@@ -70,6 +70,16 @@
 		]
 	},
 	{
+		"name":"revive_pickup",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"pickup",
+				"renderer":"pickup"}
+		]
+	},
+	{
 		"name":"rocket_launcher",
 		"recognizers":
 		[

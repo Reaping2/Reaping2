@@ -32,6 +32,22 @@
             }
         ]
     },
+	{
+        "name":"revive_pickup",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"players"}]
+            },
+            {
+                "name":"pickup_collision_component",
+                "set":[{"class":"pickup", "radius":40}]
+            },
+            {"name":"health_component"},
+			{"name":"remove_on_death_component"}
+        ]
+    },
     {
         "name":"pistol_shot",
         "components":

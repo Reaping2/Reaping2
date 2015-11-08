@@ -15,7 +15,7 @@ Weapon::Weapon( int32_t Id )
     , mShoot(false)
     , mShootAlt(false)
 {
-    mType = Item::Weapon;
+    mType = ItemType::Weapon;
 }
 
 bool Weapon::IsShoot() const
