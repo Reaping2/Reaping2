@@ -37,10 +37,23 @@ void ExplodeOnDeathSystem::Update(double DeltaTime)
         }
         if(!healthC->IsAlive())
         {
-            std::auto_ptr<Actor> explosionProjectile=mActorFactory(explodeOnDeathC->GetExplosionProjectile());
-            WeaponItemSubSystem::SetProjectilePosition(*explosionProjectile, actor);
+            WeaponItemSubSystem::Projectiles_t projectiles;
 
-            mScene.AddActor(explosionProjectile.release());
+            std::auto_ptr<Actor> ps;
+            for (int i=0;i<explodeOnDeathC->GetCount();++i)
+            {
+                ps = mActorFactory(explodeOnDeathC->GetExplosionProjectile());
+                if (explodeOnDeathC->GetCount()>1)
+                {
+                    ps->Get<IPositionComponent>()->SetOrientation( -1*explodeOnDeathC->GetScatter() + i*
+                        (explodeOnDeathC->GetScatter()/(explodeOnDeathC->GetCount()-1)*2) );
+                }
+                projectiles.push_back( Opt<Actor>(ps.release()) );
+            }
+            //WeaponItemSubSystem::SetProjectilePosition(*explosionProjectile, actor);
+
+            /*mScene.AddActor(explosionProjectile.release());*/
+            WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,0.0);
             mScene.RemoveActor(it);
         }
     }

@@ -40,11 +40,12 @@ void RespawnActorMapElementSystem::Update(double DeltaTime)
         if (actorDead)
         {
             respawnActorMapElement->SetSecsToRespawn(respawnActorMapElement->GetSecsToRespawn()-DeltaTime);
+            if (respawnActorMapElement->GetSecsToRespawn()<=0)
+            {
+                SpawnActor(respawnActorMapElement);
+            }
         }
-        if (respawnActorMapElement->GetSecsToRespawn()<=0)
-        {
-            SpawnActor(respawnActorMapElement);
-        }
+
     }
 }
 

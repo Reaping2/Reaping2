@@ -89,7 +89,10 @@
             type=platform::AutoId("rocket_launcher_primary");
             type=platform::AutoId("rocket_launcher_secondary");
             type=platform::AutoId("rocket_launcher_projectile");
-            type=platform::AutoId("rocket_pow_projectile");
+            type=platform::AutoId("shotgun_projectile");
+            type=platform::AutoId("shotgun_alt_projectile");
+            type=platform::AutoId("shotgun_alt2_projectile");
+            type=platform::AutoId("shotgun");
             type=platform::AutoId("rocket_launcher_target_projectile");
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");

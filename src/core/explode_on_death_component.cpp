@@ -1,12 +1,10 @@
-#include "platform/i_platform.h"
 #include "core/explode_on_death_component.h"
-#include "core/i_health_component.h"
-#include "core/actor.h"
-#include <boost/assert.hpp>
 
 ExplodeOnDeathComponent::ExplodeOnDeathComponent()
+    : mExplosionProjectile(-1)
+    , mCount(1)
+    , mScatter(0.0)
 {
-
 }
 
 void ExplodeOnDeathComponent::SetExplosionProjectile(int32_t explosionProjectile)
@@ -14,14 +12,29 @@ void ExplodeOnDeathComponent::SetExplosionProjectile(int32_t explosionProjectile
     mExplosionProjectile=explosionProjectile;
 }
 
-int32_t ExplodeOnDeathComponent::GetExplosionProjectile() const
+int32_t ExplodeOnDeathComponent::GetExplosionProjectile()const
 {
     return mExplosionProjectile;
 }
 
-ExplodeOnDeathComponentLoader::ExplodeOnDeathComponentLoader()
+void ExplodeOnDeathComponent::SetCount(int32_t count)
 {
+    mCount=count;
+}
 
+int32_t ExplodeOnDeathComponent::GetCount()const
+{
+    return mCount;
+}
+
+void ExplodeOnDeathComponent::SetScatter(double scatter)
+{
+    mScatter=scatter;
+}
+
+double ExplodeOnDeathComponent::GetScatter()const
+{
+    return mScatter;
 }
 
 void ExplodeOnDeathComponentLoader::BindValues()
@@ -31,4 +44,10 @@ void ExplodeOnDeathComponentLoader::BindValues()
     {
         Bind<int32_t>(&ExplodeOnDeathComponent::SetExplosionProjectile,AutoId(istr));
     }
+    Bind("count",func_int32_t(&ExplodeOnDeathComponent::SetCount));
+    Bind("scatter",func_double(&ExplodeOnDeathComponent::SetScatter));
+}
+
+ExplodeOnDeathComponentLoader::ExplodeOnDeathComponentLoader()
+{
 }

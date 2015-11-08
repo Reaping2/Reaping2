@@ -67,6 +67,75 @@
         ]
     },
     {
+        "name":"shotgun_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":3000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":8, "damage":7 }]
+            },
+            {"name":"health_component"},
+			{
+                "name":"fade_out_component",
+                "set":[{"secs_to_end":0.3}]
+            },
+            {"name":"remove_on_death_component"}
+        ]
+    },
+    {
+        "name":"shotgun_alt2_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":2500}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":8, "damage":2 }]
+            },
+            {"name":"health_component"},
+			{
+                "name":"fade_out_component",
+                "set":[{"secs_to_end":0.3}]
+            },
+            {"name":"remove_on_death_component"}
+        ]
+    },
+    {
+        "name":"shotgun_alt_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":1200}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":34, "damage":5 }]
+            },
+            {"name":"health_component"},
+			{
+                "name":"fade_out_component",
+                "set":[{"secs_to_end":0.3}]
+            },
+            {"name":"explode_on_death_component",
+                "set":[{"explosion_projectile":"shotgun_alt2_projectile"
+					,"count":11,"scatter":1.1}]
+			}
+        ]
+    },
+    {
         "name":"plasma_shot",
         "components":
         [

@@ -5,13 +5,15 @@
 #include "core/item.h"
 #include "grenade_normal_item.h"
 #include "flash_normal_item.h"
+#include "shotgun.h"
 ItemFactory::ItemFactory()
 {
     Bind<DefaultItem>( AutoId( "default_item" ) );
     SetDefault( AutoId( "default_item" ) );
     Bind<PlasmaGun>( AutoId( "plasma_gun" ) );
     Bind<Pistol>( AutoId( "pistol" ) );
-	Bind<RocketLauncher>(AutoId("rocket_launcher"));
+    Bind<Shotgun>( AutoId( "shotgun" ) );
+    Bind<RocketLauncher>(AutoId("rocket_launcher"));
 
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
     Bind<FlashNormalItem>(AutoId("flash_normal_item"));

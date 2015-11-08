@@ -81,8 +81,34 @@
         "identifier":"spawn_at_start",
 		"secs_to_respawn":5
     },	
-	
-	
+	{
+        "name":"respawn_actor",
+		"actor":"revive_pickup","components":
+        [
+			{"name":"position_component",
+					"set":[{"x":-200, "y":-200}]
+			},
+			{"name":"pickup_collision_component",
+					"set":[{"type":"weapon","content":"shotgun"}]
+			}
+		],
+        "identifier":"spawn_at_start",
+		"secs_to_respawn":5
+    },	
+	{
+        "name":"respawn_actor",
+		"actor":"revive_pickup","components":
+        [
+			{"name":"position_component",
+					"set":[{"x":-200, "y":200}]
+			},
+			{"name":"pickup_collision_component",
+					"set":[{"type":"normal","content":"grenade_normal_item"}]
+			}
+		],
+        "identifier":"spawn_at_start",
+		"secs_to_respawn":0.0
+    },
 	
     {
         "name":"link",

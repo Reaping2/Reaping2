@@ -112,6 +112,30 @@
 		]
 	},
 	{
+		"name":"shotgun_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"shotgun_alt2_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"shotgun_alt_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
 		"name":"rocket_launcher_target_projectile",
 		"recognizers":
 		[

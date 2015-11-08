@@ -74,7 +74,6 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
     }
 
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )
     {
         Actor& Proj = **i;
@@ -86,7 +85,11 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
         }
         Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
-        Proj.Get<IMoveComponent>()->SetHeading( projPositionC->GetOrientation() );
+        Opt<IMoveComponent> moveC(Proj.Get<IMoveComponent>());
+        if (moveC.IsValid())
+        {
+            moveC->SetHeading( projPositionC->GetOrientation() );
+        }
         mScene.AddActor( &Proj );
     }
 }
