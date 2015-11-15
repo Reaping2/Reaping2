@@ -2,9 +2,9 @@
 #include "spawn_actor_map_element.h"
 #include "map_system.h"
 #include "map_element_factory.h"
-#include "engine\engine.h"
-#include "input\mouse.h"
-#include "..\position_component.h"
+#include "engine/engine.h"
+#include "input/mouse.h"
+#include "../position_component.h"
 #include "editor_target_system.h"
 namespace map {
 

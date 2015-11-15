@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_MAP_I_TARGET_H
 #define INCLUDED_CORE_MAP_I_TARGET_H
 
-#include "platform\i_platform.h"
+#include "platform/i_platform.h"
 
 namespace map {
 
