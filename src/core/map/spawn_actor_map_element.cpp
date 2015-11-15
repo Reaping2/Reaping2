@@ -10,12 +10,12 @@ SpawnActorMapElement::SpawnActorMapElement()
     , mActorID(-1)
     , mComponentLoaderFactory(ComponentLoaderFactory::Get())
 {
+    AddInputNodeId(SpawnNodeId);
 }
 
 void SpawnActorMapElement::Load(Json::Value& setters)
 {
     MapElement::Load(setters);
-    AddInputNodeId(SpawnNodeId);
 
     std::string actorStr;
     if (!Json::GetStr(setters["actor"],actorStr))
@@ -71,6 +71,11 @@ void SpawnActorMapElement::LoadComponentLoaders(Json::Value& setters, ActorCreat
 
         componentLoaders.insert(componentId,compLoader);
     }
+}
+
+void SpawnActorMapElement::AddComponentLoader(int32_t componentId, std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader)
+{
+    mComponentLoaders.insert(componentId,compLoader);
 }
 
 

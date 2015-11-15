@@ -34,16 +34,16 @@ TextureRepo::TextureRepo()
     // Init();
 }
 
-Texture const& TextureRepo::operator()( int32_t Id )
+Texture& TextureRepo::operator()( int32_t Id )
 {
-    ElementMap_t::const_iterator i = mElements.find( Id );
+    ElementMap_t::iterator i = mElements.find( Id );
     if( i != mElements.end() )
     {
         return *( i->second );
     }
     if( std::find( mUnavailElements.begin(), mUnavailElements.end(), Id ) != mUnavailElements.end() )
     {
-        return mDefaultElement;
+        return const_cast<Texture&>(mDefaultElement);
     }
     do
     {
@@ -80,7 +80,7 @@ Texture const& TextureRepo::operator()( int32_t Id )
     }
     while( false );
     mUnavailElements.push_back( Id );
-    return DefaultTexture;
+    return const_cast<Texture&>(mDefaultElement);
 }
 
 const Texture TextureRepo::DefaultTexture = Texture( 1, 1, 0, NULL );

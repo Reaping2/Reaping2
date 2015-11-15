@@ -16,7 +16,7 @@ protected:
 public:
     virtual bool HasElem( int32_t Id )const;
     virtual Element_T const& operator()( int32_t Id ) const;
-    virtual Element_T const& operator()( int32_t Id );  // lazy load
+    virtual Element_T& operator()( int32_t Id );  // lazy load
 };
 
 template<typename Element_T>
@@ -26,9 +26,9 @@ bool Repository<Element_T>::HasElem( int32_t Id ) const
 }
 
 template<typename Element_T>
-Element_T const& Repository<Element_T>::operator()( int32_t Id )
+Element_T& Repository<Element_T>::operator()( int32_t Id )
 {
-    return ( ( const RepoBase* )this )->operator ()( Id );
+    return const_cast<Element_T&>(( ( const RepoBase* )this )->operator ()( Id ));
 }
 
 template<typename Element_T>
@@ -37,6 +37,12 @@ Element_T const& Repository<Element_T>::operator()( int32_t Id ) const
     typename ElementMap_t::const_iterator i = mElements.find( Id );
     return i == mElements.end() ? mDefaultElement : *( i->second );
 }
+
+// template<typename Element_T>
+// Element_T& Repository<Element_T>::operator()( int32_t Id )
+// {
+//     return const_cast<Element_T&>(((const RepoBase*)this)->operator()(id));
+// }
 
 template<typename Element_T>
 Repository<Element_T>::Repository( Element_T const& DefaultElement )

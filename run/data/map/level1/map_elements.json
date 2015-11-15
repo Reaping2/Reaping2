@@ -31,9 +31,21 @@
         "name":"spawn_soldiers",
         "identifier":"spawn_soldiers"
     },
+	{
+        "name":"spawn_actor",
+		"actor":"wall","components":
+        [{"name":"position_component",
+				"set":[{"x":-400, "y":-800}]}],
+        "identifier":"spawn_at_start"
+    },
     {
         "name":"link",
         "from":{"identifier":"map_start","node":0},
         "to":{"identifier":"spawn_soldiers","node":0}
-    }	
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":0},
+        "to":{"identifier":"spawn_at_start","node":0}
+    }
 ]

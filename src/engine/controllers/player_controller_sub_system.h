@@ -9,6 +9,14 @@
 #include "core/player_controller_component.h"
 #include "core/program_state.h"
 
+enum MoveFlags
+{
+    MF_Up       = 1 << 0,
+    MF_Down     = 1 << 1,
+    MF_Left     = 1 << 2,
+    MF_Right    = 1 << 3,
+};
+
 namespace engine {
 
 class PlayerControllerSubSystem : public SubSystem
@@ -39,13 +47,7 @@ private:
     bool mSpaceTyped;
     void OnKeyEvent( const KeyEvent& Event );
 
-    enum MoveFlags
-    {
-        MF_Up       = 1 << 0,
-        MF_Down     = 1 << 1,
-        MF_Left     = 1 << 2,
-        MF_Right    = 1 << 3,
-    };
+
 };
 
 } // namespace engine

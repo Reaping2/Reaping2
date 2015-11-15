@@ -41,13 +41,16 @@ void SpawnSoldiersMapElementSystem::Update(double DeltaTime)
             else if (mProgramState.mMode==core::ProgramState::Local)
             {
                 Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
-                std::auto_ptr<Actor> Pl(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));     
+                if (clientData.IsValid())
+                {
+                    std::auto_ptr<Actor> Pl(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));     
 
-                Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
-                Pl->Get<PlayerControllerComponent>()->mActive=true;
-                mScene.SetPlayerModels(Opt<Actor>(Pl.get()));
-                mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
-                mScene.AddActor( Pl.release() );
+                    Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
+                    Pl->Get<PlayerControllerComponent>()->mActive=true;
+                    mScene.SetPlayerModels(Opt<Actor>(Pl.get()));
+                    mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
+                    mScene.AddActor( Pl.release() );
+                }
             }
             L1("spawn soldiers!");
         }

@@ -62,31 +62,31 @@ void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& E
         {-1000,-1400},            {-600,-1400},{-400,-1400},  { 0.0, -1400},
     };
 
-    for( size_t i = 0; i < NumPoints; ++i )
-    {
-        std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
-        Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( points[i].x+600 );
-        wallPositionC->SetY( points[i].y+400 );
-
-        mScene.AddActor( wall.release() );
-    }
-
-    for( int32_t i = -5; i < 5; ++i )
-    {
-        std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
-        Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( i*200 );
-        wallPositionC->SetY( std::abs(i)*-100+1200 );
-
-        mScene.AddActor( wall.release() );
-        wall = ActorFactory::Get()(AutoId("wall"));
-        wallPositionC = wall->Get<IPositionComponent>();
-        wallPositionC->SetX( (i+2)*100 );
-        wallPositionC->SetY( (i-5)*50-1400 );
-
-        mScene.AddActor( wall.release() );
-    }
+//     for( size_t i = 0; i < NumPoints; ++i )
+//     {
+//         std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
+//         Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
+//         wallPositionC->SetX( points[i].x+600 );
+//         wallPositionC->SetY( points[i].y+400 );
+// 
+//         mScene.AddActor( wall.release() );
+//     }
+// 
+//     for( int32_t i = -5; i < 5; ++i )
+//     {
+//         std::auto_ptr<Actor> wall = ActorFactory::Get()(AutoId("wall"));
+//         Opt<IPositionComponent> wallPositionC = wall->Get<IPositionComponent>();
+//         wallPositionC->SetX( i*200 );
+//         wallPositionC->SetY( std::abs(i)*-100+1200 );
+// 
+//         mScene.AddActor( wall.release() );
+//         wall = ActorFactory::Get()(AutoId("wall"));
+//         wallPositionC = wall->Get<IPositionComponent>();
+//         wallPositionC->SetX( (i+2)*100 );
+//         wallPositionC->SetY( (i-5)*50-1400 );
+// 
+//         mScene.AddActor( wall.release() );
+//     }
     if (ProgramState::Get().mMode!=ProgramState::Local)
     {
         return;

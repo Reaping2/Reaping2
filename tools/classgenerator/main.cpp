@@ -1546,6 +1546,74 @@ class FactoryGenerator : public Generator
     }
 };
 
+class RepositoryGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n",__FUNCTION__);
+        if (namespaceLowerCase.empty())
+        {
+            namespaceLowerCase="core";
+        }
+
+        if (targetUnderscore.empty())
+        {
+            targetUnderscore="some_target";
+        }
+        Init();
+
+        {
+            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
+            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"platform/repository.h\"\n");
+            fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
+            fprintf(file.mFile, "#include \"%s.h\"\n",targetUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public platform::Repository<%s>, public platform::Singleton<%s>\n",classCamelCase.c_str(),targetCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    friend class platform::Singleton<%s>;\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    static %s const mDefault;\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "};\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            WriteCommand(file);
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
+            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
+            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "using platform::AutoId;\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s const %s::mDefault = %s();\n",targetCamelCase.c_str(),classCamelCase.c_str(),targetCamelCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : Repository<%s>(mDefault)\n",targetCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "   //mElements.insert(_identifier_, new _target_)\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+
+        L1("%s ended\n",__FUNCTION__);
+    }
+};
+
 class BuffGenerator : public Generator
 {
     virtual void Generate()
@@ -2049,6 +2117,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "recognizer" ), &CreateGenerator<RecognizerGenerator> );
         Bind( AutoId( "action_renderer" ), &CreateGenerator<ActionRendererGenerator> );
         Bind( AutoId( "enum" ), &CreateGenerator<EnumGenerator> );
+        Bind( AutoId( "repository" ), &CreateGenerator<RepositoryGenerator> );
     }
 };
 
@@ -2105,6 +2174,7 @@ int main(int argc, char* argv[])
         "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
         "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
         "\n*** recognizer ***\n class_name shall be in \"{the_name_underscore}_recognizer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n" 
+        "\n*** repository ***\n class_name shall be in \"{the_name_underscore}_repo\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_class\" - base of the included classes by this repo) -n namespace\n" 
         "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
         //"\n\n\n"
            )

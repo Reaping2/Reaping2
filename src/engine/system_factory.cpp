@@ -73,6 +73,10 @@
 #include "core/map/spawn_actor_map_element_system.h"
 #include "network/collision_message.h"
 #include "core/map/respawn_actor_map_element_system.h"
+#include "core/map/editor_system.h"
+#include "core/map/editor_target_system.h"
+#include "core/map/editor_grid_system.h"
+#include "core/map/editor_brush_system.h"
 
 
 using platform::AutoId;
@@ -164,6 +168,11 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("attachable_system"), &CreateSystem<engine::ctf::AttachableSystem>);
     Bind( AutoId("show_text_system"), &CreateSystem<engine::ShowTextSystem>);
+    Bind( AutoId("editor_system"), &CreateSystem<map::EditorSystem>);
+
+    Bind( AutoId("editor_target_system"), &CreateSystem<map::EditorTargetSystem>);
+    Bind( AutoId("editor_grid_system"), &CreateSystem<map::EditorGridSystem>);
+    Bind( AutoId("editor_brush_system"), &CreateSystem<map::EditorBrushSystem>);
 }
 
 } // namespace engine

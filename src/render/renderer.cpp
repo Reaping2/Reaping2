@@ -123,5 +123,10 @@ void RendererSystem::SendWorldMouseMoveEvent()
     }
 }
 
+Camera const& RendererSystem::GetCamera() const
+{
+    return mCamera;
+}
+
 
 } // namespace engine

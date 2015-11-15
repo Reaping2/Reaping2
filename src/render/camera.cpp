@@ -75,3 +75,8 @@ glm::mat4 const& Camera::GetInverseView() const
     return mInverseView;
 }
 
+glm::vec2 Camera::GetCenter() const
+{
+    return mCenter;
+}
+

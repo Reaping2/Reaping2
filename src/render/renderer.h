@@ -42,7 +42,7 @@ public:
     virtual void Update( double DeltaTime );
 
     void SendWorldMouseMoveEvent();
-
+    Camera const& GetCamera() const; 
 };
 } // namespace engine
 

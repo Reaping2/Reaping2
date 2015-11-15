@@ -35,7 +35,7 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
         Opt<CtfSpawnFlagsMapElement> ctfSpawnFlagsMapElement(*ctfSpawnFlagsMapElementIt);
         if (ctfSpawnFlagsMapElement->GetValueId(CtfSpawnFlagsMapElement::SpawnNodeId)>0)
         {
-            if (mProgramState.mMode==core::ProgramState::Server)
+            if (mProgramState.mMode==core::ProgramState::Server||mProgramState.mMode==core::ProgramState::Local)
             {
                 MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfFlagSpawnPointMapElement::GetType_static());
                 for( MapElementListFilter<MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
@@ -63,10 +63,10 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
                     mScene.AddActor(ctfFlag.release());                   
                 }
             }
-            else if (mProgramState.mMode==core::ProgramState::Local)
-            {
-                // no local support for ctf
-            }
+//             else if (mProgramState.mMode==core::ProgramState::Local)
+//             {
+//                 // no local support for ctf
+//             }
             L1("spawn flags!");
         }
         ctfSpawnFlagsMapElement->ResetValues();

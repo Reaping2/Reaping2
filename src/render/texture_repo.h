@@ -12,7 +12,7 @@ class TextureRepo : public Repository<Texture>, public Singleton<TextureRepo>
     IntVec_t mUnavailElements;
     Filesys& mFilesys;
 public:
-    virtual Texture const& operator()( int32_t Id );
+    virtual Texture& operator()( int32_t Id );
 };
 
 #endif//INCLUDED_RENDER_TEXTURE_REPO_H

@@ -75,7 +75,7 @@ void Scene::Update( double DeltaTime )
     }
     //TODO: testing
     if (ProgramState::Get().mMode!=ProgramState::Client
-        &&rand()%100==1
+        &&rand()%60==1
         &&mActorHolder.mAllActors.size()<1500)
     {
         AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 

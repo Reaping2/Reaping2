@@ -172,10 +172,16 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
+
     }
     if (programState.mMode==ProgramState::Local) 
     {
         Eng.AddSystem(AutoId("local_system"));
+        Eng.AddSystem(AutoId("editor_system"));
+        
+        Eng.AddSystem(AutoId("editor_target_system"));
+        Eng.AddSystem(AutoId("editor_grid_system"));
+        Eng.AddSystem(AutoId("editor_brush_system"));
     }
 
     if (programState.mMode!=ProgramState::Client) 

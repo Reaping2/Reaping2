@@ -21,6 +21,7 @@ public:
     void SetActorID(int32_t actorID);
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
+    void AddComponentLoader(int32_t componentId, std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader);
     static const int32_t SpawnNodeId;
 private:
     int32_t mActorID;

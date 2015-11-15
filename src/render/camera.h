@@ -1,6 +1,7 @@
 #ifndef INCLUDED_RENDER_CAMERA_H
 #define INCLUDED_RENDER_CAMERA_H
 #include "core/scene.h"
+#include "projection.h"
 
 class Camera
 {
@@ -15,6 +16,7 @@ class Camera
     void UpdateAllowedCenterRegion();
 public:
     Camera( Projection const& Proj );
+    glm::vec2 GetCenter() const;
     void Update();
     glm::mat4 const& GetView()const;
     glm::mat4 const& GetInverseView()const;
