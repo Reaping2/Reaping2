@@ -4,6 +4,7 @@
 #include "platform/auto_id.h"
 #include <boost/ptr_container/ptr_map.hpp>
 #include "core/opt.h"
+#include "json/json.h"
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -28,6 +29,7 @@ public:
     virtual void SetActor(Actor* Obj);
     void SetId(int32_t id);
     int32_t GetId() const;
+    virtual void Save(Json::Value& component);
 protected:
     Actor* mActor;
     int32_t mId;

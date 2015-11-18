@@ -27,22 +27,28 @@ private:
     ModelValue mEditorModel;
     ModelValue mStartModel;
     ModelValue mLoadModel;
+    ModelValue mSaveModel;
     double mX;
     double mY;
     double const& GetX() const;
     double const& GetY() const;
     boost::ptr_vector<ModelValue> mPlayerModels;
+    std::string mLevelName;
 
     Opt<engine::KeyboardSystem> mKeyboard;
     void Start();
     void Load(std::string const& level);
+    void Save();
 
     uint32_t mCurrentMovement;
     Opt<engine::RendererSystem> mRenderer;
     Opt<engine::WindowSystem> mWindow;
     AutoReg mOnScreenMouseMove;
     void OnScreenMouseMove(::ScreenMouseMoveEvent const& Evt);
-
+    AutoReg mKeyId;
+    bool mHudState;
+    bool mSpaceTyped;
+    void OnKeyEvent( const KeyEvent& Event );
 };
 
 } // namespace map

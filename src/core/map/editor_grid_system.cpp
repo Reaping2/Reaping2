@@ -2,6 +2,7 @@
 #include "editor_grid_system.h"
 #include "engine/engine.h"
 #include "editor_target_system.h"
+#include "ui/ui.h"
 
 namespace map {
 
@@ -17,7 +18,7 @@ void EditorGridSystem::Init()
 {
     ModelValue& editorModel = const_cast<ModelValue&>(RootModel::Get()["editor"]);
     mEditorModels.push_back(new ModelValue( StringFunc(this,&EditorGridSystem::GridChanged),"grid",&editorModel));
-    mOnWorldMouseMove=EventServer<::WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &EditorGridSystem::OnWorldMouseMoveEvent, this, _1 ) );
+    mOnWorldMouseMove=EventServer< ::WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &EditorGridSystem::OnWorldMouseMoveEvent, this, _1 ) );
 
 }
 
@@ -30,6 +31,7 @@ void EditorGridSystem::Update(double DeltaTime)
 void EditorGridSystem::GridChanged(std::string const& grid)
 {
     mGridId=AutoId(grid);
+    Ui::Get().Load("editor_hud");
 }
 
 EditorGridSystem::~EditorGridSystem()
@@ -49,7 +51,7 @@ IGrid& EditorGridSystem::GetGrid()
 
 void EditorGridSystem::OnWorldMouseMoveEvent(::WorldMouseMoveEvent const& Evt)
 {
-    GetGrid().SetCursorPosition(Evt.Pos.x,Evt.Pos.y);
+    GetGrid().SetMousePosition(Evt.Pos.x,Evt.Pos.y);
 }
 
 

@@ -2,8 +2,8 @@
 
 namespace map {
 
-SoldierSpawnPointMapElement::SoldierSpawnPointMapElement()
-    : MapElement()
+SoldierSpawnPointMapElement::SoldierSpawnPointMapElement(int32_t Id)
+    : MapElement(Id)
     , mX(0)
     , mY(0)
 {

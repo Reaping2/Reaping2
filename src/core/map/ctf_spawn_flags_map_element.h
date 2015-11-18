@@ -12,7 +12,7 @@ class CtfSpawnFlagsMapElement : public MapElement, public BaseInput
 {
 public:
     DEFINE_MAP_ELEMENT_BASE(CtfSpawnFlagsMapElement)
-    CtfSpawnFlagsMapElement();
+    CtfSpawnFlagsMapElement(int32_t Id);
     void Load(Json::Value& setters);
     static const int32_t SpawnNodeId;
 private:

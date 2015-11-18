@@ -3,8 +3,8 @@
 namespace map {
 namespace ctf {
 
-CtfFlagSpawnPointMapElement::CtfFlagSpawnPointMapElement()
-    : MapElement()
+CtfFlagSpawnPointMapElement::CtfFlagSpawnPointMapElement(int32_t Id)
+    : MapElement(Id)
     , mX(0.0)
     , mY(0.0)
     , mTeam(Team::Blue)

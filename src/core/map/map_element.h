@@ -23,10 +23,13 @@ public:
     virtual int GetType() const=0;
     virtual ~MapElement();
     virtual void Load(Json::Value& setters);
+    virtual void Save(Json::Value& Element);
     int32_t GetUID();
+    void SetUID(int32_t uId);
 protected:
-    MapElement();
+    MapElement(int32_t Id);
     int32_t mUID;  //does not need to be unique. Some elements does not need UID. Some elements can have the same UID.
+    int32_t mId;
 };
 
 
@@ -34,7 +37,7 @@ class DefaultMapElement : public MapElement
 {
 public:
     DEFINE_MAP_ELEMENT_BASE(DefaultMapElement)
-    DefaultMapElement();
+    DefaultMapElement(int32_t Id);
 };
 } // namespace map
 #endif//INCLUDED_CORE_MAP_MAP_ELEMENT_H

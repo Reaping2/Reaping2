@@ -12,6 +12,7 @@
 #include "engine/engine.h"
 #include "engine/soldier_spawn_system.h"
 #include "engine/ctf_soldier_spawn_system.h"
+#include "map/editor_system.h"
 
 namespace core {
 
@@ -39,6 +40,8 @@ void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& E
     }
     ::engine::Engine::Get().SetEnabled< ::engine::SoldierSpawnSystem>(true);
     ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::map::EditorSystem>(false);
+
     mScene.Load("level1");
     Ui::Get().Load("hud");
     if (ProgramState::Get().mMode==ProgramState::Client)

@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_MAP_NORMAL_BRUSH_H
 #include "platform/i_platform.h"
 #include "i_brush.h"
+#include "../scene.h"
 
 namespace map {
 
@@ -12,6 +13,9 @@ public:
     virtual void Update( double DeltaTime );
 protected:
     bool mMouseLeftPressed;
+    bool mMouseRightPressed;
+private:
+    Scene& mScene;
 };
 
 } // namespace map

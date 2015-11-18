@@ -34,6 +34,17 @@ void PositionComponent::SetOrientation( double Orientation )
     mOrientation = std::floor(Orientation*PRECISION)/PRECISION;
 }
 
+void PositionComponent::Save(Json::Value& component)
+{
+    Component::Save(component);
+    Json::Value SettersArr(Json::arrayValue);
+    Json::Value Setters(Json::objectValue);
+    Setters["x"]=Json::Value(GetX());
+    Setters["y"]=Json::Value(GetY());
+    SettersArr.append(Setters);
+    component["set"]=SettersArr;
+}
+
 void PositionComponentLoader::BindValues()
 {
     Bind("x",func_double(&PositionComponent::SetX));

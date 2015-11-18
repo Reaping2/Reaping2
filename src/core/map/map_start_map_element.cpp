@@ -5,8 +5,8 @@ namespace map {
 
 const int MapStartMapElement::StartNodeId=AutoId("start");
 
-MapStartMapElement::MapStartMapElement()
-    : MapElement()
+MapStartMapElement::MapStartMapElement(int32_t Id)
+    : MapElement(Id)
     , BaseOutput()
 {
     AddOutputNodeId(StartNodeId);

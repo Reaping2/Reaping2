@@ -5,8 +5,8 @@ namespace map {
 
 const int RespawnActorMapElement::SpawnNodeId=AutoId("spawn");
 
-RespawnActorMapElement::RespawnActorMapElement()
-    : MapElement()
+RespawnActorMapElement::RespawnActorMapElement(int32_t Id)
+    : MapElement(Id)
     , BaseInput()
     , mActorID(-1)
     , mSecsToRespawn(100)

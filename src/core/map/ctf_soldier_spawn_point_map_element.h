@@ -11,7 +11,7 @@ class CtfSoldierSpawnPointMapElement : public MapElement
 {
 public:
     DEFINE_MAP_ELEMENT_BASE(CtfSoldierSpawnPointMapElement)
-    CtfSoldierSpawnPointMapElement();
+    CtfSoldierSpawnPointMapElement(int32_t Id);
     void Load(Json::Value& setters);
     void SetX(int32_t x);
     int32_t GetX()const;

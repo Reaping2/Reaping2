@@ -14,10 +14,10 @@ void AbsoluteGrid::Update(double DeltaTime)
 
 }
 
-void AbsoluteGrid::SetCursorPosition(double x, double y)
+void AbsoluteGrid::SetMousePosition(double x, double y)
 {
-    IGrid::SetCursorPosition(x,y);
-    mProcessedPosition=mCursorPosition;
+    IGrid::SetMousePosition(x,y);
+    mProcessedPosition=mMousePosition;
 }
 
 

@@ -13,6 +13,7 @@ public:
     virtual void SetX( double X );
     virtual void SetY( double Y );
     virtual void SetOrientation( double Orientation );
+    virtual void Save(Json::Value& component);
 protected:
     PositionComponent();
     friend class ComponentFactory;

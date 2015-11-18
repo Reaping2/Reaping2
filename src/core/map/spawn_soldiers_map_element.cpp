@@ -4,8 +4,8 @@ namespace map {
 
 const int SpawnSoldiersMapElement::SpawnNodeId=AutoId("spawn");
 
-SpawnSoldiersMapElement::SpawnSoldiersMapElement()
-    : MapElement()
+SpawnSoldiersMapElement::SpawnSoldiersMapElement(int32_t Id)
+    : MapElement(Id)
     , BaseInput()
 {
 }

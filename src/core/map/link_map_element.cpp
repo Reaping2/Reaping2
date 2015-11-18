@@ -3,8 +3,8 @@
 
 namespace map {
 
-LinkMapElement::LinkMapElement()
-    : MapElement()
+LinkMapElement::LinkMapElement(int32_t Id)
+    : MapElement(Id)
     , mTargetInputNodeId(-1)
     , mTargetInputNodeOrdinal(-1)
     , mTargetInputUID(-1)

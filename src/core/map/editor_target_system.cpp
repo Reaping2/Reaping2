@@ -2,6 +2,7 @@
 #include "editor_target_system.h"
 #include "engine/engine.h"
 #include "../i_position_component.h"
+#include "ui/ui.h"
 
 namespace map {
 
@@ -53,6 +54,7 @@ void EditorTargetSystem::TargetChanged(std::string const& target)
     int32_t guid=cursor->GetGUID();
     mScene.AddActor(cursor.release());
     mCursor = mScene.GetActor(guid);
+    Ui::Get().Load("editor_hud");
 }
 
 EditorTargetSystem::~EditorTargetSystem()
@@ -79,6 +81,11 @@ void EditorTargetSystem::SetCursorPosition(double x, double y)
 {
     mCursorPosition.x=x;
     mCursorPosition.y=y;
+}
+
+Opt<Actor> EditorTargetSystem::GetCursor() const
+{
+    return mCursor;
 }
 
 

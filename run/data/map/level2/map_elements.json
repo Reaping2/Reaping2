@@ -44,33 +44,6 @@
     },
 	
 	{
-        "name":"spawn_actor",
-		"actor":"wall","components":
-        [{"name":"position_component",
-				"set":[{"x":400, "y":800}]}],
-        "identifier":"spawn_at_start"
-    },
-	{
-        "name":"spawn_actor",
-		"actor":"wall","components":
-        [{"name":"position_component",
-				"set":[{"x":-400, "y":-800}]}],
-        "identifier":"spawn_at_start"
-    },
-	{
-        "name":"spawn_actor",
-		"actor":"wall","components":
-        [
-			{"name":"position_component",
-					"set":[{"x":-200, "y":-600}]
-			},
-			{"name":"wall_collision_component",
-					"set":[{"radius":50}]
-			}
-		],
-        "identifier":"spawn_at_start"
-    },
-	{
         "name":"respawn_actor",
 		"actor":"revive_pickup","components":
         [

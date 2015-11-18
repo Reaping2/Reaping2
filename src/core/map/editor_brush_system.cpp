@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "editor_brush_system.h"
 #include "engine/engine.h"
+#include "ui/ui.h"
 
 namespace map {
 
@@ -28,6 +29,7 @@ void EditorBrushSystem::Update(double DeltaTime)
 void EditorBrushSystem::BrushChanged(std::string const& brush)
 {
     mBrushId=AutoId(brush);
+    Ui::Get().Load("editor_hud");
 }
 
 EditorBrushSystem::~EditorBrushSystem()

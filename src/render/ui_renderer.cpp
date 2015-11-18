@@ -34,6 +34,10 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     }
 
     size_t const CurSize = Vertices.size();
+    if (CurSize==0)
+    {
+        return;
+    }
     typedef std::vector<glm::vec2> Positions_t;
     Positions_t Positions;
     Positions_t TexCoords;
@@ -62,6 +66,7 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     size_t CurrentOffset = 0;
     size_t CurrentSize = CurSize * sizeof( glm::vec2 );
     GLuint CurrentAttribIndex = 0;
+
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Positions[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )CurrentOffset );

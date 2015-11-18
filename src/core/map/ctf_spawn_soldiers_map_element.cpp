@@ -5,8 +5,8 @@ namespace ctf {
 
 const int CtfSpawnSoldiersMapElement::SpawnNodeId=AutoId("spawn");
 
-CtfSpawnSoldiersMapElement::CtfSpawnSoldiersMapElement()
-    : MapElement()
+CtfSpawnSoldiersMapElement::CtfSpawnSoldiersMapElement(int32_t Id)
+    : MapElement(Id)
     , BaseInput()
 {
 }

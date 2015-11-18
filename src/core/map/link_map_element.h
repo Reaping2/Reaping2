@@ -10,7 +10,7 @@ class LinkMapElement : public MapElement
 {
 public:
     DEFINE_MAP_ELEMENT_BASE(LinkMapElement)
-    LinkMapElement();
+    LinkMapElement(int32_t Id);
     void Load(Json::Value& setters);
     void SetTargetInputUID(int32_t targetInputUID);
     int32_t GetTargetInputUID()const;
