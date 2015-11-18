@@ -171,12 +171,15 @@ void EditorSystem::Save()
     }
 
     Json::StyledWriter Writer;
-	std::string const& JString=Writer.write(Root);
+    std::string const& JString=Writer.write(Root);
+    {
 	OsFile OutJson("data/map/"+mLevelName+"/saved.json",std::ios_base::out);
 	OutJson.Write(JString);
-	OutJson=OsFile("saved.json",std::ios_base::out);
+    }
+    {
+	OsFile OutJson("saved.json",std::ios_base::out);
 	OutJson.Write(JString);
-
+    }
 }
 
 void EditorSystem::OnKeyEvent(const KeyEvent& Event)
