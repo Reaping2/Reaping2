@@ -12,6 +12,7 @@ class DefaultTarget: public ITarget
 public:
     DefaultTarget();
     virtual void Update( double DeltaTime );
+    virtual void PutTarget(glm::vec2 position);
 };
 
 

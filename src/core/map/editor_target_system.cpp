@@ -9,7 +9,6 @@ namespace map {
 EditorTargetSystem::EditorTargetSystem()
     : mScene( Scene::Get() )
     , mTargetRepo(TargetRepo::Get())
-    , mActorFactory(ActorFactory::Get())
     , mTargetId(-1)
     , mCursorPosition(0.0,0.0)
     , mCursor(NULL)
@@ -44,7 +43,7 @@ void EditorTargetSystem::TargetChanged(std::string const& target)
         mScene.RemoveActor(mCursor->GetGUID());
     }
     mTargetId=AutoId(target);
-    std::auto_ptr<Actor> cursor(mActorFactory(GetTarget().GetCursorId()));
+    std::auto_ptr<Actor> cursor(GetTarget().GetCursor());
     Opt<IPositionComponent> positionC(cursor->Get<IPositionComponent>());
     if (positionC.IsValid())
     {

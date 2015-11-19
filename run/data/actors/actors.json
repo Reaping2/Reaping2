@@ -12,6 +12,19 @@
             }
         ]
     },
+	{
+        "name":"wall_small",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"wall_collision_component",
+                "set":[{"class":"wall", "radius":50}]
+            }
+        ]
+    },
     {
         "name":"pickup",
         "components":
@@ -60,7 +73,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":14, "damage":5 }]
+                "set":[{"class":"projectile", "radius":7, "damage":5 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -78,7 +91,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":8, "damage":7 }]
+                "set":[{"class":"projectile", "radius":4, "damage":7 }]
             },
             {"name":"health_component"},
 			{
@@ -100,7 +113,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":8, "damage":2 }]
+                "set":[{"class":"projectile", "radius":4, "damage":2 }]
             },
             {"name":"health_component"},
 			{
@@ -122,7 +135,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":34, "damage":5 }]
+                "set":[{"class":"projectile", "radius":17, "damage":5 }]
             },
             {"name":"health_component"},
 			{
@@ -148,7 +161,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":30, "damage":5 }]
+                "set":[{"class":"projectile", "radius":15, "damage":5 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -167,7 +180,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":25, "damage":10 }]
+                "set":[{"class":"projectile", "radius":12, "damage":10 }]
             },
             {"name":"health_component"},
             {"name":"explode_on_death_component",
@@ -194,7 +207,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":25, "damage":20 }]
+                "set":[{"class":"projectile", "radius":12, "damage":20 }]
             },
             {"name":"health_component"},
             {"name":"explode_on_death_component",
@@ -433,7 +446,7 @@
                 "set":[{"layer":"players"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"player", "radius":50}]
+                "set":[{"class":"player", "radius":25}]
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component",

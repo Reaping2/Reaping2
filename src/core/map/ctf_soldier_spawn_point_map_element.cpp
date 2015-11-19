@@ -1,4 +1,6 @@
 #include "core/map/ctf_soldier_spawn_point_map_element.h"
+#include "../actor.h"
+#include "../scene.h"
 
 namespace map {
 namespace ctf {
@@ -68,6 +70,24 @@ void CtfSoldierSpawnPointMapElement::SetTeam(Team::Type team)
 Team::Type CtfSoldierSpawnPointMapElement::GetTeam()const
 {
     return mTeam;
+}
+
+void CtfSoldierSpawnPointMapElement::Save(Json::Value& Element)
+{
+        Opt<Actor> actor(Scene::Get().GetActor(mSpawnedActorGUID));
+    if (!actor.IsValid())
+    {
+        return;
+    }
+    MapElement::Save(Element);
+
+    Element["team"]=Json::Value(mTeam==Team::Blue?"blue":"red");
+    Json::Value positionObj(Json::objectValue);
+
+    positionObj["x"]=mX;
+    positionObj["y"]=mY;
+
+    Element["position"]=positionObj;
 }
 
 } // namespace ctf

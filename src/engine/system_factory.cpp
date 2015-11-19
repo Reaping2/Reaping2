@@ -77,6 +77,7 @@
 #include "core/map/editor_target_system.h"
 #include "core/map/editor_grid_system.h"
 #include "core/map/editor_brush_system.h"
+#include "core/map/editor_soldier_spawn_system.h"
 
 
 using platform::AutoId;
@@ -173,6 +174,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("editor_target_system"), &CreateSystem<map::EditorTargetSystem>);
     Bind( AutoId("editor_grid_system"), &CreateSystem<map::EditorGridSystem>);
     Bind( AutoId("editor_brush_system"), &CreateSystem<map::EditorBrushSystem>);
+    Bind( AutoId("editor_soldier_spawn_system"), &CreateSystem<map::EditorSoldierSpawnSystem>);
 }
 
 } // namespace engine

@@ -74,7 +74,7 @@ void Scene::Update( double DeltaTime )
         mMaxHP=healthC->GetMaxHP().Get();
     }
     //TODO: testing
-    if (ProgramState::Get().mMode!=ProgramState::Client
+    if (false&&ProgramState::Get().mMode!=ProgramState::Client
         &&rand()%60==1
         &&mActorHolder.mAllActors.size()<1500)
     {
@@ -93,7 +93,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -2000, -2000, 2000, 2000 )
+    : mDimensions( -4000, -4000, 4000, 4000 )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )

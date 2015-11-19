@@ -10,7 +10,6 @@ SpawnActorMapElement::SpawnActorMapElement(int32_t Id)
     : MapElement(Id)
     , BaseInput()
     , mActorID(-1)
-    , mSpawnedActorGUID(-1)
     , mComponentLoaderFactory(ComponentLoaderFactory::Get())
 {
     AddInputNodeId(SpawnNodeId);
@@ -107,16 +106,5 @@ void SpawnActorMapElement::Save(Json::Value& Element)
 
     Element["components"]=Json::Value(ComponentsArr);
 }
-
-void SpawnActorMapElement::SetSpawnedActorGUID(int32_t spawnedActorGUID)
-{
-    mSpawnedActorGUID=spawnedActorGUID;
-}
-
-int32_t SpawnActorMapElement::GetSpawnedActorGUID() const
-{
-    return mSpawnedActorGUID;
-}
-
 
 } // namespace map

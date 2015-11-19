@@ -10,6 +10,8 @@
 #include "editor_grid_system.h"
 #include "editor_target_system.h"
 #include "editor_brush_system.h"
+#include "engine/collision_system.h"
+#include "ctf_soldier_spawn_point_map_element.h"
 
 namespace map {
 
@@ -44,6 +46,7 @@ void EditorSystem::Init()
 void EditorSystem::Start()
 {
     ::engine::Engine::Get().SetEnabled< ::engine::ControllerSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::engine::CollisionSystem>(false);
 }
 
 void EditorSystem::Load(std::string const& level)
@@ -102,8 +105,8 @@ void EditorSystem::Update(double DeltaTime)
     currentKeyMovement |= mCurrentMovement;
     if (!mHudState)
     {
-        mX += 15*(( ( currentKeyMovement & MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & MF_Right ) ? 1 : 0 ));
-        mY += 15*(( ( currentKeyMovement & MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & MF_Down ) ? -1 : 0 ));
+        mX += 1000*DeltaTime*(( ( currentKeyMovement & MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & MF_Right ) ? 1 : 0 ));
+        mY += 1000*DeltaTime*(( ( currentKeyMovement & MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & MF_Down ) ? -1 : 0 ));
     }
     if( mKeyboard->GetKey(GLFW_KEY_SPACE).State==KeyState::Down )
     {
@@ -155,31 +158,61 @@ void EditorSystem::OnScreenMouseMove(::ScreenMouseMoveEvent const& Evt)
 
 void EditorSystem::Save()
 {
-    Json::Value Root(Json::arrayValue);
-    MapElementList_t& mapElementList=MapSystem::Get()->GetMapElementList();
-    for (MapElementList_t::iterator i=mapElementList.begin(),e=mapElementList.end();i!=e;++i)
     {
-        if ((*i)->GetType()==SpawnActorMapElement::GetType_static())
+        Json::Value Root(Json::arrayValue);
+        MapElementList_t& mapElementList=MapSystem::Get()->GetMapElementList();
+        for (MapElementList_t::iterator i=mapElementList.begin(),e=mapElementList.end();i!=e;++i)
         {
-            Json::Value Element(Json::objectValue);
-            (*i)->Save(Element);
-            if (Element.size()>0)
+            if ((*i)->GetType()==SpawnActorMapElement::GetType_static())
             {
-                Root.append(Element);
+                Json::Value Element(Json::objectValue);
+                (*i)->Save(Element);
+                if (Element.size()>0)
+                {
+                    Root.append(Element);
+                }
             }
+        }
+
+        Json::StyledWriter Writer;
+        std::string const& JString=Writer.write(Root);
+        {
+	        OsFile OutJson("data/map/"+mLevelName+"/saved.json",std::ios_base::out);
+	        OutJson.Write(JString);
+        }
+        {
+	        OsFile OutJson("saved.json",std::ios_base::out);
+	        OutJson.Write(JString);
+        }
+    }
+    {
+        Json::Value Root(Json::arrayValue);
+        MapElementList_t& mapElementList=MapSystem::Get()->GetMapElementList();
+        for (MapElementList_t::iterator i=mapElementList.begin(),e=mapElementList.end();i!=e;++i)
+        {
+            if ((*i)->GetType()==ctf::CtfSoldierSpawnPointMapElement::GetType_static())
+            {
+                Json::Value Element(Json::objectValue);
+                (*i)->Save(Element);
+                if (Element.size()>0)
+                {
+                    Root.append(Element);
+                }
+            }
+        }
+
+        Json::StyledWriter Writer;
+        std::string const& JString=Writer.write(Root);
+        {
+	        OsFile OutJson("data/map/"+mLevelName+"/saved_start_points.json",std::ios_base::out);
+	        OutJson.Write(JString);
+        }
+        {
+	        OsFile OutJson("saved_start_points.json",std::ios_base::out);
+	        OutJson.Write(JString);
         }
     }
 
-    Json::StyledWriter Writer;
-    std::string const& JString=Writer.write(Root);
-    {
-	OsFile OutJson("data/map/"+mLevelName+"/saved.json",std::ios_base::out);
-	OutJson.Write(JString);
-    }
-    {
-	OsFile OutJson("saved.json",std::ios_base::out);
-	OutJson.Write(JString);
-    }
 }
 
 void EditorSystem::OnKeyEvent(const KeyEvent& Event)

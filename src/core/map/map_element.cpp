@@ -9,6 +9,7 @@ MapElement::~MapElement()
 MapElement::MapElement(int32_t Id)
     : mUID(0)
     , mId(Id)
+    , mSpawnedActorGUID(-1)
 {
 //     static int32_t NextUID = 0;
 //     mUID = ++NextUID;
@@ -45,6 +46,16 @@ void MapElement::Save(Json::Value& Element)
 void MapElement::SetUID(int32_t uId)
 {
     mUID=uId;
+}
+
+void MapElement::SetSpawnedActorGUID(int32_t spawnedActorGUID)
+{
+    mSpawnedActorGUID=spawnedActorGUID;
+}
+
+int32_t MapElement::GetSpawnedActorGUID() const
+{
+    return mSpawnedActorGUID;
 }
 
 DefaultMapElement::DefaultMapElement(int32_t Id)

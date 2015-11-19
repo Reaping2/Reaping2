@@ -1,7 +1,7 @@
 #include "matrix_grid.h"
-#include "..\i_collision_component.h"
-#include "..\opt.h"
-#include "..\actor.h"
+#include "../i_collision_component.h"
+#include "../opt.h"
+#include "../actor.h"
 #include "editor_target_system.h"
 
 namespace map {

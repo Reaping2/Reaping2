@@ -11,6 +11,7 @@
 #include "platform/event.h"
 #include "engine/show_text_event.h"
 #include "map/editor_system.h"
+#include "map/editor_soldier_spawn_system.h"
 
 namespace core {
 
@@ -59,6 +60,7 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
 
     ::engine::Engine::Get().SetEnabled< ::engine::SoldierSpawnSystem>(false);
     ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>(true);
+    ::engine::Engine::Get().SetEnabled< ::map::EditorSoldierSpawnSystem>(false);
     ::engine::Engine::Get().SetEnabled< ::map::EditorSystem>(false);
 
     if (mProgramState.mMode==core::ProgramState::Server)

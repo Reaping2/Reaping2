@@ -13,6 +13,7 @@ public:
     DEFINE_MAP_ELEMENT_BASE(CtfSoldierSpawnPointMapElement)
     CtfSoldierSpawnPointMapElement(int32_t Id);
     void Load(Json::Value& setters);
+    void Save(Json::Value& Element);
     void SetX(int32_t x);
     int32_t GetX()const;
     void SetY(int32_t y);

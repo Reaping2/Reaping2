@@ -11,7 +11,6 @@ RespawnActorMapElement::RespawnActorMapElement(int32_t Id)
     , mActorID(-1)
     , mSecsToRespawn(100)
     , mSecsToRespawnOriginal(100)
-    , mSpawnedActorGUID(-1)
 {
 }
 
@@ -67,16 +66,5 @@ double RespawnActorMapElement::GetSecsToRespawnOriginal()const
 {
     return mSecsToRespawnOriginal;
 }
-
-void RespawnActorMapElement::SetSpawnedActorGUID(int32_t spawnedActorGUID)
-{
-    mSpawnedActorGUID=spawnedActorGUID;
-}
-
-int32_t RespawnActorMapElement::GetSpawnedActorGUID()const
-{
-    return mSpawnedActorGUID;
-}
-
 
 } // namespace map

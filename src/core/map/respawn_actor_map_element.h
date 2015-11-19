@@ -19,8 +19,6 @@ public:
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
     void SetSecsToRespawn(double secsToRespawn);
     double GetSecsToRespawn()const;
-    void SetSpawnedActorGUID(int32_t spawnedActorGUID);
-    int32_t GetSpawnedActorGUID()const;
     void SetSecsToRespawnOriginal(double secsToRespawnOriginal);
     double GetSecsToRespawnOriginal()const;
     static const int32_t SpawnNodeId;
@@ -28,7 +26,6 @@ private:
     int32_t mActorID;
     ActorCreator::ComponentLoaderMap_t mComponentLoaders;
     double mSecsToRespawn;
-    int32_t mSpawnedActorGUID;
     double mSecsToRespawnOriginal;
 };
 

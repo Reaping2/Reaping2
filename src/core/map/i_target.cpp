@@ -1,4 +1,5 @@
 #include "i_target.h"
+#include "../actor_factory.h"
 
 namespace map {
 
@@ -16,6 +17,11 @@ int32_t ITarget::GetCursorId() const
 int32_t ITarget::GetActorId() const
 {
     return mId;
+}
+
+std::auto_ptr<Actor> ITarget::GetCursor()
+{
+    return ActorFactory::Get()(GetCursorId());
 }
 
 

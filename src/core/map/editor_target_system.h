@@ -26,7 +26,6 @@ protected:
 private:
     Scene& mScene;
     TargetRepo& mTargetRepo;
-    ActorFactory& mActorFactory;
     int32_t mTargetId;
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;

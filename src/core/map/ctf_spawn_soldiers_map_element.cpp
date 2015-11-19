@@ -1,4 +1,6 @@
 #include "core/map/ctf_spawn_soldiers_map_element.h"
+#include "../actor.h"
+#include "../scene.h"
 
 namespace map {
 namespace ctf {

@@ -62,6 +62,14 @@
 		]
 	},
 	{
+		"name":"wall_small",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"pickup",
 		"recognizers":
 		[

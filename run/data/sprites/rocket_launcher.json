@@ -11,7 +11,7 @@
 						"name":"rocket_launcher",
 						"w":30,
 						"h":17,
-						"scale":1.0,
+						"scale":2.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -30,7 +30,7 @@
 						"name":"rocket_launcher",
 						"w":30,
 						"h":17,
-						"scale":1.0,
+						"scale":2.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -49,7 +49,7 @@
 						"name":"body_idle",
 						"w":32,
 						"h":32,
-						"scale":1.0,
+						"scale":2.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -68,7 +68,7 @@
 						"name":"move",
 						"w":30,
 						"h":17,
-						"scale":2.0,
+						"scale":4.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -81,7 +81,7 @@
 						"name":"move",
 						"w":30,
 						"h":17,
-						"scale":2.5,
+						"scale":5,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -158,7 +158,7 @@
 						"name":"move",
 						"w":15,
 						"h":9,
-						"scale":2.0,
+						"scale":4.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -177,7 +177,7 @@
 						"name":"move",
 						"w":15,
 						"h":9,
-						"scale":2.0,
+						"scale":4.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -196,7 +196,7 @@
 						"name":"move",
 						"w":736,
 						"h":736,
-						"scale":1.0,
+						"scale":1.5,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
