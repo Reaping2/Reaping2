@@ -1,5 +1,9 @@
 #include "core/map/respawn_actor_map_element.h"
 #include "spawn_actor_map_element.h"
+#include "../scene.h"
+#include "../i_position_component.h"
+#include "../i_collision_component.h"
+#include "../pickup_collision_component.h"
 
 namespace map {
 
@@ -12,12 +16,12 @@ RespawnActorMapElement::RespawnActorMapElement(int32_t Id)
     , mSecsToRespawn(100)
     , mSecsToRespawnOriginal(100)
 {
+    AddInputNodeId(SpawnNodeId);
 }
 
 void RespawnActorMapElement::Load(Json::Value& setters)
 {
     MapElement::Load(setters);
-    AddInputNodeId(SpawnNodeId);
 
     std::string actorStr;
     if (!Json::GetStr(setters["actor"],actorStr))
@@ -65,6 +69,46 @@ void RespawnActorMapElement::SetSecsToRespawnOriginal(double secsToRespawnOrigin
 double RespawnActorMapElement::GetSecsToRespawnOriginal()const
 {
     return mSecsToRespawnOriginal;
+}
+
+void RespawnActorMapElement::AddComponentLoader(int32_t componentId, std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader)
+{
+    mComponentLoaders.insert(componentId,compLoader);
+}
+
+void RespawnActorMapElement::Save(Json::Value& Element)
+{
+    Opt<Actor> actor(Scene::Get().GetActor(mSpawnedActorGUID));
+    if (!actor.IsValid())
+    {
+        return;
+    }
+    MapElement::Save(Element);
+
+    std::string actorName;
+    if (IdStorage::Get().GetName(mActorID,actorName))
+    {
+        Element["actor"]=Json::Value(actorName);
+    }
+    Json::Value ComponentsArr(Json::arrayValue);
+
+    Opt<IPositionComponent> positionC(actor->Get<IPositionComponent>());
+    if (positionC.IsValid())
+    {
+        Json::Value Component(Json::objectValue);
+        positionC->Save(Component);
+        ComponentsArr.append(Component);
+    }
+
+    Opt<PickupCollisionComponent> pickupCollisionC(actor->Get<PickupCollisionComponent>());
+    if (pickupCollisionC.IsValid())
+    {
+        Json::Value Component(Json::objectValue);
+        pickupCollisionC->Save(Component);
+        ComponentsArr.append(Component);
+    }
+
+    Element["components"]=Json::Value(ComponentsArr);
 }
 
 } // namespace map

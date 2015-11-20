@@ -12,6 +12,7 @@
 #include "editor_brush_system.h"
 #include "engine/collision_system.h"
 #include "ctf_soldier_spawn_point_map_element.h"
+#include "respawn_actor_map_element.h"
 
 namespace map {
 
@@ -212,7 +213,33 @@ void EditorSystem::Save()
 	        OutJson.Write(JString);
         }
     }
+    {
+        Json::Value Root(Json::arrayValue);
+        MapElementList_t& mapElementList=MapSystem::Get()->GetMapElementList();
+        for (MapElementList_t::iterator i=mapElementList.begin(),e=mapElementList.end();i!=e;++i)
+        {
+            if ((*i)->GetType()==RespawnActorMapElement::GetType_static())
+            {
+                Json::Value Element(Json::objectValue);
+                (*i)->Save(Element);
+                if (Element.size()>0)
+                {
+                    Root.append(Element);
+                }
+            }
+        }
 
+        Json::StyledWriter Writer;
+        std::string const& JString=Writer.write(Root);
+        {
+	        OsFile OutJson("data/map/"+mLevelName+"/saved_pickups.json",std::ios_base::out);
+	        OutJson.Write(JString);
+        }
+        {
+	        OsFile OutJson("saved_pickups.json",std::ios_base::out);
+	        OutJson.Write(JString);
+        }
+    }
 }
 
 void EditorSystem::OnKeyEvent(const KeyEvent& Event)

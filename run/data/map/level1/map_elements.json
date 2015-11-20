@@ -31,7 +31,7 @@
         "name":"spawn_soldiers",
         "identifier":"spawn_soldiers"
     },
-{
+    {
       "actor" : "wall",
       "components" : [
          {
@@ -46,7 +46,7 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "spawn_actor"
-   },	
+    },	
 	{
         "name":"spawn_actor",
 		"actor":"wall","components":

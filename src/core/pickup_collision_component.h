@@ -11,6 +11,8 @@ public:
     virtual int32_t GetPickupContent() const;
     virtual void SetItemType( ItemType::Type itemType );
     virtual ItemType::Type GetItemType() const;
+    virtual void Save(Json::Value& component);
+
 protected:
     PickupCollisionComponent();
     friend class ComponentFactory;

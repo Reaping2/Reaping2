@@ -4,6 +4,7 @@
 #include "platform/i_platform.h"
 #include "platform/auto_id.h"
 #include "item_type.h"
+#include "platform/id_storage.h"
 
 using platform::AutoId;
 
@@ -33,6 +34,25 @@ void PickupCollisionComponent::SetItemType(ItemType::Type itemType)
 ItemType::Type PickupCollisionComponent::GetItemType() const
 {
     return mItemType;
+}
+
+void PickupCollisionComponent::Save(Json::Value& component)
+{
+    Component::Save(component);
+    Json::Value SettersArr(Json::arrayValue);
+    Json::Value Setters(Json::objectValue);
+    std::string typeName;
+    if (platform::IdStorage::Get().GetName(ItemType::Get()(mItemType),typeName))
+    {
+        Setters["type"]=Json::Value(typeName);
+    }
+    std::string pickupName;
+    if (platform::IdStorage::Get().GetName(mPickupContent,pickupName))
+    {
+        Setters["content"]=Json::Value(pickupName);
+    }
+    SettersArr.append(Setters);
+    component["set"]=SettersArr;
 }
 
 void PickupCollisionComponentLoader::BindValues()

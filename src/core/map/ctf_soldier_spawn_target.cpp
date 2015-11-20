@@ -11,6 +11,7 @@
 #include "ctf_soldier_spawn_point_map_element.h"
 #include "editor_soldier_spawn_system.h"
 #include "../i_team_component.h"
+#include "../i_move_component.h"
 namespace map {
 
 CtfSoldierSpawnTarget::CtfSoldierSpawnTarget(int32_t Id, int32_t curosrId, Team::Type team)
@@ -51,12 +52,14 @@ void CtfSoldierSpawnTarget::PutTarget(glm::vec2 position)
 
 std::auto_ptr<Actor> CtfSoldierSpawnTarget::GetCursor()
 {
-    std::auto_ptr<Actor> player(ActorFactory::Get()(AutoId("ctf_player")));
+    std::auto_ptr<Actor> player(ActorFactory::Get()(mCursorId));
     Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
     if (teamC.IsValid())
     {
         teamC->SetTeam(mTeam);
     }
+    Opt<IMoveComponent> moveC(player->Get<IMoveComponent>());
+    moveC->SetMoving(false);
     return player;
 }
 
