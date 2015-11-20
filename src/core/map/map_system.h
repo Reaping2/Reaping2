@@ -153,6 +153,7 @@ public:
     };
     static Opt<MapSystem> Get();
     MapElementList_t& GetMapElementList();
+    void RemoveMapElement(int32_t spawnedActorGUID);
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

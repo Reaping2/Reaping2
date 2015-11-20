@@ -74,7 +74,7 @@ Team::Type CtfSoldierSpawnPointMapElement::GetTeam()const
 
 void CtfSoldierSpawnPointMapElement::Save(Json::Value& Element)
 {
-        Opt<Actor> actor(Scene::Get().GetActor(mSpawnedActorGUID));
+    Opt<Actor> actor(Scene::Get().GetActor(mSpawnedActorGUID));
     if (!actor.IsValid())
     {
         return;

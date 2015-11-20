@@ -3,6 +3,7 @@
 
 #include "core/map/map_element_system.h"
 #include "core/actor_factory.h"
+#include "ctf_flag_spawn_point_map_element.h"
 
 namespace map {
 namespace ctf {
@@ -12,6 +13,7 @@ class CtfSpawnFlagsMapElementSystem : public MapElementSystem
 public:
     DEFINE_SYSTEM_BASE(CtfSpawnFlagsMapElementSystem)
     CtfSpawnFlagsMapElementSystem();
+    static void Spawn(Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement);
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

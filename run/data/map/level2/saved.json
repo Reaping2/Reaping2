@@ -62,21 +62,5 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "spawn_actor"
-   },
-   {
-      "actor" : "wall_small",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : 308.250,
-                  "y" : -220.140
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "spawn_actor"
    }
 ]

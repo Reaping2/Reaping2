@@ -41,26 +41,8 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
                 for( MapElementListFilter<MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
                 {
                     Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement(*ctfFlagSpawnPointMapElementIt);
-                    std::auto_ptr<Actor> ctfPlatform(mActorFactory(mPlatformAutoId));
-                    Opt<ITeamComponent> teamC(ctfPlatform->Get<ITeamComponent>());
-                    if (teamC.IsValid())
-                    {
-                        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam()/*==Team::Red?Team::Blue:Team::Red*/);
-                    }
-                    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfPlatform.get());
-                    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfPlatform.get())));
-                    mScene.AddActor(ctfPlatform.release()); 
+                    Spawn(ctfFlagSpawnPointMapElement);
 
-                    std::auto_ptr<Actor> ctfFlag(mActorFactory(mFlagAutoId));
-                    teamC = ctfFlag->Get<ITeamComponent>();
-                    if (teamC.IsValid())
-                    {
-                        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam());
-                    }
-                    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfFlag.get());
-                    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfFlag.get())));
-
-                    mScene.AddActor(ctfFlag.release());                   
                 }
             }
 //             else if (mProgramState.mMode==core::ProgramState::Local)
@@ -71,6 +53,31 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
         }
         ctfSpawnFlagsMapElement->ResetValues();
     }
+}
+
+void CtfSpawnFlagsMapElementSystem::Spawn(Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement)
+{
+    std::auto_ptr<Actor> ctfPlatform(ActorFactory::Get()(AutoId("platform")));
+    Opt<ITeamComponent> teamC(ctfPlatform->Get<ITeamComponent>());
+    if (teamC.IsValid())
+    {
+        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam()/*==Team::Red?Team::Blue:Team::Red*/);
+    }
+    ctfFlagSpawnPointMapElement->SetSpawnedActorGUID(ctfPlatform->GetGUID());
+    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfPlatform.get());
+    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfPlatform.get())));
+    Scene::Get().AddActor(ctfPlatform.release()); 
+
+    std::auto_ptr<Actor> ctfFlag(ActorFactory::Get()(AutoId("flag")));
+    teamC = ctfFlag->Get<ITeamComponent>();
+    if (teamC.IsValid())
+    {
+        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam());
+    }
+    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfFlag.get());
+    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfFlag.get())));
+
+    Scene::Get().AddActor(ctfFlag.release());
 }
 
 } // namespace ctf

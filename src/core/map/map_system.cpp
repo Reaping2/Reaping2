@@ -104,5 +104,18 @@ MapElementList_t& MapSystem::GetMapElementList()
     return mMapElementHolder.mAllMapElements;
 }
 
+void MapSystem::RemoveMapElement(int32_t spawnedActorGUID)
+{
+    for( MapElementList_t::iterator it = mMapElementHolder.mAllMapElements.begin(), e = mMapElementHolder.mAllMapElements.end(); it!=e; ++it )
+    {
+        if ((*it)->GetSpawnedActorGUID()==spawnedActorGUID)
+        {
+            delete (*it).Get();
+            mMapElementHolder.mAllMapElements.erase(it);
+            return;
+        }
+    }
+}
+
 } // namespace map
 

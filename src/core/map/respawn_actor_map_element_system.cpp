@@ -2,12 +2,14 @@
 #include "respawn_actor_map_element_system.h"
 #include "core/map/respawn_actor_map_element.h"
 #include "../i_health_component.h"
+#include "engine/engine.h"
 
 namespace map {
 
 RespawnActorMapElementSystem::RespawnActorMapElementSystem()
     : MapElementSystem()
     , mActorFactory(ActorFactory::Get())
+    , mRespawnOnDeath(true)
 {
 }
 
@@ -37,7 +39,7 @@ void RespawnActorMapElementSystem::Update(double DeltaTime)
             Opt<IHealthComponent> healthC(actor->Get<IHealthComponent>());
             actorDead=actorDead||healthC.IsValid()&&!healthC->IsAlive();
         }
-        if (actorDead)
+        if (actorDead&&mRespawnOnDeath)
         {
             respawnActorMapElement->SetSecsToRespawn(respawnActorMapElement->GetSecsToRespawn()-DeltaTime);
             if (respawnActorMapElement->GetSecsToRespawn()<=0)
@@ -60,6 +62,16 @@ void RespawnActorMapElementSystem::SpawnActor(Opt<RespawnActorMapElement> respaw
     respawnActorMapElement->SetSpawnedActorGUID(actor->GetGUID());
     respawnActorMapElement->SetSecsToRespawn(respawnActorMapElement->GetSecsToRespawnOriginal());
     mScene.AddActor(actor.release());
+}
+
+Opt<RespawnActorMapElementSystem> RespawnActorMapElementSystem::Get()
+{
+    return engine::Engine::Get().GetSystem<RespawnActorMapElementSystem>();
+}
+
+void RespawnActorMapElementSystem::SetRespawnOnDeath(bool respawnOnDeath)
+{
+    mRespawnOnDeath=respawnOnDeath;
 }
 
 

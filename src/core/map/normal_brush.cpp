@@ -23,22 +23,6 @@ void NormalBrush::Update(double DeltaTime)
 {
     if (mMouseLeftPressed&&!engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ))
     {
-//         std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("spawn_actor")));
-//         Opt<SpawnActorMapElement> spawnActor(static_cast<SpawnActorMapElement*>(mapElement.get()));
-//         spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId)(1);
-// 
-//         int32_t componentId=AutoId("position_component");
-//         ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-//         std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
-//         Opt<PositionComponentLoader> positionCompLoader(static_cast<PositionComponentLoader*>(compLoader.get()));
-//         glm::vec2 curPos=EditorTargetSystem::Get()->GetCursorPosition();
-//         positionCompLoader->Bind<double>(&PositionComponent::SetX,curPos.x);
-//         positionCompLoader->Bind<double>(&PositionComponent::SetY,curPos.y);
-//         spawnActor->AddComponentLoader(componentId,compLoader);
-// 
-//         spawnActor->SetActorID(EditorTargetSystem::Get()->GetTarget().GetActorId());
-//         mapElement->SetUID(AutoId("spawn_at_start"));
-//         MapSystem::Get()->GetMapElementList().insert(Opt<MapElement>(mapElement.release()));
         EditorTargetSystem::Get()->GetTarget().PutTarget(EditorTargetSystem::Get()->GetCursorPosition());
         mMouseLeftPressed=false;
     }
@@ -71,6 +55,7 @@ void NormalBrush::Update(double DeltaTime)
         for (std::vector<int32_t>::iterator i=removeActors.begin(), e=removeActors.end();i!=e;++i)
         {
             mScene.RemoveActor(*i);
+            MapSystem::Get()->RemoveMapElement(*i);
         }
         mMouseRightPressed=false;
     }

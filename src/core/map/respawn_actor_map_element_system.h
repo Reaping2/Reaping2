@@ -12,6 +12,8 @@ class RespawnActorMapElementSystem : public MapElementSystem
 public:
     DEFINE_SYSTEM_BASE(RespawnActorMapElementSystem)
     RespawnActorMapElementSystem();
+    static Opt<RespawnActorMapElementSystem> Get();
+    void SetRespawnOnDeath(bool respawnOnDeath);
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -20,6 +22,7 @@ protected:
 
 private:
     ActorFactory& mActorFactory;
+    bool mRespawnOnDeath;
 };
 
 } // namespace map
