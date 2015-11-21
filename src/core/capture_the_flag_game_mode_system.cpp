@@ -39,11 +39,11 @@ void CaptureTheFlagGameModeSystem::Update(double DeltaTime)
 {
     if (mProgramState.mMode==core::ProgramState::Server)
     {
-        if (mCtfProgramState.mBlueScore>=20)
+        if (mCtfProgramState.mBlueScore>=40)
         {
             EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(40000,"BLUE TEAM IS VICTORIOUS!"));
         }
-        if (mCtfProgramState.mRedScore>=20)
+        if (mCtfProgramState.mRedScore>=40)
         {
             EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(40000,"RED TEAM IS VICTORIOUS!"));
         }

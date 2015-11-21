@@ -93,7 +93,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -4000, -4000, 4000, 4000 )
+    : mDimensions( -2500, -2500, 2500, 2500 )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )

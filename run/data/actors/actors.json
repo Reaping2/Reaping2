@@ -118,7 +118,7 @@
             {"name":"health_component"},
 			{
                 "name":"fade_out_component",
-                "set":[{"secs_to_end":0.3}]
+                "set":[{"secs_to_end":0.33}]
             },
             {"name":"remove_on_death_component"}
         ]
@@ -140,7 +140,7 @@
             {"name":"health_component"},
 			{
                 "name":"fade_out_component",
-                "set":[{"secs_to_end":0.3}]
+                "set":[{"secs_to_end":0.4}]
             },
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"shotgun_alt2_projectile"
@@ -260,7 +260,7 @@
                 "set":[{"explosion_projectile":"pow_projectile"}]
 			},
             {"name":"fade_out_component",
-                "set":[{"secs_to_end":2.5}]
+                "set":[{"secs_to_end":2.25}]
             }
         ]
     },
@@ -424,7 +424,7 @@
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component",
-                "set":[{"add_item":"plasma_gun"}]
+                "set":[{"add_item":"pistol"}]
             },
             {"name":"health_component",
                 "set":[{"hp":100}]
@@ -450,10 +450,10 @@
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component",
-                "set":[{"add_item":"plasma_gun"}]
+                "set":[{"add_item":"pistol"}]
             },
             {"name":"health_component",
-                "set":[{"hp":1}]
+                "set":[{"hp":100}]
             },
             {"name":"accuracy_component",
                 "set":[{"accuracy":0}]

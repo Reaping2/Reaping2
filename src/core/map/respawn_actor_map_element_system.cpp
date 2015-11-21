@@ -39,7 +39,7 @@ void RespawnActorMapElementSystem::Update(double DeltaTime)
             Opt<IHealthComponent> healthC(actor->Get<IHealthComponent>());
             actorDead=actorDead||healthC.IsValid()&&!healthC->IsAlive();
         }
-        if (actorDead&&mRespawnOnDeath)
+        if (actorDead/*&&mRespawnOnDeath*/)
         {
             respawnActorMapElement->SetSecsToRespawn(respawnActorMapElement->GetSecsToRespawn()-DeltaTime);
             if (respawnActorMapElement->GetSecsToRespawn()<=0)

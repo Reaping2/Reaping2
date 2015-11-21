@@ -30,7 +30,10 @@ EditorSystem::EditorSystem()
     , mLevelName()
     , mHudState(false)
     , mSpaceTyped(false)
+    , mTimer()
+    , mAutoSaveOn(false)
 {
+    mTimer.SetFrequency(5000);
 }
 
 void EditorSystem::Init()
@@ -61,6 +64,7 @@ void EditorSystem::Load(std::string const& level)
 
     mScene.Load(level);
     Ui::Get().Load("editor_base_hud");
+    mAutoSaveOn=true;
 }
 
 double const& EditorSystem::GetX() const
@@ -82,6 +86,11 @@ EditorSystem::~EditorSystem()
 
 void EditorSystem::Update(double DeltaTime)
 {
+    mTimer.Update(DeltaTime);
+    if (mAutoSaveOn&&mTimer.IsTime())
+    {
+        Save();
+    }
     glm::vec2 cameraCenter=mRenderer->GetCamera().GetCenter();
     mX=cameraCenter.x;
     mY=cameraCenter.y;

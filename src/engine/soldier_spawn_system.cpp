@@ -72,7 +72,9 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map
     {
         L2("No actor for clientData(%s). (it might be an error on revive)\n",clientData.mClientName.c_str());
     }
+    L2("player is valid %d",player.get());
     Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
+    L2("positionC is valid %d",positionC.IsValid());
     positionC->SetX(spawnPoint.mX);
     positionC->SetY(spawnPoint.mY);
     //     glm::vec4 const& dimensions=mScene.GetDimensions();
@@ -83,7 +85,7 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map
     Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
     if (inventoryC.IsValid())
     {
-        inventoryC->SetSelectedWeapon(AutoId( "plasma_gun" ));
+        inventoryC->SetSelectedWeapon(AutoId( "pistol" ));
     }
 
     clientData.mClientActorGUID=player->GetGUID(); //TODO: might seek for a better place

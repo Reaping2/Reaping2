@@ -3,7 +3,7 @@
 PlasmaGun::PlasmaGun( int32_t Id )
     : Weapon( Id )
 {
-    mScatter = 15;
+    mScatter = 12;
     mAltScatter = 10;
     mShootCooldown = 0.15;
     mShootAltCooldown = 0.35;

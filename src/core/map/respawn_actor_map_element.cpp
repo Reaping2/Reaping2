@@ -109,6 +109,7 @@ void RespawnActorMapElement::Save(Json::Value& Element)
     }
 
     Element["components"]=Json::Value(ComponentsArr);
+    Element["secs_to_respawn"]=mSecsToRespawnOriginal;
 }
 
 } // namespace map

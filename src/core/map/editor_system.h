@@ -10,6 +10,7 @@
 #include "main/window.h"
 #include "render/camera.h"
 #include "render/renderer.h"
+#include "platform/frequency_timer.h"
 
 namespace map {
 
@@ -49,6 +50,9 @@ private:
     bool mHudState;
     bool mSpaceTyped;
     void OnKeyEvent( const KeyEvent& Event );
+
+    FrequencyTimer mTimer;
+    bool mAutoSaveOn;
 };
 
 } // namespace map

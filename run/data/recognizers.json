@@ -23,6 +23,8 @@
 		[
 			{"recognizer":"death",
 				"renderer":"death"},
+			{"recognizer":"ctf_hat",
+				"renderer":"soldier_current"},				
 			{"recognizer":"idle",
 				"renderer":"idle"},
 			{"recognizer":"leg_move",

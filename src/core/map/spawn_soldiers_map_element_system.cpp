@@ -43,6 +43,7 @@ void SpawnSoldiersMapElementSystem::Update(double DeltaTime)
                 Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
                 if (clientData.IsValid())
                 {
+                    L2("spawning local player");
                     std::auto_ptr<Actor> Pl(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));     
 
                     Pl->Get<PlayerControllerComponent>()->SetEnabled(true);

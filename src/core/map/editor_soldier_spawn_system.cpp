@@ -26,12 +26,15 @@ void EditorSoldierSpawnSystem::Update(double DeltaTime)
 
 void EditorSoldierSpawnSystem::OnMapStart(core::MapStartEvent const& Evt)
 {
-    MapElementListFilter<MapSystem::All> mapElementListFilter(MapSystem::Get()->GetMapElementList(),ctf::CtfSoldierSpawnPointMapElement::GetType_static());
-    for( MapElementListFilter<MapSystem::All>::const_iterator ctfSoldierSpawnPointMapElementIt = mapElementListFilter.begin(), ctfSoldierSpawnPointMapElementE = mapElementListFilter.end(); ctfSoldierSpawnPointMapElementIt != ctfSoldierSpawnPointMapElementE; ++ctfSoldierSpawnPointMapElementIt )
+    if (mEnabled)
     {
-        Opt<ctf::CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement(*ctfSoldierSpawnPointMapElementIt);
-        Spawn(ctfSoldierSpawnPointMapElement);
+        MapElementListFilter<MapSystem::All> mapElementListFilter(MapSystem::Get()->GetMapElementList(),ctf::CtfSoldierSpawnPointMapElement::GetType_static());
+        for( MapElementListFilter<MapSystem::All>::const_iterator ctfSoldierSpawnPointMapElementIt = mapElementListFilter.begin(), ctfSoldierSpawnPointMapElementE = mapElementListFilter.end(); ctfSoldierSpawnPointMapElementIt != ctfSoldierSpawnPointMapElementE; ++ctfSoldierSpawnPointMapElementIt )
+        {
+            Opt<ctf::CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement(*ctfSoldierSpawnPointMapElementIt);
+            Spawn(ctfSoldierSpawnPointMapElement);
 
+        }
     }
 }
 
