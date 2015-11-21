@@ -29,6 +29,7 @@ TargetRepo::TargetRepo()
     id=AutoId("shotgun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("heal_over_time_buff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("move_speed_buff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
+    id=AutoId("accuracy_buff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("ctf_flag_spawn_blue"); mElements.insert(id, new FlagSpawnTarget(id,AutoId("platform"),Team::Blue));
     id=AutoId("ctf_flag_spawn_red"); mElements.insert(id, new FlagSpawnTarget(id,AutoId("platform"),Team::Red));
 
