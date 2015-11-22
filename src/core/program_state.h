@@ -13,14 +13,9 @@ struct ClientData
     std::string mClientName;
     int32_t mClientActorGUID;
     SoldierProperties mSoldierProperties;
-    ClientData()
-        :mClientId(0)
-        ,mClientActorGUID(0)
-    {
-    }
+    ClientData();
 
-    ClientData(int32_t clientId, std::string const& clientName)
-        :mClientId(clientId),mClientName(clientName) {}
+    ClientData(int32_t clientId, std::string const& clientName);
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);

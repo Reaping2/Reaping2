@@ -42,4 +42,21 @@ namespace core {
         return Opt<ClientData>();
     }
 
+
+    ClientData::ClientData() 
+        :mClientId(0)
+        ,mClientActorGUID(-1)
+    {
+
+    }
+
+    ClientData::ClientData(int32_t clientId, std::string const& clientName)
+        :mClientId(clientId)
+        ,mClientName(clientName)
+        ,mClientActorGUID(-1)
+
+    {
+
+    }
+
 } // namespace core
