@@ -1,6 +1,22 @@
 #include "i_render.h"
+#include "main/window.h"
+#include "engine/engine.h"
 
-bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, std::string& OutBuf )
+namespace {
+void scale( float& x, float& y, float ratio )
+{
+    if( ratio >= 1.0f )
+    {
+        x /=ratio;
+    }
+    else
+    {
+        y *= ratio;
+    }
+}
+}
+
+bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio )
 {
     static Font& Fnt( Font::Get() );
     double FontSize = Wdg( Widget::PT_FontSize );
@@ -25,6 +41,7 @@ bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, st
             return false;
         }
         RequiredSize = TexDim;
+        scale( RequiredSize.x, RequiredSize.y, Ratio );
         RequiredSize *= ( FontSize / TexFontSize );
         if( RequiredSize.x <= Dim.z && RequiredSize.y <= Dim.w )
         {
@@ -46,9 +63,12 @@ bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, st
 
 void TextUiModel::CollectVertices( Widget const& Wdg, UiVertexInserter_t& Inserter )const
 {
+    int w, h;
+    engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
+    float Ratio = ( h != 0 ) ? ( 1.0f * w / h ) : 1.0f;
     glm::vec2 RequiredSize;
     std::string Buf;
-    if( !CalcRequiredSize( Wdg, RequiredSize, Buf ) )
+    if( !CalcRequiredSize( Wdg, RequiredSize, Buf, Ratio ) )
     {
         return;
     }
@@ -60,7 +80,7 @@ void TextUiModel::CollectVertices( Widget const& Wdg, UiVertexInserter_t& Insert
     {
         SpritePhase const& Phase = Fnt.GetChar( *i );
         Dim.z = RequiredSize.x * ( Phase.Right - Phase.Left );
-        Dim.w = RequiredSize.x * ( Phase.Bottom - Phase.Top );
+        Dim.w = RequiredSize.x * Ratio * ( Phase.Bottom - Phase.Top );
         TexturedBox( Dim, Phase, Col, TexId, Inserter );
         Dim.x += Dim.z;
     }
