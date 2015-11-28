@@ -79,6 +79,11 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending(Message const& message)
         playerControllerC->mActive=true;
         mScene.SetPlayerModels(actor);
     }
+    Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(msg.mClientId));
+    if (clientData.IsValid())
+    {
+        clientData->mClientActorGUID=msg.mActorGUID;
+    }
     return true;
 }
 

@@ -40,7 +40,7 @@ bool CollisionMessageHandlerSubSystem::ProcessPending(Message const& message)
 {
     CollisionMessage const& msg=static_cast<CollisionMessage const&>(message);
     Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed
-    L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
+    //L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
     Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
     if (!collisionC.IsValid())
     {

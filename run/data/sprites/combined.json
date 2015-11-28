@@ -21,23 +21,6 @@
          {
             "animations" : [
                {
-                  "h" : 200,
-                  "name" : "body_idle",
-                  "phases" : [
-                     {
-                        "x" : 2,
-                        "y" : 2
-                     }
-                  ],
-                  "scale" : 1.0,
-                  "w" : 200
-               }
-            ],
-            "name" : "wall_small"
-         },		 
-         {
-            "animations" : [
-               {
                   "h" : 150,
                   "name" : "default_action",
                   "phases" : [

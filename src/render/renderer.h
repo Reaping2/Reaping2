@@ -2,6 +2,8 @@
 #define INCLUDED_RENDER_RENDERER_H
 #include "platform/i_platform.h"
 #include "render/i_render.h"
+#include "name_renderer.h"
+#include "text_scene_renderer.h"
 
 namespace engine {
 class RendererSystem : public System
@@ -15,9 +17,10 @@ class RendererSystem : public System
     SceneRenderer mSceneRenderer;
     ActorRenderer mActorRenderer;
     UiRenderer mUiRenderer;
+    NameRenderer mNameRenderer;
+    TextSceneRenderer mTextSceneRenderer;
     DecalEngine& mDecalEngine;
     ShaderManager& mShaderManager;
-
     AutoReg mMouseMoveId;
     AutoReg mMousePressId;
     AutoReg mMouseReleaseId;

@@ -450,5 +450,24 @@
 				]
 			}
 		]
+	},
+	{
+		"texture_path":"textures/brickwall1.png",
+		"actor_visuals":
+		[	
+	        {
+				"animations" : 
+				[
+                    {
+					  "h" : 50,
+					  "name" : "body_idle",
+						"phases":[{"x":0,"y":0}],
+					  "scale" : 1.0,
+					  "w" : 50
+					}
+				],
+				"name" : "wall_small"
+			}	
+		]
 	}
 ]

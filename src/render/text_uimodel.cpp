@@ -1,6 +1,7 @@
 #include "i_render.h"
 #include "main/window.h"
 #include "engine/engine.h"
+#include "text.h"
 
 namespace {
 void scale( float& x, float& y, float ratio )
@@ -18,17 +19,23 @@ void scale( float& x, float& y, float ratio )
 
 bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio )
 {
+    Text text(Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(),GetColor( Wdg ),Wdg( Widget::PT_Text ),glm::vec2(0.0,0.0),false);
+    return CalcRequiredSize(text,OutReqSize,OutBuf,Ratio);
+}
+
+bool TextUiModel::CalcRequiredSize(Text const& text, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio)
+{
     static Font& Fnt( Font::Get() );
-    double FontSize = Wdg( Widget::PT_FontSize );
+    double FontSize = text.mFontSize;
     double TexFontSize = Fnt.GetFontSize();
-    glm::vec4 const& Dim = Wdg.GetDimensions();
+    glm::vec4 const& Dim = text.mDimensions;
     if( TexFontSize <= std::numeric_limits<float>::epsilon() )
     {
         return false;
     }
     glm::vec2 RequiredSize;
     glm::vec2 TexDim;
-    std::string Buf = Wdg( Widget::PT_Text );
+    std::string Buf = text.mText;
     do
     {
         if( Buf.empty() )
@@ -63,17 +70,23 @@ bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, st
 
 void TextUiModel::CollectVertices( Widget const& Wdg, UiVertexInserter_t& Inserter )const
 {
+    Text text(Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(),GetColor( Wdg ),Wdg( Widget::PT_Text ),glm::vec2(0.0,0.0),false);
+    CollectVertices(text,Inserter);
+}
+
+void TextUiModel::CollectVertices(Text const& text, UiVertexInserter_t& Inserter)
+{
     int w, h;
     engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
-    float Ratio = ( h != 0 ) ? ( 1.0f * w / h ) : 1.0f;
+    float Ratio = ( h != 0 ) ? ( 0.7f * w / h ) : 0.7f;
     glm::vec2 RequiredSize;
     std::string Buf;
-    if( !CalcRequiredSize( Wdg, RequiredSize, Buf, Ratio ) )
+    if( !CalcRequiredSize( text, RequiredSize, Buf, Ratio ) )
     {
         return;
     }
-    glm::vec4 const& Col = GetColor( Wdg );
-    glm::vec4 Dim = Wdg.GetDimensions();
+    glm::vec4 const& Col = text.mColor;
+    glm::vec4 Dim = text.mDimensions;
     static Font& Fnt( Font::Get() );
     GLuint const TexId = Fnt.GetTexId();
     for( std::string::const_iterator i = Buf.begin(), e = Buf.end(); i != e; ++i )
