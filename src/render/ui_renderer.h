@@ -1,6 +1,10 @@
 #ifndef INCLUDED_RENDER_UI_RENDERER_H
 #define INCLUDED_RENDER_UI_RENDERER_H
+#include "platform/i_platform.h"
+#include "ui/i_ui.h"
+
 #include "core/opt.h"
+#include "vao_base.h"
 
 struct UiVertex
 {

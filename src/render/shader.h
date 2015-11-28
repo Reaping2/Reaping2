@@ -1,5 +1,8 @@
 #ifndef INCLUDED_RENDER_SHADER_H
 #define INCLUDED_RENDER_SHADER_H
+#include "platform/i_platform.h"
+//#include "shader_repo.h"
+//#include "shader_manager.h"
 
 class ShaderRepo;
 class ShaderManager;

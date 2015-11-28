@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "uimodel.h"
 
 void UiModel::CollectVertices( Widget const& Wdg, UiVertexInserter_t& Inserter )const
 {

@@ -1,6 +1,9 @@
 #ifndef INCLUDED_RENDER_SHADER_REPO_H
 #define INCLUDED_RENDER_SHADER_REPO_H
+#include "platform/i_platform.h"
+#include "shader.h"
 
+class Shader;
 class ShaderRepo : public Repository<Shader>, public Singleton<ShaderRepo>
 {
     Shader mDefaultShader;

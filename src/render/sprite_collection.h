@@ -1,7 +1,10 @@
 #ifndef INCLUDED_RENDER_SPRITE_COLLECTION_H
 #define INCLUDED_RENDER_SPRITE_COLLECTION_H
+#include "platform/i_platform.h"
+#include "sprite.h"
 
 class RenderableRepo;
+//class Sprite;
 class SpriteCollection : public Repository<Sprite>
 {
     static Sprite DefaultSprite;

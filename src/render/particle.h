@@ -1,5 +1,6 @@
 #ifndef INCLUDED_RENDER_DECAL_H
 #define INCLUDED_RENDER_DECAL_H
+#include "platform/i_platform.h"
 
 struct Decal
 {

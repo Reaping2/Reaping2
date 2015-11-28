@@ -1,11 +1,13 @@
 #ifndef INCLUDED_RENDER_ACTOR_RENDERER_H
 #define INCLUDED_RENDER_ACTOR_RENDERER_H
+#include "platform/i_platform.h"
 #include "core/scene.h"
 #include "recognizer_repo.h"
 #include "action_renderer.h"
 #include "action_renderer_factory.h"
 #include "renderable_sprite.h"
 #include "core/actor_event.h"
+#include "vao_base.h"
 using render::RenderableSprite;
 using render::RecognizerRepo;
 using render::ActionRenderer;

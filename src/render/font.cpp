@@ -1,4 +1,7 @@
 #include "i_render.h"
+#include "font.h"
+#include "texture.h"
+#include "sprite_phase.h"
 
 Font::Font()
     : mFirstChar( 0 )

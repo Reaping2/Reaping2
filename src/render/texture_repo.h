@@ -1,6 +1,8 @@
 #ifndef INCLUDED_RENDER_TEXTURE_REPO_H
 #define INCLUDED_RENDER_TEXTURE_REPO_H
+#include "platform/i_platform.h"
 
+class Texture;
 class TextureRepo : public Repository<Texture>, public Singleton<TextureRepo>
 {
     static const Texture DefaultTexture;

@@ -1,6 +1,11 @@
 #include "i_render.h"
+#include "ui_renderer.h"
 #include "main/window.h"
 #include "engine/engine.h"
+#include "uimodel_repo.h"
+#include "shader_manager.h"
+#include "uimodel.h"
+#include "font.h"
 
 void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
 {

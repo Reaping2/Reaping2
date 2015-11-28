@@ -4,6 +4,12 @@
 #include "render/i_render.h"
 #include "name_renderer.h"
 #include "text_scene_renderer.h"
+#include "camera.h"
+#include "projection.h"
+#include "scene_renderer.h"
+#include "actor_renderer.h"
+#include "particle_engine.h"
+#include "shader_manager.h"
 
 namespace engine {
 class RendererSystem : public System

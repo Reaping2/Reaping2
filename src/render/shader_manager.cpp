@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "shader_manager.h"
+#include "shader_repo.h"
 
 ShaderManager::ShaderManager()
     : mActiveShader( NULL )

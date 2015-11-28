@@ -1,9 +1,11 @@
 #ifndef INCLUDED_RENDER_SPRITE_H
 #define INCLUDED_RENDER_SPRITE_H
+#include "platform/i_platform.h"
 #include "sprite_phase.h"
+#include "texture.h"
 
 class SpriteCollection;
-class Texture;
+// class Texture;
 
 class Sprite : public Repository<SpritePhase>
 {

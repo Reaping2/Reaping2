@@ -1,5 +1,6 @@
 #ifndef INCLUDED_RENDER_PROJECTION_H
 #define INCLUDED_RENDER_PROJECTION_H
+#include "platform/i_platform.h"
 #include "main/window.h"
 
 struct Viewport

@@ -1,4 +1,8 @@
 #include "i_render.h"
+#include "particle_engine.h"
+#include "shader_manager.h"
+#include "sprite.h"
+#include "sprite_phase.h"
 
 DecalEngine::DecalEngine()
     : mRenderables( RenderableRepo::Get() )

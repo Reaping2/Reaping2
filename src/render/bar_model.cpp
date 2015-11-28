@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "bar_model.h"
 
 void BarModel::CollectVertices( const Widget& Wdg, UiVertexInserter_t& Inserter ) const
 {

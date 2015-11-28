@@ -1,5 +1,6 @@
 #ifndef INCLUDED_RENDER_CAMERA_H
 #define INCLUDED_RENDER_CAMERA_H
+#include "platform/i_platform.h"
 #include "core/scene.h"
 #include "projection.h"
 

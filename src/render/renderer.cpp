@@ -1,4 +1,7 @@
 #include "i_render.h"
+#include "renderer.h"
+#include "ui/i_ui.h"
+#include "font.h"
 namespace engine {
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )

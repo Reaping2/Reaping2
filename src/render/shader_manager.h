@@ -1,5 +1,7 @@
 #ifndef INCLUDED_RENDER_SHADER_MANAGER_H
 #define INCLUDED_RENDER_SHADER_MANAGER_H
+#include "platform/i_platform.h"
+#include "shader.h"
 
 struct GlobalShaderData
 {

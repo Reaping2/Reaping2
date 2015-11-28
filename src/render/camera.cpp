@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "camera.h"
 
 Camera::Camera( Projection const& Proj )
     : mScene( Scene::Get() )

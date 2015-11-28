@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "vao_base.h"
 
 void VaoBase::Init()
 {

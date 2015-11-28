@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "renderable_repo.h"
+#include "sprite_collection.h"
 
 RenderableRepo::RenderableRepo()
     : RepoBase( DefaultRenderable )

@@ -1,7 +1,9 @@
 #ifndef INCLUDED_RENDER_TEXTURE_H
 #define INCLUDED_RENDER_TEXTURE_H
+#include "platform/i_platform.h"
+#include "texture_repo.h"
 
-class TextureRepo;
+//class TextureRepo;
 class Texture
 {
     friend class TextureRepo;

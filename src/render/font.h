@@ -1,5 +1,8 @@
 #ifndef INCLUDED_RENDER_FONT_H
 #define INCLUDED_RENDER_FONT_H
+#include "platform/i_platform.h"
+#include "sprite_phase.h"
+#include "texture.h"
 
 class Font : public Singleton<Font>
 {

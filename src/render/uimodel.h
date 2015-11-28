@@ -1,7 +1,11 @@
 #ifndef INCLUDED_RENDER_UIMODEL_H
 #define INCLUDED_RENDER_UIMODEL_H
+#include "platform/i_platform.h"
+#include "ui/i_ui.h"
+#include "ui_renderer.h"
+#include "sprite_phase.h"
+#include "uimodel_repo.h"
 
-class UiModelRepo;
 class UiModel
 {
 protected:

@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "sprite.h"
+#include "texture_repo.h"
 
 Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
     : RepoBase( DefaultSpritePhase )

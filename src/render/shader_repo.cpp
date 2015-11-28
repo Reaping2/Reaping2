@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "shader_repo.h"
+#include "shader.h"
 
 ShaderRepo::ShaderRepo()
     : Repository<Shader>( mDefaultShader )

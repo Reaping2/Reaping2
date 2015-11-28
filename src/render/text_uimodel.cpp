@@ -1,7 +1,10 @@
 #include "i_render.h"
+#include "text_uimodel.h"
 #include "main/window.h"
 #include "engine/engine.h"
 #include "text.h"
+#include "font.h"
+
 
 namespace {
 void scale( float& x, float& y, float ratio )

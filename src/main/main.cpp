@@ -48,6 +48,7 @@
 #include "network/ctf_score_message.h"
 #include "network/show_text_message_message.h"
 #include "network/collision_message.h"
+#include "render/damage_particles.h"
 
 using engine::Engine;
 namespace {

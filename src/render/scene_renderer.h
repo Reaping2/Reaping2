@@ -1,6 +1,10 @@
 #ifndef INCLUDED_RENDER_SCENE_RENDERER_H
 #define INCLUDED_RENDER_SCENE_RENDERER_H
+#include "platform/i_platform.h"
+
 #include "core/scene.h"
+#include "vao_base.h"
+#include "renderable_repo.h"
 
 class SceneRenderer
 {

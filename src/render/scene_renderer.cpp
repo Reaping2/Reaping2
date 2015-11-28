@@ -1,4 +1,8 @@
 #include "i_render.h"
+#include "scene_renderer.h"
+#include "shader_manager.h"
+#include "sprite.h"
+#include "sprite_phase.h"
 
 SceneRenderer::SceneRenderer()
     : mRenderables( RenderableRepo::Get() )

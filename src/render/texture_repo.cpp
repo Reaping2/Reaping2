@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "texture_repo.h"
+#include "texture.h"
 
 void TextureRepo::Init()
 {

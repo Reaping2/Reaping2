@@ -11,6 +11,8 @@
 #include "engine/engine.h"
 #include "text.h"
 #include "text_uimodel.h"
+#include "shader_manager.h"
+#include "font.h"
 
 void TextSceneRenderer::Init()
 {
@@ -56,6 +58,10 @@ void TextSceneRenderer::Draw()
     {
         Text const& text=*i;
         TextUiModel::CollectVertices( text, Inserter );
+        if (Vertices.empty())
+        {
+            continue;
+        }
         UiVertex vertex = Vertices.back();
         float correction=text.mAlignMiddle?(vertex.Pos.x+vertex.TexCoord.x)/2.0f:0.0f;
 

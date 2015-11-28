@@ -1,5 +1,8 @@
 #include "i_render.h"
 #include "core/damage_taken_event.h"
+#include "damage_particles.h"
+#include "renderable_repo.h"
+#include "particle.h"
 
 using core::DamageTakenEvent;
 

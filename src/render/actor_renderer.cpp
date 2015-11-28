@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "actor_renderer.h"
 #include "core/i_position_component.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
@@ -6,6 +7,7 @@
 #include "core/i_renderable_component.h"
 #include "core/actor.h"
 #include "recognizer.h"
+#include "shader_manager.h"
 
 void ActorRenderer::Init()
 {

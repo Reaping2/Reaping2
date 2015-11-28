@@ -1,5 +1,9 @@
 #ifndef INCLUDED_RENDER_DECAL_ENGINE_H
 #define INCLUDED_RENDER_DECAL_ENGINE_H
+#include "platform/i_platform.h"
+#include "vao_base.h"
+#include "particle.h"
+#include "renderable_repo.h"
 
 class DecalEngine : public Singleton<DecalEngine>
 {

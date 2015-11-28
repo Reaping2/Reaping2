@@ -1,4 +1,8 @@
 #include "i_render.h"
+#include "uimodel_repo.h"
+#include "text_uimodel.h"
+#include "bar_model.h"
+#include "uimodel.h"
 
 UiModelRepo::UiModelRepo()
     : RepoBase( DefaultUiModel )

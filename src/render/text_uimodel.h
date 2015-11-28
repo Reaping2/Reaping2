@@ -1,5 +1,10 @@
 #ifndef INCLUDED_RENDER_TEXT_UIMODEL_H
 #define INCLUDED_RENDER_TEXT_UIMODEL_H
+#include "platform/i_platform.h"
+#include "ui/i_ui.h"
+#include "uimodel.h"
+#include "ui_renderer.h"
+
 struct Text;
 
 class TextUiModel : public UiModel

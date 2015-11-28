@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "texture.h"
 
 Texture::Texture( size_t Width, size_t Height, size_t Channels, uint8_t const* Data )
     : mWidth( Width )

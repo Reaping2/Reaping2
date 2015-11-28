@@ -1,4 +1,6 @@
 #include "i_render.h"
+#include "sprite_collection.h"
+#include "sprite.h"
 
 SpriteCollection::SpriteCollection()
     : RepoBase( DefaultSprite )

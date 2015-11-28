@@ -1,4 +1,5 @@
 #include "i_render.h"
+#include "shader.h"
 
 namespace {
 void printShaderInfoLog( GLuint obj )
