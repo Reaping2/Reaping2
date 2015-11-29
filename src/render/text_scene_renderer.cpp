@@ -74,7 +74,7 @@ void TextSceneRenderer::Draw()
             Colors.push_back( Vert.Color );
             TextPosition.push_back(glm::vec2(text.mPosition.x-correction,text.mPosition.y));
         }
-        lastVertexIndex=Vertices.size()-1;
+        lastVertexIndex=Vertices.size();
         lastVertexIndex=std::max(0,lastVertexIndex);
     }
     size_t const CurSize = Vertices.size();

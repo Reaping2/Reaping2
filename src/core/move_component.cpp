@@ -30,8 +30,8 @@ double MoveComponent::GetSpeedY() const
 void MoveComponent::SetHeading( double Heading )
 {
     mHeading = std::floor(Heading*PRECISION)/PRECISION;
-    mHeadingCos = cos( mHeading );
-    mHeadingSin = sin( mHeading );
+    mHeadingCos = glm::round(cos( mHeading )*PRECISION/10)/PRECISION*10;
+    mHeadingSin = glm::round(sin( mHeading )*PRECISION/10)/PRECISION*10;
 }
 
 double const& MoveComponent::GetHeadingModifier() const

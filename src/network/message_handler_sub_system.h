@@ -62,8 +62,8 @@ namespace network {
                 ++i->second;
                 if (i->second>5)
                 {
-                    i=mPendingMessages.erase(i);
                     L1("cannot find actor with GUID: %d, tries: %d (%s) (----remove message----) \n",msg.mActorGUID,i->second,__FUNCTION__ );
+                    i=mPendingMessages.erase(i);
                 }
                 else
                 {

@@ -28,8 +28,8 @@ void Camera::Update()
     {
         return;
     }
-    double px = PlayerModel["x"];
-    double py = PlayerModel["y"];
+    double px = double(PlayerModel["x"]);
+    double py = double(PlayerModel["y"]);
     if( mCenter.x < px - mAllowedDistance.x )
     {
         mCenter.x = ( float )px - mAllowedDistance.x;
@@ -63,6 +63,8 @@ void Camera::Update()
     {
         mCenter.y = mAllowedCenterRegion.w;
     }
+    mCenter.x=glm::round(mCenter.x);
+    mCenter.y=glm::round(mCenter.y);
     UpdateMatrices();
 }
 

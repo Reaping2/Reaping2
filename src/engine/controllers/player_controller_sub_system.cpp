@@ -89,6 +89,10 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerC
     {
         Heading = ( x < 0 ) ? pi * 1.25 : pi * 1.75;
     }
+//    double hed=std::floor(Heading*PRECISION)/PRECISION;
+//     L1("heading: %f,prec: %f cos: %f sin: %f, cosreal: %f sinreal: %f\n",Heading,hed
+//         ,glm::round(cos( hed )*PRECISION/10)/PRECISION*10,glm::round(sin( hed )*PRECISION/10)/PRECISION*10
+//         ,glm::round(cos( hed )*PRECISION)/PRECISION,glm::round(sin( hed )*PRECISION)/PRECISION);
     actor.Get<IMoveComponent>()->SetHeading( Heading );
 }
 

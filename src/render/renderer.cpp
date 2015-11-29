@@ -113,6 +113,7 @@ void RendererSystem::Update(double DeltaTime)
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
     mTextSceneRenderer.Draw();
+    mHealthBarRenderer.Draw();
     EndRender();
 }
 

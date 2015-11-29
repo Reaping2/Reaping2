@@ -26,7 +26,7 @@ void LocalSystem::Update(double DeltaTime)
 void LocalSystem::OnLocalStart()
 {
     mProgramState.mClientId=0;
-    mProgramState.mClientName="";
+    mProgramState.mClientName="kvakmama";
     mProgramState.mClientDatas.clear();
     mProgramState.mClientDatas.push_back(core::ClientData(mProgramState.mClientId,mProgramState.mClientName));
     Ui::Get().Load("soldier_properties");

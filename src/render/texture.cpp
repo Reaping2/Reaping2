@@ -16,8 +16,8 @@ Texture::Texture( size_t Width, size_t Height, size_t Channels, uint8_t const* D
     glBindTexture( GL_TEXTURE_2D, mTexId );
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0,
                   Channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, ( GLvoid* ) Data );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 }
 
 Texture::~Texture()

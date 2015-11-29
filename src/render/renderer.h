@@ -10,6 +10,7 @@
 #include "actor_renderer.h"
 #include "particle_engine.h"
 #include "shader_manager.h"
+#include "health_bar_renderer.h"
 
 namespace engine {
 class RendererSystem : public System
@@ -25,6 +26,7 @@ class RendererSystem : public System
     UiRenderer mUiRenderer;
     NameRenderer mNameRenderer;
     TextSceneRenderer mTextSceneRenderer;
+    HealthBarRenderer mHealthBarRenderer;
     DecalEngine& mDecalEngine;
     ShaderManager& mShaderManager;
     AutoReg mMouseMoveId;
