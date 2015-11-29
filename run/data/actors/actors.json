@@ -73,7 +73,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":5 }]
+                "set":[{"class":"projectile", "radius":7, "damage":10 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -91,7 +91,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":4, "damage":7 }]
+                "set":[{"class":"projectile", "radius":4, "damage":12 }]
             },
             {"name":"health_component"},
 			{
@@ -113,7 +113,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":4, "damage":2 }]
+                "set":[{"class":"projectile", "radius":4, "damage":5 }]
             },
             {"name":"health_component"},
 			{
@@ -129,13 +129,13 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1200}]
+                "set":[{"speed":2000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":17, "damage":5 }]
+                "set":[{"class":"projectile", "radius":17, "damage":20 }]
             },
             {"name":"health_component"},
 			{
@@ -154,14 +154,14 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1000}]
+                "set":[{"speed":1300}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":15, "damage":5 }]
+                "set":[{"class":"projectile", "radius":15, "damage":11 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -173,14 +173,14 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":700}]
+                "set":[{"speed":1100}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":12, "damage":10 }]
+                "set":[{"class":"projectile", "radius":8, "damage":15 }]
             },
             {"name":"health_component"},
             {"name":"explode_on_death_component",
@@ -200,14 +200,14 @@
             {"name":"target_holder_component"},
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":700}]
+                "set":[{"speed":1000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":12, "damage":20 }]
+                "set":[{"class":"projectile", "radius":8, "damage":30 }]
             },
             {"name":"health_component"},
             {"name":"explode_on_death_component",
@@ -231,7 +231,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":5, "damage":0 }]
+                "set":[{"class":"projectile", "radius":10, "damage":0 }]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
@@ -243,10 +243,10 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":800}]
+                "set":[{"speed":1000}]
             },
             {"name":"acceleration_component",
-                "set":[{"acceleration":-400,"min_speed":0}]
+                "set":[{"acceleration":-600,"min_speed":0}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
@@ -260,7 +260,7 @@
                 "set":[{"explosion_projectile":"pow_projectile"}]
 			},
             {"name":"fade_out_component",
-                "set":[{"secs_to_end":2.25}]
+                "set":[{"secs_to_end":1.5}]
             }
         ]
     },
@@ -276,7 +276,7 @@
                 "set":[{"class":"aoe", "radius":14, "damage":50, "damage_once":1 }]
             },
             {"name":"explosion_component",
-                "set":[{"scale_speed":2000.0, "max_radius":200.0}]
+                "set":[{"scale_speed":2000.0, "max_radius":300.0}]
             },
             {"name":"health_component"},
 			{"name":"remove_on_death_component"},
@@ -294,10 +294,10 @@
                 "set":[{"layer":"buildings"}]
             },
             {"name":"aoe_collision_component",
-                "set":[{"class":"aoe", "radius":14, "damage":10, "damage_once":1 }]
+                "set":[{"class":"aoe", "radius":14, "damage":15, "damage_once":1 }]
             },
             {"name":"explosion_component",
-                "set":[{"scale_speed":1000.0, "max_radius":75.0}]
+                "set":[{"scale_speed":1000.0, "max_radius":100.0}]
             },
             {"name":"health_component"},
 			{"name":"remove_on_death_component"},
@@ -315,10 +315,10 @@
                 "set":[{"layer":"buildings"}]
             },
             {"name":"aoe_collision_component",
-                "set":[{"class":"aoe", "radius":14, "damage":15, "damage_once":1 }]
+                "set":[{"class":"aoe", "radius":14, "damage":22, "damage_once":1 }]
             },
             {"name":"explosion_component",
-                "set":[{"scale_speed":1000.0, "max_radius":125.0}]
+                "set":[{"scale_speed":1000.0, "max_radius":140.0}]
             },
             {"name":"health_component"},
 			{"name":"remove_on_death_component"},
