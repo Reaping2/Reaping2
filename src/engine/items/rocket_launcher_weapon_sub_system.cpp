@@ -31,19 +31,16 @@ namespace engine
 			return;
 
 		int32_t IdToSend;
-		int32_t ScatterToSend;
 		WeaponItemSubSystem::Projectiles_t projectiles;
 		std::auto_ptr<Actor> rocket = mActorFactory(mRocketId);
 
 		if(weapon->IsShoot())
 		{
 			IdToSend = mShotId;
-			ScatterToSend = weapon->GetScatter();
 		}
 		else if(weapon->IsShootAlt())
 		{
 			IdToSend = mAltShotId;
-			ScatterToSend = weapon->GetAltScatter();
             rocket=mActorFactory(mAltShotId);
 			// TODO: how to make it homing? this way faka
 		}
@@ -54,7 +51,7 @@ namespace engine
 
 		EventServer<AudibleEvent>::Get().SendEvent(AudibleEvent(IdToSend));
 		projectiles.push_back(rocket.release());
-		mWeaponItemSubSystem->AddProjectiles(actor,projectiles,ScatterToSend);
+		mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),weapon->IsShootAlt());
 		
 	}
 

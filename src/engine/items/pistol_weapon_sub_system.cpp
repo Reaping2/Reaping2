@@ -33,7 +33,7 @@ void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter());
+        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
     }
     else if (weapon->IsShootAlt())
     {
@@ -44,7 +44,7 @@ void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetAltScatter());
+        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
     }
 }
 

@@ -8,12 +8,16 @@
 #include "core/actor.h"
 #include "recognizer.h"
 #include "shader_manager.h"
+#include "input/mouse.h"
+#include "engine/engine.h"
+#include "core/program_state.h"
+#include "core/scene.h"
 
 void ActorRenderer::Init()
 {
     mVAO.Init();
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &ActorRenderer::OnActorEvent, this, _1 ) );
-
+    mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &ActorRenderer::OnMouseMoveEvent, this, _1 ) );
 }
 
 void ActorRenderer::OnActorEvent(ActorEvent const& Evt)
@@ -105,7 +109,7 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     // Meg persze (last cmp) pointerek szerint, hogy determinisztikus legyen.
     //std::sort( RenderableSprites.begin(), RenderableSprites.end(), RenderableSpriteCompare() );
 
-    size_t CurSize = RenderableSprites.size();
+    size_t CurSize = RenderableSprites.size()+2;
     typedef std::vector<glm::vec2> Positions_t;
     Positions_t Positions;
     Positions.reserve( CurSize );
@@ -159,7 +163,31 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     {
         Counts.push_back( CountByTexId( TexId, Start, Count ) );
     }
-
+    Start += Count;
+    Count = 1;
+    Sprite const& Spr=RenderableRepo::Get()(AutoId("cross"))(AutoId("default_action"));
+    SpritePhase const& Phase = Spr( 0 );
+    TexId = Phase.TexId;
+    Opt<Actor> actor=Scene::Get().GetActor(core::ProgramState::Get().mControlledActorGUID);
+    if (actor.IsValid())
+    {
+        Sizes.push_back( ( GLfloat )actor->Get<IInventoryComponent>()->GetSelectedWeapon()->GetScatter().GetCalculated()*300+15);
+    }
+    else
+    {
+        Sizes.push_back( ( GLfloat )100 ); 
+    }
+    Positions.push_back( glm::vec2( mX, mY ) );
+    Headings.push_back( ( GLfloat )0.0 );
+    TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
+    Colors.push_back( glm::vec4(0.0,0.0,1.0,0.5) );
+    ++Count;
+    Positions.push_back( glm::vec2( mX, mY ) );
+    Headings.push_back( ( GLfloat )0.0 );
+    Sizes.push_back( ( GLfloat )15 ); 
+    TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
+    Colors.push_back( glm::vec4(0.0,0.0,1.0,1.0) );
+    Counts.push_back( CountByTexId( TexId, Start, Count ) );
     if( CurSize == 0 )
     {
         return;
@@ -240,6 +268,12 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
 ActorRenderer::~ActorRenderer()
 {
 
+}
+
+void ActorRenderer::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
+{
+    mX = Event.Pos.x;
+    mY = Event.Pos.y;
 }
 
 bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const& Rs1, RenderableSprite const& Rs2 )

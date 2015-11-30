@@ -46,6 +46,8 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
         itemssIt->mSystem->Update(actor,DeltaTime);
     }
 
+    weapon->GetScatter().Update(DeltaTime);
+
     if (weapon->GetCooldown()==0)
     {
         if (weapon->IsShoot())
@@ -59,20 +61,24 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
     }
 }
 
-void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectiles, uint32_t scatter)
+void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt/*=false*/)
 {
     double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
     Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
-    scatter*=100;
+    int scat=int(scatter.GetCalculated()*1000);
     if(accuracyC.IsValid())
     {
-        scatter=scatter*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
+        scat=scat*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
     }
-    if( scatter )
+    if( scat )
     {
-        actorOrientation += ( rand() % (scatter+1) - scatter / 2. ) * 0.0001 * boost::math::double_constants::pi;
+        double realScatter=( rand() % (scat+1) - scat / 2. );
+        L1("realScatter:%f\n",realScatter);
+        actorOrientation += ( rand() % (scat+1) - scat / 2. ) * 0.001 * boost::math::double_constants::pi;
     }
 
+    scatter.Shot(alt);
+    L1("calculated and updated scatter:%f\n",scatter.GetCalculated());
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )
     {

@@ -11,7 +11,6 @@ Weapon::Weapon( int32_t Id )
     , mShootCooldown( 1.0 )
     , mShootAltCooldown( 1.0 )
     , mScatter( 0 )
-    , mAltScatter( 0 )
     , mShoot(false)
     , mShootAlt(false)
 {
@@ -68,22 +67,44 @@ void Weapon::SetShootAltCooldown(double cooldown)
     mShootAltCooldown = cooldown;
 }
 
-uint32_t Weapon::GetScatter() const
+Scatter& Weapon::GetScatter()
 {
     return mScatter;
 }
 
-void Weapon::SetScatter(uint32_t scatter)
+
+Scatter::Scatter(double increase/*=0.0*/,double altIncrease/*=0.0*/, double chill/*=0.0*/, double magicNumber/*=100*/)
+    :mCurrent(0.0)
+    ,mIncrease(increase)
+    ,mAltIncrease(altIncrease)
+    ,mChill(chill)
+    ,mMagicNumber(magicNumber)
 {
-    mScatter = scatter;
+
 }
 
-uint32_t Weapon::GetAltScatter() const
+void Scatter::Update(double DeltaTime)
 {
-    return mAltScatter;
+    //want to chill the scatter on a linear way
+    // e.g. magic=100, current=100, calculated=1/2, 
+    // newCalc=50-chill*dt; 
+    // chill=20, dt=1.0; // lets say 1 sec with 20 chill means newCalc is 20
+    double newCalculated=(GetCalculated()*mMagicNumber-mChill*DeltaTime)/mMagicNumber; 
+    newCalculated=std::max(0.0,newCalculated);
+    L1("newCalc: %f calc: %f \n",newCalculated,mCurrent);
+    if(newCalculated!=0.0)
+    {
+        mCurrent=(newCalculated*mMagicNumber)/(1-newCalculated); //inverse of GetCalculated
+    }
+    L1("newCurrent: %f \n",mCurrent);
 }
 
-void Weapon::SetAltScatter(uint32_t scatter)
+void Scatter::Shot(bool alt)
 {
-    mAltScatter = scatter;
+    mCurrent+=alt?mAltIncrease:mIncrease;
+}
+
+double Scatter::GetCalculated()
+{
+    return mCurrent/(mMagicNumber+mCurrent);
 }

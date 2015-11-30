@@ -5,6 +5,7 @@
 #include "engine/sub_system.h"
 #include "core/opt.h"
 #include "engine/sub_system_holder.h"
+#include "core/weapon.h"
 
 namespace engine {
 
@@ -18,7 +19,7 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
     typedef std::list<Opt<Actor> > Projectiles_t;
 
-    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, uint32_t scatter);
+    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt=false);
     static Opt<WeaponItemSubSystem> Get();
     static void SetProjectilePosition(Actor& projectile, Actor& actor);
 private:

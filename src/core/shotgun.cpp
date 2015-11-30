@@ -4,8 +4,9 @@
 Shotgun::Shotgun( int32_t Id )
     : Weapon( Id )
 {
-    mScatter = 10;
-    mAltScatter = 10;
+    mScatter.mIncrease=30;
+    mScatter.mChill=40;
+    mScatter.mAltIncrease=10;
     mShootCooldown = 0.5;
     mShootAltCooldown = 1.5;
 }

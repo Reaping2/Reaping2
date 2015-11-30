@@ -3,6 +3,19 @@
 #include "core/item.h"
 #include "core/actor_factory.h"
 
+struct Scatter
+{
+    double mCurrent;
+    double mIncrease;
+    double mAltIncrease;
+    double mChill;
+    double mMagicNumber;
+    Scatter(double increase=0.0,double altIncrease=0.0, double chill=0.0, double magicNumber=100);
+    void Update(double DeltaTime);
+    void Shot(bool alt);
+    double GetCalculated();
+};
+
 class Weapon : public Item
 {
 public:
@@ -16,18 +29,14 @@ public:
     void SetShootCooldown(double cooldown);
     double GetShootAltCooldown() const;
     void SetShootAltCooldown(double cooldown);
-    uint32_t GetScatter() const;
-    void SetScatter(uint32_t scatter);
-    uint32_t GetAltScatter() const;
-    void SetAltScatter(uint32_t scatter);
+    Scatter& GetScatter();
     Weapon( int32_t Id );
 
     ActorFactory& mActorFactory;
     double mCooldown;
     double mShootCooldown;
     double mShootAltCooldown;
-    uint32_t mScatter;
-    uint32_t mAltScatter;
+    Scatter mScatter;
     bool mShoot;
     bool mShootAlt;
     friend class ItemFactory;

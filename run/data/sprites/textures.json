@@ -19,6 +19,25 @@
 		]
 	},
 	{
+		"texture_path":"textures/cross.png",
+		"actor_visuals":
+		[
+			{
+				"name":"cross",
+				"animations":
+				[
+					{
+						"name":"default_action",
+						"w":400,
+						"h":400,
+						"scale":1.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
+	},	
+	{
 		"texture_path":"textures/soldier_hat.png",
 		"actor_visuals":
 		[

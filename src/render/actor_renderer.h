@@ -8,6 +8,7 @@
 #include "renderable_sprite.h"
 #include "core/actor_event.h"
 #include "vao_base.h"
+#include "input/mouse.h"
 using render::RenderableSprite;
 using render::RecognizerRepo;
 using render::ActionRenderer;
@@ -50,10 +51,15 @@ class ActorRenderer
     typedef boost::ptr_set<ActionRenderer> ActionRenderers_t;
     typedef std::map<int,ActionRenderers_t> ActionRenderersMap_t;
     ActionRenderersMap_t mActionRenderersMap;
+    void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
+    AutoReg mMouseMoveId;
+    double mX;
+    double mY;
 public:
     ActorRenderer();
     ~ActorRenderer();
     void Draw( Scene const& Object, double DeltaTime );
+
 };
 
 #endif//INCLUDED_RENDER_ACTOR_RENDERER_H

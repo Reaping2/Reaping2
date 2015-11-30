@@ -6,8 +6,10 @@
 Pistol::Pistol( int32_t Id )
     : Weapon( Id )
 {
-    mScatter = 15;
-    mAltScatter = 28;
+    mScatter.mIncrease=15;
+    mScatter.mChill=40;
+    mScatter.mAltIncrease=20;
+    mScatter.mMagicNumber=100;
     mShootCooldown = 0.2;
     mShootAltCooldown = 0.1;
 }

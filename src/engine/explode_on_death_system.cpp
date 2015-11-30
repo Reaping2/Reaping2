@@ -53,7 +53,7 @@ void ExplodeOnDeathSystem::Update(double DeltaTime)
             //WeaponItemSubSystem::SetProjectilePosition(*explosionProjectile, actor);
 
             /*mScene.AddActor(explosionProjectile.release());*/
-            WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,0.0);
+            WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,Scatter());
             mScene.RemoveActor(it);
         }
     }
