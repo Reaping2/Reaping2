@@ -104,7 +104,8 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
         }
         WeaponItemSubSystem::Projectiles_t projectiles;
         projectiles.push_back(laserPointer.release());
-        WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,Scatter());
+        Scatter scatter;
+        WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,scatter);
     }
 
     if (currentTarget.IsValid())
