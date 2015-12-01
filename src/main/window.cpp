@@ -31,6 +31,9 @@ bool WindowSystem::Create( const uint32_t Width, const uint32_t Height, const st
             LOG( "glewInit failed!\n" );
             glfwTerminate();
             mWindow = NULL;
+        } else
+        {
+            glfwSetInputMode(mWindow,GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
         }
     }
     else
@@ -38,7 +41,6 @@ bool WindowSystem::Create( const uint32_t Width, const uint32_t Height, const st
         LOG( "Window creation failed!\n" );
         glfwTerminate();
     }
-
     return !!mWindow;
 }
 

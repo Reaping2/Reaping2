@@ -26,6 +26,7 @@
 #include "ctf_score_message.h"
 #include "show_text_message_message.h"
 #include "collision_message.h"
+#include "shot_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -61,7 +62,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("ctf_score_message_handler_sub_system"), &CreateSubSystem<ctf::CtfScoreMessageHandlerSubSystem>);
     Bind( AutoId("show_text_message_message_handler_sub_system"), &CreateSubSystem<ShowTextMessageMessageHandlerSubSystem>);
     Bind( AutoId("collision_message_handler_sub_system"), &CreateSubSystem<CollisionMessageHandlerSubSystem>);
-
+    Bind( AutoId("shot_message_handler_sub_system"), &CreateSubSystem<ShotMessageHandlerSubSystem>);
 }
 
 } // namespace network

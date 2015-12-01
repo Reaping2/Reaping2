@@ -34,6 +34,7 @@
 #include "ctf_score_message.h"
 #include "show_text_message_message.h"
 #include "collision_message.h"
+#include "shot_message.h"
 
 
     struct message_order
@@ -67,6 +68,7 @@
             type=network::SetTeamMessage::GetType_static();
             type=network::ShowTextMessageMessage::GetType_static();
             type=network::CollisionMessage::GetType_static();
+            type=network::ShotMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -130,5 +132,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ctf::CtfScoreMessage, "ctf_score")
     BOOST_CLASS_EXPORT_GUID(network::ShowTextMessageMessage, "show_text_message")
     BOOST_CLASS_EXPORT_GUID(network::CollisionMessage, "collision")
+    BOOST_CLASS_EXPORT_GUID(network::ShotMessage, "shot")
+
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

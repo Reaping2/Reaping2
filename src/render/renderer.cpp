@@ -114,6 +114,7 @@ void RendererSystem::Update(double DeltaTime)
     mNameRenderer.Draw( mTextSceneRenderer );
     mTextSceneRenderer.Draw();
     mHealthBarRenderer.Draw();
+    mMouseRenderer.Draw();
     EndRender();
 }
 

@@ -11,6 +11,7 @@
 #include "particle_engine.h"
 #include "shader_manager.h"
 #include "health_bar_renderer.h"
+#include "mouse_renderer.h"
 
 namespace engine {
 class RendererSystem : public System
@@ -27,6 +28,7 @@ class RendererSystem : public System
     NameRenderer mNameRenderer;
     TextSceneRenderer mTextSceneRenderer;
     HealthBarRenderer mHealthBarRenderer;
+    MouseRenderer mMouseRenderer;
     DecalEngine& mDecalEngine;
     ShaderManager& mShaderManager;
     AutoReg mMouseMoveId;

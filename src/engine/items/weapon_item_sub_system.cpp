@@ -9,12 +9,15 @@
 #include "core/i_move_component.h"
 #include "inventory_system.h"
 #include "core/i_accuracy_component.h"
+#include "platform/event.h"
+#include "core/shot_event.h"
 
 namespace engine {
 
 WeaponItemSubSystem::WeaponItemSubSystem()
     : SubSystemHolder()
     , mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get())
 {
 
 }
@@ -22,6 +25,7 @@ WeaponItemSubSystem::WeaponItemSubSystem()
 void WeaponItemSubSystem::Init()
 {
     SubSystemHolder::Init();
+    mOnShot=EventServer<core::ShotEvent>::Get().Subscribe( boost::bind( &WeaponItemSubSystem::OnShot, this, _1 ) );
 }
 
 void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
@@ -39,27 +43,63 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
         cd = 0;
     }
     weapon->SetCooldown(cd);
-
-    BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(weapon->GetId());
-    if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
-    {
-        itemssIt->mSystem->Update(actor,DeltaTime);
-    }
-
+    //scatter updated on client
     weapon->GetScatter().Update(DeltaTime);
-
-    if (weapon->GetCooldown()==0)
+    if (mProgramState.mMode!=core::ProgramState::Client) 
     {
-        if (weapon->IsShoot())
+        BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(weapon->GetId());
+        if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
         {
-            weapon->SetCooldown(weapon->GetShootCooldown());
+            itemssIt->mSystem->Update(actor,DeltaTime);
         }
-        else if (weapon->IsShootAlt())
+        if (weapon->GetCooldown()==0) //not synced to client
         {
-            weapon->SetCooldown(weapon->GetShootAltCooldown());
+            Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
+            if (actorPositionC.IsValid())
+            {
+                if (weapon->IsShoot())
+                {
+                    weapon->SetCooldown(weapon->GetShootCooldown());
+                    EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(),glm::vec2(actorPositionC->GetX(),actorPositionC->GetY()),false));
+                }
+                else if (weapon->IsShootAlt())
+                {
+                    weapon->SetCooldown(weapon->GetShootAltCooldown());
+                    EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(),glm::vec2(actorPositionC->GetX(),actorPositionC->GetY()),true));
+                }
+            }
         }
     }
 }
+
+void WeaponItemSubSystem::OnShot(core::ShotEvent const& Evt)
+{
+    Opt<Actor> actor(mScene.GetActor(Evt.mActorGUID));
+    if (!actor.IsValid())
+    {
+        return;
+    }
+    Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
+    if (!inventoryC.IsValid())
+    {
+        return;
+    }
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    if (!weapon.IsValid())
+    {
+        return;
+    }
+    weapon->GetScatter().Shot(Evt.mIsAlt);
+    if (Evt.mIsAlt)
+    {
+        weapon->SetCooldown(weapon->GetShootAltCooldown());
+    }
+    else
+    {
+        weapon->SetCooldown(weapon->GetShootCooldown());
+    }
+}
+
 
 void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt/*=false*/)
 {
@@ -77,7 +117,6 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
         actorOrientation += ( rand() % (scat+1) - scat / 2. ) * 0.001 * boost::math::double_constants::pi;
     }
 
-    scatter.Shot(alt);
     L1("calculated and updated scatter:%f\n",scatter.GetCalculated());
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )

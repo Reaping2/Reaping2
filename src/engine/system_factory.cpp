@@ -78,6 +78,7 @@
 #include "core/map/editor_grid_system.h"
 #include "core/map/editor_brush_system.h"
 #include "core/map/editor_soldier_spawn_system.h"
+#include "network/shot_message.h"
 
 
 using platform::AutoId;
@@ -144,6 +145,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("set_team_message_sender_system"), &CreateSystem<network::SetTeamMessageSenderSystem>);
     Bind( AutoId("show_text_message_message_sender_system"), &CreateSystem<network::ShowTextMessageMessageSenderSystem>);
     Bind( AutoId("collision_message_sender_system"), &CreateSystem<network::CollisionMessageSenderSystem>);
+    Bind( AutoId("shot_message_sender_system"), &CreateSystem<network::ShotMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

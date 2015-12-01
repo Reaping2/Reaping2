@@ -49,6 +49,7 @@
 #include "network/show_text_message_message.h"
 #include "network/collision_message.h"
 #include "render/damage_particles.h"
+#include "network/shot_message.h"
 
 using engine::Engine;
 namespace {
@@ -165,6 +166,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("show_text_message_message_sender_system"));
         Eng.AddSystem(AutoId("collision_message_sender_system"));
         Eng.AddSystem(AutoId("health_message_sender_system"));
+        Eng.AddSystem(AutoId("shot_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -237,6 +239,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ctf::CtfScoreMessage::GetType_static(),AutoId("ctf_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ShowTextMessageMessage::GetType_static(),AutoId("show_text_message_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::CollisionMessage::GetType_static(),AutoId("collision_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ShotMessage::GetType_static(),AutoId("shot_message_handler_sub_system"));
 
     }
 
@@ -276,11 +279,11 @@ int main(int argc, char* argv[])
     controllserSystem->AddSubSystem(AutoId("pointer_target_controller_component"),AutoId("pointer_target_controller_sub_system"));
 
 
+    Eng.AddSystem(AutoId("inventory_system"));
+    Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
+    inventorySystem->AddSubSystem(ItemType::Weapon,AutoId("weapon_item_sub_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
-        Eng.AddSystem(AutoId("inventory_system"));
-        Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
-        inventorySystem->AddSubSystem(ItemType::Weapon,AutoId("weapon_item_sub_system"));
         Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
         weaponItemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));

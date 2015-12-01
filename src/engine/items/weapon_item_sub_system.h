@@ -6,6 +6,8 @@
 #include "core/opt.h"
 #include "engine/sub_system_holder.h"
 #include "core/weapon.h"
+#include "core/program_state.h"
+#include "core/shot_event.h"
 
 namespace engine {
 
@@ -24,6 +26,9 @@ public:
     static void SetProjectilePosition(Actor& projectile, Actor& actor);
 private:
     Scene& mScene;
+    core::ProgramState& mProgramState;
+    AutoReg mOnShot;
+    void OnShot(core::ShotEvent const& Evt);
 };
 
 } // namespace engine
