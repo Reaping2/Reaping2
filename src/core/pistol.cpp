@@ -12,4 +12,9 @@ Pistol::Pistol( int32_t Id )
     mScatter.mMagicNumber=100;
     mShootCooldown = 0.2;
     mShootAltCooldown = 0.1;
+    mBulletsMax = 26.0;
+    mShotCost=1;
+    mShotCostAlt=1;
+    mReloadTimeMax=1.3;
+    mBullets=mBulletsMax;
 }

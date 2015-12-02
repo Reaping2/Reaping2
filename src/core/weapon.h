@@ -30,6 +30,20 @@ public:
     double GetShootAltCooldown() const;
     void SetShootAltCooldown(double cooldown);
     Scatter& GetScatter();
+    void SetBullets(double bullets);
+    double GetBullets()const;
+    void SetBulletsMax(double bulletsMax);
+    double GetBulletsMax()const;
+    void SetShotCost(int32_t shotCost);
+    int32_t GetShotCost()const;
+    void SetShotCostAlt(int32_t shotCostAlt);
+    int32_t GetShotCostAlt()const;
+    void SetReloadTime(double reloadTime);
+    double GetReloadTime()const;
+    void SetReloadTimeMax(double reloadTimeMax);
+    double GetReloadTimeMax()const;
+    void SetStaticReload(double staticReload);
+    double GetStaticReload()const;
     Weapon( int32_t Id );
 
     ActorFactory& mActorFactory;
@@ -39,6 +53,13 @@ public:
     Scatter mScatter;
     bool mShoot;
     bool mShootAlt;
+    double mBullets;
+    double mBulletsMax;
+    int32_t mShotCost;
+    int32_t mShotCostAlt;
+    double mReloadTime;
+    double mReloadTimeMax;
+    double mStaticReload;
     friend class ItemFactory;
 };
 

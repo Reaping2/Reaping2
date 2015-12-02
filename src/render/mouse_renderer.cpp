@@ -12,6 +12,9 @@
 #include "engine/engine.h"
 #include "core/program_state.h"
 #include "core/scene.h"
+#include "core/i_accuracy_component.h"
+#include "text.h"
+#include "core/weapon.h"
 
 void MouseRenderer::Init()
 {
@@ -20,13 +23,16 @@ void MouseRenderer::Init()
 }
 
 MouseRenderer::MouseRenderer()
+    :mScene(Scene::Get())
+    ,mProgramState(core::ProgramState::Get())
 {
     Init();
 }
 
-void MouseRenderer::Draw()
+void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
 {
-    size_t CurSize = 2;
+    size_t CurSize = 3;
+    const float mouseSize=15;
     typedef std::vector<glm::vec2> Positions_t;
     Positions_t Positions;
     Positions.reserve( CurSize );
@@ -46,23 +52,59 @@ void MouseRenderer::Draw()
     SpritePhase const& Phase = Spr( 0 );
     GLuint TexId = Phase.TexId;
     Opt<Actor> actor=Scene::Get().GetActor(core::ProgramState::Get().mControlledActorGUID);
+    Opt<IInventoryComponent> inventoryC;
     if (actor.IsValid())
     {
-        Sizes.push_back( ( GLfloat )actor->Get<IInventoryComponent>()->GetSelectedWeapon()->GetScatter().GetCalculated()*300+15);
+        inventoryC = actor->Get<IInventoryComponent>();
+    }
+    Opt<Weapon> weapon;
+    glm::vec3 mouseColor(0.0,0.0,1.0);
+    if (inventoryC.IsValid())
+    {
+        weapon = inventoryC->GetSelectedWeapon();
+    }
+    bool reloading=weapon.IsValid()&&weapon->GetReloadTime()>0.0&&weapon->GetStaticReload()==0.0;
+
+    if (reloading)
+    {
+        mouseColor= glm::vec3(1.0,0.0,0.0);
+    }
+    if (actor.IsValid())
+    {
+        double siz=mouseSize;
+        if (reloading)
+        {
+            siz+=weapon->GetReloadTime()/weapon->GetReloadTimeMax()*150;
+        }
+        else
+        {
+            siz+=actor->Get<IInventoryComponent>()->GetSelectedWeapon()->GetScatter().GetCalculated()*300;
+        }
+        Opt<IAccuracyComponent> accuracyC=actor->Get<IAccuracyComponent>();
+        if (accuracyC.IsValid())
+        {
+            siz=siz*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
+        }
+        Sizes.push_back( ( GLfloat )(siz));
     }
     else
     {
-        Sizes.push_back( ( GLfloat )15 ); 
+        Sizes.push_back( ( GLfloat )mouseSize ); 
     }
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
-    Colors.push_back( glm::vec4(0.0,0.0,1.0,0.5) );
+    Colors.push_back( glm::vec4(mouseColor,0.5) );
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
-    Sizes.push_back( ( GLfloat )15 ); 
+    Sizes.push_back( ( GLfloat )mouseSize ); 
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
-    Colors.push_back( glm::vec4(0.0,0.0,1.0,1.0) );
+    Colors.push_back( glm::vec4(mouseColor,1.0) );
+    Positions.push_back( glm::vec2( mX, mY ) );
+    Headings.push_back( ( GLfloat )0.0 );
+    Sizes.push_back( ( GLfloat )mouseSize ); 
+    TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
+    Colors.push_back( glm::vec4(mouseColor,1.0) );
 
     mVAO.Bind();
     size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + sizeof( glm::vec4 ) );
@@ -103,6 +145,7 @@ void MouseRenderer::Draw()
     glEnableVertexAttribArray( CurrentAttribIndex );
     size_t const ColorIndex = CurrentOffset;
 
+
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( "sprite2" );
     ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
@@ -123,9 +166,15 @@ void MouseRenderer::Draw()
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( ColorIndex ));
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     glBindTexture( GL_TEXTURE_2D, TexId );
-    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, 2 );
+    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, CurSize );
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();
+    if (!actor.IsValid()||!inventoryC.IsValid()||!weapon.IsValid())
+    {
+        return;
+    }
+    Text text(80.0,glm::vec4(0,0,500,500),glm::vec4(mouseColor,0.7),boost::lexical_cast<std::string>(std::floor(weapon->GetBullets())),glm::vec2(mX,mY-80),true);
+    textSceneRenderer.AddText(text);
 }
 
 MouseRenderer::~MouseRenderer()

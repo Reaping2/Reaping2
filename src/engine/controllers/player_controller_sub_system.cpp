@@ -17,6 +17,7 @@ PlayerControllerSubSystem::PlayerControllerSubSystem()
     : mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
     , mSpaceTyped(false)
+    , mReloadTyped(false)
 {
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnKeyEvent, this, _1 ) );
 }
@@ -35,12 +36,17 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
+    if (mProgramState.mMode==core::ProgramState::Client)
+    {
+        playerControllerC->mReloadTyped=false;
+    }
 
     if(playerControllerC->mActive)
     {
         HandleInputs(actor,playerControllerC);
     }
 
+    HandleReload(actor,playerControllerC);
     if (mProgramState.mMode==core::ProgramState::Client)
     {
         return;
@@ -184,6 +190,12 @@ void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerC
         L2("space Typed for revive!\n");
     }
     mSpaceTyped=false;
+    if( mReloadTyped )
+    {
+        playerControllerC->mReloadTyped=true;
+        L2("space Typed for revive!\n");
+    }
+    mReloadTyped=false;
 }
 
 void PlayerControllerSubSystem::OnKeyEvent(const KeyEvent& Event)
@@ -192,6 +204,11 @@ void PlayerControllerSubSystem::OnKeyEvent(const KeyEvent& Event)
     {
         mSpaceTyped=true;
         L2("space typed!\n");
+    }
+    if ( Event.Key == GLFW_KEY_R && Event.State == KeyState::Up )
+    {
+        mReloadTyped=true;
+        L2("reload typed!\n");
     }
 }
 
@@ -226,6 +243,28 @@ void PlayerControllerSubSystem::HandleRevive(Actor &actor, Opt<PlayerControllerC
         L1("%s health is not available, or actor still alive:%d\n",__FUNCTION__,actor.GetGUID());
     }
     playerControllerC->mReviveTyped=false;
+}
+
+void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC)
+{
+    if (!playerControllerC->mReloadTyped)
+    {
+        return;
+    }
+    Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
+    BOOST_ASSERT(inventoryC.IsValid());
+    Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
+    if (weapon.IsValid())
+    {
+        if (weapon->GetBullets()>0&&weapon->GetBullets()!=weapon->GetBulletsMax()&&weapon->GetStaticReload()==0.0)
+        {
+            weapon->SetBullets(0.0);
+        }
+    }
+    if (mProgramState.mMode!=core::ProgramState::Client)
+    {
+        playerControllerC->mReloadTyped=false;
+    }
 }
 
 } // namespace engine

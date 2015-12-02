@@ -9,4 +9,10 @@ Shotgun::Shotgun( int32_t Id )
     mScatter.mAltIncrease=10;
     mShootCooldown = 0.5;
     mShootAltCooldown = 1.5;
+
+    mBulletsMax = 20.0;
+    mShotCost=1;
+    mShotCostAlt=2;
+    mReloadTimeMax=2.0;
+    mBullets=mBulletsMax;
 }

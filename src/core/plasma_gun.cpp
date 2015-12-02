@@ -9,4 +9,11 @@ PlasmaGun::PlasmaGun( int32_t Id )
 
     mShootCooldown = 0.15;
     mShootAltCooldown = 0.35;
+
+    mBulletsMax = 200.0;
+    mShotCost=10;
+    mShotCostAlt=30;
+    mReloadTimeMax=0.2;
+    mStaticReload=5;
+    mBullets=mBulletsMax;
 }

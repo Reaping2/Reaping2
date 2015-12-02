@@ -13,13 +13,20 @@ Weapon::Weapon( int32_t Id )
     , mScatter( 0 )
     , mShoot(false)
     , mShootAlt(false)
+    , mBullets(0.0)
+    , mBulletsMax(10.0)
+    , mShotCost(1)
+    , mShotCostAlt(1)
+    , mReloadTime(0.0)
+    , mReloadTimeMax(2.0)
+    , mStaticReload(0.0)
 {
     mType = ItemType::Weapon;
 }
 
 bool Weapon::IsShoot() const
 {
-    return mShoot;
+    return mShoot&&mBullets>=mShotCost;
 }
 
 void Weapon::SetShoot(bool shoot)
@@ -29,7 +36,7 @@ void Weapon::SetShoot(bool shoot)
 
 bool Weapon::IsShootAlt() const
 {
-    return mShootAlt;
+    return mShootAlt&&mBullets>=mShotCostAlt;
 }
 
 void Weapon::SetShootAlt(bool shoot)
@@ -71,6 +78,77 @@ Scatter& Weapon::GetScatter()
 {
     return mScatter;
 }
+
+void Weapon::SetBullets(double bullets)
+{
+    mBullets=bullets;
+}
+
+double Weapon::GetBullets()const
+{
+    return mBullets;
+}
+
+void Weapon::SetBulletsMax(double bulletsMax)
+{
+    mBulletsMax=bulletsMax;
+}
+
+double Weapon::GetBulletsMax()const
+{
+    return mBulletsMax;
+}
+
+void Weapon::SetShotCost(int32_t shotCost)
+{
+    mShotCost=shotCost;
+}
+
+int32_t Weapon::GetShotCost()const
+{
+    return mShotCost;
+}
+
+void Weapon::SetShotCostAlt(int32_t shotCostAlt)
+{
+    mShotCostAlt=shotCostAlt;
+}
+
+int32_t Weapon::GetShotCostAlt()const
+{
+    return mShotCostAlt;
+}
+
+void Weapon::SetReloadTime(double reloadTime)
+{
+    mReloadTime=reloadTime;
+}
+
+double Weapon::GetReloadTime()const
+{
+    return mReloadTime;
+}
+
+void Weapon::SetReloadTimeMax(double reloadTimeMax)
+{
+    mReloadTimeMax=reloadTimeMax;
+}
+
+double Weapon::GetReloadTimeMax()const
+{
+    return mReloadTimeMax;
+}
+
+void Weapon::SetStaticReload(double staticReload)
+{
+    mStaticReload=staticReload;
+}
+
+double Weapon::GetStaticReload()const
+{
+    return mStaticReload;
+}
+
 
 
 Scatter::Scatter(double increase/*=0.0*/,double altIncrease/*=0.0*/, double chill/*=0.0*/, double magicNumber/*=100*/)

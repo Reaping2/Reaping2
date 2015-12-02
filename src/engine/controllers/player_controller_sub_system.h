@@ -34,6 +34,7 @@ private:
     void Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void HandleRevive(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
+    void HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC);
     AutoReg mMouseMoveId;
     Opt<MouseSystem> mMouse;
     double mX;
@@ -45,8 +46,8 @@ private:
 
     AutoReg mKeyId;
     bool mSpaceTyped;
+    bool mReloadTyped;
     void OnKeyEvent( const KeyEvent& Event );
-
 
 };
 

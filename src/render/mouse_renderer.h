@@ -9,6 +9,8 @@
 #include "core/actor_event.h"
 #include "vao_base.h"
 #include "input/mouse.h"
+#include "text_scene_renderer.h"
+#include "core/program_state.h"
 using render::RenderableSprite;
 class MouseRenderer
 {
@@ -18,10 +20,12 @@ class MouseRenderer
     AutoReg mMouseMoveId;
     double mX;
     double mY;
+    Scene& mScene;
+    core::ProgramState& mProgramState;
 public:
     MouseRenderer();
     ~MouseRenderer();
-    void Draw();
+    void Draw(TextSceneRenderer& textSceneRenderer);
 
 };
 

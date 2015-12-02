@@ -37,7 +37,7 @@ void RendererSystem::SetupRenderer( const Projection& Proj )
 
 bool RendererSystem::BeginRender()
 {
-    glClear( GL_COLOR_BUFFER_BIT );
+    glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
     return true;
 }
 
@@ -112,9 +112,9 @@ void RendererSystem::Update(double DeltaTime)
     mActorRenderer.Draw( Scen, DeltaTime );
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
-    mTextSceneRenderer.Draw();
     mHealthBarRenderer.Draw();
-    mMouseRenderer.Draw();
+    mMouseRenderer.Draw( mTextSceneRenderer );
+    mTextSceneRenderer.Draw();
     EndRender();
 }
 

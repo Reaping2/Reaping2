@@ -45,6 +45,33 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
     weapon->SetCooldown(cd);
     //scatter updated on client
     weapon->GetScatter().Update(DeltaTime);
+    if (weapon->GetBullets()<=0.0)
+    {
+        if (weapon->GetReloadTime()<=0.0)
+        {
+            weapon->SetReloadTime(weapon->GetReloadTimeMax());
+        }
+    }
+
+    weapon->SetReloadTime(weapon->GetReloadTime()-DeltaTime);
+
+    if (weapon->GetBullets()<=0.0)
+    {
+        if (weapon->GetReloadTime()<=0&&weapon->GetStaticReload()==0.0)
+        {
+            weapon->SetBullets(weapon->GetBulletsMax());
+            weapon->SetReloadTime(0.0);
+        }
+    }
+
+    if (weapon->GetReloadTime()<=0&&weapon->GetStaticReload()>0.0)
+    {
+        weapon->SetBullets(std::min(
+            (weapon->GetBullets()+weapon->GetStaticReload()/**DeltaTime*/)
+            ,weapon->GetBulletsMax()));
+        weapon->SetReloadTime(weapon->GetReloadTimeMax());
+    }
+
     if (mProgramState.mMode!=core::ProgramState::Client) 
     {
         BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(weapon->GetId());
@@ -52,19 +79,17 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
         {
             itemssIt->mSystem->Update(actor,DeltaTime);
         }
-        if (weapon->GetCooldown()==0) //not synced to client
+        if (weapon->GetCooldown()<=0.0) //not synced to client
         {
             Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
             if (actorPositionC.IsValid())
             {
-                if (weapon->IsShoot())
+                if (weapon->IsShoot()&&weapon->GetBullets()>=weapon->GetShotCost())
                 {
-                    weapon->SetCooldown(weapon->GetShootCooldown());
                     EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(),glm::vec2(actorPositionC->GetX(),actorPositionC->GetY()),false));
                 }
-                else if (weapon->IsShootAlt())
+                else if (weapon->IsShootAlt()&&weapon->GetBullets()>=weapon->GetShotCostAlt())
                 {
-                    weapon->SetCooldown(weapon->GetShootAltCooldown());
                     EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(),glm::vec2(actorPositionC->GetX(),actorPositionC->GetY()),true));
                 }
             }
@@ -93,10 +118,12 @@ void WeaponItemSubSystem::OnShot(core::ShotEvent const& Evt)
     if (Evt.mIsAlt)
     {
         weapon->SetCooldown(weapon->GetShootAltCooldown());
+        weapon->SetBullets(weapon->GetBullets()-weapon->GetShotCostAlt());
     }
     else
     {
         weapon->SetCooldown(weapon->GetShootCooldown());
+        weapon->SetBullets(weapon->GetBullets()-weapon->GetShotCost());
     }
 }
 
