@@ -7,5 +7,6 @@
 #include "fixed_ratio_container.h"
 #include "button.h"
 #include "bar.h"
+#include "image.h"
 #include "widget_factory.h"
 #include "ui.h"
