@@ -91,13 +91,12 @@ void TextUiModel::CollectVertices(Text const& text, UiVertexInserter_t& Inserter
     glm::vec4 const& Col = text.mColor;
     glm::vec4 Dim = text.mDimensions;
     static Font& Fnt( Font::Get() );
-    GLuint const TexId = Fnt.GetTexId();
     for( std::string::const_iterator i = Buf.begin(), e = Buf.end(); i != e; ++i )
     {
         SpritePhase const& Phase = Fnt.GetChar( *i );
         Dim.z = RequiredSize.x * ( Phase.Right - Phase.Left );
         Dim.w = RequiredSize.x * Ratio * ( Phase.Bottom - Phase.Top );
-        TexturedBox( Dim, Phase, Col, TexId, Inserter );
+        TexturedBox( Dim, Phase, Col, Inserter );
         Dim.x += Dim.z;
     }
 }

@@ -1,492 +1,492 @@
 [
-	{
-		"texture_path":"textures/desert.png",
-		"actor_visuals":
-		[
-			{
-				"name":"grass",
-				"animations":
-				[
-					{
-						"name":"default_action",
-						"w":1500,
-						"h":1401,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/cross.png",
-		"actor_visuals":
-		[
-			{
-				"name":"cross",
-				"animations":
-				[
-					{
-						"name":"default_action",
-						"w":400,
-						"h":400,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},	
-	{
-		"texture_path":"textures/soldier_hat.png",
-		"actor_visuals":
-		[
-			{
-				"name":"player",
-				"animations":
-				[
-					{
-						"name":"hat",
-						"w":30,
-						"h":30,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/soldier_hat.png",
-		"actor_visuals":
-		[
-			{
-				"name":"ctf_player",
-				"animations":
-				[
-					{
-						"name":"ctf_hat",
-						"w":30,
-						"h":30,
-						"scale":2.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/flag.png",
-		"actor_visuals":
-		[
-			{
-				"name":"flag",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":30,
-						"h":30,
-						"scale":2.5,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/platform.png",
-		"actor_visuals":
-		[
-			{
-				"name":"platform",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":200,
-						"h":200,
-						"scale":4.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/platform2.png",
-		"actor_visuals":
-		[
-			{
-				"name":"platform",
-				"animations":
-				[
-					{
-						"name":"ctf_hat",
-						"w":200,
-						"h":200,
-						"scale":4.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/soldier_current.png",
-		"actor_visuals":
-		[
-			{
-				"name":"ctf_player",
-				"animations":
-				[
-					{
-						"name":"soldier_current",
-						"w":30,
-						"h":30,
-						"scale":2.4,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},	
-	{
-	    "texture_path" : "textures/combined.tga",
-		"actor_visuals":
-		[
-	        {
-            "name" : "ctf_player",
-            "animations" : [
-               {
-                  "h" : 30,
-                  "name" : "move",
-                  "phases" : [
-                     {
-                        "x" : 976,
-                        "y" : 74
-                     },
-                     {
-                        "x" : 976,
-                        "y" : 108
-                     },
-                     {
-                        "x" : 240,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 410,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 444,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 478,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 512,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 206,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 30,
-                  "name" : "idle",
-                  "phases" : [
-                     {
-                        "x" : 976,
-                        "y" : 74
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 30,
-                  "name" : "body_move",
-                  "phases" : [
-                     {
-                        "x" : 274,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 308,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 342,
-                        "y" : 156
-                     },
-                     {
-                        "x" : 376,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 30,
-                  "name" : "body_idle",
-                  "phases" : [
-                     {
-                        "x" : 274,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 17,
-                  "name" : "pistol",
-                  "phases" : [
-                     {
-                        "x" : 546,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 17,
-                  "name" : "plasma_gun",
-                  "phases" : [
-                     {
-                        "x" : 580,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 90,
-                  "name" : "death",
-                  "phases" : [
-                     {
-                        "x" : 522,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 616,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 710,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 2,
-                        "y" : 776
-                     },
-                     {
-                        "x" : 804,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 898,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 96,
-                        "y" : 776
-                     }
-                  ],
-                  "scale" : 4.0,
-                  "w" : 90,
-                  "secs_to_end" : 1 
-               }
-            ]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/grenade.png",
-		"actor_visuals":
-		[
-			{
-				"name":"grenade_normal_item",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":32,
-						"h":32,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/flash.png",
-		"actor_visuals":
-		[
-			{
-				"name":"flash_normal_item",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":32,
-						"h":32,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/pow_projectile.png",
-		"actor_visuals":
-		[
-			{
-				"name":"pow_projectile",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":295,
-						"h":295,
-						"scale":1.5,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			},
-			{
-				"name":"rocket_pow_projectile",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":295,
-						"h":295,
-						"scale":2.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			},
-			{
-				"name":"rocket_target_pow_projectile",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":295,
-						"h":295,
-						"scale":2.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}			
-		]
-	},
-	{
-		"texture_path":"textures/grenade_projectile.png",
-		"actor_visuals":
-		[
-			{
-				"name":"grenade_projectile",
-				"animations":
-				[
-					{
-						"name":"move",
-						"w":14,
-						"h":14,
-						"scale":1.5,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/heal_over_time_buff_pickup.png",
-		"actor_visuals":
-		[
-			{
-				"name":"heal_over_time_buff",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":32,
-						"h":32,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/move_speed_buff_pickup.png",
-		"actor_visuals":
-		[
-			{
-				"name":"move_speed_buff",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":32,
-						"h":32,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/accuracy_buff_pickup.png",
-		"actor_visuals":
-		[
-			{
-				"name":"accuracy_buff",
-				"animations":
-				[
-					{
-						"name":"body_idle",
-						"w":32,
-						"h":32,
-						"scale":1.0,
-						"phases":[{"x":0,"y":0}]
-					}
-				]
-			}
-		]
-	},
-	{
-		"texture_path":"textures/brickwall1.png",
-		"actor_visuals":
-		[	
-	        {
-				"animations" : 
-				[
+    {
+        "texture_path":"textures/desert.png",
+        "actor_visuals":
+        [
+            {
+                "name":"grass",
+                "animations":
+                [
                     {
-					  "h" : 50,
-					  "name" : "body_idle",
-						"phases":[{"x":0,"y":0}],
-					  "scale" : 1.0,
-					  "w" : 50
-					}
-				],
-				"name" : "wall_small"
-			}	
-		]
-	}
+                        "name":"default_action",
+                        "w":1500,
+                        "h":1401,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/cross.png",
+        "actor_visuals":
+        [
+            {
+                "name":"cross",
+                "animations":
+                [
+                    {
+                        "name":"default_action",
+                        "w":400,
+                        "h":400,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/soldier_hat.png",
+        "actor_visuals":
+        [
+            {
+                "name":"player",
+                "animations":
+                [
+                    {
+                        "name":"hat",
+                        "w":30,
+                        "h":30,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/soldier_hat.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                        "name":"ctf_hat",
+                        "w":30,
+                        "h":30,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/flag.png",
+        "actor_visuals":
+        [
+            {
+                "name":"flag",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":30,
+                        "h":30,
+                        "scale":2.5,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/platform.png",
+        "actor_visuals":
+        [
+            {
+                "name":"platform",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":200,
+                        "h":200,
+                        "scale":4.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/platform2.png",
+        "actor_visuals":
+        [
+            {
+                "name":"platform",
+                "animations":
+                [
+                    {
+                        "name":"ctf_hat",
+                        "w":200,
+                        "h":200,
+                        "scale":4.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/soldier_current.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                        "name":"soldier_current",
+                        "w":30,
+                        "h":30,
+                        "scale":2.4,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path" : "textures/combined.tga",
+        "actor_visuals":
+        [
+            {
+                "name" : "ctf_player",
+                "animations" : [
+                    {
+                        "h" : 30,
+                        "name" : "move",
+                        "phases" : [
+                            {
+                                "x" : 976,
+                                "y" : 74
+                            },
+                            {
+                                "x" : 976,
+                                "y" : 108
+                            },
+                            {
+                                "x" : 240,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 410,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 444,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 478,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 512,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 206,
+                                "y" : 156
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 30
+                    },
+                    {
+                        "h" : 30,
+                        "name" : "idle",
+                        "phases" : [
+                            {
+                                "x" : 976,
+                                "y" : 74
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 30
+                    },
+                    {
+                        "h" : 30,
+                        "name" : "body_move",
+                        "phases" : [
+                            {
+                                "x" : 274,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 308,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 342,
+                                "y" : 156
+                            },
+                            {
+                                "x" : 376,
+                                "y" : 156
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 30
+                    },
+                    {
+                        "h" : 30,
+                        "name" : "body_idle",
+                        "phases" : [
+                            {
+                                "x" : 274,
+                                "y" : 156
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 30
+                    },
+                    {
+                        "h" : 17,
+                        "name" : "pistol",
+                        "phases" : [
+                            {
+                                "x" : 546,
+                                "y" : 156
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 30
+                    },
+                    {
+                        "h" : 17,
+                        "name" : "plasma_gun",
+                        "phases" : [
+                            {
+                                "x" : 580,
+                                "y" : 156
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 30
+                    },
+                    {
+                        "h" : 90,
+                        "name" : "death",
+                        "phases" : [
+                            {
+                                "x" : 522,
+                                "y" : 672
+                            },
+                            {
+                                "x" : 616,
+                                "y" : 672
+                            },
+                            {
+                                "x" : 710,
+                                "y" : 672
+                            },
+                            {
+                                "x" : 2,
+                                "y" : 776
+                            },
+                            {
+                                "x" : 804,
+                                "y" : 672
+                            },
+                            {
+                                "x" : 898,
+                                "y" : 672
+                            },
+                            {
+                                "x" : 96,
+                                "y" : 776
+                            }
+                        ],
+                        "scale" : 4.0,
+                        "w" : 90,
+                        "secs_to_end" : 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/grenade.png",
+        "actor_visuals":
+        [
+            {
+                "name":"grenade_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/flash.png",
+        "actor_visuals":
+        [
+            {
+                "name":"flash_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/pow_projectile.png",
+        "actor_visuals":
+        [
+            {
+                "name":"pow_projectile",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":295,
+                        "h":295,
+                        "scale":1.5,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            },
+            {
+                "name":"rocket_pow_projectile",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":295,
+                        "h":295,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            },
+            {
+                "name":"rocket_target_pow_projectile",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":295,
+                        "h":295,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/grenade_projectile.png",
+        "actor_visuals":
+        [
+            {
+                "name":"grenade_projectile",
+                "animations":
+                [
+                    {
+                        "name":"move",
+                        "w":14,
+                        "h":14,
+                        "scale":1.5,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/heal_over_time_buff_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"heal_over_time_buff",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/move_speed_buff_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"move_speed_buff",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/accuracy_buff_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"accuracy_buff",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/brickwall1.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 50,
+                        "name" : "body_idle",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 50
+                    }
+                ],
+                "name" : "wall_small"
+            }
+        ]
+    }
 ]

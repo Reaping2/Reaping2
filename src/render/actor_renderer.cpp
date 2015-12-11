@@ -1,5 +1,6 @@
 #include "i_render.h"
 #include "actor_renderer.h"
+#include "counter.h"
 #include "core/i_position_component.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
@@ -12,6 +13,9 @@
 #include "engine/engine.h"
 #include "core/program_state.h"
 #include "core/scene.h"
+#include <boost/lambda/bind.hpp>
+#include <boost/lambda/lambda.hpp>
+#include <boost/ref.hpp>
 
 void ActorRenderer::Init()
 {
@@ -39,6 +43,35 @@ ActorRenderer::ActorRenderer()
     Init();
 }
 
+namespace {
+typedef std::vector<glm::vec2> Positions_t;
+typedef std::vector<GLfloat> Floats_t;
+typedef std::vector<glm::vec4> TexCoords_t;
+typedef std::vector<glm::vec4> Colors_t;
+typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
+bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
+        Positions_t& Positions, Floats_t& Headings, TexCoords_t& TexCoords, Floats_t& Sizes, Colors_t& Colors,
+        GLuint& TexId )
+{
+    if( i == e )
+    {
+        return false;
+    }
+    TexId = i->Spr->TexId;
+    Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
+    Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) );
+    Headings.push_back( ( GLfloat )positionC->GetOrientation() );
+
+    Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
+    //TODO: this one should not depend on collision radius
+    Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius():50)*i->Anim->GetScale() ) );
+    TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
+    Colors.push_back( i->Color );
+    ++i;
+    return true;
+}
+}
+
 void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
 {
     ActorList_t const& Lst = Object.GetActors();
@@ -47,7 +80,6 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
         return;
     }
     static size_t PrevVecSize = 0;
-    typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( PrevVecSize );
     //the template version works well with '=' i just dont know is it really needed, maybe this one is more self explaining
@@ -110,65 +142,30 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     //std::sort( RenderableSprites.begin(), RenderableSprites.end(), RenderableSpriteCompare() );
 
     size_t CurSize = RenderableSprites.size();
-    typedef std::vector<glm::vec2> Positions_t;
-    Positions_t Positions;
-    Positions.reserve( CurSize );
-    typedef std::vector<GLfloat> Floats_t;
-    Floats_t Headings;
-    Headings.reserve( CurSize );
-    Floats_t Sizes;
-    Sizes.reserve( CurSize );
-    typedef std::vector<glm::vec4> TexCoords_t;
-    TexCoords_t TexCoords;
-    TexCoords.reserve( CurSize );
-
-    typedef std::vector<glm::vec4> Colors_t;
-    Colors_t Colors;
-    Colors.reserve( CurSize );
-
-    Counts_t Counts;
-    GLuint TexId = -1;
-    size_t Count = 0;
-    size_t Start = 0;
-    size_t MaxCount = 0;
-    for( RenderableSprites_t::const_iterator i = RenderableSprites.begin(), e = RenderableSprites.end(); i != e; ++i )
-    {
-        if( TexId != i->Spr->TexId )
-        {
-            if( Count )
-            {
-                Counts.push_back( CountByTexId( TexId, Start, Count ) );
-            }
-            Start += Count;
-            Count = 0;
-            TexId = i->Spr->TexId;
-        }
-        ++Count;
-        if( Count > MaxCount )
-        {
-            MaxCount = Count;
-        }
-        Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
-        Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) );
-        Headings.push_back( ( GLfloat )positionC->GetOrientation() );
-
-        Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
-        //TODO: this one should not depend on collision radius
-        Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius():50)*i->Anim->GetScale() ) ); 
-        TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
-        Colors.push_back( i->Color );
-
-    }
-    if( Count )
-    {
-        Counts.push_back( CountByTexId( TexId, Start, Count ) );
-    }
     if( CurSize == 0 )
     {
         return;
     }
 
+    Positions_t Positions;
+    Positions.reserve( CurSize );
+    Floats_t Headings;
+    Headings.reserve( CurSize );
+    Floats_t Sizes;
+    Sizes.reserve( CurSize );
+    TexCoords_t TexCoords;
+    TexCoords.reserve( CurSize );
+    Colors_t Colors;
+    Colors.reserve( CurSize );
+
+    RenderableSprites_t::const_iterator i = RenderableSprites.begin();
+    render::Counts_t const& Counts = render::count(
+            boost::lambda::bind( &getNextTextId, boost::ref( i ), RenderableSprites.end(),
+                boost::ref( Positions ), boost::ref( Headings ), boost::ref( TexCoords ), boost::ref( Sizes ), boost::ref( Colors ),
+                boost::lambda::_1 )
+            );
     mVAO.Bind();
+
     if( CurSize != PrevVecSize )
     {
         PrevVecSize = CurSize;
@@ -215,9 +212,9 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     ShaderMgr.ActivateShader( "sprite2" );
     ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
     glActiveTexture( GL_TEXTURE0 + 1 );
-    for( Counts_t::const_iterator i = Counts.begin(), e = Counts.end(); i != e; ++i )
+    for( render::Counts_t::const_iterator i = Counts.begin(), e = Counts.end(); i != e; ++i )
     {
-        CountByTexId const& Part = *i;
+        render::CountByTexId const& Part = *i;
         CurrentAttribIndex = 0;
         glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( TexIndex + sizeof( glm::vec4 )*Part.Start ) );
         glVertexAttribDivisor( CurrentAttribIndex, 1 );

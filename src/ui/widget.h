@@ -1,6 +1,8 @@
 #ifndef INCLUDED_UI_WIDGET_H
 #define INCLUDED_UI_WIDGET_H
 
+#include "platform/i_platform.h"
+
 class Widget
 {
 protected:
@@ -82,6 +84,9 @@ public:
         PT_HighlightColor,
         PT_Progress,
         PT_MaxProgress,
+        PT_ActorVisual, // name of the actor visual
+        PT_Animation,   // name of the animation of the actor visual, defaults to body_idle
+        PT_State,       // current state of the animation, defaults to 0
     };
     typedef WidgetIterator const_iterator;  // rename to hierarchy iterator?
     const_iterator begin()const;
