@@ -35,6 +35,8 @@
 #include "flag_carrier_component.h"
 #include "flag_receiver_component.h"
 #include "score_on_death_component.h"
+#include "owner_component.h"
+#include "kill_score_on_death_component.h"
 
 using platform::AutoId;
 
@@ -69,6 +71,8 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
     Bind( AutoId("stop_on_death_component"), &CreateComponent<StopOnDeathComponent>);
     Bind( AutoId("score_on_death_component"), &CreateComponent<ScoreOnDeathComponent>);
+    Bind( AutoId("owner_component"), &CreateComponent<OwnerComponent>);
+    Bind( AutoId("kill_score_on_death_component"), &CreateComponent<KillScoreOnDeathComponent>);
 
     Bind( AutoId("notify_parent_on_death_component"), &CreateComponent<NotifyParentOnDeathComponent>);
     Bind( AutoId("listen_child_death_component"), &CreateComponent<ListenChildDeathComponent>);

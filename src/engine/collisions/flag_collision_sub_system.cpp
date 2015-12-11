@@ -64,9 +64,10 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         {
             if (otherTeamC->GetTeam()!=actorTeamC->GetTeam())
             {
+                int32_t carrierGUID=actorAttachableC->GetAttachedGUID();
                 actorAttachableC->SetAttachedGUID(-1);
                 FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
-                EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Scored,actorTeamC->GetTeam()));
+                EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Scored,actorTeamC->GetTeam(),carrierGUID));
             }
         }
         return;
@@ -86,12 +87,12 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
             FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
             if (positionC->GetX()!=x||positionC->GetY()!=y)
             {
-                EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Returned,actorTeamC->GetTeam()));
+                EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Returned,actorTeamC->GetTeam(),mOther->GetGUID()));
             }
         }
         else
         {
-            EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Captured,actorTeamC->GetTeam()));
+            EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Captured,actorTeamC->GetTeam(),mOther->GetGUID()));
             actorAttachableC->SetAttachedGUID(mOther->GetGUID());
         }
     }

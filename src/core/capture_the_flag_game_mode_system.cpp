@@ -12,6 +12,7 @@
 #include "engine/show_text_event.h"
 #include "map/editor_system.h"
 #include "map/editor_soldier_spawn_system.h"
+#include "engine/client_score_event.h"
 
 namespace core {
 
@@ -81,45 +82,59 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
         clientDatasMsg->mClientDatas=ctfProgramState.mClientDatas;
         network::MessageHolder::Get().AddOutgoingMessage(clientDatasMsg);
     }
+    mCtfProgramState.mRedScore=0;
+    mCtfProgramState.mBlueScore=0;
     mScene.Load("level2");
     Ui::Get().Load("ctf_hud");
 }
 
 void CaptureTheFlagGameModeSystem::OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt)
 {
+    Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(Evt.mCarrierGUID));
+    std::string name="Someone";
+    static const double messageTime=2.5;
+    if (clientData.IsValid())
+    {
+        name=clientData->mClientName;
+    }
     if (Evt.mType==ctf::FlagStateChangedEvent::Scored)
     {
+        if (clientData.IsValid())
+        {
+            clientData->mScore+=5;
+            EventServer<engine::ClientScoreEvent>::Get().SendEvent(engine::ClientScoreEvent(clientData->mClientId,clientData->mScore));
+        }
         if(Evt.mTeam==Team::Blue)
         {
             mCtfProgramState.mRedScore+=5;
-           EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Red team scored!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" scored for Red team!"));
         }
         else
         {
             mCtfProgramState.mBlueScore+=5;
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Blue team scored!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" scored for Blue team!"));
         }
     }
     else if (Evt.mType==ctf::FlagStateChangedEvent::Captured)
     {
         if(Evt.mTeam==Team::Blue)
         {
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Blue flag captured!!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" captured the Blue flag!!"));
         }
         else
         {
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Red flag captured!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" captured the Red flag!"));
         }
     }
     else if (Evt.mType==ctf::FlagStateChangedEvent::Returned)
     {
         if(Evt.mTeam==Team::Blue)
         {
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Blue flag returned!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" returned the Blue flag!"));
         }
         else
         {
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Red flag returned!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" returned the Red flag!"));
         }
     }
 }

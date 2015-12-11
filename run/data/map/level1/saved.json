@@ -32,6 +32,38 @@
       "name" : "spawn_actor"
    },
    {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 312.50,
+                  "y" : -1023.840
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
       "actor" : "wall_small",
       "components" : [
          {

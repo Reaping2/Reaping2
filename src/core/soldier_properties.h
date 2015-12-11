@@ -19,6 +19,7 @@ struct SoldierProperties
     }
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
+
 };
 
 template<class Archive>

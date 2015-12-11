@@ -46,6 +46,10 @@ namespace core {
     ClientData::ClientData() 
         :mClientId(0)
         ,mClientActorGUID(-1)
+        ,mKill(0)
+        ,mDeath(0)
+        ,mAssist(0)
+        ,mScore(0)
     {
 
     }
@@ -54,7 +58,10 @@ namespace core {
         :mClientId(clientId)
         ,mClientName(clientName)
         ,mClientActorGUID(-1)
-
+        ,mKill(0)
+        ,mDeath(0)
+        ,mAssist(0)
+        ,mScore(0)
     {
 
     }

@@ -2,7 +2,7 @@
 #ifndef INCLUDED_COUNTER_H
 #define INCLUDED_COUNTER_H
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <boost/function.hpp>
 #include <vector>
 #include "platform/rstdint.h"

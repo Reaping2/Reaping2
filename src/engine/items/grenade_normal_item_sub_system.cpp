@@ -3,6 +3,7 @@
 #include "core/shot_collision_component.h"
 #include "core/i_position_component.h"
 #include "normal_item_sub_system.h"
+#include "core/i_owner_component.h"
 
 namespace engine {
 
@@ -55,6 +56,11 @@ void GrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
 //        }
 
         projMoveC->SetMoving(true);
+        Opt<IOwnerComponent> ownerC=Proj->Get<IOwnerComponent>();
+        if (ownerC.IsValid())
+        {
+            ownerC->SetOwnerGUID(actor.GetGUID());
+        }
         mScene.AddActor( Proj.release() );
 
         normalItem->SetConsumed(true);

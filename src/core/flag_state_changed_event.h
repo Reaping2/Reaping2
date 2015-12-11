@@ -15,8 +15,9 @@ struct FlagStateChangedEvent : public platform::Event
     };
     Type mType;
     Team::Type mTeam;
-    FlagStateChangedEvent(Type type, Team::Type team)
-        :mType(type),mTeam(team){}
+    int32_t mCarrierGUID;
+    FlagStateChangedEvent(Type type, Team::Type team, int32_t carrierGUID)
+        :mType(type),mTeam(team),mCarrierGUID(carrierGUID){}
 };
 
 } // namespace ctf

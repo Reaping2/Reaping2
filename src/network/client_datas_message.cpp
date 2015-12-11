@@ -1,26 +1,24 @@
 #include "platform/i_platform.h"
 #include "network/client_datas_message.h"
+#include "core/program_state.h"
 
 namespace network {
 
 ClientDatasMessageSenderSystem::ClientDatasMessageSenderSystem()
     : MessageSenderSystem()
 {
-        //This one is not used yet you should wire it before use
 }
 
 
 void ClientDatasMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-        //This one is not used yet you should wire it before use
 }
 
 
 void ClientDatasMessageSenderSystem::Update(double DeltaTime)
 {
     MessageSenderSystem::Update(DeltaTime);
-        //This one is not used yet you should wire it before use
 }
 
 ClientDatasMessageHandlerSubSystem::ClientDatasMessageHandlerSubSystem()

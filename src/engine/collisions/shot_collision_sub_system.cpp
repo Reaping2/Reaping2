@@ -6,6 +6,7 @@
 #include "core/shot_collision_component.h"
 #include "core/i_position_component.h"
 #include "core/i_notify_parent_on_death_component.h"
+#include "core/i_owner_component.h"
 
 namespace engine {
 
@@ -27,6 +28,7 @@ void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     }
     Opt<ShotCollisionComponent> shotCC=actor.Get<ShotCollisionComponent>();
     Opt<IHealthComponent> otherHealthC=mOther->Get<IHealthComponent>();
+    Opt<IOwnerComponent> ownerC=actor.Get<IOwnerComponent>();
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();    
 
@@ -38,6 +40,10 @@ void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     if(otherHealthC.IsValid()&&otherHealthC->IsAlive())
     {
         otherHealthC->TakeDamage(shotCC->GetDamage());
+        if (ownerC.IsValid())
+        {
+            otherHealthC->SetLastDamageOwnerGUID(ownerC->GetOwnerGUID());
+        }
     }
     if (healthC.IsValid())
     {

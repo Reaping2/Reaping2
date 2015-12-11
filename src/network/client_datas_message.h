@@ -4,6 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include "single_message_sender.h"
 
 namespace network {
 
@@ -37,7 +38,7 @@ class ClientDatasMessageSenderSystem : public MessageSenderSystem
 {
 public:
     DEFINE_SYSTEM_BASE(ClientDatasMessageSenderSystem)
-        ClientDatasMessageSenderSystem();
+    ClientDatasMessageSenderSystem();
     virtual void Init();
     virtual void Update(double DeltaTime);
 };

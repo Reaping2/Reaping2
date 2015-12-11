@@ -79,6 +79,10 @@
 #include "core/map/editor_brush_system.h"
 #include "core/map/editor_soldier_spawn_system.h"
 #include "network/shot_message.h"
+#include "network/kill_score_message.h"
+#include "kill_score_on_death_system.h"
+#include "kill_score_system.h"
+#include "network/client_score_message.h"
 
 
 using platform::AutoId;
@@ -105,6 +109,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("explode_on_death_system"), &CreateSystem<ExplodeOnDeathSystem>);
     Bind( AutoId("stop_on_death_system"), &CreateSystem<StopOnDeathSystem>);
     Bind( AutoId("score_on_death_system"), &CreateSystem<engine::ScoreOnDeathSystem>);
+    Bind( AutoId("kill_score_on_death_system"), &CreateSystem<engine::KillScoreOnDeathSystem>);
 
     Bind( AutoId("notify_parent_on_death_system"), &CreateSystem<NotifyParentOnDeathSystem>);
 
@@ -146,6 +151,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("show_text_message_message_sender_system"), &CreateSystem<network::ShowTextMessageMessageSenderSystem>);
     Bind( AutoId("collision_message_sender_system"), &CreateSystem<network::CollisionMessageSenderSystem>);
     Bind( AutoId("shot_message_sender_system"), &CreateSystem<network::ShotMessageSenderSystem>);
+    Bind( AutoId("kill_score_message_sender_system"), &CreateSystem<network::KillScoreMessageSenderSystem>);
+    Bind( AutoId("client_score_message_sender_system"), &CreateSystem<network::ClientScoreMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
@@ -172,6 +179,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("attachable_system"), &CreateSystem<engine::ctf::AttachableSystem>);
     Bind( AutoId("show_text_system"), &CreateSystem<engine::ShowTextSystem>);
     Bind( AutoId("editor_system"), &CreateSystem<map::EditorSystem>);
+    Bind( AutoId("kill_score_system"), &CreateSystem<engine::KillScoreSystem>);
 
     Bind( AutoId("editor_target_system"), &CreateSystem<map::EditorTargetSystem>);
     Bind( AutoId("editor_grid_system"), &CreateSystem<map::EditorGridSystem>);

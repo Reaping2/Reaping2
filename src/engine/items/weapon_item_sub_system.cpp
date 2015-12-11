@@ -11,6 +11,7 @@
 #include "core/i_accuracy_component.h"
 #include "platform/event.h"
 #include "core/shot_event.h"
+#include "core/i_owner_component.h"
 
 namespace engine {
 
@@ -155,6 +156,12 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
         {
             shotCC->SetParentGUID( actor.GetGUID() );
         }
+        Opt<IOwnerComponent> ownerC=Proj.Get<IOwnerComponent>();
+        if (ownerC.IsValid()&&ownerC->GetOwnerGUID()==-1) //if proj owner is set, then not the given actor is the owner
+        {
+            ownerC->SetOwnerGUID(actor.GetGUID());
+        }
+
         Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
         projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
         Opt<IMoveComponent> moveC(Proj.Get<IMoveComponent>());

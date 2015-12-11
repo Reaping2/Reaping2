@@ -50,6 +50,8 @@
 #include "network/collision_message.h"
 #include "render/damage_particles.h"
 #include "network/shot_message.h"
+#include "network/kill_score_message.h"
+#include "network/client_score_message.h"
 
 using engine::Engine;
 namespace {
@@ -163,10 +165,13 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("set_ownership_message_sender_system"));
         Eng.AddSystem(AutoId("set_team_message_sender_system"));
         Eng.AddSystem(AutoId("ctf_score_message_sender_system"));
+        Eng.AddSystem(AutoId("kill_score_message_sender_system"));
         Eng.AddSystem(AutoId("show_text_message_message_sender_system"));
         Eng.AddSystem(AutoId("collision_message_sender_system"));
         Eng.AddSystem(AutoId("health_message_sender_system"));
         Eng.AddSystem(AutoId("shot_message_sender_system"));
+        Eng.AddSystem(AutoId("client_datas_message_sender_system"));
+        Eng.AddSystem(AutoId("client_score_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -237,9 +242,11 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SetTeamMessage::GetType_static(),AutoId("set_team_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ctf::CtfScoreMessage::GetType_static(),AutoId("ctf_score_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::KillScoreMessage::GetType_static(),AutoId("kill_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ShowTextMessageMessage::GetType_static(),AutoId("show_text_message_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::CollisionMessage::GetType_static(),AutoId("collision_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ShotMessage::GetType_static(),AutoId("shot_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
 
     }
 
@@ -299,9 +306,11 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
+        // these must be before health_system
         Eng.AddSystem(AutoId("drop_on_death_system"));
         Eng.AddSystem(AutoId("target_holder_system"));
         Eng.AddSystem(AutoId("score_on_death_system"));
+        Eng.AddSystem(AutoId("kill_score_on_death_system"));
     }
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client)
@@ -314,6 +323,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));
     Eng.AddSystem(AutoId("move_system"));
+    Eng.AddSystem(AutoId("kill_score_system"));
 
     Eng.AddSystem(AutoId("stop_on_death_system"));
 

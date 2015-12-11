@@ -21,6 +21,8 @@ public:
     virtual double GetTimeOfDeath()const=0;
     virtual void SetTimeOfDeath(double timeOfDeath)=0;
     virtual Buffable<int32_t>& GetMaxHP()=0;
+    virtual void SetLastDamageOwnerGUID(int32_t lastDamageOwnerGUID)=0;
+    virtual int32_t GetLastDamageOwnerGUID()const=0;
 protected:
     friend class ComponentFactory;
 };

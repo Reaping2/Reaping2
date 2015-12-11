@@ -13,12 +13,17 @@ struct ClientData
     std::string mClientName;
     int32_t mClientActorGUID;
     SoldierProperties mSoldierProperties;
+    int32_t mKill;
+    int32_t mDeath;
+    int32_t mAssist; // not used yet
+    int32_t mScore;
     ClientData();
 
     ClientData(int32_t clientId, std::string const& clientName);
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
+
 };
 
 template<class Archive>
@@ -28,6 +33,10 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
     ar & mClientName;
     ar & mClientActorGUID;
     ar & mSoldierProperties;
+    ar & mKill;
+    ar & mDeath;
+    ar & mAssist;
+    ar & mScore;
 }
 class ProgramState : public platform::Singleton<ProgramState>
 {

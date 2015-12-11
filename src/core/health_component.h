@@ -22,6 +22,8 @@ public:
     virtual void SetTimeOfDeath( double timeOfDeath );
     virtual Buffable<int32_t>& GetMaxHP();
     void SetHPandMaxHP( int32_t Hp );
+    virtual void SetLastDamageOwnerGUID(int32_t lastDamageOwnerGUID);
+    virtual int32_t GetLastDamageOwnerGUID()const;
 
     HealthComponent();
     friend class ComponentFactory;
@@ -32,6 +34,7 @@ public:
     bool mAlive;
     double mTimeOfDeath;
     Buffable<int32_t> mMaxHP;
+    int32_t mLastDamageOwnerGUID;
 };
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>

@@ -6,6 +6,7 @@
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"
 #include "items/weapon_item_sub_system.h"
+#include "core/i_owner_component.h"
 
 namespace engine {
 
@@ -43,6 +44,12 @@ void ExplodeOnDeathSystem::Update(double DeltaTime)
             for (int i=0;i<explodeOnDeathC->GetCount();++i)
             {
                 ps = mActorFactory(explodeOnDeathC->GetExplosionProjectile());
+                Opt<IOwnerComponent> actorOwnerC=actor.Get<IOwnerComponent>();
+                Opt<IOwnerComponent> psOwnerC=ps->Get<IOwnerComponent>();
+                if (actorOwnerC.IsValid()&&psOwnerC.IsValid())
+                {
+                    psOwnerC->SetOwnerGUID(actorOwnerC->GetOwnerGUID());
+                }
                 if (explodeOnDeathC->GetCount()>1)
                 {
                     ps->Get<IPositionComponent>()->SetOrientation( -1*explodeOnDeathC->GetScatter() + i*
