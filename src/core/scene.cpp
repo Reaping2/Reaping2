@@ -240,14 +240,52 @@ Opt<Actor> Scene::GetActor(int32_t guid)
     return Opt<Actor>(NULL);
 }
 
+namespace {
+int32_t getHP( Actor* a )
+{
+    Opt<IHealthComponent> healthC = a->Get<IHealthComponent>();
+    return healthC->GetHP();
+}
+double getX( Actor* a )
+{
+    Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
+    return positionC->GetX();
+}
+double getY( Actor* a )
+{
+    Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
+    return positionC->GetY();
+}
+int32_t getWeaponId( Actor* a )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    if( !inventoryC.IsValid() )
+    {
+        return 0;
+    }
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    return weapon.IsValid() ? weapon->GetId() : 0;
+}
+int32_t getSpecialId( Actor* a )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    if( !inventoryC.IsValid() )
+    {
+        return 0;
+    }
+    Opt<NormalItem> item = inventoryC->GetSelectedNormalItem();
+    return item.IsValid() ? item->GetId() : 0;
+}
+}
+
 void Scene::SetPlayerModels(Opt<Actor> actor)
 {
     mPlayerModels.clear();
-    Opt<IHealthComponent> healthC=actor->Get<IHealthComponent>();
-    mPlayerModels.push_back( new ModelValue( healthC->GetHP(), "hp", &mPlayerModel ) );
-    Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
-    mPlayerModels.push_back( new ModelValue( positionC->GetX(), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( positionC->GetY(), "y", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( mMaxHP, "max_hp", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getSpecialId, actor.Get() ), "special", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
 }
 

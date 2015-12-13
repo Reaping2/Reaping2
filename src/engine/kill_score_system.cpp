@@ -12,7 +12,7 @@ KillScoreSystem::KillScoreSystem()
     , mScoreModel( "score", &RootModel::Get() )
     , mKill(0)
     , mDeath(0)
-	, mScore(0)
+    , mScore(0)
 {
 }
 
@@ -21,9 +21,9 @@ void KillScoreSystem::Init()
 {
     mOnKillScore=EventServer<engine::KillScoreEvent>::Get().Subscribe( boost::bind( &KillScoreSystem::OnKillScore, this, _1 ) );
     mScoreModels.clear();
-    mScoreModels.push_back(new ModelValue( GetKill(), "kill", &mScoreModel ));
-    mScoreModels.push_back(new ModelValue( GetDeath(), "death", &mScoreModel ));
-    mScoreModels.push_back(new ModelValue( GetScore(), "score", &mScoreModel ));
+    mScoreModels.push_back(new ModelValue( GetIntFunc( this, &KillScoreSystem::GetKill ), "kill", &mScoreModel ));
+    mScoreModels.push_back(new ModelValue( GetIntFunc( this, &KillScoreSystem::GetDeath ), "death", &mScoreModel ));
+    mScoreModels.push_back(new ModelValue( GetIntFunc( this, &KillScoreSystem::GetScore ), "score", &mScoreModel ));
 
 }
 

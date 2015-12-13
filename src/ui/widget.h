@@ -65,6 +65,7 @@ public:
             return Type;
         }
         bool IsModelValue()const;
+        bool IsAutoId() const;
         ~Prop();
     private:
         Type_t Type;

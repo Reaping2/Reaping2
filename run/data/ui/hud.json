@@ -1,1 +1,128 @@
-{	"type":"root",	"children":[		{			"type":"fixed_ratio_container",			"x":0.0,			"y":0.5,			"w":0.2,			"h":0.5,			"align_h":"left",			"align_v":"top",			"visible":0,			"enabled":0,			"children":[				{					"type":"bar",					"x":0.02,					"y":0.96,					"w":0.96,					"h":0.02,					"progress":"%player.hp",					"max_progress":"%player.max_hp",					"color":"0xaa0000",					"visible":1,					"enabled":0				},				{					"type":"text_widget",					"x":0.02,					"y":0.9,					"w":0.3,					"h":0.06,					"color":"0xaa0000",					"visible":1,					"enabled":0,					"text":"HP:",					"fontsize":3				},				{					"type":"text_widget",					"x":0.3,					"y":0.9,					"w":0.7,					"h":0.06,					"color":"0xaa0000",					"visible":1,					"enabled":0,					"text":"%player.hp",					"fontsize":3				},				{					"type":"text_widget",					"x":0.02,					"y":-0.9,					"w":0.7,					"h":0.1,					"color":"0xaa0000",					"visible":1,					"enabled":0,					"text":"Fps:",					"fontsize":4				},				{					"type":"text_widget",					"x":0.4,					"y":-0.9,					"w":0.7,					"h":0.1,					"color":"0xaaaaaa",					"visible":1,					"enabled":0,					"text":"%fps",					"fontsize":5				},				{					"type":"text_widget",					"x":0.02,					"y":-0.96,					"w":0.7,					"h":0.1,					"color":"0xFFE600",					"visible":"%programstate.isclient",					"enabled":0,					"text":"Ping:",					"fontsize":2				},				{					"type":"text_widget",					"x":0.4,					"y":-0.97,					"w":0.7,					"h":0.1,					"color":"0xFFE600",					"visible":"%programstate.isclient",					"enabled":0,					"text":"%ping",					"fontsize":3				}			]		}	]}
+{
+    "type": "root",
+    "children": [
+        {
+            "type": "fixed_ratio_container",
+            "x": 0.0,
+            "y": 0.5,
+            "w": 0.2,
+            "h": 0.5,
+            "align_h": "left",
+            "align_v": "top",
+            "visible": 0,
+            "enabled": 0,
+            "children": [
+                {
+                    "type": "bar",
+                    "x": 0.02,
+                    "y": 0.96,
+                    "w": 0.96,
+                    "h": 0.02,
+                    "progress": "%player.hp",
+                    "max_progress": "%player.max_hp",
+                    "color": "0xaa0000",
+                    "visible": 1,
+                    "enabled": 0
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.02,
+                    "y": 0.9,
+                    "w": 0.3,
+                    "h": 0.06,
+                    "color": "0xaa0000",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "HP:",
+                    "fontsize": 3
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.3,
+                    "y": 0.9,
+                    "w": 0.7,
+                    "h": 0.06,
+                    "color": "0xaa0000",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "%player.hp",
+                    "fontsize": 3
+                },
+                {
+                    "type": "image",
+                    "x": 0.02,
+                    "y": 0.8,
+                    "w": 0.4,
+                    "h": 0.06,
+                    "color": "0xffffffff",
+                    "visible": 1,
+                    "enabled": 0,
+                    "comment_actor_visual": "TODO: create player_inventory actor, add the possible weapons and buffs as animations",
+                    "actor_visual": "%%player",
+                    "animation": "%player.weapon"
+                },
+                {
+                    "type": "image",
+                    "x": 0.45,
+                    "y": 0.8,
+                    "w": 0.2,
+                    "h": 0.06,
+                    "color": "0xffffffff",
+                    "visible": "%player.special",
+                    "enabled": 0,
+                    "comment_actor_visual": "TODO: create player_inventory actor, add the possible weapons and buffs as animations",
+                    "actor_visual": "%player.special",
+                    "animation": "%%body_idle"
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.02,
+                    "y": -0.9,
+                    "w": 0.7,
+                    "h": 0.1,
+                    "color": "0xaa0000",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "Fps:",
+                    "fontsize": 4
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.4,
+                    "y": -0.9,
+                    "w": 0.7,
+                    "h": 0.1,
+                    "color": "0xaaaaaa",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "%fps",
+                    "fontsize": 5
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.02,
+                    "y": -0.96,
+                    "w": 0.7,
+                    "h": 0.1,
+                    "color": "0xFFE600",
+                    "visible": "%programstate.isclient",
+                    "enabled": 0,
+                    "text": "Ping:",
+                    "fontsize": 2
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.4,
+                    "y": -0.97,
+                    "w": 0.7,
+                    "h": 0.1,
+                    "color": "0xFFE600",
+                    "visible": "%programstate.isclient",
+                    "enabled": 0,
+                    "text": "%ping",
+                    "fontsize": 3
+                }
+            ]
+        }
+    ]
+}

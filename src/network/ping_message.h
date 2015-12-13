@@ -35,7 +35,7 @@ namespace network {
         int32_t mPing;
     public:
         ModelValue mPingModel;
-        int32_t const& GetPing();
+        int32_t GetPing();
         DEFINE_SUB_SYSTEM_BASE(PingMessageHandlerSubSystem)
         PingMessageHandlerSubSystem();
         virtual void Init();

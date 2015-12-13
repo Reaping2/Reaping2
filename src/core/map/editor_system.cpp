@@ -59,8 +59,8 @@ void EditorSystem::Load(std::string const& level)
     mY=0;
     ModelValue& PlayerModel = const_cast<ModelValue&>(RootModel::Get()["player"]);
     mPlayerModels.clear();
-    mPlayerModels.push_back( new ModelValue( GetX(), "x", &PlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( GetY(), "y", &PlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( GetDoubleFunc( this, &EditorSystem::GetX ), "x", &PlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( GetDoubleFunc( this, &EditorSystem::GetY ), "y", &PlayerModel ) );
 
     mScene.Load(level);
     Ui::Get().Load("editor_base_hud");

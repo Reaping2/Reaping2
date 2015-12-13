@@ -34,8 +34,8 @@ void CaptureTheFlagGameModeSystem::Init()
     mOnScore=EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnScore, this, _1 ) );
     mKeyboard=engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
     mTeamModels.clear();
-    mTeamModels.push_back(new ModelValue( mCtfProgramState.GetBlueScore(), "blue", &mCtfModel ));
-    mTeamModels.push_back(new ModelValue( mCtfProgramState.GetRedScore(), "red", &mCtfModel ));
+    mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetBlueScore ), "blue", &mCtfModel ));
+    mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetRedScore ), "red", &mCtfModel ));
 }
 
 
