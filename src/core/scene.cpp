@@ -256,6 +256,16 @@ double getY( Actor* a )
     Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
     return positionC->GetY();
 }
+int32_t getWeaponId( Actor* a )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    if( !inventoryC.IsValid() )
+    {
+        return 0;
+    }
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    return weapon.IsValid() ? weapon->GetId() : 0;
+}
 }
 
 void Scene::SetPlayerModels(Opt<Actor> actor)
@@ -264,6 +274,7 @@ void Scene::SetPlayerModels(Opt<Actor> actor)
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
 }
 
