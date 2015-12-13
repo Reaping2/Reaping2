@@ -2,8 +2,8 @@
 #define INCLUDED_NETWORK_MESSAGE_H
 
 #include "platform/i_platform.h"
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <portable_oarchive.hpp>
+#include <portable_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/export.hpp>

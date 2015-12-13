@@ -1,7 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/server_system.h"
 #include <boost/timer.hpp>
-#include "boost/archive/text_iarchive.hpp"
+#include <portable_iarchive.hpp>
 #include "my_name_message.h"
 #include "client_system.h"
 #include "engine/frame_counter_system.h"
@@ -90,15 +90,15 @@ void ServerSystem::Update(double DeltaTime)
     {
 
         std::ostringstream oss;
-        boost::archive::text_oarchive oa(oss);
+        eos::portable_oarchive oa(oss);
         oa & messages;
         std::string astr(oss.str());
        // L1("server sends - %s:\n",astr.c_str());
-        ENetPacket * packet = enet_packet_create (astr.c_str(), 
-            strlen (astr.c_str()) + 1, 
+        ENetPacket * packet = enet_packet_create (astr.c_str(),
+            astr.size(),
             ENET_PACKET_FLAG_RELIABLE);
         mSentMessagesSize+=packet->dataLength*mClients.size();
-        
+
         enet_host_broadcast(mServer, 0, packet);
         enet_host_flush(mServer);
 
@@ -115,8 +115,8 @@ void ServerSystem::Receive(ENetEvent& event)
 //         event.packet -> data,
 //         event.peer -> data,
 //         event.channelID);
-    std::istringstream iss((char*)(event.packet->data));
-    boost::archive::text_iarchive ia(iss);
+    std::istringstream iss( std::string( (char*)(event.packet->data), event.packet->dataLength ) );
+    eos::portable_iarchive ia(iss);
     if (mMessageHolder.GetIncomingMessages().mMessages.empty())
     {
         ia >> mMessageHolder.GetIncomingMessages();
