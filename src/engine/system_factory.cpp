@@ -83,6 +83,7 @@
 #include "kill_score_on_death_system.h"
 #include "kill_score_system.h"
 #include "network/client_score_message.h"
+#include "leaderboard_system.h"
 
 
 using platform::AutoId;
@@ -97,6 +98,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("timer_server_system"), &CreateSystem<TimerServerSystem>);
     Bind( AutoId("frame_counter_system"), &CreateSystem<FrameCounterSystem>);
     Bind( AutoId("renderer_system"), &CreateSystem<RendererSystem>);
+    Bind( AutoId("leaderboard_system"), &CreateSystem<engine::LeaderboardSystem>);
 
     Bind( AutoId("collision_system"), &CreateSystem<CollisionSystem>);
     Bind( AutoId("keyboard_system"), &CreateSystem<KeyboardSystem>);

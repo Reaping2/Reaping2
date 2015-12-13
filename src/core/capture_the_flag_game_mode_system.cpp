@@ -13,6 +13,7 @@
 #include "map/editor_system.h"
 #include "map/editor_soldier_spawn_system.h"
 #include "engine/client_score_event.h"
+#include "free_for_all_game_mode_system.h"
 
 namespace core {
 
@@ -21,6 +22,7 @@ CaptureTheFlagGameModeSystem::CaptureTheFlagGameModeSystem()
     , mProgramState(core::ProgramState::Get())
     , mCtfProgramState(ctf::ProgramState::Get())
     , mCtfModel( "ctf", &RootModel::Get() )
+    , mHudShown(false)
 {
 }
 
@@ -30,6 +32,7 @@ void CaptureTheFlagGameModeSystem::Init()
     mOnStartGameMode=EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnStartGameMode, this, _1 ) );
     mOnFlagStateChanged=EventServer<ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnFlagStateChanged, this, _1 ) );
     mOnScore=EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnScore, this, _1 ) );
+    mKeyboard=engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
     mTeamModels.clear();
     mTeamModels.push_back(new ModelValue( mCtfProgramState.GetBlueScore(), "blue", &mCtfModel ));
     mTeamModels.push_back(new ModelValue( mCtfProgramState.GetRedScore(), "red", &mCtfModel ));
@@ -49,6 +52,19 @@ void CaptureTheFlagGameModeSystem::Update(double DeltaTime)
             EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(40000,"RED TEAM IS VICTORIOUS!"));
         }
     }
+    if (mKeyboard.IsValid())
+    {
+        if (mHudShown&&mKeyboard->GetKey(GLFW_KEY_TAB).State==KeyState::Down)
+        {
+            mHudShown=false;
+            Ui::Get().Load("leaderboard");
+        }
+        else if (!mHudShown&&mKeyboard->GetKey(GLFW_KEY_TAB).State==KeyState::Up)
+        {
+            mHudShown=true;
+            Ui::Get().Load("ctf_hud");
+        }
+    }
 }
 
 void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& Evt)
@@ -63,6 +79,9 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
     ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>(true);
     ::engine::Engine::Get().SetEnabled< ::map::EditorSoldierSpawnSystem>(false);
     ::engine::Engine::Get().SetEnabled< ::map::EditorSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>(true);
+
 
     if (mProgramState.mMode==core::ProgramState::Server)
     {
@@ -86,6 +105,7 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
     mCtfProgramState.mBlueScore=0;
     mScene.Load("level2");
     Ui::Get().Load("ctf_hud");
+    mHudShown=true;
 }
 
 void CaptureTheFlagGameModeSystem::OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt)

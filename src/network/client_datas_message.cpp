@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/client_datas_message.h"
 #include "core/program_state.h"
+#include "platform/event.h"
+#include "engine/client_datas_changed_event.h"
 
 namespace network {
 
@@ -36,6 +38,7 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
     ClientDatasMessage const& msg=static_cast<ClientDatasMessage const&>(message);
     L1("executing ClientDatasMessageHandlerSubSystem from id: %d \n",msg.mSenderId );
     mProgramState.mClientDatas=msg.mClientDatas;
+    EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent(engine::ClientDatasChangedEvent());
     for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
     {
         L1("**** %s properties arrived. **** from id: %d \n", i->mClientName.c_str(),msg.mSenderId );

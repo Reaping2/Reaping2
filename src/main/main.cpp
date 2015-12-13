@@ -52,6 +52,8 @@
 #include "network/shot_message.h"
 #include "network/kill_score_message.h"
 #include "network/client_score_message.h"
+#include "core/free_for_all_game_mode_system.h"
+#include "core/capture_the_flag_game_mode_system.h"
 
 using engine::Engine;
 namespace {
@@ -149,6 +151,9 @@ int main(int argc, char* argv[])
 
     Eng.AddSystem(AutoId("free_for_all_game_mode_system"));
     Eng.AddSystem(AutoId("capture_the_flag_game_mode_system"));
+    Eng.AddSystem(AutoId("leaderboard_system"));
+    ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>(false);
+    ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>(false);
 
     if (programState.mMode==ProgramState::Server) 
     {

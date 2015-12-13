@@ -2,6 +2,7 @@
 #include "local_system.h"
 #include "ui/ui.h"
 #include "core/start_game_mode_event.h"
+#include "client_datas_changed_event.h"
 
 namespace engine {
 
@@ -29,6 +30,7 @@ void LocalSystem::OnLocalStart()
     mProgramState.mClientName="kvakmama";
     mProgramState.mClientDatas.clear();
     mProgramState.mClientDatas.push_back(core::ClientData(mProgramState.mClientId,mProgramState.mClientName));
+    EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent(engine::ClientDatasChangedEvent());
     Ui::Get().Load("soldier_properties");
 }
 
