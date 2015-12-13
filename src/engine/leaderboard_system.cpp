@@ -60,14 +60,14 @@ void LeaderboardSystem::SetModels()
             modelString=modelString+"_red_"+boost::lexical_cast<std::string>(redCounter)+"_";
         }
 
-        mKDASModels.push_back(new ModelValue(GetClientName(*clientData.Get()),modelString+"name",&mLeaderBoardModel));
-        mKDASModels.push_back(new ModelValue(GetKill(*clientData.Get()),modelString+"kill",&mLeaderBoardModel));
-        mKDASModels.push_back(new ModelValue(GetDeath(*clientData.Get()),modelString+"death",&mLeaderBoardModel));
-        mKDASModels.push_back(new ModelValue(GetAssist(*clientData.Get()),modelString+"assist",&mLeaderBoardModel));
-        mKDASModels.push_back(new ModelValue(GetScore(*clientData.Get()),modelString+"score",&mLeaderBoardModel));
+        mKDASModels.push_back(new ModelValue( ModelValue::get_string_t( boost::lambda::bind( &LeaderboardSystem::GetClientName, boost::cref(*clientData.Get() ) ) ),modelString+"name",&mLeaderBoardModel));
+        mKDASModels.push_back(new ModelValue( ModelValue::get_int_t( boost::lambda::bind( &LeaderboardSystem::GetKill, boost::cref(*clientData.Get() ) ) ),modelString+"kill",&mLeaderBoardModel));
+        mKDASModels.push_back(new ModelValue( ModelValue::get_int_t( boost::lambda::bind( &LeaderboardSystem::GetDeath, boost::cref(*clientData.Get() ) ) ),modelString+"death",&mLeaderBoardModel));
+        mKDASModels.push_back(new ModelValue( ModelValue::get_int_t( boost::lambda::bind( &LeaderboardSystem::GetAssist, boost::cref(*clientData.Get() ) ) ),modelString+"assist",&mLeaderBoardModel));
+        mKDASModels.push_back(new ModelValue( ModelValue::get_int_t( boost::lambda::bind( &LeaderboardSystem::GetScore, boost::cref(*clientData.Get() ) ) ),modelString+"score",&mLeaderBoardModel));
     }
-    mKDASModels.push_back(new ModelValue(GetColor(Team::Blue),"team_blue_color",&mLeaderBoardModel));
-    mKDASModels.push_back(new ModelValue(GetColor(Team::Red),"team_red_color",&mLeaderBoardModel));
+    mKDASModels.push_back(new ModelValue( ModelValue::get_string_t( boost::lambda::bind( &LeaderboardSystem::GetColor, this, Team::Blue) ),"team_blue_color",&mLeaderBoardModel));
+    mKDASModels.push_back(new ModelValue( ModelValue::get_string_t( boost::lambda::bind( &LeaderboardSystem::GetColor, this, Team::Red) ),"team_red_color",&mLeaderBoardModel));
 }
 
 std::string const& LeaderboardSystem::GetClientName(core::ClientData const& clientData)
