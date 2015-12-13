@@ -59,8 +59,20 @@
                     "enabled": 0,
                     "comment_actor_visual": "TODO: create player_inventory actor, add the possible weapons and buffs as animations",
                     "actor_visual": "%%player",
-                    "animation": "%player.weapon",
-                    "fontsize": 3
+                    "animation": "%player.weapon"
+                },
+                {
+                    "type": "image",
+                    "x": 0.45,
+                    "y": 0.8,
+                    "w": 0.2,
+                    "h": 0.06,
+                    "color": "0xffffffff",
+                    "visible": "%player.special",
+                    "enabled": 0,
+                    "comment_actor_visual": "TODO: create player_inventory actor, add the possible weapons and buffs as animations",
+                    "actor_visual": "%player.special",
+                    "animation": "%%body_idle"
                 },
                 {
                     "type": "text_widget",
