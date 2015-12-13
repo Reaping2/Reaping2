@@ -246,12 +246,12 @@ int32_t getHP( Actor* a )
     Opt<IHealthComponent> healthC = a->Get<IHealthComponent>();
     return healthC->GetHP();
 }
-int32_t getX( Actor* a )
+double getX( Actor* a )
 {
     Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
     return positionC->GetX();
 }
-int32_t getY( Actor* a )
+double getY( Actor* a )
 {
     Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
     return positionC->GetY();
@@ -262,8 +262,8 @@ void Scene::SetPlayerModels(Opt<Actor> actor)
 {
     mPlayerModels.clear();
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
 }
 
