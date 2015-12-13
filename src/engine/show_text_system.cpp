@@ -5,7 +5,7 @@ namespace engine {
 
 ShowTextSystem::ShowTextSystem()
     : mScene( Scene::Get() )
-    , mShowTextModel( GetText(), "show_text", &RootModel::Get() )
+    , mShowTextModel( GetStringFunc( this, &ShowTextSystem::GetText ), "show_text", &RootModel::Get() )
     , mText("Welcome to HELL bitches!")
     , mTTL(4)
 {

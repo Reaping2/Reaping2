@@ -28,10 +28,10 @@ SoldierPropertiesSystem::SoldierPropertiesSystem()
 
 void SoldierPropertiesSystem::Init()
 {
-     mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mHealth, "health", &mSoldierModel));
-     mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mAccuracy, "accuracy", &mSoldierModel));
-     mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mMoveSpeed, "speed", &mSoldierModel));
-     mPropertyModels.push_back(new ModelValue( mProgramState.mSoldierProperties.mPoints, "points", &mSoldierModel));
+     mPropertyModels.push_back(new ModelValue( RefTo( mProgramState.mSoldierProperties.mHealth ), "health", &mSoldierModel));
+     mPropertyModels.push_back(new ModelValue( RefTo( mProgramState.mSoldierProperties.mAccuracy ), "accuracy", &mSoldierModel));
+     mPropertyModels.push_back(new ModelValue( RefTo( mProgramState.mSoldierProperties.mMoveSpeed ), "speed", &mSoldierModel));
+     mPropertyModels.push_back(new ModelValue( RefTo( mProgramState.mSoldierProperties.mPoints ), "points", &mSoldierModel));
      mPropertyModels.push_back(new ModelValue( VoidFunc( this, &SoldierPropertiesSystem::OnSoldierPropertiesReady ), "soldier_properties.ready", &RootModel::Get()));
 }
 

@@ -25,99 +25,45 @@ bool ModelValue::IsValid() const
     return mType != Mt_None;
 }
 
-ModelValue::ModelValue( int32_t const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_Int )
-    , mValue( ModelFor )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
+#define MODELVALUE_CTOR( function_type, mt_type ) \
+ModelValue::ModelValue( function_type ModelFor, std::string const& Name, ModelValue* Parent ) \
+    : mType( mt_type ) \
+    , mValue( (void*) new function_type( ModelFor ) ) \
+    , mParent( Parent ) \
+{ \
+    if( !mParent ) \
+    { \
+        return; \
+    } \
+    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) ); \
+    OBSERVABLE_ASSERT( Inserted.second ); \
 }
 
-ModelValue::ModelValue( std::string const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_String )
-    , mValue( ModelFor )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
-}
+#define TYPES \
+    GET_TYPES \
+    CALL_TYPES
 
-ModelValue::ModelValue( void_function_t const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_VoidFunction )
-    , mValue( new void_function_t( ModelFor ) )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
-}
+#define GET_TYPES \
+USE_TYPES( ModelValue::get_int_t, Mt_Int, int32_t ) \
+USE_TYPES( ModelValue::get_double_t, Mt_Double, double ) \
+USE_TYPES( ModelValue::get_string_t, Mt_String, std::string )
 
-ModelValue::ModelValue( int_function_t const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_IntFunction )
-    , mValue( new int_function_t( ModelFor ) )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
-}
+#define CALL_TYPES \
+USE_TYPES( ModelValue::void_function_t, Mt_VoidFunction, void ) \
+USE_TYPES( ModelValue::int_function_t, Mt_IntFunction, int32_t ) \
+USE_TYPES( ModelValue::double_function_t, Mt_DoubleFunction, double ) \
+USE_TYPES( ModelValue::string_function_t, Mt_StringFunction, std::string )
 
-ModelValue::ModelValue( double_function_t const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_DoubleFunction )
-    , mValue( new double_function_t( ModelFor ) )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
-}
+#define USE_TYPES( fun, mt, t ) \
+    MODELVALUE_CTOR( fun, mt )
 
-ModelValue::ModelValue( string_function_t const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_StringFunction )
-    , mValue( new string_function_t( ModelFor ) )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
-}
+TYPES;
+
+#undef USE_TYPES
 
 ModelValue::ModelValue( std::string const& Name, ModelValue* Parent )
     : mType( Mt_Multi )
-    , mParent( Parent )
-{
-    if( !mParent )
-    {
-        return;
-    }
-    std::pair<ModelMap_t::iterator, bool> Inserted = mParent->mModels.insert( std::make_pair( Name, this ) );
-    OBSERVABLE_ASSERT( Inserted.second );
-}
-
-ModelValue::ModelValue( double const& ModelFor, std::string const& Name, ModelValue* Parent )
-    : mType( Mt_Double )
-    , mValue( ModelFor )
+    , mValue( NULL )
     , mParent( Parent )
 {
     if( !mParent )
@@ -147,20 +93,12 @@ ModelValue::~ModelValue()
     }
     switch( mType )
     {
-    case Mt_DoubleFunction:
-        delete ( double_function_t* )mValue.f;
-        break;
-    case Mt_IntFunction:
-        delete ( int_function_t* )mValue.f;
-        break;
-    case Mt_StringFunction:
-        delete ( string_function_t* )mValue.f;
-        break;
-    case Mt_VoidFunction:
-        delete ( void_function_t* )mValue.f;
-        break;
-    default:
-        break;
+#define USE_TYPES( fn, mt, t ) \
+        case mt: delete ( fn* ) mValue; break;
+TYPES
+#undef USE_TYPES
+        default:
+            break;
     }
 }
 
@@ -197,7 +135,7 @@ ModelValue::operator int32_t() const
 {
     if( mType == Mt_Int )
     {
-        return *( mValue.i );
+        return ((get_int_t*)mValue)->operator()();
     }
     OBSERVABLE_ASSERT( false );
     return 0;
@@ -207,7 +145,7 @@ ModelValue::operator double() const
 {
     if( mType == Mt_Double )
     {
-        return *( mValue.d );
+        return ((get_double_t*)mValue)->operator ()();
     }
     OBSERVABLE_ASSERT( false );
     return 0;
@@ -218,11 +156,11 @@ ModelValue::operator std::string() const
     switch( mType )
     {
     case Mt_String:
-        return *( mValue.s );
+        return ((get_string_t*)mValue)->operator ()();
     case Mt_Int:
-        return boost::lexical_cast<std::string>( *mValue.i );
+        return boost::lexical_cast<std::string>( operator int32_t() );
     case Mt_Double:
-        return boost::lexical_cast<std::string>( *mValue.d );
+        return boost::lexical_cast<std::string>( operator double() );
     default:
         break;
     }
@@ -232,44 +170,44 @@ ModelValue::operator std::string() const
 
 void ModelValue::operator()() const
 {
-    if( mType == Mt_VoidFunction && mValue.f )
+    if( mType == Mt_VoidFunction && mValue )
     {
-        return ( *( void_function_t* )mValue.f )();
+        return ( *( void_function_t* )mValue )();
     }
     OBSERVABLE_ASSERT( false );
 }
 
 void ModelValue::operator()( int32_t Arg ) const
 {
-    if( mType == Mt_IntFunction && mValue.f )
+    if( mType == Mt_IntFunction && mValue )
     {
-        return ( *( int_function_t* )mValue.f )( Arg );
+        return ( *( int_function_t* )mValue )( Arg );
     }
-    else if( mType == Mt_DoubleFunction && mValue.f )
+    else if( mType == Mt_DoubleFunction && mValue )
     {
-        return ( *( double_function_t* )mValue.f )( ( double )Arg );
+        return ( *( double_function_t* )mValue )( ( double )Arg );
     }
     OBSERVABLE_ASSERT( false );
 }
 
 void ModelValue::operator()( double Arg ) const
 {
-    if( mType == Mt_DoubleFunction && mValue.f )
+    if( mType == Mt_DoubleFunction && mValue )
     {
-        return ( *( double_function_t* )mValue.f )( Arg );
+        return ( *( double_function_t* )mValue )( Arg );
     }
-    else if( mType == Mt_IntFunction && mValue.f )
+    else if( mType == Mt_IntFunction && mValue )
     {
-        return ( *( int_function_t* )mValue.f )( ( int32_t )Arg );
+        return ( *( int_function_t* )mValue )( ( int32_t )Arg );
     }
     OBSERVABLE_ASSERT( false );
 }
 
 void ModelValue::operator()( std::string const& Arg ) const
 {
-    if( mType == Mt_StringFunction && mValue.f )
+    if( mType == Mt_StringFunction && mValue )
     {
-        return ( *( string_function_t* )mValue.f )( Arg );
+        return ( *( string_function_t* )mValue )( Arg );
     }
     OBSERVABLE_ASSERT( false );
 }

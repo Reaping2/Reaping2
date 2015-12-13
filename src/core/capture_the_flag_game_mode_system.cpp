@@ -31,8 +31,8 @@ void CaptureTheFlagGameModeSystem::Init()
     mOnFlagStateChanged=EventServer<ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnFlagStateChanged, this, _1 ) );
     mOnScore=EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnScore, this, _1 ) );
     mTeamModels.clear();
-    mTeamModels.push_back(new ModelValue( mCtfProgramState.GetBlueScore(), "blue", &mCtfModel ));
-    mTeamModels.push_back(new ModelValue( mCtfProgramState.GetRedScore(), "red", &mCtfModel ));
+    mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetBlueScore ), "blue", &mCtfModel ));
+    mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetRedScore ), "red", &mCtfModel ));
 }
 
 

@@ -7,7 +7,7 @@ namespace core {
         , mClientConnected(false)
         , mControlledActorGUID(-1)
         , mProgramStateModel( "programstate", &platform::RootModel::Get() )
-        , mIsClientModel( mIsClient, "isclient", &mProgramStateModel )
+        , mIsClientModel( RefTo( mIsClient ), "isclient", &mProgramStateModel )
         , mIsClient(0)
     {
     }

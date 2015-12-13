@@ -9,7 +9,7 @@ FrameCounterSystem::FrameCounterSystem()
         , mStart( 0.0 )
         , mPrev( 0.0 ) 
         , mFps( 0 )
-        , mFpsModel(GetFps(),"fps",&RootModel::Get())
+        , mFpsModel( GetIntFunc( this, &FrameCounterSystem::GetFps ),"fps",&RootModel::Get())
 {
 }
 

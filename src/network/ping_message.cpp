@@ -1,6 +1,8 @@
 #include "network/ping_message.h"
 #include "GLFW/glfw3.h"
 #include "ui/ui.h"
+#include <boost/lambda/bind.hpp>
+
 namespace network {
 
     PingMessageSenderSystem::PingMessageSenderSystem()
@@ -31,7 +33,7 @@ namespace network {
     PingMessageHandlerSubSystem::PingMessageHandlerSubSystem()
         : MessageHandlerSubSystem()
         , mPing( 0.0 )
-        , mPingModel(GetPing(),"ping",&RootModel::Get())
+        , mPingModel( platform::GetIntFunc( this, &PingMessageHandlerSubSystem::GetPing ), "ping", &RootModel::Get() )
     {
         if(mProgramState.mMode!=ProgramState::Client)
         {
@@ -61,7 +63,7 @@ namespace network {
         }
     }
 
-    int32_t const& PingMessageHandlerSubSystem::GetPing()
+    int32_t PingMessageHandlerSubSystem::GetPing()
     {
         return mPing;
     }

@@ -5,8 +5,10 @@
 #include "rstdint.h"
 #include <string>
 #include "singleton.h"
-#include <boost/bind.hpp>
+#include <boost/lambda/bind.hpp>
 #include <boost/unordered_map.hpp>
+#include <boost/lambda/lambda.hpp>
+#include <boost/ref.hpp>
 
 namespace platform {
 
@@ -23,6 +25,10 @@ public:
     typedef boost::function<void( int32_t )> int_function_t;
     typedef boost::function<void( double )> double_function_t;
     typedef boost::function<void( std::string const& )> string_function_t;
+    typedef boost::function<int32_t()> get_int_t;
+    typedef boost::function<double()> get_double_t;
+    typedef boost::function<std::string()> get_string_t;
+
 private:
     enum Type
     {
@@ -37,18 +43,8 @@ private:
         Mt_None,
     };
     Type mType;
-    union Union_t
-    {
-        int32_t const* i;
-        double const* d;
-        std::string const* s;
-        void* f;
-        Union_t( int32_t const& v ): i( &v ) {}
-        Union_t( double const& v ): d( &v ) {}
-        Union_t( std::string const& v ): s( &v ) {}
-        Union_t( void* v ): f( v ) {}
-        Union_t(): i( 0 ) {}
-    } mValue;
+    void* mValue;
+    boost::function< int32_t() > mGetInt;
     typedef boost::unordered_map<std::string const, ModelValue*> ModelMap_t;
     ModelMap_t mModels;
     ModelValue* mParent;
@@ -56,13 +52,13 @@ private:
     ModelValue& operator=( ModelValue const& Other );
 public:
     virtual ~ModelValue();
-    ModelValue( int32_t const& ModelFor, std::string const& Name, ModelValue* Parent );
-    ModelValue( double const& ModelFor, std::string const& Name, ModelValue* Parent );
-    ModelValue( std::string const& ModelFor, std::string const& Name, ModelValue* Parent );
-    ModelValue( void_function_t const& ModelFor, std::string const& Name, ModelValue* Parent );
-    ModelValue( int_function_t const& ModelFor, std::string const& Name, ModelValue* Parent );
-    ModelValue( double_function_t const& ModelFor, std::string const& Name, ModelValue* Parent );
-    ModelValue( string_function_t const& ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( get_int_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( get_double_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( get_string_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( void_function_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( int_function_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( double_function_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( string_function_t ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( std::string const& Name, ModelValue* Parent );
     explicit ModelValue( std::string const& Name );
 
@@ -90,25 +86,42 @@ class RootModel : public Singleton<RootModel>, public ModelValue
 template<typename BASE, typename FUN>
 inline ModelValue::void_function_t VoidFunc( BASE* b, FUN f )
 {
-    return ModelValue::void_function_t( boost::bind( f, b ) );
+    return ModelValue::void_function_t( boost::lambda::bind( f, b ) );
 }
 
-template<typename BASE, typename FUN>
-inline ModelValue::string_function_t StringFunc( BASE* b, FUN f )
-{
-    return ModelValue::string_function_t( boost::bind( f, b, _1 ) );
+#define CALL_HELPER_FUNC( FnName, fn ) \
+template<typename BASE, typename FUN> \
+inline ModelValue::fn FnName( BASE* b, FUN f ) \
+{ \
+    return ModelValue::fn( boost::lambda::bind( f, b, boost::lambda::_1 ) ); \
+}
+#define GET_HELPER_FUNC( FnName, fn ) \
+template<typename BASE, typename FUN> \
+inline ModelValue::fn FnName( BASE* b, FUN f ) \
+{ \
+    return ModelValue::fn( boost::lambda::bind( f, b ) ); \
 }
 
-template<typename BASE, typename FUN>
-inline ModelValue::int_function_t IntFunc( BASE* b, FUN f )
+CALL_HELPER_FUNC( StringFunc, string_function_t )
+CALL_HELPER_FUNC( IntFunc, int_function_t )
+CALL_HELPER_FUNC( DoubleFunc, double_function_t )
+GET_HELPER_FUNC( GetStringFunc, get_string_t )
+GET_HELPER_FUNC( GetIntFunc, get_int_t )
+GET_HELPER_FUNC( GetDoubleFunc, get_double_t )
+
+#undef CALL_HELPER_FUNC
+#undef GET_HELPER_FUNC
+
+template<typename T>
+T RefToHelper( T const& t )
 {
-    return ModelValue::int_function_t( boost::bind( f, b, _1 ) );
+    return t;
 }
 
-template<typename BASE, typename FUN>
-inline ModelValue::double_function_t DoubleFunc( BASE* b, FUN f )
+template<typename T>
+inline boost::function<T()> RefTo( T const& t )
 {
-    return ModelValue::double_function_t( boost::bind( f, b, _1 ) );
+    return boost::lambda::bind( &RefToHelper<T>, boost::cref( t ) );
 }
 
 } // namespace platform
