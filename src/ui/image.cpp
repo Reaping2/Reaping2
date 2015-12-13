@@ -9,8 +9,8 @@ ImageWidget::ImageWidget( int32_t Id )
 void ImageWidget::Init( Json::Value& Descriptor )
 {
     BaseClass::Init( Descriptor );
-    ParseStrProp( PT_ActorVisual, Descriptor["actor_visual"], "" );
-    ParseStrProp( PT_Animation, Descriptor["animation"], "body_idle" );
+    ParseIntProp( PT_ActorVisual, Descriptor["actor_visual"], 0 );
+    ParseIntProp( PT_Animation, Descriptor["animation"], ( int32_t ) AutoId( "body_idle" ) );
     ParseIntProp( PT_State, Descriptor["state"], 0 );
 }
 

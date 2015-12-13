@@ -353,6 +353,10 @@ Widget::Prop::operator int32_t() const
 {
     if( IsModelValue() )
     {
+        if( IsAutoId() )
+        {
+            return (int32_t)AutoId( Value.ToStr + 2 );
+        }
         return( int32_t )ResolveModel();
     }
     assert( Type == T_Int || Type == T_Double );
@@ -437,6 +441,11 @@ Widget::Prop::operator std::string() const
 bool Widget::Prop::IsModelValue() const
 {
     return Type == T_Str && Value.ToStr && *Value.ToStr == '%';
+}
+
+bool Widget::Prop::IsAutoId() const
+{
+    return IsModelValue() && Value.ToStr[1] == '%';
 }
 
 ModelValue const& Widget::Prop::ResolveModel() const
