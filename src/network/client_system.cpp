@@ -3,7 +3,7 @@
 #include <boost/timer.hpp>
 #include "core/program_state.h"
 #include "messsage_holder.h"
-#include "boost/archive/text_oarchive.hpp"
+#include <portable_oarchive.hpp>
 #include <iosfwd>
 #include "my_name_message.h"
 namespace network {
@@ -81,17 +81,17 @@ void ClientSystem::Update(double DeltaTime)
     {
 
         std::ostringstream oss;
-        boost::archive::text_oarchive oa(oss);
+        eos::portable_oarchive oa(oss);
         oa & messages;
         std::string astr(oss.str());
         //L1("Client sends - %s:\n",astr.c_str());
-        ENetPacket * packet = enet_packet_create (astr.c_str(), 
-            strlen (astr.c_str()) + 1, 
+        ENetPacket * packet = enet_packet_create (astr.c_str(),
+            astr.size(),
             ENET_PACKET_FLAG_RELIABLE);
 
         enet_peer_send(mPeer, 0, packet);
         enet_host_flush(mClient);
-    
+
         mMessageHolder.ClearOutgoingMessages();
     }
     PerfTimer.Log("client update ended");
@@ -160,8 +160,8 @@ void ClientSystem::Receive(ENetEvent& event)
 //         event.packet -> data,
 //         event.peer -> data,
 //         event.channelID);
-    std::istringstream iss((char*)(event.packet->data));
-    boost::archive::text_iarchive ia(iss);
+    std::istringstream iss( std::string( (char*)(event.packet->data), event.packet->dataLength ) );
+    eos::portable_iarchive ia(iss);
     if (mMessageHolder.GetIncomingMessages().mMessages.empty())
     {
         ia >> mMessageHolder.GetIncomingMessages();
