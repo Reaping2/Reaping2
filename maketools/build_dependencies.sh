@@ -1,9 +1,6 @@
 #!/bin/sh
 export REAPING_ROOT=`pwd`/../
-cd ../deps/boost_1_54_0
-./bootstrap.sh
-./b2 --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options --with-atomic
-cd ../glfw-3.0.3
+cd ../deps/glfw-3.0.3
 rm -rf build
 mkdir build
 cd build
