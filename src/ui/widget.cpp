@@ -1,4 +1,6 @@
 #include "i_ui.h"
+#include <boost/algorithm/string.hpp>
+#include <string.h>
 
 Widget::WidgetIterator& Widget::WidgetIterator::operator++()
 {
@@ -73,6 +75,11 @@ Widget::Widget( int32_t Id )
     , mRelativeDimensions( 0, 0, 1, 1 )
 {
     operator()( PT_Highlight ) = 0;
+}
+
+Widget const* Widget::Parent() const
+{
+    return mParent;
 }
 
 Widget::~Widget()
@@ -274,7 +281,7 @@ void Widget::ParseIntProp( PropertyType Pt, Json::Value& Val, int32_t Default )
     if( Val.isString() )
     {
         operator()( Pt ) = Val.asString();
-        assert( operator()( Pt ).IsModelValue() );
+        assert( operator()( Pt ).IsResolvable() );
     }
     else
     {
@@ -288,7 +295,7 @@ void Widget::ParseDoubleProp( PropertyType Pt, Json::Value& Val, double Default 
     if( Val.isString() )
     {
         operator()( Pt ) = Val.asString();
-        assert( operator()( Pt ).IsModelValue() );
+        assert( operator()( Pt ).IsResolvable() );
     }
     else
     {
@@ -351,11 +358,17 @@ Widget::Prop::operator char const* () const
 
 Widget::Prop::operator int32_t() const
 {
-    if( IsModelValue() )
+    if( IsResolvable() )
     {
         if( IsAutoId() )
         {
             return (int32_t)AutoId( Value.ToStr + 2 );
+        }
+        if( IsVectorModelValue() )
+        {
+            std::vector<int32_t> const& v = ResolveModel().operator std::vector<int32_t>();
+            int32_t idx = ResolveIndex();
+            return v.size() > idx ? v.at( idx ) : 0;
         }
         return( int32_t )ResolveModel();
     }
@@ -365,7 +378,7 @@ Widget::Prop::operator int32_t() const
 
 Widget::Prop::operator double() const
 {
-    if( IsModelValue() )
+    if( IsResolvable() )
     {
         return( double )ResolveModel();
     }
@@ -431,27 +444,55 @@ void Widget::Prop::Cleanup()
 
 Widget::Prop::operator std::string() const
 {
-    if( IsModelValue() )
+    if( IsResolvable() )
     {
         return( std::string )ResolveModel();
     }
     return std::string( operator char const * () );
 }
 
-bool Widget::Prop::IsModelValue() const
+bool Widget::Prop::IsResolvable() const
 {
-    return Type == T_Str && Value.ToStr && *Value.ToStr == '%';
+    return Type == T_Str && Value.ToStr && ( *Value.ToStr == '%' || *Value.ToStr == '#' );
 }
 
 bool Widget::Prop::IsAutoId() const
 {
-    return IsModelValue() && Value.ToStr[1] == '%';
+    return IsResolvable() && Value.ToStr[1] == '%';
+}
+
+bool Widget::Prop::IsModelValue() const
+{
+    return Type == T_Str && Value.ToStr && (( *Value.ToStr == '%' && Value.ToStr[1] != '%' ) || *Value.ToStr == '#');
+}
+
+bool Widget::Prop::IsVectorModelValue() const
+{
+    return IsModelValue() && strrchr( Value.ToStr + 1, '#' ) != NULL ;
 }
 
 ModelValue const& Widget::Prop::ResolveModel() const
 {
-    assert( IsModelValue() );
-    return RootModel::Get()[Value.ToStr + 1];
+    assert( IsResolvable() );
+    std::string name = std::string( ( *Value.ToStr == '#' ) ?  "ui." : "" ) + std::string( Value.ToStr + 1);
+    typedef std::vector<std::string> Fields_t;
+    Fields_t fields;
+    boost::split( fields, name, boost::is_any_of( "#%" ) );
+    return RootModel::Get()[ fields[0] ];
+}
+
+int32_t Widget::Prop::ResolveIndex() const
+{
+    assert( IsVectorModelValue() );
+    typedef std::vector<std::string> Fields_t;
+    Fields_t fields;
+    boost::split( fields, Value.ToStr, boost::is_any_of( "#%" ) );
+    std::string last = fields.back();
+    if( last.find( '.' ) == std::string::npos )
+    {
+        last = "ui." + last;
+    }
+    return RootModel::Get()[ last ].operator int32_t();
 }
 
 Widget::PropertyRepo_t::PropertyRepo_t()

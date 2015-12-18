@@ -4,16 +4,23 @@
 #include "bar_model.h"
 #include "image_uimodel.h"
 #include "uimodel.h"
+#include "grid_uimodel.h"
+#include "ui/ui_model.h"
 
 UiModelRepo::UiModelRepo()
     : RepoBase( DefaultUiModel )
 {
+    ui::UiModel::Get();
     int32_t Id = AutoId( "text_widget" );
     mElements.insert( Id, new TextUiModel );
     Id = AutoId( "bar" );
     mElements.insert( Id, new BarModel );
     Id = AutoId( "image" );
     mElements.insert( Id, new render::ImageUiModel );
+    Id = AutoId( "grid" );
+    mElements.insert( Id, new render::GridUiModel );
+    Id = AutoId( "grid_elem" );
+    mElements.insert( Id, new render::GridElemUiModel );
 }
 
 UiModel UiModelRepo::DefaultUiModel = UiModel();

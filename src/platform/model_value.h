@@ -28,13 +28,19 @@ public:
     typedef boost::function<int32_t()> get_int_t;
     typedef boost::function<double()> get_double_t;
     typedef boost::function<std::string()> get_string_t;
+    typedef boost::function<std::vector<int32_t>()> get_int_vec_t;
+    typedef boost::function<std::vector<double>()> get_double_vec_t;
+    typedef boost::function<std::vector<std::string>()> get_string_vec_t;
 
-private:
+protected:
     enum Type
     {
         Mt_Int,
         Mt_Double,
         Mt_String,
+        Mt_IntVec,
+        Mt_DoubleVec,
+        Mt_StringVec,
         Mt_VoidFunction,
         Mt_IntFunction,
         Mt_DoubleFunction,
@@ -55,6 +61,9 @@ public:
     ModelValue( get_int_t ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( get_double_t ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( get_string_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( get_int_vec_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( get_double_vec_t ModelFor, std::string const& Name, ModelValue* Parent );
+    ModelValue( get_string_vec_t ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( void_function_t ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( int_function_t ModelFor, std::string const& Name, ModelValue* Parent );
     ModelValue( double_function_t ModelFor, std::string const& Name, ModelValue* Parent );
@@ -69,12 +78,19 @@ public:
     operator int32_t() const;
     operator double() const;
     operator std::string() const;
+    // should return const&, but needs some work in the order of model init. (cam tries to access player too early)
+    // benchmark, if too slow, fixit
+    operator std::vector<int32_t> () const;
+    operator std::vector<double> () const;
+    operator std::vector<std::string> () const;
     void operator()() const;
     void operator()( int32_t Arg ) const;
     void operator()( double Arg ) const;
     void operator()( std::string const& Arg ) const;
 
     bool IsValid() const;
+private:
+    virtual ModelValue* FindSubModel( std::string const& name ) const;
 };
 
 class RootModel : public Singleton<RootModel>, public ModelValue
@@ -108,6 +124,10 @@ CALL_HELPER_FUNC( DoubleFunc, double_function_t )
 GET_HELPER_FUNC( GetStringFunc, get_string_t )
 GET_HELPER_FUNC( GetIntFunc, get_int_t )
 GET_HELPER_FUNC( GetDoubleFunc, get_double_t )
+GET_HELPER_FUNC( GetStringVecFunc, get_string_vec_t )
+GET_HELPER_FUNC( GetIntVecFunc, get_int_vec_t )
+GET_HELPER_FUNC( GetDoubleVecFunc, get_double_vec_t )
+
 
 #undef CALL_HELPER_FUNC
 #undef GET_HELPER_FUNC

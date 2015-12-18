@@ -418,7 +418,7 @@
         "actor_visuals":
         [
             {
-                "name":"heal_over_time_buff",
+                "name":"HealOverTimeBuff",
                 "animations":
                 [
                     {
@@ -437,7 +437,7 @@
         "actor_visuals":
         [
             {
-                "name":"move_speed_buff",
+                "name":"MoveSpeedBuff",
                 "animations":
                 [
                     {
@@ -456,7 +456,7 @@
         "actor_visuals":
         [
             {
-                "name":"accuracy_buff",
+                "name":"AccuracyBuff",
                 "animations":
                 [
                     {

@@ -1,4 +1,5 @@
 #include "i_ui.h"
+#include "ui_model.h"
 
 void Ui::Load( std::string const& Name )
 {
@@ -50,7 +51,7 @@ Root& Ui::GetRoot(std::string const& Name)
 }
 
 Ui::Ui()
-    : mUiModel( "ui", &RootModel::Get() )
+    : mUiModel( ui::UiModel::Get() )
     , mLoad( StringFunc( this, &Ui::Load ), "load", &mUiModel )
     , mActiveRoot( &mEmptyRoot )
     , mLastEnteredWidget( NULL )

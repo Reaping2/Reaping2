@@ -30,6 +30,19 @@ bool getNextTextId( UiVertices_t::const_iterator& i, UiVertices_t::const_iterato
     ++i;
     return true;
 }
+bool IsSubtreeHidden( Widget const& wdg )
+{
+    for( Widget const* w = wdg.Parent(); NULL != w; w = w->Parent() )
+    {
+        Widget::Prop const& p = w->operator()( Widget::PT_SubtreeHidden );
+        if( ( p.GetType() == Widget::Prop::T_Int || p.GetType() == Widget::Prop::T_Double )
+            && p.operator int32_t() )
+        {
+            return true;
+        }
+    }
+    return false;
+}
 }
 
 void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
@@ -50,7 +63,7 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     {
         static UiModelRepo const& UiModels( UiModelRepo::Get() );
         Widget const& Wdg = *i;
-        if( !( int32_t )Wdg( Widget::PT_Visible ) )
+        if( ( 0 == ( int32_t )Wdg( Widget::PT_Visible ) ) || IsSubtreeHidden( Wdg ) )
         {
             continue;
         }
