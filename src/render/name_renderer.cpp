@@ -32,7 +32,7 @@ void NameRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         }
         Opt<IPositionComponent> positionC=player->Get<IPositionComponent>();
 
-        Text text(60.0,glm::vec4(0,0,500,500),glm::vec4(1.0,1.0,1.0,0.7),(*i).mClientName,glm::vec2(positionC->GetX(),positionC->GetY()+50),true);
+        Text text(86.0,glm::vec4(0,0,500,500),glm::vec4(1.0,1.0,1.0,1.0),(*i).mClientName,glm::vec2(positionC->GetX(),positionC->GetY()+50),true);
         textSceneRenderer.AddText(text);
     }
 }
