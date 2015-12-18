@@ -60,7 +60,8 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
     {
         if (weapon->GetReloadTime()<=0&&weapon->GetStaticReload()==0.0)
         {
-            weapon->SetBullets(weapon->GetBulletsMax());
+            //todo: need to sync reloading with the server (-1 could occur, if a shot comes too fast, then it is reset by the end of the reload missing one bullet)
+            weapon->SetBullets(weapon->GetBullets()+weapon->GetBulletsMax());
             weapon->SetReloadTime(0.0);
         }
     }
