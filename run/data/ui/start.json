@@ -141,20 +141,6 @@
                             "fontsize":6
                         }
                     ]
-                },
-                {
-                    "type":"image",
-                    "x":0.35,
-                    "y":0.13,
-                    "w":0.3,
-                    "h":0.3,
-                    "actor_visual":"%%accuracy_buff",
-                    "animation":"%%body_idle",
-                    "state":0,
-                    "visible":1,
-                    "enabled":1,
-                    "color":"0xffffffff",
-                    "highlight_color":"0xffffffff"
                 }
             ]
         }

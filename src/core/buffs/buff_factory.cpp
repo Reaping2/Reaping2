@@ -10,13 +10,13 @@ namespace core {
 
 BuffFactory::BuffFactory()
 {
-    Bind(AutoId("default_buff"), &CreateBuff<DefaultBuff> );
-    SetDefault(AutoId("default_buff"));
+    Bind( DefaultBuff::GetType_static(), &CreateBuff<DefaultBuff> );
+    SetDefault( DefaultBuff::GetType_static() );
 
-    Bind(AutoId("heal_over_time_buff"), &CreateBuff<HealOverTimeBuff> );
-    Bind(AutoId("move_speed_buff"), &CreateBuff<MoveSpeedBuff> );
-    Bind(AutoId("max_health_buff"), &CreateBuff<MaxHealthBuff> );
-    Bind(AutoId("accuracy_buff"), &CreateBuff<AccuracyBuff> );
+    Bind( HealOverTimeBuff::GetType_static(), &CreateBuff<HealOverTimeBuff> );
+    Bind( MoveSpeedBuff::GetType_static(), &CreateBuff<MoveSpeedBuff> );
+    Bind( MaxHealthBuff::GetType_static(), &CreateBuff<MaxHealthBuff> );
+    Bind( AccuracyBuff::GetType_static(), &CreateBuff<AccuracyBuff> );
 }
 
 } // namespace core

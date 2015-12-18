@@ -123,6 +123,7 @@ void TextSceneRenderer::Draw()
     int w, h;
     mWindow->GetWindowSize( w, h );
     glActiveTexture( GL_TEXTURE0 + 4 );
+    glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     glDrawArrays( GL_TRIANGLES, 0, CurSize );
 
     mVAO.Unbind();

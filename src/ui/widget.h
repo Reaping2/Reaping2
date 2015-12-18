@@ -64,15 +64,18 @@ public:
         {
             return Type;
         }
-        bool IsModelValue()const;
-        bool IsAutoId() const;
+        bool IsResolvable() const;
+        bool IsModelValue() const; // starts with %
+        bool IsAutoId() const; // starts with %%
+        bool IsVectorModelValue() const; // starts with %, contains # or %
         ~Prop();
+        ModelValue const& ResolveModel() const;
     private:
         Type_t Type;
         operator char const* ()const;
         void Init( std::string const& Str );
         void Cleanup();
-        ModelValue const& ResolveModel()const;
+        int32_t ResolveIndex() const;
     };
     enum PropertyType
     {
@@ -88,6 +91,14 @@ public:
         PT_ActorVisual, // name of the actor visual
         PT_Animation,   // name of the animation of the actor visual, defaults to body_idle
         PT_State,       // current state of the animation, defaults to 0
+        PT_Index,
+        PT_Columns,
+        PT_Rows,
+        PT_Source,
+        PT_StartId,
+        PT_StartIdBase,
+        PT_StartIdStep,
+        PT_SubtreeHidden,
     };
     typedef WidgetIterator const_iterator;  // rename to hierarchy iterator?
     const_iterator begin()const;
@@ -110,6 +121,7 @@ public:
     }
     virtual void OnMouseEnter() {}
     virtual void OnMouseLeave() {}
+    Widget const* Parent() const;
 protected:
     virtual void UpdateDimensions();
     virtual void UpdateSelfDimensions();

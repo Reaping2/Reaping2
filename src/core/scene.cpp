@@ -276,6 +276,25 @@ int32_t getSpecialId( Actor* a )
     Opt<NormalItem> item = inventoryC->GetSelectedNormalItem();
     return item.IsValid() ? item->GetId() : 0;
 }
+std::vector<int32_t> getBuffs( Actor* a )
+{
+    std::vector<int32_t> rv;
+    Opt<IBuffHolderComponent> buffHolderC = a->Get<IBuffHolderComponent>();
+    if( !buffHolderC.IsValid() )
+    {
+        return rv;
+    }
+    BuffList_t::nth_index<1>::type const& buffList=buffHolderC->GetBuffList().get<1>();
+    for( BuffList_t::nth_index_const_iterator<1>::type i = buffList.begin(), e = buffList.end(); i != e; ++i )
+    {
+        Buff const& b = **i;
+        if( b.IsAutoRemove() )
+        {
+            rv.push_back( b.GetType() );
+        }
+    }
+    return rv;
+}
 }
 
 void Scene::SetPlayerModels(Opt<Actor> actor)
@@ -286,6 +305,7 @@ void Scene::SetPlayerModels(Opt<Actor> actor)
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getSpecialId, actor.Get() ), "special", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::lambda::bind( &getBuffs, actor.Get() ), "buffs", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
 }
 

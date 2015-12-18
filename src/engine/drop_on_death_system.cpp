@@ -112,14 +112,14 @@ AutoId DropOnDeathSystem::RollBuff( int32_t n )
     switch(rand() % n)
     {
     case 0:
-        return AutoId("heal_over_time_buff");
+        return AutoId("HealOverTimeBuff");
     case 1:
-        return AutoId("move_speed_buff");
+        return AutoId("MoveSpeedBuff");
     case 2:
-        return AutoId("accuracy_buff");
+        return AutoId("AccuracyBuff");
     }
     BOOST_ASSERT(false);
-    return AutoId("default_buff");
+    return AutoId("DefaultBuff");
 }
 
 } // namespace engine

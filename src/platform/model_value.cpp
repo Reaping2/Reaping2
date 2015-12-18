@@ -40,12 +40,18 @@ ModelValue::ModelValue( function_type ModelFor, std::string const& Name, ModelVa
 }
 
 #define TYPES \
-    GET_TYPES \
+    GENERIC_GET_TYPES \
+    STRING_GET_TYPES \
     CALL_TYPES
 
-#define GET_TYPES \
+#define GENERIC_GET_TYPES \
 USE_TYPES( ModelValue::get_int_t, Mt_Int, int32_t ) \
 USE_TYPES( ModelValue::get_double_t, Mt_Double, double ) \
+USE_TYPES( ModelValue::get_int_vec_t, Mt_IntVec, std::vector<int32_t> ) \
+USE_TYPES( ModelValue::get_double_vec_t, Mt_DoubleVec, std::vector<double> ) \
+USE_TYPES( ModelValue::get_string_vec_t, Mt_StringVec, std::vector<std::string> )
+
+#define STRING_GET_TYPES \
 USE_TYPES( ModelValue::get_string_t, Mt_String, std::string )
 
 #define CALL_TYPES \
@@ -102,28 +108,35 @@ TYPES
     }
 }
 
+ModelValue* ModelValue::FindSubModel( std::string const& name ) const
+{
+    ModelMap_t::const_iterator i = mModels.find( name );
+    return i == mModels.end() ? NULL : i->second;
+}
+
 ModelValue const& ModelValue::operator[]( std::string const& Name ) const
 {
-    ModelMap_t::const_iterator it = mModels.find( Name );
-    if( it == mModels.end() )
+    // ugly, but needed for backwards compat. some models are registered with '.' in their name
+    ModelValue const* model = FindSubModel( Name );
+    if( NULL != model )
     {
-        typedef std::vector<std::string> Fields_t;
-        Fields_t Fields;
-        boost::split( Fields, Name, boost::is_any_of( "." ) );
-        Fields_t::const_iterator fi = Fields.begin(), fe = Fields.end();
-        ModelMap_t const* Models = &mModels;
-        while( fi != fe )
+        return *model;
+    }
+    typedef std::vector<std::string> Fields_t;
+    Fields_t Fields;
+    boost::split( Fields, Name, boost::is_any_of( "." ) );
+    Fields_t::const_iterator fi = Fields.begin(), fe = Fields.end();
+    model = this;
+    while( fi != fe )
+    {
+        model = model->FindSubModel( *fi++ );
+        if( NULL == model )
         {
-            it = Models->find( *fi++ );
-            if( it == Models->end() )
-            {
-                static ModelValue const DefaultModelValue( "default" );
-                return DefaultModelValue;
-            }
-            Models = &it->second->mModels;
+            static ModelValue const DefaultModelValue( "default" );
+            return DefaultModelValue;
         }
     }
-    return *( it->second );
+    return *model;
 }
 
 ModelValue const& ModelValue::operator[]( char const* Name ) const
@@ -131,25 +144,21 @@ ModelValue const& ModelValue::operator[]( char const* Name ) const
     return operator[]( std::string( Name ) );
 }
 
-ModelValue::operator int32_t() const
-{
-    if( mType == Mt_Int )
-    {
-        return ((get_int_t*)mValue)->operator()();
-    }
-    OBSERVABLE_ASSERT( false );
-    return 0;
+#define USE_TYPES( fn, mt, t ) \
+ModelValue::operator t() const \
+{ \
+    if( mType != mt ) \
+    { \
+        OBSERVABLE_ASSERT( false ); \
+        t t_inst; \
+        return t_inst; \
+    } \
+    return ((fn*)mValue)->operator()(); \
 }
 
-ModelValue::operator double() const
-{
-    if( mType == Mt_Double )
-    {
-        return ((get_double_t*)mValue)->operator ()();
-    }
-    OBSERVABLE_ASSERT( false );
-    return 0;
-}
+GENERIC_GET_TYPES;
+
+#undef USE_TYPES
 
 ModelValue::operator std::string() const
 {
