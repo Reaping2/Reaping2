@@ -37,6 +37,7 @@
 #include "shot_message.h"
 #include "kill_score_message.h"
 #include "client_score_message.h"
+#include "item_changed_message.h"
 
 
     struct message_order
@@ -73,6 +74,7 @@
             type=network::ShotMessage::GetType_static();
             type=network::KillScoreMessage::GetType_static();
             type=network::ClientScoreMessage::GetType_static();
+            type=network::ItemChangedMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -139,6 +141,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ShotMessage, "shot")
     BOOST_CLASS_EXPORT_GUID(network::KillScoreMessage, "kill_score")
     BOOST_CLASS_EXPORT_GUID(network::ClientScoreMessage, "client_score")
+    BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

@@ -2,6 +2,8 @@
 
 InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
+    , mSelectedWeapon(0)
+    , mSelectedNormalItem(0)
 {
 
 }

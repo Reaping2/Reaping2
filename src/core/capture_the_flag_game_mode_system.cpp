@@ -139,11 +139,11 @@ void CaptureTheFlagGameModeSystem::OnFlagStateChanged(ctf::FlagStateChangedEvent
     {
         if(Evt.mTeam==Team::Blue)
         {
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" captured the Blue flag!!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" has the Blue flag!!"));
         }
         else
         {
-            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" captured the Red flag!"));
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" has the Red flag!"));
         }
     }
     else if (Evt.mType==ctf::FlagStateChangedEvent::Returned)

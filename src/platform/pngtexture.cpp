@@ -5,7 +5,7 @@
 #include <zlib.h>
 #include <png.h>
 #include <boost/assert.hpp>
-#include <string.h>
+#include <cstring>
 
 namespace platform {
 namespace {

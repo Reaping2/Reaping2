@@ -84,6 +84,7 @@
 #include "kill_score_system.h"
 #include "network/client_score_message.h"
 #include "leaderboard_system.h"
+#include "network/item_changed_message.h"
 
 
 using platform::AutoId;
@@ -155,6 +156,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("shot_message_sender_system"), &CreateSystem<network::ShotMessageSenderSystem>);
     Bind( AutoId("kill_score_message_sender_system"), &CreateSystem<network::KillScoreMessageSenderSystem>);
     Bind( AutoId("client_score_message_sender_system"), &CreateSystem<network::ClientScoreMessageSenderSystem>);
+    Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

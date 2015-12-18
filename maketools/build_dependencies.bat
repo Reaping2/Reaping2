@@ -10,12 +10,6 @@ rem ************************************************************
 
 rem goto Build_Glfw
 
-:Build_Boost
-cd %BASEDIR%\deps\boost_1_54_0
-call bootstrap.bat %BOOTSTRAP_TOOLSET%
-b2 toolset=%B2_TOOLSET% --with-filesystem --with-exception --with-system --with-thread --with-date_time --with-program_options --with-atomic --with-serialization
-echo boost built successfully.
-
 :Build_Glfw
 rd /S /Q %BASEDIR%\deps\glfw-3.0.3\build
 md %BASEDIR%\deps\glfw-3.0.3\build

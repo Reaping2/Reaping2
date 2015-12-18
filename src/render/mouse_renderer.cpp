@@ -173,7 +173,12 @@ void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
     {
         return;
     }
-    Text text(80.0,glm::vec4(0,0,500,500),glm::vec4(mouseColor,0.7),boost::lexical_cast<std::string>(std::floor(weapon->GetBullets())),glm::vec2(mX,mY-80),true);
+    Text text(80.0,glm::vec4(0,0,500,500),glm::vec4(mouseColor,0.7),
+        boost::lexical_cast<std::string>(
+            std::max(   //no negative bullets shown. could happen if shooting comes from server earlier then the client finishes reloading
+                0.0,std::floor(weapon->GetBullets())
+                ))
+        ,glm::vec2(mX,mY-80),true);
     textSceneRenderer.AddText(text);
 }
 

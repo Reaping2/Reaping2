@@ -29,6 +29,7 @@
 #include "shot_message.h"
 #include "kill_score_message.h"
 #include "client_score_message.h"
+#include "item_changed_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -67,6 +68,8 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("shot_message_handler_sub_system"), &CreateSubSystem<ShotMessageHandlerSubSystem>);
     Bind( AutoId("kill_score_message_handler_sub_system"), &CreateSubSystem<KillScoreMessageHandlerSubSystem>);
     Bind( AutoId("client_score_message_handler_sub_system"), &CreateSubSystem<ClientScoreMessageHandlerSubSystem>);
+    Bind( AutoId("item_changed_message_handler_sub_system"), &CreateSubSystem<ItemChangedMessageHandlerSubSystem>);
+
 
 }
 
