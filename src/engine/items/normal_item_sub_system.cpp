@@ -4,6 +4,7 @@
 #include "platform/auto_id.h"
 #include "core/i_inventory_component.h"
 #include "inventory_system.h"
+#include "../item_changed_event.h"
 
 namespace engine {
 
@@ -36,6 +37,8 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
         if (normalItem->IsConsumed())
         {
             inventoryC->DropItemType(ItemType::Normal);
+            Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+            EventServer<ItemChangedEvent>::Get().SendEvent(ItemChangedEvent(actor.GetGUID(),0,weapon.IsValid() ? weapon->GetId() : 0));
         }
     }
 

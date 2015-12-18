@@ -60,11 +60,6 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending(Message const& message)
 
     playerControllerC->mControllerId=msg.mClientId;
 
-    Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
-    if (inventoryC.IsValid())
-    {
-        inventoryC->SetSelectedWeapon(AutoId( "pistol" )); //TODO: hack. need to send inventory state on spawn
-    }
     if (msg.mClientId==mProgramState.mClientId)
     {
         L1("thats my id! actorguid: %d \n",msg.mActorGUID);

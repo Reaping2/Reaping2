@@ -54,6 +54,7 @@
 #include "network/client_score_message.h"
 #include "core/free_for_all_game_mode_system.h"
 #include "core/capture_the_flag_game_mode_system.h"
+#include "network/item_changed_message.h"
 
 using engine::Engine;
 namespace {
@@ -177,6 +178,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("shot_message_sender_system"));
         Eng.AddSystem(AutoId("client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("client_score_message_sender_system"));
+        Eng.AddSystem(AutoId("item_changed_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -252,6 +254,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::CollisionMessage::GetType_static(),AutoId("collision_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ShotMessage::GetType_static(),AutoId("shot_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
 
     }
 
