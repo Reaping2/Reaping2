@@ -7,7 +7,7 @@ Shotgun::Shotgun( int32_t Id )
     mScatter.mIncrease=30;
     mScatter.mChill=40;
     mScatter.mAltIncrease=10;
-    mShootCooldown = 0.5;
+    mShootCooldown = 0.7;
     mShootAltCooldown = 1.5;
 
     mBulletsMax = 20.0;
