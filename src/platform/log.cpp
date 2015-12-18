@@ -21,7 +21,8 @@ void Logger::Log( int Level, char const* format, ... )
     fprintf(mLogFile.mFile, "[%f]",glfwGetTime());
     va_start ( arg, format );
     done = vfprintf ( mLogFile.mFile, format, arg );
-    if(Level==1) done = vfprintf ( stderr, format, arg );
+    //Temporary it might cause crash still investigating
+    //if(Level==1) done = vfprintf ( stderr, format, arg );
     fflush(mLogFile.mFile);
     va_end ( arg );
 }
