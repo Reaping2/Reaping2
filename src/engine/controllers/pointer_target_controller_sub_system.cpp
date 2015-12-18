@@ -11,6 +11,7 @@
 #include "core/i_position_component.h"
 #include "core/shot_collision_component.h"
 #include "core/i_health_component.h"
+#include "core/i_heat_source_component.h"
 
 namespace engine {
 
@@ -57,9 +58,21 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<ShotCollisionComponent> shotCC(actor.Get<ShotCollisionComponent>());
     if (shotCC.IsValid()&&killerOfChild.IsValid()&&killerOfChild->GetGUID()==shotCC->GetParentGuid())
     {
+        //no self targeting
         listenChildDeathC->SetKillerOfChildGUID(-1);
         killerOfChild.Reset(); //just to be sure
         return;
+    }
+    if (killerOfChild.IsValid())
+    {
+        Opt<IHeatSourceComponent> heatSourceC(killerOfChild->Get<IHeatSourceComponent>());
+        if (!heatSourceC.IsValid())
+        {
+            //seeking for heatSources only
+            listenChildDeathC->SetKillerOfChildGUID(-1);
+            killerOfChild.Reset(); //just to be sure
+            return;
+        }
     }
     if (!targetHolderC.IsValid()||!listenChildDeathC.IsValid())
     {
@@ -116,7 +129,7 @@ void PointerTargetControllerSubSystem::Update(Actor& actor, double DeltaTime)
         if(pointerTargetCC->GetHeadingModifierCounter()<=0.0)
         {
             pointerTargetCC->SetHeadingModifierCounter(pointerTargetCC->GetHeadingModifierFrequency());
-            actor.Get<IMoveComponent>()->SetHeadingModifier( (Radians>0?1:-1)*2.5 );
+            actor.Get<IMoveComponent>()->SetHeadingModifier( (Radians>0?1:-1)*3.5 );
         }
         if(std::abs(Radians)<0.1)
         {

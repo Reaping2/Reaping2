@@ -132,7 +132,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":2000}]
+                "set":[{"speed":3300}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -143,7 +143,7 @@
             {"name":"health_component"},
 			{
                 "name":"fade_out_component",
-                "set":[{"secs_to_end":0.4}]
+                "set":[{"secs_to_end":0.3}]
             },
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
@@ -178,8 +178,11 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1100}]
+                "set":[{"speed":200}]
             },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":1500,"max_speed":2300}]
+            },			
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
@@ -206,8 +209,11 @@
             {"name":"target_holder_component"},
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1000}]
+                "set":[{"speed":200}]
             },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":800,"max_speed":1200}]
+            },				
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
@@ -355,7 +361,8 @@
             },
             {"name":"random_controller_component"},
             {"name":"drop_on_death_component"},
-            {"name":"stop_on_death_component"}
+            {"name":"stop_on_death_component"},
+			{"name":"heat_source_component"}
         ]
     },
     {
@@ -376,7 +383,8 @@
             {"name":"target_player_controller_component"},
             {"name":"target_holder_component"},
             {"name":"drop_on_death_component"},
-            {"name":"stop_on_death_component"}
+            {"name":"stop_on_death_component"},
+			{"name":"heat_source_component"}
         ]
     },
     {
@@ -397,7 +405,8 @@
             },
             {"name":"random_controller_component"},
             {"name":"drop_on_death_component"},
-            {"name":"stop_on_death_component"}
+            {"name":"stop_on_death_component"},
+			{"name":"heat_source_component"}
        ]
     },
     {
@@ -418,7 +427,8 @@
             {"name":"target_player_controller_component"},
             {"name":"target_holder_component"},
             {"name":"drop_on_death_component"},
-            {"name":"stop_on_death_component"}
+            {"name":"stop_on_death_component"},
+			{"name":"heat_source_component"}
         ]
     },    
     {
@@ -446,7 +456,8 @@
             {"name":"stop_on_death_component"},
             {"name":"buff_holder_component"},
 			{"name":"score_on_death_component"},
-			{"name":"kill_score_on_death_component"}
+			{"name":"kill_score_on_death_component"},
+			{"name":"heat_source_component"}
          ]
     },
     {
@@ -476,7 +487,8 @@
             {"name":"team_component"},
             {"name":"flag_carrier_component"},
 			{"name":"score_on_death_component"},
-			{"name":"kill_score_on_death_component"}
+			{"name":"kill_score_on_death_component"},
+			{"name":"heat_source_component"}
          ]
     },
 	{
