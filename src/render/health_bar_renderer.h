@@ -9,6 +9,7 @@
 #include "ui_renderer.h"
 #include "text.h"
 #include "core/program_state.h"
+#include "hat_action_renderer.h"
 
 struct SceneVertex
 {
@@ -32,6 +33,7 @@ class HealthBarRenderer
     typedef std::vector<Text> Texts_t;
     Texts_t mTexts;
     core::ProgramState& mProgramState;
+    render::ColorRepo& mColorRepo;
     void Init();
 public:
     HealthBarRenderer();
