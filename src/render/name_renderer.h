@@ -9,12 +9,13 @@
 #include "ui_renderer.h"
 #include "text_scene_renderer.h"
 #include "core/program_state.h"
+#include "hat_action_renderer.h"
 
 class NameRenderer
 {
     void Init();
     core::ProgramState& mProgramState;
-
+    render::ColorRepo& mColorRepo;
 public:
     NameRenderer();
     void Draw( TextSceneRenderer& textSceneRenderer );

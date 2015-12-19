@@ -41,34 +41,34 @@ void KillScoreSystem::Update(double DeltaTime)
 
 void KillScoreSystem::OnKillScore(engine::KillScoreEvent const& Evt)
 {
-    Opt<Actor> killer=mScene.GetActor(Evt.mKillerGUID);
     Opt<Actor> dead=mScene.GetActor(Evt.mDeadGUID);
-    if (!killer.IsValid())
-    {
-        L1("cannot find killer actor with GUID: (%s) %d \n",__FUNCTION__,Evt.mKillerGUID );
-        return;
-    }
     if (!dead.IsValid())
     {
         L1("cannot find dead actor with GUID: (%s) %d \n",__FUNCTION__,Evt.mDeadGUID );
         return;
     }
-    Opt<PlayerControllerComponent> killerPCC=killer->Get<PlayerControllerComponent>();
     Opt<PlayerControllerComponent> deadPCC=dead->Get<PlayerControllerComponent>();
-    Opt<core::ClientData> killerClientData;
-    if (killerPCC.IsValid())
-    {
-        killerClientData=mProgramState.FindClientDataByClientId(killerPCC->mControllerId);
-    }
     Opt<core::ClientData> deadClientData;
     if (deadPCC.IsValid())
     {
         deadClientData=mProgramState.FindClientDataByClientId(deadPCC->mControllerId);
     }
-
     if (deadClientData.IsValid())
     {
         ++deadClientData->mDeath;   //he is dead that's for sure
+    }
+
+    Opt<Actor> killer=mScene.GetActor(Evt.mKillerGUID);
+    if (!killer.IsValid())
+    {
+        L1("cannot find killer actor with GUID: (%s) %d \n",__FUNCTION__,Evt.mKillerGUID );
+        return;
+    }
+    Opt<PlayerControllerComponent> killerPCC=killer->Get<PlayerControllerComponent>();
+    Opt<core::ClientData> killerClientData;
+    if (killerPCC.IsValid())
+    {
+        killerClientData=mProgramState.FindClientDataByClientId(killerPCC->mControllerId);
     }
 
     if (killerClientData.IsValid())
@@ -80,7 +80,7 @@ void KillScoreSystem::OnKillScore(engine::KillScoreEvent const& Evt)
             if (killerTeamC->GetTeam()==deadTeamC->GetTeam())
             {
                 --killerClientData->mKill; //you got one less kill, that's a punishment for TK
-                //--killerClientData->mScore; //your score is decreased too. naughty naughty!
+                --killerClientData->mScore; //your score is decreased too. naughty naughty!
             }
             else
             {

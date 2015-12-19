@@ -165,7 +165,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":15, "damage":11 }]
+                "set":[{"class":"projectile", "radius":15, "damage":15 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
