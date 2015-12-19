@@ -101,6 +101,8 @@ Scene::Scene()
     , mPauseModel( VoidFunc( this, &Scene::Pause ), "pause", &mSceneModel )
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
     , mPlayerModel( "player", &RootModel::Get() )
+    , mLevelModel( "level", &RootModel::Get() )
+    , mSelectLevelModel( StringFunc( this, &Scene::SelectLevel ), "select", &mLevelModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
 {
@@ -307,5 +309,16 @@ void Scene::SetPlayerModels(Opt<Actor> actor)
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getSpecialId, actor.Get() ), "special", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::lambda::bind( &getBuffs, actor.Get() ), "buffs", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
+}
+
+void Scene::SelectLevel(std::string const& Level)
+{
+    mSelectedLevel=Level;
+    L1("selected level: %s",Level.c_str());
+}
+
+std::string Scene::GetSelectedLevel()
+{
+    return mSelectedLevel;
 }
 

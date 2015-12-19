@@ -22,7 +22,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["editor.load","level1"]],
+					"action":[["level.select","level1"],["ui.load","select_game_mode"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -48,7 +48,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["editor.load","level2"]],
+					"action":[["level.select","level2"],["ui.load","select_game_mode"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -74,7 +74,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["editor.load","level3"]],
+					"action":[["level.select","level3"],["ui.load","select_game_mode"]],
 					"children":[
 						{
 							"type":"text_widget",

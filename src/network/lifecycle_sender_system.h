@@ -5,6 +5,7 @@
 #include <enet/enet.h>
 #include <map>
 #include "messsage_holder.h"
+#include "core/scene.h"
 
 namespace network {
 
@@ -14,6 +15,7 @@ class LifecycleSenderSystem: public engine::System
     MessageHolder& mMessageHolder;
     ModelValue mLifecycleModel;
     ModelValue mHostModel;
+    Scene& mScene;
 public:
     LifecycleSenderSystem();
     virtual void Init();

@@ -103,7 +103,7 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
     }
     mCtfProgramState.mRedScore=0;
     mCtfProgramState.mBlueScore=0;
-    mScene.Load("level2");
+    mScene.Load(mScene.GetSelectedLevel());
     Ui::Get().Load("ctf_hud");
     mHudShown=true;
 }

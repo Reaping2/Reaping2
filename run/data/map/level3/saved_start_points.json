@@ -1,0 +1,98 @@
+[
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -1825,
+         "y" : 1075
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 125,
+         "y" : 1075
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -1225,
+         "y" : 1425
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -425,
+         "y" : 1475
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -875,
+         "y" : 1425
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -1825,
+         "y" : 675
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 175,
+         "y" : 625
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -875,
+         "y" : 25
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -675,
+         "y" : 25
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -1125,
+         "y" : 25
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_flag_spawn_point",
+      "position" : {
+         "x" : 1550,
+         "y" : 2050
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_flag_spawn_point",
+      "position" : {
+         "x" : -2250,
+         "y" : -1950
+      },
+      "team" : "red"
+   }
+]

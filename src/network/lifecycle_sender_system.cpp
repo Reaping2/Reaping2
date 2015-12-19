@@ -8,6 +8,7 @@ LifecycleSenderSystem::LifecycleSenderSystem()
     : mMessageHolder(MessageHolder::Get())
     , mLifecycleModel( "lifecycle", &RootModel::Get() )
     , mHostModel( StringFunc( this, &LifecycleSenderSystem::Host ), "host", &mLifecycleModel )
+    , mScene(Scene::Get())
 {
 }
 
@@ -30,6 +31,7 @@ void LifecycleSenderSystem::Host(std::string const& mode)
     std::auto_ptr<LifecycleMessage> msg(new LifecycleMessage);
     msg->mState=LifecycleMessage::Start;
     msg->mMode=mode;
+    msg->mLevel=mScene.GetSelectedLevel();
     mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));
 }
 

@@ -171,6 +171,9 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mResumeModel;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
+    ModelValue mLevelModel;
+    ModelValue mSelectLevelModel;
+    std::string mSelectedLevel;
     int32_t mMaxHP;
     core::ProgramState& mProgramState;
 public:
@@ -213,6 +216,10 @@ public:
 //     }
     void Load( std::string const& Level );
 
+    void SelectLevel( std::string const& Level );
+
+    std::string GetSelectedLevel();
+    
     void AddTestCreep(double X, double Y);
 
     void Pause()

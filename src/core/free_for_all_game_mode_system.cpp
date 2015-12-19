@@ -48,7 +48,7 @@ void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& E
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>(true);
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>(false);
 
-    mScene.Load("level1");
+    mScene.Load(mScene.GetSelectedLevel());
 //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
     Ui::Get().Load("hud");
     if (ProgramState::Get().mMode==ProgramState::Client)

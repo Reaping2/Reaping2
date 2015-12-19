@@ -43,6 +43,7 @@ namespace network {
         }
         else
         {
+            mScene.SelectLevel(msg.mLevel);
             EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mMode ));
             std::auto_ptr<network::LifecycleMessage> lifecycleMsg(new network::LifecycleMessage);
             lifecycleMsg->mState=msg.mState;
