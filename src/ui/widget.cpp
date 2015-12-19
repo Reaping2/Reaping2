@@ -344,10 +344,7 @@ Widget::Prop::Prop( Prop const& Other )
 
 Widget::Prop::~Prop()
 {
-    if( Type == T_Str )
-    {
-        delete Value.ToStr;
-    }
+    Cleanup();
 }
 
 Widget::Prop::operator char const* () const
@@ -421,11 +418,6 @@ Widget::Prop& Widget::Prop::operator=( double D )
 void Widget::Prop::Init( std::string const& StrVal )
 {
     Type = T_Str;
-    if( StrVal.empty() )
-    {
-        Value.ToStr = new char( 0 );
-        return;
-    }
     const size_t Size = StrVal.size();
     char* Buf = new char[Size + 1];
     memset( Buf, 0, Size + 1 );
@@ -437,7 +429,7 @@ void Widget::Prop::Cleanup()
 {
     if( Type == T_Str )
     {
-        delete Value.ToStr;
+        delete[] Value.ToStr;
     }
     Type = T_Null;
 }
