@@ -36,6 +36,7 @@
 #include "score_on_death_component.h"
 #include "owner_component.h"
 #include "kill_score_on_death_component.h"
+#include "heat_source_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -74,6 +75,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("notify_parent_on_death_component"), &CreateComponentLoader<NotifyParentOnDeathComponentLoader>);
     Bind( AutoId("listen_child_death_component"), &CreateComponentLoader<ListenChildDeathComponentLoader>);
     Bind( AutoId("pointer_target_controller_component"), &CreateComponentLoader<PointerTargetControllerComponentLoader>);
+    Bind( AutoId("heat_source_component"), &CreateComponentLoader<HeatSourceComponentLoader>);
 
     Bind( AutoId("fade_out_component"), &CreateComponentLoader<FadeOutComponentLoader>);
 

@@ -14,6 +14,7 @@
 #include "shader_manager.h"
 #include "font.h"
 #include "uimodel.h"
+#include "core/i_team_component.h"
 
 
 void HealthBarRenderer::Init()
@@ -26,6 +27,7 @@ void HealthBarRenderer::Init()
 
 HealthBarRenderer::HealthBarRenderer()
     : mProgramState(core::ProgramState::Get())
+    , mColorRepo(render::ColorRepo::Get())
 {
     Init();
 }
@@ -64,6 +66,7 @@ void HealthBarRenderer::Draw()
         Opt<IPositionComponent> positionC=player->Get<IPositionComponent>();
 
         Opt<IHealthComponent> healthC(player->Get<IHealthComponent>());
+        Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
 
         double currPercent=healthC->GetHP()/double(healthC->GetMaxHP().Get());
 
@@ -78,6 +81,10 @@ void HealthBarRenderer::Draw()
         {
             glm::vec4 dim(int32_t(positionC->GetX())+position.x,int32_t(positionC->GetY())+position.y,currPercent*size.x,size.y);
             glm::vec4 col=isself?glm::vec4(0.59,0.15,0.7,1.0):glm::vec4(0.0,0.8,0.0,0.7);
+            if (teamC.IsValid())
+            {
+                col=mColorRepo(teamC->GetTeam());
+            }
             ColoredBox( dim,col, Inserter );
         }
     }

@@ -37,6 +37,7 @@
 #include "score_on_death_component.h"
 #include "owner_component.h"
 #include "kill_score_on_death_component.h"
+#include "heat_source_component.h"
 
 using platform::AutoId;
 
@@ -77,6 +78,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("notify_parent_on_death_component"), &CreateComponent<NotifyParentOnDeathComponent>);
     Bind( AutoId("listen_child_death_component"), &CreateComponent<ListenChildDeathComponent>);
     Bind( AutoId("pointer_target_controller_component"), &CreateComponent<PointerTargetControllerComponent>);
+    Bind( AutoId("heat_source_component"), &CreateComponent<HeatSourceComponent>);
 
     Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);
 

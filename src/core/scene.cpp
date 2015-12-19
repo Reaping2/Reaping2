@@ -74,7 +74,7 @@ void Scene::Update( double DeltaTime )
         mMaxHP=healthC->GetMaxHP().Get();
     }
     //TODO: testing
-    if (false&&ProgramState::Get().mMode!=ProgramState::Client
+    if (/*false&&*/ProgramState::Get().mMode!=ProgramState::Client
         &&rand()%60==1
         &&mActorHolder.mAllActors.size()<1500)
     {
