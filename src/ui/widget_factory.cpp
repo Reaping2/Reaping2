@@ -9,6 +9,7 @@ WidgetFactory::WidgetFactory()
     Bind<Button>( AutoId( "button" ) );
     Bind<Bar>( AutoId( "bar" ) );
     Bind<ImageWidget>( AutoId( "image" ) );
+    Bind<GridWidget>( AutoId( "grid" ) );
 }
 
 std::auto_ptr<Widget> WidgetFactory::operator()( std::string const& Name, Json::Value& Initer )

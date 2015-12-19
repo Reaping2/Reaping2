@@ -8,5 +8,6 @@
 #include "button.h"
 #include "bar.h"
 #include "image.h"
+#include "grid.h"
 #include "widget_factory.h"
 #include "ui.h"

@@ -10,7 +10,7 @@ class Ui : public Singleton<Ui>
     typedef boost::ptr_map<std::string, Root> Roots_t;
     Roots_t mRoots;
     Ui();
-    ModelValue mUiModel;
+    ModelValue& mUiModel;
     ModelValue mLoad;
     AutoReg mOnPressId;
     AutoReg mOnReleaseId;

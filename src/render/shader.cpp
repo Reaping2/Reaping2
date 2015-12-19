@@ -112,7 +112,7 @@ void Shader::Load( std::string const& Name )
     GLint max_name_length;
     glGetProgramiv( mProgramId, GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_length );
     // buffer for name
-    GLchar* name = new GLchar[max_name_length];
+    std::vector<GLchar> name( max_name_length );
     // buffer for length
     GLsizei length = 100;
     // Type of variable
@@ -123,8 +123,8 @@ void Shader::Load( std::string const& Name )
     L1( "Active uniforms in %u:\n", mProgramId );
     for( GLint u = 0; u < n; u++ )
     {
-        glGetActiveUniform( mProgramId, u, max_name_length, &length, &size, &type, name );
-        L1( "  %s\n", name );
+        glGetActiveUniform( mProgramId, u, max_name_length, &length, &size, &type, &name[0] );
+        L1( "  %s\n", &name[0] );
     }
 }
 

@@ -3,6 +3,49 @@
     "children": [
         {
             "type": "fixed_ratio_container",
+            "x": 0.8,
+            "y": 0.8,
+            "w": 0.2,
+            "h": 0.2,
+            "align_h": "right",
+            "align_v": "top",
+            "visible": 0,
+            "enabled": 0,
+            "children": [
+                {
+                    "type": "grid",
+                    "source": "%player.buffs",
+                    "startid": "#buffs",
+                    "cols": 3,
+                    "rows": 3,
+                    "direction": "horizontal",
+                    "color": "0xffffff00",
+                    "x":0.0,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "visible": 1,
+                    "enabled": 0,
+                    "template": [
+                        {
+                            "type": "image",
+                            "color": "0xffffffff",
+                            "visible": 1,
+                            "x":0.1,
+                            "y":0.1,
+                            "w":0.8,
+                            "h":0.8,
+                            "enabled": 0,
+                            "actor_visual": "%player.buffs#buffs",
+                            "animation": "%%body_idle",
+                            "fontsize": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "fixed_ratio_container",
             "x": 0.0,
             "y": 0.5,
             "w": 0.2,
