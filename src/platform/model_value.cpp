@@ -1,5 +1,6 @@
 #include "model_value.h"
 
+#include <boost/function.hpp>
 #include <vector>
 #include <boost/lexical_cast.hpp>
 #include <boost/assert.hpp>

@@ -4,12 +4,13 @@
 
 #include "platform/model_value.h"
 #include <boost/ptr_container/ptr_vector.hpp>
+#include "platform/singleton.h"
 
 namespace ui {
 
 class UiModel : public platform::Singleton<UiModel>, public platform::ModelValue
 {
-    friend class Singleton<UiModel>;
+    friend class platform::Singleton<UiModel>;
     UiModel();
 
     struct Val

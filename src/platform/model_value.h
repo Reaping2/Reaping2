@@ -9,6 +9,7 @@
 #include <boost/unordered_map.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
+#include <vector>
 
 namespace platform {
 
