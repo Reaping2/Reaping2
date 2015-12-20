@@ -28,8 +28,14 @@ void Camera::Update()
     {
         return;
     }
-    double px = double(PlayerModel["x"]);
-    double py = double(PlayerModel["y"]);
+    ModelValue const& mx=PlayerModel["x"];
+    ModelValue const& my=PlayerModel["y"];
+    if (!mx.IsValid()||!my.IsValid())
+    {
+        return;
+    }
+    double px = double(mx);
+    double py = double(my);
     if( mCenter.x < px - mAllowedDistance.x )
     {
         mCenter.x = ( float )px - mAllowedDistance.x;
