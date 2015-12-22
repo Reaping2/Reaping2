@@ -169,12 +169,12 @@ void Scatter::Update(double DeltaTime)
     // chill=20, dt=1.0; // lets say 1 sec with 20 chill means newCalc is 20
     double newCalculated=(GetCalculated()*mMagicNumber-mChill*DeltaTime)/mMagicNumber; 
     newCalculated=std::max(0.0,newCalculated);
-    L1("newCalc: %f calc: %f \n",newCalculated,mCurrent);
+//    L1("newCalc: %f calc: %f \n",newCalculated,mCurrent);
     if(newCalculated!=0.0)
     {
         mCurrent=(newCalculated*mMagicNumber)/(1-newCalculated); //inverse of GetCalculated
     }
-    L1("newCurrent: %f \n",mCurrent);
+//    L1("newCurrent: %f \n",mCurrent);
 }
 
 void Scatter::Shot(bool alt)

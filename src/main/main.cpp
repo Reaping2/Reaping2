@@ -55,6 +55,8 @@
 #include "core/free_for_all_game_mode_system.h"
 #include "core/capture_the_flag_game_mode_system.h"
 #include "network/item_changed_message.h"
+#include "network/server_system.h"
+#include "network/client_system.h"
 
 using engine::Engine;
 namespace {
@@ -87,6 +89,36 @@ void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
     }
 }
 #include "network/message_order.h"
+
+void ForceReceiveSendMessages()
+{
+    Engine& Eng=Engine::Get();
+    Opt<network::ServerSystem> serverSystem(Eng.GetSystem<network::ServerSystem>());
+    Opt<network::ClientSystem> clientSystem(Eng.GetSystem<network::ClientSystem>());
+    if (clientSystem.IsValid())
+    {
+        clientSystem->Update(0.0);
+    }
+    if (serverSystem.IsValid())
+    {
+        serverSystem->Update(0.0);
+    }
+
+    Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
+    if (messageHandlerSSH.IsValid())
+    {
+        messageHandlerSSH->Update(0.0);
+    }
+
+    if (clientSystem.IsValid())
+    {
+        clientSystem->Update(0.0);
+    }
+    if (serverSystem.IsValid())
+    {
+        serverSystem->Update(0.0);
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -362,8 +394,14 @@ int main(int argc, char* argv[])
         double Dt = Curtime - Prevtime;
         if( Dt < MinFrameTime )
         {
-            const double SleepTime = MinFrameTime - Dt;
-            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
+            const double SleepTime = (MinFrameTime - Dt);
+            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 500. ) ) );
+            ForceReceiveSendMessages();
+            double Curtime2 = glfwGetTime();
+            double Dt2 = Curtime2 - Curtime;
+            const double SleepTime2 = (SleepTime - Dt2);
+            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime2 * 1000. ) ) );
+            ForceReceiveSendMessages();
             Dt = MinFrameTime;
             Curtime = glfwGetTime();
         }
