@@ -438,6 +438,12 @@ Widget::Prop::operator std::string() const
 {
     if( IsResolvable() )
     {
+        if( IsVectorModelValue() )
+        {
+            std::vector<std::string> const& v = ResolveModel().operator std::vector<std::string>();
+            int32_t idx = ResolveIndex();
+            return v.size() > idx ? v.at( idx ) : std::string();
+        }
         return( std::string )ResolveModel();
     }
     return std::string( operator char const * () );
