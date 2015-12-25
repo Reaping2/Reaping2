@@ -3,7 +3,7 @@
 PlasmaGun::PlasmaGun( int32_t Id )
     : Weapon( Id )
 {
-    mScatter.mIncrease=15;
+    mScatter.mIncrease=13;
     mScatter.mChill=40;
     mScatter.mAltIncrease=20;
 

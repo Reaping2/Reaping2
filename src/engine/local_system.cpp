@@ -36,6 +36,7 @@ void LocalSystem::OnLocalStart()
 
 void LocalSystem::OnSoldierPropertiesReady(SoldierPropertiesReadyEvent const& Evt)
 {
+    mScene.SelectLevel("level1");   // TODO: temporary level selection should be implemented in local too
     Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
     clientData->mSoldierProperties=mProgramState.mSoldierProperties;
     EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( "ffa" ));
