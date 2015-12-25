@@ -33,7 +33,6 @@ public:
     typedef boost::function<std::vector<double>()> get_double_vec_t;
     typedef boost::function<std::vector<std::string>()> get_string_vec_t;
 
-protected:
     enum Type
     {
         Mt_Int,
@@ -49,6 +48,8 @@ protected:
         Mt_Multi,
         Mt_None,
     };
+    Type GetType() const;
+protected:
     Type mType;
     void* mValue;
     boost::function< int32_t() > mGetInt;

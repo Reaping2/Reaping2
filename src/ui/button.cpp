@@ -60,19 +60,23 @@ bool Button::Trigger()
     for( Actions_t::const_iterator i = mActions.begin(), e = mActions.end(); i != e; ++i )
     {
         ActionDesc const& Act = *i;
-        switch( Act.mArg.GetType() )
+        ModelValue const& Model = RootModel::Get()[ Act.mAction ];
+        switch( Model.GetType() )
         {
-        case Prop::T_Null:
+        case ModelValue::Mt_VoidFunction:
             RootModel::Get()[Act.mAction]();
             break;
-        case Prop::T_Int:
+        case ModelValue::Mt_IntFunction:
             RootModel::Get()[Act.mAction]( ( int32_t )Act.mArg );
             break;
-        case Prop::T_Double:
+        case ModelValue::Mt_DoubleFunction:
             RootModel::Get()[Act.mAction]( ( double )Act.mArg );
             break;
-        case Prop::T_Str:
+        case ModelValue::Mt_StringFunction:
             RootModel::Get()[Act.mAction]( Act.mArg.operator std::string() );
+            break;
+        default:
+            assert(false);
             break;
         }
     }

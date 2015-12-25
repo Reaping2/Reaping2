@@ -222,6 +222,11 @@ void ModelValue::operator()( std::string const& Arg ) const
     OBSERVABLE_ASSERT( false );
 }
 
+ModelValue::Type ModelValue::GetType() const
+{
+    return mType;
+}
+
 RootModel::RootModel()
     : ModelValue( "root", NULL )
 {
