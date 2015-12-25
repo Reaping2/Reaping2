@@ -278,35 +278,50 @@ int32_t Widget::GetId() const
 
 void Widget::ParseIntProp( PropertyType Pt, Json::Value& Val, int32_t Default )
 {
+    ParseIntProp( operator()( Pt ), Val, Default );
+}
+
+void Widget::ParseIntProp( Prop& Pt, Json::Value& Val, int32_t Default )
+{
     if( Val.isString() )
     {
-        operator()( Pt ) = Val.asString();
-        assert( operator()( Pt ).IsResolvable() );
+        Pt = Val.asString();
+        assert( Pt.IsResolvable() );
     }
     else
     {
         int32_t i;
-        operator()( Pt ) = Json::GetInt( Val, i ) ? i : Default;
+        Pt = Json::GetInt( Val, i ) ? i : Default;
     }
 }
 
 void Widget::ParseDoubleProp( PropertyType Pt, Json::Value& Val, double Default )
 {
+    ParseDoubleProp( operator()( Pt ), Val, Default );
+}
+
+void Widget::ParseDoubleProp( Prop& Pt, Json::Value& Val, double Default )
+{
     if( Val.isString() )
     {
-        operator()( Pt ) = Val.asString();
-        assert( operator()( Pt ).IsResolvable() );
+        Pt = Val.asString();
+        assert( Pt.IsResolvable() );
     }
     else
     {
         double d;
-        operator()( Pt ) = Json::GetDouble( Val, d ) ? d : Default;
+        Pt = Json::GetDouble( Val, d ) ? d : Default;
     }
 }
 
 void Widget::ParseStrProp( PropertyType Pt, Json::Value& Val, std::string const& Default )
 {
-    operator()( Pt ) = Val.isString() ? Val.asString() : Default;
+    ParseStrProp( operator()( Pt ), Val, Default );
+}
+
+void Widget::ParseStrProp( Prop& Pt, Json::Value& Val, std::string const& Default )
+{
+    Pt = Val.isString() ? Val.asString() : Default;
 }
 
 Widget::Prop::Prop()
@@ -345,12 +360,6 @@ Widget::Prop::Prop( Prop const& Other )
 Widget::Prop::~Prop()
 {
     Cleanup();
-}
-
-Widget::Prop::operator char const* () const
-{
-    assert( Type == T_Str );
-    return ( Type == T_Str ) ? Value.ToStr : NULL;
 }
 
 Widget::Prop::operator int32_t() const
@@ -446,7 +455,8 @@ Widget::Prop::operator std::string() const
         }
         return( std::string )ResolveModel();
     }
-    return std::string( operator char const * () );
+    assert( Type == T_Str );
+    return ( Type == T_Str ) ? Value.ToStr : NULL;
 }
 
 bool Widget::Prop::IsResolvable() const

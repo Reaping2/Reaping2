@@ -72,7 +72,6 @@ public:
         ModelValue const& ResolveModel() const;
     private:
         Type_t Type;
-        operator char const* ()const;
         void Init( std::string const& Str );
         void Cleanup();
         int32_t ResolveIndex() const;
@@ -130,6 +129,9 @@ protected:
     void ParseIntProp( PropertyType Pt, Json::Value& Val, int32_t Default );
     void ParseDoubleProp( PropertyType Pt, Json::Value& Val, double Default );
     void ParseStrProp( PropertyType Pt, Json::Value& Val, std::string const& Default );
+    static void ParseIntProp( Prop& Pt, Json::Value& Val, int32_t Default );
+    static void ParseDoubleProp( Prop& Pt, Json::Value& Val, double Default );
+    static void ParseStrProp( Prop& Pt, Json::Value& Val, std::string const& Default );
     static int32_t ParseColor( Json::Value& Color, int32_t Default );
     int32_t mZOrder;
     Widget* mParent;
