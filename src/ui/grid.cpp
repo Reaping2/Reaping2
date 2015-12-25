@@ -15,7 +15,6 @@ void GridWidget::Init( Json::Value& Descriptor )
     ParseStrProp( PT_Source, Descriptor["source"], "" );
     ParseIntProp( PT_StartId, Descriptor["startid"], 0 );
     Descriptor["startid_base"] = Descriptor["startid"].asString() + ".base";
-    ParseStrProp( PT_StartIdBase, Descriptor["startid_base"], "" );
     Json::Value& Template = Descriptor["template"];
     Json::Value GridJson;
     GridJson["children"] = Template;
@@ -29,13 +28,13 @@ void GridWidget::Init( Json::Value& Descriptor )
     GridJson["startid"] = Descriptor["startid"];
     GridJson["startid_step"] = Descriptor["startid"].asString() + ".step";
     int32_t index = 0;
-    for( int32_t x = 0; x < cols; ++x )
+    for( int32_t y = 0; y < rows; ++y )
     {
-        for( int32_t y = 0; y < rows; ++y )
+        for( int32_t x = 0; x < cols; ++x )
         {
             std::auto_ptr<GridElem> elem( new GridElem( AutoId( "grid_elem" ) ) );
-            GridJson["x"] = 1.0 - ( 1 + x ) * 1.0 / cols;
-            GridJson["y"] = y * 1.0 / rows;
+            GridJson["x"] = x * 1.0 / cols;
+            GridJson["y"] = 1.0 - ( 1 + y ) * 1.0 / rows;
             GridJson["index"] = index++;
             elem->Init( GridJson );
             AddChild( elem.release() );
@@ -56,7 +55,6 @@ void GridElem::Init( Json::Value& Descriptor )
     ParseIntProp( PT_Index, Descriptor["index"], 0 );
     ParseStrProp( PT_Source, Descriptor["source"], "" );
     ParseIntProp( PT_StartId, Descriptor["startid"], 0 );
-    ParseStrProp( PT_StartIdStep, Descriptor["startid_step"], "" );
 }
 
 

@@ -6,6 +6,7 @@ class Button : public Widget
     typedef Widget BaseClass;
     struct ActionDesc
     {
+        ActionDesc( Widget* w );
         std::string mAction;
         Widget::Prop mArg;
     };

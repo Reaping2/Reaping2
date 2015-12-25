@@ -48,11 +48,8 @@ public:
             T_Int,
             T_Str,
         };
-        Prop();
+        explicit Prop( Widget* owner );
         Prop( Prop const& Other );
-        explicit Prop( int32_t IntVal );
-        explicit Prop( double DoubleVal );
-        explicit Prop( const std::string& StrVal );
         operator std::string()const;
         operator int32_t()const;
         operator double()const;
@@ -66,13 +63,15 @@ public:
         }
         bool IsResolvable() const;
         bool IsModelValue() const; // starts with %
+        bool IsModelIndex() const; // starts with #
         bool IsAutoId() const; // starts with %%
-        bool IsVectorModelValue() const; // starts with %, contains # or %
+        bool IsVectorModelValue() const; // starts with %, contains #
         ~Prop();
         ModelValue const& ResolveModel() const;
+        Widget* GetOwner() const;
     private:
         Type_t Type;
-        operator char const* ()const;
+        Widget* mOwner;
         void Init( std::string const& Str );
         void Cleanup();
         int32_t ResolveIndex() const;
@@ -130,6 +129,9 @@ protected:
     void ParseIntProp( PropertyType Pt, Json::Value& Val, int32_t Default );
     void ParseDoubleProp( PropertyType Pt, Json::Value& Val, double Default );
     void ParseStrProp( PropertyType Pt, Json::Value& Val, std::string const& Default );
+    static void ParseIntProp( Prop& Pt, Json::Value& Val, int32_t Default );
+    static void ParseDoubleProp( Prop& Pt, Json::Value& Val, double Default );
+    static void ParseStrProp( Prop& Pt, Json::Value& Val, std::string const& Default );
     static int32_t ParseColor( Json::Value& Color, int32_t Default );
     int32_t mZOrder;
     Widget* mParent;
@@ -143,8 +145,9 @@ protected:
     bool mDimSet;
     struct PropertyRepo_t : public Repository<Prop>
     {
-        static Prop DefaultProperty;
-        PropertyRepo_t();
+        Widget* const mOwner;
+        Prop mDefaultProperty;
+        PropertyRepo_t( Widget* owner );
         Prop& Mutable( PropertyType Property );
     };
     PropertyRepo_t mProperties;
