@@ -2,17 +2,12 @@
 #define INCLUDED_CORE_I_EXPLODE_ON_DEATH_COMPONENT_H
 
 #include "component.h"
+#include "i_explode.h"
 
-class IExplodeOnDeathComponent : public Component
+class IExplodeOnDeathComponent : public Component, public IExplode
 {
 public:
     DEFINE_COMPONENT_BASE(IExplodeOnDeathComponent)
-    virtual void SetExplosionProjectile(int32_t explosionProjectile)=0;
-    virtual int32_t GetExplosionProjectile()const=0;
-    virtual void SetCount(int32_t count)=0;
-    virtual int32_t GetCount()const=0;
-    virtual void SetScatter(double scatter)=0;
-    virtual double GetScatter()const=0;
 };
 
 #endif//INCLUDED_CORE_I_EXPLODE_ON_DEATH_COMPONENT_H

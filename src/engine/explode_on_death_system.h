@@ -4,6 +4,7 @@
 #include "core/scene.h"
 #include "engine/system.h"
 #include "core/actor_factory.h"
+#include "core/i_explode.h"
 
 namespace engine {
 
@@ -14,6 +15,8 @@ public:
     ExplodeOnDeathSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    static void AddExplosionProjectiles(IExplode& explode, Actor &actor);
 
     void SetProjectilePosition(Actor& projectile, Actor& actor);
 

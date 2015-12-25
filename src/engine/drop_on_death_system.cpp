@@ -48,7 +48,7 @@ void DropOnDeathSystem::Update(double DeltaTime)
             int32_t rolled=rand() % 3;
             if(rolled==0)
             {
-                int32_t contentId=Roll(4);
+                int32_t contentId=Roll(5);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Weapon );
             }
@@ -101,7 +101,9 @@ AutoId DropOnDeathSystem::Roll( int32_t n )
 		return AutoId("rocket_launcher");
     case 3:
 		return AutoId("shotgun");
-	}
+    case 4:
+		return AutoId("ion_gun");
+    }
 	BOOST_ASSERT(false);
 	return AutoId("default_item");
 }

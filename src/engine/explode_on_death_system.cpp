@@ -38,33 +38,37 @@ void ExplodeOnDeathSystem::Update(double DeltaTime)
         }
         if(!healthC->IsAlive())
         {
-            WeaponItemSubSystem::Projectiles_t projectiles;
+            AddExplosionProjectiles(*explodeOnDeathC.Get(), actor);
 
-            std::auto_ptr<Actor> ps;
-            for (int i=0;i<explodeOnDeathC->GetCount();++i)
-            {
-                ps = mActorFactory(explodeOnDeathC->GetExplosionProjectile());
-                Opt<IOwnerComponent> actorOwnerC=actor.Get<IOwnerComponent>();
-                Opt<IOwnerComponent> psOwnerC=ps->Get<IOwnerComponent>();
-                if (actorOwnerC.IsValid()&&psOwnerC.IsValid())
-                {
-                    psOwnerC->SetOwnerGUID(actorOwnerC->GetOwnerGUID());
-                }
-                if (explodeOnDeathC->GetCount()>1)
-                {
-                    ps->Get<IPositionComponent>()->SetOrientation( -1*explodeOnDeathC->GetScatter() + i*
-                        (explodeOnDeathC->GetScatter()/(explodeOnDeathC->GetCount()-1)*2) );
-                }
-                projectiles.push_back( Opt<Actor>(ps.release()) );
-            }
-            //WeaponItemSubSystem::SetProjectilePosition(*explosionProjectile, actor);
-
-            /*mScene.AddActor(explosionProjectile.release());*/
-            Scatter scatter;
-            WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,scatter);
             mScene.RemoveActor(it);
         }
     }
+}
+
+void ExplodeOnDeathSystem::AddExplosionProjectiles(IExplode& explode, Actor &actor)
+{
+    WeaponItemSubSystem::Projectiles_t projectiles;
+
+    std::auto_ptr<Actor> ps;
+    static ActorFactory& mActorFactory=ActorFactory::Get();
+    for (int i=0;i<explode.GetCount();++i)
+    {
+        ps = mActorFactory(explode.GetExplosionProjectile());
+        Opt<IOwnerComponent> actorOwnerC=actor.Get<IOwnerComponent>();
+        Opt<IOwnerComponent> psOwnerC=ps->Get<IOwnerComponent>();
+        if (actorOwnerC.IsValid()&&psOwnerC.IsValid())
+        {
+            psOwnerC->SetOwnerGUID(actorOwnerC->GetOwnerGUID());
+        }
+        if (explode.GetCount()>1)
+        {
+            ps->Get<IPositionComponent>()->SetOrientation( -1*explode.GetScatter() + i*
+                (explode.GetScatter()/(explode.GetCount()-1)*2) );
+        }
+        projectiles.push_back( Opt<Actor>(ps.release()) );
+    }
+    Scatter scatter;
+    WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,scatter);
 }
 
 

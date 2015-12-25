@@ -1150,7 +1150,7 @@
             "name" : "position_component",
             "set" : [
                {
-                  "x" : -32.0780,
+                  "x" : -32.0790,
                   "y" : 1135.7560
                }
             ]
@@ -1161,6 +1161,110 @@
                {
                   "content" : "AccuracyBuff",
                   "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 756.0960,
+                  "y" : -98.67700000000001
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 756.0960,
+                  "y" : -360.770
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 750.8180,
+                  "y" : -673.8750
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -2.1940,
+                  "y" : 466.4740
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
                }
             ]
          }

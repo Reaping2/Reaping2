@@ -300,6 +300,9 @@ int main(int argc, char* argv[])
     Opt<engine::BuffHolderSystem> buffHolderS(Eng.GetSystem<engine::BuffHolderSystem>());
     if (programState.mMode!=ProgramState::Client) 
     {
+        Eng.AddSystem(AutoId("detonate_on_hit_system"));
+        Eng.AddSystem(AutoId("explode_on_hit_system"));
+
         buffHolderS->AddSubSystem(HealOverTimeBuff::GetType_static(),AutoId("heal_over_time_buff_sub_system"));
         buffHolderS->AddSubSystem(MoveSpeedBuff::GetType_static(),AutoId("move_speed_buff_sub_system"));
         buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
@@ -336,6 +339,7 @@ int main(int argc, char* argv[])
         weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("shotgun"),AutoId("shotgun_weapon_sub_system"));
 		weaponItemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
+        weaponItemSS->AddSubSystem(AutoId("ion_gun"),AutoId("ion_gun_weapon_sub_system"));
 
         inventorySystem->AddSubSystem(ItemType::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();

@@ -85,6 +85,8 @@
 #include "network/client_score_message.h"
 #include "leaderboard_system.h"
 #include "network/item_changed_message.h"
+#include "detonate_on_hit_system.h"
+#include "explode_on_hit_system.h"
 
 
 using platform::AutoId;
@@ -189,6 +191,9 @@ SystemFactory::SystemFactory()
     Bind( AutoId("editor_grid_system"), &CreateSystem<map::EditorGridSystem>);
     Bind( AutoId("editor_brush_system"), &CreateSystem<map::EditorBrushSystem>);
     Bind( AutoId("editor_soldier_spawn_system"), &CreateSystem<map::EditorSoldierSpawnSystem>);
+
+    Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
+    Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
 }
 
 } // namespace engine

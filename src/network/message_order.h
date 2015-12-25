@@ -86,6 +86,10 @@
             type=platform::AutoId("platform");
             type=platform::AutoId("plasma_gun");
             type=platform::AutoId("plasma_shot");
+            type=platform::AutoId("ion_gun");
+            type=platform::AutoId("ion_gun_projectile");
+            type=platform::AutoId("ion_gun_alt_projectile");
+            type=platform::AutoId("ion_gun_explode_projectile");
             type=platform::AutoId("spider1");
             type=platform::AutoId("spider2");
             type=platform::AutoId("spider1target");

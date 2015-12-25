@@ -292,7 +292,7 @@
             "name" : "position_component",
             "set" : [
                {
-                  "x" : 2051.160,
+                  "x" : 2051.1590,
                   "y" : 2345.190
                }
             ]
@@ -632,32 +632,6 @@
                {
                   "x" : -1634.890,
                   "y" : 1290.740
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "rocket_launcher",
-                  "type" : "weapon"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : -2236.150,
-                  "y" : 2334.650
                }
             ]
          },
@@ -1499,6 +1473,214 @@
                {
                   "content" : "rocket_launcher",
                   "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -2230.8160,
+                  "y" : 2338.170
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 2450.7370,
+                  "y" : -1748.9010
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -2447.2190,
+                  "y" : -855.3220
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1048.5150,
+                  "y" : 2250.2190
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -543.8850,
+                  "y" : -1749.0550
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1748.7460,
+                  "y" : 750.8410
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 61.5060,
+                  "y" : -1051.670
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1351.1290,
+                  "y" : 846.5280
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
                }
             ]
          }

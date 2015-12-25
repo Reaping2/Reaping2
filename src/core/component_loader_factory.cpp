@@ -37,6 +37,8 @@
 #include "owner_component.h"
 #include "kill_score_on_death_component.h"
 #include "heat_source_component.h"
+#include "explode_on_hit_component.h"
+#include "detonate_on_hit_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -89,6 +91,8 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("flag_carrier_component"), &CreateComponentLoader<ctf::FlagCarrierComponentLoader>);
     Bind( AutoId("flag_receiver_component"), &CreateComponentLoader<ctf::FlagReceiverComponentLoader>);
 
+    Bind( AutoId("explode_on_hit_component"), &CreateComponentLoader<ExplodeOnHitComponentLoader>);
+    Bind( AutoId("detonate_on_hit_component"), &CreateComponentLoader<DetonateOnHitComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

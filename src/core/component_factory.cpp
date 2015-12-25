@@ -38,6 +38,8 @@
 #include "owner_component.h"
 #include "kill_score_on_death_component.h"
 #include "heat_source_component.h"
+#include "explode_on_hit_component.h"
+#include "detonate_on_hit_component.h"
 
 using platform::AutoId;
 
@@ -93,4 +95,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("attachable_component"), &CreateComponent<ctf::AttachableComponent>);
     Bind( AutoId("flag_carrier_component"), &CreateComponent<ctf::FlagCarrierComponent>);
     Bind( AutoId("flag_receiver_component"), &CreateComponent<ctf::FlagReceiverComponent>);
+
+    Bind( AutoId("explode_on_hit_component"), &CreateComponent<ExplodeOnHitComponent>);
+    Bind( AutoId("detonate_on_hit_component"), &CreateComponent<DetonateOnHitComponent>);
 }

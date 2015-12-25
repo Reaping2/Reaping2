@@ -25,6 +25,7 @@
 #include "buffs_engine/accuracy_buff_sub_system.h"
 #include "collisions/flag_collision_sub_system.h"
 #include "items/shotgun_weapon_sub_system.h"
+#include "items/ion_gun_weapon_sub_system.h"
 
 
 using platform::AutoId;
@@ -49,6 +50,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("pistol_weapon_sub_system"), &CreateSubSystem<PistolWeaponSubSystem>);
     Bind( AutoId("shotgun_weapon_sub_system"), &CreateSubSystem<ShotgunWeaponSubSystem>);
 	Bind( AutoId("rocket_launcher_weapon_sub_system"), &CreateSubSystem<RocketLauncherWeaponSubSystem>);
+    Bind( AutoId("ion_gun_weapon_sub_system"), &CreateSubSystem<IonGunWeaponSubSystem>);
 
 
     Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
