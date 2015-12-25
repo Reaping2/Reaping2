@@ -211,7 +211,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":30, "damage":20 }]
+                "set":[{"class":"projectile", "radius":10, "damage":20 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -219,7 +219,7 @@
             {"name":"explode_on_hit_component",
                 "set":[{"explosion_projectile":"ion_gun_explode_projectile",
 						"detonator_material":"ion",
-						"add_radius":20}]
+						"add_radius":40}]
 			},			
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":10.0}]
