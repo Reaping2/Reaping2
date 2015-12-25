@@ -17,14 +17,11 @@ class UiModel : public platform::Singleton<UiModel>, public platform::ModelValue
     {
         Val();
         int32_t base;
-        int32_t current;
     };
     std::map<std::string, Val> mValues;
     boost::ptr_vector<platform::ModelValue> mOwnedModels;
     boost::ptr_vector<platform::ModelValue> mOwnedCallModels;
     int32_t Value( std::string const& name );
-    void Base( std::string const& name );
-    void Step( std::string const& name );
     void Add( std::string const& name, int32_t val );
     virtual ModelValue* FindSubModel( std::string const& name ) const;
     ModelValue* CreateModel( std::string const& name );

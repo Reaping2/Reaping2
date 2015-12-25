@@ -73,6 +73,7 @@ Widget::Widget( int32_t Id )
     , mLastChild( NULL )
     , mDimSet( false )
     , mRelativeDimensions( 0, 0, 1, 1 )
+    , mProperties( this )
 {
     operator()( PT_Highlight ) = 0;
 }
@@ -324,32 +325,21 @@ void Widget::ParseStrProp( Prop& Pt, Json::Value& Val, std::string const& Defaul
     Pt = Val.isString() ? Val.asString() : Default;
 }
 
-Widget::Prop::Prop()
+Widget::Prop::Prop( Widget* owner )
     : Type( T_Null )
+    , mOwner( owner )
 {
     Value.ToInt = 0;
 }
 
-Widget::Prop::Prop( int32_t IntVal )
-    : Type( T_Int )
+Widget* Widget::Prop::GetOwner() const
 {
-    Value.ToInt = IntVal;
-}
-
-Widget::Prop::Prop( double DoubleVal )
-    : Type( T_Double )
-{
-    Value.ToDouble = DoubleVal;
-}
-
-Widget::Prop::Prop( const std::string& StrVal )
-    : Type( T_Str )
-{
-    Init( StrVal );
+    return mOwner;
 }
 
 Widget::Prop::Prop( Prop const& Other )
     : Type( Other.Type )
+    , mOwner( Other.mOwner )
 {
     if( Type == T_Str )
     {
@@ -375,6 +365,10 @@ Widget::Prop::operator int32_t() const
             std::vector<int32_t> const& v = ResolveModel().operator std::vector<int32_t>();
             int32_t idx = ResolveIndex();
             return v.size() > idx ? v.at( idx ) : 0;
+        }
+        if( IsModelIndex() )
+        {
+            return ResolveIndex();
         }
         return( int32_t )ResolveModel();
     }
@@ -474,6 +468,11 @@ bool Widget::Prop::IsModelValue() const
     return Type == T_Str && Value.ToStr && (( *Value.ToStr == '%' && Value.ToStr[1] != '%' ) || *Value.ToStr == '#');
 }
 
+bool Widget::Prop::IsModelIndex() const
+{
+    return Type == T_Str && Value.ToStr && *Value.ToStr == '#';
+}
+
 bool Widget::Prop::IsVectorModelValue() const
 {
     return IsModelValue() && strrchr( Value.ToStr + 1, '#' ) != NULL ;
@@ -491,29 +490,52 @@ ModelValue const& Widget::Prop::ResolveModel() const
 
 int32_t Widget::Prop::ResolveIndex() const
 {
-    assert( IsVectorModelValue() );
+    assert( IsVectorModelValue() || IsModelIndex() );
     typedef std::vector<std::string> Fields_t;
     Fields_t fields;
-    boost::split( fields, Value.ToStr, boost::is_any_of( "#%" ) );
+    boost::split( fields, Value.ToStr, boost::is_any_of( "#" ) );
     std::string last = fields.back();
-    if( last.find( '.' ) == std::string::npos )
+    int32_t startindex = RootModel::Get()[ "ui." + last ].operator int32_t();
+    for( Widget const* w = mOwner; NULL != w; w = w->Parent() )
     {
-        last = "ui." + last;
+        Prop const& p = w->operator()( PT_StartId );
+        if( p.GetType() != T_Str )
+        {
+            continue;
+        }
+        if( p.Value.ToStr + 1 !=  last )
+        {
+            continue;
+        }
+        // found a widget with the same startid
+        // check for index prop
+        Prop const& p2 = w->operator()( PT_Index );
+        if( p2.GetType() != T_Int )
+        {
+            continue;
+        }
+        return startindex + p2.operator int32_t();
     }
-    return RootModel::Get()[ last ].operator int32_t();
+    return startindex;
 }
 
-Widget::PropertyRepo_t::PropertyRepo_t()
-    : RepoBase( DefaultProperty )
+Widget::PropertyRepo_t::PropertyRepo_t( Widget* owner )
+    : mOwner( owner )
+    , mDefaultProperty( owner )
+    , RepoBase( mDefaultProperty )
 {
-
 }
 
 Widget::Prop& Widget::PropertyRepo_t::Mutable( PropertyType Property )
 {
     int32_t Id( Property );
-    return mElements[Id];
+    ElementMap_t::iterator i = mElements.find( Id );
+    if( mElements.end() == i )
+    {
+        Prop* p = new Prop( mOwner );
+        mElements.insert( Id, p );
+        return *p;
+    }
+    return *i->second;
 }
-
-Widget::Prop Widget::PropertyRepo_t::DefaultProperty = Widget::Prop();
 

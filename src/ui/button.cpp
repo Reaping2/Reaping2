@@ -1,5 +1,10 @@
 #include "i_ui.h"
 
+Button::ActionDesc::ActionDesc( Widget* w )
+    : mArg( w )
+{
+}
+
 void Button::Init( Json::Value& Descriptor )
 {
     BaseClass::Init( Descriptor );
@@ -31,7 +36,7 @@ void Button::AddAction( Json::Value& TriggerAction )
     {
         return;
     }
-    ActionDesc Desc;
+    ActionDesc Desc( this );
     if( !Json::GetStr( TriggerAction[0], Desc.mAction ) )
     {
         return;
