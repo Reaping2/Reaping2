@@ -28,6 +28,7 @@ namespace network {
         damageTakenMsg->mX=Evt.Pos.x*PRECISION;
         damageTakenMsg->mY=Evt.Pos.y*PRECISION;
         damageTakenMsg->mDamage=Evt.Damage;
+        damageTakenMsg->mType=Evt.type;
         mMessageHolder.AddOutgoingMessage(damageTakenMsg);
     }
 

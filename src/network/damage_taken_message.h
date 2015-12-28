@@ -16,11 +16,13 @@ namespace network {
         int32_t mX;
         int32_t mY;
         int32_t mDamage;
+        core::DamageTakenEvent::Type mType;
         DamageTakenMessage()
             : mActorGUID(0)
             , mX(0)
             , mY(0)
             , mDamage(0)
+            , mType(core::DamageTakenEvent::Health)
         {
         }
         template<class Archive>
@@ -35,6 +37,7 @@ namespace network {
         ar & mX;
         ar & mY;
         ar & mDamage;
+        ar & mType;
     }
 
     class DamageTakenMessageHandlerSubSystem: public MessageHandlerSubSystem

@@ -64,6 +64,7 @@ void HealthSystem::Update(double DeltaTime)
                 core::DamageTakenEvent damageTakeEvent = core::DamageTakenEvent( positionC->GetX(), positionC->GetY() );
                 damageTakeEvent.ActorGUID=actor.GetGUID();
                 damageTakeEvent.Damage=healthC->GetDamage();
+                damageTakeEvent.type=core::DamageTakenEvent::Health;
                 EventServer<core::DamageTakenEvent>::Get().SendEvent( damageTakeEvent );
             }
         }

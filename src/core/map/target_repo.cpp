@@ -31,6 +31,7 @@ TargetRepo::TargetRepo()
     id=AutoId("HealOverTimeBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("MoveSpeedBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("AccuracyBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
+    id=AutoId("ArmorBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("ctf_flag_spawn_blue"); mElements.insert(id, new FlagSpawnTarget(id,AutoId("platform"),Team::Blue));
     id=AutoId("ctf_flag_spawn_red"); mElements.insert(id, new FlagSpawnTarget(id,AutoId("platform"),Team::Red));
 

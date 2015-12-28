@@ -87,6 +87,7 @@
 #include "network/item_changed_message.h"
 #include "detonate_on_hit_system.h"
 #include "explode_on_hit_system.h"
+#include "armor_system.h"
 
 
 using platform::AutoId;
@@ -164,7 +165,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
 
     Bind( AutoId("buff_holder_system"), &CreateSystem<BuffHolderSystem>);
-    
+    Bind( AutoId("armor_system"), &CreateSystem<engine::ArmorSystem>);
+
     Bind( AutoId("map_system"), &CreateSystem<map::MapSystem>);
     Bind( AutoId("link_map_element_system"), &CreateSystem<map::LinkMapElementSystem>);
     Bind( AutoId("map_start_map_element_system"), &CreateSystem<map::MapStartMapElementSystem>);

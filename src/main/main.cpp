@@ -57,6 +57,7 @@
 #include "network/item_changed_message.h"
 #include "network/server_system.h"
 #include "network/client_system.h"
+#include "core/buffs/armor_buff.h"
 
 using engine::Engine;
 namespace {
@@ -308,6 +309,7 @@ int main(int argc, char* argv[])
         buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
         buffHolderS->AddSubSystem(AccuracyBuff::GetType_static(),AutoId("accuracy_buff_sub_system"));
     }
+    buffHolderS->AddSubSystem(ArmorBuff::GetType_static(),AutoId("armor_buff_sub_system"));
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
@@ -356,6 +358,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("score_on_death_system"));
         Eng.AddSystem(AutoId("kill_score_on_death_system"));
     }
+    Eng.AddSystem(AutoId("armor_system")); //must be before health_system (lowers damage income)
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client)
     {

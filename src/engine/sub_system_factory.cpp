@@ -26,6 +26,7 @@
 #include "collisions/flag_collision_sub_system.h"
 #include "items/shotgun_weapon_sub_system.h"
 #include "items/ion_gun_weapon_sub_system.h"
+#include "buffs_engine/armor_buff_sub_system.h"
 
 
 using platform::AutoId;
@@ -65,6 +66,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("move_speed_buff_sub_system"), &CreateSubSystem<MoveSpeedBuffSubSystem>);
     Bind( AutoId("max_health_buff_sub_system"), &CreateSubSystem<MaxHealthBuffSubSystem>);
     Bind( AutoId("accuracy_buff_sub_system"), &CreateSubSystem<AccuracyBuffSubSystem>);
+    Bind( AutoId("armor_buff_sub_system"), &CreateSubSystem<ArmorBuffSubSystem>);
 }
 
 } // namespace engine

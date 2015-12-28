@@ -80,6 +80,7 @@
             type=MoveSpeedBuff::GetType_static();
             type=MaxHealthBuff::GetType_static();
             type=AccuracyBuff::GetType_static();
+            type=ArmorBuff::GetType_static();
             type=platform::AutoId("player");
             type=platform::AutoId("ctf_player");
             type=platform::AutoId("flag");
@@ -109,6 +110,7 @@
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");
             type=platform::AutoId("pow_projectile");
+
         }
     } _msg_order;
 

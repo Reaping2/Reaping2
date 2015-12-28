@@ -4,6 +4,7 @@
 #include "move_speed_buff.h"
 #include "max_health_buff.h"
 #include "accuracy_buff.h"
+#include "armor_buff.h"
 
 using platform::AutoId;
 namespace core {
@@ -17,6 +18,7 @@ BuffFactory::BuffFactory()
     Bind( MoveSpeedBuff::GetType_static(), &CreateBuff<MoveSpeedBuff> );
     Bind( MaxHealthBuff::GetType_static(), &CreateBuff<MaxHealthBuff> );
     Bind( AccuracyBuff::GetType_static(), &CreateBuff<AccuracyBuff> );
+    Bind( ArmorBuff::GetType_static(), &CreateBuff<ArmorBuff> );
 }
 
 } // namespace core
