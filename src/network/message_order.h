@@ -41,6 +41,7 @@
 #include "cloak_changed_message.h"
 #include "core/buffs/armor_buff.h"
 #include "core/buffs/cloak_buff.h"
+#include "network/client_list_message.h"
 
 
     struct message_order
@@ -78,6 +79,7 @@
             type=network::KillScoreMessage::GetType_static();
             type=network::ClientScoreMessage::GetType_static();
             type=network::ItemChangedMessage::GetType_static();
+			type=network::ClientListMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -160,6 +162,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ClientScoreMessage, "client_score")
     BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
     BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
+    BOOST_CLASS_EXPORT_GUID(network::ClientListMessage,"client_list")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

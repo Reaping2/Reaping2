@@ -90,7 +90,7 @@
 #include "armor_system.h"
 #include "cloak_system.h"
 #include "network/cloak_changed_message.h"
-
+#include "network/client_list_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -163,6 +163,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("client_score_message_sender_system"), &CreateSystem<network::ClientScoreMessageSenderSystem>);
     Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
     Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
+    Bind( AutoId("client_list_system"), &CreateSystem<network::ClientListSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

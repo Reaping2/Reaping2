@@ -1,5 +1,6 @@
 #include "platform/i_platform.h"
 #include "network/soldier_properties_message.h"
+#include "network/client_list_message.h"
 #include "core/buffs/i_buff_holder_component.h"
 #include "core/buffs/buff_factory.h"
 #include "core/buffs/move_speed_buff.h"
@@ -11,6 +12,7 @@
 #include "core/i_accuracy_component.h"
 #include "engine/buffs_engine/accuracy_buff_sub_system.h"
 #include "accuracy_message.h"
+#include <algorithm>
 
 namespace network {
 
@@ -81,9 +83,20 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
     }
 
     clientData->mSoldierProperties=msg.mSoldierProperties;
+    clientData->mReady = true;
     L1("**** Client: %s properties arrived. Ready to fight!!! **** from id: %d \n", clientData->mClientName.c_str(),msg.mSenderId );
     L1("   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", msg.mSoldierProperties.mMoveSpeed, msg.mSoldierProperties.mHealth, msg.mSoldierProperties.mAccuracy );
-
+	// put client name here into client_list
+	if (mProgramState.mMode==ProgramState::Server)
+	{
+		std::auto_ptr<ClientListMessage> clientListMessage( new ClientListMessage );
+		std::vector<std::string> readyClients;
+		// save client names with ready state
+		std::for_each( mProgramState.mClientDatas.begin(), mProgramState.mClientDatas.end(), 
+				boost::bind<void>( [](core::ClientData const & d, std::vector<std::string> & clients){ if ( d.mReady ) clients.push_back(d.mClientName);  }, _1, boost::ref(readyClients) ));
+		std::swap(clientListMessage->mClientList,readyClients);
+		mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientListMessage.release()));
+	}
 }
 
 

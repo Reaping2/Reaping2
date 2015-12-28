@@ -1,0 +1,75 @@
+{
+	"type":"root",
+	"children":[
+		{
+			"type":"fixed_ratio_container",
+            "x": 0.0,
+            "y": 0.0,
+            "w": 1.0,
+            "h": 1.0,
+            "align_h": "center",
+            "align_v": "center",
+            "visible": 0,
+            "enabled": 0,
+			"children":
+			[
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.35,
+					"y":0.1,
+					"w":0.3,
+					"h":0.1,
+					"visible":1,
+					"enabled":1,
+					"action":[["lifecycle.host","ctf"]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.02,
+							"y":0.02,
+							"w":0.96,
+							"h":0.96,
+							"visible":1,
+							"enabled":0,
+							"text":"Play",
+							"fontsize":6
+						}
+					]
+				},
+				{
+					"type":"grid",
+					"source":"%game.ctf.clients",
+					"startid":"#idx",
+					"direction": "horizontal",
+					"color": "0xffffff",
+					"x":0.0,
+					"y":0.0,
+					"w":1.0,
+					"h":1.0,
+					"visible": 1,
+					"enabled": 0,
+					"cols": 2,
+					"rows": 8,
+					"template": [
+						{
+							"type":"text_widget",
+							"color": "0xaa0000",
+							"visible": 1,
+							"x":0.35,
+							"y":0.2,
+							"w":0.8,
+							"h":0.6,
+							"enabled": 0,
+							"text":"%game.ctf.clients#idx",
+							"fontsize": 6
+						}
+					]
+				}
+			]
+		}
+	]
+}
