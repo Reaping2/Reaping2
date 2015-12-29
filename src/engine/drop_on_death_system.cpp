@@ -54,13 +54,13 @@ void DropOnDeathSystem::Update(double DeltaTime)
             }
             else if (rolled==1)
             {
-                int32_t contentId=RollNormalItem(2);
+                int32_t contentId=RollNormalItem(3);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Normal );
             }
             else if (rolled==2)
             {
-                int32_t contentId=RollBuff(4);
+                int32_t contentId=RollBuff(5);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Buff );
             }
@@ -83,6 +83,8 @@ AutoId DropOnDeathSystem::RollNormalItem( int32_t n )
         return AutoId("grenade_normal_item");
     case 1:
         return AutoId("flash_normal_item");
+    case 2:
+        return AutoId("cloak_normal_item");
     }
     BOOST_ASSERT(false);
     return AutoId("default_item");
@@ -121,6 +123,8 @@ AutoId DropOnDeathSystem::RollBuff( int32_t n )
         return AutoId("AccuracyBuff");
     case 3:
         return AutoId("ArmorBuff");
+    case 4:
+        return AutoId("CloakBuff");
     }
     BOOST_ASSERT(false);
     return AutoId("DefaultBuff");

@@ -40,6 +40,7 @@
 #include "explode_on_hit_component.h"
 #include "detonate_on_hit_component.h"
 #include "armor_component.h"
+#include "cloak_component.h"
 
 
 ComponentLoaderFactory::ComponentLoaderFactory()
@@ -88,6 +89,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("buff_holder_component"), &CreateComponentLoader<BuffHolderComponentLoader>);
     Bind( AutoId("accuracy_component"), &CreateComponentLoader<AccuracyComponentLoader>);
     Bind( AutoId("armor_component"), &CreateComponentLoader<ArmorComponentLoader>);
+    Bind( AutoId("cloak_component"), &CreateComponentLoader<CloakComponentLoader>);
 
     Bind( AutoId("team_component"), &CreateComponentLoader<TeamComponentLoader>);
     Bind( AutoId("attachable_component"), &CreateComponentLoader<ctf::AttachableComponentLoader>);

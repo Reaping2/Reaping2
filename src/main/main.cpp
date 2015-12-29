@@ -58,6 +58,8 @@
 #include "network/server_system.h"
 #include "network/client_system.h"
 #include "core/buffs/armor_buff.h"
+#include "core/buffs/cloak_buff.h"
+#include "network/cloak_changed_message.h"
 
 using engine::Engine;
 namespace {
@@ -212,6 +214,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("client_score_message_sender_system"));
         Eng.AddSystem(AutoId("item_changed_message_sender_system"));
+        Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -288,6 +291,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ShotMessage::GetType_static(),AutoId("shot_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
 
     }
 
@@ -308,6 +312,7 @@ int main(int argc, char* argv[])
         buffHolderS->AddSubSystem(MoveSpeedBuff::GetType_static(),AutoId("move_speed_buff_sub_system"));
         buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
         buffHolderS->AddSubSystem(AccuracyBuff::GetType_static(),AutoId("accuracy_buff_sub_system"));
+        buffHolderS->AddSubSystem(CloakBuff::GetType_static(),AutoId("cloak_buff_sub_system"));
     }
     buffHolderS->AddSubSystem(ArmorBuff::GetType_static(),AutoId("armor_buff_sub_system"));
     Eng.AddSystem(AutoId("collision_system"));
@@ -330,6 +335,7 @@ int main(int argc, char* argv[])
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("pointer_target_controller_component"),AutoId("pointer_target_controller_sub_system"));
 
+    Eng.AddSystem(AutoId("cloak_system"));
 
     Eng.AddSystem(AutoId("inventory_system"));
     Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
@@ -347,6 +353,7 @@ int main(int argc, char* argv[])
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
         normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
         normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));
+        normalItemSS->AddSubSystem(AutoId("cloak_normal_item"),AutoId("cloak_normal_item_sub_system"));
     }
 
     Eng.AddSystem(AutoId("fade_out_system"));

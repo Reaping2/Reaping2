@@ -54,6 +54,6 @@ namespace render {
         DefaultActionRenderer( int32_t Id );
     };
 
-
+    glm::vec4 GetCloakColor(const Actor& actor);
 } // namespace render
 #endif //INCLUDED_RENDER_ACTION_RENDERER_H

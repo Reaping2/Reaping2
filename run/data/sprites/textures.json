@@ -350,6 +350,25 @@
         ]
     },
     {
+        "texture_path":"textures/cloak_normal_item.png",
+        "actor_visuals":
+        [
+            {
+                "name":"cloak_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "texture_path":"textures/pow_projectile.png",
         "actor_visuals":
         [
@@ -476,6 +495,25 @@
         [
             {
                 "name":"ArmorBuff",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/cloak_buff_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"CloakBuff",
                 "animations":
                 [
                     {

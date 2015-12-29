@@ -38,6 +38,7 @@
 #include "kill_score_message.h"
 #include "client_score_message.h"
 #include "item_changed_message.h"
+#include "cloak_changed_message.h"
 
 
     struct message_order
@@ -81,6 +82,8 @@
             type=MaxHealthBuff::GetType_static();
             type=AccuracyBuff::GetType_static();
             type=ArmorBuff::GetType_static();
+            type=CloakBuff::GetType_static();
+
             type=platform::AutoId("player");
             type=platform::AutoId("ctf_player");
             type=platform::AutoId("flag");
@@ -110,6 +113,7 @@
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");
             type=platform::AutoId("pow_projectile");
+            type=network::CloakChangedMessage::GetType_static();
 
         }
     } _msg_order;
@@ -148,6 +152,7 @@
     BOOST_CLASS_EXPORT_GUID(network::KillScoreMessage, "kill_score")
     BOOST_CLASS_EXPORT_GUID(network::ClientScoreMessage, "client_score")
     BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
+    BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

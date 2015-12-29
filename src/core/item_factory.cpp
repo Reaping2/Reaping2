@@ -7,6 +7,7 @@
 #include "flash_normal_item.h"
 #include "shotgun.h"
 #include "ion_gun.h"
+#include "cloak_normal_item.h"
 ItemFactory::ItemFactory()
 {
     Bind<DefaultItem>( AutoId( "default_item" ) );
@@ -19,5 +20,6 @@ ItemFactory::ItemFactory()
 
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
     Bind<FlashNormalItem>(AutoId("flash_normal_item"));
+    Bind<CloakNormalItem>(AutoId("cloak_normal_item"));
 
 }

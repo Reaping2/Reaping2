@@ -16,6 +16,7 @@
 #include "uimodel.h"
 #include "core/i_team_component.h"
 #include "core/i_armor_component.h"
+#include "engine/cloak_system.h"
 
 
 void HealthBarRenderer::Init()
@@ -61,6 +62,11 @@ void HealthBarRenderer::Draw()
     {
         Opt<Actor> player(Scene::Get().GetActor((*i).mClientActorGUID));
         if (!player.IsValid())
+        {
+            continue;
+        }
+        engine::CloakSystem::CloakState cloakState=engine::CloakSystem::GetCloakState(*player.Get());
+        if (cloakState==engine::CloakSystem::Invisible)
         {
             continue;
         }

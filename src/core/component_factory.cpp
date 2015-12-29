@@ -41,6 +41,7 @@
 #include "explode_on_hit_component.h"
 #include "detonate_on_hit_component.h"
 #include "armor_component.h"
+#include "cloak_component.h"
 
 using platform::AutoId;
 
@@ -91,6 +92,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("buff_holder_component"), &CreateComponent<BuffHolderComponent>);
     Bind( AutoId("accuracy_component"), &CreateComponent<AccuracyComponent>);
     Bind( AutoId("armor_component"), &CreateComponent<ArmorComponent>);
+    Bind( AutoId("cloak_component"), &CreateComponent<CloakComponent>);
 
     Bind( AutoId("team_component"), &CreateComponent<TeamComponent>);
     Bind( AutoId("flag_collision_component"), &CreateComponent<ctf::FlagCollisionComponent>);

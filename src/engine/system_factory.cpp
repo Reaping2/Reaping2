@@ -88,6 +88,8 @@
 #include "detonate_on_hit_system.h"
 #include "explode_on_hit_system.h"
 #include "armor_system.h"
+#include "cloak_system.h"
+#include "network/cloak_changed_message.h"
 
 
 using platform::AutoId;
@@ -160,13 +162,15 @@ SystemFactory::SystemFactory()
     Bind( AutoId("kill_score_message_sender_system"), &CreateSystem<network::KillScoreMessageSenderSystem>);
     Bind( AutoId("client_score_message_sender_system"), &CreateSystem<network::ClientScoreMessageSenderSystem>);
     Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
+    Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
 
     Bind( AutoId("buff_holder_system"), &CreateSystem<BuffHolderSystem>);
     Bind( AutoId("armor_system"), &CreateSystem<engine::ArmorSystem>);
-
+    Bind( AutoId("cloak_system"), &CreateSystem<engine::CloakSystem>);
+    
     Bind( AutoId("map_system"), &CreateSystem<map::MapSystem>);
     Bind( AutoId("link_map_element_system"), &CreateSystem<map::LinkMapElementSystem>);
     Bind( AutoId("map_start_map_element_system"), &CreateSystem<map::MapStartMapElementSystem>);

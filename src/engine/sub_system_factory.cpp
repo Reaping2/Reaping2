@@ -27,6 +27,8 @@
 #include "items/shotgun_weapon_sub_system.h"
 #include "items/ion_gun_weapon_sub_system.h"
 #include "buffs_engine/armor_buff_sub_system.h"
+#include "buffs_engine/cloak_buff_sub_system.h"
+#include "items/cloak_normal_item_sub_system.h"
 
 
 using platform::AutoId;
@@ -45,6 +47,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("normal_item_sub_system"), &CreateSubSystem<NormalItemSubSystem>);
     Bind( AutoId("flash_normal_item_sub_system"), &CreateSubSystem<FlashNormalItemSubSystem>);
     Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
+    Bind( AutoId("cloak_normal_item_sub_system"), &CreateSubSystem<CloakNormalItemSubSystem>);
 
     Bind( AutoId("weapon_item_sub_system"), &CreateSubSystem<WeaponItemSubSystem>);
     Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);
@@ -67,6 +70,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("max_health_buff_sub_system"), &CreateSubSystem<MaxHealthBuffSubSystem>);
     Bind( AutoId("accuracy_buff_sub_system"), &CreateSubSystem<AccuracyBuffSubSystem>);
     Bind( AutoId("armor_buff_sub_system"), &CreateSubSystem<ArmorBuffSubSystem>);
+    Bind( AutoId("cloak_buff_sub_system"), &CreateSubSystem<CloakBuffSubSystem>);
 }
 
 } // namespace engine

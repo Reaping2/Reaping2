@@ -12,6 +12,7 @@
 #include "text.h"
 #include "text_uimodel.h"
 #include "core/i_team_component.h"
+#include "engine/cloak_system.h"
 
 void NameRenderer::Init()
 {
@@ -32,9 +33,13 @@ void NameRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         {
             continue;
         }
+        engine::CloakSystem::CloakState cloakState=engine::CloakSystem::GetCloakState(*player.Get());
+        if (cloakState==engine::CloakSystem::Invisible)
+        {
+            continue;
+        }
         Opt<IPositionComponent> positionC=player->Get<IPositionComponent>();
         Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
-
         Text text(76.0,glm::vec4(0,0,500,500),
             teamC.IsValid()?mColorRepo(teamC->GetTeam()):glm::vec4(1.0,1.0,1.0,1.0)
             ,(*i).mClientName,glm::vec2(positionC->GetX(),positionC->GetY()+50),true);

@@ -370,32 +370,6 @@
             "name" : "position_component",
             "set" : [
                {
-                  "x" : 952.890,
-                  "y" : 150.760
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "AccuracyBuff",
-                  "type" : "buff"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
                   "x" : 1055.670,
                   "y" : -2352.250
                }
@@ -796,32 +770,6 @@
             "set" : [
                {
                   "content" : "plasma_gun",
-                  "type" : "weapon"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : -2054.970,
-                  "y" : 836.760
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "pistol",
                   "type" : "weapon"
                }
             ]
@@ -1706,6 +1654,110 @@
             "set" : [
                {
                   "content" : "ArmorBuff",
+                  "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 953.5090,
+                  "y" : 138.6570
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "CloakBuff",
+                  "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 249.2930,
+                  "y" : 2058.4870
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "cloak_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1947.5570,
+                  "y" : -358.7090
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "cloak_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1449.6540,
+                  "y" : 1747.5740
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "CloakBuff",
                   "type" : "buff"
                }
             ]
