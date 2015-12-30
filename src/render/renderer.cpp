@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include "ui/i_ui.h"
 #include "font.h"
+#include "particle_engine.h"
 namespace engine {
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )
@@ -98,6 +99,7 @@ void RendererSystem::Init()
 
 void RendererSystem::Update(double DeltaTime)
 {
+    render::ParticleEngine::Get().Update( DeltaTime );
     SendWorldMouseMoveEvent();
 
     BeginRender();
@@ -110,6 +112,7 @@ void RendererSystem::Update(double DeltaTime)
     mSceneRenderer.Draw( Scen );
     mDecalEngine.Draw( DecalEngine::GroundParticle );
     mActorRenderer.Draw( Scen, DeltaTime );
+    render::ParticleEngine::Get().Draw();
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
     mHealthBarRenderer.Draw();

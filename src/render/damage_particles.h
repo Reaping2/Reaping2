@@ -3,7 +3,7 @@
 #include "platform/i_platform.h"
 
 #include "core/damage_taken_event.h"
-#include "particle_engine.h"
+#include "decal_engine.h"
 
 class DamageDecals : public Singleton<DamageDecals>
 {

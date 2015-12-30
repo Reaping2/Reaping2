@@ -55,6 +55,7 @@
 #include "core/free_for_all_game_mode_system.h"
 #include "core/capture_the_flag_game_mode_system.h"
 #include "network/item_changed_message.h"
+#include "render/particle_system.h"
 
 using engine::Engine;
 namespace {
@@ -109,7 +110,7 @@ int main(int argc, char* argv[])
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);    
+    po::notify(vm);
     if (vm.count("help")) {
         std::cout << desc << "\n";
         return 1;
@@ -129,7 +130,7 @@ int main(int argc, char* argv[])
     AutoReg PhaseChangeId(PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ));
 
     Engine& Eng = Engine::Get();
-    
+
     Eng.AddSystem(AutoId("window_system"));
     if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
     {
@@ -153,10 +154,11 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("free_for_all_game_mode_system"));
     Eng.AddSystem(AutoId("capture_the_flag_game_mode_system"));
     Eng.AddSystem(AutoId("leaderboard_system"));
+    Eng.AddSystem(AutoId("ParticleSystem"));
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>(false);
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>(false);
 
-    if (programState.mMode==ProgramState::Server) 
+    if (programState.mMode==ProgramState::Server)
     {
         Eng.AddSystem(AutoId("server_system"));
         Eng.AddSystem(AutoId("position_message_sender_system"));
@@ -345,6 +347,7 @@ int main(int argc, char* argv[])
     }
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
+    Eng.SetEnabled<render::ParticleSystem>(true);
 
     static const double MaxFrameRate = 60.;
     static const double MinFrameTime = 1. / MaxFrameRate;

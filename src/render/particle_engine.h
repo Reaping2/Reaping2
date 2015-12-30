@@ -1,36 +1,24 @@
-#ifndef INCLUDED_RENDER_DECAL_ENGINE_H
-#define INCLUDED_RENDER_DECAL_ENGINE_H
-#include "platform/i_platform.h"
-#include "vao_base.h"
-#include "particle.h"
-#include "renderable_repo.h"
+#pragma once
+#ifndef INCLUDED_PARTICLE_ENGINE_H
+#define INCLUDED_PARTICLE_ENGINE_H
 
-class DecalEngine : public Singleton<DecalEngine>
+#include "platform/i_platform.h"
+
+namespace render {
+
+class ParticleEngineImpl;
+class ParticleEngine : public platform::Singleton<ParticleEngine>
 {
+    std::auto_ptr<ParticleEngineImpl> mImpl;
 public:
-    enum DecalType
-    {
-        GroundParticle,
-        NumTypes,
-    };
-    void Add( Decal const& Part, DecalType Typ );
-    void Draw( DecalType Type );
-protected:
-    VaoBase mVAO;
-    // all decals MUST be on the same texture
-    // this way we don't have to track them on client side, only on gpu
-    // well, multiple samplers would make it possible to use multiple texids, but really, it's cleaner this way
-    GLuint mTexId;
-    friend class Singleton<DecalEngine>;
-    typedef std::vector<Decal> Particles_t;
-    RenderableRepo& mRenderables;
-    Particles_t mNewDecals[NumTypes];
-    size_t mNumDecals[NumTypes];
-    size_t mNextIdx[NumTypes];
-    size_t mMaxDecalsPerType;
-    size_t mOneTypeSize;
-    DecalEngine();
-    void UpdateBuffers( DecalType Typ );
+    ParticleEngine();
+    ~ParticleEngine();
+    void Update( float dt );
+    void Draw() const;
+    void AddParticle( int32_t type, glm::vec2 const& pos );
 };
 
-#endif//INCLUDED_RENDER_DECAL_ENGINE_H
+} // namespace render
+
+#endif // INCLUDED_PARTICLE_ENGINE_H
+
