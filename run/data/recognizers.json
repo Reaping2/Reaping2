@@ -162,6 +162,22 @@
 		]
 	},
 	{
+		"name":"gatling_gun_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"gatling_gun_alt_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
 		"name":"ion_gun_explode_projectile",
 		"recognizers":
 		[

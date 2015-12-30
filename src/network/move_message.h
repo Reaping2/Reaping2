@@ -15,6 +15,7 @@ namespace network {
         int32_t mPercent;
         int32_t mFlat;
         bool mMoving;
+        bool mRooted;
         
         MoveMessage()
             : mActorGUID(0)
@@ -23,6 +24,7 @@ namespace network {
             , mPercent(0)
             , mFlat(0)
             , mMoving(false)
+            , mRooted(false)
         {
         }
         template<class Archive>
@@ -34,7 +36,8 @@ namespace network {
                 && mSpeed==other.mSpeed
                 && mPercent==other.mPercent
                 && mFlat==other.mFlat
-                && mMoving==other.mMoving;
+                && mMoving==other.mMoving
+                && mRooted==other.mRooted;
         }
     };
 
@@ -48,6 +51,7 @@ namespace network {
         ar & mPercent;
         ar & mFlat;
         ar & mMoving;
+        ar & mRooted;
     }
 
 } // namespace network

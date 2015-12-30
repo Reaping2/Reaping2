@@ -81,6 +81,44 @@
         ]
     },
     {
+        "name":"gatling_gun_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":3500}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":7, "damage":15 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"}
+        ]
+    },
+    {
+        "name":"gatling_gun_alt_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":3500}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":7, "damage":15 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"}
+        ]
+    },
+    {
         "name":"shotgun_projectile",
         "components":
         [

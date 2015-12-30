@@ -60,8 +60,9 @@ namespace network {
         moveMsg->mSpeed=std::floor(moveC->GetSpeed().mBase.Get()*PRECISION);
         moveMsg->mPercent=std::floor(moveC->GetSpeed().mPercent.Get()*PRECISION);
         moveMsg->mFlat=std::floor(moveC->GetSpeed().mFlat.Get()*PRECISION);
-        moveMsg->mMoving=moveC->IsMoving();
+        moveMsg->mMoving=moveC->GetMoving();
         moveMsg->mActorGUID=actor.GetGUID();
+        moveMsg->mRooted=moveC->IsRooted();
         return moveMsg;
     }
 

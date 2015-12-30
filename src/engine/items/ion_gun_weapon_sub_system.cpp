@@ -25,7 +25,7 @@ void IonGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
-    if (weapon->IsShoot())
+    if (weapon->IsShooting())
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
@@ -34,7 +34,7 @@ void IonGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
     }
-    else if (weapon->IsShootAlt())
+    else if (weapon->IsShootingAlt())
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 

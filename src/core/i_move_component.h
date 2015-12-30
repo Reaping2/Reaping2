@@ -18,12 +18,15 @@ public:
     virtual double const& GetHeadingModifier() const=0; 
     virtual double GetSpeedX() const=0;
     virtual double GetSpeedY() const=0;
-    virtual bool const& IsMoving() const=0;
+    virtual bool IsMoving() const=0;
     virtual void SetHeading( double Heading )=0;
     virtual void SetHeadingModifier( double HeadingModifier )=0;
     virtual void SetSpeed( double Speed )=0;
+    virtual bool GetMoving() const=0;
     virtual void SetMoving( bool moving )=0;
     virtual Buffable<double>& GetSpeed()=0;
+    virtual void SetRooted(bool rooted)=0;
+    virtual bool IsRooted()const=0;
 protected:
     friend class ComponentFactory;
 };

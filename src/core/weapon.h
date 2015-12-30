@@ -13,15 +13,17 @@ struct Scatter
     Scatter(double increase=0.0,double altIncrease=0.0, double chill=0.0, double magicNumber=100);
     void Update(double DeltaTime);
     void Shot(bool alt);
-    double GetCalculated();
+    double GetCalculated() const;
 };
 
 class Weapon : public Item
 {
 public:
-    bool IsShoot() const;
+    virtual bool IsShooting() const;
+    bool GetShoot();
     void SetShoot(bool shoot);
-    bool IsShootAlt() const;
+    virtual bool IsShootingAlt() const;
+    bool GetShootAlt();
     void SetShootAlt(bool shoot);
     double GetCooldown() const;
     void SetCooldown(double cooldown);
@@ -44,6 +46,10 @@ public:
     double GetReloadTimeMax()const;
     void SetStaticReload(double staticReload);
     double GetStaticReload()const;
+
+    virtual glm::vec3 GetMouseColor() const;
+    virtual double GetMouseSize() const;
+    virtual std::string GetMouseText() const;
     Weapon( int32_t Id );
 
     ActorFactory& mActorFactory;

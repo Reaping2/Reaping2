@@ -29,6 +29,7 @@
 #include "buffs_engine/armor_buff_sub_system.h"
 #include "buffs_engine/cloak_buff_sub_system.h"
 #include "items/cloak_normal_item_sub_system.h"
+#include "items/gatling_gun_weapon_sub_system.h"
 
 
 using platform::AutoId;
@@ -55,6 +56,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("shotgun_weapon_sub_system"), &CreateSubSystem<ShotgunWeaponSubSystem>);
 	Bind( AutoId("rocket_launcher_weapon_sub_system"), &CreateSubSystem<RocketLauncherWeaponSubSystem>);
     Bind( AutoId("ion_gun_weapon_sub_system"), &CreateSubSystem<IonGunWeaponSubSystem>);
+    Bind( AutoId("gatling_gun_weapon_sub_system"), &CreateSubSystem<GatlingGunWeaponSubSystem>);
 
 
     Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);

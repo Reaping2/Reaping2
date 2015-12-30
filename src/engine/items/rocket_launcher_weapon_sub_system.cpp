@@ -22,7 +22,7 @@ namespace engine
 	void RocketLauncherWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 	{
 		Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
-		if(!weapon->IsShoot() && !weapon->IsShootAlt())
+		if(!weapon->IsShooting() && !weapon->IsShootingAlt())
 		{
 			// not firing, nothing to do
 			return;
@@ -34,11 +34,11 @@ namespace engine
 		WeaponItemSubSystem::Projectiles_t projectiles;
 		std::auto_ptr<Actor> rocket = mActorFactory(mRocketId);
 
-		if(weapon->IsShoot())
+		if(weapon->IsShooting())
 		{
 			IdToSend = mShotId;
 		}
-		else if(weapon->IsShootAlt())
+		else if(weapon->IsShootingAlt())
 		{
 			IdToSend = mAltShotId;
             rocket=mActorFactory(mAltShotId);
@@ -51,7 +51,7 @@ namespace engine
 
 		EventServer<AudibleEvent>::Get().SendEvent(AudibleEvent(IdToSend));
 		projectiles.push_back(rocket.release());
-		mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),weapon->IsShootAlt());
+		mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),weapon->IsShootingAlt());
 		
 	}
 

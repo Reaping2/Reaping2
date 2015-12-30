@@ -39,6 +39,8 @@
 #include "client_score_message.h"
 #include "item_changed_message.h"
 #include "cloak_changed_message.h"
+#include "core/buffs/armor_buff.h"
+#include "core/buffs/cloak_buff.h"
 
 
     struct message_order
@@ -101,6 +103,9 @@
             type=platform::AutoId("pickup");
             type=platform::AutoId("pistol");
             type=platform::AutoId("pistol_shot");
+            type=platform::AutoId("gatling_gun");
+            type=platform::AutoId("gatling_gun_projectile");
+            type=platform::AutoId("gatling_gun_alt_projectile");
             type=platform::AutoId("rocket_launcher");
             type=platform::AutoId("rocket_launcher_primary");
             type=platform::AutoId("rocket_launcher_secondary");

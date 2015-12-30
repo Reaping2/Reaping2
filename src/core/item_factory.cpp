@@ -8,6 +8,7 @@
 #include "shotgun.h"
 #include "ion_gun.h"
 #include "cloak_normal_item.h"
+#include "gatling_gun.h"
 ItemFactory::ItemFactory()
 {
     Bind<DefaultItem>( AutoId( "default_item" ) );
@@ -17,6 +18,7 @@ ItemFactory::ItemFactory()
     Bind<Shotgun>( AutoId( "shotgun" ) );
     Bind<RocketLauncher>(AutoId("rocket_launcher"));
     Bind<IonGun>(AutoId("ion_gun"));
+    Bind<GatlingGun>( AutoId( "gatling_gun" ) );
 
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
     Bind<FlashNormalItem>(AutoId("flash_normal_item"));

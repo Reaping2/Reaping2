@@ -47,13 +47,13 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     }
 
     HandleReload(actor,playerControllerC);
+    Shoot(actor,playerControllerC);
     if (mProgramState.mMode==core::ProgramState::Client)
     {
         return;
     }
 
     SetSpeedAndOrientation(actor,playerControllerC);
-    Shoot(actor,playerControllerC);
     SetOrientation(actor,playerControllerC);
     HandleRevive(actor,playerControllerC);
 }

@@ -105,6 +105,8 @@ AutoId DropOnDeathSystem::Roll( int32_t n )
 		return AutoId("shotgun");
     case 4:
 		return AutoId("ion_gun");
+    case 5:
+		return AutoId("gatling_gun");
     }
 	BOOST_ASSERT(false);
 	return AutoId("default_item");

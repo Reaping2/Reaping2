@@ -340,9 +340,9 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("inventory_system"));
     Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
     inventorySystem->AddSubSystem(ItemType::Weapon,AutoId("weapon_item_sub_system"));
+    Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
     if (programState.mMode!=ProgramState::Client) 
     {
-        Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
         weaponItemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("shotgun"),AutoId("shotgun_weapon_sub_system"));
@@ -355,6 +355,7 @@ int main(int argc, char* argv[])
         normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));
         normalItemSS->AddSubSystem(AutoId("cloak_normal_item"),AutoId("cloak_normal_item_sub_system"));
     }
+    weaponItemSS->AddSubSystem(AutoId("gatling_gun"),AutoId("gatling_gun_weapon_sub_system")); //handles client specific stuff like windup and deploy states.
 
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 

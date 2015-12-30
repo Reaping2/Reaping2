@@ -1766,5 +1766,57 @@
       "identifier" : "spawn_at_start",
       "name" : "respawn_actor",
       "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1148.3410,
+                  "y" : 1241.3330
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "gatling_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 453.2560,
+                  "y" : -447.50
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "gatling_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
    }
 ]
