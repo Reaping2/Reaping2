@@ -1427,7 +1427,7 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
+      "secs_to_respawn" : 90.0
    },
    {
       "actor" : "revive_pickup",
@@ -1453,7 +1453,7 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
+      "secs_to_respawn" : 90.0
    },
    {
       "actor" : "revive_pickup",
@@ -1791,7 +1791,7 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
+      "secs_to_respawn" : 75.0
    },
    {
       "actor" : "revive_pickup",
@@ -1817,6 +1817,6 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
+      "secs_to_respawn" : 75.0
    }
 ]

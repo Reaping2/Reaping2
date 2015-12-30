@@ -256,7 +256,7 @@ void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerC
     Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
     if (weapon.IsValid())
     {
-        if (weapon->GetBullets()>0&&weapon->GetBullets()!=weapon->GetBulletsMax()&&weapon->GetStaticReload()==0.0)
+        if (weapon->CanReload())
         {
             weapon->SetBullets(0.0);
         }

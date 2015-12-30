@@ -32,9 +32,11 @@ public:
     void SetDeployState(DeployState deployState);
     DeployState GetDeployState()const;
 
+    virtual bool CanReload() const;
     virtual glm::vec3 GetMouseColor() const;
     virtual double GetMouseSize() const;
     virtual std::string GetMouseText() const;
+    virtual bool IsMouseResizable() const;
 protected:
     friend class ComponentFactory;
     double mWindup;

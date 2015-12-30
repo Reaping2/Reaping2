@@ -154,4 +154,16 @@ std::string GatlingGun::GetMouseText() const
     return Weapon::GetMouseText();
 }
 
+bool GatlingGun::IsMouseResizable() const
+{
+    return (mDeployState==Deployed||mDeployState==Undeployed)
+        &&Weapon::IsMouseResizable();
+}
+
+bool GatlingGun::CanReload() const
+{
+    return (mDeployState==Deployed||mDeployState==Undeployed)
+        &&Weapon::CanReload();
+}
+
 

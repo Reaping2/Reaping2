@@ -47,9 +47,11 @@ public:
     void SetStaticReload(double staticReload);
     double GetStaticReload()const;
 
+    virtual bool CanReload() const;
     virtual glm::vec3 GetMouseColor() const;
     virtual double GetMouseSize() const;
     virtual std::string GetMouseText() const;
+    virtual bool IsMouseResizable() const;
     Weapon( int32_t Id );
 
     ActorFactory& mActorFactory;

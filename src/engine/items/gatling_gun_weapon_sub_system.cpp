@@ -37,7 +37,7 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         weapon->SetWindup(
             std::max(weapon->GetWindup()-weapon->GetWindupSpeed()*DeltaTime,0.0));
     }
-    if (weapon->GetShootAlt())
+    if (weapon->GetShootAlt()&&weapon->GetReloadTime()<=0)
     {
         if (deployState==GatlingGun::Deployed)
         {
@@ -46,10 +46,6 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         else if (deployState==GatlingGun::Undeployed)
         {
             deployState=GatlingGun::Deploying;
-            if (moveC.IsValid())
-            {
-                moveC->SetRooted(true);
-            }
         }
     }
     if (deployState==GatlingGun::Deploying)
@@ -68,14 +64,13 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         if (weapon->GetDeploy()==0.0)
         {
             deployState=GatlingGun::Undeployed;
-            if (moveC.IsValid())
-            {
-                moveC->SetRooted(false);
-            }
-
         }
     }
     weapon->SetDeployState(deployState);
+    if (moveC.IsValid())
+    {
+        moveC->SetRooted(deployState!=GatlingGun::Undeployed);
+    }
     if (mProgramState.mMode==core::ProgramState::Client||weapon->GetCooldown()>0)
     {
         return;

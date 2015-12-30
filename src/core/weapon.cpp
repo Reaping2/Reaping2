@@ -179,6 +179,18 @@ std::string Weapon::GetMouseText() const
             ));
 }
 
+bool Weapon::IsMouseResizable() const
+{
+    return mReloadTime<=0.0||mStaticReload!=0.0;
+}
+
+bool Weapon::CanReload() const
+{
+    return mBullets>0
+        &&mBullets!=mBulletsMax
+        &&mStaticReload==0.0;
+}
+
 
 
 Scatter::Scatter(double increase/*=0.0*/,double altIncrease/*=0.0*/, double chill/*=0.0*/, double magicNumber/*=100*/)
