@@ -47,13 +47,13 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     }
 
     HandleReload(actor,playerControllerC);
+    Shoot(actor,playerControllerC);
     if (mProgramState.mMode==core::ProgramState::Client)
     {
         return;
     }
 
     SetSpeedAndOrientation(actor,playerControllerC);
-    Shoot(actor,playerControllerC);
     SetOrientation(actor,playerControllerC);
     HandleRevive(actor,playerControllerC);
 }
@@ -256,7 +256,7 @@ void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerC
     Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
     if (weapon.IsValid())
     {
-        if (weapon->GetBullets()>0&&weapon->GetBullets()!=weapon->GetBulletsMax()&&weapon->GetStaticReload()==0.0)
+        if (weapon->CanReload())
         {
             weapon->SetBullets(0.0);
         }

@@ -48,19 +48,19 @@ void DropOnDeathSystem::Update(double DeltaTime)
             int32_t rolled=rand() % 3;
             if(rolled==0)
             {
-                int32_t contentId=Roll(4);
+                int32_t contentId=Roll(5);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Weapon );
             }
             else if (rolled==1)
             {
-                int32_t contentId=RollNormalItem(2);
+                int32_t contentId=RollNormalItem(3);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Normal );
             }
             else if (rolled==2)
             {
-                int32_t contentId=RollBuff(3);
+                int32_t contentId=RollBuff(5);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Buff );
             }
@@ -83,6 +83,8 @@ AutoId DropOnDeathSystem::RollNormalItem( int32_t n )
         return AutoId("grenade_normal_item");
     case 1:
         return AutoId("flash_normal_item");
+    case 2:
+        return AutoId("cloak_normal_item");
     }
     BOOST_ASSERT(false);
     return AutoId("default_item");
@@ -101,7 +103,11 @@ AutoId DropOnDeathSystem::Roll( int32_t n )
 		return AutoId("rocket_launcher");
     case 3:
 		return AutoId("shotgun");
-	}
+    case 4:
+		return AutoId("ion_gun");
+    case 5:
+		return AutoId("gatling_gun");
+    }
 	BOOST_ASSERT(false);
 	return AutoId("default_item");
 }
@@ -117,6 +123,10 @@ AutoId DropOnDeathSystem::RollBuff( int32_t n )
         return AutoId("MoveSpeedBuff");
     case 2:
         return AutoId("AccuracyBuff");
+    case 3:
+        return AutoId("ArmorBuff");
+    case 4:
+        return AutoId("CloakBuff");
     }
     BOOST_ASSERT(false);
     return AutoId("DefaultBuff");

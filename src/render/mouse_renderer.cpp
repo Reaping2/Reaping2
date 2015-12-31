@@ -63,31 +63,25 @@ void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
     {
         weapon = inventoryC->GetSelectedWeapon();
     }
-    bool reloading=weapon.IsValid()&&weapon->GetReloadTime()>0.0&&weapon->GetStaticReload()==0.0;
+    if (actor.IsValid()&&inventoryC.IsValid()&&weapon.IsValid())
+    {
 
-    if (reloading)
-    {
-        mouseColor= glm::vec3(1.0,0.0,0.0);
-    }
-    if (actor.IsValid())
-    {
-        double siz=mouseSize;
-        if (reloading)
-        {
-            siz+=weapon->GetReloadTime()/weapon->GetReloadTimeMax()*150;
-        }
-        else
-        {
-            siz+=actor->Get<IInventoryComponent>()->GetSelectedWeapon()->GetScatter().GetCalculated()*300;
-        }
+        mouseColor=weapon->GetMouseColor();
+        double siz=weapon->GetMouseSize();
         Opt<IAccuracyComponent> accuracyC=actor->Get<IAccuracyComponent>();
-        if (accuracyC.IsValid())
+        if (accuracyC.IsValid()&&(weapon->IsMouseResizable()))
         {
             siz=siz*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
         }
+        siz+=mouseSize;
         Sizes.push_back( ( GLfloat )(siz));
+        Sizes.push_back( ( GLfloat )(siz));
+        Text text(80.0,glm::vec4(0,0,500,500),glm::vec4(mouseColor,0.7),
+            weapon->GetMouseText()
+            ,glm::vec2(mX,mY-80),true);
+        textSceneRenderer.AddText(text);
     }
-    else
+    if (!actor.IsValid())
     {
         Sizes.push_back( ( GLfloat )mouseSize ); 
     }
@@ -169,17 +163,6 @@ void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
     glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, CurSize );
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();
-    if (!actor.IsValid()||!inventoryC.IsValid()||!weapon.IsValid())
-    {
-        return;
-    }
-    Text text(80.0,glm::vec4(0,0,500,500),glm::vec4(mouseColor,0.7),
-        boost::lexical_cast<std::string>(
-            std::max(   //no negative bullets shown. could happen if shooting comes from server earlier then the client finishes reloading
-                0.0,std::floor(weapon->GetBullets())
-                ))
-        ,glm::vec2(mX,mY-80),true);
-    textSceneRenderer.AddText(text);
 }
 
 MouseRenderer::~MouseRenderer()

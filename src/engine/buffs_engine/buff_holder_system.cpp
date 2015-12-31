@@ -29,7 +29,6 @@ void BuffHolderSystem::Update(double DeltaTime)
         }
 
         Opt<Buff> prevBuff;
-        BuffList_t& buffList=buffHolderC->GetBuffList();
 //         for( BuffList_t::iterator buffIt = buffList.begin(), buffE = buffList.end(); buffIt != buffE; ++buffIt )
 //         {
 //             Buff& buff = **buffIt;
@@ -50,12 +49,13 @@ void BuffHolderSystem::Update(double DeltaTime)
             ssIt->mSystem->Update(actor,DeltaTime);
         }
 
+        BuffList_t& buffList=buffHolderC->GetBuffList();
         for( BuffList_t::iterator buffIt = buffList.begin(), buffE = buffList.end(); buffIt != buffE; ++buffIt )
         {
             Buff& buff = **buffIt;
             double currSecsToEnd=buff.GetSecsToEnd();
             double newSecsToEnd=currSecsToEnd-DeltaTime;
-            if (currSecsToEnd>0 && newSecsToEnd<=0)
+            if (/*currSecsToEnd>0 &&*/ newSecsToEnd<=0)
             {
                 newSecsToEnd=0;
             }

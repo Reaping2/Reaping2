@@ -292,7 +292,7 @@
             "name" : "position_component",
             "set" : [
                {
-                  "x" : 2051.160,
+                  "x" : 2051.1590,
                   "y" : 2345.190
                }
             ]
@@ -354,32 +354,6 @@
             "set" : [
                {
                   "content" : "HealOverTimeBuff",
-                  "type" : "buff"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : 952.890,
-                  "y" : 150.760
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "AccuracyBuff",
                   "type" : "buff"
                }
             ]
@@ -630,58 +604,6 @@
             "name" : "position_component",
             "set" : [
                {
-                  "x" : -1634.890,
-                  "y" : 1290.740
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "rocket_launcher",
-                  "type" : "weapon"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : -2236.150,
-                  "y" : 2334.650
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "rocket_launcher",
-                  "type" : "weapon"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
                   "x" : 246.090,
                   "y" : 1548.370
                }
@@ -848,32 +770,6 @@
             "set" : [
                {
                   "content" : "plasma_gun",
-                  "type" : "weapon"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : -2054.970,
-                  "y" : 836.760
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "pistol",
                   "type" : "weapon"
                }
             ]
@@ -1506,5 +1402,421 @@
       "identifier" : "spawn_at_start",
       "name" : "respawn_actor",
       "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -2230.8160,
+                  "y" : 2338.170
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 90.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 2450.7370,
+                  "y" : -1748.9010
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ion_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 90.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -2447.2190,
+                  "y" : -855.3220
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1048.5150,
+                  "y" : 2250.2190
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -543.8850,
+                  "y" : -1749.0550
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1748.7460,
+                  "y" : 750.8410
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 61.5060,
+                  "y" : -1051.670
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1351.1290,
+                  "y" : 846.5280
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "flash_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1636.1470,
+                  "y" : 1300.2870
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ArmorBuff",
+                  "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 2153.4030,
+                  "y" : -1149.0770
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "ArmorBuff",
+                  "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 953.5090,
+                  "y" : 138.6570
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "CloakBuff",
+                  "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 249.2930,
+                  "y" : 2058.4870
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "cloak_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1947.5570,
+                  "y" : -358.7090
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "cloak_normal_item",
+                  "type" : "normal"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1449.6540,
+                  "y" : 1747.5740
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "CloakBuff",
+                  "type" : "buff"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 15.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1148.3410,
+                  "y" : 1241.3330
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "gatling_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 75.0
+   },
+   {
+      "actor" : "revive_pickup",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 453.2560,
+                  "y" : -447.50
+               }
+            ]
+         },
+         {
+            "name" : "pickup_collision_component",
+            "set" : [
+               {
+                  "content" : "gatling_gun",
+                  "type" : "weapon"
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "respawn_actor",
+      "secs_to_respawn" : 75.0
    }
 ]

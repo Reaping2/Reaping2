@@ -15,6 +15,8 @@
 #include "font.h"
 #include "uimodel.h"
 #include "core/i_team_component.h"
+#include "core/i_armor_component.h"
+#include "engine/cloak_system.h"
 
 
 void HealthBarRenderer::Init()
@@ -63,12 +65,25 @@ void HealthBarRenderer::Draw()
         {
             continue;
         }
+        engine::CloakSystem::CloakState cloakState=engine::CloakSystem::GetCloakState(*player.Get());
+        if (cloakState==engine::CloakSystem::Invisible)
+        {
+            continue;
+        }
         Opt<IPositionComponent> positionC=player->Get<IPositionComponent>();
 
         Opt<IHealthComponent> healthC(player->Get<IHealthComponent>());
         Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
 
+        Opt<IArmorComponent> armorC=player->Get<IArmorComponent>();
+        int32_t armor=0;
+        if (armorC.IsValid())
+        {
+            armor=armorC->GetCurrentArmor();
+        }
+
         double currPercent=healthC->GetHP()/double(healthC->GetMaxHP().Get());
+        double currArmorPercent=armor/double(healthC->GetMaxHP().Get()+armor);
 
         glm::vec2 size(100,7);
         glm::vec2 position(-size.x/2,45);
@@ -87,6 +102,15 @@ void HealthBarRenderer::Draw()
             }
             ColoredBox( dim,col, Inserter );
         }
+        {
+            double currCombinedPercent=currPercent+currArmorPercent>1.0?1-currArmorPercent:currPercent;
+            glm::vec4 dim(int32_t(positionC->GetX())+position.x+currCombinedPercent*size.x
+                ,int32_t(positionC->GetY())+position.y
+                ,currArmorPercent*size.x,size.y);
+            glm::vec4 col=glm::vec4(1.0,1.0,1.0,0.7);
+            ColoredBox( dim,col, Inserter );
+        }
+
     }
     size_t const CurSize = Vertices.size();
     if (CurSize==0)

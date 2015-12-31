@@ -23,13 +23,18 @@ TargetRepo::TargetRepo()
 
     id=AutoId("flash_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
     id=AutoId("grenade_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
+    id=AutoId("cloak_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
     id=AutoId("pistol"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("plasma_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
+    id=AutoId("ion_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
+    id=AutoId("gatling_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("rocket_launcher"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("shotgun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("HealOverTimeBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("MoveSpeedBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("AccuracyBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
+    id=AutoId("ArmorBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
+    id=AutoId("CloakBuff"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("buff"),id));
     id=AutoId("ctf_flag_spawn_blue"); mElements.insert(id, new FlagSpawnTarget(id,AutoId("platform"),Team::Blue));
     id=AutoId("ctf_flag_spawn_red"); mElements.insert(id, new FlagSpawnTarget(id,AutoId("platform"),Team::Red));
 

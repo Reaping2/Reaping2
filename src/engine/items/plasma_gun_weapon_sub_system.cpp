@@ -26,7 +26,7 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
-    if (weapon->IsShoot())
+    if (weapon->IsShooting())
     {
         EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
 
@@ -37,7 +37,7 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
     }
-    else if (weapon->IsShootAlt())
+    else if (weapon->IsShootingAlt())
     {
         EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mAltShotId ) );
 

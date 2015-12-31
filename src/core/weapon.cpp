@@ -24,7 +24,7 @@ Weapon::Weapon( int32_t Id )
     mType = ItemType::Weapon;
 }
 
-bool Weapon::IsShoot() const
+bool Weapon::IsShooting() const
 {
     return mShoot&&mBullets>=mShotCost;
 }
@@ -34,7 +34,7 @@ void Weapon::SetShoot(bool shoot)
     mShoot = shoot;
 }
 
-bool Weapon::IsShootAlt() const
+bool Weapon::IsShootingAlt() const
 {
     return mShootAlt&&mBullets>=mShotCostAlt;
 }
@@ -149,6 +149,48 @@ double Weapon::GetStaticReload()const
     return mStaticReload;
 }
 
+bool Weapon::GetShoot()
+{
+    return mShoot;
+}
+
+bool Weapon::GetShootAlt()
+{
+    return mShootAlt;
+}
+
+glm::vec3 Weapon::GetMouseColor() const
+{
+    return mReloadTime>0.0&&mStaticReload==0.0?
+        glm::vec3(1.0,0.0,0.0):glm::vec3(0.0,0.0,1.0);
+}
+
+double Weapon::GetMouseSize() const
+{
+    return mReloadTime>0.0&&mStaticReload==0.0?
+        mReloadTime/mReloadTimeMax*150:mScatter.GetCalculated()*300;
+}
+
+std::string Weapon::GetMouseText() const
+{
+    return boost::lexical_cast<std::string>(
+        std::max(   //no negative bullets shown. could happen if shooting comes from server earlier then the client finishes reloading
+            0.0,std::floor(mBullets)
+            ));
+}
+
+bool Weapon::IsMouseResizable() const
+{
+    return mReloadTime<=0.0||mStaticReload!=0.0;
+}
+
+bool Weapon::CanReload() const
+{
+    return mBullets>0
+        &&mBullets!=mBulletsMax
+        &&mStaticReload==0.0;
+}
+
 
 
 Scatter::Scatter(double increase/*=0.0*/,double altIncrease/*=0.0*/, double chill/*=0.0*/, double magicNumber/*=100*/)
@@ -169,12 +211,12 @@ void Scatter::Update(double DeltaTime)
     // chill=20, dt=1.0; // lets say 1 sec with 20 chill means newCalc is 20
     double newCalculated=(GetCalculated()*mMagicNumber-mChill*DeltaTime)/mMagicNumber; 
     newCalculated=std::max(0.0,newCalculated);
-    L1("newCalc: %f calc: %f \n",newCalculated,mCurrent);
+//    L1("newCalc: %f calc: %f \n",newCalculated,mCurrent);
     if(newCalculated!=0.0)
     {
         mCurrent=(newCalculated*mMagicNumber)/(1-newCalculated); //inverse of GetCalculated
     }
-    L1("newCurrent: %f \n",mCurrent);
+//    L1("newCurrent: %f \n",mCurrent);
 }
 
 void Scatter::Shot(bool alt)
@@ -182,7 +224,7 @@ void Scatter::Shot(bool alt)
     mCurrent+=alt?mAltIncrease:mIncrease;
 }
 
-double Scatter::GetCalculated()
+double Scatter::GetCalculated() const
 {
     return mCurrent/(mMagicNumber+mCurrent);
 }

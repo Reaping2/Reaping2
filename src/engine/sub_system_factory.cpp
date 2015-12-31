@@ -25,6 +25,11 @@
 #include "buffs_engine/accuracy_buff_sub_system.h"
 #include "collisions/flag_collision_sub_system.h"
 #include "items/shotgun_weapon_sub_system.h"
+#include "items/ion_gun_weapon_sub_system.h"
+#include "buffs_engine/armor_buff_sub_system.h"
+#include "buffs_engine/cloak_buff_sub_system.h"
+#include "items/cloak_normal_item_sub_system.h"
+#include "items/gatling_gun_weapon_sub_system.h"
 
 
 using platform::AutoId;
@@ -43,12 +48,15 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("normal_item_sub_system"), &CreateSubSystem<NormalItemSubSystem>);
     Bind( AutoId("flash_normal_item_sub_system"), &CreateSubSystem<FlashNormalItemSubSystem>);
     Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
+    Bind( AutoId("cloak_normal_item_sub_system"), &CreateSubSystem<CloakNormalItemSubSystem>);
 
     Bind( AutoId("weapon_item_sub_system"), &CreateSubSystem<WeaponItemSubSystem>);
     Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);
     Bind( AutoId("pistol_weapon_sub_system"), &CreateSubSystem<PistolWeaponSubSystem>);
     Bind( AutoId("shotgun_weapon_sub_system"), &CreateSubSystem<ShotgunWeaponSubSystem>);
 	Bind( AutoId("rocket_launcher_weapon_sub_system"), &CreateSubSystem<RocketLauncherWeaponSubSystem>);
+    Bind( AutoId("ion_gun_weapon_sub_system"), &CreateSubSystem<IonGunWeaponSubSystem>);
+    Bind( AutoId("gatling_gun_weapon_sub_system"), &CreateSubSystem<GatlingGunWeaponSubSystem>);
 
 
     Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
@@ -63,6 +71,8 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("move_speed_buff_sub_system"), &CreateSubSystem<MoveSpeedBuffSubSystem>);
     Bind( AutoId("max_health_buff_sub_system"), &CreateSubSystem<MaxHealthBuffSubSystem>);
     Bind( AutoId("accuracy_buff_sub_system"), &CreateSubSystem<AccuracyBuffSubSystem>);
+    Bind( AutoId("armor_buff_sub_system"), &CreateSubSystem<ArmorBuffSubSystem>);
+    Bind( AutoId("cloak_buff_sub_system"), &CreateSubSystem<CloakBuffSubSystem>);
 }
 
 } // namespace engine

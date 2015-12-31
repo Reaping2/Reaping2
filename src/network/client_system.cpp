@@ -91,7 +91,6 @@ void ClientSystem::Update(double DeltaTime)
 
         enet_peer_send(mPeer, 0, packet);
         enet_host_flush(mClient);
-
         mMessageHolder.ClearOutgoingMessages();
     }
     PerfTimer.Log("client update ended");

@@ -37,6 +37,7 @@ namespace network {
         moveC->GetSpeed().mPercent.Set(msg.mPercent/PRECISION);
         moveC->GetSpeed().mFlat.Set(msg.mFlat/PRECISION);
         moveC->SetMoving(msg.mMoving);
+        moveC->SetRooted(msg.mRooted);
     }
 
 } // namespace network

@@ -8,6 +8,7 @@ MoveComponent::MoveComponent()
     , mSpeedX(0.0)
     , mSpeedY(0.0)
     , mMoving(true)
+    , mRooted(false)
 {
     mSpeed.mBase.Init(350.0,0.0,100000.0);
     mSpeed.mFlat.Init(0.0,0.0,1000.0);
@@ -49,9 +50,9 @@ Buffable<double>& MoveComponent::GetSpeed()
     return mSpeed;
 }
 
-bool const& MoveComponent::IsMoving() const
+bool MoveComponent::IsMoving() const
 {
-    return mMoving;
+    return mMoving&&!mRooted;
 }
 
 void MoveComponent::SetMoving(bool moving)
@@ -63,6 +64,22 @@ void MoveComponent::SetSpeed(double Speed)
 {
     mSpeed.mBase.Set(Speed);
 }
+
+void MoveComponent::SetRooted(bool rooted)
+{
+    mRooted=rooted;
+}
+
+bool MoveComponent::IsRooted()const
+{
+    return mRooted;
+}
+
+bool MoveComponent::GetMoving() const
+{
+    return mMoving;
+}
+
 
 void MoveComponentLoader::BindValues()
 {

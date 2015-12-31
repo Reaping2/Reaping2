@@ -73,24 +73,23 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
             ,weapon->GetBulletsMax()));
         weapon->SetReloadTime(weapon->GetReloadTimeMax());
     }
-
+    BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(weapon->GetId());
+    if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
+    {
+        itemssIt->mSystem->Update(actor,DeltaTime);
+    }
     if (mProgramState.mMode!=core::ProgramState::Client) 
     {
-        BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(weapon->GetId());
-        if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
-        {
-            itemssIt->mSystem->Update(actor,DeltaTime);
-        }
         if (weapon->GetCooldown()<=0.0) //not synced to client
         {
             Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
             if (actorPositionC.IsValid())
             {
-                if (weapon->IsShoot()&&weapon->GetBullets()>=weapon->GetShotCost())
+                if (weapon->IsShooting()&&weapon->GetBullets()>=weapon->GetShotCost())
                 {
                     EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(),glm::vec2(actorPositionC->GetX(),actorPositionC->GetY()),false));
                 }
-                else if (weapon->IsShootAlt()&&weapon->GetBullets()>=weapon->GetShotCostAlt())
+                else if (weapon->IsShootingAlt()&&weapon->GetBullets()>=weapon->GetShotCostAlt())
                 {
                     EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(),glm::vec2(actorPositionC->GetX(),actorPositionC->GetY()),true));
                 }

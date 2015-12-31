@@ -14,13 +14,19 @@ bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB
         //they do not collide, is some of them can't thats for sure
         return false;
     }
+    return AreActorsColliding(ObjA, ObjB, objAcollisionC->GetRadius(), objBcollisionC->GetRadius(), Dt);
+
+}
+
+bool BoxCollisionModel::AreActorsColliding(Actor const &ObjA, Actor const &ObjB, double radiusA, double radiusB, double Dt)
+{
     // A: (0,0)
     //TODO: this may change, or will be simplified, because this is kind of ugly, to gat these two positions. Time will tell
     Opt<IPositionComponent> const objApositionC = ObjA.Get<IPositionComponent>();
     Opt<IPositionComponent> const objBpositionC = ObjB.Get<IPositionComponent>();
     glm::vec2 B( objBpositionC->GetX() - objApositionC->GetX(), objBpositionC->GetY() - objApositionC->GetY() );
     // BSize: (0,0)
-    glm::vec2 ASize( objAcollisionC->GetRadius() + objBcollisionC->GetRadius(), objAcollisionC->GetRadius() + objBcollisionC->GetRadius() );
+    glm::vec2 ASize( radiusA + radiusB, radiusA + radiusB );
     // on point check
     static const float Epsilon = std::numeric_limits<float>::epsilon() * 100;
     if( std::abs( B.x ) + Epsilon < ASize.x && std::abs( B.y ) + Epsilon < ASize.y )

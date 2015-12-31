@@ -37,7 +37,8 @@ namespace render{
         if( Spr.IsValid() )
         {
             SpritePhase const& Phase = Spr( (int32_t)GetState() );
-            renderableSprites.push_back( RenderableSprite( &actor, weapon->GetId(), &Spr, &Phase ) );
+            glm::vec4 col=GetCloakColor(actor);
+            renderableSprites.push_back( RenderableSprite( &actor, weapon->GetId(), &Spr, &Phase, col ) );
         }
     }
 

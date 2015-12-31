@@ -38,6 +38,9 @@
 #include "kill_score_message.h"
 #include "client_score_message.h"
 #include "item_changed_message.h"
+#include "cloak_changed_message.h"
+#include "core/buffs/armor_buff.h"
+#include "core/buffs/cloak_buff.h"
 
 
     struct message_order
@@ -80,12 +83,19 @@
             type=MoveSpeedBuff::GetType_static();
             type=MaxHealthBuff::GetType_static();
             type=AccuracyBuff::GetType_static();
+            type=ArmorBuff::GetType_static();
+            type=CloakBuff::GetType_static();
+
             type=platform::AutoId("player");
             type=platform::AutoId("ctf_player");
             type=platform::AutoId("flag");
             type=platform::AutoId("platform");
             type=platform::AutoId("plasma_gun");
             type=platform::AutoId("plasma_shot");
+            type=platform::AutoId("ion_gun");
+            type=platform::AutoId("ion_gun_projectile");
+            type=platform::AutoId("ion_gun_alt_projectile");
+            type=platform::AutoId("ion_gun_explode_projectile");
             type=platform::AutoId("spider1");
             type=platform::AutoId("spider2");
             type=platform::AutoId("spider1target");
@@ -93,6 +103,9 @@
             type=platform::AutoId("pickup");
             type=platform::AutoId("pistol");
             type=platform::AutoId("pistol_shot");
+            type=platform::AutoId("gatling_gun");
+            type=platform::AutoId("gatling_gun_projectile");
+            type=platform::AutoId("gatling_gun_alt_projectile");
             type=platform::AutoId("rocket_launcher");
             type=platform::AutoId("rocket_launcher_primary");
             type=platform::AutoId("rocket_launcher_secondary");
@@ -105,6 +118,8 @@
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");
             type=platform::AutoId("pow_projectile");
+            type=network::CloakChangedMessage::GetType_static();
+
         }
     } _msg_order;
 
@@ -142,6 +157,7 @@
     BOOST_CLASS_EXPORT_GUID(network::KillScoreMessage, "kill_score")
     BOOST_CLASS_EXPORT_GUID(network::ClientScoreMessage, "client_score")
     BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
+    BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

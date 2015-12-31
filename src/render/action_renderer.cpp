@@ -1,4 +1,5 @@
 #include "render/action_renderer.h"
+#include "engine/cloak_system.h"
 namespace render{
 
 
@@ -47,6 +48,21 @@ namespace render{
         : ActionRenderer(Id)
     {
 
+    }
+
+    glm::vec4 GetCloakColor(const Actor& actor)
+    {
+        glm::vec4 r=glm::vec4(1.0);
+        engine::CloakSystem::CloakState cloakState=engine::CloakSystem::GetCloakState(actor);
+        if (cloakState==engine::CloakSystem::Cloaked)
+        {
+            r=glm::vec4(1.0,1.0,1.0,0.5);
+        }
+        else if (cloakState==engine::CloakSystem::Invisible)
+        {
+            r=glm::vec4(0.0);
+        }
+        return r;
     }
 
 } // namespace render

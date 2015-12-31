@@ -56,6 +56,11 @@
 #include "core/capture_the_flag_game_mode_system.h"
 #include "network/item_changed_message.h"
 #include "render/particle_system.h"
+#include "network/server_system.h"
+#include "network/client_system.h"
+#include "core/buffs/armor_buff.h"
+#include "core/buffs/cloak_buff.h"
+#include "network/cloak_changed_message.h"
 
 using engine::Engine;
 namespace {
@@ -88,6 +93,36 @@ void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
     }
 }
 #include "network/message_order.h"
+
+void ForceReceiveSendMessages()
+{
+    Engine& Eng=Engine::Get();
+    Opt<network::ServerSystem> serverSystem(Eng.GetSystem<network::ServerSystem>());
+    Opt<network::ClientSystem> clientSystem(Eng.GetSystem<network::ClientSystem>());
+    if (clientSystem.IsValid())
+    {
+        clientSystem->Update(0.0);
+    }
+    if (serverSystem.IsValid())
+    {
+        serverSystem->Update(0.0);
+    }
+
+    Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
+    if (messageHandlerSSH.IsValid())
+    {
+        messageHandlerSSH->Update(0.0);
+    }
+
+    if (clientSystem.IsValid())
+    {
+        clientSystem->Update(0.0);
+    }
+    if (serverSystem.IsValid())
+    {
+        serverSystem->Update(0.0);
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -181,6 +216,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("client_score_message_sender_system"));
         Eng.AddSystem(AutoId("item_changed_message_sender_system"));
+        Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -257,6 +293,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ShotMessage::GetType_static(),AutoId("shot_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
 
     }
 
@@ -270,11 +307,16 @@ int main(int argc, char* argv[])
     Opt<engine::BuffHolderSystem> buffHolderS(Eng.GetSystem<engine::BuffHolderSystem>());
     if (programState.mMode!=ProgramState::Client) 
     {
+        Eng.AddSystem(AutoId("detonate_on_hit_system"));
+        Eng.AddSystem(AutoId("explode_on_hit_system"));
+
         buffHolderS->AddSubSystem(HealOverTimeBuff::GetType_static(),AutoId("heal_over_time_buff_sub_system"));
         buffHolderS->AddSubSystem(MoveSpeedBuff::GetType_static(),AutoId("move_speed_buff_sub_system"));
         buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
         buffHolderS->AddSubSystem(AccuracyBuff::GetType_static(),AutoId("accuracy_buff_sub_system"));
+        buffHolderS->AddSubSystem(CloakBuff::GetType_static(),AutoId("cloak_buff_sub_system"));
     }
+    buffHolderS->AddSubSystem(ArmorBuff::GetType_static(),AutoId("armor_buff_sub_system"));
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
@@ -295,23 +337,27 @@ int main(int argc, char* argv[])
     controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
     controllserSystem->AddSubSystem(AutoId("pointer_target_controller_component"),AutoId("pointer_target_controller_sub_system"));
 
+    Eng.AddSystem(AutoId("cloak_system"));
 
     Eng.AddSystem(AutoId("inventory_system"));
     Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
     inventorySystem->AddSubSystem(ItemType::Weapon,AutoId("weapon_item_sub_system"));
+    Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
     if (programState.mMode!=ProgramState::Client) 
     {
-        Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
         weaponItemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("shotgun"),AutoId("shotgun_weapon_sub_system"));
 		weaponItemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
+        weaponItemSS->AddSubSystem(AutoId("ion_gun"),AutoId("ion_gun_weapon_sub_system"));
 
         inventorySystem->AddSubSystem(ItemType::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
         normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
         normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));
+        normalItemSS->AddSubSystem(AutoId("cloak_normal_item"),AutoId("cloak_normal_item_sub_system"));
     }
+    weaponItemSS->AddSubSystem(AutoId("gatling_gun"),AutoId("gatling_gun_weapon_sub_system")); //handles client specific stuff like windup and deploy states.
 
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 
@@ -322,6 +368,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("score_on_death_system"));
         Eng.AddSystem(AutoId("kill_score_on_death_system"));
     }
+    Eng.AddSystem(AutoId("armor_system")); //must be before health_system (lowers damage income)
     Eng.AddSystem(AutoId("health_system"));
     if (programState.mMode!=ProgramState::Client)
     {
@@ -365,8 +412,14 @@ int main(int argc, char* argv[])
         double Dt = Curtime - Prevtime;
         if( Dt < MinFrameTime )
         {
-            const double SleepTime = MinFrameTime - Dt;
-            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
+            const double SleepTime = (MinFrameTime - Dt);
+            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 500. ) ) );
+            ForceReceiveSendMessages();
+            double Curtime2 = glfwGetTime();
+            double Dt2 = Curtime2 - Curtime;
+            const double SleepTime2 = (SleepTime - Dt2);
+            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime2 * 1000. ) ) );
+            ForceReceiveSendMessages();
             Dt = MinFrameTime;
             Curtime = glfwGetTime();
         }

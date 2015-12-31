@@ -1,5 +1,6 @@
 #include "render/leg_move_action_renderer.h"
 #include "platform/auto_id.h"
+#include "engine/cloak_system.h"
 namespace render{
 
 
@@ -28,7 +29,8 @@ namespace render{
         if( Spr.IsValid() )
         {
             SpritePhase const& Phase = Spr( (int32_t)GetState() );
-            renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase ) );
+            glm::vec4 col=GetCloakColor(actor);
+            renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase, col ) );
         }
     }
 

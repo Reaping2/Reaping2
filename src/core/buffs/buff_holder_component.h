@@ -17,6 +17,16 @@ protected:
 private:
 };
 
+class SecsToEndModifier
+{
+public:
+    SecsToEndModifier(double secsToEnd);
+    void operator()(Opt<Buff> buff);
+
+protected:
+    double mSecsToEnd;
+};
+
 class BuffHolderComponentLoader : public ComponentLoader<BuffHolderComponent>
 {
     virtual void BindValues();

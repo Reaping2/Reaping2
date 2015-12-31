@@ -13,7 +13,6 @@ namespace network {
 
 class ServerSystem: public engine::System
 {
-    DEFINE_SYSTEM_BASE(ServerSystem)
     ENetAddress mAddress;
     ENetHost * mServer;
     typedef std::map<int32_t, ENetPeer*> Clients_t;
@@ -24,6 +23,7 @@ class ServerSystem: public engine::System
     void OnFrameCounterEvent( engine::FrameCounterEvent const& Evt );
     int32_t mSentMessagesSize;
 public:
+    DEFINE_SYSTEM_BASE(ServerSystem)
     ServerSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

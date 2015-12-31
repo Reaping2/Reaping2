@@ -88,7 +88,6 @@ void ServerSystem::Update(double DeltaTime)
     MessageList& messages=mMessageHolder.GetOutgoingMessages();
     if (messages.mMessages.size()>0)
     {
-
         std::ostringstream oss;
         eos::portable_oarchive oa(oss);
         oa & messages;
@@ -101,7 +100,6 @@ void ServerSystem::Update(double DeltaTime)
 
         enet_host_broadcast(mServer, 0, packet);
         enet_host_flush(mServer);
-
         mMessageHolder.ClearOutgoingMessages();
     }
     PerfTimer.Log("server update ended");

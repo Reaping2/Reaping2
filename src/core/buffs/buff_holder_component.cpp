@@ -32,3 +32,13 @@ void BuffHolderComponentLoader::BindValues()
 BuffHolderComponentLoader::BuffHolderComponentLoader()
 {
 }
+
+SecsToEndModifier::SecsToEndModifier(double secsToEnd) : mSecsToEnd(secsToEnd)
+{
+
+}
+
+void SecsToEndModifier::operator()(Opt<Buff> buff)
+{
+    buff->SetSecsToEnd(mSecsToEnd);
+}

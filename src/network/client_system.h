@@ -13,7 +13,6 @@ namespace network {
 
 class ClientSystem: public engine::System
 {
-    DEFINE_SYSTEM_BASE(ClientSystem)
     ENetAddress mAddress;
     ENetHost * mClient;
     ENetPeer * mPeer;
@@ -23,6 +22,7 @@ class ClientSystem: public engine::System
     MessageHolder& mMessageHolder;
     ProgramState& mProgramState;
 public:
+    DEFINE_SYSTEM_BASE(ClientSystem)
     ClientSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
