@@ -8,18 +8,22 @@ class EmitterComponent : public IEmitterComponent
 {
 public:
     EmitterComponent();
-    virtual void SetEmitType(int32_t emitType);
-    virtual int32_t GetEmitType()const;
-    virtual bool IsEmitting()const;
-    virtual void SetFrequency(double frequency);
-    virtual double GetFrequency()const;
+    virtual std::vector<int32_t> GetEmitTypes() const;
     virtual void Update( double dt );
-protected:
-    friend class ComponentFactory;
-    int32_t mEmitType;
-    double mFrequency;
 private:
-    double mCooldown;
+    void Init( Json::Value const& json );
+    friend class ComponentFactory;
+    friend class EmitterComponentLoader;
+    struct EmitDesc {
+        int32_t mEmitType;
+        double mDelay;
+        double mDelayVariance;
+        double mCooldown;
+        double mProbability;
+        EmitDesc();
+    };
+    typedef std::vector<EmitDesc> EmitDescs;
+    EmitDescs mEmitDescs;
 };
 
 class EmitterComponentLoader : public ComponentLoader<EmitterComponent>

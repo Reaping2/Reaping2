@@ -319,12 +319,20 @@
             },
             {
                 "name":"emitter_component",
-                "set": [
+                "set": [{
+                    "emit_descs":[
                     {
-                        "frequency": 0.0,
+                        "delay": 0.0,
+                        "probability": 1.0,
                         "emit_type": "rocket_flame"
+                    },
+                    {
+                        "delay": 0.01,
+                        "probability": 0.1,
+                        "emit_type": "rocket_alt_flame"
                     }
-                ]
+                    ]
+                }]
             }
         ]
     },
@@ -361,8 +369,12 @@
                 "name":"emitter_component",
                 "set": [
                     {
-                        "frequency": 0.001,
-                        "emit_type": "rocket_alt_flame"
+                        "emit_descs":[
+                            {
+                            "delay": 0.001,
+                            "emit_type": "rocket_alt_flame"
+                            }
+                        ]
                     }
                 ]
             }

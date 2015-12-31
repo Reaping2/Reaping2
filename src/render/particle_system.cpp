@@ -30,12 +30,12 @@ void ParticleSystem::Update(double DeltaTime)
            continue;
        }
        emitterC->Update( DeltaTime );
-       if( !emitterC->IsEmitting() )
+       std::vector<int32_t> const& emitted = emitterC->GetEmitTypes();
+       for( std::vector<int32_t>::const_iterator ie = emitted.begin(), ee = emitted.end(); ie != ee; ++ie )
        {
-           continue;
+           static ParticleEngine& pe( ParticleEngine::Get() );
+           pe.AddParticle( *ie, glm::vec2( pos->GetX(), pos->GetY() ) );
        }
-       static ParticleEngine& pe( ParticleEngine::Get() );
-       pe.AddParticle( emitterC->GetEmitType(), glm::vec2( pos->GetX(), pos->GetY() ) );
     }
 }
 
