@@ -11,7 +11,6 @@ public:
     virtual std::vector<int32_t> GetEmitTypes() const;
     virtual void Update( double dt );
 private:
-    void Init( Json::Value const& json );
     friend class ComponentFactory;
     friend class EmitterComponentLoader;
     struct EmitDesc {

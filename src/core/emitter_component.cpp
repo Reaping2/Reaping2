@@ -1,4 +1,5 @@
 #include "core/emitter_component.h"
+#include <boost/lambda/lambda.hpp>
 
 EmitterComponent::EmitterComponent()
 {
@@ -46,8 +47,10 @@ EmitterComponent::EmitDesc::EmitDesc()
 {
 }
 
-void EmitterComponent::Init( Json::Value const& json )
+void EmitterComponentLoader::BindValues()
 {
+    EmitterComponent::EmitDescs descs;
+    Json::Value const& json = (*mSetters)["emit_descs"];
     if( !json.isArray() )
     {
         return;
@@ -55,20 +58,16 @@ void EmitterComponent::Init( Json::Value const& json )
     for( Json::Value::iterator i = json.begin(), e = json.end(); i != e; ++i )
     {
         Json::Value& part = *i;
-        EmitDesc d;
+        EmitterComponent::EmitDesc d;
         Json::GetDouble( part["delay"], d.mDelay );
         Json::GetDouble( part["delay_variance"], d.mDelayVariance );
         Json::GetDouble( part["probability"], d.mProbability );
         std::string str;
         Json::GetStr( part["emit_type"], str );
         d.mEmitType = AutoId( str );
-        mEmitDescs.push_back( d );
+        descs.push_back( d );
     }
-}
-
-void EmitterComponentLoader::BindValues()
-{
-    Bind<Json::Value>( &EmitterComponent::Init, (*mSetters)["emit_descs"] );
+    Add( boost::lambda::_1 ->* &EmitterComponent::mEmitDescs = descs );
 }
 
 EmitterComponentLoader::EmitterComponentLoader()

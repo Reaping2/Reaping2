@@ -62,8 +62,15 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos )
     ROLL_DIR( AccelerationDir, Towards, Away, AbsAcceleration );
     float dir = M_PI * 2 * ( rand() % 100 / 100. );
     Pos = pos + pt.PosVariance * ( ( rand() % 100 ) / 100.f ) * glm::vec2( cos( dir ), sin( dir ) );
-    Speed = AbsSpeed * glm::normalize( Pos - pos );
-    Acceleration = AbsAcceleration * glm::normalize( Pos - pos );
+    if( Pos != pos )
+    {
+        Speed = AbsSpeed * glm::normalize( Pos - pos );
+        Acceleration = AbsAcceleration * glm::normalize( Pos - pos );
+    }
+    else
+    {
+        Speed = Acceleration = glm::vec2( 0, 0 );
+    }
     Heading = M_PI * 2. * ( rand() % 101 ) / 100.;
     INIT( Lifetime );
     InitialLifetime = Lifetime;
