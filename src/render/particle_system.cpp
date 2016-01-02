@@ -34,7 +34,7 @@ void ParticleSystem::Update(double DeltaTime)
        for( std::vector<int32_t>::const_iterator ie = emitted.begin(), ee = emitted.end(); ie != ee; ++ie )
        {
            static ParticleEngine& pe( ParticleEngine::Get() );
-           pe.AddParticle( *ie, glm::vec2( pos->GetX(), pos->GetY() ) );
+           pe.AddParticle( *ie, glm::vec2( pos->GetX(), pos->GetY() ), pos->GetOrientation() );
        }
     }
 }

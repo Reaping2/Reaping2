@@ -26,9 +26,9 @@ struct Particle
     float Lifetime;
     float InitialLifetime;
     float Radius;
-    Particle( ParticleTemplate const* pt, glm::vec2 const& pos );
+    Particle( ParticleTemplate const* pt, glm::vec2 const& pos, double ori );
 };
-Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos )
+Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double ori )
     : Template( ppt )
 {
     ParticleTemplate const& pt = *ppt;
@@ -71,7 +71,14 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos )
     {
         Speed = Acceleration = glm::vec2( 0, 0 );
     }
-    Heading = M_PI * 2. * ( rand() % 101 ) / 100.;
+    if( pt.Heading == ParticleTemplate::H_Actor )
+    {
+        Heading = ori;
+    }
+    else
+    {
+        Heading = M_PI * 2. * ( rand() % 101 ) / 100.;
+    }
     INIT( Lifetime );
     InitialLifetime = Lifetime;
     INIT( Radius );
@@ -120,7 +127,7 @@ struct ParticleEngineImpl
     ParticleEngineImpl();
     void Update( float dt );
     void Draw() const;
-    void AddParticle( int32_t type, glm::vec2 const& pos );
+    void AddParticle( int32_t type, glm::vec2 const& pos, double ori );
 };
 
 ParticleEngineImpl::ParticleEngineImpl()
@@ -293,7 +300,7 @@ void ParticleEngineImpl::Draw() const
     mVAO.Unbind();
 }
 
-void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos )
+void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, double ori )
 {
     static ParticleTemplateRepo& ptr( ParticleTemplateRepo::Get() );
     ParticleTemplate const& pt = ptr( type );
@@ -303,7 +310,7 @@ void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos )
     }
     for( int32_t i = 0, e = std::max( 0, ( pt.Num - pt.NumVariance / 2 + ( pt.NumVariance * ( rand() % 100 ) ) / 100 ) ); i != e; ++i )
     {
-        Particle p( &pt, pos );
+        Particle p( &pt, pos, ori );
         if( p.Lifetime <= 0.0 )
         {
             continue;
@@ -331,9 +338,9 @@ void ParticleEngine::Draw() const
     mImpl->Draw();
 }
 
-void ParticleEngine::AddParticle( int32_t type, glm::vec2 const& pos )
+void ParticleEngine::AddParticle( int32_t type, glm::vec2 const& pos, double ori )
 {
-    mImpl->AddParticle( type, pos );
+    mImpl->AddParticle( type, pos, ori );
 }
 
 } // namespace render

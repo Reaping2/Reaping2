@@ -77,7 +77,20 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {
+                "name":"emitter_component",
+                "set": [
+                    {
+                        "emit_descs":[
+                            {
+                            "delay": 0.0,
+                            "emit_type": "bullet_particle"
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
     },
     {

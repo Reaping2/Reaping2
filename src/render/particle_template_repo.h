@@ -46,6 +46,11 @@ struct ParticleTemplate
     float RadiusVariance;
     int32_t Num;
     int32_t NumVariance;
+    enum HeadingType {
+        H_Actor,
+        H_Any,
+    };
+    HeadingType Heading;
 };
 
 

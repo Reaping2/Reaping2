@@ -77,6 +77,7 @@ ParticleTemplate::ParticleTemplate( Json::Value const& json )
 #undef GET
     SpeedDir = AccelerationDir = Any;
     RotDir = RotAccelerationDir = Rot_Any;
+    Heading = H_Any;
 
     typedef std::map<std::string,RotationDirection> rotmap_t;
     static rotmap_t const rotmap = boost::assign::map_list_of
@@ -88,6 +89,10 @@ ParticleTemplate::ParticleTemplate( Json::Value const& json )
         ( std::string( "Towards" ), Towards )
         ( std::string( "Away" ), Away )
         ( std::string( "Any" ), Any );
+    typedef std::map<std::string,HeadingType> hmap_t;
+    static hmap_t const hmap = boost::assign::map_list_of
+        ( std::string( "Actor" ), H_Actor )
+        ( std::string( "Any" ), H_Any );
     std::string str;
 #define MAP( type, name ) \
     if( Json::GetStr( json[ #name ], str ) ) \
@@ -102,6 +107,7 @@ ParticleTemplate::ParticleTemplate( Json::Value const& json )
     MAP( spd, AccelerationDir );
     MAP( rot, RotDir );
     MAP( rot, RotAccelerationDir );
+    MAP( h, Heading );
 #undef MAP
     if( Json::GetStr( json[ "Spr" ], str ) )
     {
