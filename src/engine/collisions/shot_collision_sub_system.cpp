@@ -27,15 +27,15 @@ void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         return;
     }
     Opt<ShotCollisionComponent> shotCC=actor.Get<ShotCollisionComponent>();
-    Opt<IHealthComponent> otherHealthC=mOther->Get<IHealthComponent>();
-    Opt<IOwnerComponent> ownerC=actor.Get<IOwnerComponent>();
-    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();    
-
     if( mOther->GetGUID() == shotCC->GetParentGuid() )
     {
         return;
     }
+
+    Opt<IHealthComponent> otherHealthC=mOther->Get<IHealthComponent>();
+    Opt<IOwnerComponent> ownerC=actor.Get<IOwnerComponent>();
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
 
     if(otherHealthC.IsValid()&&otherHealthC->IsAlive())
     {
@@ -45,9 +45,14 @@ void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
             otherHealthC->SetLastDamageOwnerGUID(ownerC->GetOwnerGUID());
         }
     }
+
     if (healthC.IsValid())
     {
-        healthC->SetHP(0);
+        Opt<ICollisionComponent> otherCollC = mOther->Get<ICollisionComponent>();
+        if( otherCollC.IsValid() && !shotCC->CanPassThrough( otherCollC->GetCollisionClass() ) )
+        {
+            healthC->SetHP(0);
+        }
     }
     Opt<INotifyParentOnDeathComponent> notifyParentC=actor.Get<INotifyParentOnDeathComponent>();
     if(notifyParentC.IsValid())
@@ -71,7 +76,7 @@ void ShotCollisionSubSystem::ClipScene(Actor& actor)
         positionC->GetY() + radius < AllowedDimensions.y * 2 ||
         positionC->GetY() - radius > AllowedDimensions.w * 2 )
     {
-        healthC->SetHP(0);  
+        healthC->SetHP(0);
     }
 }
 

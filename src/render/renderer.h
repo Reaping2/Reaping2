@@ -8,7 +8,7 @@
 #include "projection.h"
 #include "scene_renderer.h"
 #include "actor_renderer.h"
-#include "particle_engine.h"
+#include "decal_engine.h"
 #include "shader_manager.h"
 #include "health_bar_renderer.h"
 #include "mouse_renderer.h"

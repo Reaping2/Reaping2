@@ -41,7 +41,7 @@
             "name" : "pickup_collision_component",
             "set" : [
                {
-                  "content" : "pistol",
+                  "content" : "gauss_gun",
                   "type" : "weapon"
                }
             ]

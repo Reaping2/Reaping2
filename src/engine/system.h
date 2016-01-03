@@ -13,7 +13,30 @@
     { \
     return SystemType::GetType_static(); \
     } \
+    static bool mInitedSystem; \
+    static bool initSystem() \
+    { \
+        mInitedSystem = true; \
+        return mInitedSystem; \
+    } \
 
+#define INSTANTIATE_SYSTEM( SystemType ) \
+namespace { \
+namespace ns##SystemType { \
+volatile bool inited = SystemType::initSystem(); \
+} \
+} \
+
+#define REGISTER_SYSTEM( SystemType ) \
+bool SystemType::mInitedSystem = true; \
+namespace { \
+struct RegisterSystem { \
+RegisterSystem() \
+{ \
+    ::engine::SystemFactory::Get().RegisterSystem<SystemType>( #SystemType ); \
+} \
+} registerSystem; \
+}
 
 namespace engine {
 

@@ -218,27 +218,12 @@ Widget::Prop& Widget::operator()( PropertyType Property )
 
 int32_t Widget::ParseColor( Json::Value& Color, int32_t Default )
 {
-    std::string s;
     int32_t i;
-    if( Json::GetInt( Color, i ) )
+    if( Json::GetColor( Color, i ) )
     {
         return i;
     }
-    else if( Json::GetStr( Color, s ) && ( i = strtoul( s.c_str(), NULL, 16 ) ) )
-    {
-        size_t const h = s.find( 'x' );
-        if( ( s.size() <= 6 && h == std::string::npos )
-            || ( s.size() <= 8 && h == 1 ) )
-        {
-            // make it rgba
-            i = ( i << 8 ) | 0xff;
-        }
-    }
-    else
-    {
-        i = Default;
-    }
-    return i;
+    return Default;
 }
 
 void Widget::Init( Json::Value& Descriptor )

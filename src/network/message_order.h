@@ -103,6 +103,8 @@
             type=platform::AutoId("pickup");
             type=platform::AutoId("pistol");
             type=platform::AutoId("pistol_shot");
+            type=platform::AutoId("gauss_gun");
+            type=platform::AutoId("gauss_shot");
             type=platform::AutoId("gatling_gun");
             type=platform::AutoId("gatling_gun_projectile");
             type=platform::AutoId("gatling_gun_alt_projectile");

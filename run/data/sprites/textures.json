@@ -545,5 +545,62 @@
                 "name" : "wall_small"
             }
         ]
+    },
+    {
+        "texture_path":"textures/rocket_flame.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "rocket_flame"
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/bullet2_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "bullet_particle"
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/gauss_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "gauss_particle"
+            }
+        ]
     }
 ]

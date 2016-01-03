@@ -170,6 +170,14 @@
 		]
 	},
 	{
+		"name":"gauss_shot",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
 		"name":"gatling_gun_alt_projectile",
 		"recognizers":
 		[
