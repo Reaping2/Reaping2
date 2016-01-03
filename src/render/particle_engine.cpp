@@ -10,7 +10,6 @@
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
 
-
 namespace render {
 namespace {
 struct Particle
@@ -60,7 +59,8 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     INIT( AbsSpeed );
     ROLL_DIR( SpeedDir, Towards, Away, AbsSpeed );
     ROLL_DIR( AccelerationDir, Towards, Away, AbsAcceleration );
-    float dir = M_PI * 2 * ( rand() % 100 / 100. );
+    static const double pi = boost::math::constants::pi<double>();
+    float dir = pi * 2 * ( rand() % 100 / 100. );
     Pos = pos + pt.PosVariance * ( ( rand() % 100 ) / 100.f ) * glm::vec2( cos( dir ), sin( dir ) );
     if( Pos != pos )
     {
@@ -77,7 +77,7 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     }
     else
     {
-        Heading = M_PI * 2. * ( rand() % 101 ) / 100.;
+        Heading = pi * 2. * ( rand() % 101 ) / 100.;
     }
     INIT( Lifetime );
     InitialLifetime = Lifetime;
