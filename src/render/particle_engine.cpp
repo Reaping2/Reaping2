@@ -156,9 +156,10 @@ void ParticleEngineImpl::Update( float dt )
         p.Heading += dt * p.RotationSpeed;
         p.RotationSpeed += dt * p.RotationAcceleration;
     }
-    if( mCycle >= 1000. )
+    if( mCycle >= 10.f )
     {
-        std::remove_if( mParticles.begin(), mParticles.end(), boost::lambda::bind( &Particle::Lifetime, boost::lambda::_1 ) < 0. );
+        mCycle = 0.0f
+        mParticles.erase( std::remove_if( mParticles.begin(), mParticles.end(), boost::lambda::bind( &Particle::Lifetime, boost::lambda::_1 ) < 0. ), mParticles.end() );
     }
 }
 
