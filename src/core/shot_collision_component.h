@@ -11,11 +11,14 @@ public:
     virtual int32_t GetDamage() const;
     virtual void SetParentGUID( int32_t parentGUID );
     virtual int32_t GetParentGuid() const;
+    virtual bool CanPassThrough( CollisionClass::Type CollType ) const;
+    virtual void SetPassThrough( std::vector<CollisionClass::Type> const& CollTypes );
 protected:
     ShotCollisionComponent();
     friend class ComponentFactory;
     int32_t mDamage;
     int32_t mParentGUID;
+    std::vector<CollisionClass::Type> mPassThroughTypes;
 };
 
 class ShotCollisionComponentLoader: public ComponentLoader<ShotCollisionComponent>

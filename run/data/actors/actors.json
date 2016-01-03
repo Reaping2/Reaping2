@@ -12,7 +12,7 @@
             }
         ]
     },
-	{
+    {
         "name":"wall_small",
         "components":
         [
@@ -45,7 +45,7 @@
             }
         ]
     },
-	{
+    {
         "name":"revive_pickup",
         "components":
         [
@@ -58,7 +58,7 @@
                 "set":[{"class":"pickup", "radius":40}]
             },
             {"name":"health_component"},
-			{"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"}
         ]
     },
     {
@@ -86,6 +86,38 @@
                             {
                             "delay": 0.0,
                             "emit_type": "bullet_particle"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"gauss_shot",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":30000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":7, "damage":75, "passthrough": [ "creep", "player" ] }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {
+                "name":"emitter_component",
+                "set": [
+                    {
+                        "emit_descs":[
+                            {
+                            "delay": 0.0,
+                            "emit_type": "gauss_particle"
                             }
                         ]
                     }
@@ -146,7 +178,7 @@
                 "set":[{"class":"projectile", "radius":4, "damage":12 }]
             },
             {"name":"health_component"},
-			{
+            {
                 "name":"fade_out_component",
                 "set":[{"secs_to_end":0.3}]
             },
@@ -169,7 +201,7 @@
                 "set":[{"class":"projectile", "radius":4, "damage":5 }]
             },
             {"name":"health_component"},
-			{
+            {
                 "name":"fade_out_component",
                 "set":[{"secs_to_end":0.33}]
             },
@@ -192,15 +224,15 @@
                 "set":[{"class":"projectile", "radius":17, "damage":20 }]
             },
             {"name":"health_component"},
-			{
+            {
                 "name":"fade_out_component",
                 "set":[{"secs_to_end":0.3}]
             },
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"shotgun_alt2_projectile"
-					,"count":11,"scatter":1.1}]
-			}
+                    ,"count":11,"scatter":1.1}]
+            }
         ]
     },
     {
@@ -230,7 +262,7 @@
             {"name":"position_component"},
             {"name":"move_component",
                 "set":[{"speed":4000}]
-            },			
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
@@ -239,12 +271,12 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-			{"name":"remove_on_death_component"},
+            {"name":"remove_on_death_component"},
             {"name":"detonate_on_hit_component",
                 "set":[{"material":"ion",
-						"add_radius":20,
-						"remove_on_hit":1}]
-			},			
+                    "add_radius":20,
+                    "remove_on_hit":1}]
+            },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":10.0}]
             }
@@ -257,7 +289,7 @@
             {"name":"position_component"},
             {"name":"move_component",
                 "set":[{"speed":800}]
-            },			
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
@@ -266,12 +298,12 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
- 			{"name":"remove_on_death_component"},
+            {"name":"remove_on_death_component"},
             {"name":"explode_on_hit_component",
                 "set":[{"explosion_projectile":"ion_gun_explode_projectile",
-						"detonator_material":"ion",
-						"add_radius":40}]
-			},			
+                    "detonator_material":"ion",
+                    "add_radius":40}]
+            },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":10.0}]
             }
@@ -295,15 +327,15 @@
             {"name":"owner_component"},
             {"name":"detonate_on_hit_component",
                 "set":[{"material":"ion",
-						"add_radius":100,
-						"remove_on_hit":0}]
-			},	
-			{"name":"remove_on_death_component"},
+                    "add_radius":100,
+                    "remove_on_hit":0}]
+            },
+            {"name":"remove_on_death_component"},
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":0.325}]
             }
         ]
-    },	
+    },
     {
         "name":"rocket_launcher_projectile",
         "components":
@@ -314,7 +346,7 @@
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":1500,"max_speed":2300}]
-            },			
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
@@ -326,7 +358,7 @@
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"rocket_pow_projectile"}]
-			},
+            },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":10.0}]
             },
@@ -334,16 +366,16 @@
                 "name":"emitter_component",
                 "set": [{
                     "emit_descs":[
-                    {
-                        "delay": 0.0,
-                        "probability": 1.0,
-                        "emit_type": "rocket_flame"
-                    },
-                    {
-                        "delay": 0.01,
-                        "probability": 0.1,
-                        "emit_type": "rocket_alt_flame"
-                    }
+                        {
+                            "delay": 0.0,
+                            "probability": 1.0,
+                            "emit_type": "rocket_flame"
+                        },
+                        {
+                            "delay": 0.01,
+                            "probability": 0.1,
+                            "emit_type": "rocket_alt_flame"
+                        }
                     ]
                 }]
             }
@@ -362,7 +394,7 @@
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":800,"max_speed":1200}]
-            },				
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
@@ -374,7 +406,7 @@
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"rocket_target_pow_projectile"}]
-			},
+            },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":8.0}]
             },
@@ -384,8 +416,8 @@
                     {
                         "emit_descs":[
                             {
-                            "delay": 0.001,
-                            "emit_type": "rocket_alt_flame"
+                                "delay": 0.001,
+                                "emit_type": "rocket_alt_flame"
                             }
                         ]
                     }
@@ -411,7 +443,7 @@
             {"name":"health_component"},
             {"name":"remove_on_death_component"}
         ]
-    },		
+    },
     {
         "name":"grenade_projectile",
         "components":
@@ -434,7 +466,7 @@
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"pow_projectile"}]
-			},
+            },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":1.5}]
             }
@@ -456,12 +488,12 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-			{"name":"remove_on_death_component"},
+            {"name":"remove_on_death_component"},
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":0.425}]
             }
         ]
-    },	
+    },
     {
         "name":"rocket_pow_projectile",
         "components":
@@ -478,7 +510,7 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-			{"name":"remove_on_death_component"},
+            {"name":"remove_on_death_component"},
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":0.125}]
             }
@@ -500,12 +532,12 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-			{"name":"remove_on_death_component"},
+            {"name":"remove_on_death_component"},
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":0.125}]
             }
         ]
-    },	
+    },
     {
         "name":"spider1",
         "components":
@@ -524,7 +556,7 @@
             {"name":"random_controller_component"},
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
-			{"name":"heat_source_component"}
+            {"name":"heat_source_component"}
         ]
     },
     {
@@ -546,7 +578,7 @@
             {"name":"target_holder_component"},
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
-			{"name":"heat_source_component"}
+            {"name":"heat_source_component"}
         ]
     },
     {
@@ -568,8 +600,8 @@
             {"name":"random_controller_component"},
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
-			{"name":"heat_source_component"}
-       ]
+            {"name":"heat_source_component"}
+        ]
     },
     {
         "name":"spider2target",
@@ -590,9 +622,9 @@
             {"name":"target_holder_component"},
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
-			{"name":"heat_source_component"}
+            {"name":"heat_source_component"}
         ]
-    },    
+    },
     {
         "name":"player",
         "components":
@@ -619,10 +651,10 @@
             {"name":"cloak_component"},
             {"name":"stop_on_death_component"},
             {"name":"buff_holder_component"},
-			{"name":"score_on_death_component"},
-			{"name":"kill_score_on_death_component"},
-			{"name":"heat_source_component"}
-         ]
+            {"name":"score_on_death_component"},
+            {"name":"kill_score_on_death_component"},
+            {"name":"heat_source_component"}
+        ]
     },
     {
         "name":"ctf_player",
@@ -652,12 +684,12 @@
             {"name":"buff_holder_component"},
             {"name":"team_component"},
             {"name":"flag_carrier_component"},
-			{"name":"score_on_death_component"},
-			{"name":"kill_score_on_death_component"},
-			{"name":"heat_source_component"}
-         ]
+            {"name":"score_on_death_component"},
+            {"name":"kill_score_on_death_component"},
+            {"name":"heat_source_component"}
+        ]
     },
-	{
+    {
         "name":"flag",
         "components":
         [
@@ -669,10 +701,10 @@
                 "set":[{"class":"projectile", "radius":20}]
             },
             {"name":"team_component"},
-			{"name":"attachable_component"}
-         ]
+            {"name":"attachable_component"}
+        ]
     },
-	{
+    {
         "name":"platform",
         "components":
         [
@@ -684,7 +716,7 @@
                 "set":[{"class":"creep", "radius":50}]
             },
             {"name":"team_component"},
-			{"name":"flag_receiver_component"}
-         ]
+            {"name":"flag_receiver_component"}
+        ]
     }
 ]

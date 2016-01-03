@@ -583,5 +583,24 @@
                 "name" : "bullet_particle"
             }
         ]
+    },
+    {
+        "texture_path":"textures/gauss_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "gauss_particle"
+            }
+        ]
     }
 ]
