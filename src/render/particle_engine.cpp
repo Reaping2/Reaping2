@@ -158,7 +158,7 @@ void ParticleEngineImpl::Update( float dt )
     }
     if( mCycle >= 10.f )
     {
-        mCycle = 0.0f
+        mCycle = 0.0f;
         mParticles.erase( std::remove_if( mParticles.begin(), mParticles.end(), boost::lambda::bind( &Particle::Lifetime, boost::lambda::_1 ) < 0. ), mParticles.end() );
     }
 }
