@@ -58,7 +58,7 @@ float random( vec4  v ) { return floatConstruct(hash(floatBitsToUint(v))); }
 
 void main()
 {
-    inColor=Color*Lifetime;
+    inColor=vec4( Color.r, Color.g, Color.b, Color.a * Lifetime );
     inTexCoord=vec2(TexCoord[int(floor(mod(gl_VertexID,2.0)))],TexCoord[2+int(floor(gl_VertexID/2.0))]);
     vec2 position=corners[gl_VertexID];
     mat2 ScaleMatrix=Radius*mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));

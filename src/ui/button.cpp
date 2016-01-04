@@ -1,4 +1,5 @@
 #include "i_ui.h"
+#include <boost/algorithm/string.hpp>
 
 Button::ActionDesc::ActionDesc( Widget* w )
     : mArg( w )
@@ -41,6 +42,8 @@ void Button::AddAction( Json::Value& TriggerAction )
     {
         return;
     }
+    boost::algorithm::replace_first( Desc.mAction, "#", "ui." );
+    boost::algorithm::erase_all( Desc.mAction, "%" );
     if( NumActions == 2 )
     {
         Json::Value& Arg = TriggerAction[1];
