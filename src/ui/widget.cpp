@@ -325,6 +325,7 @@ Widget* Widget::Prop::GetOwner() const
 Widget::Prop::Prop( Prop const& Other )
     : Type( Other.Type )
     , mOwner( Other.mOwner )
+    , Value( Other.Value )
 {
     if( Type == T_Str )
     {
