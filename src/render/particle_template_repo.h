@@ -51,6 +51,7 @@ struct ParticleTemplate
         H_Any,
     };
     HeadingType Heading;
+    int32_t ParticleLayer;
 };
 
 
@@ -60,7 +61,6 @@ class ParticleTemplateRepo : public platform::Repository<ParticleTemplate>, publ
     friend class Singleton<ParticleTemplateRepo>;
     ParticleTemplateRepo();
     void LoadParticleTemplates();
-    static std::string const mDefaultParticleTemplateName;
 };
 
 }
