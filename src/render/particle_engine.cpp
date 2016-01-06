@@ -6,6 +6,7 @@
 #include "i_render.h"
 #include "sprite.h"
 #include "particle_template_repo.h"
+#include "particle_layer_repo.h"
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
@@ -111,7 +112,8 @@ bool getNextTextId( Particles::const_iterator& i, Particles::const_iterator e,
     Colors.push_back( p.Color );
     Headings.push_back( p.Heading );
     Radii.push_back( p.Radius );
-    Lifetimes.push_back( p.Lifetime );
+    float lifetimeDivisor = p.InitialLifetime <= std::numeric_limits<float>::epsilon() ? 1.0f : p.InitialLifetime;
+    Lifetimes.push_back( p.InitialLifetime >= 1.0f ? std::min( 1.0f, p.Lifetime ) : ( p.Lifetime / lifetimeDivisor ) );
     TexId = Phase.TexId;
     ++i;
     return true;
@@ -120,13 +122,15 @@ bool getNextTextId( Particles::const_iterator& i, Particles::const_iterator e,
 }
 struct ParticleEngineImpl
 {
-    Particles mParticles;
+    typedef std::map<int32_t, Particles> ParticlesByLayer;
+    ParticlesByLayer mParticlesByLayer;
     float mCycle;
     VaoBase mVAO;
     mutable size_t mPrevParticlesSize;
     ParticleEngineImpl();
     void Update( float dt );
     void Draw() const;
+    void Draw( Particles const& particles ) const;
     void AddParticle( int32_t type, glm::vec2 const& pos, double ori );
 };
 
@@ -143,23 +147,27 @@ ParticleEngineImpl::ParticleEngineImpl()
 void ParticleEngineImpl::Update( float dt )
 {
     mCycle += dt;
-    for( Particles::iterator i = mParticles.begin(), e = mParticles.end(); i != e; ++i )
+    for( ParticlesByLayer::iterator li = mParticlesByLayer.begin(), le = mParticlesByLayer.end(); li != le; ++li )
     {
-        Particle& p = *i;
-        p.Lifetime -= dt;
-        if( p.Lifetime < 0 )
+        Particles& particles = li->second;
+        for( Particles::iterator i = particles.begin(), e = particles.end(); i != e; ++i )
         {
-            continue;
+            Particle& p = *i;
+            p.Lifetime -= dt;
+            if( p.Lifetime < 0 )
+            {
+                continue;
+            }
+            p.Pos += dt * p.Speed;
+            p.Speed += dt * p.Acceleration;
+            p.Heading += dt * p.RotationSpeed;
+            p.RotationSpeed += dt * p.RotationAcceleration;
         }
-        p.Pos += dt * p.Speed;
-        p.Speed += dt * p.Acceleration;
-        p.Heading += dt * p.RotationSpeed;
-        p.RotationSpeed += dt * p.RotationAcceleration;
-    }
-    if( mCycle >= 10.f )
-    {
-        mCycle = 0.0f;
-        mParticles.erase( std::remove_if( mParticles.begin(), mParticles.end(), boost::lambda::bind( &Particle::Lifetime, boost::lambda::_1 ) < 0. ), mParticles.end() );
+        if( mCycle >= 10.f )
+        {
+            mCycle = 0.0f;
+            particles.erase( std::remove_if( particles.begin(), particles.end(), boost::lambda::bind( &Particle::Lifetime, boost::lambda::_1 ) < 0. ), particles.end() );
+        }
     }
 }
 
@@ -172,10 +180,25 @@ layout(location=3) in vec4 Color;
 layout(location=4) in float Radius;
 layout(location=5) in float Lifetime;
 */
-
 void ParticleEngineImpl::Draw() const
 {
-    size_t CurSize = mParticles.size();
+    glDepthMask( GL_FALSE );
+
+    for( ParticlesByLayer::const_iterator li = mParticlesByLayer.begin(), le = mParticlesByLayer.end(); li != le; ++li )
+    {
+        static ParticleLayerRepo& plr = ParticleLayerRepo::Get();
+        ParticleLayer const& pl = plr( li->first );
+        glBlendFunc( pl.sfactor, pl.dfactor );
+        Draw( li->second );
+    }
+
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    glDepthMask( GL_TRUE );
+}
+
+void ParticleEngineImpl::Draw( Particles const& particles ) const
+{
+    size_t CurSize = particles.size();
     if (CurSize==0)
     {
         return;
@@ -194,9 +217,9 @@ void ParticleEngineImpl::Draw() const
     Radii.reserve( CurSize );
     Lifetimes.reserve( CurSize );
 
-    Particles::const_iterator i = mParticles.begin();
+    Particles::const_iterator i = particles.begin();
     render::Counts_t const& Counts = render::count(
-            boost::lambda::bind( &getNextTextId, boost::ref( i ), mParticles.end(),
+            boost::lambda::bind( &getNextTextId, boost::ref( i ), particles.end(),
                 boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
                 boost::ref( Headings ), boost::ref( Radii ), boost::ref( Lifetimes ),
                 boost::lambda::_1 )
@@ -266,9 +289,6 @@ void ParticleEngineImpl::Draw() const
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( "particle" );
     glActiveTexture( GL_TEXTURE0 + 3 );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE );
-    glDepthMask( GL_FALSE );
-
     for( render::Counts_t::const_iterator i = Counts.begin(), e = Counts.end(); i != e; ++i )
     {
         render::CountByTexId const& Part = *i;
@@ -296,8 +316,6 @@ void ParticleEngineImpl::Draw() const
         }
         glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
     }
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glDepthMask( GL_TRUE );
     mVAO.Unbind();
 }
 
@@ -309,6 +327,7 @@ void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, double
     {
         return;
     }
+    Particles& particles = mParticlesByLayer[ pt.ParticleLayer ];
     for( int32_t i = 0, e = std::max( 0, ( pt.Num - pt.NumVariance / 2 + ( pt.NumVariance * ( rand() % 100 ) ) / 100 ) ); i != e; ++i )
     {
         Particle p( &pt, pos, ori );
@@ -316,7 +335,7 @@ void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, double
         {
             continue;
         }
-        mParticles.push_back( p );
+        particles.push_back( p );
     }
 }
 

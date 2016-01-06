@@ -74,6 +74,7 @@ ParticleTemplate::ParticleTemplate( Json::Value const& json )
     GET( Float, RadiusVariance, 0 );
     GET( Int, Num, 1 );
     GET( Int, NumVariance, 0 );
+    GET( Int, ParticleLayer, 0 );
 #undef GET
     SpeedDir = AccelerationDir = Any;
     RotDir = RotAccelerationDir = Rot_Any;
