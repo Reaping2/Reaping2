@@ -295,7 +295,6 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ClientListMessage::GetType_static(),AutoId("client_list_message_handler_sub_system"));
 
     }
 

@@ -31,7 +31,6 @@
 #include "client_score_message.h"
 #include "item_changed_message.h"
 #include "cloak_changed_message.h"
-#include "client_list_message_handler_sub_system.h"
 
 using platform::AutoId;
 namespace network {
@@ -72,7 +71,6 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("client_score_message_handler_sub_system"), &CreateSubSystem<ClientScoreMessageHandlerSubSystem>);
     Bind( AutoId("item_changed_message_handler_sub_system"), &CreateSubSystem<ItemChangedMessageHandlerSubSystem>);
     Bind( AutoId("cloak_changed_message_handler_sub_system"), &CreateSubSystem<CloakChangedMessageHandlerSubSystem>);
-    Bind( AutoId("client_list_message_handler_sub_system"), &CreateSubSystem<ClientListMessageHandlerSubSystem>);
 
 
 }

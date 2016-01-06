@@ -38,6 +38,7 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
     ar & mDeath;
     ar & mAssist;
     ar & mScore;
+    ar & mReady;
 }
 class ProgramState : public platform::Singleton<ProgramState>
 {
