@@ -17,6 +17,7 @@ public:
     virtual void EndCharge();
     virtual bool IsShootingAlt() const;
     virtual bool IsCharging() const;
+    virtual double ChargeTime() const;
 };
 
 #endif // INCLUDED_GAUSS_GUN_H

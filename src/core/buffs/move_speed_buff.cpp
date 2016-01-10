@@ -4,6 +4,7 @@ MoveSpeedBuff::MoveSpeedBuff()
     : Buff()
     , mFlatBonus(0)
     , mPercentBonus(15.0)
+    , mRooted( false )
 {
     mSecsToEnd=15.0;
 }
@@ -26,6 +27,16 @@ void MoveSpeedBuff::SetPercentBonus(double percentBonus)
 double MoveSpeedBuff::GetPercentBonus()const
 {
     return mPercentBonus;
+}
+
+void MoveSpeedBuff::SetRooted( bool rooted )
+{
+    mRooted = rooted;
+}
+
+bool MoveSpeedBuff::IsRooted() const
+{
+    return mRooted;
 }
 
 

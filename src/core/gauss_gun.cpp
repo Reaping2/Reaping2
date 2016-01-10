@@ -55,3 +55,8 @@ bool GaussGun::IsCharging() const
     return mCurrentCharge > 0.0;
 }
 
+double GaussGun::ChargeTime() const
+{
+    return mChargeTime;
+}
+

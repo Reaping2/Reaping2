@@ -12,9 +12,12 @@ public:
     virtual int32_t GetFlatBonus()const;
     virtual void SetPercentBonus(double percentBonus);
     virtual double GetPercentBonus()const;
+    virtual void SetRooted( bool rooted );
+    virtual bool IsRooted() const;
 protected:
     int32_t mFlatBonus;
     double mPercentBonus;
+    bool mRooted;
 private:
 };
 
