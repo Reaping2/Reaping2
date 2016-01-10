@@ -173,7 +173,14 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                        "emit_descs":[{
+                            "delay": 0.0,
+                            "emit_type": "gatling_gun_particle"
+                            }]
+                    }]
+            }
         ]
     },
     {
@@ -192,7 +199,14 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                        "emit_descs":[{
+                            "delay": 0.0,
+                            "emit_type": "gatling_gun_particle"
+                            }]
+                    }]
+            }
         ]
     },
     {
@@ -215,7 +229,14 @@
                 "set":[{"secs_to_end":0.3}]
             },
             {"name":"owner_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                        "emit_descs":[{
+                            "delay": 0.0,
+                            "emit_type": "shotgun_particle"
+                            }]
+                    }]
+            }
         ]
     },
     {
@@ -238,7 +259,14 @@
                 "set":[{"secs_to_end":0.33}]
             },
             {"name":"owner_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                        "emit_descs":[{
+                            "delay": 0.0,
+                            "emit_type": "shotgun_alt2_particle"
+                            }]
+                    }]
+            }
         ]
     },
     {
@@ -264,6 +292,14 @@
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"shotgun_alt2_projectile"
                     ,"count":11,"scatter":1.1}]
+            },
+            {"name":"emitter_component","set":[{
+                        "emit_descs":[{
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "shotgun_alt_particle"
+                            }]
+                    }]
             }
         ]
     },
@@ -284,7 +320,14 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
-            {"name":"remove_on_death_component"}
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                        "emit_descs":[{
+                            "delay": 0.0,
+                            "emit_type": "plasma_particle"
+                            }]
+                    }]
+            }
         ]
     },
     {

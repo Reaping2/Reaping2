@@ -585,7 +585,7 @@
         ]
     },
     {
-        "texture_path":"textures/bullet2_particle.png",
+        "texture_path":"textures/bullet3_particle.png",
         "actor_visuals":
         [
             {
@@ -601,6 +601,63 @@
                 ],
                 "name" : "bullet_particle"
             }
+        ]
+    },
+    {
+        "texture_path":"textures/bullet3_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "shotgun_particle"
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/bullet3_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "gatling_gun_particle"
+            }
+        ]
+    },
+    {
+        "texture_path":"textures/face.png",
+        "actor_visuals":
+        [
+            {
+                "name":"shotgun_alt_particle",
+                "animations":
+                [
+                    {
+                        "name":"default_action",
+                        "w":736,
+                        "h":736,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }			
         ]
     },
     {
@@ -640,6 +697,24 @@
                 "name" : "gauss_alt_particle"
             }
         ]
+    },
+    {
+        "texture_path":"textures/plasma_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "plasma_particle"
+            }
+        ]
     }
-
 ]
