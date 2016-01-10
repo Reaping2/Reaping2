@@ -12,18 +12,22 @@ using platform::ModelValue;
 
 class ClientListSystem : public engine::System
 {
-	ModelValue mGameModel;
-	ModelValue mCTFModel;
-	ModelValue mClientsModel;
-	std::vector<std::string> mClients;
-	platform::AutoReg mOnClientListChanged;
-	void OnClientListChanged( ClientListChangedEvent const& event );
-	public:
-	DEFINE_SYSTEM_BASE(ClientListSystem)
-	ClientListSystem();
-	virtual void Init();
-	virtual void Update( double DeltaTime );
-	std::vector<std::string> getClients();
+    ModelValue mGameModel;
+    ModelValue mCTFModel;
+    ModelValue mClientsModel;
+    ModelValue mBlueTeamModel;
+    ModelValue mReadTeamModel;
+    std::vector<std::string> mRedTeam;
+    std::vector<std::string> mBlueTeam;
+    platform::AutoReg mOnClientListChanged;
+    void OnClientListChanged( ClientListChangedEvent const& event );
+public:
+    DEFINE_SYSTEM_BASE(ClientListSystem)
+        ClientListSystem();
+    virtual void Init();
+    virtual void Update( double DeltaTime );
+    std::vector<std::string> blueTeam();
+    std::vector<std::string> redTeam();
 };
 
 }
