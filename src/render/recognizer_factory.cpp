@@ -9,6 +9,7 @@
 #include "render/hat_recognizer.h"
 #include "ctf_hat_recognizer.h"
 #include "ctf_flag_recognizer.h"
+#include "border_recognizer.h"
 namespace render {
 RecognizerFactory::RecognizerFactory()
 {
@@ -25,5 +26,6 @@ RecognizerFactory::RecognizerFactory()
     Bind<HatRecognizer>( AutoId( "hat" ) );
     Bind<ctf::CtfHatRecognizer>(AutoId("ctf_hat"));
     Bind<ctf::CtfFlagRecognizer>(AutoId("flag"));
+    Bind<BorderRecognizer>(AutoId("border"));
 }
 } // namespace render

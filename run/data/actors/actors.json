@@ -26,6 +26,20 @@
         ]
     },
     {
+        "name":"stone_wall",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"wall_collision_component",
+                "set":[{"class":"wall", "radius":50}]
+            },
+			{"name":"border_component"}
+        ]
+    },
+    {
         "name":"pickup",
         "components":
         [
