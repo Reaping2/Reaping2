@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_MAP_MATRIX_GRID_H
 
 #include "i_grid.h"
-#include "..\scene.h"
+#include "core/scene.h"
 
 namespace map {
 
