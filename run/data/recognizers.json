@@ -49,10 +49,10 @@
 		"name":"platform",
 		"recognizers":
 		[
-			{"recognizer":"idle",
-				"renderer":"idle"},
 			{"recognizer":"ctf_hat",
-				"renderer":"ctf_hat"}
+				"renderer":"ctf_hat"},
+			{"recognizer":"idle",
+				"renderer":"idle"}
 		]
 	},
 	{
