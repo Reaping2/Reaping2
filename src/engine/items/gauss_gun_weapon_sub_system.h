@@ -19,6 +19,7 @@ private:
     ActorFactory& mActorFactory;
     int32_t mShotId;
     int32_t mAltShotId;
+    core::ProgramState& mProgramState;
 };
 
 } // namespace engine

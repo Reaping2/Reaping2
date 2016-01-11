@@ -14,6 +14,7 @@ GaussGunWeaponSubSystem::GaussGunWeaponSubSystem()
     , mActorFactory(ActorFactory::Get())
     , mShotId( AutoId( "gauss_shot" ) )
     , mAltShotId( AutoId( "gauss_alt_shot" ) )
+    , mProgramState( core::ProgramState::Get())
 {
 }
 
@@ -35,10 +36,15 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         weapon->EndCharge();
     }
+    if (mProgramState.mMode==core::ProgramState::Client)
+    {
+        return;
+    }
     if ( weapon->GetCooldown() )
     {
         weapon->EndCharge();
     }
+
     if ( moveC.IsValid() && !moveC->IsRooted() && weapon->IsCharging() )
     {
         Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
