@@ -302,7 +302,7 @@
                         "y" : 142
                      }
                   ],
-                  "scale" : 2.0,
+                  "scale" : 1.0,
                   "w" : 15
                }
             ],
@@ -340,7 +340,7 @@
                   "w" : 30
                }
             ],
-            "name" : "plasma_shot"
+            "name" : "plasma_shot_"
          },
          {
             "animations" : [
