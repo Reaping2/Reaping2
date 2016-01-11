@@ -50,6 +50,7 @@ namespace core {
         ,mDeath(0)
         ,mAssist(0)
         ,mScore(0)
+        ,mReady(false)
     {
 
     }
@@ -62,6 +63,7 @@ namespace core {
         ,mDeath(0)
         ,mAssist(0)
         ,mScore(0)
+        ,mReady(false)
     {
 
     }

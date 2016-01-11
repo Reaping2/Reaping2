@@ -225,6 +225,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
+        Eng.AddSystem(AutoId("client_list_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 

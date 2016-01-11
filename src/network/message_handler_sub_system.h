@@ -7,6 +7,7 @@
 #include "core/scene.h"
 #include "core/program_state.h"
 #include "boost/ptr_container/ptr_vector.hpp"
+
 using core::ProgramState;
 namespace network {
 
@@ -82,7 +83,7 @@ namespace network {
     void PendingMessageHandlerSubSystem<T>::Execute(Message const& message)
     {
         T const& msg=static_cast<T const&>(message);
-        mPendingMessages.push_back(std::make_pair<T,int32_t>(msg,0));
+        mPendingMessages.push_back(std::make_pair<T const&,int32_t>(msg,0));
     }
 
 

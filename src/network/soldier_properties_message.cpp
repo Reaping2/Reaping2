@@ -11,6 +11,7 @@
 #include "core/i_accuracy_component.h"
 #include "engine/buffs_engine/accuracy_buff_sub_system.h"
 #include "accuracy_message.h"
+#include "network/client_datas_message.h"
 
 namespace network {
 
@@ -81,9 +82,16 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
     }
 
     clientData->mSoldierProperties=msg.mSoldierProperties;
+    clientData->mReady = true;
     L1("**** Client: %s properties arrived. Ready to fight!!! **** from id: %d \n", clientData->mClientName.c_str(),msg.mSenderId );
     L1("   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", msg.mSoldierProperties.mMoveSpeed, msg.mSoldierProperties.mHealth, msg.mSoldierProperties.mAccuracy );
-
+	// put client name here into client_list
+    if (mProgramState.mMode==ProgramState::Server)
+    {
+        std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
+        clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
+        mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
+    }
 }
 
 
