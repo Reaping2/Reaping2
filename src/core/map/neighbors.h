@@ -23,7 +23,7 @@ public:
     Neighbors();
     typedef std::vector<Neighbor> Neighbors_t;
     Neighbors_t mNeighbors;
-    bool IsMatching(NeighborMap_t& const neighborMap);
+    bool IsMatching(NeighborMap_t const& neighborMap);
 };
 
 } // namespace map

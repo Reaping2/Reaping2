@@ -7,7 +7,7 @@ Neighbors::Neighbors()
 {
 }
 
-bool Neighbors::IsMatching(NeighborMap_t& const neighborMap)
+bool Neighbors::IsMatching(NeighborMap_t const& neighborMap)
 {
     if (mNeighbors.size()<BorderType::Num_Classes)
     {
