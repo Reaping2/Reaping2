@@ -105,7 +105,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":75, "passthrough": [ "creep", "player" ] }]
+                "set":[{"class":"projectile", "radius":7, "damage":75 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -118,6 +118,38 @@
                             {
                             "delay": 0.0,
                             "emit_type": "gauss_particle"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"gauss_alt_shot",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":30000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":7, "damage":75, "passthrough": [ "creep", "player" ] }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {
+                "name":"emitter_component",
+                "set": [
+                    {
+                        "emit_descs":[
+                            {
+                            "delay": 0.0,
+                            "emit_type": "gauss_alt_particle"
                             }
                         ]
                     }
