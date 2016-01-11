@@ -78,6 +78,8 @@
             type=network::KillScoreMessage::GetType_static();
             type=network::ClientScoreMessage::GetType_static();
             type=network::ItemChangedMessage::GetType_static();
+            type=network::CloakChangedMessage::GetType_static();
+            type=network::BorderMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -120,8 +122,6 @@
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");
             type=platform::AutoId("pow_projectile");
-            type=network::CloakChangedMessage::GetType_static();
-
         }
     } _msg_order;
 
@@ -160,6 +160,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ClientScoreMessage, "client_score")
     BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
     BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
+    BOOST_CLASS_EXPORT_GUID(network::BorderMessage, "border")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

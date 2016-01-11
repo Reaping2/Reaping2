@@ -8,6 +8,7 @@
 #include "editor_target_system.h"
 #include "../i_collision_component.h"
 #include "editor_grid_system.h"
+#include "../border_component.h"
 namespace map {
 
 WallTarget::WallTarget(int32_t Id, int32_t cursorId, int32_t actorId)
@@ -40,6 +41,38 @@ void WallTarget::PutTarget(glm::vec2 position)
     Opt<SpawnActorMapElement> spawnActor(static_cast<SpawnActorMapElement*>(mapElement.get()));
     spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId)(1);
 
+    AddPositionLoader(position, spawnActor);
+
+    spawnActor->SetActorID(EditorTargetSystem::Get()->GetTarget().GetActorId());
+    mapElement->SetUID(AutoId("spawn_at_start"));
+    MapSystem::Get()->GetMapElementList().insert(Opt<MapElement>(mapElement.release()));
+}
+
+void WallTarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders)
+{
+    std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("spawn_actor")));
+    Opt<SpawnActorMapElement> spawnActor(static_cast<SpawnActorMapElement*>(mapElement.get()));
+    spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId)(1);
+
+    AddPositionLoader(position, spawnActor);
+
+    {
+        int32_t componentId=AutoId("border_component");
+        ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
+        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+        Opt<BorderComponentLoader> borderCompLoader(static_cast<BorderComponentLoader*>(compLoader.get()));
+        borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetBorders, borders );
+        spawnActor->AddComponentLoader(componentId,compLoader);
+    }
+
+
+    spawnActor->SetActorID(EditorTargetSystem::Get()->GetTarget().GetActorId());
+    mapElement->SetUID(AutoId("spawn_at_start"));
+    MapSystem::Get()->GetMapElementList().insert(Opt<MapElement>(mapElement.release()));
+}
+
+void WallTarget::AddPositionLoader(glm::vec2 &position, Opt<SpawnActorMapElement> spawnActor)
+{
     int32_t componentId=AutoId("position_component");
     ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
     std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
@@ -47,10 +80,6 @@ void WallTarget::PutTarget(glm::vec2 position)
     positionCompLoader->Bind<double>(&PositionComponent::SetX,position.x);
     positionCompLoader->Bind<double>(&PositionComponent::SetY,position.y);
     spawnActor->AddComponentLoader(componentId,compLoader);
-
-    spawnActor->SetActorID(EditorTargetSystem::Get()->GetTarget().GetActorId());
-    mapElement->SetUID(AutoId("spawn_at_start"));
-    MapSystem::Get()->GetMapElementList().insert(Opt<MapElement>(mapElement.release()));
 }
 
 } // namespace map

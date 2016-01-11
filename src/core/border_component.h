@@ -10,6 +10,7 @@ public:
     BorderComponent();
     virtual void SetBorders(Borders_t borders);
     virtual IBorderComponent::Borders_t GetBorders()const;
+    virtual void Save(Json::Value& component);
 protected:
     friend class ComponentFactory;
     Borders_t mBorders;

@@ -13,12 +13,12 @@ public:
     enum Type
     {
         Top=0,
-        Right,
-        Bottom,
-        Left,
         TopRight,
+        Right,
         BottomRight,
+        Bottom,
         BottomLeft,
+        Left,
         TopLeft,
         Num_Classes
     };

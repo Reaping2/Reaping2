@@ -6,12 +6,12 @@ using platform::AutoId;
 BorderType::BorderType()
 {
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("top"),BorderType::Top));
-    mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("right"),BorderType::Right));
-    mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("bottom"),BorderType::Bottom));
-    mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("left"),BorderType::Left));
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("topright"),BorderType::TopRight));
+    mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("right"),BorderType::Right));
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("bottomright"),BorderType::BottomRight));
+    mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("bottom"),BorderType::Bottom));
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("bottomleft"),BorderType::BottomLeft));
+    mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("left"),BorderType::Left));
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("topleft"),BorderType::TopLeft));
 }
 

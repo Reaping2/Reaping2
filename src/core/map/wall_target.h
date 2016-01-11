@@ -4,6 +4,7 @@
 #include "platform/i_platform.h"
 #include "i_target.h"
 #include "../scene.h"
+#include "spawn_actor_map_element.h"
 
 namespace map {
 
@@ -15,11 +16,15 @@ public:
     virtual int32_t GetCursorId() const;
     virtual int32_t GetActorId() const;
     virtual void PutTarget(glm::vec2 position);
+    virtual void PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders);
+
+
 protected:
     int32_t mId;
     int32_t mCursorId;
     int32_t mActorId;
 private:
+    void AddPositionLoader(glm::vec2 &position, Opt<SpawnActorMapElement> spawnActor);
     Scene& mScene;
 };
 

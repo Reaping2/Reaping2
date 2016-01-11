@@ -34,7 +34,7 @@
                 "set":[{"layer":"buildings"}]
             },
             {"name":"wall_collision_component",
-                "set":[{"class":"wall", "radius":50}]
+                "set":[{"class":"wall", "radius":100}]
             },
 			{"name":"border_component"}
         ]

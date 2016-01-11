@@ -1,4 +1,5 @@
 #include "core/border_component.h"
+#include "platform/id_storage.h"
 
 BorderComponent::BorderComponent()
     : mBorders()
@@ -13,6 +14,28 @@ void BorderComponent::SetBorders(Borders_t borders)
 IBorderComponent::Borders_t BorderComponent::GetBorders()const
 {
     return mBorders;
+}
+
+void BorderComponent::Save(Json::Value& component)
+{
+    Component::Save(component);
+    Json::Value SettersArr(Json::arrayValue);
+    Json::Value Setters(Json::objectValue);
+    Json::Value BordersArr(Json::arrayValue);
+    IdStorage& idStorage=IdStorage::Get();
+    BorderType& borderType=BorderType::Get();
+    for (IBorderComponent::Borders_t::iterator i=mBorders.begin(),e=mBorders.end();i!=e;++i)
+    {
+        std::string borderName;
+        if (idStorage.GetName(borderType(*i),borderName))
+        {
+            Json::Value jName=Json::Value(borderName);
+            BordersArr.append(jName);
+        }
+    }
+    Setters["borders"]=BordersArr;
+    SettersArr.append(Setters);
+    component["set"]=SettersArr;
 }
 
 

@@ -24,5 +24,11 @@ glm::vec2 IGrid::GetMousePosition()
     return mMousePosition;
 }
 
+Neighbors IGrid::GetNeighbors(glm::vec2 position, int32_t actorID)
+{
+    Neighbors r;
+    return r;
+}
+
 } // namespace map
 

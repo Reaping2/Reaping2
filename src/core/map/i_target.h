@@ -3,6 +3,8 @@
 
 #include "platform/i_platform.h"
 #include "../actor.h"
+#include "../border_type.h"
+#include "../i_border_component.h"
 
 namespace map {
 
@@ -15,6 +17,7 @@ public:
     virtual std::auto_ptr<Actor> GetCursor();
     virtual int32_t GetActorId() const;
     virtual void PutTarget(glm::vec2 position)=0;
+    virtual void PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders);
 protected:
     int32_t mId;
 };

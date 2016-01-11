@@ -20,6 +20,7 @@ public:
     DEFINE_SYSTEM_BASE(EditorSystem)
     EditorSystem();
     ~EditorSystem();
+
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
