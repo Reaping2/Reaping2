@@ -8702,5 +8702,197 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -700.0,
+                  "y" : -500.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -900.0,
+                  "y" : -500.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "topright", "bottom", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -900.0,
+                  "y" : -100.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -900.0,
+                  "y" : -300.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 700.0,
+                  "y" : 1100.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottomleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 500.0,
+                  "y" : 1100.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 700.0,
+                  "y" : 700.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "stone_wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 700.0,
+                  "y" : 900.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
    }
 ]

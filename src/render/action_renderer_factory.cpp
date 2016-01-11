@@ -10,6 +10,7 @@
 #include "ctf_hat_action_renderer.h"
 #include "ctf_flag_action_renderer.h"
 #include "soldier_current_action_renderer.h"
+#include "border_action_renderer.h"
 namespace render {
     ActionRendererFactory::ActionRendererFactory()
     {
@@ -27,6 +28,6 @@ namespace render {
         Bind<ctf::CtfHatActionRenderer>(AutoId("ctf_hat"));
         Bind<ctf::CtfFlagActionRenderer>(AutoId("flag"));
         Bind<ctf::SoldierCurrentActionRenderer>(AutoId("soldier_current"));
-        
+        Bind<BorderActionRenderer>(AutoId("border"));
     }
 } // namespace render

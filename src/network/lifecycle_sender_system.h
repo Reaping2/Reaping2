@@ -2,8 +2,6 @@
 #define INCLUDED_NETWORK_LIFECYCLE_SENDER_SYSTEM_H
 
 #include "engine/system.h"
-#include <enet/enet.h>
-#include <map>
 #include "messsage_holder.h"
 #include "core/scene.h"
 

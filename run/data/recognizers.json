@@ -72,6 +72,16 @@
 		]
 	},
 	{
+		"name":"stone_wall",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
 		"name":"pickup",
 		"recognizers":
 		[

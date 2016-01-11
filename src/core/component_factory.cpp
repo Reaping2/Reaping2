@@ -43,6 +43,7 @@
 #include "detonate_on_hit_component.h"
 #include "armor_component.h"
 #include "cloak_component.h"
+#include "border_component.h"
 
 using platform::AutoId;
 
@@ -71,6 +72,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("bounce_collision_component"), &CreateComponent<BounceCollisionComponent>);
 
     Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
+    Bind( AutoId("border_component"), &CreateComponent<BorderComponent>);
 
     Bind( AutoId("remove_on_death_component"), &CreateComponent<RemoveOnDeathComponent>);
     Bind( AutoId("explode_on_death_component"), &CreateComponent<ExplodeOnDeathComponent>);

@@ -2005,7 +2005,7 @@ class EnumGenerator : public Generator
             fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
-            fprintf(file.mFile, "#include \"<map>\"\n");
+            fprintf(file.mFile, "#include \"boost/bimap.hpp\"\n");
             fprintf(file.mFile, "\n");
             if (!namespaceLowerCase.empty())
             {
@@ -2030,9 +2030,10 @@ class EnumGenerator : public Generator
             fprintf(file.mFile, "        Num_Classes\n");
             fprintf(file.mFile, "    };\n");
             fprintf(file.mFile, "    %s::Type operator()( int32_t Id ) const;\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    int32_t operator()( %s::Type type ) const;\n",classCamelCase.c_str());
 
             fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "    typedef std::map<int32_t,%s::Type> IdTo%sMap_t;\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    typedef boost::bimap<int32_t,%s::Type> IdTo%sMap_t;\n",classCamelCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "    IdTo%sMap_t mIdTo%sMap;\n",classCamelCase.c_str(),classCamelCase.c_str());
 
             fprintf(file.mFile, "};\n");
@@ -2066,15 +2067,22 @@ class EnumGenerator : public Generator
             fprintf(file.mFile, "{\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
-                fprintf(file.mFile, "    mIdTo%sMap[AutoId(\"%s\")]=%s::%s;\n",classCamelCase.c_str(),i->second.c_str(),classCamelCase.c_str(),i->first.c_str());
+                fprintf(file.mFile, "    mIdTo%sMap.insert(IdTo%sMap_t::value_type(AutoId(\"%s\"),%s::%s));\n",classCamelCase.c_str(),classCamelCase.c_str(),i->second.c_str(),classCamelCase.c_str(),i->first.c_str());
             }
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "%s::Type %s::operator()( int32_t Id ) const\n",classCamelCase.c_str(),classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    IdTo%sMap_t::const_iterator i=mIdTo%sMap.find(Id);\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.end());\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    return (i!=mIdTo%sMap.end())?i->second:%s::%s;\n",classCamelCase.c_str(),classCamelCase.c_str(),typeMemberPairs.begin()->first.c_str());
+            fprintf(file.mFile, "    IdTo%sMap_t::left_const_iterator i=mIdTo%sMap.left.find(Id);\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.left.end());\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    return (i!=mIdTo%sMap.left.end())?i->second:%s::%s;\n",classCamelCase.c_str(),classCamelCase.c_str(),typeMemberPairs.begin()->first.c_str());
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "int32_t %s::operator()( Type type ) const\n",classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    IdTo%sMap_t::right_const_iterator i=mIdTo%sMap.right.find(type);\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.right.end());\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    return (i!=mIdTo%sMap.right.end())?i->second:%s::%s;\n",classCamelCase.c_str(),classCamelCase.c_str(),typeMemberPairs.begin()->first.c_str());
             fprintf(file.mFile, "}\n");
             fprintf(file.mFile, "\n");
             if (!namespaceLowerCase.empty())

@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/desert.png",
+        "texture_path":"textures/grass2.png",
         "actor_visuals":
         [
             {
@@ -76,7 +76,7 @@
         ]
     },
     {
-        "texture_path":"textures/flag.png",
+        "texture_path":"textures/flag_big.png",
         "actor_visuals":
         [
             {
@@ -85,8 +85,8 @@
                 [
                     {
                         "name":"body_idle",
-                        "w":30,
-                        "h":30,
+                        "w":512,
+                        "h":512,
                         "scale":2.5,
                         "phases":[{"x":0,"y":0}]
                     }
@@ -95,7 +95,7 @@
         ]
     },
     {
-        "texture_path":"textures/platform.png",
+        "texture_path":"textures/platform_big.png",
         "actor_visuals":
         [
             {
@@ -104,8 +104,8 @@
                 [
                     {
                         "name":"body_idle",
-                        "w":200,
-                        "h":200,
+                        "w":1441,
+                        "h":1441,
                         "scale":4.0,
                         "phases":[{"x":0,"y":0}]
                     }
@@ -114,7 +114,7 @@
         ]
     },
     {
-        "texture_path":"textures/platform2.png",
+        "texture_path":"textures/platform_big_color.png",
         "actor_visuals":
         [
             {
@@ -123,8 +123,8 @@
                 [
                     {
                         "name":"ctf_hat",
-                        "w":200,
-                        "h":200,
+                        "w":1441,
+                        "h":1441,
                         "scale":4.0,
                         "phases":[{"x":0,"y":0}]
                     }

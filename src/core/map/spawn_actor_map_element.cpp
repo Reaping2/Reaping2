@@ -1,6 +1,7 @@
 #include "core/map/spawn_actor_map_element.h"
 #include "../scene.h"
 #include "../i_position_component.h"
+#include "../i_border_component.h"
 
 namespace map {
 
@@ -101,6 +102,13 @@ void SpawnActorMapElement::Save(Json::Value& Element)
     {
         Json::Value Component(Json::objectValue);
         positionC->Save(Component);
+        ComponentsArr.append(Component);
+    }
+    Opt<IBorderComponent> borderC(actor->Get<IBorderComponent>());
+    if (borderC.IsValid())
+    {
+        Json::Value Component(Json::objectValue);
+        borderC->Save(Component);
         ComponentsArr.append(Component);
     }
 

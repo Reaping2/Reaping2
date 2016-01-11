@@ -109,6 +109,10 @@ void PropertyLoader<T, BASE>::FillProperties(Actor* actor) const
         return;
     }
     Opt<T> castedTarget=actor->Get<T>();
+    if (!castedTarget.IsValid())
+    {
+        return;
+    }
     for(typename SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
     {
         (*i)(castedTarget.Get());

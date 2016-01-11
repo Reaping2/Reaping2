@@ -3,6 +3,7 @@
 #include "engine/engine.h"
 #include "../i_position_component.h"
 #include "ui/ui.h"
+#include "../i_collision_component.h"
 
 namespace map {
 
@@ -85,6 +86,22 @@ void EditorTargetSystem::SetCursorPosition(double x, double y)
 Opt<Actor> EditorTargetSystem::GetCursor() const
 {
     return mCursor;
+}
+
+double EditorTargetSystem::GetCursorRadius() const
+{
+    double r=1.0;
+    Opt<Actor> cursor(GetCursor());
+    if (!cursor.IsValid())
+    {
+        return r;
+    }
+    Opt<ICollisionComponent> collisionC(cursor->Get<ICollisionComponent>());
+    if (!collisionC.IsValid())
+    {
+        return r;
+    }
+    return collisionC->GetRadius();
 }
 
 

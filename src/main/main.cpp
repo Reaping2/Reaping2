@@ -61,6 +61,7 @@
 #include "core/buffs/armor_buff.h"
 #include "core/buffs/cloak_buff.h"
 #include "network/cloak_changed_message.h"
+#include "network/border_message.h"
 
 using engine::Engine;
 namespace {
@@ -217,6 +218,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("client_score_message_sender_system"));
         Eng.AddSystem(AutoId("item_changed_message_sender_system"));
         Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
+        Eng.AddSystem(AutoId("border_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -225,6 +227,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
+        Eng.AddSystem(AutoId("client_list_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 
@@ -294,6 +297,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::BorderMessage::GetType_static(),AutoId("border_message_handler_sub_system"));
 
     }
 
