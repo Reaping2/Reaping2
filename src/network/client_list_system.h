@@ -14,20 +14,29 @@ class ClientListSystem : public engine::System
 {
     ModelValue mGameModel;
     ModelValue mCTFModel;
-    ModelValue mClientsModel;
+    ModelValue mRedTeamModel;
     ModelValue mBlueTeamModel;
-    ModelValue mReadTeamModel;
-    std::vector<std::string> mRedTeam;
-    std::vector<std::string> mBlueTeam;
+    ModelValue mBlueNamesModel;
+    ModelValue mRedNamesModel;
+    ModelValue mBlueIdsModel;
+    ModelValue mRedIdsModel;
+    // strings are for the UI
+    std::vector<std::string> mRedNames;
+    std::vector<std::string> mBlueNames;
+    // ids are for the lifecycle subsystem
+    std::vector<int32_t> mRedIds;
+    std::vector<int32_t> mBlueIds;
     platform::AutoReg mOnClientListChanged;
     void OnClientListChanged( ClientListChangedEvent const& event );
 public:
     DEFINE_SYSTEM_BASE(ClientListSystem)
-        ClientListSystem();
+    ClientListSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
-    std::vector<std::string> blueTeam();
-    std::vector<std::string> redTeam();
+    std::vector<std::string> blueNames();
+    std::vector<std::string> redNames();
+    std::vector<int32_t> blueIds();
+    std::vector<int32_t> redIds();
 };
 
 }

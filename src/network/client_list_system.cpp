@@ -1,7 +1,6 @@
 #include "client_list_system.h"
 #include "platform/event.h"
-#include <boost/bind.hpp>
-#include <utility>
+#include <algorithm>
 
 namespace network {
 
@@ -10,11 +9,16 @@ using platform::RootModel;
 ClientListSystem::ClientListSystem()
 	: mGameModel("game", &RootModel::Get())
 	, mCTFModel("ctf", &mGameModel)
-    , mClientsModel( "clients", &mCTFModel )
-    , mBlueTeamModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::blueTeam, this) , "blue", &mClientsModel )
-    , mReadTeamModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::redTeam, this) , "red", &mClientsModel )
+    , mRedTeamModel( "red", &mCTFModel )
+    , mBlueTeamModel( "blue", &mCTFModel )
+    , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::blueNames, this) , "names", &mBlueTeamModel)
+    , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::redNames, this) , "names", &mRedTeamModel)
+    , mBlueIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::blueIds, this) , "ids", &mRedTeamModel)
+    , mRedIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::redIds, this) , "ids", &mRedTeamModel)
 {
 	mOnClientListChanged = platform::EventServer<network::ClientListChangedEvent>::Get().Subscribe( boost::bind( &ClientListSystem::OnClientListChanged, this, _1 ) );
+    // TODO: bind here the team change button
+    // and on team change send the ctf programstate to the server
 }
 
 void ClientListSystem::Init()
@@ -25,50 +29,66 @@ void ClientListSystem::Update( double DeltaTime )
 {
 }
 
-std::vector<std::string> ClientListSystem::blueTeam()
+std::vector<std::string> ClientListSystem::blueNames()
 {
-	return mBlueTeam;
+	return mBlueNames;
 }
 
-std::vector<std::string> ClientListSystem::redTeam()
+std::vector<std::string> ClientListSystem::redNames()
 {
-    return mRedTeam;
+    return mRedNames;
+}
+
+std::vector<int32_t> ClientListSystem::blueIds()
+{
+    return mBlueIds;
+}
+
+std::vector<int32_t> ClientListSystem::redIds()
+{
+    return mRedIds;
 }
 
 namespace {
-    void removeall( std::vector<std::string> & from, std::vector<std::string> const & what )
+    void removeall( core::ProgramState::ClientDatas_t & from , std::vector<int32_t> const & what )
     {
-        for ( std::vector<std::string>::const_iterator whatit = what.begin(); whatit != what.end(); ++whatit )
+        for ( size_t i = 0; i < what.size(); ++i )
         {
-            std::vector<std::string>::iterator it = std::find( from.begin(), from.end(), *whatit );
-            if ( from.end() != it )
+            for ( core::ProgramState::ClientDatas_t::iterator it = from.begin(); it != from.end(); ++it )
             {
-                from.erase( it );
+                if ( (*it).mClientId == what[i] )
+                {
+                    from.erase( it );
+                    break;
+                }
             }
         }
-        std::for_each( what.begin(), what.end(), 
-                boost::bind<void>( [](std::string const & s, std::vector<std::string> & v) { std::remove( v.begin(), v.end(),s); }, _1, boost::ref(from) ) ); 
     }
 }
 
 void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event )
 {
-    std::vector<std::string> clients = event.mClientList;
+    core::ProgramState::ClientDatas_t const & clients = event.mClientList;
+    core::ProgramState::ClientDatas_t readyClients(clients.size());
+    auto it = std::copy_if( clients.begin(), clients.end(), readyClients.begin(), [] ( core::ClientData const & d ) { return d.mReady; } );
+    readyClients.resize(std::distance(readyClients.begin(), it));
     // TODO; what about quit clients
     // TODO: multiple clients with the same name
     // remove all blues and reds from clients -> new clients
-    removeall( clients, mBlueTeam );
-    removeall( clients, mRedTeam );
+    removeall( readyClients, mBlueIds );
+    removeall( readyClients, mRedIds );
     // simple distribute: add to the smaller team
-    for ( size_t i = 0; i < clients.size(); ++i )
+    for ( size_t i = 0; i < readyClients.size(); ++i )
     {
-        if ( mBlueTeam.size() < mRedTeam.size() )
+        if ( mBlueNames.size() < mRedNames.size() )
         {
-            mBlueTeam.push_back(clients[i]);
+            mBlueNames.push_back(readyClients[i].mClientName);
+            mBlueIds.push_back(readyClients[i].mClientId);
         }
         else
         {
-            mRedTeam.push_back(clients[i]);
+            mRedNames.push_back(readyClients[i].mClientName);
+            mRedIds.push_back(readyClients[i].mClientId);
         }
     }
 }

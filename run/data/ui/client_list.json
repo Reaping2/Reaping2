@@ -54,7 +54,7 @@
                 },
 				{
 					"type":"grid",
-					"source":"%game.ctf.clients.red",
+					"source":"%game.ctf.red.names",
 					"startid":"#redidx",
 					"direction": "horizontal",
 					"color": "0xffffff",
@@ -76,7 +76,7 @@
 							"w":1.0,
 							"h":1.0,
 							"enabled": 0,
-							"text":"%game.ctf.clients.red#redidx",
+							"text":"%game.ctf.red.names#redidx",
 							"fontsize": 6
 						}
 					]
@@ -95,7 +95,7 @@
                 },
 				{
 					"type":"grid",
-					"source":"%game.ctf.clients.blue",
+					"source":"%game.ctf.blue.names",
 					"startid":"#blueidx",
 					"direction": "horizontal",
 					"color": "0xffffff",
@@ -117,7 +117,7 @@
 							"w":1.0,
 							"h":1.0,
 							"enabled": 0,
-							"text":"%game.ctf.clients.blue#blueidx",
+							"text":"%game.ctf.blue.names#blueidx",
 							"fontsize": 6
 						}
 					]
