@@ -13,7 +13,7 @@ ClientListSystem::ClientListSystem()
     , mBlueTeamModel( "blue", &mCTFModel )
     , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::blueNames, this) , "names", &mBlueTeamModel)
     , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::redNames, this) , "names", &mRedTeamModel)
-    , mBlueIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::blueIds, this) , "ids", &mRedTeamModel)
+    , mBlueIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::blueIds, this) , "ids", &mBlueTeamModel)
     , mRedIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::redIds, this) , "ids", &mRedTeamModel)
 {
 	mOnClientListChanged = platform::EventServer<network::ClientListChangedEvent>::Get().Subscribe( boost::bind( &ClientListSystem::OnClientListChanged, this, _1 ) );
