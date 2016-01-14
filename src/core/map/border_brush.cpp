@@ -54,6 +54,39 @@ BorderBrush::BorderBrush(int32_t Id)
     neighborMap[BorderType::TopLeft]=Neighbors::Other;
     neighborMap[BorderType::Left]=Neighbors::Same;
     mNeighborDirMap.push_back(neighborMap);neighborMap.clear();    //topleft
+
+    //outer
+    neighborMap[BorderType::Top]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //top
+
+    neighborMap[BorderType::Top]=Neighbors::Other;
+    neighborMap[BorderType::TopRight]=Neighbors::Other;
+    neighborMap[BorderType::Right]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //topright
+
+    neighborMap[BorderType::Right]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //right
+
+    neighborMap[BorderType::Right]=Neighbors::Other;
+    neighborMap[BorderType::BottomRight]=Neighbors::Other;
+    neighborMap[BorderType::Bottom]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //bottomright
+
+    neighborMap[BorderType::Bottom]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //bottom
+
+    neighborMap[BorderType::Left]=Neighbors::Other;
+    neighborMap[BorderType::BottomLeft]=Neighbors::Other;
+    neighborMap[BorderType::Bottom]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //bottomleft
+
+    neighborMap[BorderType::Left]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //left
+
+    neighborMap[BorderType::Top]=Neighbors::Other;
+    neighborMap[BorderType::TopLeft]=Neighbors::Other;
+    neighborMap[BorderType::Left]=Neighbors::Other;
+    mNeighborOuterDirMap.push_back(neighborMap);neighborMap.clear();    //topleft
 }
 
 void BorderBrush::Update(double DeltaTime)
@@ -61,9 +94,10 @@ void BorderBrush::Update(double DeltaTime)
     if (mMouseLeftPressed&&!engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ))
     {
         Neighbors neighbors=EditorGridSystem::Get()->GetGrid().GetNeighbors(EditorTargetSystem::Get()->GetCursorPosition(),EditorTargetSystem::Get()->GetCursor()->GetId());
-        IBorderComponent::Borders_t borders=GetBorders(neighbors);
+        IBorderComponent::Borders_t borders=GetBorders(neighbors, mNeighborDirMap);
+        IBorderComponent::Borders_t outerBorders=GetBorders(neighbors, mNeighborOuterDirMap);
 
-        EditorTargetSystem::Get()->GetTarget().PutTarget(EditorTargetSystem::Get()->GetCursorPosition(),borders);
+        EditorTargetSystem::Get()->GetTarget().PutTarget(EditorTargetSystem::Get()->GetCursorPosition(),borders,outerBorders);
         Opt<engine::System> spawnActorMES(engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>());
         spawnActorMES->Update(0);
         mScene.Update(0);
@@ -121,12 +155,12 @@ void BorderBrush::Update(double DeltaTime)
     }
 }
 
-IBorderComponent::Borders_t BorderBrush::GetBorders(Neighbors &neighbors)
+IBorderComponent::Borders_t BorderBrush::GetBorders(Neighbors &neighbors, NeighborDirMap_t& neighborDirs)
 {
     IBorderComponent::Borders_t r;
     for (size_t i=0;i<BorderType::Num_Classes;++i)
     {
-        if (neighbors.IsMatching(mNeighborDirMap[i]))
+        if (neighbors.IsMatching(neighborDirs[i]))
         {
             r.push_back(static_cast<BorderType::Type>(i));
         }
@@ -152,9 +186,10 @@ void BorderBrush::UpdateBorders(Neighbors &neighbors)
         }
         glm::vec2 neighborPos=glm::vec2(positionC->GetX(),positionC->GetY());
         Neighbors neighbors2=EditorGridSystem::Get()->GetGrid().GetNeighbors(neighborPos,actor->GetId());
-        IBorderComponent::Borders_t borders2=GetBorders(neighbors2);
+        IBorderComponent::Borders_t borders2=GetBorders(neighbors2, mNeighborDirMap);
+        IBorderComponent::Borders_t outerBorders2=GetBorders(neighbors2, mNeighborOuterDirMap);
         removeActors.push_back(i->mActorGUID);
-        EditorTargetSystem::Get()->GetTarget().PutTarget(neighborPos,borders2);
+        EditorTargetSystem::Get()->GetTarget().PutTarget(neighborPos,borders2,outerBorders2);
     }
     for (std::vector<int32_t>::iterator i=removeActors.begin(), e=removeActors.end();i!=e;++i)
     {

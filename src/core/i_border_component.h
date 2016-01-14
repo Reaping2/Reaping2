@@ -12,6 +12,8 @@ public:
     typedef std::vector<BorderType::Type> Borders_t;
     virtual void SetBorders(Borders_t borders)=0;
     virtual Borders_t GetBorders()const=0;
+    virtual void SetOuterBorders(Borders_t borders)=0;
+    virtual Borders_t GetOuterBorders()const=0;
 };
 
 #endif//INCLUDED_CORE_I_BORDER_COMPONENT_H

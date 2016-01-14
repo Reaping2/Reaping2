@@ -33,7 +33,7 @@ EditorSystem::EditorSystem()
     , mTimer()
     , mAutoSaveOn(false)
 {
-    mTimer.SetFrequency(5000);
+    mTimer.SetFrequency(25000);
 }
 
 void EditorSystem::Init()

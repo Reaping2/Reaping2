@@ -6,6 +6,8 @@
 #include "core/actor.h"
 #include "renderable_sprite.h"
 #include "renderable_repo.h"
+#include "core/border_type.h"
+#include "core/i_border_component.h"
 
 namespace render {
 
@@ -13,7 +15,12 @@ class BorderActionRenderer : public ActionRenderer
 {
     typedef std::vector<int32_t> BorderIds_t;
     BorderIds_t mBorderIds;
+    BorderIds_t mOuterBorderIds;
     int32_t mActionId;
+    double mActorSize;
+    BorderType& mBorderType;
+    IBorderComponent::Borders_t mBorders;
+    IBorderComponent::Borders_t mOuterBorders;
 public:
     BorderActionRenderer( int32_t Id );
     virtual void Init(const Actor& actor);

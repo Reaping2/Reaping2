@@ -27,7 +27,7 @@ void WallCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<IPositionComponent> otherPositionC = mOther->Get<IPositionComponent>();
     Opt<ICollisionComponent> otherCC = mOther->Get<ICollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-    Opt<WallCollisionComponent> wallCC = actor.Get<WallCollisionComponent>();
+    Opt<ICollisionComponent> wallCC = actor.Get<ICollisionComponent>();
     if (!otherPositionC.IsValid()||!otherCC.IsValid()||!positionC.IsValid()||!wallCC.IsValid())
     {
         return;

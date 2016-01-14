@@ -19,6 +19,7 @@ TargetRepo::TargetRepo()
     mElements.insert(id, new WallTarget(AutoId("wall"),AutoId("wall"),AutoId("wall")));
     id=AutoId("wall_small"); mElements.insert(id, new WallTarget(AutoId("wall_small"),AutoId("wall_small"),AutoId("wall_small")));
     id=AutoId("stone_wall"); mElements.insert(id, new WallTarget(id,id,id));
+    id=AutoId("water"); mElements.insert(id, new WallTarget(id,id,id));
     id=AutoId("ctf_soldier_spawn_blue"); mElements.insert(id, new CtfSoldierSpawnTarget(id,AutoId("ctf_player"),Team::Blue));
     id=AutoId("ctf_soldier_spawn_red"); mElements.insert(id, new CtfSoldierSpawnTarget(id,AutoId("ctf_player"),Team::Red));
 

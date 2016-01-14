@@ -38,6 +38,502 @@
             "name" : "position_component",
             "set" : [
                {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -400.0,
+                  "y" : -800.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
                   "x" : 312.50,
                   "y" : -1023.840
                }
@@ -1007,7 +1503,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottom", "left" ]
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1031,7 +1528,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottom", "left" ]
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1055,7 +1553,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottom", "left" ]
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1079,7 +1578,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottom", "left" ]
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1103,7 +1603,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "left" ]
+                  "borders" : [ "top", "right", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1127,7 +1628,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "bottom", "left" ]
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1151,7 +1653,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "left" ]
+                  "borders" : [ "top", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1175,7 +1678,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "bottom", "topleft" ]
+                  "borders" : [ "bottom", "topleft" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1199,7 +1703,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottom" ]
+                  "borders" : [ "top", "right", "bottom" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1223,7 +1728,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "topright", "bottom" ]
+                  "borders" : [ "topright", "bottom" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -1247,7 +1753,583 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "right", "topleft" ]
+                  "borders" : [ "right", "topleft" ],
+                  "outer_borders" : []
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 900.0,
+                  "y" : 1380.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom" ],
+                  "outer_borders" : [ "top", "topright", "right", "bottomright", "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 780.0,
+                  "y" : 1380.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "topright", "bottom" ],
+                  "outer_borders" : [ "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 1260.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 300.0,
+                  "y" : 1380.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 1380.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "bottomright", "bottomleft" ],
+                  "outer_borders" : []
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 540.0,
+                  "y" : 1380.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "bottom", "topleft" ],
+                  "outer_borders" : [ "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 420.0,
+                  "y" : 1380.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom" ],
+                  "outer_borders" : [ "top", "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 1620.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 780.0,
+                  "y" : 1500.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 1500.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "topright" ],
+                  "outer_borders" : []
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 540.0,
+                  "y" : 1500.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "left" ],
+                  "outer_borders" : [ "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 540.0,
+                  "y" : 1620.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "left" ],
+                  "outer_borders" : [ "top", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 540.0,
+                  "y" : 1020.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 780.0,
+                  "y" : 900.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom" ],
+                  "outer_borders" : [ "top", "topright", "right", "bottomright", "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 780.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 900.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "topright", "bottomright", "left" ],
+                  "outer_borders" : [ "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 660.0,
+                  "y" : 1020.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottomleft" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1140.0,
+                  "y" : 1020.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottomleft" ],
+                  "outer_borders" : [ "top" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1260.0,
+                  "y" : 1020.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1020.0,
+                  "y" : 1020.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1260.0,
+                  "y" : 780.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1260.0,
+                  "y" : 900.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottomleft" ],
+                  "outer_borders" : [ "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "water",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1140.0,
+                  "y" : 900.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "bottom", "left" ],
+                  "outer_borders" : [ "bottom", "bottomleft", "left" ]
                }
             ]
          }

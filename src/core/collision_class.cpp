@@ -13,6 +13,7 @@ CollisionClass::CollisionClass()
     mIdToCollClassMap[AutoId("mine")]=CollisionClass::Mine;
     mIdToCollClassMap[AutoId("player")]=CollisionClass::Player;
     mIdToCollClassMap[AutoId("wall")]=CollisionClass::Wall;
+    mIdToCollClassMap[AutoId("water")]=CollisionClass::Water;
     mIdToCollClassMap[AutoId("pickup")]=CollisionClass::Pickup;
 }
 

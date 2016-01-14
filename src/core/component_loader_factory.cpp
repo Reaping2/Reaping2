@@ -43,6 +43,7 @@
 #include "armor_component.h"
 #include "cloak_component.h"
 #include "border_component.h"
+#include "water_collision_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -62,6 +63,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("collision_component"), &CreateComponentLoader<CollisionComponentLoader>);
     Bind( AutoId("shot_collision_component"), &CreateComponentLoader<ShotCollisionComponentLoader>);
     Bind( AutoId("wall_collision_component"), &CreateComponentLoader<WallCollisionComponentLoader>);
+    Bind( AutoId("water_collision_component"), &CreateComponentLoader<WaterCollisionComponentLoader>);
     Bind( AutoId("pickup_collision_component"), &CreateComponentLoader<PickupCollisionComponentLoader>);
     Bind( AutoId("aoe_collision_component"), &CreateComponentLoader<AoeCollisionComponentLoader>);
     Bind( AutoId("bounce_collision_component"), &CreateComponentLoader<BounceCollisionComponentLoader>);

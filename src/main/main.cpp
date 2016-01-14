@@ -324,6 +324,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("collision_system"));
     Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
     collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("water_collision_component"),AutoId("wall_collision_sub_system"));
     collisionSS->AddSubSystem(AutoId("collision_component"),AutoId("normal_collision_sub_system"));
     collisionSS->AddSubSystem(AutoId("bounce_collision_component"),AutoId("bounce_collision_sub_system"));
     if (programState.mMode!=ProgramState::Client) 

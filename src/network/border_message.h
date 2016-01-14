@@ -15,9 +15,11 @@ public:
     DEFINE_MESSAGE_BASE(BorderMessage)
     int32_t mActorGUID;
     IBorderComponent::Borders_t mBorders;
+    IBorderComponent::Borders_t mOuterBorders;
     BorderMessage()
         : mActorGUID(-1)
         , mBorders()
+        , mOuterBorders()
     {
     }
     template<class Archive>
@@ -30,6 +32,7 @@ void BorderMessage::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Message>(*this);
     ar & mActorGUID;
     ar & mBorders;
+    ar & mOuterBorders;
 }
 
 class BorderMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<BorderMessage>

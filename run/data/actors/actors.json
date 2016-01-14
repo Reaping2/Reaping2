@@ -40,6 +40,20 @@
         ]
     },
     {
+        "name":"water",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"corpses"}]
+            },
+            {"name":"water_collision_component",
+                "set":[{"class":"water", "radius":60}]
+            },
+			{"name":"border_component"}
+        ]
+    },
+    {
         "name":"pickup",
         "components":
         [

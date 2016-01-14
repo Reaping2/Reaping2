@@ -58,7 +58,7 @@ namespace engine {
         typedef multi_index_container<
             SubSystemElement,
             indexed_by<
-                ordered_unique<
+                ordered_non_unique<
                     SubSystemHolder::SubSystemIdOrderer
                 >,
                 ordered_unique<

@@ -59,7 +59,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     }
     TexId = i->Spr->TexId;
     Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
-    Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) );
+    Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() )+i->RelativePosition );
     Headings.push_back( ( GLfloat )positionC->GetOrientation() );
 
     Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();

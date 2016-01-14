@@ -48,7 +48,7 @@ void WallTarget::PutTarget(glm::vec2 position)
     MapSystem::Get()->GetMapElementList().insert(Opt<MapElement>(mapElement.release()));
 }
 
-void WallTarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders)
+void WallTarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders)
 {
     std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("spawn_actor")));
     Opt<SpawnActorMapElement> spawnActor(static_cast<SpawnActorMapElement*>(mapElement.get()));
@@ -56,14 +56,8 @@ void WallTarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& bord
 
     AddPositionLoader(position, spawnActor);
 
-    {
-        int32_t componentId=AutoId("border_component");
-        ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
-        Opt<BorderComponentLoader> borderCompLoader(static_cast<BorderComponentLoader*>(compLoader.get()));
-        borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetBorders, borders );
-        spawnActor->AddComponentLoader(componentId,compLoader);
-    }
+    AddBorderLoader(borders, outerBorders, spawnActor);
+
 
 
     spawnActor->SetActorID(EditorTargetSystem::Get()->GetTarget().GetActorId());
@@ -80,6 +74,19 @@ void WallTarget::AddPositionLoader(glm::vec2 &position, Opt<SpawnActorMapElement
     positionCompLoader->Bind<double>(&PositionComponent::SetX,position.x);
     positionCompLoader->Bind<double>(&PositionComponent::SetY,position.y);
     spawnActor->AddComponentLoader(componentId,compLoader);
+}
+
+void WallTarget::AddBorderLoader(IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders, Opt<SpawnActorMapElement> spawnActor)
+{
+    {
+        int32_t componentId=AutoId("border_component");
+        ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
+        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+        Opt<BorderComponentLoader> borderCompLoader(static_cast<BorderComponentLoader*>(compLoader.get()));
+        borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetBorders, borders );
+        borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetOuterBorders, outerBorders );
+        spawnActor->AddComponentLoader(componentId,compLoader);
+    }
 }
 
 } // namespace map

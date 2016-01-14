@@ -17,7 +17,7 @@ public:
     virtual std::auto_ptr<Actor> GetCursor();
     virtual int32_t GetActorId() const;
     virtual void PutTarget(glm::vec2 position)=0;
-    virtual void PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders);
+    virtual void PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders);
 protected:
     int32_t mId;
 };

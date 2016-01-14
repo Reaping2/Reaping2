@@ -13,6 +13,15 @@ BorderType::BorderType()
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("bottomleft"),BorderType::BottomLeft));
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("left"),BorderType::Left));
     mIdToBorderTypeMap.insert(IdToBorderTypeMap_t::value_type(AutoId("topleft"),BorderType::TopLeft));
+
+    mNeighborDirs.push_back(glm::vec2( 0.0, 1.0));    //top
+    mNeighborDirs.push_back(glm::vec2( 1.0, 1.0));    //topright
+    mNeighborDirs.push_back(glm::vec2( 1.0, 0.0));    //right
+    mNeighborDirs.push_back(glm::vec2( 1.0,-1.0));    //bottomright
+    mNeighborDirs.push_back(glm::vec2( 0.0,-1.0));    //bottom
+    mNeighborDirs.push_back(glm::vec2(-1.0,-1.0));    //bottomleft
+    mNeighborDirs.push_back(glm::vec2(-1.0, 0.0));    //left
+    mNeighborDirs.push_back(glm::vec2(-1.0, 1.0));    //topleft
 }
 
 BorderType::Type BorderType::operator()( int32_t Id ) const
@@ -27,5 +36,10 @@ int32_t BorderType::operator()( Type type ) const
     IdToBorderTypeMap_t::right_const_iterator i=mIdToBorderTypeMap.right.find(type);
     BOOST_ASSERT(i!=mIdToBorderTypeMap.right.end());
     return (i!=mIdToBorderTypeMap.right.end())?i->second:BorderType::Top;
+}
+
+BorderType::NeighborDirs_t const& BorderType::GetNeighborDirs() const
+{
+    return mNeighborDirs;
 }
 

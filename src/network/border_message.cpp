@@ -48,6 +48,7 @@ bool BorderMessageHandlerSubSystem::ProcessPending(Message const& message)
         return true;
     } 
     borderC->SetBorders(msg.mBorders);
+    borderC->SetOuterBorders(msg.mOuterBorders);
     return true;
 }
 
@@ -61,6 +62,7 @@ std::auto_ptr<BorderMessage> BorderMessageSenderSystem::GenerateBorderMessage(Ac
     std::auto_ptr<BorderMessage> borderMsg(new BorderMessage);
     borderMsg->mActorGUID=actor.GetGUID();
     borderMsg->mBorders=borderC->GetBorders();
+    borderMsg->mOuterBorders=borderC->GetOuterBorders();
     return borderMsg;
 }
 

@@ -10,15 +10,8 @@ namespace map {
 MatrixGrid::MatrixGrid(int32_t Id)
     : IGrid(Id)
     , mScene(Scene::Get())
+    , mBorderType(BorderType::Get())
 {
-    mNeighborDirs.push_back(glm::vec2( 0.0, 1.0));    //top
-    mNeighborDirs.push_back(glm::vec2( 1.0, 1.0));    //topright
-    mNeighborDirs.push_back(glm::vec2( 1.0, 0.0));    //right
-    mNeighborDirs.push_back(glm::vec2( 1.0,-1.0));    //bottomright
-    mNeighborDirs.push_back(glm::vec2( 0.0,-1.0));    //bottom
-    mNeighborDirs.push_back(glm::vec2(-1.0,-1.0));    //bottomleft
-    mNeighborDirs.push_back(glm::vec2(-1.0, 0.0));    //left
-    mNeighborDirs.push_back(glm::vec2(-1.0, 1.0));    //topleft
 }
 
     
@@ -39,7 +32,7 @@ Neighbors MatrixGrid::GetNeighbors(glm::vec2 position, int32_t actorID)
     Neighbors r;
     glm::vec2 posOnMatrix = GetPositionOnMatrix(position);
     double radius=EditorTargetSystem::Get()->GetCursorRadius();
-    for (NeighborDirs_t::iterator i=mNeighborDirs.begin(), e=mNeighborDirs.end();i!=e;++i)
+    for (BorderType::NeighborDirs_t::const_iterator i=mBorderType.GetNeighborDirs().begin(), e=mBorderType.GetNeighborDirs().end();i!=e;++i)
     {
         glm::vec2 pos=*i;
         pos=glm::vec2(pos.x*radius*2,pos.y*radius*2)+posOnMatrix;

@@ -24,7 +24,7 @@ std::auto_ptr<Actor> ITarget::GetCursor()
     return ActorFactory::Get()(GetCursorId());
 }
 
-void ITarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders)
+void ITarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders)
 {
     return PutTarget(position);
 }
