@@ -48,7 +48,7 @@
                 "set":[{"layer":"corpses"}]
             },
             {"name":"water_collision_component",
-                "set":[{"class":"water", "radius":60}]
+                "set":[{"class":"water", "radius":50}]
             },
 			{"name":"border_component"}
         ]
