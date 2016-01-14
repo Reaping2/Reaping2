@@ -19,8 +19,6 @@ class ClientListSystem : public engine::System
     ModelValue mBlueTeamModel;
     ModelValue mBlueNamesModel;
     ModelValue mRedNamesModel;
-    ModelValue mBlueIdsModel;
-    ModelValue mRedIdsModel;
     // strings are for the UI
     std::vector<std::string> mRedNames;
     std::vector<std::string> mBlueNames;
@@ -36,8 +34,6 @@ public:
     virtual void Update( double DeltaTime );
     std::vector<std::string> blueNames();
     std::vector<std::string> redNames();
-    std::vector<int32_t> blueIds();//used?
-    std::vector<int32_t> redIds();//used?
     void switchTeam( std::string const & player );
 };
 
