@@ -10,6 +10,8 @@
 #include "cloak_normal_item.h"
 #include "gatling_gun.h"
 #include "gauss_gun.h"
+#include "lucky_rocket.h"
+
 ItemFactory::ItemFactory()
 {
     Bind<DefaultItem>( AutoId( "default_item" ) );
@@ -21,6 +23,7 @@ ItemFactory::ItemFactory()
     Bind<IonGun>(AutoId("ion_gun"));
     Bind<GatlingGun>( AutoId( "gatling_gun" ) );
     Bind<GaussGun>( AutoId( "gauss_gun" ) );
+    Bind<LuckyRocket>(AutoId("lucky_rocket"));
 
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
     Bind<FlashNormalItem>(AutoId("flash_normal_item"));

@@ -354,6 +354,7 @@ int main(int argc, char* argv[])
         weaponItemSS->AddSubSystem(AutoId("shotgun"),AutoId("shotgun_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
         weaponItemSS->AddSubSystem(AutoId("ion_gun"),AutoId("ion_gun_weapon_sub_system"));
+        weaponItemSS->AddSubSystem(AutoId("lucky_rocket"),AutoId("lucky_rocket_weapon_sub_system"));
 
         inventorySystem->AddSubSystem(ItemType::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();

@@ -171,7 +171,7 @@
             "name" : "pickup_collision_component",
             "set" : [
                {
-                  "content" : "rocket_launcher",
+                  "content" : "lucky_rocket",
                   "type" : "weapon"
                }
             ]
@@ -1619,7 +1619,7 @@
             "set" : [
                {
                   "x" : 956.5060,
-                  "y" : -668.3340
+                  "y" : -668.3339999999999
                }
             ]
          },

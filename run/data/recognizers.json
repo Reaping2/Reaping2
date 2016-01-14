@@ -108,6 +108,14 @@
 		]
 	},
 	{
+		"name":"lucky_rocket",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"pistol_shot",
 		"recognizers":
 		[
@@ -125,6 +133,22 @@
 	},
 	{
 		"name":"rocket_launcher_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"lucky_rocket_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"lucky_rocket_alt_projectile",
 		"recognizers":
 		[
 			{"recognizer":"move",
@@ -229,6 +253,14 @@
 	},
 	{
 		"name":"rocket_pow_projectile",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"lucky_rocket_explosion_projectile",
 		"recognizers":
 		[
 			{"recognizer":"idle",
