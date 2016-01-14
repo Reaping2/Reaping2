@@ -40,18 +40,6 @@
 						}
 					]
 				},
-                {
-                    "type":"text_widget",
-                    "color":"0xaa0000",
-                    "x":0.12,
-                    "y":0.9,
-                    "w":0.25,
-                    "h":0.1,
-                    "visible":1,
-                    "enabled":0,
-                    "text":"Red team",
-                    "fontsize":6
-                },
 				{
 					"type":"grid",
 					"source":"%game.ctf.red.names",
@@ -66,62 +54,80 @@
 					"enabled": 0,
 					"cols": 1,
 					"rows": 5,
-					"template": [
-						{
-							"type":"text_widget",
-							"color": "0xaa0000",
-							"visible": 1,
-							"x":0.0,
-							"y":0.0,
-							"w":1.0,
-							"h":1.0,
-							"enabled": 0,
-							"text":"%game.ctf.red.names#redidx",
-							"fontsize": 6
-						}
-					]
+                    "template": [
+                        {
+                            "type":"button",
+                            "color":"0x77000077",
+                            "highlight_color":"0xaaaaaa77",
+                            "x":0.0,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "visible":1,
+                            "enabled":1,
+                            "action":[["game.ctf.switch","%game.ctf.red.names#idx"]],
+                            "children":
+                            [
+                                {
+                                    "type":"text_widget",
+                                    "color": "0xaa0000",
+                                    "visible": 1,
+                                    "x":0.0,
+                                    "y":0.0,
+                                    "w":1.0,
+                                    "h":1.0,
+                                    "enabled": 0,
+                                    "text":"%game.ctf.red.names#redidx",
+                                    "fontsize": 6
+                                }
+                            ]
+                        }
+                    ]
 				},
                 {
-                    "type":"text_widget",
-                    "color":"0xaa0000",
-                    "x":0.62,
-                    "y":0.9,
-                    "w":0.25,
-                    "h":0.1,
-                    "visible":1,
-                    "enabled":0,
-                    "text":"Blue team",
-                    "fontsize":6
-                },
-				{
-					"type":"grid",
-					"source":"%game.ctf.blue.names",
-					"startid":"#blueidx",
-					"direction": "horizontal",
-					"color": "0xffffff",
-					"x":0.5,
-					"y":0.1,
-					"w":0.5,
-					"h":0.9,
-					"visible": 1,
-					"enabled": 0,
-					"cols": 1,
-					"rows": 5,
-					"template": [
-						{
-							"type":"text_widget",
-							"color": "0xaa0000",
-							"visible": 1,
-							"x":0.0,
-							"y":0.0,
-							"w":1.0,
-							"h":1.0,
-							"enabled": 0,
-							"text":"%game.ctf.blue.names#blueidx",
-							"fontsize": 6
-						}
-					]
-				}
+                    "type":"grid",
+                    "source":"%game.ctf.blue.names",
+                    "startid":"#blueidx",
+                    "direction": "horizontal",
+                    "color": "0xffffff",
+                    "x":0.5,
+                    "y":0.1,
+                    "w":0.5,
+                    "h":0.9,
+                    "visible": 1,
+                    "enabled": 0,
+                    "cols": 1,
+                    "rows": 5,
+                    "template": [
+                        {
+                            "type":"button",
+                            "color":"0x00007777",
+                            "highlight_color":"0xaaaaaa77",
+                            "x":0.0,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "visible":1,
+                            "enabled":1,
+                            "action":[["game.ctf.switch","%game.ctf.blue.names#idx"]],
+                            "children":
+                            [
+                                {
+                                    "type":"text_widget",
+                                    "color": "0xaa0000",
+                                    "visible": 1,
+                                    "x":0.0,
+                                    "y":0.0,
+                                    "w":1.0,
+                                    "h":1.0,
+                                    "enabled": 0,
+                                    "text":"%game.ctf.blue.names#blueidx",
+                                    "fontsize": 6
+                                }
+                            ]
+                        }
+                    ]
+                }
 			]
 		}
 	]

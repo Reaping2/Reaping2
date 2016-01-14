@@ -15,10 +15,11 @@ ClientListSystem::ClientListSystem()
     , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::redNames, this) , "names", &mRedTeamModel)
     , mBlueIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::blueIds, this) , "ids", &mBlueTeamModel)
     , mRedIdsModel( (ModelValue::get_int_vec_t) boost::bind( &ClientListSystem::redIds, this) , "ids", &mRedTeamModel)
+    , mSwitchModel( StringFunc( this, &ClientListSystem::switchTeam ), "switch", &mCTFModel )
 {
 	mOnClientListChanged = platform::EventServer<network::ClientListChangedEvent>::Get().Subscribe( boost::bind( &ClientListSystem::OnClientListChanged, this, _1 ) );
     // TODO: bind here the team change button
-    // and on team change send the ctf programstate to the server
+    // and on team change send the ctf programstate to the server: send ctf client datas message
 }
 
 void ClientListSystem::Init()
@@ -90,6 +91,34 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
             mRedNames.push_back(readyClients[i].mClientName);
             mRedIds.push_back(readyClients[i].mClientId);
         }
+    }
+}
+
+void ClientListSystem::switchTeam( std::string const & player )
+{
+    std::cerr << player << "want to switch team!\n";
+    std::vector<std::string>::iterator nameit = std::find(mBlueNames.begin(), mBlueNames.end(), player );
+    int distance = std::distance( mBlueNames.begin(), nameit );
+    if ( mBlueNames.size() == distance )
+    {
+        nameit = std::find(mRedNames.begin(), mRedNames.end(), player );
+        distance = std::distance( mRedNames.begin(), nameit );
+
+        mRedNames.erase(nameit);
+        std::vector<int32_t>::iterator idit = mRedIds.begin()+distance;
+        int32_t id = *idit;
+        mRedIds.erase(mRedIds.begin()+distance);
+        mBlueNames.push_back(player);
+        mBlueIds.push_back(id);
+    }
+    else
+    {
+        mBlueNames.erase(nameit);
+        std::vector<int32_t>::iterator idit = mBlueIds.begin()+distance;
+        int32_t id = *idit;
+        mBlueIds.erase(mBlueIds.begin()+distance);
+        mRedNames.push_back(player);
+        mRedIds.push_back(id);
     }
 }
 
