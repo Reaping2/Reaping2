@@ -61,8 +61,6 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
     core::ProgramState::ClientDatas_t readyClients(clients.size());
     auto it = std::copy_if( clients.begin(), clients.end(), readyClients.begin(), [] ( core::ClientData const & d ) { return d.mReady; } );
     readyClients.resize(std::distance(readyClients.begin(), it));
-    // TODO; what about quit clients
-    // TODO: multiple clients with the same name
     // remove all blues and reds from clients -> new clients
     removeall( readyClients, mBlueIds );
     removeall( readyClients, mRedIds );
@@ -80,9 +78,7 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
             mRedIds.push_back(readyClients[i].mClientId);
         }
     }
-    // TODO: send here
-    // send ctfclientdatachanged event
-    // subscribe to that in clientdatasmessage
+    // notify the server about the team setup
     CtfClientDatasChangedEvent ctfevent;
     ctfevent.mCtfClientDatas = createClientDatas();
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
@@ -90,6 +86,9 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
 
 void ClientListSystem::switchTeam( std::string const & player )
 {
+    // 1; find original team
+    // 2; remove from there
+    // 3; put into the other team
     std::vector<std::string>::iterator nameit = std::find(mBlueNames.begin(), mBlueNames.end(), player );
     int distance = std::distance( mBlueNames.begin(), nameit );
     if ( mBlueNames.size() == distance )
@@ -113,7 +112,7 @@ void ClientListSystem::switchTeam( std::string const & player )
         mRedNames.push_back(player);
         mRedIds.push_back(id);
     }
-    // TODO: send here
+    // notify the server about the team setup
     CtfClientDatasChangedEvent ctfevent;
     ctfevent.mCtfClientDatas = createClientDatas();
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
