@@ -24,8 +24,8 @@ class ClientListSystem : public engine::System
     std::vector<std::string> mRedNames;
     std::vector<std::string> mBlueNames;
     // ids are for the lifecycle subsystem
-    std::vector<int32_t> mRedIds;
-    std::vector<int32_t> mBlueIds;
+    typedef std::map<std::string,::ctf::ClientData> PlayerClientDataMap;
+    PlayerClientDataMap mPlayerToClientData;
     platform::AutoReg mOnClientListChanged;
     void OnClientListChanged( ClientListChangedEvent const& event );
     ::ctf::ProgramState::ClientDatas_t createClientDatas();
@@ -37,6 +37,7 @@ public:
     std::vector<std::string> blueNames();
     std::vector<std::string> redNames();
     void switchTeam( std::string const & player );
+    void removeall( core::ProgramState::ClientDatas_t & from , PlayerClientDataMap const & what );
 };
 
 }

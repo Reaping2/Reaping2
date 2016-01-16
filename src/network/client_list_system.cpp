@@ -38,18 +38,16 @@ std::vector<std::string> ClientListSystem::redNames()
     return mRedNames;
 }
 
-namespace {
-    void removeall( core::ProgramState::ClientDatas_t & from , std::vector<int32_t> const & what )
+void ClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , ClientListSystem::PlayerClientDataMap const & what )
+{
+    for ( PlayerClientDataMap::const_iterator playerIt = what.begin(); playerIt != what.end(); ++playerIt )
     {
-        for ( size_t i = 0; i < what.size(); ++i )
+        for ( core::ProgramState::ClientDatas_t::iterator it = from.begin(); it != from.end(); ++it )
         {
-            for ( core::ProgramState::ClientDatas_t::iterator it = from.begin(); it != from.end(); ++it )
+            if ( (*it).mClientId == playerIt->second.mClientId )
             {
-                if ( (*it).mClientId == what[i] )
-                {
-                    from.erase( it );
-                    break;
-                }
+                from.erase( it );
+                break;
             }
         }
     }
@@ -62,20 +60,23 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
     auto it = std::copy_if( clients.begin(), clients.end(), readyClients.begin(), [] ( core::ClientData const & d ) { return d.mReady; } );
     readyClients.resize(std::distance(readyClients.begin(), it));
     // remove all blues and reds from clients -> new clients
-    removeall( readyClients, mBlueIds );
-    removeall( readyClients, mRedIds );
+    removeall( readyClients, mPlayerToClientData );
     // simple distribute: add to the smaller team
     for ( size_t i = 0; i < readyClients.size(); ++i )
     {
+        std::string const & clientName = readyClients[i].mClientName;
+        int32_t clientId = readyClients[i].mClientId;
         if ( mBlueNames.size() < mRedNames.size() )
         {
-            mBlueNames.push_back(readyClients[i].mClientName);
-            mBlueIds.push_back(readyClients[i].mClientId);
+            mBlueNames.push_back(clientName);
+            mPlayerToClientData[clientName].mTeam = Team::Blue;
+            mPlayerToClientData[clientName].mClientId = clientId;
         }
         else
         {
-            mRedNames.push_back(readyClients[i].mClientName);
-            mRedIds.push_back(readyClients[i].mClientId);
+            mRedNames.push_back(clientName);
+            mPlayerToClientData[clientName].mTeam = Team::Red;
+            mPlayerToClientData[clientName].mClientId = clientId;
         }
     }
     // notify the server about the team setup
@@ -86,41 +87,16 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
 
 void ClientListSystem::switchTeam( std::string const & player )
 {
-    // 1; find original team
-    // 2; remove from there
-    // 3; put into the other team
-    std::vector<std::string>::iterator nameit = std::find(mBlueNames.begin(), mBlueNames.end(), player );
-    int distance = std::distance( mBlueNames.begin(), nameit );
-    if ( mBlueNames.size() == distance )
+    ::ctf::ClientData & clientData = mPlayerToClientData[player];
+    if ( Team::Blue == clientData.mTeam )
     {
-        nameit = std::find(mRedNames.begin(), mRedNames.end(), player );
-        distance = std::distance( mRedNames.begin(), nameit );
-
-        // don't leave a team empty
-        if ( 1 == mRedNames.size() )
-        {
-            return;
-        }
-        mRedNames.erase(nameit);
-        std::vector<int32_t>::iterator idit = mRedIds.begin()+distance;
-        int32_t id = *idit;
-        mRedIds.erase(mRedIds.begin()+distance);
-        mBlueNames.push_back(player);
-        mBlueIds.push_back(id);
+        mBlueNames.erase( std::find(mBlueNames.begin(), mBlueNames.end(), player) );
+        clientData.mTeam = Team::Red;
     }
     else
     {
-        // don't leave a team empty
-        if ( 1 == mBlueNames.size() )
-        {
-            return;
-        }
-        mBlueNames.erase(nameit);
-        std::vector<int32_t>::iterator idit = mBlueIds.begin()+distance;
-        int32_t id = *idit;
-        mBlueIds.erase(mBlueIds.begin()+distance);
-        mRedNames.push_back(player);
-        mRedIds.push_back(id);
+        mRedNames.erase( std::find(mRedNames.begin(), mRedNames.end(), player) );
+        clientData.mTeam = Team::Blue;
     }
     // notify the server about the team setup
     CtfClientDatasChangedEvent ctfevent;
@@ -131,19 +107,9 @@ void ClientListSystem::switchTeam( std::string const & player )
 ::ctf::ProgramState::ClientDatas_t ClientListSystem::createClientDatas()
 {
     ::ctf::ProgramState::ClientDatas_t datas;
-    for ( int i = 0; i < mBlueIds.size(); i++ )
+    for ( PlayerClientDataMap::iterator it = mPlayerToClientData.begin(); it != mPlayerToClientData.end(); ++it )
     {
-        ::ctf::ClientData d;
-        d.mTeam = Team::Blue;
-        d.mClientId = mBlueIds[i];
-        datas.push_back(d);
-    }
-    for ( int i = 0; i < mRedIds.size(); i++ )
-    {
-        ::ctf::ClientData d;
-        d.mTeam = Team::Red;
-        d.mClientId = mRedIds[i];
-        datas.push_back(d);
+        datas.push_back( it->second );
     }
     return datas;
 }
