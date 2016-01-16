@@ -65,7 +65,7 @@
                             "h":1.0,
                             "visible":1,
                             "enabled":1,
-                            "action":[["game.ctf.switch","%game.ctf.red.names#idx"]],
+                            "action":[["game.ctf.switch","%game.ctf.red.names#redidx"]],
                             "children":
                             [
                                 {
@@ -109,7 +109,7 @@
                             "h":1.0,
                             "visible":1,
                             "enabled":1,
-                            "action":[["game.ctf.switch","%game.ctf.blue.names#idx"]],
+                            "action":[["game.ctf.switch","%game.ctf.blue.names#blueidx"]],
                             "children":
                             [
                                 {
