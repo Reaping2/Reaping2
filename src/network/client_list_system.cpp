@@ -96,6 +96,11 @@ void ClientListSystem::switchTeam( std::string const & player )
         nameit = std::find(mRedNames.begin(), mRedNames.end(), player );
         distance = std::distance( mRedNames.begin(), nameit );
 
+        // don't leave a team empty
+        if ( 1 == mRedNames.size() )
+        {
+            return;
+        }
         mRedNames.erase(nameit);
         std::vector<int32_t>::iterator idit = mRedIds.begin()+distance;
         int32_t id = *idit;
@@ -105,6 +110,11 @@ void ClientListSystem::switchTeam( std::string const & player )
     }
     else
     {
+        // don't leave a team empty
+        if ( 1 == mBlueNames.size() )
+        {
+            return;
+        }
         mBlueNames.erase(nameit);
         std::vector<int32_t>::iterator idit = mBlueIds.begin()+distance;
         int32_t id = *idit;
