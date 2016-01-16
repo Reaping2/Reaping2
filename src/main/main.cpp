@@ -226,6 +226,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
         Eng.AddSystem(AutoId("client_list_system"));
+        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 
@@ -295,7 +296,6 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
-
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/ctf_program_state.h"
+#include "network/ctf_client_datas_changed_event.h"
 
 namespace network {
 namespace ctf {
@@ -37,6 +38,8 @@ public:
 
 class ClientDatasMessageSenderSystem : public MessageSenderSystem
 {
+    AutoReg mOnCtfClientDatasChangedEvent;
+    void OnCtfClientDatasChangedEvent( CtfClientDatasChangedEvent const & evt );
 public:
     DEFINE_SYSTEM_BASE(::network::ctf::ClientDatasMessageSenderSystem)
     ClientDatasMessageSenderSystem();

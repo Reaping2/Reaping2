@@ -1,6 +1,7 @@
 #include "client_list_system.h"
 #include "platform/event.h"
 #include "ctf_client_datas_message.h"
+#include "ctf_client_datas_changed_event.h"
 #include <algorithm>
 
 namespace network {
@@ -82,6 +83,9 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
     // TODO: send here
     // send ctfclientdatachanged event
     // subscribe to that in clientdatasmessage
+    CtfClientDatasChangedEvent ctfevent;
+    ctfevent.mCtfClientDatas = createClientDatas();
+    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
 }
 
 void ClientListSystem::switchTeam( std::string const & player )
@@ -110,6 +114,29 @@ void ClientListSystem::switchTeam( std::string const & player )
         mRedIds.push_back(id);
     }
     // TODO: send here
+    CtfClientDatasChangedEvent ctfevent;
+    ctfevent.mCtfClientDatas = createClientDatas();
+    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
+}
+
+::ctf::ProgramState::ClientDatas_t ClientListSystem::createClientDatas()
+{
+    ::ctf::ProgramState::ClientDatas_t datas;
+    for ( int i = 0; i < mBlueIds.size(); i++ )
+    {
+        ::ctf::ClientData d;
+        d.mTeam = Team::Blue;
+        d.mClientId = mBlueIds[i];
+        datas.push_back(d);
+    }
+    for ( int i = 0; i < mRedIds.size(); i++ )
+    {
+        ::ctf::ClientData d;
+        d.mTeam = Team::Red;
+        d.mClientId = mRedIds[i];
+        datas.push_back(d);
+    }
+    return datas;
 }
 
 }

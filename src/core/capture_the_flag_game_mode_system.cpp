@@ -89,14 +89,6 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode(core::StartGameModeEvent cons
         EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"Capture that flag"));
         EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(4,"GL HF!"));
         ctf::ProgramState& ctfProgramState=ctf::ProgramState::Get();
-        ctfProgramState.mClientDatas.clear();
-        bool isBlueTeam=true;
-        for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
-        {
-            ctfProgramState.mClientDatas.push_back(ctf::ClientData((*i).mClientId,
-                isBlueTeam?(Team::Blue):(Team::Red)));
-            isBlueTeam=!isBlueTeam;
-        }
         std::auto_ptr<network::ctf::ClientDatasMessage> clientDatasMsg(new network::ctf::ClientDatasMessage);
         clientDatasMsg->mClientDatas=ctfProgramState.mClientDatas;
         network::MessageHolder::Get().AddOutgoingMessage(clientDatasMsg);

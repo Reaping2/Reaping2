@@ -91,6 +91,7 @@
 #include "cloak_system.h"
 #include "network/cloak_changed_message.h"
 #include "network/client_list_system.h"
+#include "network/ctf_client_datas_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -152,6 +153,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("flash_message_sender_system"), &CreateSystem<network::FlashMessageSenderSystem>);
     Bind( AutoId("soldier_properties_message_sender_system"), &CreateSystem<network::SoldierPropertiesMessageSenderSystem>);
     Bind( AutoId("client_datas_message_sender_system"), &CreateSystem<network::ClientDatasMessageSenderSystem>);
+    Bind( AutoId("ctf_client_datas_message_sender_system"), &CreateSystem<network::ctf::ClientDatasMessageSenderSystem>);
     Bind( AutoId("health_message_sender_system"), &CreateSystem<network::HealthMessageSenderSystem>);
     Bind( AutoId("accuracy_message_sender_system"), &CreateSystem<network::AccuracyMessageSenderSystem>);
     Bind( AutoId("set_ownership_message_sender_system"), &CreateSystem<network::SetOwnershipMessageSenderSystem>);

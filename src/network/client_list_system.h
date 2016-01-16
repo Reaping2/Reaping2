@@ -5,6 +5,7 @@
 #include "platform/model_value.h"
 #include "platform/register.h"
 #include "client_list_changed_event.h"
+#include "ctf_client_datas_changed_event.h"
 #include <vector>
 
 namespace network {
@@ -27,6 +28,7 @@ class ClientListSystem : public engine::System
     std::vector<int32_t> mBlueIds;
     platform::AutoReg mOnClientListChanged;
     void OnClientListChanged( ClientListChangedEvent const& event );
+    ::ctf::ProgramState::ClientDatas_t createClientDatas();
 public:
     DEFINE_SYSTEM_BASE(ClientListSystem)
     ClientListSystem();
