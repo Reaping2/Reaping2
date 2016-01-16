@@ -91,7 +91,7 @@
 #include "cloak_system.h"
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
-#include "network/client_list_system.h"
+#include "network/ctf_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
 
 using platform::AutoId;
@@ -167,7 +167,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
     Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
     Bind( AutoId("border_message_sender_system"), &CreateSystem<network::BorderMessageSenderSystem>);
-    Bind( AutoId("client_list_system"), &CreateSystem<network::ClientListSystem>);	
+    Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

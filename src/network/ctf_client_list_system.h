@@ -11,7 +11,7 @@
 namespace network {
 using platform::ModelValue;
 
-class ClientListSystem : public engine::System
+class CtfClientListSystem : public engine::System
 {
     ModelValue mGameModel;
     ModelValue mCTFModel;
@@ -30,8 +30,8 @@ class ClientListSystem : public engine::System
     void OnClientListChanged( ClientListChangedEvent const& event );
     ::ctf::ProgramState::ClientDatas_t createClientDatas();
 public:
-    DEFINE_SYSTEM_BASE(ClientListSystem)
-    ClientListSystem();
+    DEFINE_SYSTEM_BASE(CtfClientListSystem)
+    CtfClientListSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
     std::vector<std::string> blueNames();

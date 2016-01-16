@@ -1,4 +1,4 @@
-#include "client_list_system.h"
+#include "ctf_client_list_system.h"
 #include "platform/event.h"
 #include "ctf_client_datas_message.h"
 #include "ctf_client_datas_changed_event.h"
@@ -8,37 +8,37 @@ namespace network {
 
 using platform::RootModel;
 
-ClientListSystem::ClientListSystem()
+CtfClientListSystem::CtfClientListSystem()
 	: mGameModel("game", &RootModel::Get())
 	, mCTFModel("ctf", &mGameModel)
     , mRedTeamModel( "red", &mCTFModel )
     , mBlueTeamModel( "blue", &mCTFModel )
-    , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::blueNames, this) , "names", &mBlueTeamModel)
-    , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &ClientListSystem::redNames, this) , "names", &mRedTeamModel)
-    , mSwitchModel( StringFunc( this, &ClientListSystem::switchTeam ), "switch", &mCTFModel )
+    , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::blueNames, this) , "names", &mBlueTeamModel)
+    , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::redNames, this) , "names", &mRedTeamModel)
+    , mSwitchModel( StringFunc( this, &CtfClientListSystem::switchTeam ), "switch", &mCTFModel )
 {
-	mOnClientListChanged = platform::EventServer<network::ClientListChangedEvent>::Get().Subscribe( boost::bind( &ClientListSystem::OnClientListChanged, this, _1 ) );
+	mOnClientListChanged = platform::EventServer<network::ClientListChangedEvent>::Get().Subscribe( boost::bind( &CtfClientListSystem::OnClientListChanged, this, _1 ) );
 }
 
-void ClientListSystem::Init()
-{
-}
-
-void ClientListSystem::Update( double DeltaTime )
+void CtfClientListSystem::Init()
 {
 }
 
-std::vector<std::string> ClientListSystem::blueNames()
+void CtfClientListSystem::Update( double DeltaTime )
+{
+}
+
+std::vector<std::string> CtfClientListSystem::blueNames()
 {
 	return mBlueNames;
 }
 
-std::vector<std::string> ClientListSystem::redNames()
+std::vector<std::string> CtfClientListSystem::redNames()
 {
     return mRedNames;
 }
 
-void ClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , ClientListSystem::PlayerClientDataMap const & what )
+void CtfClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , ClientListSystem::PlayerClientDataMap const & what )
 {
     for ( PlayerClientDataMap::const_iterator playerIt = what.begin(); playerIt != what.end(); ++playerIt )
     {
@@ -53,7 +53,7 @@ void ClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , Cli
     }
 }
 
-void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event )
+void CtfClientListSystem::OnClientListChanged( ClientListChangedEvent const& event )
 {
     core::ProgramState::ClientDatas_t const & clients = event.mClientList;
     core::ProgramState::ClientDatas_t readyClients(clients.size());
@@ -85,7 +85,7 @@ void ClientListSystem::OnClientListChanged( ClientListChangedEvent const& event 
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
 }
 
-void ClientListSystem::switchTeam( std::string const & player )
+void CtfClientListSystem::switchTeam( std::string const & player )
 {
     ::ctf::ClientData & clientData = mPlayerToClientData[player];
     if ( Team::Blue == clientData.mTeam )
@@ -104,7 +104,7 @@ void ClientListSystem::switchTeam( std::string const & player )
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
 }
 
-::ctf::ProgramState::ClientDatas_t ClientListSystem::createClientDatas()
+::ctf::ProgramState::ClientDatas_t CtfClientListSystem::createClientDatas()
 {
     ::ctf::ProgramState::ClientDatas_t datas;
     for ( PlayerClientDataMap::iterator it = mPlayerToClientData.begin(); it != mPlayerToClientData.end(); ++it )
