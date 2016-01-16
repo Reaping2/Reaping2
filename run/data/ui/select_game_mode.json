@@ -48,7 +48,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["ui.load","client_list"]],
+					"action":[["ui.load","ctf_client_list"]],
 					"children":[
 						{
 							"type":"text_widget",
