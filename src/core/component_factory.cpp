@@ -43,6 +43,8 @@
 #include "detonate_on_hit_component.h"
 #include "armor_component.h"
 #include "cloak_component.h"
+#include "border_component.h"
+#include "water_collision_component.h"
 
 using platform::AutoId;
 
@@ -66,11 +68,13 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("collision_component"), &CreateComponent<CollisionComponent>);
     Bind( AutoId("shot_collision_component"), &CreateComponent<ShotCollisionComponent>);
     Bind( AutoId("wall_collision_component"), &CreateComponent<WallCollisionComponent>);
+    Bind( AutoId("water_collision_component"), &CreateComponent<WaterCollisionComponent>);
     Bind( AutoId("pickup_collision_component"), &CreateComponent<PickupCollisionComponent>);
     Bind( AutoId("aoe_collision_component"), &CreateComponent<AoeCollisionComponent>);
     Bind( AutoId("bounce_collision_component"), &CreateComponent<BounceCollisionComponent>);
 
     Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
+    Bind( AutoId("border_component"), &CreateComponent<BorderComponent>);
 
     Bind( AutoId("remove_on_death_component"), &CreateComponent<RemoveOnDeathComponent>);
     Bind( AutoId("explode_on_death_component"), &CreateComponent<ExplodeOnDeathComponent>);

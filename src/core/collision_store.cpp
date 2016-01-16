@@ -27,6 +27,8 @@ CollisionStore::CollisionStore()
     SetCollisionModel( CollisionClass::Wall, CollisionClass::Projectile, Box );
     SetCollisionModel( CollisionClass::Wall, CollisionClass::Creep, Box );
     SetCollisionModel( CollisionClass::Wall, CollisionClass::Player, Box );
+    SetCollisionModel( CollisionClass::Water, CollisionClass::Creep, Box );
+    SetCollisionModel( CollisionClass::Water, CollisionClass::Player, Box );
     SetCollisionModel( CollisionClass::Player, CollisionClass::Pickup, Box );
     SetCollisionModel( CollisionClass::Creep, CollisionClass::AoeDamage, Box );
     SetCollisionModel( CollisionClass::Player, CollisionClass::AoeDamage, Box );

@@ -49,10 +49,10 @@
 		"name":"platform",
 		"recognizers":
 		[
-			{"recognizer":"idle",
-				"renderer":"idle"},
 			{"recognizer":"ctf_hat",
-				"renderer":"ctf_hat"}
+				"renderer":"ctf_hat"},
+			{"recognizer":"idle",
+				"renderer":"idle"}
 		]
 	},
 	{
@@ -69,6 +69,26 @@
 		[
 			{"recognizer":"idle",
 				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"stone_wall",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
+		"name":"water",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
 		]
 	},
 	{
@@ -98,6 +118,14 @@
 		]
 	},
 	{
+		"name":"lucky_rocket",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"pistol_shot",
 		"recognizers":
 		[
@@ -115,6 +143,22 @@
 	},
 	{
 		"name":"rocket_launcher_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"lucky_rocket_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"lucky_rocket_alt_projectile",
 		"recognizers":
 		[
 			{"recognizer":"move",
@@ -219,6 +263,14 @@
 	},
 	{
 		"name":"rocket_pow_projectile",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"lucky_rocket_explosion_projectile",
 		"recognizers":
 		[
 			{"recognizer":"idle",

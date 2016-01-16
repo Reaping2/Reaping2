@@ -18,6 +18,8 @@ TargetRepo::TargetRepo()
     int32_t id=AutoId("wall");
     mElements.insert(id, new WallTarget(AutoId("wall"),AutoId("wall"),AutoId("wall")));
     id=AutoId("wall_small"); mElements.insert(id, new WallTarget(AutoId("wall_small"),AutoId("wall_small"),AutoId("wall_small")));
+    id=AutoId("stone_wall"); mElements.insert(id, new WallTarget(id,id,id));
+    id=AutoId("water"); mElements.insert(id, new WallTarget(id,id,id));
     id=AutoId("ctf_soldier_spawn_blue"); mElements.insert(id, new CtfSoldierSpawnTarget(id,AutoId("ctf_player"),Team::Blue));
     id=AutoId("ctf_soldier_spawn_red"); mElements.insert(id, new CtfSoldierSpawnTarget(id,AutoId("ctf_player"),Team::Red));
 
@@ -28,6 +30,7 @@ TargetRepo::TargetRepo()
     id=AutoId("plasma_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("ion_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("gatling_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
+    id=AutoId("gauss_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("rocket_launcher"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("shotgun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("gauss_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));

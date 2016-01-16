@@ -36,14 +36,17 @@ void MoveSpeedBuffSubSystem::RecalculateBuffs(Actor &actor)
     }
     moveC->GetSpeed().mFlat.Set(0.0);
     moveC->GetSpeed().mPercent.Set(0.0);
+    bool rooted = false;
     BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),MoveSpeedBuff::GetType_static());
     for( BuffListFilter<IBuffHolderComponent::All>::const_iterator moveSpeedBuffIt = buffListFilter.begin(), moveSpeedBuffE = buffListFilter.end(); moveSpeedBuffIt != moveSpeedBuffE; ++moveSpeedBuffIt )
     {
         Opt<MoveSpeedBuff> moveSpeedBuff(*moveSpeedBuffIt);
         moveC->GetSpeed().mFlat.Set(moveC->GetSpeed().mFlat.Get()+moveSpeedBuff->GetFlatBonus());
         moveC->GetSpeed().mPercent.Set(moveC->GetSpeed().mPercent.Get()+moveSpeedBuff->GetPercentBonus());
+        rooted = rooted || moveSpeedBuff->IsRooted();
     }
-}
+    moveC->SetRooted( rooted );
+ }
 
 } // namespace engine
 

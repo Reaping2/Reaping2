@@ -44,6 +44,26 @@ Opt<Item> InventoryComponent::GetItem(int32_t Id)
     return Opt<Item>();
 }
 
+void InventoryComponent::DropItem(int32_t Id)
+{
+    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    {
+        if( (*i)->GetId() == Id )
+        {
+            delete (*i).Get();
+            mItems.erase( i );
+        }
+    }
+    if( mSelectedWeapon.IsValid() && mSelectedWeapon->GetId() == Id )
+    {
+        SetSelectedWeapon( -1 );
+    }
+    if( mSelectedNormalItem.IsValid() && mSelectedNormalItem->GetId() == Id )
+    {
+        SetSelectedNormalItem( -1 );
+    }
+}
+
 void InventoryComponent::DropItemType( ItemType::Type Type )
 {
     for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
@@ -52,7 +72,7 @@ void InventoryComponent::DropItemType( ItemType::Type Type )
         {
             delete (*i).Get();
             mItems.erase( i );
-        } 
+        }
     }
     if (Type==ItemType::Weapon)//TODO: handle multiple items, and handle this situation
     {

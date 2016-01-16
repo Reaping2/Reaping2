@@ -18,6 +18,7 @@ public:
         Mine,
         Player,
         Wall,
+        Water,
         Pickup,
         Num_Classes,
     };

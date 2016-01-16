@@ -42,6 +42,8 @@
 #include "detonate_on_hit_component.h"
 #include "armor_component.h"
 #include "cloak_component.h"
+#include "border_component.h"
+#include "water_collision_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -61,12 +63,14 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("collision_component"), &CreateComponentLoader<CollisionComponentLoader>);
     Bind( AutoId("shot_collision_component"), &CreateComponentLoader<ShotCollisionComponentLoader>);
     Bind( AutoId("wall_collision_component"), &CreateComponentLoader<WallCollisionComponentLoader>);
+    Bind( AutoId("water_collision_component"), &CreateComponentLoader<WaterCollisionComponentLoader>);
     Bind( AutoId("pickup_collision_component"), &CreateComponentLoader<PickupCollisionComponentLoader>);
     Bind( AutoId("aoe_collision_component"), &CreateComponentLoader<AoeCollisionComponentLoader>);
     Bind( AutoId("bounce_collision_component"), &CreateComponentLoader<BounceCollisionComponentLoader>);
     Bind( AutoId("flag_collision_component"), &CreateComponentLoader<ctf::FlagCollisionComponentLoader>);
 
     Bind( AutoId("renderable_component"), &CreateComponentLoader<RenderableComponentLoader>);
+    Bind( AutoId("border_component"), &CreateComponentLoader<BorderComponentLoader>);
 
     Bind( AutoId("remove_on_death_component"), &CreateComponentLoader<RemoveOnDeathComponentLoader>);
     Bind( AutoId("explode_on_death_component"), &CreateComponentLoader<ExplodeOnDeathComponentLoader>);

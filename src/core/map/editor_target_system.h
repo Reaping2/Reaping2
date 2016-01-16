@@ -20,6 +20,7 @@ public:
     glm::vec2 GetCursorPosition() const;
     void SetCursorPosition(double x, double y);
     Opt<Actor> GetCursor() const;
+    double GetCursorRadius() const;
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

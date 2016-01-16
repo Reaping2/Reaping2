@@ -41,6 +41,7 @@
 #include "cloak_changed_message.h"
 #include "core/buffs/armor_buff.h"
 #include "core/buffs/cloak_buff.h"
+#include "border_message.h"
 
 
     struct message_order
@@ -78,6 +79,8 @@
             type=network::KillScoreMessage::GetType_static();
             type=network::ClientScoreMessage::GetType_static();
             type=network::ItemChangedMessage::GetType_static();
+            type=network::CloakChangedMessage::GetType_static();
+            type=network::BorderMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -105,6 +108,7 @@
             type=platform::AutoId("pistol_shot");
             type=platform::AutoId("gauss_gun");
             type=platform::AutoId("gauss_shot");
+            type=platform::AutoId("gauss_alt_shot");
             type=platform::AutoId("gatling_gun");
             type=platform::AutoId("gatling_gun_projectile");
             type=platform::AutoId("gatling_gun_alt_projectile");
@@ -120,8 +124,10 @@
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");
             type=platform::AutoId("pow_projectile");
-            type=network::CloakChangedMessage::GetType_static();
-
+            type=platform::AutoId("lucky_rocket");
+            type=platform::AutoId("lucky_rocket_projectile");
+            type=platform::AutoId("lucky_rocket_alt_projectile");
+            type=platform::AutoId("lucky_rocket_explosion_projectile");
         }
     } _msg_order;
 
@@ -160,6 +166,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ClientScoreMessage, "client_score")
     BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
     BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
+    BOOST_CLASS_EXPORT_GUID(network::BorderMessage, "border")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H
