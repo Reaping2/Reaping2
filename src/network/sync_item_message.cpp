@@ -44,40 +44,33 @@ void SyncItemMessageSenderSystem::OnItemPropertiesChanged(engine::ItemProperties
     mMessageHolder.AddOutgoingMessage(syncItemMsg);
 }
 
-SyncItemMessageHandlerSubSystem::SyncItemMessageHandlerSubSystem()
-    : PendingMessageHandlerSubSystem()
-{
-}
-
-
 void SyncItemMessageHandlerSubSystem::Init()
 {
 }
 
-void SyncItemMessageHandlerSubSystem::Update(double DeltaTime)
-{
-    PendingMessageHandlerSubSystem::Update(DeltaTime);
-}
-
-bool SyncItemMessageHandlerSubSystem::ProcessPending(Message const& message)
+void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
 {
     SyncItemMessage const& msg=static_cast<SyncItemMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed
+    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
+    if( !actor.IsValid() )
+    {
+        BOOST_ASSERT( false );
+        return;
+    }
     L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
     Opt<IInventoryComponent> inv = actor->Get<IInventoryComponent>();
     if( !inv.IsValid() )
     {
-        return false;
+        return;
     }
     Opt<Item> item = inv->GetItem( msg.mItemID );
     if( !item.IsValid() )
     {
-        return false;
+        return;
     }
     std::istringstream iss( msg.mData );
     eos::portable_iarchive ia(iss);
     item->serialize( ia );
-    return true;
 }
 
 } // namespace network

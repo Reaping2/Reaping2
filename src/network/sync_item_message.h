@@ -37,14 +37,12 @@ void SyncItemMessage::serialize(Archive& ar, const unsigned int version)
     ar & mData;
 }
 
-class SyncItemMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<SyncItemMessage>
+class SyncItemMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
     DEFINE_SUB_SYSTEM_BASE(SyncItemMessageHandlerSubSystem)
-    SyncItemMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
-    virtual bool ProcessPending(Message const& message);
+    virtual void Execute(Message const& message);
 };
 
 class SyncItemMessageSenderSystem : public MessageSenderSystem
