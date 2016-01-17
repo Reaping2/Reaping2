@@ -1,0 +1,75 @@
+{
+	"type":"root",
+	"children":[
+		{
+			"type":"fixed_ratio_container",
+            "x": 0.0,
+            "y": 0.0,
+            "w": 1.0,
+            "h": 1.0,
+            "align_h": "center",
+            "align_v": "center",
+            "visible": 0,
+            "enabled": 0,
+			"children":
+			[
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.37,
+					"y":0.1,
+					"w":0.25,
+					"h":0.1,
+					"visible":1,
+					"enabled":1,
+					"action":[["lifecycle.host","ffa"]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"Play",
+							"fontsize":6
+						}
+					]
+				},
+                {
+                    "type":"grid",
+                    "source":"%ffa_client_list.clients",
+                    "startid":"#clientidx",
+                    "direction": "horizontal",
+                    "color": "0xffffff",
+                    "x":0.35,
+                    "y":0.1,
+                    "w":0.3,
+                    "h":0.9,
+                    "visible": 1,
+                    "enabled": 0,
+                    "cols": 1,
+                    "rows": 10,
+                    "template": [
+                        {
+                            "type":"text_widget",
+                            "color": "0xaa0000",
+                            "visible": 1,
+                            "x":0.0,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled": 0,
+                            "text":"%ffa_client_list.clients#clientidx",
+                            "fontsize": 6
+                        }
+                    ]
+                }
+			]
+		}
+	]
+}
