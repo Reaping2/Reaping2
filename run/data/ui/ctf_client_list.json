@@ -42,14 +42,14 @@
 				},
 				{
 					"type":"grid",
-					"source":"%game.ctf.red.names",
+					"source":"%ctf_client_list.red.names",
 					"startid":"#redidx",
 					"direction": "horizontal",
 					"color": "0xffffff",
 					"x":0.0,
-					"y":0.1,
+					"y":0.2,
 					"w":0.5,
-					"h":0.9,
+					"h":0.7,
 					"visible": 1,
 					"enabled": 0,
 					"cols": 1,
@@ -65,7 +65,7 @@
                             "h":1.0,
                             "visible":1,
                             "enabled":1,
-                            "action":[["game.ctf.switch","%game.ctf.red.names#redidx"]],
+                            "action":[["ctf_client_list.switch","%ctf_client_list.red.names#redidx"]],
                             "children":
                             [
                                 {
@@ -77,7 +77,7 @@
                                     "w":1.0,
                                     "h":1.0,
                                     "enabled": 0,
-                                    "text":"%game.ctf.red.names#redidx",
+                                    "text":"%ctf_client_list.red.names#redidx",
                                     "fontsize": 6
                                 }
                             ]
@@ -86,7 +86,7 @@
 				},
                 {
                     "type":"grid",
-                    "source":"%game.ctf.blue.names",
+                    "source":"%ctf_client_list.blue.names",
                     "startid":"#blueidx",
                     "direction": "horizontal",
                     "color": "0xffffff",
@@ -109,7 +109,7 @@
                             "h":1.0,
                             "visible":1,
                             "enabled":1,
-                            "action":[["game.ctf.switch","%game.ctf.blue.names#blueidx"]],
+                            "action":[["ctf_client_list.switch","%ctf_client_list.blue.names#blueidx"]],
                             "children":
                             [
                                 {
@@ -121,7 +121,7 @@
                                     "w":1.0,
                                     "h":1.0,
                                     "enabled": 0,
-                                    "text":"%game.ctf.blue.names#blueidx",
+                                    "text":"%ctf_client_list.blue.names#blueidx",
                                     "fontsize": 6
                                 }
                             ]

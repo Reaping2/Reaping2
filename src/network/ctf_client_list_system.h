@@ -14,7 +14,6 @@ using platform::AutoReg;
 
 class CtfClientListSystem : public engine::System
 {
-    ModelValue mGameModel;
     ModelValue mCTFModel;
     ModelValue mSwitchModel;
     ModelValue mRedTeamModel;
