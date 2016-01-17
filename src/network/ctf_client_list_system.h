@@ -1,5 +1,5 @@
-#ifndef INCLUDED_NETWORK_CLIENT_LIST_SYSTEM_H
-#define INCLUDED_NETWORK_CLIENT_LIST_SYSTEM_H
+#ifndef INCLUDED_NETWORK_CTF_CLIENT_LIST_SYSTEM_H
+#define INCLUDED_NETWORK_CTF_CLIENT_LIST_SYSTEM_H
 
 #include "engine/system.h"
 #include "platform/model_value.h"
@@ -10,6 +10,7 @@
 
 namespace network {
 using platform::ModelValue;
+using platform::AutoReg;
 
 class CtfClientListSystem : public engine::System
 {
@@ -26,7 +27,7 @@ class CtfClientListSystem : public engine::System
     // ids are for the lifecycle subsystem
     typedef std::map<std::string,::ctf::ClientData> PlayerClientDataMap;
     PlayerClientDataMap mPlayerToClientData;
-    platform::AutoReg mOnClientListChanged;
+    AutoReg mOnClientListChanged;
     void OnClientListChanged( ClientListChangedEvent const& event );
     ::ctf::ProgramState::ClientDatas_t createClientDatas();
 public:

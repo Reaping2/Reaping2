@@ -38,7 +38,7 @@ std::vector<std::string> CtfClientListSystem::redNames()
     return mRedNames;
 }
 
-void CtfClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , ClientListSystem::PlayerClientDataMap const & what )
+void CtfClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , CtfClientListSystem::PlayerClientDataMap const & what )
 {
     for ( PlayerClientDataMap::const_iterator playerIt = what.begin(); playerIt != what.end(); ++playerIt )
     {
