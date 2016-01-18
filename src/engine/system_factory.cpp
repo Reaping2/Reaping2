@@ -94,6 +94,7 @@
 #include "network/ctf_client_list_system.h"
 #include "network/ffa_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
+#include "network/sync_item_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -208,6 +209,7 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
+    Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
 }
 
 } // namespace engine

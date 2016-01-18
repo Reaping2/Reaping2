@@ -14,7 +14,19 @@ struct Scatter
     void Update(double DeltaTime);
     void Shot(bool alt);
     double GetCalculated() const;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void Scatter::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mCurrent;
+    ar & mIncrease;
+    ar & mAltIncrease;
+    ar & mChill;
+    ar & mMagicNumber;
+}
 
 class Weapon : public Item
 {
@@ -53,7 +65,10 @@ public:
     virtual std::string GetMouseText() const;
     virtual bool IsMouseResizable() const;
     Weapon( int32_t Id );
-
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
+    VIRTUAL_SERIALIZE;
+protected:
     ActorFactory& mActorFactory;
     double mCooldown;
     double mShootCooldown;
@@ -70,5 +85,24 @@ public:
     double mStaticReload;
     friend class ItemFactory;
 };
+
+template<class Archive>
+void Weapon::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Item>(*this);
+    ar & mCooldown;
+    ar & mShootCooldown;
+    ar & mShootAltCooldown;
+    ar & mScatter;
+    ar & mShoot;
+    ar & mShootAlt;
+    ar & mBullets;
+    ar & mBulletsMax;
+    ar & mShotCost;
+    ar & mShotCostAlt;
+    ar & mReloadTime;
+    ar & mReloadTimeMax;
+    ar & mStaticReload;
+}
 
 #endif//INCLUDED_CORE_WEAPON_ASSET_H

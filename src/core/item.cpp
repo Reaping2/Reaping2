@@ -12,6 +12,10 @@ void Item::SetActor( Actor* Obj )
     mActor = Obj;
 }
 
+Actor* Item::GetActor() const
+{
+    return mActor;
+}
 
 Item::Item( int32_t Id )
     : mId( Id )

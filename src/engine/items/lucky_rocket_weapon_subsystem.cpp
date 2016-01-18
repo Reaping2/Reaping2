@@ -1,4 +1,5 @@
 #include "engine/items/lucky_rocket_weapon_subsystem.h"
+#include "engine/item_properties_changed_event.h"
 #include <boost/assign/list_of.hpp>
 
 namespace engine
@@ -90,6 +91,7 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         projectiles.push_back( rocket.release() );
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),alt);
     }
+    EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
 }
 
 } // namespace engine

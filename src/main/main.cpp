@@ -62,6 +62,7 @@
 #include "core/buffs/cloak_buff.h"
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
+#include "network/sync_item_message.h"
 
 using engine::Engine;
 namespace {
@@ -219,6 +220,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("item_changed_message_sender_system"));
         Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
         Eng.AddSystem(AutoId("border_message_sender_system"));
+        Eng.AddSystem(AutoId("sync_item_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -300,6 +302,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::BorderMessage::GetType_static(),AutoId("border_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::SyncItemMessage::GetType_static(),AutoId("sync_item_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
