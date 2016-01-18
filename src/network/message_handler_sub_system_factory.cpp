@@ -32,6 +32,7 @@
 #include "item_changed_message.h"
 #include "cloak_changed_message.h"
 #include "border_message.h"
+#include "sync_item_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -73,6 +74,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("item_changed_message_handler_sub_system"), &CreateSubSystem<ItemChangedMessageHandlerSubSystem>);
     Bind( AutoId("cloak_changed_message_handler_sub_system"), &CreateSubSystem<CloakChangedMessageHandlerSubSystem>);
     Bind( AutoId("border_message_handler_sub_system"), &CreateSubSystem<BorderMessageHandlerSubSystem>);
+    Bind( AutoId("sync_item_message_handler_sub_system"), &CreateSubSystem<SyncItemMessageHandlerSubSystem>);
 
 
 }

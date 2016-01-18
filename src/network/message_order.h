@@ -81,6 +81,7 @@
             type=network::ItemChangedMessage::GetType_static();
             type=network::CloakChangedMessage::GetType_static();
             type=network::BorderMessage::GetType_static();
+            type=network::SyncItemMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -167,6 +168,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ItemChangedMessage, "item_changed")
     BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
     BOOST_CLASS_EXPORT_GUID(network::BorderMessage, "border")
+    BOOST_CLASS_EXPORT_GUID(network::SyncItemMessage, "sync_item")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H
