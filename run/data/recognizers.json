@@ -332,5 +332,15 @@
 			{"recognizer":"move",
 				"renderer":"move"}
 		]
+	},
+	{
+		"name":"grass_tile",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
 	}
 ]	

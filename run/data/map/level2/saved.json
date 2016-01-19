@@ -8719,7 +8719,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottom" ]
+                  "borders" : [ "top", "right", "bottom" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8743,7 +8744,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "topright", "bottom", "left" ]
+                  "borders" : [ "topright", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8767,7 +8769,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "left" ]
+                  "borders" : [ "top", "right", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8791,7 +8794,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "right", "left" ]
+                  "borders" : [ "right", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8815,7 +8819,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "right", "bottomleft" ]
+                  "borders" : [ "top", "right", "bottomleft" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8839,7 +8844,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "top", "bottom", "left" ]
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8863,7 +8869,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "right", "bottom", "left" ]
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : []
                }
             ]
          }
@@ -8887,7 +8894,8 @@
             "name" : "border_component",
             "set" : [
                {
-                  "borders" : [ "right", "left" ]
+                  "borders" : [ "right", "left" ],
+                  "outer_borders" : []
                }
             ]
          }

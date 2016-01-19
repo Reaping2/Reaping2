@@ -15,6 +15,7 @@
 #include "respawn_actor_map_element.h"
 #include "respawn_actor_map_element_system.h"
 #include "ctf_flag_spawn_point_map_element.h"
+#include "../i_renderable_component.h"
 
 namespace map {
 
@@ -24,6 +25,7 @@ EditorSystem::EditorSystem()
     , mStartModel( VoidFunc( this, &EditorSystem::Start ), "start", &mEditorModel )
     , mLoadModel( StringFunc( this, &EditorSystem::Load ), "load", &mEditorModel )
     , mSaveModel( VoidFunc( this, &EditorSystem::Save ), "save", &mEditorModel )
+    , mLayerModel( StringFunc( this, &EditorSystem::LayerSelect ), "layer", &mEditorModel )
     , mX(0)
     , mY(0)
     , mCurrentMovement(0)
@@ -32,6 +34,8 @@ EditorSystem::EditorSystem()
     , mSpaceTyped(false)
     , mTimer()
     , mAutoSaveOn(false)
+    , mEditorLayerType(EditorLayer::Target)
+    , mEditorLayer(EditorLayer::Get())
 {
     mTimer.SetFrequency(25000);
 }
@@ -169,12 +173,30 @@ void EditorSystem::Save()
 {
     {
         Json::Value Root(Json::arrayValue);
+        Json::Value RootBackground(Json::arrayValue);
         MapElementList_t& mapElementList=MapSystem::Get()->GetMapElementList();
         for (MapElementList_t::iterator i=mapElementList.begin(),e=mapElementList.end();i!=e;++i)
         {
             if ((*i)->GetType()==SpawnActorMapElement::GetType_static())
             {
                 Json::Value Element(Json::objectValue);
+                Opt<Actor> actor(mScene.GetActor((*i)->GetSpawnedActorGUID()));
+                if (actor.IsValid())
+                {
+                    Opt<IRenderableComponent> renderableC(actor->Get<IRenderableComponent>());
+                    if (renderableC.IsValid())
+                    {
+                        if(renderableC->GetLayer()==RenderableLayer::Background)
+                        {
+                            (*i)->Save(Element);
+                            if (Element.size()>0)
+                            {
+                                RootBackground.append(Element);
+                            }
+                            continue;
+                        }
+                    }
+                }
                 (*i)->Save(Element);
                 if (Element.size()>0)
                 {
@@ -183,15 +205,21 @@ void EditorSystem::Save()
             }
         }
 
-        Json::StyledWriter Writer;
-        std::string const& JString=Writer.write(Root);
         {
-	        OsFile OutJson("data/map/"+mLevelName+"/saved.json",std::ios_base::out);
-	        OutJson.Write(JString);
+            Json::StyledWriter Writer;
+            std::string const& JString=Writer.write(Root);
+            {
+	            OsFile OutJson("data/map/"+mLevelName+"/saved.json",std::ios_base::out);
+	            OutJson.Write(JString);
+            }
         }
         {
-	        OsFile OutJson("saved.json",std::ios_base::out);
-	        OutJson.Write(JString);
+            Json::StyledWriter Writer;
+            std::string const& JString=Writer.write(RootBackground);
+            {
+	            OsFile OutJson("data/map/"+mLevelName+"/saved_background.json",std::ios_base::out);
+	            OutJson.Write(JString);
+            }
         }
     }
     {
@@ -217,10 +245,6 @@ void EditorSystem::Save()
 	        OsFile OutJson("data/map/"+mLevelName+"/saved_start_points.json",std::ios_base::out);
 	        OutJson.Write(JString);
         }
-        {
-	        OsFile OutJson("saved_start_points.json",std::ios_base::out);
-	        OutJson.Write(JString);
-        }
     }
     {
         Json::Value Root(Json::arrayValue);
@@ -244,10 +268,6 @@ void EditorSystem::Save()
 	        OsFile OutJson("data/map/"+mLevelName+"/saved_pickups.json",std::ios_base::out);
 	        OutJson.Write(JString);
         }
-        {
-	        OsFile OutJson("saved_pickups.json",std::ios_base::out);
-	        OutJson.Write(JString);
-        }
     }
 }
 
@@ -257,6 +277,22 @@ void EditorSystem::OnKeyEvent(const KeyEvent& Event)
     {
         mSpaceTyped=true;
     }
+}
+
+void EditorSystem::LayerSelect(std::string const& layer)
+{
+    mEditorLayerType=mEditorLayer(IdStorage::Get().GetId(layer));
+    Ui::Get().Load("editor_hud");
+}
+
+Opt<EditorSystem> EditorSystem::Get()
+{
+    return engine::Engine::Get().GetSystem<EditorSystem>();
+}
+
+EditorLayer::Type EditorSystem::GetEditorLayerType()
+{
+    return mEditorLayerType;
 }
 
 } // namespace map

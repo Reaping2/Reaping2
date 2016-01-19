@@ -396,32 +396,6 @@
             "name" : "position_component",
             "set" : [
                {
-                  "x" : -776.6890,
-                  "y" : 408.60
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "flash_normal_item",
-                  "type" : "normal"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
                   "x" : -314.5710,
                   "y" : 497.6370
                }
@@ -736,32 +710,6 @@
                {
                   "x" : -132.6610,
                   "y" : 787.6720
-               }
-            ]
-         },
-         {
-            "name" : "pickup_collision_component",
-            "set" : [
-               {
-                  "content" : "HealOverTimeBuff",
-                  "type" : "buff"
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "respawn_actor",
-      "secs_to_respawn" : 15.0
-   },
-   {
-      "actor" : "revive_pickup",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : -582.8070,
-                  "y" : 782.5970
                }
             ]
          },

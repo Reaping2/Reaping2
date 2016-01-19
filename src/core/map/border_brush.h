@@ -23,8 +23,6 @@ protected:
     IBorderComponent::Borders_t GetBorders(Neighbors &neighbors, NeighborDirMap_t& neighborDirs);
     bool mMouseLeftPressed;
     bool mMouseRightPressed;
-private:
-    Scene& mScene;
 };
 
 } // namespace map
