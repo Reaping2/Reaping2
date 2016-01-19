@@ -12,9 +12,9 @@ CtfClientListSystem::CtfClientListSystem()
 	: mCTFModel("ctf_client_list", &RootModel::Get())
     , mRedTeamModel( "red", &mCTFModel )
     , mBlueTeamModel( "blue", &mCTFModel )
-    , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::blueNames, this) , "names", &mBlueTeamModel)
-    , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::redNames, this) , "names", &mRedTeamModel)
-    , mSwitchModel( StringFunc( this, &CtfClientListSystem::switchTeam ), "switch", &mCTFModel )
+    , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::BlueNames, this) , "names", &mBlueTeamModel)
+    , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::RedNames, this) , "names", &mRedTeamModel)
+    , mSwitchModel( StringFunc( this, &CtfClientListSystem::SwitchTeam ), "switch", &mCTFModel )
 {
 	mOnClientListChanged = platform::EventServer<network::ClientListChangedEvent>::Get().Subscribe( boost::bind( &CtfClientListSystem::OnClientListChanged, this, _1 ) );
 }
@@ -27,17 +27,17 @@ void CtfClientListSystem::Update( double DeltaTime )
 {
 }
 
-std::vector<std::string> CtfClientListSystem::blueNames()
+std::vector<std::string> CtfClientListSystem::BlueNames()
 {
 	return mBlueNames;
 }
 
-std::vector<std::string> CtfClientListSystem::redNames()
+std::vector<std::string> CtfClientListSystem::RedNames()
 {
     return mRedNames;
 }
 
-void CtfClientListSystem::removeall( core::ProgramState::ClientDatas_t & from , CtfClientListSystem::PlayerClientDataMap const & what )
+void CtfClientListSystem::RemoveAll( core::ProgramState::ClientDatas_t & from , CtfClientListSystem::PlayerClientDataMap const & what )
 {
     for ( PlayerClientDataMap::const_iterator playerIt = what.begin(); playerIt != what.end(); ++playerIt )
     {
@@ -59,7 +59,7 @@ void CtfClientListSystem::OnClientListChanged( ClientListChangedEvent const& eve
     auto it = std::copy_if( clients.begin(), clients.end(), readyClients.begin(), [] ( core::ClientData const & d ) { return d.mReady; } );
     readyClients.resize(std::distance(readyClients.begin(), it));
     // remove all blues and reds from clients -> new clients
-    removeall( readyClients, mPlayerToClientData );
+    RemoveAll( readyClients, mPlayerToClientData );
     // simple distribute: add to the smaller team
     for ( size_t i = 0; i < readyClients.size(); ++i )
     {
@@ -84,7 +84,7 @@ void CtfClientListSystem::OnClientListChanged( ClientListChangedEvent const& eve
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(ctfevent);
 }
 
-void CtfClientListSystem::switchTeam( std::string const & player )
+void CtfClientListSystem::SwitchTeam( std::string const & player )
 {
     ::ctf::ClientData & clientData = mPlayerToClientData[player];
     if ( Team::Blue == clientData.mTeam )

@@ -34,10 +34,10 @@ public:
     CtfClientListSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
-    std::vector<std::string> blueNames();
-    std::vector<std::string> redNames();
-    void switchTeam( std::string const & player );
-    void removeall( core::ProgramState::ClientDatas_t & from , PlayerClientDataMap const & what );
+    std::vector<std::string> BlueNames();
+    std::vector<std::string> RedNames();
+    void SwitchTeam( std::string const & player );
+    void RemoveAll( core::ProgramState::ClientDatas_t & from , PlayerClientDataMap const & what );
 };
 
 }
