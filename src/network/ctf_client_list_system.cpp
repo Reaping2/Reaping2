@@ -9,7 +9,7 @@ namespace network {
 using platform::RootModel;
 
 CtfClientListSystem::CtfClientListSystem()
-	: mCTFModel("ctf_client_list", &RootModel::Get())
+    : mCTFModel("ctf_client_list", &RootModel::Get())
     , mRedTeamModel( "red", &mCTFModel )
     , mBlueTeamModel( "blue", &mCTFModel )
     , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListSystem::BlueNames, this) , "names", &mBlueTeamModel)
