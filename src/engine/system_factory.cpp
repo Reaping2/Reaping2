@@ -91,7 +91,9 @@
 #include "cloak_system.h"
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
-#include "network/client_list_system.h"
+#include "network/ctf_client_list_system.h"
+#include "network/ffa_client_list_system.h"
+#include "network/ctf_client_datas_message.h"
 #include "network/sync_item_message.h"
 
 using platform::AutoId;
@@ -154,6 +156,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("flash_message_sender_system"), &CreateSystem<network::FlashMessageSenderSystem>);
     Bind( AutoId("soldier_properties_message_sender_system"), &CreateSystem<network::SoldierPropertiesMessageSenderSystem>);
     Bind( AutoId("client_datas_message_sender_system"), &CreateSystem<network::ClientDatasMessageSenderSystem>);
+    Bind( AutoId("ctf_client_datas_message_sender_system"), &CreateSystem<network::ctf::ClientDatasMessageSenderSystem>);
     Bind( AutoId("health_message_sender_system"), &CreateSystem<network::HealthMessageSenderSystem>);
     Bind( AutoId("accuracy_message_sender_system"), &CreateSystem<network::AccuracyMessageSenderSystem>);
     Bind( AutoId("set_ownership_message_sender_system"), &CreateSystem<network::SetOwnershipMessageSenderSystem>);
@@ -166,7 +169,9 @@ SystemFactory::SystemFactory()
     Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
     Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
     Bind( AutoId("border_message_sender_system"), &CreateSystem<network::BorderMessageSenderSystem>);
-    Bind( AutoId("client_list_system"), &CreateSystem<network::ClientListSystem>);	
+
+    Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
+    Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);

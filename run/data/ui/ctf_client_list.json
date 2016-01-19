@@ -1,0 +1,242 @@
+{
+	"type":"root",
+	"children":[
+		{
+			"type":"fixed_ratio_container",
+            "x": 0.0,
+            "y": 0.0,
+            "w": 1.0,
+            "h": 1.0,
+            "align_h": "center",
+            "align_v": "center",
+            "visible": 0,
+            "enabled": 0,
+			"children":
+			[
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.37,
+					"y":0.0,
+					"w":0.25,
+					"h":0.1,
+					"visible":1,
+					"enabled":1,
+					"action":[["lifecycle.host","ctf"]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"Play",
+							"fontsize":6
+						}
+					]
+				},
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.2,
+					"y":0.93,
+					"w":0.06,
+					"h":0.06,
+					"visible":1,
+					"enabled":1,
+					"action":[["#redidx.add",1]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.35,
+							"y":0.05,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"+",
+							"fontsize":6
+						}
+					]
+				},
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.2,
+					"y":0.08,
+					"w":0.06,
+					"h":0.06,
+					"visible":1,
+					"enabled":1,
+					"action":[["#redidx.add",-1]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.35,
+							"y":0.05,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"-",
+							"fontsize":6
+						}
+					]
+				},
+				{
+					"type":"grid",
+					"source":"%ctf_client_list.red.names",
+					"startid":"#redidx",
+					"direction": "horizontal",
+					"color": "0xffffff",
+					"x":0.0,
+					"y":0.15,
+					"w":0.5,
+					"h":0.75,
+					"visible": 1,
+					"enabled": 0,
+					"cols": 1,
+					"rows": 10,
+                    "template": [
+                        {
+                            "type":"button",
+                            "color":"0x77000077",
+                            "highlight_color":"0xaaaaaa77",
+                            "x":0.0,
+                            "y":0.1,
+                            "w":1.0,
+                            "h":0.9,
+                            "visible":1,
+                            "enabled":1,
+                            "action":[["ctf_client_list.switch","%ctf_client_list.red.names#redidx"]],
+                            "children":
+                            [
+                                {
+                                    "type":"text_widget",
+                                    "color": "0xaa0000",
+                                    "visible": 1,
+                                    "x":0.0,
+                                    "y":0.0,
+                                    "w":1.0,
+                                    "h":1.0,
+                                    "enabled": 0,
+                                    "text":"%ctf_client_list.red.names#redidx",
+                                    "fontsize": 6
+                                }
+                            ]
+                        }
+                    ]
+				},
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.7,
+					"y":0.93,
+					"w":0.06,
+					"h":0.06,
+					"visible":1,
+					"enabled":1,
+					"action":[["#blueidx.add",1]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.35,
+							"y":0.05,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"+",
+							"fontsize":6
+						}
+					]
+				},
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.7,
+					"y":0.08,
+					"w":0.06,
+					"h":0.06,
+					"visible":1,
+					"enabled":1,
+					"action":[["#blueidx.add",-1]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.35,
+							"y":0.05,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"-",
+							"fontsize":6
+						}
+					]
+				},
+                {
+                    "type":"grid",
+                    "source":"%ctf_client_list.blue.names",
+                    "startid":"#blueidx",
+                    "direction": "horizontal",
+                    "color": "0xffffff",
+                    "x":0.5,
+                    "y":0.15,
+                    "w":0.5,
+                    "h":0.75,
+                    "visible": 1,
+                    "enabled": 0,
+                    "cols": 1,
+                    "rows": 10,
+                    "template": [
+                        {
+                            "type":"button",
+                            "color":"0x00007777",
+                            "highlight_color":"0xaaaaaa77",
+                            "x":0.0,
+                            "y":0.1,
+                            "w":1.0,
+                            "h":0.9,
+                            "visible":1,
+                            "enabled":1,
+                            "action":[["ctf_client_list.switch","%ctf_client_list.blue.names#blueidx"]],
+                            "children":
+                            [
+                                {
+                                    "type":"text_widget",
+                                    "color": "0xaa0000",
+                                    "visible": 1,
+                                    "x":0.0,
+                                    "y":0.0,
+                                    "w":1.0,
+                                    "h":1.0,
+                                    "enabled": 0,
+                                    "text":"%ctf_client_list.blue.names#blueidx",
+                                    "fontsize": 6
+                                }
+                            ]
+                        }
+                    ]
+                }
+			]
+		}
+	]
+}

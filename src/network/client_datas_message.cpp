@@ -45,10 +45,7 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
         L1("**** %s properties arrived. **** from id: %d \n", i->mClientName.c_str(),msg.mSenderId );
         L1("   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", i->mSoldierProperties.mMoveSpeed, i->mSoldierProperties.mHealth, i->mSoldierProperties.mAccuracy );
     }
-    std::vector<std::string> readyClients;
-    std::for_each( mProgramState.mClientDatas.begin(), mProgramState.mClientDatas.end(), 
-            boost::bind<void>( [](core::ClientData const & d, std::vector<std::string> & clients){ if ( d.mReady ) clients.push_back(d.mClientName);  }, _1, boost::ref(readyClients) ));
-    EventServer<ClientListChangedEvent>::Get().SendEvent( readyClients );
+    EventServer<ClientListChangedEvent>::Get().SendEvent( mProgramState.mClientDatas );
 }
 
 
