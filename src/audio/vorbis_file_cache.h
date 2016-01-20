@@ -1,6 +1,10 @@
 #ifndef INCLUDED_AUDIO_VORBIS_FILE_CACHE_H
 #define INCLUDED_AUDIO_VORBIS_FILE_CACHE_H
 
+#include "platform/cache.h"
+#include "platform/singleton.h"
+#include "vorbis_file.h"
+
 class VorbisFileCache : public Cache<VorbisFile>, public Singleton<VorbisFileCache>
 {
     AutoReg mPhaseChangeId;

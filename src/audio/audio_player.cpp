@@ -9,15 +9,25 @@ int AudioPlayer::PlayCallback( const void*, void* OutputBuffer,
     return Get().PlayCallbackImpl( OutputBuffer );
 }
 
-void AudioPlayer::Play( boost::filesystem::path const& Path, AudioFile::AudioType Type )
+void AudioPlayer::Play( int32_t EffectUID, int32_t id, glm::vec2 const& pos )
 {
-    std::auto_ptr<AudioFile> F = AudioFile::Create( Path, Type == AudioFile::Music ? AudioFile::Repeat : AudioFile::PlayOnce, Type );
+    static audio::AudioEffectRepo& aer( audio::AudioEffectRepo::Get() );
+    audio::AudioEffect const& ae = aer( id );
+    if( ae.Path.empty() )
+    {
+        return;
+    }
+    std::auto_ptr<AudioFile> F = AudioFile::Create( ae.Path, ae.Type == audio::Music ? audio::Repeat : audio::PlayOnce, ae.Type, pos );
     if( !F.get() )
     {
         return;
     }
     boost::mutex::scoped_lock g( mReadMtx );
     mNewFiles.push_back( F.release() );
+}
+
+void AudioPlayer::Halt( int32_t EffectUID )
+{
 }
 
 void AudioPlayer::PlayThread()
@@ -47,7 +57,7 @@ void AudioPlayer::PlayThread()
                   &mOutputParameters,
                   mPreferredSampleRate,
                   mFramesPerBuffer,
-                  paClipOff, /* we won't output out of range samples so don't bother clipping them */
+                  paNoFlag, /* we won't output out of range samples so don't bother clipping them */
                   AudioPlayer::PlayCallback,
                   NULL );
         if( err != paNoError )

@@ -35,8 +35,8 @@ class AudioPlayer : public Singleton<AudioPlayer>
     void OnPhaseChangedEvent( PhaseChangedEvent const& Evt );
 public:
     ~AudioPlayer();
-    void Play( boost::filesystem::path const& Path, AudioFile::AudioType Type );
-
+    void Play( int32_t EffectUID, int32_t Id, glm::vec2 const& Pos );
+    void Halt( int32_t EffectUID );
     bool IsSampleRateSupported( int32_t Rate )const;
 };
 

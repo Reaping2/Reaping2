@@ -15,38 +15,44 @@ bool AudioFile::FillBufferIfNeeded()
     {
         boost::mutex::scoped_lock( mSource->GetMutex() );
         SourceFinishedLoading = mSource->IsFinishedLoading();
-        bool const ContinueFromStart = ( mMode == Repeat ) && SourceFinishedLoading;
+        bool const ContinueFromStart = ( mMode == audio::Repeat ) && SourceFinishedLoading;
         AudioBuffer const& VorbisBuf = mSource->GetBuffer();
         VorbisBufSize = VorbisBuf.GetSize();
         Size = mBuffer.CopyFrom( VorbisBuf, mPosInSource, Size, ContinueFromStart );
     }
     mPosInSource += Size;
-    if( !mFinishedPlaying && mMode == PlayOnce && SourceFinishedLoading && mPosInSource == VorbisBufSize )
+    if( !mFinishedPlaying && mMode == audio::PlayOnce && SourceFinishedLoading && mPosInSource == VorbisBufSize )
     {
         mFinishedPlaying = true;
     }
-    else if( mMode == Repeat && SourceFinishedLoading && VorbisBufSize && mPosInSource >= VorbisBufSize )
+    else if( mMode == audio::Repeat && SourceFinishedLoading && VorbisBufSize && mPosInSource >= VorbisBufSize )
     {
         mPosInSource = mPosInSource % VorbisBufSize;
     }
     return true;
 }
 
-AudioFile::AudioFile( VorbisFileCache::Elem Source, PlayMode Mode, AudioType Type )
+AudioFile::AudioFile( VorbisFileCache::Elem Source, audio::PlayMode Mode, audio::AudioType Type, glm::vec2 const& pos )
     : mSource( Source )
     , mPosInSource( 0 )
     , mBuffer( Source->GetBuffer().GetChannels() )
     , mMode( Mode )
     , mType( Type )
     , mFinishedPlaying( false )
+    , mPos( pos )
 {
 
 }
 
-std::auto_ptr<AudioFile> AudioFile::Create( boost::filesystem::path const& Path, PlayMode Mode, AudioType Type )
+glm::vec2 const& AudioFile::GetPosition() const
+{
+    return mPos;
+}
+
+std::auto_ptr<AudioFile> AudioFile::Create( boost::filesystem::path const& Path, audio::PlayMode Mode, audio::AudioType Type, glm::vec2 const& pos )
 {
     VorbisFileCache::Elem El = VorbisFileCache::Get().Load( Path );
-    return std::auto_ptr<AudioFile>( El.get() ? new AudioFile( El, Mode, Type ) : NULL );
+    return std::auto_ptr<AudioFile>( El.get() ? new AudioFile( El, Mode, Type, pos ) : NULL );
 }
 
 bool AudioFile::IsFinishedPlaying() const
@@ -54,7 +60,7 @@ bool AudioFile::IsFinishedPlaying() const
     return mFinishedPlaying && mBuffer.GetSize() == 0;
 }
 
-AudioFile::AudioType AudioFile::GetType() const
+audio::AudioType AudioFile::GetType() const
 {
     return mType;
 }

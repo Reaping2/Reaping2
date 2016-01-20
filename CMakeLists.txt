@@ -4,6 +4,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # support for YouCompleteMe
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+set( CMAKE_CXX_FLAGS "-Wno-deprecated-declarations" )
 
 project(Reaping2)
 

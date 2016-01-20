@@ -63,6 +63,7 @@
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
 #include "network/sync_item_message.h"
+#include "audio/audio_system.h"
 
 using engine::Engine;
 namespace {
@@ -179,9 +180,7 @@ int main(int argc, char* argv[])
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Startup ) );
     PerfTimer.Log( "wnd" );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
-    AudioEffectPlayer::Get();
     AudioPlayer::Get();
-    //AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
     DamageDecals::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
@@ -401,6 +400,7 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("removed_actors_system"));
     }
+    Eng.AddSystem(AutoId("audio_system"));
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
     Eng.SetEnabled<render::ParticleSystem>(true);

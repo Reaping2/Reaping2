@@ -93,6 +93,7 @@
 #include "network/border_message.h"
 #include "network/client_list_system.h"
 #include "network/sync_item_message.h"
+#include "audio/audio_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -205,6 +206,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
     Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
+    Bind( AutoId("audio_system"), &CreateSystem<audio::AudioSystem>);
 }
 
 } // namespace engine
