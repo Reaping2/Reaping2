@@ -2,6 +2,20 @@
 #include "platform/model_value.h"
 #include "platform/i_platform.h"
 
+namespace {
+float left( float x )
+{
+    if( x < 0.0f )
+        return 1.f - 1.f / ( 2.f + 2.f * std::abs( x / 1e3 ) );
+    else
+        return 1.f / ( 2.f + 2.f * ( x / 1e3 ) );
+}
+float right( float x )
+{
+    return left( -x );
+}
+}
+
 void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
 {
     if( !Size )
@@ -34,12 +48,15 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
         AudioFile& f = *i;
         float Weight = mAudioTypeRelativeWeights[f.GetType()];
         AudioBuffer& Buf = f.GetBuffer();
+        float l = 1.0, r = 1.0;
         if( f.GetType() == audio::Effect )
         {
             glm::vec2 const& pos = f.GetPosition();
             glm::vec2 const dif = pos - playerPos;
             const float DistWeight = 1.f / ( 1.f + glm::dot( dif, dif ) / 1e6 );
             Weight *= DistWeight;
+            l = left( dif.x );
+            r = right( dif.x );
         }
         size_t CommonChannels = std::min<size_t>( Buf.GetChannels(), DestChannels );
         for( size_t Ch = 0; Ch < CommonChannels; ++Ch )
@@ -48,7 +65,7 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
             float* DstBuf = Tmp[Ch];
             for( size_t j = 0; j < Size; ++j )
             {
-                ( *DstBuf++ ) += Weight * ( *SrcBuf++ );
+                ( *DstBuf++ ) += ( Ch == 0 ? l : r ) * Weight * ( *SrcBuf++ );
             }
         }
         Buf.Read( Size );
