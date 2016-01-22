@@ -18,7 +18,7 @@ namespace network {
         bool mShootAlt;
         bool mUseNormalItem;
         bool mReload;
-        uint32_t mCurrentMovement;
+        bool mMoving;
         PlayerControllerMessage()
             : mActorGUID(0)
             , mOrientation(0)
@@ -27,7 +27,7 @@ namespace network {
             , mShootAlt(false)
             , mUseNormalItem(false)
             , mReload(false)
-            , mCurrentMovement(0)
+            , mMoving(false)
         {
         }
         template<class Archive>
@@ -45,7 +45,7 @@ namespace network {
         ar & mShootAlt;
         ar & mUseNormalItem;
         ar & mReload;
-        ar & mCurrentMovement;
+        ar & mMoving;
     }
 
     class PlayerControllerMessageHandlerSubSystem: public MessageHandlerSubSystem

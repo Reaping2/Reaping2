@@ -1,6 +1,7 @@
 #ifndef INCLUDED_UI_UI_H
 #define INCLUDED_UI_UI_H
 #include "ui/i_ui.h"
+#include "input/input_state_changed.h"
 class Ui : public Singleton<Ui>
 {
     friend class Singleton<Ui>;
@@ -15,11 +16,11 @@ class Ui : public Singleton<Ui>
     AutoReg mOnPressId;
     AutoReg mOnReleaseId;
     AutoReg mOnMoveId;
-    AutoReg mKeyId;
+    AutoReg mOnInputId;
     void OnMousePressEvent( UiMousePressEvent const& Evt );
     void OnMouseReleaseEvent( UiMouseReleaseEvent const& Evt );
     void OnMouseMoveEvent( UiMouseMoveEvent const& Evt );
-    void OnKeyEvent( const KeyEvent& Event );
+    void OnInputStateChangedEvent(const engine::InputStateChangedEvent& Event);
 public:
     void Load( std::string const& Name );
     Root const& GetRoot() const;

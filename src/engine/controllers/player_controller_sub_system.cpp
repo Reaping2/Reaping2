@@ -2,7 +2,6 @@
 #include "engine/controllers/player_controller_sub_system.h"
 #include "engine/engine.h"
 #include "platform/auto_id.h"
-#include "input/keyboard.h"
 #include "core/player_controller_component.h"
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
@@ -16,17 +15,12 @@ namespace engine {
 PlayerControllerSubSystem::PlayerControllerSubSystem()
     : mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
-    , mSpaceTyped(false)
-    , mReloadTyped(false)
 {
-    mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnKeyEvent, this, _1 ) );
 }
 
 void PlayerControllerSubSystem::Init()
 {
-    mKeyboard=Engine::Get().GetSystem<KeyboardSystem>();
-    mMouse=Engine::Get().GetSystem<MouseSystem>();
-    mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &PlayerControllerSubSystem::OnMouseMoveEvent, this, _1 ) );
+    mInputSystem=InputSystem::Get();
 }
 
 void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
@@ -58,12 +52,6 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     HandleRevive(actor,playerControllerC);
 }
 
-void PlayerControllerSubSystem::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
-{
-    mX = Event.Pos.x;
-    mY = Event.Pos.y;
-}
-
 void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
@@ -71,35 +59,9 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerC
     {
         return;
     }
-    int x = ( ( playerControllerC->mCurrentMovement & MF_Left ) ? -1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Right ) ? 1 : 0 );
-    int y = ( ( playerControllerC->mCurrentMovement & MF_Up ) ? 1 : 0 ) + ( ( playerControllerC->mCurrentMovement & MF_Down ) ? -1 : 0 );
-
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-    moveC->SetMoving(std::max<double>( std::abs( x ), std::abs( y ) )!=0);
-
-    double Heading = 0;
-    static const double pi = boost::math::constants::pi<double>();
-    if( x == 0 )
-    {
-        Heading = ( y < 0 ) ? -pi / 2 : pi / 2;
-    }
-    else if( y == 0 )
-    {
-        Heading = ( x < 0 ) ? -pi : 0;
-    }
-    else if( y > 0 )
-    {
-        Heading = ( x < 0 ) ? pi * 0.75 : pi / 4;
-    }
-    else
-    {
-        Heading = ( x < 0 ) ? pi * 1.25 : pi * 1.75;
-    }
-//    double hed=std::floor(Heading*PRECISION)/PRECISION;
-//     L1("heading: %f,prec: %f cos: %f sin: %f, cosreal: %f sinreal: %f\n",Heading,hed
-//         ,glm::round(cos( hed )*PRECISION/10)/PRECISION*10,glm::round(sin( hed )*PRECISION/10)/PRECISION*10
-//         ,glm::round(cos( hed )*PRECISION)/PRECISION,glm::round(sin( hed )*PRECISION)/PRECISION);
-    actor.Get<IMoveComponent>()->SetHeading( Heading );
+    moveC->SetMoving(playerControllerC->mMoving);
+    actor.Get<IMoveComponent>()->SetHeading( playerControllerC->mHeading );
 }
 
 void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
@@ -138,78 +100,14 @@ void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControlle
 
 void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
 {
-    playerControllerC->mCurrentMovement = 0;
-    if( mKeyboard->GetKey(GLFW_KEY_W).State==KeyState::Down)
-    {
-        playerControllerC->mCurrentMovement |= MF_Up;
-    }
-    if( mKeyboard->GetKey(GLFW_KEY_A).State==KeyState::Down )
-    {
-        playerControllerC->mCurrentMovement |= MF_Left;
-    }
-    if( mKeyboard->GetKey(GLFW_KEY_S).State==KeyState::Down )
-    {
-        playerControllerC->mCurrentMovement |= MF_Down;
-    }
-    if( mKeyboard->GetKey(GLFW_KEY_D).State==KeyState::Down )
-    {
-        playerControllerC->mCurrentMovement |= MF_Right;
-    }
-
-    Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-    playerControllerC->mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
-
-    if (mMouse->IsButtonPressed( MouseSystem::Button_Left ))
-    {
-        playerControllerC->mShoot=true;
-        playerControllerC->mShootAlt=false;
-    }
-    else if (mMouse->IsButtonPressed( MouseSystem::Button_Right ))
-    {
-        playerControllerC->mShoot=false;
-        playerControllerC->mShootAlt=true;
-    }
-    else
-    {
-        playerControllerC->mShoot=false;
-        playerControllerC->mShootAlt=false;
-    }
-
-    if( mKeyboard->GetKey(GLFW_KEY_Q).State==KeyState::Down )
-    {
-        playerControllerC->mUseNormalItem=true;
-    }
-    else
-    {
-        playerControllerC->mUseNormalItem=false;
-    }
-    
-    if( mSpaceTyped )
-    {
-        playerControllerC->mReviveTyped=true;
-        L2("space Typed for revive!\n");
-    }
-    mSpaceTyped=false;
-    if( mReloadTyped )
-    {
-        playerControllerC->mReloadTyped=true;
-        L2("space Typed for revive!\n");
-    }
-    mReloadTyped=false;
-}
-
-void PlayerControllerSubSystem::OnKeyEvent(const KeyEvent& Event)
-{
-    if( Event.Key == GLFW_KEY_SPACE && Event.State == KeyState::Up )
-    {
-        mSpaceTyped=true;
-        L2("space typed!\n");
-    }
-    if ( Event.Key == GLFW_KEY_R && Event.State == KeyState::Up )
-    {
-        mReloadTyped=true;
-        L2("reload typed!\n");
-    }
+    playerControllerC->mOrientation=mInputSystem->GetInputState().mOrientation;
+    playerControllerC->mShoot=mInputSystem->GetInputState().mShoot;
+    playerControllerC->mShootAlt=mInputSystem->GetInputState().mShootAlt;
+    playerControllerC->mUseNormalItem=mInputSystem->GetInputState().mUseNormalItem;
+    playerControllerC->mReviveTyped=mInputSystem->GetInputState().mRevive;
+    playerControllerC->mReloadTyped=mInputSystem->GetInputState().mReload;
+    playerControllerC->mMoving=mInputSystem->GetInputState().mMoving;
+    playerControllerC->mHeading=mInputSystem->GetInputState().mHeading;
 }
 
 void PlayerControllerSubSystem::HandleRevive(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)

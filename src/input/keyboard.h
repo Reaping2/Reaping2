@@ -9,6 +9,7 @@ struct KeyState
     {
         Down,
         Up,
+        Typed
     };
 };
 
@@ -47,6 +48,8 @@ public:
 private:
     typedef std::map<int, Key> Keys_t;
     Keys_t mKeys;
+    Keys_t mReleasedKeys;
+
     AutoReg mKeyId;
     static void KeyCallback( GLFWwindow*, int Key, int Scan, int Action, int Mods );
     static void UniCharCallback( GLFWwindow*, unsigned int Codepoint );

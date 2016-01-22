@@ -32,7 +32,7 @@ void CaptureTheFlagGameModeSystem::Init()
     mOnStartGameMode=EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnStartGameMode, this, _1 ) );
     mOnFlagStateChanged=EventServer<ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnFlagStateChanged, this, _1 ) );
     mOnScore=EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnScore, this, _1 ) );
-    mKeyboard=engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
+    mInputSystem=engine::InputSystem::Get();
     mTeamModels.clear();
     mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetBlueScore ), "blue", &mCtfModel ));
     mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetRedScore ), "red", &mCtfModel ));
@@ -52,14 +52,14 @@ void CaptureTheFlagGameModeSystem::Update(double DeltaTime)
             EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(40000,"RED TEAM IS VICTORIOUS!"));
         }
     }
-    if (mKeyboard.IsValid())
+    if (mInputSystem.IsValid())
     {
-        if (mHudShown&&mKeyboard->GetKey(GLFW_KEY_TAB).State==KeyState::Down)
+        if (mHudShown&&mInputSystem->GetInputState().mShowLeaderboard)
         {
             mHudShown=false;
             Ui::Get().Load("leaderboard");
         }
-        else if (!mHudShown&&mKeyboard->GetKey(GLFW_KEY_TAB).State==KeyState::Up)
+        else if (!mHudShown&&!mInputSystem->GetInputState().mShowLeaderboard)
         {
             mHudShown=true;
             Ui::Get().Load("ctf_hud");

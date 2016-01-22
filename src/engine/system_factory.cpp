@@ -95,6 +95,9 @@
 #include "network/ffa_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/sync_item_message.h"
+#include "input/input_system.h"
+#include "input/keyboard_adapter_system.h"
+#include "input/mouse_adapter_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -111,8 +114,13 @@ SystemFactory::SystemFactory()
     Bind( AutoId("leaderboard_system"), &CreateSystem<engine::LeaderboardSystem>);
 
     Bind( AutoId("collision_system"), &CreateSystem<CollisionSystem>);
+    
     Bind( AutoId("keyboard_system"), &CreateSystem<KeyboardSystem>);
     Bind( AutoId("mouse_system"), &CreateSystem<MouseSystem>);
+    Bind( AutoId("input_system"), &CreateSystem<engine::InputSystem>);
+    Bind( AutoId("keyboard_adapter_system"), &CreateSystem<engine::KeyboardAdapterSystem>);
+    Bind( AutoId("mouse_adapter_system"), &CreateSystem<engine::MouseAdapterSystem>);
+
     Bind( AutoId("controller_system"), &CreateSystem<ControllerSystem>);
     Bind( AutoId("inventory_system"), &CreateSystem<InventorySystem>);
 

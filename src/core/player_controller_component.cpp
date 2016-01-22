@@ -13,11 +13,11 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mShoot(false)
     , mShootAlt(false)
     , mUseNormalItem(false)
-    , mCurrentMovement(0)
     , mActive(false)
     , mControllerId(0)
     , mReviveTyped(false)
     , mReloadTyped(false)
+    , mMoving(false)
 {
 }
 
