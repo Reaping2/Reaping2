@@ -4,7 +4,7 @@ namespace audio {
 
 AudioEffectRepo::AudioEffectRepo()
     : Repository<AudioEffect>( mDefaultEffect )
-    , mDefaultEffect( "", false, Effect )
+    , mDefaultEffect( "", false, Effect, PlayOnce )
 {
     Load();
 }
@@ -42,8 +42,10 @@ void AudioEffectRepo::Load()
         Json::GetInt( v["interruptable"], Interruptable );
         int32_t Type = audio::Effect;
         Json::GetInt( v["type"], Type );
+        int32_t Mode = audio::PlayOnce;
+        Json::GetInt( v["mode"], Mode );
         int32_t id = AutoId( Key );
-        mElements.insert( id, new AudioEffect( boost::filesystem::path( Value ), Interruptable, (audio::AudioType)Type ) );
+        mElements.insert( id, new AudioEffect( boost::filesystem::path( Value ), Interruptable, (audio::AudioType)Type, (audio::PlayMode) Mode ) );
     }
 }
 

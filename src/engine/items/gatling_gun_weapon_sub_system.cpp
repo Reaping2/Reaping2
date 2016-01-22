@@ -3,6 +3,7 @@
 #include "core/buffs/move_speed_buff.h"
 #include "core/buffs/i_buff_holder_component.h"
 #include "core/buffs/buff_factory.h"
+#include "core/i_audible_component.h"
 
 namespace engine {
 
@@ -26,19 +27,31 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<GatlingGun> weapon = inventoryC->GetSelectedWeapon();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+    Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
 
     GatlingGun::DeployState deployState=weapon->GetDeployState();
+    auto windup = weapon->GetWindup();
     if (weapon->GetReloadTime()<=0.0&&weapon->GetShoot()&&(deployState==GatlingGun::Deployed||deployState==GatlingGun::Undeployed))
     {
         // shooting has a windup time before actual shots come out. deployed or undelpoyed state is needed
         weapon->SetWindup(
-            std::min(weapon->GetWindup()+weapon->GetWindupSpeed()*DeltaTime,weapon->GetWindupMax()));
-    } 
+            std::min(windup+weapon->GetWindupSpeed()*DeltaTime,weapon->GetWindupMax()));
+        if( windup != weapon->GetWindup() && ac.IsValid() && windup >= weapon->GetWindupMax() * 0.35 )
+        {
+            static int32_t const loop = AutoId( "gatling_up" );
+            ac->AddLoopingEffect( loop );
+        }
+    }
     else
     {
         // not shooting raises back the windup time.
         weapon->SetWindup(
-            std::max(weapon->GetWindup()-weapon->GetWindupSpeed()*DeltaTime,0.0));
+            std::max(windup-weapon->GetWindupSpeed()*DeltaTime,0.0));
+        if( windup != weapon->GetWindup() && ac.IsValid() )
+        {
+            static int32_t const loop = AutoId( "gatling_down" );
+            ac->AddLoopingEffect( loop );
+        }
     }
     if (weapon->GetShootAlt()&&weapon->GetReloadTime()<=0)
     {
@@ -101,7 +114,11 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     }
     if (weapon->IsShooting())
     {
-        //EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
+        if( ac.IsValid() )
+        {
+            static int32_t const loop = AutoId( "gatling_loop" );
+            ac->AddLoopingEffect( loop );
+        }
 
         WeaponItemSubSystem::Projectiles_t projectiles;
 
@@ -112,7 +129,12 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     }
     else if (weapon->IsShootingAlt())
     {
-        //EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
+        if( ac.IsValid() )
+        {
+            static int32_t const loop = AutoId( "gatling_loop" );
+            ac->AddLoopingEffect( loop );
+        }
+
 
         WeaponItemSubSystem::Projectiles_t projectiles;
 

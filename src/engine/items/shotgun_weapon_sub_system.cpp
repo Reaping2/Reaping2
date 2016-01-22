@@ -1,4 +1,5 @@
 #include "engine/items/shotgun_weapon_sub_system.h"
+#include "core/i_audible_component.h"
 
 namespace engine {
 
@@ -25,6 +26,7 @@ void ShotgunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
+    Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
     if (weapon->IsShooting())
     {
         EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
@@ -41,6 +43,10 @@ void ShotgunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         }
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
+        if( ac.IsValid() )
+        {
+            ac->AddOneShotEffect( mShotId );
+        }
     }
     else if (weapon->IsShootingAlt())
     {
@@ -53,6 +59,10 @@ void ShotgunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
+        if( ac.IsValid() )
+        {
+            ac->AddOneShotEffect( mShotAltId );
+        }
     }
 }
 

@@ -495,6 +495,15 @@
                         }
                     ]
                 }]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "rocket" }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -541,6 +550,15 @@
                                 "probability": 0.7,
                                 "emit_type": "rocket_smoke"
                             }
+                        ]
+                    }
+                ]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "rocket" }
                         ]
                     }
                 ]

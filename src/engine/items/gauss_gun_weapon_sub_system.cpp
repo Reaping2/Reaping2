@@ -4,6 +4,7 @@
 #include "core/buffs/move_speed_buff.h"
 #include "core/buffs/i_buff_holder_component.h"
 #include "core/buffs/buff_factory.h"
+#include "core/i_audible_component.h"
 
 namespace engine {
 
@@ -64,27 +65,32 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
+    Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
     if (weapon->IsShooting())
     {
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
+        if( ac.IsValid() )
+        {
+            ac->AddOneShotEffect( mShotId );
+        }
     }
     else if (weapon->IsShootingAlt())
     {
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mAltShotId);
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
+        if( ac.IsValid() )
+        {
+            ac->AddOneShotEffect( mAltShotId );
+        }
     }
 }
 

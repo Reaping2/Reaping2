@@ -9,7 +9,7 @@ namespace audio
 {
 enum PlayMode
 {
-    PlayOnce,
+    PlayOnce = 0,
     Repeat,
 };
 enum AudioType
@@ -24,8 +24,9 @@ struct AudioEffect
     boost::filesystem::path Path;
     bool Interruptable;
     AudioType Type;
-    AudioEffect( boost::filesystem::path const& p, bool i, AudioType t )
-        : Path( p ), Interruptable( i ), Type( t ) {}
+    PlayMode Mode;
+    AudioEffect( boost::filesystem::path const& p, bool i, AudioType t, PlayMode m )
+        : Path( p ), Interruptable( i ), Type( t ), Mode( m ) {}
 };
 }
 

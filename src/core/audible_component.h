@@ -10,6 +10,8 @@ public:
     AudibleComponent();
     virtual std::vector<AudibleEffectDesc> const& GetEffects()const;
     virtual std::vector<AudibleEffectDesc>& GetEffects();
+    virtual void AddOneShotEffect( int32_t id );
+    virtual void AddLoopingEffect( int32_t id );
 protected:
     friend class ComponentFactory;
     friend class AudibleComponentLoader;

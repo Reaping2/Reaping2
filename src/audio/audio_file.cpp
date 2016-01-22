@@ -15,29 +15,29 @@ bool AudioFile::FillBufferIfNeeded()
     {
         boost::mutex::scoped_lock( mSource->GetMutex() );
         SourceFinishedLoading = mSource->IsFinishedLoading();
-        bool const ContinueFromStart = ( mMode == audio::Repeat ) && SourceFinishedLoading;
+        bool const ContinueFromStart = ( GetMode() == audio::Repeat ) && SourceFinishedLoading;
         AudioBuffer const& VorbisBuf = mSource->GetBuffer();
         VorbisBufSize = VorbisBuf.GetSize();
         Size = mBuffer.CopyFrom( VorbisBuf, mPosInSource, Size, ContinueFromStart );
     }
     mPosInSource += Size;
-    if( !mFinishedPlaying && mMode == audio::PlayOnce && SourceFinishedLoading && mPosInSource == VorbisBufSize )
+    if( !mFinishedPlaying && GetMode() == audio::PlayOnce && SourceFinishedLoading && mPosInSource == VorbisBufSize )
     {
         mFinishedPlaying = true;
     }
-    else if( mMode == audio::Repeat && SourceFinishedLoading && VorbisBufSize && mPosInSource >= VorbisBufSize )
+    else if( GetMode() == audio::Repeat && SourceFinishedLoading && VorbisBufSize && mPosInSource >= VorbisBufSize )
     {
         mPosInSource = mPosInSource % VorbisBufSize;
     }
     return true;
 }
 
-AudioFile::AudioFile( VorbisFileCache::Elem Source, audio::PlayMode Mode, audio::AudioType Type, glm::vec2 const& pos )
-    : mSource( Source )
+AudioFile::AudioFile( int32_t uid, VorbisFileCache::Elem Source, audio::AudioEffect const& effect, glm::vec2 const& pos )
+    : mUID( uid )
+    , mEffect( effect )
+    , mSource( Source )
     , mPosInSource( 0 )
     , mBuffer( Source->GetBuffer().GetChannels() )
-    , mMode( Mode )
-    , mType( Type )
     , mFinishedPlaying( false )
     , mPos( pos )
 {
@@ -49,10 +49,10 @@ glm::vec2 const& AudioFile::GetPosition() const
     return mPos;
 }
 
-std::auto_ptr<AudioFile> AudioFile::Create( boost::filesystem::path const& Path, audio::PlayMode Mode, audio::AudioType Type, glm::vec2 const& pos )
+std::auto_ptr<AudioFile> AudioFile::Create( int32_t uid, audio::AudioEffect const& effect, glm::vec2 const& pos )
 {
-    VorbisFileCache::Elem El = VorbisFileCache::Get().Load( Path );
-    return std::auto_ptr<AudioFile>( El.get() ? new AudioFile( El, Mode, Type, pos ) : NULL );
+    VorbisFileCache::Elem El = VorbisFileCache::Get().Load( effect.Path );
+    return std::auto_ptr<AudioFile>( El.get() ? new AudioFile( uid, El, effect, pos ) : NULL );
 }
 
 bool AudioFile::IsFinishedPlaying() const
@@ -60,9 +60,24 @@ bool AudioFile::IsFinishedPlaying() const
     return mFinishedPlaying && mBuffer.GetSize() == 0;
 }
 
+int32_t AudioFile::GetUID() const
+{
+    return mUID;
+}
+
 audio::AudioType AudioFile::GetType() const
 {
-    return mType;
+    return mEffect.Type;
+}
+
+audio::PlayMode AudioFile::GetMode() const
+{
+    return mEffect.Mode;
+}
+
+bool AudioFile::IsInterruptable() const
+{
+    return mEffect.Interruptable;
 }
 
 AudioBuffer& AudioFile::GetBuffer()

@@ -1,4 +1,5 @@
 #include "engine/items/plasma_gun_weapon_sub_system.h"
+#include "core/i_audible_component.h"
 
 namespace engine {
 
@@ -26,6 +27,7 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
+    Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
     if (weapon->IsShooting())
     {
         EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
@@ -36,6 +38,10 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
+        if( ac.IsValid() )
+        {
+            ac->AddOneShotEffect( mShotId );
+        }
     }
     else if (weapon->IsShootingAlt())
     {
@@ -55,6 +61,10 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         projectiles.push_back( Opt<Actor>(ps.release()) );
 
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
+        if( ac.IsValid() )
+        {
+            ac->AddOneShotEffect( mAltShotId );
+        }
     }
 }
 

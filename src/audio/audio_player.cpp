@@ -11,13 +11,23 @@ int AudioPlayer::PlayCallback( const void*, void* OutputBuffer,
 
 void AudioPlayer::Play( int32_t EffectUID, int32_t id, glm::vec2 const& pos )
 {
+    {
+        boost::mutex::scoped_lock g( mReadMtx );
+        if( std::end( mNewFiles ) != std::find_if( std::begin( mNewFiles ), std::end( mNewFiles ),
+                [&]( AudioFile const& f ) { return f.GetUID() == EffectUID; } ) ||
+            std::end( mActiveFiles ) != std::find_if( std::begin( mActiveFiles ), std::end( mActiveFiles ),
+                [&]( AudioFile const& f ) { return f.GetUID() == EffectUID; } ) )
+        {
+            return;
+        }
+    }
     static audio::AudioEffectRepo& aer( audio::AudioEffectRepo::Get() );
     audio::AudioEffect const& ae = aer( id );
     if( ae.Path.empty() )
     {
         return;
     }
-    std::auto_ptr<AudioFile> F = AudioFile::Create( ae.Path, ae.Type == audio::Music ? audio::Repeat : audio::PlayOnce, ae.Type, pos );
+    std::auto_ptr<AudioFile> F = AudioFile::Create( EffectUID, ae, pos );
     if( !F.get() )
     {
         return;
@@ -28,6 +38,8 @@ void AudioPlayer::Play( int32_t EffectUID, int32_t id, glm::vec2 const& pos )
 
 void AudioPlayer::Halt( int32_t EffectUID )
 {
+    boost::mutex::scoped_lock g( mReadMtx );
+    mHaltedIds.push_back( EffectUID );
 }
 
 void AudioPlayer::PlayThread()
@@ -97,7 +109,7 @@ bool AudioPlayer::IsSampleRateSupported( int32_t Rate ) const
 
 AudioPlayer::AudioPlayer()
     : mPreferredSampleRate( 44100 )
-    , mFramesPerBuffer( 512 )
+    , mFramesPerBuffer( 64 )
     , mClosing( false )
     , mNumChannels( 2 )
     , mBuffer( mNumChannels )
@@ -158,14 +170,23 @@ int AudioPlayer::GetStatus()
     return mClosing ? paComplete : paContinue;
 }
 
+std::vector<int32_t> AudioPlayer::HaltableEffects()
+{
+    boost::mutex::scoped_lock g( mReadMtx );
+    return mRunningIds;
+}
+
 void AudioPlayer::ReadThread()
 {
     while( GetStatus() == paContinue )
     {
+        std::vector<int32_t> haltedIds, runningIds;
         {
             // merge new files
             boost::mutex::scoped_lock g( mReadMtx );
             mActiveFiles.transfer( mActiveFiles.end(), mNewFiles );
+            // swap halted files
+            std::swap( mHaltedIds, haltedIds );
         }
         static const size_t DefaultCommonSize = 4096;
         size_t MinCommonSize = DefaultCommonSize;
@@ -188,14 +209,21 @@ void AudioPlayer::ReadThread()
         for( AudioFiles_t::iterator i = mActiveFiles.begin(); i != mActiveFiles.end(); )
         {
             AudioFile& f = *i;
-            if( f.IsFinishedPlaying() )
+            if( f.IsFinishedPlaying() ||
+                ( f.IsInterruptable() && std::end( haltedIds ) != std::find( haltedIds.begin(), haltedIds.end(), f.GetUID() ) ) )
             {
                 i = mActiveFiles.erase( i );
             }
             else
             {
+                if( f.IsInterruptable() )
+                {
+                    runningIds.push_back( f.GetUID() );
+                }
                 ++i;
             }
         }
+        boost::mutex::scoped_lock g( mReadMtx );
+        std::swap( mRunningIds, runningIds );
     }
 }

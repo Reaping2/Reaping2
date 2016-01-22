@@ -15,12 +15,31 @@ std::vector<AudibleEffectDesc>& AudibleComponent::GetEffects()
     return mEffects;
 }
 
+void AudibleComponent::AddOneShotEffect( int32_t id )
+{
+    mEffects.emplace_back( id );
+}
+
+void AudibleComponent::AddLoopingEffect( int32_t id )
+{
+    auto it = std::find_if( std::begin( mEffects ), std::end( mEffects ), [&]( AudibleEffectDesc const& d ) { return d.Id == id && d.TTL != AudibleEffectDesc::TTL_Infinity; } );
+    if( std::end( mEffects ) == it )
+    {
+        AudibleEffectDesc d( id );
+        d.TTL = 2;
+        mEffects.push_back( d );
+    }
+    else
+    {
+        it->TTL = 2;
+    }
+}
+
 namespace {
 void InitAudibleEffectDescs( std::vector<int32_t> const& ids, std::vector<AudibleEffectDesc>& descs )
 {
-    static int32_t UID = 0;
     std::for_each( std::begin( ids ), std::end( ids ),
-        [&]( int32_t id ) { descs.emplace_back( ++UID, id ); } );
+        [&]( int32_t id ) { descs.emplace_back( id ); } );
 }
 }
 

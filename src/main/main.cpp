@@ -367,6 +367,8 @@ int main(int argc, char* argv[])
     weaponItemSS->AddSubSystem(AutoId("gauss_gun"),AutoId("gauss_gun_weapon_sub_system"));
     weaponItemSS->AddSubSystem(AutoId("gatling_gun"),AutoId("gatling_gun_weapon_sub_system")); //handles client specific stuff like windup and deploy states.
 
+    Eng.AddSystem(AutoId("audio_system"));
+
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
@@ -400,7 +402,6 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("removed_actors_system"));
     }
-    Eng.AddSystem(AutoId("audio_system"));
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
     Eng.SetEnabled<render::ParticleSystem>(true);
