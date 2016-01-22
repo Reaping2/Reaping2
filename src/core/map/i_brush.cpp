@@ -1,6 +1,6 @@
 #include "i_brush.h"
-#include "..\i_position_component.h"
-#include "..\i_collision_component.h"
+#include "../i_position_component.h"
+#include "../i_collision_component.h"
 #include "editor_grid_system.h"
 #include "editor_target_system.h"
 #include "editor_system.h"
@@ -46,6 +46,11 @@ std::vector<int32_t> IBrush::GetActorsToRemove()
         }
     }
     return r;
+}
+
+IBrush::~IBrush()
+{
+
 }
 
 } // namespace map

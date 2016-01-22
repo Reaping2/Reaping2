@@ -12,6 +12,7 @@ class ITarget
 {
 public:
     ITarget( int32_t Id );
+    virtual ~ITarget();
     virtual void Update( double DeltaTime )=0;
     virtual int32_t GetCursorId() const;
     virtual std::auto_ptr<Actor> GetCursor();
