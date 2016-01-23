@@ -76,6 +76,7 @@ namespace network {
     MessageHandlerSubSystemHolder::MessageHandlerSubSystemHolder()
         : mSubSystemFactory(MessageHandlerSubSystemFactory::Get())
         , mMessageHolder(MessageHolder::Get())
+        , mScene(Scene::Get())
     {
     }
 
@@ -115,6 +116,7 @@ namespace network {
             it->mSystem->Update(DeltaTime);
         }
         mMessageHolder.ClearIncomingMessages();
+        mScene.InsertNewActors();
     }
 
 

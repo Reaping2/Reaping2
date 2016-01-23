@@ -103,7 +103,7 @@ void BorderBrush::Update(double DeltaTime)
         EditorTargetSystem::Get()->GetTarget().PutTarget(EditorTargetSystem::Get()->GetCursorPosition(),borders,outerBorders);
         Opt<engine::System> spawnActorMES(engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>());
         spawnActorMES->Update(0);
-        mScene.Update(0);
+        mScene.InsertNewActors();
         UpdateBorders(neighbors);
 
         mMouseLeftPressed=false;
@@ -129,7 +129,7 @@ void BorderBrush::Update(double DeltaTime)
             }
             mScene.RemoveActor(*i);
             MapSystem::Get()->RemoveMapElement(*i);
-            mScene.Update(0);
+            mScene.InsertNewActors();
             Neighbors neighbors=EditorGridSystem::Get()->GetGrid().GetNeighbors(actorPos,actorId);
             UpdateBorders(neighbors);
         }
@@ -183,7 +183,7 @@ void BorderBrush::UpdateBorders(Neighbors &neighbors)
         MapSystem::Get()->RemoveMapElement(*i);
     }
     spawnActorMES->Update(0);
-    mScene.Update(0);
+    mScene.InsertNewActors();
 }
 
 } // namespace map

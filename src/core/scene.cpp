@@ -83,13 +83,8 @@ void Scene::Update( double DeltaTime )
     }
     //testing end
 
-    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
-    {
-        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
-        L2("new actor inserted at update (GUID:%d)\n",(*it)->GetGUID());
-        mActorHolder.mAllActors.insert( *it );
-    }
-    mNewActors.clear();
+    InsertNewActors();
+
 }
 
 Scene::Scene()
@@ -320,5 +315,16 @@ void Scene::SelectLevel(std::string const& Level)
 std::string Scene::GetSelectedLevel()
 {
     return mSelectedLevel;
+}
+
+void Scene::InsertNewActors()
+{
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        L2("new actor inserted at update (GUID:%d)\n",(*it)->GetGUID());
+        mActorHolder.mAllActors.insert( *it );
+    }
+    mNewActors.clear();
 }
 
