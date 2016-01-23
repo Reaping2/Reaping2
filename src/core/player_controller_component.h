@@ -15,11 +15,11 @@ public:
     bool mShoot;
     bool mShootAlt;
     bool mUseNormalItem;
-    uint32_t mCurrentMovement;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
     bool mReviveTyped;
     bool mReloadTyped;
+    bool mMoving;
 };
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>

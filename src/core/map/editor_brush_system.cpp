@@ -17,7 +17,7 @@ void EditorBrushSystem::Init()
 {
     ModelValue& editorModel = const_cast<ModelValue&>(RootModel::Get()["editor"]);
     mEditorModels.push_back(new ModelValue( StringFunc(this,&EditorBrushSystem::BrushChanged),"brush",&editorModel));
-
+    mBrushId=AutoId("border");
 }
 
 

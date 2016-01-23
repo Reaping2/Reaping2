@@ -93,6 +93,7 @@ namespace network {
         SubSystems_t mSubSystems;
         MessageHandlerSubSystemFactory& mSubSystemFactory;
         MessageHolder& mMessageHolder;
+        Scene& mScene;
     };
 
     typedef MessageHandlerSubSystemHolder::SubSystems_t SubSystems_t;

@@ -40,7 +40,18 @@ void KeyboardSystem::Init()
 
 void KeyboardSystem::Update(double DeltaTime)
 {
-
+    for( Keys_t::iterator i = mKeys.begin(), e = mKeys.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    {
+        if( i->second.State==KeyState::Typed )
+        {
+            mKeys.erase( i );
+        }
+    }
+    for (Keys_t::iterator i = mReleasedKeys.begin(), e = mReleasedKeys.end();i!=e;++i)
+    {
+        mKeys.insert(*i);
+    }
+    mReleasedKeys.clear();
 }
 
 void KeyboardSystem::OnKeyEvent(const KeyEvent& Event)
@@ -48,14 +59,22 @@ void KeyboardSystem::OnKeyEvent(const KeyEvent& Event)
     Keys_t::iterator it = mKeys.find(Event.Key);
     if (Event.State==KeyState::Down)
     {
-        if (it==mKeys.end())
+        if (it==mKeys.end()||it->second.State==KeyState::Typed)
         {
+            if (it!=mKeys.end())
+            {
+                mKeys.erase(it);
+            }
             mKeys.insert(Keys_t::value_type(Event.Key,Key(Event.Mods,Event.State)));
         }
     }
     else
     {
-        mKeys.erase(it);
+        if (it!=mKeys.end())
+        {
+            mKeys.erase(it);
+            mReleasedKeys.insert(Keys_t::value_type(Event.Key,Key(Event.Mods,KeyState::Typed)));
+        }
     }
 }
 

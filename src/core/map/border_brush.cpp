@@ -20,7 +20,6 @@ BorderBrush::BorderBrush(int32_t Id)
     : IBrush(Id)
     , mMouseLeftPressed(false)
     , mMouseRightPressed(false)
-    , mScene(Scene::Get())
 {
     Neighbors::NeighborMap_t neighborMap;
     neighborMap[BorderType::Top]=Neighbors::Other;
@@ -91,6 +90,10 @@ BorderBrush::BorderBrush(int32_t Id)
 
 void BorderBrush::Update(double DeltaTime)
 {
+    if (!EditorTargetSystem::Get()->GetCursor().IsValid())
+    {
+        return;
+    }
     if (mMouseLeftPressed&&!engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ))
     {
         Neighbors neighbors=EditorGridSystem::Get()->GetGrid().GetNeighbors(EditorTargetSystem::Get()->GetCursorPosition(),EditorTargetSystem::Get()->GetCursor()->GetId());
@@ -100,7 +103,7 @@ void BorderBrush::Update(double DeltaTime)
         EditorTargetSystem::Get()->GetTarget().PutTarget(EditorTargetSystem::Get()->GetCursorPosition(),borders,outerBorders);
         Opt<engine::System> spawnActorMES(engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>());
         spawnActorMES->Update(0);
-        mScene.Update(0);
+        mScene.InsertNewActors();
         UpdateBorders(neighbors);
 
         mMouseLeftPressed=false;
@@ -112,25 +115,8 @@ void BorderBrush::Update(double DeltaTime)
     
     if (mMouseRightPressed&&!engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Right ))
     {
-        std::vector<int32_t> removeActors;
-        glm::vec2 mousePos=EditorGridSystem::Get()->GetGrid().GetMousePosition();
-        int32_t curGUID=EditorTargetSystem::Get()->GetCursor()->GetGUID();
-        for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-        {
-            Actor& actor=**it;
-            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-            Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-            if (!positionC.IsValid()||!collisionC.IsValid())
-            {
-                continue;
-            }
-            if (curGUID!=actor.GetGUID()
-                &&std::abs(positionC->GetX()-mousePos.x)<collisionC->GetRadius()
-                &&std::abs(positionC->GetY()-mousePos.y)<collisionC->GetRadius())
-            {
-                removeActors.push_back(actor.GetGUID());
-            }
-        }
+        std::vector<int32_t> removeActors=GetActorsToRemove();
+
         for (std::vector<int32_t>::iterator i=removeActors.begin(), e=removeActors.end();i!=e;++i)
         {
             Opt<Actor> actor(mScene.GetActor(*i));
@@ -143,7 +129,7 @@ void BorderBrush::Update(double DeltaTime)
             }
             mScene.RemoveActor(*i);
             MapSystem::Get()->RemoveMapElement(*i);
-            mScene.Update(0);
+            mScene.InsertNewActors();
             Neighbors neighbors=EditorGridSystem::Get()->GetGrid().GetNeighbors(actorPos,actorId);
             UpdateBorders(neighbors);
         }
@@ -197,7 +183,7 @@ void BorderBrush::UpdateBorders(Neighbors &neighbors)
         MapSystem::Get()->RemoveMapElement(*i);
     }
     spawnActorMES->Update(0);
-    mScene.Update(0);
+    mScene.InsertNewActors();
 }
 
 } // namespace map

@@ -36,6 +36,7 @@ void InventorySystem::Update(double DeltaTime)
             ssIt->mSystem->Update(actor,DeltaTime);
         }
     }
+    mScene.InsertNewActors();
 }
 
 void InventorySystem::Init()

@@ -8,21 +8,26 @@ namespace ctf {
 ClientDatasMessageSenderSystem::ClientDatasMessageSenderSystem()
     : MessageSenderSystem()
 {
-        //This one is not used yet you should wire it before use
 }
 
 
 void ClientDatasMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-        //This one is not used yet you should wire it before use
+    mOnCtfClientDatasChangedEvent = EventServer<CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &ClientDatasMessageSenderSystem::OnCtfClientDatasChangedEvent, this, _1) );
 }
 
 
 void ClientDatasMessageSenderSystem::Update(double DeltaTime)
 {
     MessageSenderSystem::Update(DeltaTime);
-        //This one is not used yet you should wire it before use
+}
+
+void ClientDatasMessageSenderSystem::OnCtfClientDatasChangedEvent( CtfClientDatasChangedEvent const & event )
+{
+    std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
+    message->mClientDatas = event.mCtfClientDatas;
+    mMessageHolder.AddOutgoingMessage(message);
 }
 
 ClientDatasMessageHandlerSubSystem::ClientDatasMessageHandlerSubSystem()

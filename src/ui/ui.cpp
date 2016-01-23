@@ -56,10 +56,10 @@ Ui::Ui()
     , mActiveRoot( &mEmptyRoot )
     , mLastEnteredWidget( NULL )
 {
-    mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &Ui::OnKeyEvent, this, _1 ) );
     mOnPressId = EventServer<UiMousePressEvent>::Get().Subscribe( boost::bind( &Ui::OnMousePressEvent, this, _1 ) );
     mOnReleaseId = EventServer<UiMouseReleaseEvent>::Get().Subscribe( boost::bind( &Ui::OnMouseReleaseEvent, this, _1 ) );
     mOnMoveId = EventServer<UiMouseMoveEvent>::Get().Subscribe( boost::bind( &Ui::OnMouseMoveEvent, this, _1 ) );
+    mOnInputId = EventServer<engine::InputStateChangedEvent>::Get().Subscribe( boost::bind( &Ui::OnInputStateChangedEvent, this, _1 ) );
     Load( "start" );
 }
 
@@ -86,15 +86,6 @@ void Ui::OnMouseReleaseEvent( UiMouseReleaseEvent const& Evt )
     }
 }
 
-void Ui::OnKeyEvent( const KeyEvent& Event )
-{
-    if( Event.Key == GLFW_KEY_ESCAPE && Event.State == KeyState::Down )
-    {
-        // todo: a hud onload/onexit actionje pause es resumeoljon
-        RootModel::Get()["scene"]["pause"]();
-        Load( "start" );
-    }
-}
 
 void Ui::OnMouseMoveEvent( UiMouseMoveEvent const& Evt )
 {
@@ -113,5 +104,15 @@ void Ui::OnMouseMoveEvent( UiMouseMoveEvent const& Evt )
         return;
     }
     mLastEnteredWidget->OnMouseEnter();
+}
+
+void Ui::OnInputStateChangedEvent(const engine::InputStateChangedEvent& Event)
+{
+    if( Event.mInputState.mPause )
+    {
+        // todo: a hud onload/onexit actionje pause es resumeoljon
+        RootModel::Get()["scene"]["pause"]();
+        Load( "start" );
+    }
 }
 

@@ -1,0 +1,16 @@
+[
+    {
+        "name":"grass_tile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"background"}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"no_collision", "radius":200}]
+            },
+            {"name":"border_component"}
+        ]
+    }
+]

@@ -8,7 +8,7 @@
 #include "ctf_program_state.h"
 #include "flag_state_changed_event.h"
 #include "engine/score_event.h"
-#include "input/keyboard.h"
+#include "input/input_system.h"
 
 namespace core {
 using platform::ModelValue;
@@ -26,7 +26,7 @@ private:
     AutoReg mOnStartGameMode;
     core::ProgramState& mProgramState;
     ctf::ProgramState& mCtfProgramState;
-    Opt<engine::KeyboardSystem> mKeyboard;
+    Opt<engine::InputSystem> mInputSystem;
     bool mHudShown;
     ModelValue mCtfModel;
     boost::ptr_vector<ModelValue> mTeamModels;

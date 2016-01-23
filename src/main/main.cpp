@@ -190,7 +190,6 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("free_for_all_game_mode_system"));
     Eng.AddSystem(AutoId("capture_the_flag_game_mode_system"));
     Eng.AddSystem(AutoId("leaderboard_system"));
-    Eng.AddSystem(AutoId("ParticleSystem"));
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>(false);
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>(false);
 
@@ -228,7 +227,9 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
-        Eng.AddSystem(AutoId("client_list_system"));
+        Eng.AddSystem(AutoId("ctf_client_list_system"));
+        Eng.AddSystem(AutoId("ffa_client_list_system"));
+        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 
@@ -307,6 +308,10 @@ int main(int argc, char* argv[])
     {
         Eng.AddSystem(AutoId("keyboard_system"));
         Eng.AddSystem(AutoId("mouse_system"));
+        Eng.AddSystem(AutoId("input_system"));
+        //adapter systems should be here. after input system before controller systems.
+        Eng.AddSystem(AutoId("keyboard_adapter_system"));
+        Eng.AddSystem(AutoId("mouse_adapter_system"));
     }
     Eng.AddSystem(AutoId("buff_holder_system"));
     Opt<engine::BuffHolderSystem> buffHolderS(Eng.GetSystem<engine::BuffHolderSystem>());
@@ -322,19 +327,6 @@ int main(int argc, char* argv[])
         buffHolderS->AddSubSystem(CloakBuff::GetType_static(),AutoId("cloak_buff_sub_system"));
     }
     buffHolderS->AddSubSystem(ArmorBuff::GetType_static(),AutoId("armor_buff_sub_system"));
-    Eng.AddSystem(AutoId("collision_system"));
-    Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
-    collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("water_collision_component"),AutoId("wall_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("collision_component"),AutoId("normal_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("bounce_collision_component"),AutoId("bounce_collision_sub_system"));
-    if (programState.mMode!=ProgramState::Client) 
-    {
-        collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("aoe_collision_component"),AutoId("aoe_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("flag_collision_component"),AutoId("flag_collision_sub_system"));
-    }
 
     Eng.AddSystem(AutoId("controller_system"));
     Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());
@@ -366,9 +358,7 @@ int main(int argc, char* argv[])
     }
     weaponItemSS->AddSubSystem(AutoId("gauss_gun"),AutoId("gauss_gun_weapon_sub_system"));
     weaponItemSS->AddSubSystem(AutoId("gatling_gun"),AutoId("gatling_gun_weapon_sub_system")); //handles client specific stuff like windup and deploy states.
-
     Eng.AddSystem(AutoId("audio_system"));
-
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 
     {
@@ -389,7 +379,22 @@ int main(int argc, char* argv[])
     }
     Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));
+    Eng.AddSystem(AutoId("collision_system"));
+    Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
+    collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("water_collision_component"),AutoId("wall_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("collision_component"),AutoId("normal_collision_sub_system"));
+    collisionSS->AddSubSystem(AutoId("bounce_collision_component"),AutoId("bounce_collision_sub_system"));
+    if (programState.mMode!=ProgramState::Client) 
+    {
+        collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("aoe_collision_component"),AutoId("aoe_collision_sub_system"));
+        collisionSS->AddSubSystem(AutoId("flag_collision_component"),AutoId("flag_collision_sub_system"));
+    }
+    Eng.AddSystem(AutoId("ParticleSystem"));
     Eng.AddSystem(AutoId("move_system"));
+
     Eng.AddSystem(AutoId("kill_score_system"));
 
     Eng.AddSystem(AutoId("stop_on_death_system"));

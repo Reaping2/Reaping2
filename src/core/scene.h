@@ -187,6 +187,9 @@ public:
     void SetType( std::string const& Type );
     int32_t GetTypeId()const;
     void Update( double DeltaTime );
+
+    void InsertNewActors();
+
     void AddActor( Actor* Object );
     void RemoveActor( int32_t guid );
     void RemoveActor( ActorList_t::iterator it );

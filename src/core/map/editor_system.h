@@ -11,6 +11,7 @@
 #include "render/camera.h"
 #include "render/renderer.h"
 #include "platform/frequency_timer.h"
+#include "editor_layer.h"
 
 namespace map {
 
@@ -20,7 +21,8 @@ public:
     DEFINE_SYSTEM_BASE(EditorSystem)
     EditorSystem();
     ~EditorSystem();
-
+    EditorLayer::Type GetEditorLayerType();
+    static Opt<EditorSystem> Get();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -30,17 +32,21 @@ private:
     ModelValue mStartModel;
     ModelValue mLoadModel;
     ModelValue mSaveModel;
+    ModelValue mLayerModel;
     double mX;
     double mY;
     double const& GetX() const;
     double const& GetY() const;
     boost::ptr_vector<ModelValue> mPlayerModels;
     std::string mLevelName;
+    EditorLayer::Type mEditorLayerType;
+    EditorLayer mEditorLayer;
 
     Opt<engine::KeyboardSystem> mKeyboard;
     void Start();
     void Load(std::string const& level);
     void Save();
+    void LayerSelect(std::string const& layer);
 
     uint32_t mCurrentMovement;
     Opt<engine::RendererSystem> mRenderer;
@@ -54,6 +60,7 @@ private:
 
     FrequencyTimer mTimer;
     bool mAutoSaveOn;
+
 };
 
 } // namespace map

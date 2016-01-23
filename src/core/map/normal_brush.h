@@ -14,8 +14,6 @@ public:
 protected:
     bool mMouseLeftPressed;
     bool mMouseRightPressed;
-private:
-    Scene& mScene;
 };
 
 } // namespace map

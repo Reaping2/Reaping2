@@ -852,7 +852,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"background"}]
+                "set":[{"layer":"corpses"}]
             },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":50}]

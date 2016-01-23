@@ -1,0 +1,344 @@
+[
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1000.0,
+                  "y" : -200.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "left" ],
+                  "outer_borders" : [ "top", "topright", "right", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -600.0,
+                  "y" : -600.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottomleft" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1000.0,
+                  "y" : -600.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "topright", "bottom", "left" ],
+                  "outer_borders" : [ "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -200.0,
+                  "y" : -1400.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -600.0,
+                  "y" : -1000.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1800.0,
+                  "y" : 1000.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left",
+                     "topleft"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1000.0,
+                  "y" : 1400.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1000.0,
+                  "y" : 2200.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "left" ],
+                  "outer_borders" : [ "top", "topright", "right", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1000.0,
+                  "y" : 1800.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottomleft", "topleft" ],
+                  "outer_borders" : [ "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 600.0,
+                  "y" : 1800.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 2600.0,
+                  "y" : 1800.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 2600.0,
+                  "y" : 2200.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottomleft" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "grass_tile",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 2200.0,
+                  "y" : 2200.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   }
+]

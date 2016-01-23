@@ -36,7 +36,7 @@ namespace network {
                 playerControllerMsg->mShootAlt=playerControllerC->mShootAlt;
                 playerControllerMsg->mUseNormalItem=playerControllerC->mUseNormalItem;
                 playerControllerMsg->mReload=playerControllerC->mReloadTyped;
-                playerControllerMsg->mCurrentMovement=playerControllerC->mCurrentMovement;
+                playerControllerMsg->mMoving=playerControllerC->mMoving;
                 mMessageHolder.AddOutgoingMessage(playerControllerMsg);
             }
         }
@@ -76,7 +76,7 @@ namespace network {
         playerControllerC->mShootAlt=msg.mShootAlt;
         playerControllerC->mUseNormalItem=msg.mUseNormalItem;
         playerControllerC->mReloadTyped=msg.mReload;
-        playerControllerC->mCurrentMovement=msg.mCurrentMovement;
+        playerControllerC->mMoving=msg.mMoving;
     }
 
 } // namespace engine

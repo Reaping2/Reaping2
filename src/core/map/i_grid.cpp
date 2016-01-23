@@ -30,5 +30,10 @@ Neighbors IGrid::GetNeighbors(glm::vec2 position, int32_t actorID)
     return r;
 }
 
+IGrid::~IGrid()
+{
+
+}
+
 } // namespace map
 

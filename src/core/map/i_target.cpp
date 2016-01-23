@@ -29,5 +29,10 @@ void ITarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& borders
     return PutTarget(position);
 }
 
+ITarget::~ITarget()
+{
+
+}
+
 
 } // namespace map

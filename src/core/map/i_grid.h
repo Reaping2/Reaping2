@@ -9,6 +9,7 @@ class IGrid
 {
 public:
     IGrid( int32_t Id );
+    virtual ~IGrid();
     virtual void Update( double DeltaTime )=0;
     virtual glm::vec2 GetProcessedPosition();
     virtual void SetMousePosition(double x, double y);

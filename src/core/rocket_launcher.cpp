@@ -3,13 +3,13 @@
 RocketLauncher::RocketLauncher( int32_t Id )
 	: Weapon( Id )
 {
-    mScatter.mIncrease=25;
+    mScatter.mIncrease=25;//25;
     mScatter.mChill=40;
-    mScatter.mAltIncrease=5;
+    mScatter.mAltIncrease=5;//5;
 	mShootCooldown = 0.35;
 	mShootAltCooldown = 1.5;
 
-    mBulletsMax = 10.0;
+    mBulletsMax = 12;//10.0;
     mShotCost=1;
     mShotCostAlt=2;
     mReloadTimeMax=3.0;
