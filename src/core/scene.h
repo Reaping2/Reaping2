@@ -221,10 +221,12 @@ public:
 
     void SelectLevel( std::string const& Level );
 
+    std::string GetSelectedLevel();
+
     void SelectGameMode( std::string const& GameMode );
 
-    std::string GetSelectedLevel();
-    
+    std::string GetSelectedGameMode();
+
     void AddTestCreep(double X, double Y);
 
     void Pause()

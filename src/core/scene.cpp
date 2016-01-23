@@ -317,13 +317,7 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
-    RootModel::Get()["lifecycle.host"](mSelectedGameMode);
-    // TODO: send lifecycle message here
-}
-
-void Scene::SelectGameMode( std::string const& GameMode )
-{
-    mSelectedGameMode = GameMode;
+    RootModel::Get()["lifecycle.host"]();
 }
 
 std::string Scene::GetSelectedLevel()
@@ -331,3 +325,13 @@ std::string Scene::GetSelectedLevel()
     return mSelectedLevel;
 }
 
+void Scene::SelectGameMode( std::string const& GameMode )
+{
+    mSelectedGameMode = GameMode;
+    // TODO: we're in client mode: now send gamemodeselected
+}
+
+std::string Scene::GetSelectedGameMode()
+{
+    return mSelectedGameMode;
+}
