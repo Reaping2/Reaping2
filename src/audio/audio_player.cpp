@@ -14,9 +14,9 @@ void AudioPlayer::Play( int32_t EffectUID, int32_t id, glm::vec2 const& pos )
     {
         boost::mutex::scoped_lock g( mReadMtx );
         if( std::end( mNewFiles ) != std::find_if( std::begin( mNewFiles ), std::end( mNewFiles ),
-                [&]( AudioFile const& f ) { return f.GetUID() == EffectUID; } ) ||
+                [&]( AudioFile& f ) { return f.GetUID() == EffectUID && ( f.SetPosition( pos ), true ); } ) ||
             std::end( mActiveFiles ) != std::find_if( std::begin( mActiveFiles ), std::end( mActiveFiles ),
-                [&]( AudioFile const& f ) { return f.GetUID() == EffectUID; } ) )
+                [&]( AudioFile& f ) { return f.GetUID() == EffectUID && ( f.SetPosition( pos ), true ); } ) )
         {
             return;
         }

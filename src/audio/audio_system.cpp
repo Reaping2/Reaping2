@@ -58,15 +58,10 @@ void AudioSystem::Update(double DeltaTime)
         [&]( int32_t i ) { return std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == i; } ) == std::end( effects ); } );
     std::vector<int32_t> removedEffects( removedEffectsIt, std::end( prevEffects ) );
     prevEffects.erase( removedEffectsIt, std::end( prevEffects ) );
-    auto oldEffectsIt = std::remove_if( std::begin( effects ), std::end( effects ),
-        [&]( EffectInst const& i ) { return std::find( std::begin( prevEffects ), std::end( prevEffects ), i.UID ) != std::end( prevEffects ); } );
-    Effects_t updatedEffects( oldEffectsIt, std::end( effects ) );
-    effects.erase( oldEffectsIt, std::end( effects ) );
     std::for_each( std::begin( removedEffects ), std::end( removedEffects ),
         [&]( int32_t i ) { ap.Halt( i ); } );
     std::for_each( std::begin( effects ), std::end( effects ),
         [&]( EffectInst const& i ) { ap.Play( i.UID, i.Id, i.Pos ); } );
-//    ap.Update( effects, updatedEffects, removedEffects );
 }
 
 

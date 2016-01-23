@@ -84,3 +84,9 @@ AudioBuffer& AudioFile::GetBuffer()
 {
     return mBuffer;
 }
+
+void AudioFile::SetPosition( glm::vec2 const& pos )
+{
+    mPos = pos;
+}
+

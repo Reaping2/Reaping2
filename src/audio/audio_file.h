@@ -27,6 +27,7 @@ public:
     bool IsInterruptable() const;
     bool IsFinishedPlaying() const;
     glm::vec2 const& GetPosition() const;
+    void SetPosition( glm::vec2 const& pos );
     static std::auto_ptr<AudioFile> Create( int32_t uid, audio::AudioEffect const& Effect, glm::vec2 const& pos );
 };
 
