@@ -103,6 +103,8 @@ Scene::Scene()
     , mPlayerModel( "player", &RootModel::Get() )
     , mLevelModel( "level", &RootModel::Get() )
     , mSelectLevelModel( StringFunc( this, &Scene::SelectLevel ), "select", &mLevelModel )
+    , mGameModeModel( "gamemode", &RootModel::Get() )
+    , mSelectGameModeModel( StringFunc( this, &Scene::SelectGameMode ), "select", &mGameModeModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
 {
@@ -315,6 +317,13 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
+    RootModel::Get()["lifecycle.host"](mSelectedGameMode);
+    // TODO: send lifecycle message here
+}
+
+void Scene::SelectGameMode( std::string const& GameMode )
+{
+    mSelectedGameMode = GameMode;
 }
 
 std::string Scene::GetSelectedLevel()

@@ -174,6 +174,9 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mLevelModel;
     ModelValue mSelectLevelModel;
     std::string mSelectedLevel;
+    ModelValue mGameModeModel;
+    ModelValue mSelectGameModeModel;
+    std::string mSelectedGameMode;
     int32_t mMaxHP;
     core::ProgramState& mProgramState;
 public:
@@ -217,6 +220,8 @@ public:
     void Load( std::string const& Level );
 
     void SelectLevel( std::string const& Level );
+
+    void SelectGameMode( std::string const& GameMode );
 
     std::string GetSelectedLevel();
     
