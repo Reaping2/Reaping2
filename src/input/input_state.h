@@ -10,7 +10,6 @@ struct InputState
     bool mShoot;
     bool mShootAlt;
     bool mUseNormalItem;
-    bool mRevive;
     bool mReload;
     bool mMoving;
     bool mShowLeaderboard;

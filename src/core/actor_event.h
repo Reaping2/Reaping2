@@ -8,6 +8,7 @@ struct ActorEvent : public Event
     enum State
     {
         Added=0,
+        Died,
         Removed
     };
     Opt<Actor> mActor;

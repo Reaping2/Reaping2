@@ -99,6 +99,9 @@
 #include "input/input_system.h"
 #include "input/keyboard_adapter_system.h"
 #include "input/mouse_adapter_system.h"
+#include "soldier_auto_revive_system.h"
+#include "core/map/soldier_auto_revive_map_element_system.h"
+#include "network/secs_to_revive_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -148,6 +151,7 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("soldier_properties_system"), &CreateSystem<SoldierPropertiesSystem>);
     Bind( AutoId("soldier_spawn_system"), &CreateSystem<SoldierSpawnSystem>);
+    Bind( AutoId("soldier_auto_revive_system"), &CreateSystem<engine::SoldierAutoReviveSystem>);
 
     Bind( AutoId("lifecycle_sender_system"), &CreateSystem<network::LifecycleSenderSystem>);
     Bind( AutoId("message_handler_sub_system_holder"), &CreateSystem<network::MessageHandlerSubSystemHolder>);
@@ -178,6 +182,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
     Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
     Bind( AutoId("border_message_sender_system"), &CreateSystem<network::BorderMessageSenderSystem>);
+    Bind( AutoId("secs_to_revive_message_sender_system"), &CreateSystem<network::SecsToReviveMessageSenderSystem>);
 
     Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
     Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);
@@ -196,6 +201,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("soldier_spawn_point_map_element_system"), &CreateSystem<map::SoldierSpawnPointMapElementSystem>);
     Bind( AutoId("spawn_actor_map_element_system"), &CreateSystem<map::SpawnActorMapElementSystem>);
     Bind( AutoId("respawn_actor_map_element_system"), &CreateSystem<map::RespawnActorMapElementSystem>);
+    Bind( AutoId("soldier_auto_revive_map_element_system"), &CreateSystem<map::SoldierAutoReviveMapElementSystem>);
 
     Bind( AutoId("free_for_all_game_mode_system"), &CreateSystem<core::FreeForAllGameModeSystem>);
     Bind( AutoId("capture_the_flag_game_mode_system"), &CreateSystem<core::CaptureTheFlagGameModeSystem>);

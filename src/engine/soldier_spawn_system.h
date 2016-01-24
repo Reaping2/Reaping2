@@ -25,6 +25,7 @@ protected:
     virtual void Update( double DeltaTime );
 private:
     Scene& mScene;
+    core::ProgramState& mProgramState;
     ActorFactory& mActorFactory;
     int32_t mPlayerAutoId;
     AutoReg mOnRevive;

@@ -13,6 +13,7 @@ namespace engine {
 
 SoldierSpawnSystem::SoldierSpawnSystem()
     : mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
     , mActorFactory( ActorFactory::Get() )
     , mPlayerAutoId(AutoId("player"))
 {
@@ -77,9 +78,6 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map
     L2("positionC is valid %d",positionC.IsValid());
     positionC->SetX(spawnPoint.mX);
     positionC->SetY(spawnPoint.mY);
-    //     glm::vec4 const& dimensions=mScene.GetDimensions();
-    //     positionC->SetX((dimensions.x + ( rand() % ( int )( ( dimensions.z - dimensions.x ) ) )) );
-    //     positionC->SetY((dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) )) );
 
     //TODO: temporary till normal inventory sync 
     Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
@@ -88,19 +86,25 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map
         inventoryC->SetSelectedWeapon(AutoId( "pistol" ));
     }
 
-    clientData.mClientActorGUID=player->GetGUID(); //TODO: might seek for a better place
     Opt<PlayerControllerComponent> playerControllerC(player->Get<PlayerControllerComponent>());
     if (playerControllerC.IsValid())
     {
         playerControllerC->mControllerId=clientData.mClientId;
+        if (mProgramState.mControlledActorGUID==clientData.mClientActorGUID
+            &&mProgramState.mMode!=core::ProgramState::Server)
+        {
+            playerControllerC->SetEnabled(true);
+            playerControllerC->mActive=true;
+            mProgramState.mControlledActorGUID=player->GetGUID();
+        }
     }
+    clientData.mClientActorGUID=player->GetGUID(); //TODO: might seek for a better place
     L2("player created clientId:%d clientName:%s actorId:%d\n",clientData.mClientId,clientData.mClientName.c_str(),clientData.mClientActorGUID);
-    //TODO: for debugging server:
-    if (core::ProgramState::Get().mClientDatas.begin()->mClientActorGUID==player->GetGUID())
+
+    if (mProgramState.mClientDatas.begin()->mClientActorGUID==player->GetGUID())
     {
         Scene::Get().SetPlayerModels(Opt<Actor>(player.get()));
     }
-
     EventServer<SoldierCreatedEvent>::Get().SendEvent(SoldierCreatedEvent(clientData,Opt<Actor>(player.get())));
     return player;
 }

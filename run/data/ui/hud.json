@@ -166,6 +166,31 @@
                     "fontsize": 3
                 }
             ]
+        },
+        {
+            "type": "fixed_ratio_container",
+            "x": 0.0,
+            "y": 0.0,
+            "w": 1.0,
+            "h": 1.0,
+            "align_h": "center",
+            "align_v": "center",
+            "visible": 0,
+            "enabled": 0,
+            "children": [
+                {
+                    "type": "text_widget",
+                    "x": 0.35,
+                    "y": 0.4,
+                    "w": 1.0,
+                    "h": 0.1,
+                    "color": "0x777777",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "%auto_revive_text",
+                    "fontsize": 6
+                }                
+            ]
         }
     ]
 }

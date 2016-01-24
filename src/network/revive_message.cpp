@@ -27,36 +27,7 @@ namespace network {
         {
             return;
         }
-        L2("handle revive request!\n");
-        //TODO: might need optimization
-        Opt<Actor> actor=mScene.GetActor(mProgramState.mControlledActorGUID);
-        if (!actor.IsValid())
-        {
-            L1("actor not valid!\n");
-            return;
-        }
-        Opt<PlayerControllerComponent> playerControllerC(actor->Get<PlayerControllerComponent>());
-        if (!playerControllerC.IsValid())
-        {
-            L1("playercontroller not valid!\n");
-            return;
-        }
-        if (!playerControllerC->mReviveTyped)
-        {
-            return;
-        }
-        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
-        if (healthC.IsValid()&&!healthC->IsAlive())
-        {
-            std::auto_ptr<ReviveMessage> reviveMsg(new ReviveMessage);
-            mMessageHolder.AddOutgoingMessage(reviveMsg);
-            L2("revive message sent clientId: %d!\n",mProgramState.mClientId);
-        }
-        else
-        {
-            L1("%s health is not available, or actor still alive:%d\n",__FUNCTION__,actor->GetGUID());
-        }
-        playerControllerC->mReviveTyped=false;
+        //--not used: currently no revive request from client
     }
 
 
@@ -74,6 +45,7 @@ namespace network {
 
     void ReviveMessageHandlerSubSystem::Execute(Message const& message)
     {
+        //--not used: currently no revive request from client
         ReviveMessage const& msg=static_cast<ReviveMessage const&>(message);
         L2("got revive message: senderId:%d\n",msg.mSenderId);
 
@@ -86,10 +58,6 @@ namespace network {
 
         L2("found client for revive: senderId:%d\n",msg.mSenderId);
         EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( clientData ) );
-
-//         std::auto_ptr<Actor> player(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));       
-//         mScene.AddActor(player.release());
-       
         L2("end revive message: senderId:%d\n",msg.mSenderId);
     }
 

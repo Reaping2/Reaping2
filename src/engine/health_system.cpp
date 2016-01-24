@@ -9,6 +9,7 @@
 #include "core/damage_taken_event.h"
 #include "core/i_collision_component.h"
 #include "core/heal_taken_event.h"
+#include "core/actor_event.h"
 
 namespace engine {
 
@@ -81,12 +82,7 @@ void HealthSystem::Update(double DeltaTime)
             }
             healthC->SetTimeOfDeath(glfwGetTime());
             Scene::Get().ModifyActor(&actor,RenderableComponentModifier(RenderableLayer::Corpses,healthC->GetTimeOfDeath()));
-
-            Opt<IControllerComponent> controllerC = actor.Get<IControllerComponent>();
-            if(controllerC.IsValid())
-            {
-                //controllerC->SetEnabled(false);
-            }
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Died ) );
         }
         healthC->SetHP(newHp);
 

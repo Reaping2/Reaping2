@@ -3,7 +3,6 @@
 #include "engine/engine.h"
 #include "engine/controllers/controller_system.h"
 #include "ui/ui.h"
-#include "engine/controllers/player_controller_sub_system.h"
 #include "json/json.h"
 #include "map_system.h"
 #include "spawn_actor_map_element.h"
@@ -16,6 +15,7 @@
 #include "respawn_actor_map_element_system.h"
 #include "ctf_flag_spawn_point_map_element.h"
 #include "../i_renderable_component.h"
+#include "input/keyboard_adapter_system.h"
 
 namespace map {
 
@@ -101,29 +101,29 @@ void EditorSystem::Update(double DeltaTime)
     uint32_t currentKeyMovement = 0;
     if( mKeyboard->GetKey(GLFW_KEY_W).State==KeyState::Down)
     {
-        currentKeyMovement |= MF_Up;
+        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Up;
     }
     if( mKeyboard->GetKey(GLFW_KEY_A).State==KeyState::Down )
     {
-        currentKeyMovement |= MF_Left;
+        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Left;
     }
     if( mKeyboard->GetKey(GLFW_KEY_S).State==KeyState::Down )
     {
-        currentKeyMovement |= MF_Down;
+        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Down;
     }
     if( mKeyboard->GetKey(GLFW_KEY_D).State==KeyState::Down )
     {
-        currentKeyMovement |= MF_Right;
+        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
     }
     currentKeyMovement |= mCurrentMovement;
     if (!mHudState)
     {
-        mX += 1000*DeltaTime*(( ( currentKeyMovement & MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & MF_Right ) ? 1 : 0 ));
-        mY += 1000*DeltaTime*(( ( currentKeyMovement & MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & MF_Down ) ? -1 : 0 ));
+        mX += 1000*DeltaTime*(( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Right ) ? 1 : 0 ));
+        mY += 1000*DeltaTime*(( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Down ) ? -1 : 0 ));
     }
     if( mKeyboard->GetKey(GLFW_KEY_SPACE).State==KeyState::Down )
     {
-        currentKeyMovement |= MF_Right;
+        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
     }
     if (mSpaceTyped)
     {
@@ -153,19 +153,19 @@ void EditorSystem::OnScreenMouseMove(::ScreenMouseMoveEvent const& Evt)
     mCurrentMovement = 0;
     if( Evt.Pos.y<100)
     {
-        mCurrentMovement |= MF_Up;
+        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Up;
     }
     if( Evt.Pos.x<100 )
     {
-        mCurrentMovement |= MF_Left;
+        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Left;
     }
     if(Evt.Pos.y>h-150 )
     {
-        mCurrentMovement |= MF_Down;
+        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Down;
     }
     if( Evt.Pos.x>w-100 )
     {
-        mCurrentMovement |= MF_Right;
+        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Right;
     }
 }
 

@@ -13,7 +13,6 @@ void InputState::Reset()
     mShoot=false;
     mShootAlt=false;
     mUseNormalItem=false;
-    mRevive=false;
     mReload=false;
     mMoving=false;
     mShowLeaderboard=false;
@@ -27,7 +26,6 @@ bool InputState::operator==(InputState const& other)
         && mShoot==other.mShoot
         && mShootAlt==other.mShootAlt
         && mUseNormalItem==other.mUseNormalItem
-        && mRevive==other.mRevive
         && mReload==other.mReload
         && mMoving==other.mMoving
         && mShowLeaderboard==other.mShowLeaderboard
