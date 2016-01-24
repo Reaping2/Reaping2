@@ -45,6 +45,7 @@
 #include "cloak_component.h"
 #include "border_component.h"
 #include "water_collision_component.h"
+#include "audible_component.h"
 
 using platform::AutoId;
 
@@ -108,4 +109,5 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("emitter_component"), &CreateComponent<EmitterComponent>);
     Bind( AutoId("explode_on_hit_component"), &CreateComponent<ExplodeOnHitComponent>);
     Bind( AutoId("detonate_on_hit_component"), &CreateComponent<DetonateOnHitComponent>);
+    Bind( AutoId("audible_component"), &CreateComponent<AudibleComponent>);
 }

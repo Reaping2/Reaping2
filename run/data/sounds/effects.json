@@ -1,1 +1,51 @@
-[{"id":"plasma","file":"sounds/plasmagun.ogg"},{"id":"plasma_alt","file":"sounds/plasmagunSecondary.ogg"},{"id":"pistol_shot","file":"sounds/pistol_shot.ogg"}]
+[
+    {
+        "id": "plasma",
+        "file": "sounds/plasmagun.ogg"
+    },
+    {
+        "id": "plasma_alt",
+        "file": "sounds/plasmagunSecondary.ogg"
+    },
+    {
+        "id": "pistol_shot",
+        "file": "sounds/pistol_shot.ogg"
+    },
+    {
+        "id": "shotgun_projectile",
+        "file": "sounds/shotgun.ogg"
+    },
+    {
+        "id": "shotgun_alt_projectile",
+        "file": "sounds/shotgun.ogg"
+    },
+    {
+        "id": "rocket",
+        "file": "sounds/rocket.ogg"
+    },
+    {
+        "id": "gatling_up",
+        "file": "sounds/gatling_up.ogg",
+        "interruptable": true
+    },
+    {
+        "id": "gatling_down",
+        "file": "sounds/gatling_down.ogg",
+        "interruptable": true
+    },
+    {
+        "id": "gatling_loop",
+        "file": "sounds/gatling_loop.ogg",
+        "interruptable": true,
+        "mode": 1
+    },
+    {
+        "id": "gauss_shot",
+        "file": "sounds/gauss.ogg"
+    },
+    {
+        "id": "gauss_alt_shot",
+        "file": "sounds/gauss.ogg"
+    }
+]
+

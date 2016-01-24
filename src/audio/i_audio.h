@@ -11,6 +11,7 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
+#include "audio_effect.h"
 #include "audio_buffer.h"
 #include "vorbis_file.h"
 #include "vorbis_file_cache.h"
@@ -19,6 +20,6 @@
 #include "audio_player.h"
 
 // bindings (might very well be placed into another project)
-#include "audio_effect_player.h"
+#include "audio_effect_repo.h"
 
 #endif//INCLUDED_AUDIO_I_AUDIO_H

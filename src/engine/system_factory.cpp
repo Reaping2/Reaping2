@@ -95,6 +95,7 @@
 #include "network/ffa_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/sync_item_message.h"
+#include "audio/audio_system.h"
 #include "input/input_system.h"
 #include "input/keyboard_adapter_system.h"
 #include "input/mouse_adapter_system.h"
@@ -224,6 +225,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
     Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
+    Bind( AutoId("audio_system"), &CreateSystem<audio::AudioSystem>);
 }
 
 } // namespace engine

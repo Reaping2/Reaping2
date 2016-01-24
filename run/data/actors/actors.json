@@ -36,7 +36,7 @@
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":100}]
             },
-			{"name":"border_component"}
+            {"name":"border_component"}
         ]
     },
     {
@@ -50,7 +50,7 @@
             {"name":"water_collision_component",
                 "set":[{"class":"water", "radius":50}]
             },
-			{"name":"border_component"}
+            {"name":"border_component"}
         ]
     },
     {
@@ -112,9 +112,18 @@
                     {
                         "emit_descs":[
                             {
-                            "delay": 0.0,
-                            "emit_type": "bullet_particle"
+                                "delay": 0.0,
+                                "emit_type": "bullet_particle"
                             }
+                        ]
+                    }
+                ]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "pistol_shot" }
                         ]
                     }
                 ]
@@ -144,8 +153,8 @@
                     {
                         "emit_descs":[
                             {
-                            "delay": 0.0,
-                            "emit_type": "gauss_particle"
+                                "delay": 0.0,
+                                "emit_type": "gauss_particle"
                             }
                         ]
                     }
@@ -176,8 +185,8 @@
                     {
                         "emit_descs":[
                             {
-                            "delay": 0.0,
-                            "emit_type": "gauss_alt_particle"
+                                "delay": 0.0,
+                                "emit_type": "gauss_alt_particle"
                             }
                         ]
                     }
@@ -203,11 +212,11 @@
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
             {"name":"emitter_component","set":[{
-                        "emit_descs":[{
-                            "delay": 0.0,
-                            "emit_type": "gatling_gun_particle"
-                            }]
-                    }]
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "gatling_gun_particle"
+                }]
+            }]
             }
         ]
     },
@@ -229,11 +238,11 @@
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
             {"name":"emitter_component","set":[{
-                        "emit_descs":[{
-                            "delay": 0.0,
-                            "emit_type": "gatling_gun_particle"
-                            }]
-                    }]
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "gatling_gun_particle"
+                }]
+            }]
             }
         ]
     },
@@ -259,11 +268,11 @@
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
             {"name":"emitter_component","set":[{
-                        "emit_descs":[{
-                            "delay": 0.0,
-                            "emit_type": "shotgun_particle"
-                            }]
-                    }]
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "shotgun_particle"
+                }]
+            }]
             }
         ]
     },
@@ -289,11 +298,11 @@
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
             {"name":"emitter_component","set":[{
-                        "emit_descs":[{
-                            "delay": 0.0,
-                            "emit_type": "shotgun_alt2_particle"
-                            }]
-                    }]
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "shotgun_alt2_particle"
+                }]
+            }]
             }
         ]
     },
@@ -322,12 +331,12 @@
                     ,"count":11,"scatter":1.1}]
             },
             {"name":"emitter_component","set":[{
-                        "emit_descs":[{
-                            "delay": 0.0,
-                            "probability": 0.4,
-                            "emit_type": "shotgun_alt_particle"
-                            }]
-                    }]
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "probability": 0.4,
+                    "emit_type": "shotgun_alt_particle"
+                }]
+            }]
             }
         ]
     },
@@ -350,11 +359,11 @@
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
             {"name":"emitter_component","set":[{
-                        "emit_descs":[{
-                            "delay": 0.0,
-                            "emit_type": "plasma_particle"
-                            }]
-                    }]
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "plasma_particle"
+                }]
+            }]
             }
         ]
     },
@@ -486,6 +495,15 @@
                         }
                     ]
                 }]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "rocket" }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -532,6 +550,15 @@
                                 "probability": 0.7,
                                 "emit_type": "rocket_smoke"
                             }
+                        ]
+                    }
+                ]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "rocket" }
                         ]
                     }
                 ]
@@ -766,7 +793,8 @@
             {"name":"buff_holder_component"},
             {"name":"score_on_death_component"},
             {"name":"kill_score_on_death_component"},
-            {"name":"heat_source_component"}
+            {"name":"heat_source_component"},
+            {"name":"audible_component"}
         ]
     },
     {
@@ -799,7 +827,8 @@
             {"name":"flag_carrier_component"},
             {"name":"score_on_death_component"},
             {"name":"kill_score_on_death_component"},
-            {"name":"heat_source_component"}
+            {"name":"heat_source_component"},
+            {"name":"audible_component"}
         ]
     },
     {

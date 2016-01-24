@@ -1,36 +1,34 @@
 #ifndef INCLUDED_AUDIO_AUDIO_FILE_H
 #define INCLUDED_AUDIO_AUDIO_FILE_H
 
+#include "platform/i_platform.h"
+#include "audio/audio_effect.h"
+#include "vorbis_file_cache.h"
+
+// todo: rename
 class AudioFile
 {
-public:
-    enum PlayMode
-    {
-        PlayOnce,
-        Repeat,
-    };
-    enum AudioType
-    {
-        Music = 0,
-        Effect,
-        Speech,
-        NumTypes,
-    };
 private:
+    int32_t mUID;
+    audio::AudioEffect const& mEffect;
     static const size_t TargetBufferSize;
     VorbisFileCache::Elem mSource;
     size_t mPosInSource;
     AudioBuffer mBuffer;
-    PlayMode const mMode;
-    AudioType const mType;
     bool mFinishedPlaying;
-    AudioFile( VorbisFileCache::Elem Source, PlayMode Mode, AudioType Type );
+    glm::vec2 mPos;
+    AudioFile( int32_t uid, VorbisFileCache::Elem Source, audio::AudioEffect const& Effect, glm::vec2 const& pos );
 public:
     bool FillBufferIfNeeded();
     AudioBuffer& GetBuffer();
-    AudioType GetType()const;
-    bool IsFinishedPlaying()const;
-    static std::auto_ptr<AudioFile> Create( boost::filesystem::path const& Path, PlayMode Mode, AudioType Type );
+    audio::AudioType GetType() const;
+    audio::PlayMode GetMode() const;
+    int32_t GetUID() const;
+    bool IsInterruptable() const;
+    bool IsFinishedPlaying() const;
+    glm::vec2 const& GetPosition() const;
+    void SetPosition( glm::vec2 const& pos );
+    static std::auto_ptr<AudioFile> Create( int32_t uid, audio::AudioEffect const& Effect, glm::vec2 const& pos );
 };
 
 typedef boost::ptr_vector<AudioFile> AudioFiles_t;

@@ -5,6 +5,8 @@ class AudioPlayer : public Singleton<AudioPlayer>
 {
     AudioFiles_t mActiveFiles;
     AudioFiles_t mNewFiles;
+    std::vector<int32_t> mHaltedIds;
+    std::vector<int32_t> mRunningIds;
 
     static const size_t MinPlaybackBufferSize;
     const size_t mNumChannels;
@@ -35,8 +37,9 @@ class AudioPlayer : public Singleton<AudioPlayer>
     void OnPhaseChangedEvent( PhaseChangedEvent const& Evt );
 public:
     ~AudioPlayer();
-    void Play( boost::filesystem::path const& Path, AudioFile::AudioType Type );
-
+    void Play( int32_t EffectUID, int32_t Id, glm::vec2 const& Pos );
+    void Halt( int32_t EffectUID );
+    std::vector<int32_t> HaltableEffects();
     bool IsSampleRateSupported( int32_t Rate )const;
 };
 

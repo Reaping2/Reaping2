@@ -63,6 +63,7 @@
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
 #include "network/sync_item_message.h"
+#include "audio/audio_system.h"
 #include "network/secs_to_revive_message.h"
 
 using engine::Engine;
@@ -180,9 +181,7 @@ int main(int argc, char* argv[])
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Startup ) );
     PerfTimer.Log( "wnd" );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
-    AudioEffectPlayer::Get();
     AudioPlayer::Get();
-    //AudioPlayer::Get().Play( "sounds/Zap_Beat.ogg", AudioFile::Music );
     DamageDecals::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
@@ -363,6 +362,7 @@ int main(int argc, char* argv[])
     }
     weaponItemSS->AddSubSystem(AutoId("gauss_gun"),AutoId("gauss_gun_weapon_sub_system"));
     weaponItemSS->AddSubSystem(AutoId("gatling_gun"),AutoId("gatling_gun_weapon_sub_system")); //handles client specific stuff like windup and deploy states.
+    Eng.AddSystem(AutoId("audio_system"));
     Eng.AddSystem(AutoId("fade_out_system"));
     if (programState.mMode!=ProgramState::Client) 
     {

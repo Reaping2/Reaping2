@@ -1,6 +1,8 @@
 #ifndef INCLUDED_AUDIO_VORBIS_FILE_H
 #define INCLUDED_AUDIO_VORBIS_FILE_H
 
+#include "i_audio.h"
+
 class VorbisFileCache;
 class VorbisFile
 {
