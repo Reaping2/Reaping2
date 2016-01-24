@@ -63,6 +63,7 @@
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
 #include "network/sync_item_message.h"
+#include "network/secs_to_revive_message.h"
 
 using engine::Engine;
 namespace {
@@ -220,6 +221,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
         Eng.AddSystem(AutoId("border_message_sender_system"));
         Eng.AddSystem(AutoId("sync_item_message_sender_system"));
+        Eng.AddSystem(AutoId("secs_to_revive_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -256,6 +258,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("ctf_spawn_soldiers_map_element_system"));
         Eng.AddSystem(AutoId("ctf_spawn_flags_map_element_system"));
         Eng.AddSystem(AutoId("respawn_actor_map_element_system"));
+        Eng.AddSystem(AutoId("soldier_auto_revive_map_element_system"));
     }
 
     Eng.AddSystem(AutoId("attachable_system"));
@@ -302,6 +305,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::BorderMessage::GetType_static(),AutoId("border_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SyncItemMessage::GetType_static(),AutoId("sync_item_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::SecsToReviveMessage::GetType_static(),AutoId("secs_to_revive_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));
@@ -370,6 +374,7 @@ int main(int argc, char* argv[])
     }
     Eng.AddSystem(AutoId("armor_system")); //must be before health_system (lowers damage income)
     Eng.AddSystem(AutoId("health_system"));
+
     if (programState.mMode!=ProgramState::Client)
     {
         Eng.AddSystem(AutoId("notify_parent_on_death_system"));
@@ -377,6 +382,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("remove_on_death_system"));
         Eng.AddSystem(AutoId("explode_on_death_system"));
     }
+    Eng.AddSystem(AutoId("soldier_auto_revive_system"));
     Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));
     Eng.AddSystem(AutoId("collision_system"));

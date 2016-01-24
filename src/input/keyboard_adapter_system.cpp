@@ -40,15 +40,10 @@ void KeyboardAdapterSystem::Update(double DeltaTime)
     }
 
     InputState inputState=mInputSystem->GetInputState();
-    if( mKeyboard->GetKey(GLFW_KEY_Q).State==KeyState::Typed )
+    if( mKeyboard->GetKey(GLFW_KEY_Q).State==KeyState::Typed /*obsolete enabled for one iteration*/
+        ||mKeyboard->GetKey(GLFW_KEY_SPACE).State==KeyState::Typed)
     {
         inputState.mUseNormalItem=true;
-    }
-    
-    if( mKeyboard->GetKey(GLFW_KEY_SPACE).State==KeyState::Typed )
-    {
-        inputState.mRevive=true;
-        L2("revive Typed!\n");
     }
     if( mKeyboard->GetKey(GLFW_KEY_R).State==KeyState::Typed )
     {

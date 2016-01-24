@@ -49,7 +49,6 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
 
     SetSpeedAndOrientation(actor,playerControllerC);
     SetOrientation(actor,playerControllerC);
-    HandleRevive(actor,playerControllerC);
 }
 
 void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
@@ -104,43 +103,9 @@ void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerC
     playerControllerC->mShoot=mInputSystem->GetInputState().mShoot;
     playerControllerC->mShootAlt=mInputSystem->GetInputState().mShootAlt;
     playerControllerC->mUseNormalItem=mInputSystem->GetInputState().mUseNormalItem;
-    playerControllerC->mReviveTyped=mInputSystem->GetInputState().mRevive;
     playerControllerC->mReloadTyped=mInputSystem->GetInputState().mReload;
     playerControllerC->mMoving=mInputSystem->GetInputState().mMoving;
     playerControllerC->mHeading=mInputSystem->GetInputState().mHeading;
-}
-
-void PlayerControllerSubSystem::HandleRevive(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
-{
-    if (!playerControllerC->mReviveTyped)
-    {
-        return;
-    }
-    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if (healthC.IsValid()&&!healthC->IsAlive())
-    {
-        L2("revive!\n");
-        Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(actor.GetGUID()));
-        if(clientData.IsValid())
-        {
-            std::auto_ptr<Actor> player(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));
-            if (player.get())
-            {
-                player->Get<PlayerControllerComponent>()->SetEnabled(true);
-                player->Get<PlayerControllerComponent>()->mActive=true;
-                playerControllerC->SetEnabled(false);
-                playerControllerC->mActive=false;
-                mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
-                mScene.SetPlayerModels(Opt<Actor>(player.get()));
-                mScene.AddActor(player.release());
-            }
-        }
-    }
-    else
-    {
-        L1("%s health is not available, or actor still alive:%d\n",__FUNCTION__,actor.GetGUID());
-    }
-    playerControllerC->mReviveTyped=false;
 }
 
 void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC)

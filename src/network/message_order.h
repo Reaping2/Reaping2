@@ -42,6 +42,7 @@
 #include "core/buffs/armor_buff.h"
 #include "core/buffs/cloak_buff.h"
 #include "border_message.h"
+#include "secs_to_revive_message.h"
 
 
     struct message_order
@@ -82,6 +83,7 @@
             type=network::CloakChangedMessage::GetType_static();
             type=network::BorderMessage::GetType_static();
             type=network::SyncItemMessage::GetType_static();
+            type=network::SecsToReviveMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -169,6 +171,6 @@
     BOOST_CLASS_EXPORT_GUID(network::CloakChangedMessage, "cloak_changed")
     BOOST_CLASS_EXPORT_GUID(network::BorderMessage, "border")
     BOOST_CLASS_EXPORT_GUID(network::SyncItemMessage, "sync_item")
-
+    BOOST_CLASS_EXPORT_GUID(network::SecsToReviveMessage, "secs_to_revive")
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

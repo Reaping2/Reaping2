@@ -30,7 +30,7 @@ void ActorRenderer::OnActorEvent(ActorEvent const& Evt)
     {
         mActionRenderersMap[Evt.mActor->GetGUID()];
     }
-    else
+    else if (Evt.mState==ActorEvent::Removed)
     {
         mActionRenderersMap.erase(Evt.mActor->GetGUID());
     }

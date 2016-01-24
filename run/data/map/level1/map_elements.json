@@ -47,5 +47,9 @@
         "name":"link",
         "from":{"identifier":"map_start","node":0},
         "to":{"identifier":"spawn_at_start","node":0}
-    }
+    },
+    {
+        "name":"soldier_auto_revive",
+        "secs_to_revive":4.0
+    }    
 ]

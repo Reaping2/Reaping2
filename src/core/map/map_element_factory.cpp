@@ -10,6 +10,7 @@
 #include "ctf_spawn_flags_map_element.h"
 #include "spawn_actor_map_element.h"
 #include "respawn_actor_map_element.h"
+#include "soldier_auto_revive_map_element.h"
 
 using platform::AutoId;
 namespace map {
@@ -29,6 +30,7 @@ MapElementFactory::MapElementFactory()
     Bind( AutoId("ctf_spawn_soldiers"), &CreateMapElement<ctf::CtfSpawnSoldiersMapElement>);
     Bind( AutoId("ctf_flag_spawn_point"), &CreateMapElement<ctf::CtfFlagSpawnPointMapElement>);
     Bind( AutoId("ctf_spawn_flags"), &CreateMapElement<ctf::CtfSpawnFlagsMapElement>);
+    Bind( AutoId("soldier_auto_revive"), &CreateMapElement<SoldierAutoReviveMapElement>);
 }
 
 } // namespace map

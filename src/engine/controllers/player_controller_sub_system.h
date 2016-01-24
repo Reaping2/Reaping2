@@ -9,14 +9,6 @@
 #include "core/program_state.h"
 #include "input/input_system.h"
 
-enum MoveFlags
-{
-    MF_Up       = 1 << 0,
-    MF_Down     = 1 << 1,
-    MF_Left     = 1 << 2,
-    MF_Right    = 1 << 3,
-};
-
 namespace engine {
 
 class PlayerControllerSubSystem : public SubSystem
@@ -31,7 +23,6 @@ private:
     void SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
-    void HandleRevive(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
     void HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC);
 

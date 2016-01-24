@@ -45,7 +45,7 @@ namespace network {
 
             mScene.AddActor(actor.release());
         }
-        else 
+        else if (msg.mState==ActorEvent::Removed)
         {
             L2("createactormessage remove with (GUID:%d)\n",msg.mActorGUID);
             mScene.RemoveActor(msg.mActorGUID);

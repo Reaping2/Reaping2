@@ -17,7 +17,6 @@ public:
     bool mUseNormalItem;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
-    bool mReviveTyped;
     bool mReloadTyped;
     bool mMoving;
 };
