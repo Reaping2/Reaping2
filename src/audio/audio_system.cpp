@@ -49,7 +49,7 @@ void AudioSystem::Update(double DeltaTime)
        std::for_each( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
                []( AudibleEffectDesc& d ) { if( AudibleEffectDesc::TTL_Infinity != d.TTL ) --d.TTL; } );
        std::for_each( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
-               [&]( AudibleEffectDesc const& d ) { effects.emplace_back( d.UID, d.Id, pos ); } );
+               [&]( AudibleEffectDesc const& d ) { effects.emplace_back( EffectInst(d.UID, d.Id, pos )); } );
        audibleC->GetEffects().erase( std::remove_if( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
                []( AudibleEffectDesc const& d ) { return d.TTL <= 0; } ), std::end( audibleC->GetEffects() ) );
     }

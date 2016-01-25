@@ -1,0 +1,34 @@
+[
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 175,
+         "y" : -1625
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 925,
+         "y" : -1025
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_flag_spawn_point",
+      "position" : {
+         "x" : 150,
+         "y" : -1050
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_flag_spawn_point",
+      "position" : {
+         "x" : 950,
+         "y" : -1650
+      },
+      "team" : "red"
+   }
+]

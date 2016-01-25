@@ -34,6 +34,7 @@
 #include "border_message.h"
 #include "sync_item_message.h"
 #include "secs_to_revive_message.h"
+#include "flag_state_changed_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -77,7 +78,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("border_message_handler_sub_system"), &CreateSubSystem<BorderMessageHandlerSubSystem>);
     Bind( AutoId("sync_item_message_handler_sub_system"), &CreateSubSystem<SyncItemMessageHandlerSubSystem>);
     Bind( AutoId("secs_to_revive_message_handler_sub_system"), &CreateSubSystem<SecsToReviveMessageHandlerSubSystem>);
-
+    Bind( AutoId("flag_state_changed_message_handler_sub_system"), &CreateSubSystem<FlagStateChangedMessageHandlerSubSystem>);
 
 }
 

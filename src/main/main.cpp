@@ -65,6 +65,7 @@
 #include "network/sync_item_message.h"
 #include "audio/audio_system.h"
 #include "network/secs_to_revive_message.h"
+#include "network/flag_state_changed_message.h"
 
 using engine::Engine;
 namespace {
@@ -221,6 +222,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("border_message_sender_system"));
         Eng.AddSystem(AutoId("sync_item_message_sender_system"));
         Eng.AddSystem(AutoId("secs_to_revive_message_sender_system"));
+        Eng.AddSystem(AutoId("flag_state_changed_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -305,6 +307,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::BorderMessage::GetType_static(),AutoId("border_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SyncItemMessage::GetType_static(),AutoId("sync_item_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SecsToReviveMessage::GetType_static(),AutoId("secs_to_revive_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

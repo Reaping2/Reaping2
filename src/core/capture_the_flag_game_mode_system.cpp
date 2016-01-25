@@ -149,6 +149,17 @@ void CaptureTheFlagGameModeSystem::OnFlagStateChanged(ctf::FlagStateChangedEvent
             EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" returned the Red flag!"));
         }
     }
+    else if (Evt.mType==ctf::FlagStateChangedEvent::Dropped)
+    {
+        if(Evt.mTeam==Team::Blue)
+        {
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" has dropped the Blue flag!"));
+        }
+        else
+        {
+            EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(messageTime,name+" has dropped the Red flag!"));
+        }
+    }
 }
 
 void CaptureTheFlagGameModeSystem::OnScore(engine::ScoreEvent const& Evt)

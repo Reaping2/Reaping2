@@ -2,6 +2,7 @@
 #define INCLUDED_CTF_FLAG_STATE_CHANGED_EVENT_H
 
 #include "platform/event.h"
+#include "ctf_program_state.h"
 
 namespace ctf {
 
@@ -11,13 +12,15 @@ struct FlagStateChangedEvent : public platform::Event
     {
         Captured=0,
         Returned,
-        Scored
+        Scored,
+        Dropped
     };
     Type mType;
     Team::Type mTeam;
     int32_t mCarrierGUID;
-    FlagStateChangedEvent(Type type, Team::Type team, int32_t carrierGUID)
-        :mType(type),mTeam(team),mCarrierGUID(carrierGUID){}
+    int32_t mFlagGUID;
+    FlagStateChangedEvent(Type type, Team::Type team, int32_t carrierGUID, int32_t flagGUID)
+        :mType(type),mTeam(team),mCarrierGUID(carrierGUID),mFlagGUID(flagGUID){}
 };
 
 } // namespace ctf

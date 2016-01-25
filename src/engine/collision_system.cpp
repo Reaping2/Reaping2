@@ -15,6 +15,7 @@ CollisionSystem::CollisionSystem()
 
 void CollisionSystem::Init()
 {
+    SubSystemHolder::Init();
     mCollisionGrid.Build( mScene.GetDimensions(), 400.0f );
 }
 
