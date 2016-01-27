@@ -5,15 +5,15 @@
 
 GaussGun::GaussGun( int32_t Id )
     : Weapon( Id )
-    , mChargeTime( 0.3 )
+    , mChargeTime( 0.4 )
     , mCurrentCharge( 0.0 )
 {
     mScatter.mIncrease=15;
     mScatter.mChill=40;
     mScatter.mAltIncrease=220;
     mScatter.mMagicNumber=100;
-    mShootCooldown = 1.3;
-    mShootAltCooldown = 1.9;
+    mShootCooldown = 1.6;
+    mShootAltCooldown = 1.6;
     mBulletsMax = 6.0;
     mShotCost=1;
     mShotCostAlt=1;

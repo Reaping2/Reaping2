@@ -103,6 +103,8 @@
 #include "core/map/soldier_auto_revive_map_element_system.h"
 #include "network/secs_to_revive_message.h"
 #include "network/modify_audible_component_message.h"
+#include "network/flag_state_changed_message.h"
+#include "network/fade_out_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -186,6 +188,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("secs_to_revive_message_sender_system"), &CreateSystem<network::SecsToReviveMessageSenderSystem>);
     Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
     Bind( AutoId("modify_audible_component_message_sender_system"), &CreateSystem<network::ModifyAudibleComponentMessageSenderSystem>);
+    Bind( AutoId("flag_state_changed_message_sender_system"), &CreateSystem<network::FlagStateChangedMessageSenderSystem>);
+    Bind( AutoId("fade_out_message_sender_system"), &CreateSystem<network::FadeOutMessageSenderSystem>);
 
     Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
     Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);

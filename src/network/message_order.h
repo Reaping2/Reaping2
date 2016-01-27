@@ -43,6 +43,8 @@
 #include "core/buffs/cloak_buff.h"
 #include "border_message.h"
 #include "secs_to_revive_message.h"
+#include "flag_state_changed_message.h"
+#include "platform/rstdint.h"
 
 
     struct message_order
@@ -85,6 +87,8 @@
             type=network::SyncItemMessage::GetType_static();
             type=network::SecsToReviveMessage::GetType_static();
             type=network::ModifyAudibleComponentMessage::GetType_static();
+            type=network::FlagStateChangedMessage::GetType_static();
+            type=network::FadeOutMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -174,5 +178,7 @@
     BOOST_CLASS_EXPORT_GUID(network::SyncItemMessage, "sync_item")
     BOOST_CLASS_EXPORT_GUID(network::SecsToReviveMessage, "secs_to_revive")
     BOOST_CLASS_EXPORT_GUID(network::ModifyAudibleComponentMessage, "modify_audible_component")
+    BOOST_CLASS_EXPORT_GUID(network::FlagStateChangedMessage, "flag_state_changed")
+    BOOST_CLASS_EXPORT_GUID(network::FadeOutMessage, "fade_out")
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

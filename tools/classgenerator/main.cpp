@@ -435,7 +435,7 @@ class MapElementGenerator : public Generator
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "public:\n");
             fprintf(file.mFile, "    DEFINE_MAP_ELEMENT_BASE(%sMapElement)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %sMapElement();\n",classCamelCase.c_str());
+            fprintf(file.mFile, "    %sMapElement(int32_t Id);\n",classCamelCase.c_str());
             fprintf(file.mFile, "    void Load(Json::Value& setters);\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
@@ -466,8 +466,8 @@ class MapElementGenerator : public Generator
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
             fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%sMapElement::%sMapElement()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : MapElement()\n");
+            fprintf(file.mFile, "%sMapElement::%sMapElement(int32_t Id)\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf(file.mFile, "    : MapElement(Id)\n");
             for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
             {
                 fprintf(file.mFile, "    , %s(_fill_me_)\n",

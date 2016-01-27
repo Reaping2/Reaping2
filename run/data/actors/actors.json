@@ -101,7 +101,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":10 }]
+                "set":[{"class":"projectile", "radius":7, "damage":35 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -142,7 +142,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":75 }]
+                "set":[{"class":"projectile", "radius":5, "damage":75 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -174,7 +174,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":75, "passthrough": [ "creep", "player" ] }]
+                "set":[{"class":"projectile", "radius":7, "damage":90, "passthrough": [ "creep", "player" ] }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -184,6 +184,11 @@
                 "set": [
                     {
                         "emit_descs":[
+                            {
+                                "delay": 0.0,
+                                "probability": 1.0,
+                                "emit_type": "gauss_alt_particle3"
+                            },
                             {
                                 "delay": 0.0,
                                 "emit_type": "gauss_alt_particle"
@@ -245,7 +250,7 @@
             }]
             }
         ]
-    },
+    },   
     {
         "name":"shotgun_projectile",
         "components":
@@ -258,7 +263,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":4, "damage":12 }]
+                "set":[{"class":"projectile", "radius":4, "damage":11 }]
             },
             {"name":"health_component"},
             {
@@ -271,36 +276,6 @@
                 "emit_descs":[{
                     "delay": 0.0,
                     "emit_type": "shotgun_particle"
-                }]
-            }]
-            }
-        ]
-    },
-    {
-        "name":"shotgun_alt2_projectile",
-        "components":
-        [
-            {"name":"position_component"},
-            {"name":"move_component",
-                "set":[{"speed":2500}]
-            },
-            {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
-            },
-            {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":4, "damage":5 }]
-            },
-            {"name":"health_component"},
-            {
-                "name":"fade_out_component",
-                "set":[{"secs_to_end":0.33}]
-            },
-            {"name":"owner_component"},
-            {"name":"remove_on_death_component"},
-            {"name":"emitter_component","set":[{
-                "emit_descs":[{
-                    "delay": 0.0,
-                    "emit_type": "shotgun_alt2_particle"
                 }]
             }]
             }
@@ -323,18 +298,52 @@
             {"name":"health_component"},
             {
                 "name":"fade_out_component",
-                "set":[{"secs_to_end":0.3}]
+                "set":[{"secs_to_end":0.25}]
             },
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"shotgun_alt2_projectile"
-                    ,"count":11,"scatter":1.1}]
+                    ,"count":11,"scatter":1.1
+                    ,"distribution":"random"
+                    ,"secs_to_end_variance":0.32
+                    ,"position_variance":30
+                    ,"speed_variance":0.32}]
             },
             {"name":"emitter_component","set":[{
                 "emit_descs":[{
                     "delay": 0.0,
                     "probability": 0.4,
                     "emit_type": "shotgun_alt_particle"
+                }]
+            }]
+            }
+        ]
+    },
+    {
+        "name":"shotgun_alt2_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":3000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":4, "damage":7 }]
+            },
+            {"name":"health_component"},
+            {
+                "name":"fade_out_component",
+                "set":[{"secs_to_end":0.33}]
+            },
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "shotgun_alt2_particle"
                 }]
             }]
             }
@@ -353,7 +362,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":15, "damage":15 }]
+                "set":[{"class":"projectile", "radius":15, "damage":25 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -457,7 +466,7 @@
                 "set":[{"speed":200}]
             },
             {"name":"acceleration_component",
-                "set":[{"acceleration":1500,"max_speed":2300}]
+                "set":[{"acceleration":1700,"max_speed":2600}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -519,7 +528,7 @@
                 "set":[{"speed":200}]
             },
             {"name":"acceleration_component",
-                "set":[{"acceleration":800,"max_speed":1200}]
+                "set":[{"acceleration":1000,"max_speed":1500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]

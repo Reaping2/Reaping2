@@ -1,41 +1,10 @@
 #include "core/explode_on_death_component.h"
 
 ExplodeOnDeathComponent::ExplodeOnDeathComponent()
-    : mExplosionProjectile(-1)
-    , mCount(1)
-    , mScatter(0.0)
+    : IExplodeOnDeathComponent()
 {
 }
 
-void ExplodeOnDeathComponent::SetExplosionProjectile(int32_t explosionProjectile)
-{
-    mExplosionProjectile=explosionProjectile;
-}
-
-int32_t ExplodeOnDeathComponent::GetExplosionProjectile()const
-{
-    return mExplosionProjectile;
-}
-
-void ExplodeOnDeathComponent::SetCount(int32_t count)
-{
-    mCount=count;
-}
-
-int32_t ExplodeOnDeathComponent::GetCount()const
-{
-    return mCount;
-}
-
-void ExplodeOnDeathComponent::SetScatter(double scatter)
-{
-    mScatter=scatter;
-}
-
-double ExplodeOnDeathComponent::GetScatter()const
-{
-    return mScatter;
-}
 
 void ExplodeOnDeathComponentLoader::BindValues()
 {
@@ -45,9 +14,18 @@ void ExplodeOnDeathComponentLoader::BindValues()
         Bind<int32_t>(&ExplodeOnDeathComponent::SetExplosionProjectile,AutoId(istr));
     }
     Bind("count",func_int32_t(&ExplodeOnDeathComponent::SetCount));
-    Bind("scatter",func_double(&ExplodeOnDeathComponent::SetScatter));
+    Bind("scatter",func_double(&ExplodeOnDeathComponent::SetExplosionScatter));
+    if( Json::GetStr( (*mSetters)["distribution"], istr))
+    {
+        Bind<ExplodeDistributionType::Type>(&ExplodeOnDeathComponent::SetDistribution,mExplodeDistributionType(AutoId(istr)));
+    }
+    Bind("secs_to_end_variance",func_double(&ExplodeOnDeathComponent::SetSecsToEndVariance));
+    Bind("position_variance",func_int32_t(&ExplodeOnDeathComponent::SetPositionVariance));
+    Bind("speed_variance",func_double(&ExplodeOnDeathComponent::SetSpeedVariance));
+
 }
 
 ExplodeOnDeathComponentLoader::ExplodeOnDeathComponentLoader()
+    : mExplodeDistributionType(ExplodeDistributionType::Get())
 {
 }

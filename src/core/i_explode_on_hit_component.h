@@ -7,6 +7,7 @@
 class IExplodeOnHitComponent : public Component, public IExplode
 {
 public:
+    IExplodeOnHitComponent();
     DEFINE_COMPONENT_BASE(IExplodeOnHitComponent)
     virtual void SetDetonatorMaterial(int32_t detonatorMaterial)=0;
     virtual int32_t GetDetonatorMaterial()const=0;

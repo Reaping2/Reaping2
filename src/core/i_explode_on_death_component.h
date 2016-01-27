@@ -7,6 +7,7 @@
 class IExplodeOnDeathComponent : public Component, public IExplode
 {
 public:
+    IExplodeOnDeathComponent();
     DEFINE_COMPONENT_BASE(IExplodeOnDeathComponent)
 };
 

@@ -3,6 +3,9 @@
 #include "core/i_attachable_component.h"
 #include "core/i_position_component.h"
 #include "core/i_health_component.h"
+#include "core/ctf_program_state.h"
+#include "core/i_team_component.h"
+#include "attach_state_changed_event.h"
 
 namespace engine {
 namespace ctf {
@@ -35,10 +38,12 @@ void AttachableSystem::Update(double DeltaTime)
            continue;
        }
 
+       Opt<ITeamComponent> teamC(actor.Get<ITeamComponent>());
        Opt<Actor> attachedActor(mScene.GetActor(attachableC->GetAttachedGUID()));
        if (!attachedActor.IsValid())
        {
            attachableC->SetAttachedGUID(-1);
+           EventServer< AttachStateChangedEvent>::Get().SendEvent(AttachStateChangedEvent(AttachStateChangedEvent::Detached,-1,actor.GetGUID()));
            continue;
        }
 
@@ -48,6 +53,7 @@ void AttachableSystem::Update(double DeltaTime)
            if (!attachedHealthC->IsAlive())
            {
                attachableC->SetAttachedGUID(-1);
+               EventServer<AttachStateChangedEvent>::Get().SendEvent(AttachStateChangedEvent(AttachStateChangedEvent::Detached,attachedActor->GetGUID(),actor.GetGUID()));
                continue;
            }
        }

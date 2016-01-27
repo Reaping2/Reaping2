@@ -183,21 +183,13 @@ void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
     Opt<IPositionComponent> projPositionC = projectile.Get<IPositionComponent>();
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
     Opt<IMoveComponent> actorMoveC = actor.Get<IMoveComponent>();
-    const double h = actorPositionC->GetOrientation();
+    const double h = actorPositionC->GetOrientation()+projPositionC->GetOrientation();
     const double c = cos( h );
     const double s = sin( h );
     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
     double radius=collisionC.IsValid()?collisionC->GetRadius():0.0;
-    projPositionC->SetX( actorPositionC->GetX()+c*radius);
-    projPositionC->SetY( actorPositionC->GetY()+s*radius);
-//     double actorSpeedX=actorMoveC.IsValid()?actorMoveC->GetSpeedX():0.0;
-//     double actorSpeedY=actorMoveC.IsValid()?actorMoveC->GetSpeedY():0.0;
-//     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-//     double radius=collisionC.IsValid()?collisionC->GetRadius():0.0;
-//     double actorSpeedXNormalized=actorMoveC->GetSpeed()==0.0?0.0:actorSpeedX/abs(actorMoveC->GetSpeed());
-//     double actorSpeedYNormalized=actorMoveC->GetSpeed()==0.0?0.0:actorSpeedY/abs(actorMoveC->GetSpeed());
-//     projPositionC->SetX( actorPositionC->GetX()+actorSpeedXNormalized*radius);
-//     projPositionC->SetY( actorPositionC->GetY()+actorSpeedYNormalized*radius);
+    projPositionC->SetX( projPositionC->GetX()+actorPositionC->GetX()+c*radius);
+    projPositionC->SetY( projPositionC->GetY()+actorPositionC->GetY()+s*radius);
 }
 } // namespace engine
 

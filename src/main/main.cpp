@@ -67,6 +67,8 @@
 #include "network/secs_to_revive_message.h"
 #include "network/modify_audible_component_message.h"
 #include "audio/audio_effect_repo.h"
+#include "network/flag_state_changed_message.h"
+#include "network/fade_out_message.h"
 
 using engine::Engine;
 namespace {
@@ -225,6 +227,9 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("sync_item_message_sender_system"));
         Eng.AddSystem(AutoId("secs_to_revive_message_sender_system"));
         Eng.AddSystem(AutoId("modify_audible_component_message_sender_system"));
+        Eng.AddSystem(AutoId("flag_state_changed_message_sender_system"));
+        Eng.AddSystem(AutoId("fade_out_message_sender_system"));
+
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -310,6 +315,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::SyncItemMessage::GetType_static(),AutoId("sync_item_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::SecsToReviveMessage::GetType_static(),AutoId("secs_to_revive_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ModifyAudibleComponentMessage::GetType_static(),AutoId("modify_audible_component_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

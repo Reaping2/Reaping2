@@ -7,6 +7,7 @@ Team::Team()
 {
     mIdToTeamMap[AutoId("blue")]=Blue;
     mIdToTeamMap[AutoId("red")]=Red;
+    mIdToTeamMap[AutoId("none")]=None;
 }
 
 Team::Type Team::operator()( int32_t Id ) const

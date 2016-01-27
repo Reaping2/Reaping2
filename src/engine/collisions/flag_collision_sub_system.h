@@ -2,6 +2,7 @@
 #define INCLUDED_ENGINE_FLAG_COLLISION_SUB_SYSTEM_H
 
 #include "engine/collisions/collision_sub_system.h"
+#include "../attach_state_changed_event.h"
 
 namespace engine {
 namespace ctf {
@@ -15,6 +16,8 @@ protected:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene( Actor& actor );
+    AutoReg mOnAttachStateChanged;
+    void OnAttachStateChanged(engine::AttachStateChangedEvent const& Evt);
 };
 
 } // namespace ctf

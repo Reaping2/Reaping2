@@ -1,5 +1,9 @@
 #include "engine/items/shotgun_weapon_sub_system.h"
 #include "core/i_audible_component.h"
+#include "core/i_fade_out_component.h"
+#include "core/i_move_component.h"
+#include "../explode_on_death_system.h"
+#include "core/shotgun.h"
 
 namespace engine {
 
@@ -31,16 +35,13 @@ void ShotgunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps;
-
-        for (int i=0;i<7;++i)
+        Opt<Shotgun> shotgun(weapon);
+        if(shotgun.IsValid())
         {
-            ps = mActorFactory(mShotId);
-            ps->Get<IPositionComponent>()->SetOrientation( -0.4 + i*0.13333 );
-            projectiles.push_back( Opt<Actor>(ps.release()) );
+            WeaponItemSubSystem::Projectiles_t projectiles;
+            ExplodeOnDeathSystem::FillExplosionProjectiles(*shotgun.Get(),actor,projectiles);
+            mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
         }
-
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
         if( ac.IsValid() )
         {
             ac->AddOneShotEffect( mShotId );

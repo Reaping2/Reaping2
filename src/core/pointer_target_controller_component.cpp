@@ -6,7 +6,7 @@ PointerTargetControllerComponent::PointerTargetControllerComponent()
     , mNextLaserCounter(0.0)
     , mNextLaserFrequency(0.2)
     , mHeadingModifierCounter(0.0)
-    , mHeadingModifierFrequency(0.3)
+    , mHeadingModifierFrequency(0.15)
 {
 }
 
