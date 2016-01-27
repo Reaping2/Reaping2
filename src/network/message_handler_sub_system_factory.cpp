@@ -35,6 +35,7 @@
 #include "sync_item_message.h"
 #include "secs_to_revive_message.h"
 #include "flag_state_changed_message.h"
+#include "fade_out_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -79,6 +80,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("sync_item_message_handler_sub_system"), &CreateSubSystem<SyncItemMessageHandlerSubSystem>);
     Bind( AutoId("secs_to_revive_message_handler_sub_system"), &CreateSubSystem<SecsToReviveMessageHandlerSubSystem>);
     Bind( AutoId("flag_state_changed_message_handler_sub_system"), &CreateSubSystem<FlagStateChangedMessageHandlerSubSystem>);
+    Bind( AutoId("fade_out_message_handler_sub_system"), &CreateSubSystem<FadeOutMessageHandlerSubSystem>);
 
 }
 

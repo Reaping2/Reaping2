@@ -8,18 +8,6 @@ class ExplodeOnDeathComponent : public IExplodeOnDeathComponent
 {
 public:
     ExplodeOnDeathComponent();
-    virtual void SetExplosionProjectile(int32_t explosionProjectile);
-    virtual int32_t GetExplosionProjectile()const;
-    virtual void SetCount(int32_t count);
-    virtual int32_t GetCount()const;
-    virtual void SetScatter(double scatter);
-    virtual double GetScatter()const;
-protected:
-    friend class ComponentFactory;
-    int32_t mExplosionProjectile;
-    int32_t mCount;
-    double mScatter;
-private:
 };
 
 class ExplodeOnDeathComponentLoader : public ComponentLoader<ExplodeOnDeathComponent>
@@ -28,6 +16,7 @@ class ExplodeOnDeathComponentLoader : public ComponentLoader<ExplodeOnDeathCompo
 protected:
     ExplodeOnDeathComponentLoader();
     friend class ComponentLoaderFactory;
+    ExplodeDistributionType& mExplodeDistributionType;
 };
 
 #endif//INCLUDED_CORE_EXPLODE_ON_DEATH_COMPONENT_H

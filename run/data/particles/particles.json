@@ -238,7 +238,7 @@
     {
         "name":"shotgun_particle",
         "Color":"0xaaaaaaaa",
-        "ColorVariance":"0x00000000",
+        "ColorVariance":"0x00000044",
         "PosVariance":0,
         "AbsSpeed":0,
         "AbsSpeedVariance":0,
@@ -268,7 +268,7 @@
     {
         "name":"shotgun_alt2_particle",
         "Color":"0xaaaaaaaa",
-        "ColorVariance":"0x00000000",
+        "ColorVariance":"0x00000044",
         "PosVariance":0,
         "AbsSpeed":0,
         "AbsSpeedVariance":0,

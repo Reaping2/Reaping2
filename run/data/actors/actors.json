@@ -245,7 +245,7 @@
             }]
             }
         ]
-    },
+    },   
     {
         "name":"shotgun_projectile",
         "components":
@@ -258,7 +258,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":4, "damage":12 }]
+                "set":[{"class":"projectile", "radius":4, "damage":11 }]
             },
             {"name":"health_component"},
             {
@@ -271,36 +271,6 @@
                 "emit_descs":[{
                     "delay": 0.0,
                     "emit_type": "shotgun_particle"
-                }]
-            }]
-            }
-        ]
-    },
-    {
-        "name":"shotgun_alt2_projectile",
-        "components":
-        [
-            {"name":"position_component"},
-            {"name":"move_component",
-                "set":[{"speed":2500}]
-            },
-            {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
-            },
-            {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":4, "damage":5 }]
-            },
-            {"name":"health_component"},
-            {
-                "name":"fade_out_component",
-                "set":[{"secs_to_end":0.33}]
-            },
-            {"name":"owner_component"},
-            {"name":"remove_on_death_component"},
-            {"name":"emitter_component","set":[{
-                "emit_descs":[{
-                    "delay": 0.0,
-                    "emit_type": "shotgun_alt2_particle"
                 }]
             }]
             }
@@ -323,18 +293,52 @@
             {"name":"health_component"},
             {
                 "name":"fade_out_component",
-                "set":[{"secs_to_end":0.3}]
+                "set":[{"secs_to_end":0.25}]
             },
             {"name":"owner_component"},
             {"name":"explode_on_death_component",
                 "set":[{"explosion_projectile":"shotgun_alt2_projectile"
-                    ,"count":11,"scatter":1.1}]
+                    ,"count":11,"scatter":1.1
+                    ,"distribution":"random"
+                    ,"secs_to_end_variance":0.32
+                    ,"position_variance":30
+                    ,"speed_variance":0.32}]
             },
             {"name":"emitter_component","set":[{
                 "emit_descs":[{
                     "delay": 0.0,
                     "probability": 0.4,
                     "emit_type": "shotgun_alt_particle"
+                }]
+            }]
+            }
+        ]
+    },
+    {
+        "name":"shotgun_alt2_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":3000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":4, "damage":7 }]
+            },
+            {"name":"health_component"},
+            {
+                "name":"fade_out_component",
+                "set":[{"secs_to_end":0.33}]
+            },
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "shotgun_alt2_particle"
                 }]
             }]
             }

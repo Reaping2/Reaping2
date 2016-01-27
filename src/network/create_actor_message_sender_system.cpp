@@ -8,6 +8,7 @@
 #include "heading_message.h"
 #include "collision_message.h"
 #include "border_message.h"
+#include "fade_out_message.h"
 namespace network {
 
 
@@ -48,6 +49,7 @@ namespace network {
             mMessageHolder.AddOutgoingMessage(HeadingMessageSenderSystem::GenerateHeadingMessage(*Evt.mActor));
             mMessageHolder.AddOutgoingMessage(CollisionMessageSenderSystem::GenerateCollisionMessage(*Evt.mActor));
             mMessageHolder.AddOutgoingMessage(BorderMessageSenderSystem::GenerateBorderMessage(*Evt.mActor));
+            mMessageHolder.AddOutgoingMessage(FadeOutMessageSenderSystem::GenerateFadeOutMessage(*Evt.mActor));
         }
     }
 

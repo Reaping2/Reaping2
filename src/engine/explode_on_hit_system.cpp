@@ -3,6 +3,7 @@
 #include "core/i_explode_on_hit_component.h"
 #include "explode_on_death_system.h"
 #include "core/i_health_component.h"
+#include "items/weapon_item_sub_system.h"
 
 namespace engine {
 
@@ -27,7 +28,10 @@ void ExplodeOnHitSystem::Update(double DeltaTime)
         {
             continue;
         }
-        ExplodeOnDeathSystem::AddExplosionProjectiles(*explodeOnHitC,actor);
+        WeaponItemSubSystem::Projectiles_t projectiles;
+        ExplodeOnDeathSystem::FillExplosionProjectiles(*explodeOnHitC.Get(), actor, projectiles);
+        Scatter scatter;
+        WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,scatter);
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
         if(healthC.IsValid())
         {

@@ -1,43 +1,11 @@
 #include "core/explode_on_hit_component.h"
 
 ExplodeOnHitComponent::ExplodeOnHitComponent()
-    : mExplosionProjectile(-1)
-    , mCount(1)
-    , mScatter(0.0)
+    : IExplodeOnHitComponent()
     , mDetonatorMaterial(-1)
     , mAddRadius(0.0)
     , mExploded(false)
 {
-}
-
-void ExplodeOnHitComponent::SetExplosionProjectile(int32_t explosionProjectile)
-{
-    mExplosionProjectile=explosionProjectile;
-}
-
-int32_t ExplodeOnHitComponent::GetExplosionProjectile()const
-{
-    return mExplosionProjectile;
-}
-
-void ExplodeOnHitComponent::SetCount(int32_t count)
-{
-    mCount=count;
-}
-
-int32_t ExplodeOnHitComponent::GetCount()const
-{
-    return mCount;
-}
-
-void ExplodeOnHitComponent::SetScatter(double scatter)
-{
-    mScatter=scatter;
-}
-
-double ExplodeOnHitComponent::GetScatter()const
-{
-    return mScatter;
 }
 
 void ExplodeOnHitComponent::SetDetonatorMaterial(int32_t detonatorMaterial)
@@ -70,7 +38,6 @@ bool ExplodeOnHitComponent::IsExploded()const
     return mExploded;
 }
 
-
 void ExplodeOnHitComponentLoader::BindValues()
 {
     std::string istr;
@@ -79,15 +46,24 @@ void ExplodeOnHitComponentLoader::BindValues()
         Bind<int32_t>(&ExplodeOnHitComponent::SetExplosionProjectile,AutoId(istr));
     }
     Bind("count",func_int32_t(&ExplodeOnHitComponent::SetCount));
-    Bind("scatter",func_double(&ExplodeOnHitComponent::SetScatter));
+    Bind("scatter",func_double(&ExplodeOnHitComponent::SetExplosionScatter));
     
     if( Json::GetStr( (*mSetters)["detonator_material"], istr))
     {
         Bind<int32_t>(&ExplodeOnHitComponent::SetDetonatorMaterial,AutoId(istr));
     }
     Bind("add_radius",func_int32_t(&ExplodeOnHitComponent::SetAddRadius));
+    if( Json::GetStr( (*mSetters)["distribution"], istr))
+    {
+        Bind<ExplodeDistributionType::Type>(&ExplodeOnHitComponent::SetDistribution,mExplodeDistributionType(AutoId(istr)));
+    }
+    Bind("secs_to_end_variance",func_double(&ExplodeOnHitComponent::SetSecsToEndVariance));
+    Bind("position_variance",func_int32_t(&ExplodeOnHitComponent::SetPositionVariance));
+    Bind("speed_variance",func_double(&ExplodeOnHitComponent::SetSpeedVariance));
+
 }
 
 ExplodeOnHitComponentLoader::ExplodeOnHitComponentLoader()
+    : mExplodeDistributionType(ExplodeDistributionType::Get())
 {
 }

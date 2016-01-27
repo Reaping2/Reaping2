@@ -5,6 +5,7 @@
 #include "engine/system.h"
 #include "core/actor_factory.h"
 #include "core/i_explode.h"
+#include "items/weapon_item_sub_system.h"
 
 namespace engine {
 
@@ -16,7 +17,7 @@ public:
     virtual void Init();
     virtual void Update( double DeltaTime );
 
-    static void AddExplosionProjectiles(IExplode& explode, Actor &actor);
+    static void FillExplosionProjectiles(IExplode& explode, Actor &actor, WeaponItemSubSystem::Projectiles_t& projectiles);
 
     void SetProjectilePosition(Actor& projectile, Actor& actor);
 
