@@ -84,6 +84,7 @@
             type=network::BorderMessage::GetType_static();
             type=network::SyncItemMessage::GetType_static();
             type=network::SecsToReviveMessage::GetType_static();
+            type=network::ModifyAudibleComponentMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -172,5 +173,6 @@
     BOOST_CLASS_EXPORT_GUID(network::BorderMessage, "border")
     BOOST_CLASS_EXPORT_GUID(network::SyncItemMessage, "sync_item")
     BOOST_CLASS_EXPORT_GUID(network::SecsToReviveMessage, "secs_to_revive")
+    BOOST_CLASS_EXPORT_GUID(network::ModifyAudibleComponentMessage, "modify_audible_component")
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H
