@@ -101,7 +101,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":10 }]
+                "set":[{"class":"projectile", "radius":7, "damage":35 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -142,7 +142,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":75 }]
+                "set":[{"class":"projectile", "radius":5, "damage":75 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -174,7 +174,7 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":75, "passthrough": [ "creep", "player" ] }]
+                "set":[{"class":"projectile", "radius":7, "damage":90, "passthrough": [ "creep", "player" ] }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -184,6 +184,11 @@
                 "set": [
                     {
                         "emit_descs":[
+                            {
+                                "delay": 0.0,
+                                "probability": 1.0,
+                                "emit_type": "gauss_alt_particle3"
+                            },
                             {
                                 "delay": 0.0,
                                 "emit_type": "gauss_alt_particle"
@@ -357,7 +362,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":15, "damage":15 }]
+                "set":[{"class":"projectile", "radius":15, "damage":25 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -461,7 +466,7 @@
                 "set":[{"speed":200}]
             },
             {"name":"acceleration_component",
-                "set":[{"acceleration":1500,"max_speed":2300}]
+                "set":[{"acceleration":1700,"max_speed":2600}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -523,7 +528,7 @@
                 "set":[{"speed":200}]
             },
             {"name":"acceleration_component",
-                "set":[{"acceleration":800,"max_speed":1200}]
+                "set":[{"acceleration":1000,"max_speed":1500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
