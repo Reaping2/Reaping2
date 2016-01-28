@@ -186,7 +186,7 @@ bool Weapon::IsMouseResizable() const
 
 bool Weapon::CanReload() const
 {
-    return mBullets>0
+    return mReloadTime<=0.0
         &&mBullets!=mBulletsMax
         &&mStaticReload==0.0;
 }

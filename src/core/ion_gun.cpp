@@ -10,8 +10,8 @@ IonGun::IonGun( int32_t Id )
     mShootCooldown = 0.75;
     mShootAltCooldown = 0.35;
 
-    mBulletsMax = 22.0;
-    mShotCost=1;
+    mBulletsMax = 21.0;
+    mShotCost=2;
     mShotCostAlt=3;
     mReloadTimeMax=2.2;
     mBullets=mBulletsMax;

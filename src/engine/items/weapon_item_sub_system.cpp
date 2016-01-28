@@ -12,6 +12,7 @@
 #include "platform/event.h"
 #include "core/shot_event.h"
 #include "core/i_owner_component.h"
+#include "../item_properties_changed_event.h"
 
 namespace engine {
 
@@ -46,12 +47,21 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
     weapon->SetCooldown(cd);
     //scatter updated on client
     weapon->GetScatter().Update(DeltaTime);
-    if (weapon->GetBullets()<=0.0)
+
+    if (weapon->CanReload()
+        //Not enough bullet for current shot  Need to see if the player wants to shoot alt:
+        &&(weapon->GetShoot()&&weapon->GetBullets()<weapon->GetShotCost()
+            &&weapon->GetCooldown()<=0
+        //Not enough bullet for current alt shot. Need to see if the player wants to shoot normal:
+          ||weapon->GetShootAlt()&&weapon->GetBullets()<weapon->GetShotCostAlt()
+            &&weapon->GetCooldown()<=0
+        //Not enough bullet at all. This time the reload is a sure thing:
+          ||weapon->GetBullets()<weapon->GetShotCost()
+            &&weapon->GetBullets()<weapon->GetShotCostAlt()))
     {
-        if (weapon->GetReloadTime()<=0.0)
-        {
-            weapon->SetReloadTime(weapon->GetReloadTimeMax());
-        }
+        weapon->SetBullets(0.0);
+        weapon->SetReloadTime(weapon->GetReloadTimeMax());
+        EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
     }
 
     weapon->SetReloadTime(weapon->GetReloadTime()-DeltaTime);
