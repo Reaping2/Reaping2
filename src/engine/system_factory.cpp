@@ -102,6 +102,7 @@
 #include "soldier_auto_revive_system.h"
 #include "core/map/soldier_auto_revive_map_element_system.h"
 #include "network/secs_to_revive_message.h"
+#include "network/modify_audible_component_message.h"
 #include "network/flag_state_changed_message.h"
 #include "network/fade_out_message.h"
 
@@ -185,6 +186,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
     Bind( AutoId("border_message_sender_system"), &CreateSystem<network::BorderMessageSenderSystem>);
     Bind( AutoId("secs_to_revive_message_sender_system"), &CreateSystem<network::SecsToReviveMessageSenderSystem>);
+    Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
+    Bind( AutoId("modify_audible_component_message_sender_system"), &CreateSystem<network::ModifyAudibleComponentMessageSenderSystem>);
     Bind( AutoId("flag_state_changed_message_sender_system"), &CreateSystem<network::FlagStateChangedMessageSenderSystem>);
     Bind( AutoId("fade_out_message_sender_system"), &CreateSystem<network::FadeOutMessageSenderSystem>);
 
@@ -228,7 +231,6 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
-    Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
     Bind( AutoId("audio_system"), &CreateSystem<audio::AudioSystem>);
 }
 

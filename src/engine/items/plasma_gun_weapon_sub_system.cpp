@@ -30,8 +30,6 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
     if (weapon->IsShooting())
     {
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);
@@ -45,8 +43,6 @@ void PlasmaGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     }
     else if (weapon->IsShootingAlt())
     {
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mAltShotId ) );
-
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mPlasmaShotId);

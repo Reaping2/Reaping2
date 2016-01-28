@@ -1,4 +1,5 @@
 #include "core/audible_component.h"
+#include "audible_event.h"
 #include <boost/lambda/lambda.hpp>
 
 AudibleComponent::AudibleComponent()
@@ -18,6 +19,9 @@ std::vector<AudibleEffectDesc>& AudibleComponent::GetEffects()
 void AudibleComponent::AddOneShotEffect( int32_t id )
 {
     mEffects.emplace_back( id );
+    platform::EventServer<core::AudibleEvent>::Get().SendEvent(
+            core::AudibleEvent( mActor->GetGUID(), id, true, true )
+            );
 }
 
 void AudibleComponent::AddLoopingEffect( int32_t id )
@@ -28,6 +32,9 @@ void AudibleComponent::AddLoopingEffect( int32_t id )
         AudibleEffectDesc d( id );
         d.TTL = 2;
         mEffects.push_back( d );
+        platform::EventServer<core::AudibleEvent>::Get().SendEvent(
+                core::AudibleEvent( mActor->GetGUID(), id, false, true )
+                );
     }
     else
     {

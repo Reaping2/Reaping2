@@ -26,8 +26,6 @@ void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     }
     if (weapon->IsShooting())
     {
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);
@@ -37,8 +35,6 @@ void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     }
     else if (weapon->IsShootingAlt())
     {
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( mShotId ) );
-
         WeaponItemSubSystem::Projectiles_t projectiles;
 
         std::auto_ptr<Actor> ps = mActorFactory(mShotId);

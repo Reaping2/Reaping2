@@ -86,7 +86,6 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     {
         int32_t id = alt ? mAltShotId : mShotId;
         std::auto_ptr<Actor> rocket = mActorFactory( id );
-        EventServer<AudibleEvent>::Get().SendEvent( AudibleEvent( id ) );
         WeaponItemSubSystem::Projectiles_t projectiles;
         projectiles.push_back( rocket.release() );
         mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),alt);
