@@ -11,6 +11,7 @@
 #include "core/renderable_layer.h"
 #include "core/i_remove_on_death_component.h"
 #include "core/target_player_controller_component.h"
+#include "core/gamemode_selected_event.h"
 #include "actor_event.h"
 #include "player_controller_component.h"
 #include "program_state.h"
@@ -328,7 +329,9 @@ std::string Scene::GetSelectedLevel()
 void Scene::SelectGameMode( std::string const& GameMode )
 {
     mSelectedGameMode = GameMode;
-    // TODO: we're in client mode: now send gamemodeselected
+    core::GamemodeSelectedEvent event;
+    event.mGameMode = mSelectedGameMode;
+    EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );
 }
 
 std::string Scene::GetSelectedGameMode()

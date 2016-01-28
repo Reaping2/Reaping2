@@ -35,6 +35,7 @@
 #include "network/pickup_message.h"
 #include "network/ping_message.h"
 #include "network/revive_message.h"
+#include "network/gamemode_selected_message.h"
 #include "explosion_system.h"
 #include "stop_on_death_system.h"
 #include "target_holder_system.h"
@@ -218,6 +219,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
     Bind( AutoId("sync_item_message_sender_system"), &CreateSystem<network::SyncItemMessageSenderSystem>);
+    Bind( AutoId("gamemode_selected_message_sender_system"), &CreateSystem<network::GamemodeSelectedMessageSenderSystem>);
 }
 
 } // namespace engine
