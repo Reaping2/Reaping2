@@ -49,7 +49,7 @@ class ActorRenderer
 public:
     ActorRenderer();
     ~ActorRenderer();
-    void Draw( Scene const& Object, double DeltaTime );
+    void Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> Layers, std::set<RenderableLayer::Type> ExludeLayers);
 
 };
 

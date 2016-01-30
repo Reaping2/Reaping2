@@ -72,7 +72,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 }
 }
 
-void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
+void ActorRenderer::Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> Layers, std::set<RenderableLayer::Type> ExludeLayers )
 {
     ActorList_t const& Lst = Object.GetActors();
     if( Lst.empty() )
@@ -87,6 +87,15 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime )
     for(ActorListFilter<Scene::RenderableActors>::const_iterator i=wrp.begin(),e=wrp.end();i!=e;++i)
     {
         const Actor& Object = **i;
+        Opt<IRenderableComponent> renderableC(Object.Get<IRenderableComponent>());
+        if(renderableC.IsValid()
+            //Layers does not contain the layer
+            &&(!Layers.empty()&&Layers.find(renderableC->GetLayer())==Layers.end()
+              //or ExcludeLayers contains the layer
+              ||!ExludeLayers.empty()&&ExludeLayers.find(renderableC->GetLayer())!=ExludeLayers.end()))
+        {
+            continue;
+        }
         if (mRecognizerRepo.HasRecognizers(Object.GetId()))
         {
             RecognizerRepo::Recognizers_t& recognizers=mRecognizerRepo.GetRecognizers(Object.GetId());

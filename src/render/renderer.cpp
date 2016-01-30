@@ -110,8 +110,13 @@ void RendererSystem::Update(double DeltaTime)
     SetupRenderer( mUiProjector );
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
+    std::set<RenderableLayer::Type> layers,excludeLayers;
+    layers.insert(RenderableLayer::Background);
+    mActorRenderer.Draw( Scen, DeltaTime, layers,excludeLayers);
     mDecalEngine.Draw( DecalEngine::GroundParticle );
-    mActorRenderer.Draw( Scen, DeltaTime );
+    layers.clear();excludeLayers.clear();
+    excludeLayers.insert(RenderableLayer::Background);
+    mActorRenderer.Draw( Scen, DeltaTime,layers,excludeLayers);
     render::ParticleEngine::Get().Draw();
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
