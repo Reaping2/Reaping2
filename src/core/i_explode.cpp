@@ -85,3 +85,13 @@ IExplode::~IExplode()
 {
 
 }
+
+void IExplode::SetAddActorRadius(bool addRadius)
+{
+    mAddActorRadius=addRadius;
+}
+
+bool IExplode::IsAddActorRadius() const
+{
+    return mAddActorRadius;
+}

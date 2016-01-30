@@ -3,8 +3,8 @@
 RocketLauncher::RocketLauncher( int32_t Id )
 	: Weapon( Id )
 {
-    mScatter.mIncrease=25;//25;
-    mScatter.mChill=40;
+    mScatter.mIncrease=22;//25;
+    mScatter.mChill=31;
     mScatter.mAltIncrease=5;//5;
 	mShootCooldown = 0.35;
 	mShootAltCooldown = 1.5;

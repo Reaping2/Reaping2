@@ -11,7 +11,7 @@ public:
     DEFINE_COMPONENT_BASE(IExplodeOnHitComponent)
     virtual void SetDetonatorMaterial(int32_t detonatorMaterial)=0;
     virtual int32_t GetDetonatorMaterial()const=0;
-    virtual void SetAddRadius(double addRadius)=0;
+    virtual void SetAddActorRadius(double addRadius)=0;
     virtual double GetAddRadius()const=0;
     virtual void SetExploded(bool exploded)=0;
     virtual bool IsExploded()const=0;

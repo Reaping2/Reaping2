@@ -46,7 +46,8 @@ void WeaponItemSubSystem::Update(Actor& actor, double DeltaTime)
     }
     weapon->SetCooldown(cd);
     //scatter updated on client
-    weapon->GetScatter().Update(DeltaTime);
+    Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
+    weapon->GetScatter().Update(DeltaTime,accuracyC.IsValid()?accuracyC->GetAccuracy().Get():0);
 
     if (weapon->CanReload()
         //Not enough bullet for current shot  Need to see if the player wants to shoot alt:
@@ -139,15 +140,15 @@ void WeaponItemSubSystem::OnShot(core::ShotEvent const& Evt)
 }
 
 
-void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt/*=false*/)
+void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt/*=false*/, bool addRadius/*=true*/)
 {
     double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
-    Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
     int scat=int(scatter.GetCalculated()*1000);
-    if(accuracyC.IsValid())
-    {
-        scat=scat*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
-    }
+//    Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
+//     if(accuracyC.IsValid())
+//     {
+//         scat=scat;//*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
+//     }
     if( scat )
     {
         double realScatter=( rand() % (scat+1) - scat / 2. );
@@ -160,7 +161,7 @@ void WeaponItemSubSystem::AddProjectiles(Actor& actor, Projectiles_t& projectile
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )
     {
         Actor& Proj = **i;
-        SetProjectilePosition(Proj,actor);
+        SetProjectilePosition(Proj,actor, addRadius);
         Opt<ShotCollisionComponent> shotCC=Proj.Get<ShotCollisionComponent>();
         if (shotCC.IsValid())
         {
@@ -188,7 +189,7 @@ Opt<WeaponItemSubSystem> WeaponItemSubSystem::Get()
     return Opt<WeaponItemSubSystem>(
         Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(ItemType::Weapon));
 }
-void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
+void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor, bool addRadius/*=true*/)
 {
     Opt<IPositionComponent> projPositionC = projectile.Get<IPositionComponent>();
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
@@ -197,7 +198,7 @@ void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
     const double c = cos( h );
     const double s = sin( h );
     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-    double radius=collisionC.IsValid()?collisionC->GetRadius():0.0;
+    double radius=addRadius&&collisionC.IsValid()?collisionC->GetRadius():0.0;
     projPositionC->SetX( projPositionC->GetX()+actorPositionC->GetX()+c*radius);
     projPositionC->SetY( projPositionC->GetY()+actorPositionC->GetY()+s*radius);
 }

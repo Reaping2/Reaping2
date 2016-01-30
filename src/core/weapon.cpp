@@ -203,13 +203,13 @@ Scatter::Scatter(double increase/*=0.0*/,double altIncrease/*=0.0*/, double chil
 
 }
 
-void Scatter::Update(double DeltaTime)
+void Scatter::Update(double DeltaTime, int32_t accuracy)
 {
     //want to chill the scatter on a linear way
     // e.g. magic=100, current=100, calculated=1/2, 
     // newCalc=50-chill*dt; 
     // chill=20, dt=1.0; // lets say 1 sec with 20 chill means newCalc is 20
-    double newCalculated=(GetCalculated()*mMagicNumber-mChill*DeltaTime)/mMagicNumber; 
+    double newCalculated=(GetCalculated()*mMagicNumber-(mChill*(600+accuracy)/600)*DeltaTime)/mMagicNumber; 
     newCalculated=std::max(0.0,newCalculated);
 //    L1("newCalc: %f calc: %f \n",newCalculated,mCurrent);
     if(newCalculated!=0.0)

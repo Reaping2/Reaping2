@@ -3,7 +3,7 @@
 ExplodeOnHitComponent::ExplodeOnHitComponent()
     : IExplodeOnHitComponent()
     , mDetonatorMaterial(-1)
-    , mAddRadius(0.0)
+    , mAddActorRadius(0.0)
     , mExploded(false)
 {
 }
@@ -18,14 +18,14 @@ int32_t ExplodeOnHitComponent::GetDetonatorMaterial()const
     return mDetonatorMaterial;
 }
 
-void ExplodeOnHitComponent::SetAddRadius(double addRadius)
+void ExplodeOnHitComponent::SetAddActorRadius(double addRadius)
 {
-    mAddRadius=addRadius;
+    mAddActorRadius=addRadius;
 }
 
 double ExplodeOnHitComponent::GetAddRadius()const
 {
-    return mAddRadius;
+    return mAddActorRadius;
 }
 
 void ExplodeOnHitComponent::SetExploded(bool exploded)
@@ -52,7 +52,6 @@ void ExplodeOnHitComponentLoader::BindValues()
     {
         Bind<int32_t>(&ExplodeOnHitComponent::SetDetonatorMaterial,AutoId(istr));
     }
-    Bind("add_radius",func_int32_t(&ExplodeOnHitComponent::SetAddRadius));
     if( Json::GetStr( (*mSetters)["distribution"], istr))
     {
         Bind<ExplodeDistributionType::Type>(&ExplodeOnHitComponent::SetDistribution,mExplodeDistributionType(AutoId(istr)));
@@ -60,7 +59,7 @@ void ExplodeOnHitComponentLoader::BindValues()
     Bind("secs_to_end_variance",func_double(&ExplodeOnHitComponent::SetSecsToEndVariance));
     Bind("position_variance",func_int32_t(&ExplodeOnHitComponent::SetPositionVariance));
     Bind("speed_variance",func_double(&ExplodeOnHitComponent::SetSpeedVariance));
-
+    Bind("add_actor_radius",func_bool(&ExplodeOnHitComponent::SetAddActorRadius));
 }
 
 ExplodeOnHitComponentLoader::ExplodeOnHitComponentLoader()

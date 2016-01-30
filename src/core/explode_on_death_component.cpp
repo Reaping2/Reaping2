@@ -22,7 +22,7 @@ void ExplodeOnDeathComponentLoader::BindValues()
     Bind("secs_to_end_variance",func_double(&ExplodeOnDeathComponent::SetSecsToEndVariance));
     Bind("position_variance",func_int32_t(&ExplodeOnDeathComponent::SetPositionVariance));
     Bind("speed_variance",func_double(&ExplodeOnDeathComponent::SetSpeedVariance));
-
+    Bind("add_actor_radius",func_bool(&ExplodeOnDeathComponent::SetAddActorRadius));
 }
 
 ExplodeOnDeathComponentLoader::ExplodeOnDeathComponentLoader()

@@ -21,6 +21,8 @@ public:
     virtual int32_t GetPositionVariance()const;
     virtual void SetSpeedVariance(double speedVariance);
     virtual double GetSpeedVariance()const;
+    virtual void SetAddActorRadius(bool addRadius);
+    virtual bool IsAddActorRadius()const;
 protected:
     friend class ComponentFactory;
     int32_t mExplosionProjectile;
@@ -30,6 +32,7 @@ protected:
     double mSecsToEndVariance;
     int32_t mPositionVariance;
     double mSpeedVariance;
+    bool mAddActorRadius;
 };
 
 #endif//INCLUDED_CORE_I_EXPLODE_H

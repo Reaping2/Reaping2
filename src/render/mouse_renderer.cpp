@@ -68,11 +68,11 @@ void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
 
         mouseColor=weapon->GetMouseColor();
         double siz=weapon->GetMouseSize();
-        Opt<IAccuracyComponent> accuracyC=actor->Get<IAccuracyComponent>();
-        if (accuracyC.IsValid()&&(weapon->IsMouseResizable()))
-        {
-            siz=siz*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
-        }
+//         Opt<IAccuracyComponent> accuracyC=actor->Get<IAccuracyComponent>();
+//         if (accuracyC.IsValid()&&(weapon->IsMouseResizable()))
+//         {
+//             siz=siz;//*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
+//         }
         siz+=mouseSize;
         Sizes.push_back( ( GLfloat )(siz));
         Sizes.push_back( ( GLfloat )(siz));

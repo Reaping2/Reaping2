@@ -21,9 +21,9 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
     typedef std::list<Opt<Actor> > Projectiles_t;
 
-    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt=false);
+    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt=false, bool addRadius=true);
     static Opt<WeaponItemSubSystem> Get();
-    static void SetProjectilePosition(Actor& projectile, Actor& actor);
+    static void SetProjectilePosition(Actor& projectile, Actor& actoraddRadius, bool addRadius=true);
 private:
     Scene& mScene;
     core::ProgramState& mProgramState;

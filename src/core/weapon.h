@@ -11,7 +11,7 @@ struct Scatter
     double mChill;
     double mMagicNumber;
     Scatter(double increase=0.0,double altIncrease=0.0, double chill=0.0, double magicNumber=100);
-    void Update(double DeltaTime);
+    void Update(double DeltaTime, int32_t accuracy);
     void Shot(bool alt);
     double GetCalculated() const;
     template<class Archive>

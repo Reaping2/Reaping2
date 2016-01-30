@@ -20,7 +20,7 @@ GatlingGun::GatlingGun( int32_t Id )
     mScatter.mMagicNumber=100;
     mShootCooldown = 0.05;
     mShootAltCooldown = 0.05;
-    mBulletsMax = 200.0;
+    mBulletsMax = 101.0;
     mShotCost=1;
     mShotCostAlt=1;
     mReloadTimeMax=2.5;
