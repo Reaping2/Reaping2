@@ -33,7 +33,7 @@ void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSpawnFlagsMapElementIt = mapElementListFilter.begin(), ctfSpawnFlagsMapElementE = mapElementListFilter.end(); ctfSpawnFlagsMapElementIt != ctfSpawnFlagsMapElementE; ++ctfSpawnFlagsMapElementIt )
     {
         Opt<CtfSpawnFlagsMapElement> ctfSpawnFlagsMapElement(*ctfSpawnFlagsMapElementIt);
-        if (ctfSpawnFlagsMapElement->GetValueId(CtfSpawnFlagsMapElement::SpawnNodeId)>0)
+        if (ctfSpawnFlagsMapElement->GetValueId(CtfSpawnFlagsMapElement::SpawnNodeId())>0)
         {
             if (mProgramState.mMode==core::ProgramState::Server||mProgramState.mMode==core::ProgramState::Local)
             {

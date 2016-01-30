@@ -7,7 +7,7 @@ class RenderableRepo;
 //class Sprite;
 class SpriteCollection : public Repository<Sprite>
 {
-    static Sprite DefaultSprite;
+    Sprite mDefaultSprite;
     friend class RenderableRepo;
     SpriteCollection();
     int32_t mId;

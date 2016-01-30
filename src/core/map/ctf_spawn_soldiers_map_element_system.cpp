@@ -28,7 +28,7 @@ void CtfSpawnSoldiersMapElementSystem::Update(double DeltaTime)
     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSpawnSoldiersMapElementIt = mapElementListFilter.begin(), ctfSpawnSoldiersMapElementE = mapElementListFilter.end(); ctfSpawnSoldiersMapElementIt != ctfSpawnSoldiersMapElementE; ++ctfSpawnSoldiersMapElementIt )
     {
         Opt<CtfSpawnSoldiersMapElement> ctfSpawnSoldiersMapElement(*ctfSpawnSoldiersMapElementIt);
-        if (ctfSpawnSoldiersMapElement->GetValueId(CtfSpawnSoldiersMapElement::SpawnNodeId)>0)
+        if (ctfSpawnSoldiersMapElement->GetValueId(CtfSpawnSoldiersMapElement::SpawnNodeId())>0)
         {
             if (mProgramState.mMode==core::ProgramState::Server)
             {

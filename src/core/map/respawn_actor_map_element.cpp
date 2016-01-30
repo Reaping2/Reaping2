@@ -7,7 +7,11 @@
 
 namespace map {
 
-const int RespawnActorMapElement::SpawnNodeId=AutoId("spawn");
+int32_t RespawnActorMapElement::SpawnNodeId()
+{
+    static int32_t id = AutoId("spawn");
+    return id;
+}
 
 RespawnActorMapElement::RespawnActorMapElement(int32_t Id)
     : MapElement(Id)
@@ -16,7 +20,7 @@ RespawnActorMapElement::RespawnActorMapElement(int32_t Id)
     , mSecsToRespawn(100)
     , mSecsToRespawnOriginal(100)
 {
-    AddInputNodeId(SpawnNodeId);
+    AddInputNodeId(SpawnNodeId());
 }
 
 void RespawnActorMapElement::Load(Json::Value& setters)

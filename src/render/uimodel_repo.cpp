@@ -8,7 +8,7 @@
 #include "ui/ui_model.h"
 
 UiModelRepo::UiModelRepo()
-    : RepoBase( DefaultUiModel )
+    : RepoBase( mDefaultUiModel )
 {
     ui::UiModel::Get();
     int32_t Id = AutoId( "text_widget" );
@@ -23,4 +23,3 @@ UiModelRepo::UiModelRepo()
     mElements.insert( Id, new render::GridElemUiModel );
 }
 
-UiModel UiModelRepo::DefaultUiModel = UiModel();

@@ -39,7 +39,7 @@ void WallTarget::PutTarget(glm::vec2 position)
 {
     std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("spawn_actor")));
     Opt<SpawnActorMapElement> spawnActor(static_cast<SpawnActorMapElement*>(mapElement.get()));
-    spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId)(1);
+    spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId())(1);
 
     AddPositionLoader(position, spawnActor);
 
@@ -52,7 +52,7 @@ void WallTarget::PutTarget(glm::vec2 position, IBorderComponent::Borders_t& bord
 {
     std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("spawn_actor")));
     Opt<SpawnActorMapElement> spawnActor(static_cast<SpawnActorMapElement*>(mapElement.get()));
-    spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId)(1);
+    spawnActor->GetInputNodeId(SpawnActorMapElement::SpawnNodeId())(1);
 
     AddPositionLoader(position, spawnActor);
 

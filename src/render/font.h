@@ -13,7 +13,7 @@ class Font : public Singleton<Font>
     char mLastChar;
     GLuint mTexId;
     GLfloat mMaxHeight;
-    static SpritePhase DefaultSprite;
+    SpritePhase mDefaultSprite;
     typedef std::vector<SpritePhase> Characters_t;
     Characters_t mChars;
     struct CharDesc

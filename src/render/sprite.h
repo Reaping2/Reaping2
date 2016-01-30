@@ -9,7 +9,7 @@ class SpriteCollection;
 
 class Sprite : public Repository<SpritePhase>
 {
-    static SpritePhase DefaultSpritePhase;
+    SpritePhase mDefaultSpritePhase;
     friend class SpriteCollection;
     GLuint mTexId;
     size_t mSteps;

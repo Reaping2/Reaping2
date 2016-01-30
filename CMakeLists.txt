@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+set( CMAKE_CXX_STANDARD 11 )
+
 # support for YouCompleteMe
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set( CMAKE_CXX_FLAGS "-Wno-deprecated-declarations" )

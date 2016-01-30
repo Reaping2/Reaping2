@@ -69,6 +69,7 @@
 #include "audio/audio_effect_repo.h"
 #include "network/flag_state_changed_message.h"
 #include "network/fade_out_message.h"
+#include "platform/init.h"
 
 using engine::Engine;
 namespace {
@@ -168,6 +169,9 @@ int main(int argc, char* argv[])
         L1("run local");
         programState.SetMode(ProgramState::Local);
     }
+    platform::IdStorage::Get().Init();
+    message_order Order;
+    platform::Init::Get().Execute();
     IsMainRunning=true;
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
     AutoReg PhaseChangeId(PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ));

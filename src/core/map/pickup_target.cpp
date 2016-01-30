@@ -44,7 +44,7 @@ void PickupTarget::PutTarget(glm::vec2 position)
 {
     std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("respawn_actor")));
     Opt<RespawnActorMapElement> spawnActor(static_cast<RespawnActorMapElement*>(mapElement.get()));
-    spawnActor->GetInputNodeId(RespawnActorMapElement::SpawnNodeId)(1);
+    spawnActor->GetInputNodeId(RespawnActorMapElement::SpawnNodeId())(1);
     {
         int32_t componentId=AutoId("position_component");
         ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();

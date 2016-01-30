@@ -27,7 +27,7 @@ void RespawnActorMapElementSystem::Update(double DeltaTime)
     for( MapElementListFilter<MapSystem::All>::const_iterator respawnActorMapElementIt = mapElementListFilter.begin(), respawnActorMapElementE = mapElementListFilter.end(); respawnActorMapElementIt != respawnActorMapElementE; ++respawnActorMapElementIt )
     {
         Opt<RespawnActorMapElement> respawnActorMapElement(*respawnActorMapElementIt);
-        if (respawnActorMapElement->GetValueId(RespawnActorMapElement::SpawnNodeId)>0)
+        if (respawnActorMapElement->GetValueId(RespawnActorMapElement::SpawnNodeId())>0)
         {
             SpawnActor(respawnActorMapElement);
             respawnActorMapElement->ResetValues();

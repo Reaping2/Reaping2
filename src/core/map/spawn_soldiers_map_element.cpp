@@ -2,7 +2,11 @@
 
 namespace map {
 
-const int SpawnSoldiersMapElement::SpawnNodeId=AutoId("spawn");
+int32_t SpawnSoldiersMapElement::SpawnNodeId()
+{
+    static int32_t id = AutoId("spawn");
+    return id;
+}
 
 SpawnSoldiersMapElement::SpawnSoldiersMapElement(int32_t Id)
     : MapElement(Id)
@@ -13,7 +17,7 @@ SpawnSoldiersMapElement::SpawnSoldiersMapElement(int32_t Id)
 void SpawnSoldiersMapElement::Load(Json::Value& setters)
 {
     MapElement::Load(setters);
-    AddInputNodeId(SpawnNodeId);
+    AddInputNodeId(SpawnNodeId());
 }
 
 } // namespace map

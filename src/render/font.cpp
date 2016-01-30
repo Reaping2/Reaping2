@@ -1,6 +1,7 @@
 #include "i_render.h"
 #include "font.h"
 #include "texture.h"
+#include "texture_repo.h"
 #include "sprite_phase.h"
 
 Font::Font()
@@ -111,7 +112,7 @@ SpritePhase const& Font::GetChar( char C )const
 {
     if( C < mFirstChar || C > mLastChar )
     {
-        return DefaultSprite;
+        return mDefaultSprite;
     }
     return mChars[C - mFirstChar];
 }
@@ -132,6 +133,4 @@ GLfloat Font::GetFontSize() const
 {
     return mMaxHeight;
 }
-
-SpritePhase Font::DefaultSprite = SpritePhase();
 

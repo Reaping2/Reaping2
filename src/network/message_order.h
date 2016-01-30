@@ -137,7 +137,7 @@
             type=platform::AutoId("lucky_rocket_alt_projectile");
             type=platform::AutoId("lucky_rocket_explosion_projectile");
         }
-    } _msg_order;
+    };
 
     BOOST_CLASS_EXPORT_GUID(::core::SoldierProperties, "soldier_prop_base")    
     BOOST_CLASS_EXPORT_GUID(::core::ClientData, "client_data")    
