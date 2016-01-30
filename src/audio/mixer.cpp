@@ -53,7 +53,7 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
         {
             glm::vec2 const& pos = f.GetPosition();
             glm::vec2 const dif = pos - playerPos;
-            const float DistWeight = std::max(1.f / ( 1.f + glm::dot( dif, dif ) / 7e5 )-0.1,0.0);
+            const float DistWeight = std::max(1.f / ( 1.f + glm::dot( dif, dif ) / 1e6 )-0.1,0.0);
             Weight *= DistWeight;
             l = left( dif.x );
             r = right( dif.x );
