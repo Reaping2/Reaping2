@@ -37,13 +37,13 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         weapon->EndCharge();
     }
+    if ( weapon->GetCooldown() > 0 || weapon->GetReloadTime() > 0 )
+    {
+        weapon->EndCharge();
+    }
     if (mProgramState.mMode==core::ProgramState::Client)
     {
         return;
-    }
-    if ( weapon->GetCooldown() )
-    {
-        weapon->EndCharge();
     }
 
     if ( moveC.IsValid() && !moveC->IsRooted() && weapon->IsCharging() )
