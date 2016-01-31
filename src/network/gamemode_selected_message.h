@@ -14,9 +14,7 @@ class GamemodeSelectedMessage: public Message
 public:
     DEFINE_MESSAGE_BASE(GamemodeSelectedMessage)
     std::string mGameMode;
-    GamemodeSelectedMessage()
-    {
-    }
+    int32_t mOriginator;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
 };
@@ -26,6 +24,7 @@ void GamemodeSelectedMessage::serialize(Archive& ar, const unsigned int version)
 {
     ar & boost::serialization::base_object<Message>(*this);
     ar & mGameMode;
+    ar & mOriginator;
 }
 
 class GamemodeSelectedMessageHandlerSubSystem : public MessageHandlerSubSystem
