@@ -14,11 +14,12 @@ class RenderTarget : public platform::Singleton<RenderTarget>
         GLuint FramebufferId;
         GLuint TexId;
         GLuint DepthBufferId;
+        glm::vec2 Size;
     };
     typedef std::map<uint32_t, TargetTexture> TargetMap_t;
     TargetMap_t mTargets;
 public:
-    void SetTargetTexture( uint32_t id );
+    void SetTargetTexture( uint32_t id, glm::vec2 const& size );
     void SetTargetScreen();
     GLuint GetTextureId( uint32_t id );
 };

@@ -10,6 +10,7 @@ struct Viewport
     GLsizei Width;
     GLsizei Height;
     Viewport(): X( 0 ), Y( 0 ), Width( 0 ), Height( 0 ) {}
+    glm::vec2 Size() const { return glm::vec2( Width, Height ); }
 };
 
 class Projection
@@ -48,3 +49,4 @@ protected:
 };
 
 #endif//INCLUDED_RENDER_PROJECTION_H
+

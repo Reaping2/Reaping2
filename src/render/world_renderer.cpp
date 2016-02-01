@@ -9,9 +9,9 @@ void WorldRenderer::Init()
     mVAO.Init();
     GLfloat Vertices[] = {
         -1, -1,
-        -1, 0,
-        0, -1,
-        0, 0, /* 8 */
+        -1, 1,
+        1, -1,
+        1, 1, /* 8 */
         0, 0,
         0, 1,
         1, 0,

@@ -107,15 +107,12 @@ void RendererSystem::Update( double DeltaTime )
     BeginRender();
 
     mCamera.Update();
-
+    SetupRenderer( mWorldProjector );
     // render world
     render::RenderTarget& rt( render::RenderTarget::Get() );
-    SetupRenderer( mUiProjector );
 
     // paint solid objects to texture target 1
-    rt.SetTargetTexture( 1 );
-    glClearColor( 0, 1, 0, 0 );
-    glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    rt.SetTargetTexture( 1, mWorldProjector.GetViewport().Size() );
 
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
@@ -129,18 +126,25 @@ void RendererSystem::Update( double DeltaTime )
     // so we can't simply render the particles to their own FBO
     // we render the background with effects, render the particles to a new FBO
     // and at last render the results onto the screen with another layer of effects
-    rt.SetTargetTexture( 2 );
+    rt.SetTargetTexture( 2, mWorldProjector.GetViewport().Size() );
+    mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+    mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 1 ) );
+    SetupRenderer( mWorldProjector );
     render::ParticleEngine::Get().Draw();
 
     // set painting to screen
     rt.SetTargetScreen();
-    SetupRenderer( mUiProjector );
+    mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+    mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+
     glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     // paint the previous textures to screen with custom additional effects
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 2 ) );
 
+    SetupRenderer( mUiProjector );
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
     mHealthBarRenderer.Draw();
