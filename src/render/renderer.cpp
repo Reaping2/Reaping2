@@ -3,6 +3,7 @@
 #include "ui/i_ui.h"
 #include "font.h"
 #include "particle_engine.h"
+#include "render_target.h"
 #include <boost/assign.hpp>
 
 namespace engine {
@@ -110,14 +111,25 @@ void RendererSystem::Update( double DeltaTime )
 
     // render world
     SetupRenderer( mUiProjector );
+    render::RenderTarget& rt( render::RenderTarget::Get() );
+
+    // paint solid objects to texture target 1
+    rt.SetTargetTexture( 1 );
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
     static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
     static std::set<RenderableLayer::Type> const fglayers;
-    mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers );
-    mDecalEngine.Draw();
-    mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers );
+    mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers);
+    mDecalEngine.Draw( DecalEngine::GroundParticle );
+    mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers);
+    // paint particles to texture target 2
+    rt.SetTargetTexture( 2 );
     render::ParticleEngine::Get().Draw();
+    // set painting to screen
+    rt.SetTargetScreen();
+    // paint the previous textures to screen with custom additional effects
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 1 ), rt.GetTextureId( 2 ) );
+
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
     mHealthBarRenderer.Draw();
