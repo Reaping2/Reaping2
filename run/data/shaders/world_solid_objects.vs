@@ -14,5 +14,5 @@ smooth out vec2 inTexCoord;
 void main()
 {
     inTexCoord=texcoord;
-    gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(position,0,1);
+    gl_Position=/*cameraToClipMatrix*worldToCameraMatrix* */vec4(position,0,1);
 }

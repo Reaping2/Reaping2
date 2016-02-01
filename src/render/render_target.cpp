@@ -11,6 +11,8 @@ void RenderTarget::SetTargetTexture( uint32_t id )
     TargetTexture& tgt = mTargets[ id ];
     if( tgt.TexId == 0 )
     {
+        glBindTexture(GL_TEXTURE_2D, 0);
+
         static GLenum attach = GL_COLOR_ATTACHMENT0;
         tgt.Attachment = attach++;
         glGenFramebuffers( 1, &tgt.FramebufferId );
@@ -29,11 +31,6 @@ void RenderTarget::SetTargetTexture( uint32_t id )
         glBindRenderbuffer(GL_RENDERBUFFER, tgt.DepthBufferId);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1024, 768);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tgt.DepthBufferId);
-
-        glFramebufferTexture(GL_FRAMEBUFFER, tgt.Attachment, tgt.DepthBufferId, 0);
-    }
-    else
-    {
     }
     glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
     GLenum drawBuffers[1] = { tgt.Attachment };

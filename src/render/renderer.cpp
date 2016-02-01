@@ -41,7 +41,6 @@ void RendererSystem::SetupRenderer( const Projection& Proj )
 
 bool RendererSystem::BeginRender()
 {
-    glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
     return true;
 }
 
@@ -110,11 +109,14 @@ void RendererSystem::Update( double DeltaTime )
     mCamera.Update();
 
     // render world
-    SetupRenderer( mUiProjector );
     render::RenderTarget& rt( render::RenderTarget::Get() );
+    SetupRenderer( mUiProjector );
 
     // paint solid objects to texture target 1
     rt.SetTargetTexture( 1 );
+    glClearColor( 0, 1, 0, 0 );
+    glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
     static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
@@ -122,13 +124,22 @@ void RendererSystem::Update( double DeltaTime )
     mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers);
     mDecalEngine.Draw( DecalEngine::GroundParticle );
     mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers);
-    // paint particles to texture target 2
+
+    // particle blending happens with different blending modes
+    // so we can't simply render the particles to their own FBO
+    // we render the background with effects, render the particles to a new FBO
+    // and at last render the results onto the screen with another layer of effects
     rt.SetTargetTexture( 2 );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 1 ) );
     render::ParticleEngine::Get().Draw();
+
     // set painting to screen
     rt.SetTargetScreen();
+    SetupRenderer( mUiProjector );
+    glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
     // paint the previous textures to screen with custom additional effects
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 1 ), rt.GetTextureId( 2 ) );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 2 ) );
 
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
