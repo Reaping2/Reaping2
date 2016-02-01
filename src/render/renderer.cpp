@@ -3,6 +3,8 @@
 #include "ui/i_ui.h"
 #include "font.h"
 #include "particle_engine.h"
+#include <boost/assign.hpp>
+
 namespace engine {
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )
@@ -110,13 +112,11 @@ void RendererSystem::Update(double DeltaTime)
     SetupRenderer( mUiProjector );
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
-    std::set<RenderableLayer::Type> layers,excludeLayers;
-    layers.insert(RenderableLayer::Background);
-    mActorRenderer.Draw( Scen, DeltaTime, layers,excludeLayers);
+    static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
+    static std::set<RenderableLayer::Type> const fglayers;
+    mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers);
     mDecalEngine.Draw( DecalEngine::GroundParticle );
-    layers.clear();excludeLayers.clear();
-    excludeLayers.insert(RenderableLayer::Background);
-    mActorRenderer.Draw( Scen, DeltaTime,layers,excludeLayers);
+    mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers);
     render::ParticleEngine::Get().Draw();
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
