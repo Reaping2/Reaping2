@@ -21,7 +21,7 @@ public:
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
     void AddComponentLoader(int32_t componentId, std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader);
-    static const int32_t SpawnNodeId;
+    static int32_t SpawnNodeId();
 private:
     int32_t mActorID;
     ActorCreator::ComponentLoaderMap_t mComponentLoaders;

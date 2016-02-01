@@ -3,13 +3,17 @@
 
 namespace map {
 
-const int MapStartMapElement::StartNodeId=AutoId("start");
+int32_t MapStartMapElement::StartNodeId()
+{
+    static int32_t id = AutoId("start");
+    return id;
+}
 
 MapStartMapElement::MapStartMapElement(int32_t Id)
     : MapElement(Id)
     , BaseOutput()
 {
-    AddOutputNodeId(StartNodeId);
+    AddOutputNodeId(StartNodeId());
 }
 
 void MapStartMapElement::Load(Json::Value& setters)

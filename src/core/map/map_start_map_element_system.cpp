@@ -33,7 +33,7 @@ void MapStartMapElementSystem::OnMapStart(core::MapStartEvent const& Evt)
     for( MapElementListFilter<MapSystem::All>::const_iterator mapStartMapElementIt = mapElementListFilter.begin(), mapStartMapElementE = mapElementListFilter.end(); mapStartMapElementIt != mapStartMapElementE; ++mapStartMapElementIt )
     {
         Opt<MapStartMapElement> mapStartMapElement(*mapStartMapElementIt);
-        mapStartMapElement->DoOutputId(MapStartMapElement::StartNodeId,1);
+        mapStartMapElement->DoOutputId(MapStartMapElement::StartNodeId(),1);
     }    
 }
 

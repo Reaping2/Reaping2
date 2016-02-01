@@ -25,7 +25,7 @@ void SpawnActorMapElementSystem::Update(double DeltaTime)
     for( MapElementListFilter<MapSystem::All>::const_iterator spawnActorMapElementIt = mapElementListFilter.begin(), spawnActorMapElementE = mapElementListFilter.end(); spawnActorMapElementIt != spawnActorMapElementE; ++spawnActorMapElementIt )
     {
         Opt<SpawnActorMapElement> spawnActorMapElement(*spawnActorMapElementIt);
-        if (spawnActorMapElement->GetValueId(SpawnActorMapElement::SpawnNodeId)>0)
+        if (spawnActorMapElement->GetValueId(SpawnActorMapElement::SpawnNodeId())>0)
         {
             std::auto_ptr<Actor> actor(mActorFactory(spawnActorMapElement->GetActorID()));
             ActorCreator::ComponentLoaderMap_t const& componentLoaders=spawnActorMapElement->GetComponentLoaders();

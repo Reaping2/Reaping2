@@ -21,6 +21,7 @@ public:
     ~IdStorage();
     int32_t GetId( const std::string& Name );
     bool GetName( int32_t Id, std::string& Name )const;
+    void Init();
 };
 
 } // namespace platform

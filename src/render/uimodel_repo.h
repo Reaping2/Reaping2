@@ -2,13 +2,13 @@
 #define INCLUDED_RENDER_UIMODEL_REPO_H
 #include "platform/i_platform.h"
 #include "ui/i_ui.h"
+#include "uimodel.h"
 
-class UiModel;
 class UiModelRepo : public Repository<UiModel>, public Singleton<UiModelRepo>
 {
     friend class Singleton<UiModelRepo>;
     UiModelRepo();
-    static UiModel DefaultUiModel;
+    UiModel mDefaultUiModel;
 };
 
 #endif//INCLUDED_RENDER_UIMODEL_REPO_H

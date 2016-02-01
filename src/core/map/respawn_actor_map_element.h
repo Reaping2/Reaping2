@@ -24,7 +24,7 @@ public:
     double GetSecsToRespawn()const;
     void SetSecsToRespawnOriginal(double secsToRespawnOriginal);
     double GetSecsToRespawnOriginal()const;
-    static const int32_t SpawnNodeId;
+    static int32_t SpawnNodeId();
 private:
     int32_t mActorID;
     ActorCreator::ComponentLoaderMap_t mComponentLoaders;

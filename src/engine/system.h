@@ -2,6 +2,7 @@
 #define INCLUDED_ENGINE_SYSTEM_H
 
 #include "platform/auto_id.h"
+#include "platform/init.h"
 
 #define DEFINE_SYSTEM_BASE( SystemType ) \
     static int32_t GetType_static() \
@@ -31,9 +32,13 @@ volatile bool inited = SystemType::initSystem(); \
 bool SystemType::mInitedSystem = true; \
 namespace { \
 struct RegisterSystem { \
-RegisterSystem() \
+void DoReg() \
 { \
     ::engine::SystemFactory::Get().RegisterSystem<SystemType>( #SystemType ); \
+} \
+RegisterSystem() \
+{ \
+    platform::Init::Get().Register( __FILE__ #SystemType, [=](){ DoReg(); } ); \
 } \
 } registerSystem; \
 }

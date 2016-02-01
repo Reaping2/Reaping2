@@ -3,7 +3,7 @@
 #include "sprite_collection.h"
 
 RenderableRepo::RenderableRepo()
-    : RepoBase( DefaultRenderable )
+    : RepoBase( mDefaultRenderable )
 {
     Init();
 }
@@ -88,6 +88,4 @@ void RenderableRepo::Init()
     using std::swap;
     swap( mElements, Renderables );
 }
-
-SpriteCollection RenderableRepo::DefaultRenderable = SpriteCollection();
 

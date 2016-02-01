@@ -3,7 +3,11 @@
 namespace map {
 namespace ctf {
 
-const int CtfSpawnFlagsMapElement::SpawnNodeId=AutoId("spawn");
+int32_t CtfSpawnFlagsMapElement::SpawnNodeId()
+{
+    static int32_t id = AutoId("spawn");
+    return id;
+}
 
 CtfSpawnFlagsMapElement::CtfSpawnFlagsMapElement(int32_t Id)
     : MapElement(Id)
@@ -14,7 +18,7 @@ CtfSpawnFlagsMapElement::CtfSpawnFlagsMapElement(int32_t Id)
 void CtfSpawnFlagsMapElement::Load(Json::Value& setters)
 {
     MapElement::Load(setters);
-    AddInputNodeId(SpawnNodeId);
+    AddInputNodeId(SpawnNodeId());
 }
 
 } // namespace ctf

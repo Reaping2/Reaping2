@@ -26,7 +26,7 @@ void SpawnSoldiersMapElementSystem::Update(double DeltaTime)
     for( MapElementListFilter<MapSystem::All>::const_iterator spawnSoldiersMapElementIt = mapElementListFilter.begin(), spawnSoldiersMapElementE = mapElementListFilter.end(); spawnSoldiersMapElementIt != spawnSoldiersMapElementE; ++spawnSoldiersMapElementIt )
     {
         Opt<SpawnSoldiersMapElement> spawnSoldiersMapElement(*spawnSoldiersMapElementIt);
-        if (spawnSoldiersMapElement->GetValueId(SpawnSoldiersMapElement::SpawnNodeId)>0)
+        if (spawnSoldiersMapElement->GetValueId(SpawnSoldiersMapElement::SpawnNodeId())>0)
         {
             if (mProgramState.mMode==core::ProgramState::Server)
             {

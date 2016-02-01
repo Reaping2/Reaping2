@@ -5,7 +5,11 @@
 
 namespace map {
 
-const int SpawnActorMapElement::SpawnNodeId=AutoId("spawn");
+int32_t SpawnActorMapElement::SpawnNodeId()
+{
+    static int32_t id = AutoId("spawn");
+    return id;
+}
 
 SpawnActorMapElement::SpawnActorMapElement(int32_t Id)
     : MapElement(Id)
@@ -13,7 +17,7 @@ SpawnActorMapElement::SpawnActorMapElement(int32_t Id)
     , mActorID(-1)
     , mComponentLoaderFactory(ComponentLoaderFactory::Get())
 {
-    AddInputNodeId(SpawnNodeId);
+    AddInputNodeId(SpawnNodeId());
 }
 
 void SpawnActorMapElement::Load(Json::Value& setters)

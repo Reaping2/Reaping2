@@ -6,7 +6,7 @@
 //class SpriteCollection;
 class RenderableRepo : public Repository<SpriteCollection>, public Singleton<RenderableRepo>
 {
-    static SpriteCollection DefaultRenderable;
+    SpriteCollection mDefaultRenderable;
     friend class Singleton<RenderableRepo>;
     RenderableRepo();
     void Init();

@@ -14,7 +14,7 @@ public:
     DEFINE_MAP_ELEMENT_BASE(CtfSpawnFlagsMapElement)
     CtfSpawnFlagsMapElement(int32_t Id);
     void Load(Json::Value& setters);
-    static const int32_t SpawnNodeId;
+    static int32_t SpawnNodeId();
 private:
 };
 

@@ -3,7 +3,8 @@
 #include "sprite.h"
 
 SpriteCollection::SpriteCollection()
-    : RepoBase( DefaultSprite )
+    : RepoBase( mDefaultSprite )
+    , mDefaultSprite( 0, Json::Value() )
     , mId( 0 )
 {
 
@@ -55,4 +56,3 @@ void SpriteCollection::Merge( SpriteCollection& Other )
     mElements.transfer( Other.mElements.begin(), Other.mElements.end(), Other.mElements );
 }
 
-Sprite SpriteCollection::DefaultSprite = Sprite( 0, Json::Value() );

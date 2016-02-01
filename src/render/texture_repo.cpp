@@ -30,7 +30,8 @@ void TextureRepo::Init()
 }
 
 TextureRepo::TextureRepo()
-    : RepoBase( DefaultTexture )
+    : RepoBase( mDefaultTexture )
+    , mDefaultTexture( 1, 1, 0, NULL )
     , mFilesys( Filesys::Get() )
 {
     // Init();
@@ -85,4 +86,3 @@ Texture& TextureRepo::operator()( int32_t Id )
     return const_cast<Texture&>(mDefaultElement);
 }
 
-const Texture TextureRepo::DefaultTexture = Texture( 1, 1, 0, NULL );

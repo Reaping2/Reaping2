@@ -3,7 +3,7 @@
 #include "texture_repo.h"
 
 Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
-    : RepoBase( DefaultSpritePhase )
+    : RepoBase( mDefaultSpritePhase )
 {
     Texture const& Tex = TextureRepo::Get()( TexId );
     mTexId = Tex.TexId();
@@ -79,4 +79,3 @@ double Sprite::GetSecsToEnd() const
     return mSecsToEnd;
 }
 
-SpritePhase Sprite::DefaultSpritePhase = SpritePhase();

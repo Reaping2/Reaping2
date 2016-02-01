@@ -4,8 +4,8 @@
 #include "ui/i_ui.h"
 #include "ui_renderer.h"
 #include "sprite_phase.h"
-#include "uimodel_repo.h"
 
+class UiModelRepo;
 class UiModel
 {
 protected:
