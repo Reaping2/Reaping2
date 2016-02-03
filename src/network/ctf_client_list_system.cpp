@@ -91,11 +91,13 @@ void CtfClientListSystem::SwitchTeam( std::string const & player )
     {
         mBlueNames.erase( std::find(mBlueNames.begin(), mBlueNames.end(), player) );
         clientData.mTeam = Team::Red;
+        mRedNames.push_back( player );
     }
     else
     {
         mRedNames.erase( std::find(mRedNames.begin(), mRedNames.end(), player) );
         clientData.mTeam = Team::Blue;
+        mBlueNames.push_back( player );
     }
     // notify the server about the team setup
     CtfClientDatasChangedEvent ctfevent;
