@@ -72,7 +72,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 }
 }
 
-void ActorRenderer::Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> Layers, std::set<RenderableLayer::Type> ExludeLayers )
+void ActorRenderer::Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> const& Layers, std::set<RenderableLayer::Type> const& ExludeLayers )
 {
     ActorList_t const& Lst = Object.GetActors();
     if( Lst.empty() )
