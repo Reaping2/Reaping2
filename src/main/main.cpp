@@ -233,6 +233,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("ffa_client_list_system"));
         Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("gamemode_selected_message_sender_system"));
+        Eng.AddSystem(AutoId("waiting_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 

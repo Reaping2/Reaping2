@@ -85,7 +85,8 @@ void SoldierPropertiesSystem::OnSoldierPropertiesReady()
     if (mProgramState.mMode!=core::ProgramState::Local)
     {
         //TODO client_workflow_system to handle this. 
-        Ui::Get().Load("waiting_start");
+        //Ui::Get().Load("waiting_start");
+        Ui::Get().Load("waiting_system");
     }
     EventServer<SoldierPropertiesReadyEvent>::Get().SendEvent(SoldierPropertiesReadyEvent());
 }

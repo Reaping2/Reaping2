@@ -99,6 +99,7 @@
 #include "input/input_system.h"
 #include "input/keyboard_adapter_system.h"
 #include "input/mouse_adapter_system.h"
+#include "network/waiting_start_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -181,6 +182,7 @@ SystemFactory::SystemFactory()
 
     Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
     Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);
+    Bind( AutoId("waiting_system"), &CreateSystem<network::WaitingStartSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
