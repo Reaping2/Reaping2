@@ -3,7 +3,7 @@
 MoveSpeedBuff::MoveSpeedBuff()
     : Buff()
     , mFlatBonus(0)
-    , mPercentBonus(15.0)
+    , mPercentBonus(10.0)
     , mRooted( false )
 {
     mSecsToEnd=15.0;

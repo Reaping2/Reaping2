@@ -11,8 +11,8 @@ MoveComponent::MoveComponent()
     , mRooted(false)
 {
     mSpeed.mBase.Init(350.0,0.0,100000.0);
-    mSpeed.mFlat.Init(0.0,0.0,1000.0);
-    mSpeed.mPercent.Init(0.0,0.0,100.0);
+    mSpeed.mFlat.Init(0.0,0.0,33.0);
+    mSpeed.mPercent.Init(0.0,0.0,30.0);
 }
 
 double const& MoveComponent::GetHeading() const
