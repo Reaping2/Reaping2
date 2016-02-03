@@ -36,6 +36,7 @@ void ParticleSystem::Update(double DeltaTime)
            static ParticleEngine& pe( ParticleEngine::Get() );
            pe.AddParticle( *ie, glm::vec2( pos->GetX(), pos->GetY() ), pos->GetOrientation() );
        }
+       emitterC->Emitted(emitted);
     }
 }
 

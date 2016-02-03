@@ -9,6 +9,7 @@ class EmitterComponent : public IEmitterComponent
 public:
     EmitterComponent();
     virtual std::vector<int32_t> GetEmitTypes() const;
+    virtual void Emitted(std::vector<int32_t> emitTypes);
     virtual void Update( double dt );
 private:
     friend class ComponentFactory;
@@ -19,9 +20,13 @@ private:
         double mDelayVariance;
         double mCooldown;
         double mProbability;
+        int32_t mIteration; //number of times when actually emitter emits
+        int32_t mIterationVariance;
+        int32_t mIterationCurrent; //number of times of emitted stuff
         EmitDesc();
     };
     typedef std::vector<EmitDesc> EmitDescs;
+    void InitEmitDescs(EmitDescs emitDescs);
     EmitDescs mEmitDescs;
 };
 

@@ -489,7 +489,7 @@
                 "set": [{
                     "emit_descs":[
                         {
-                            "delay": 10.0,
+                            "delay": 0.0,
                             "probability": 1.0,
                             "emit_type": "rocket_smoke"
                         },
@@ -816,10 +816,10 @@
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
             },
-            {"name":"collision_component",
+            {"name":"collision_componwikwiesent",
                 "set":[{"class":"player", "radius":25}]
             },
-            {"name":"player_controller_component"},
+            {"name":"player_cujwsuwuwuwontroller_component"},
             {"name":"inventory_component",
                 "set":[{"add_item":"pistol"}]
             },
@@ -831,7 +831,7 @@
             },
             {"name":"armor_component"},
             {"name":"cloak_component"},
-            {"name":"stop_on_death_component"},
+            {"name":"stop_on_deatkekeh_component"},
             {"name":"buff_holder_component"},
             {"name":"team_component"},
             {"name":"flag_carrier_component"},

@@ -11,11 +11,15 @@ std::vector<int32_t> EmitterComponent::GetEmitTypes() const
     for( EmitDescs::const_iterator i = mEmitDescs.begin(), e = mEmitDescs.end(); i != e; ++i )
     {
         EmitDesc const& d = *i;
+        if (d.mIteration!=-1&&d.mIterationCurrent>=d.mIteration)
+        {
+            continue;
+        }
         if( d.mCooldown > 0.0 )
         {
             continue;
         }
-        if( ( rand() % 100 / 100. ) > d.mProbability )
+        if( ( rand() % 100 / 100. ) >= d.mProbability )
         {
             continue;
         }
@@ -38,12 +42,40 @@ void EmitterComponent::Update( double dt )
     }
 }
 
+void EmitterComponent::InitEmitDescs(EmitDescs emitDescs)
+{
+    mEmitDescs=emitDescs;
+    for( EmitDescs::iterator i = mEmitDescs.begin(), e = mEmitDescs.end(); i != e; ++i )
+    {
+        EmitDesc& d = *i;
+        if (d.mIteration!=-1)
+        {
+            d.mIteration=std::max(0,d.mIteration+2*d.mIterationVariance*( rand() % 100 ) / 100-d.mIterationVariance);
+        }
+    }
+}
+
+void EmitterComponent::Emitted(std::vector<int32_t> emitTypes)
+{
+    for( EmitDescs::iterator i = mEmitDescs.begin(), e = mEmitDescs.end(); i != e; ++i )
+    {
+        EmitDesc& d = *i;
+        if (std::find(emitTypes.begin(),emitTypes.end(), d.mEmitType)!=emitTypes.end())
+        {
+            ++d.mIterationCurrent;
+        }
+    }
+}
+
 EmitterComponent::EmitDesc::EmitDesc()
     : mEmitType( 0 )
     , mDelay( 0 )
     , mDelayVariance( 0 )
     , mCooldown( 0 )
     , mProbability( 1 )
+    , mIteration( -1 )
+    , mIterationVariance( 0 )
+    , mIterationCurrent( 0 )
 {
 }
 
@@ -65,9 +97,12 @@ void EmitterComponentLoader::BindValues()
         std::string str;
         Json::GetStr( part["emit_type"], str );
         d.mEmitType = AutoId( str );
+        Json::GetInt( part["iteration"], d.mIteration );
+        Json::GetInt( part["iteration_variance"], d.mIterationVariance );
         descs.push_back( d );
     }
-    Add( boost::lambda::_1 ->* &EmitterComponent::mEmitDescs = descs );
+    Bind<EmitterComponent::EmitDescs>(&EmitterComponent::InitEmitDescs,descs);
+    //Add( boost::lambda::_1 ->* &EmitterComponent::mEmitDescs = descs );
 }
 
 EmitterComponentLoader::EmitterComponentLoader()

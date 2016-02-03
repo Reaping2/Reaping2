@@ -8,6 +8,7 @@ class IEmitterComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(IEmitterComponent)
     virtual std::vector<int32_t> GetEmitTypes() const = 0;
+    virtual void Emitted(std::vector<int32_t> emitTypes) = 0; //inform component that it has emitted these types
     virtual void Update( double dt ) = 0;
 };
 
