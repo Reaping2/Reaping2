@@ -166,7 +166,7 @@ void Widget::UpdateChildrenDimensions()
 
 Widget* Widget::GetHit( const glm::vec2& Pos )
 {
-    if( !IsInside( Pos ) )
+    if( !IsInside( Pos ) || mProperties( PT_SubtreeHidden ).Value.ToInt != 0 )
     {
         return NULL;
     }
