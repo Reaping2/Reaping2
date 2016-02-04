@@ -26,6 +26,7 @@ TargetRepo::TargetRepo()
 
     id=AutoId("flash_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
     id=AutoId("grenade_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
+    id=AutoId("blue_grenade_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
     id=AutoId("cloak_normal_item"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("normal"),id));
     id=AutoId("pistol"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));
     id=AutoId("plasma_gun"); mElements.insert(id, new PickupTarget(AutoId("revive_pickup"),AutoId("weapon"),id));

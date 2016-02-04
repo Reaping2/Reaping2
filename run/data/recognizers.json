@@ -238,6 +238,22 @@
 		]
 	},
 	{
+		"name":"blue_grenade_explode_projectile",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"blue_grenade_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
 		"name":"rocket_launcher_target_projectile",
 		"recognizers":
 		[

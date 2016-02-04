@@ -373,6 +373,7 @@ int main(int argc, char* argv[])
         inventorySystem->AddSubSystem(ItemType::Normal,AutoId("normal_item_sub_system"));
         Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
         normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
+        normalItemSS->AddSubSystem(AutoId("blue_grenade_normal_item"),AutoId("blue_grenade_normal_item_sub_system"));
         normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));
         normalItemSS->AddSubSystem(AutoId("cloak_normal_item"),AutoId("cloak_normal_item_sub_system"));
     }

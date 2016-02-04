@@ -54,7 +54,7 @@ void DropOnDeathSystem::Update(double DeltaTime)
             }
             else if (rolled==1)
             {
-                int32_t contentId=RollNormalItem(3);
+                int32_t contentId=RollNormalItem(4);
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Normal );
             }
@@ -85,6 +85,8 @@ AutoId DropOnDeathSystem::RollNormalItem( int32_t n )
         return AutoId("flash_normal_item");
     case 2:
         return AutoId("cloak_normal_item");
+    case 3:
+        return AutoId("blue_grenade_normal_item");
     }
     BOOST_ASSERT(false);
     return AutoId("default_item");

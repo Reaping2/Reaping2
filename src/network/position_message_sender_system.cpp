@@ -25,6 +25,7 @@ namespace network {
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("ctf_player")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(1000.0,platform::AutoId("flag")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("grenade_projectile")));
+        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("blue_grenade_projectile")));
         mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("rocket_launcher_target_projectile")));
 
     }

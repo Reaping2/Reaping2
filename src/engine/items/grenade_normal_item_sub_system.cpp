@@ -25,45 +25,49 @@ void GrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
     if (normalItem->IsUse())
     {
-        WeaponItemSubSystem::Projectiles_t projectiles;
-
         std::auto_ptr<Actor> Proj = mActorFactory(mProjectileId);
-        Opt<IMoveComponent> projMoveC=Proj->Get<IMoveComponent>();
-        Opt<IMoveComponent> actorMoveC=actor.Get<IMoveComponent>();
-        Opt<IPositionComponent> projPositionC = Proj->Get<IPositionComponent>();
-        Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-        Opt<ShotCollisionComponent> shotCC=Proj->Get<ShotCollisionComponent>();
+        SetGrenadeProperties(*Proj.get(), actor);
 
-        double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
-
-        projPositionC->SetX( actorPositionC->GetX() );
-        projPositionC->SetY( actorPositionC->GetY() );
-        if (shotCC.IsValid())
-        {
-            shotCC->SetParentGUID( actor.GetGUID() );
-        }
-        projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
-        projMoveC->SetHeading( projPositionC->GetOrientation() );
-
-        //TODO: this is absolutely not correct. speed does not work this way in real life.
-        // speed vector is not synced atm, so this is the best that i can do.
-//         if (actorMoveC.IsValid()&&projMoveC.IsValid())
-//         {
-//             double sumSpeedX=projMoveC->GetSpeedX()+actorMoveC->GetSpeedX()*0.8;
-//             double sumSpeedY=projMoveC->GetSpeedY()+actorMoveC->GetSpeedY()*0.8;
-//             projMoveC->GetSpeed().mBase.Set(std::sqrt(sumSpeedX*sumSpeedX+sumSpeedY*sumSpeedY));
-//            projMoveC->SetMoving(true);
-//        }
-
-        projMoveC->SetMoving(true);
-        Opt<IOwnerComponent> ownerC=Proj->Get<IOwnerComponent>();
-        if (ownerC.IsValid())
-        {
-            ownerC->SetOwnerGUID(actor.GetGUID());
-        }
         mScene.AddActor( Proj.release() );
 
         normalItem->SetConsumed(true);
+    }
+}
+
+void GrenadeNormalItemSubSystem::SetGrenadeProperties(Actor& Proj, Actor& actor)
+{
+    Opt<IMoveComponent> projMoveC=Proj.Get<IMoveComponent>();
+    Opt<IMoveComponent> actorMoveC=actor.Get<IMoveComponent>();
+    Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
+    Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
+    Opt<ShotCollisionComponent> shotCC=Proj.Get<ShotCollisionComponent>();
+
+    double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
+
+    projPositionC->SetX( actorPositionC->GetX() );
+    projPositionC->SetY( actorPositionC->GetY() );
+    if (shotCC.IsValid())
+    {
+        shotCC->SetParentGUID( actor.GetGUID() );
+    }
+    projPositionC->SetOrientation( projPositionC->GetOrientation() + actorOrientation );
+    projMoveC->SetHeading( projPositionC->GetOrientation() );
+
+    //TODO: this is absolutely not correct. speed does not work this way in real life.
+    // speed vector is not synced atm, so this is the best that i can do.
+    //         if (actorMoveC.IsValid()&&projMoveC.IsValid())
+    //         {
+    //             double sumSpeedX=projMoveC->GetSpeedX()+actorMoveC->GetSpeedX()*0.8;
+    //             double sumSpeedY=projMoveC->GetSpeedY()+actorMoveC->GetSpeedY()*0.8;
+    //             projMoveC->GetSpeed().mBase.Set(std::sqrt(sumSpeedX*sumSpeedX+sumSpeedY*sumSpeedY));
+    //            projMoveC->SetMoving(true);
+    //        }
+
+    projMoveC->SetMoving(true);
+    Opt<IOwnerComponent> ownerC=Proj.Get<IOwnerComponent>();
+    if (ownerC.IsValid())
+    {
+        ownerC->SetOwnerGUID(actor.GetGUID());
     }
 }
 

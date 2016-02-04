@@ -131,6 +131,7 @@
             type=platform::AutoId("rocket_launcher_target_projectile");
             type=platform::AutoId("laser_pointer_projectile");
             type=platform::AutoId("grenade_projectile");
+            type=platform::AutoId("blue_grenade_projectile");
             type=platform::AutoId("pow_projectile");
             type=platform::AutoId("lucky_rocket");
             type=platform::AutoId("lucky_rocket_projectile");

@@ -32,6 +32,7 @@
 #include "items/gatling_gun_weapon_sub_system.h"
 #include "items/gauss_gun_weapon_sub_system.h"
 #include "items/lucky_rocket_weapon_subsystem.h"
+#include "items/blue_grenade_normal_item_sub_system.h"
 
 
 using platform::AutoId;
@@ -51,6 +52,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId("flash_normal_item_sub_system"), &CreateSubSystem<FlashNormalItemSubSystem>);
     Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
     Bind( AutoId("cloak_normal_item_sub_system"), &CreateSubSystem<CloakNormalItemSubSystem>);
+    Bind( AutoId("blue_grenade_normal_item_sub_system"), &CreateSubSystem<BlueGrenadeNormalItemSubSystem>);
 
     Bind( AutoId("weapon_item_sub_system"), &CreateSubSystem<WeaponItemSubSystem>);
     Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);

@@ -14,6 +14,9 @@ public:
     GrenadeNormalItemSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
+
+    static void SetGrenadeProperties(Actor& Proj, Actor& actor);
+
 private:
     Scene& mScene;
     Opt<NormalItemSubSystem> mNormalItemSubSystem;

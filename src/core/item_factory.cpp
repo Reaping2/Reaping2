@@ -11,6 +11,7 @@
 #include "gatling_gun.h"
 #include "gauss_gun.h"
 #include "lucky_rocket.h"
+#include "blue_grenade_normal_item.h"
 
 ItemFactory::ItemFactory()
 {
@@ -28,5 +29,5 @@ ItemFactory::ItemFactory()
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
     Bind<FlashNormalItem>(AutoId("flash_normal_item"));
     Bind<CloakNormalItem>(AutoId("cloak_normal_item"));
-
+    Bind<BlueGrenadeNormalItem>(AutoId("blue_grenade_normal_item"));
 }
