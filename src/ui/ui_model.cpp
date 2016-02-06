@@ -46,6 +46,10 @@ void UiModel::Add( std::string const& name, int32_t val )
 {
     Val& v = mValues[ name ];
     v.base += val;
+    if( v.base < 0 )
+    {
+        v.base = 0;
+    }
 }
 
 
