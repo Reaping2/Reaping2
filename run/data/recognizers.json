@@ -358,5 +358,15 @@
 			{"recognizer":"border",
 				"renderer":"border"}
 		]
+	},
+	{
+		"name":"concrete",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
 	}
 ]	
