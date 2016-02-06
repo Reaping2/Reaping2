@@ -42,7 +42,6 @@ namespace engine
         {
             IdToSend = mAltShotId;
             rocket=mActorFactory(mAltShotId);
-            // TODO: how to make it homing? this way faka
         }
         else
         {

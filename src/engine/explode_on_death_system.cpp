@@ -56,6 +56,10 @@ void ExplodeOnDeathSystem::FillExplosionProjectiles(IExplode& explode, Actor &ac
     for (int i=0;i<explode.GetCount();++i)
     {
         ps = mActorFactory(explode.GetExplosionProjectile());
+        if (ps->GetId()==-1)
+        {
+            continue;
+        }
         Opt<IOwnerComponent> actorOwnerC=actor.Get<IOwnerComponent>();
         Opt<IOwnerComponent> psOwnerC=ps->Get<IOwnerComponent>();
         if (actorOwnerC.IsValid()&&psOwnerC.IsValid())

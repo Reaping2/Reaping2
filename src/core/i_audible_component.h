@@ -8,7 +8,8 @@ struct AudibleEffectDesc {
     int32_t UID;
     int32_t Id;
     int32_t TTL;
-    AudibleEffectDesc( int32_t id );
+    bool AutoLoopUntilDeath;
+    AudibleEffectDesc( int32_t id, bool autoLoopUntilDeath=false );
 };
 
 class IAudibleComponent : public Component

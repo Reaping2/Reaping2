@@ -10,6 +10,7 @@
 #include "core/i_collision_component.h"
 #include "core/heal_taken_event.h"
 #include "core/actor_event.h"
+#include "core/i_audible_component.h"
 
 namespace engine {
 

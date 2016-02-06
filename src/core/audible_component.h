@@ -25,6 +25,7 @@ class AudibleComponentLoader : public ComponentLoader<AudibleComponent>
 protected:
     AudibleComponentLoader();
     friend class ComponentLoaderFactory;
+    std::vector<AudibleEffectDesc> mLoadDescs;
 };
 
 #endif//INCLUDED_CORE_AUDIBLE_COMPONENT_H

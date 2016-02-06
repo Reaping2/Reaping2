@@ -5,7 +5,7 @@
 
 GaussGun::GaussGun( int32_t Id )
     : Weapon( Id )
-    , mChargeTime( 0.4 )
+    , mChargeTime( 1.0 )
     , mCurrentCharge( 0.0 )
 {
     mScatter.mIncrease=15;

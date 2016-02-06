@@ -5,6 +5,7 @@
 #include "core/audible_event.h"
 #include "core/program_state.h"
 #include "i_audio.h"
+#include "core/actor_event.h"
 
 namespace audio {
 struct EffectInst
@@ -44,6 +45,9 @@ void AudioSystem::Update(double DeltaTime)
         {
             continue;
         }
+        std::for_each( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
+                [&]( AudibleEffectDesc& d ) { if( d.AutoLoopUntilDeath ) d.TTL=2; } );
+        
         Opt<IPositionComponent> posC=actor.Get<IPositionComponent>();
         glm::vec2 pos;
         if( posC.IsValid() )
@@ -66,16 +70,32 @@ void AudioSystem::Update(double DeltaTime)
                     []( AudibleEffectDesc const& d ) { return d.TTL <= 0; } ), std::end( audibleC->GetEffects() ) );
     }
     Effects_t alleffects( effects );
-    auto removedEffectsIt = std::remove_if( std::begin( prevEffects ), std::end( prevEffects ),
-            [&]( int32_t i ) { return std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == i; } ) == std::end( effects ); } );
-    std::vector<int32_t> removedEffects( removedEffectsIt, std::end( prevEffects ) );
-    prevEffects.erase( removedEffectsIt, std::end( prevEffects ) );
-    std::for_each( std::begin( removedEffects ), std::end( removedEffects ),
-            [&]( int32_t i ) { ap.Halt( i ); } );
-    std::for_each( std::begin( effects ), std::end( effects ),
-            [&]( EffectInst const& i ) { ap.Play( i.UID, i.Id, i.Pos ); } );
-}
+//    L1("prevEffects: ");std::for_each(std::begin(prevEffects),std::end(prevEffects), [&]( int32_t i ) { L1("%d ",i);});L1("\n");
+    std::vector<int32_t> removedEffects;
+    for(std::vector<int32_t>::iterator i=prevEffects.begin(); i!=prevEffects.end();)
+    {
+        if(std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == *i; } ) == std::end( effects ))
+        {
+            removedEffects.push_back(*i);
+            i=prevEffects.erase(i);
+        }
+        else
+        {
+            ++i;
+        }
+    }
 
+//     auto removedEffectsIt = std::remove_if( std::begin( prevEffects ), std::end( prevEffects ),
+//             [&]( int32_t i ) { return std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == i; } ) == std::end( effects ); } );
+//     std::vector<int32_t> removedEffects( removedEffectsIt, prevEffects.end() );
+//     L1("removedEffects: ");std::for_each(std::begin(removedEffects),std::end(removedEffects), [&]( int32_t i ) { L1("%d ",i);});L1("\n");
+//     L1("effects: ");std::for_each(std::begin(effects),std::end(effects), [&]( EffectInst const& i ) { L1("%d ",i.UID);});L1("\n");
+//    prevEffects.erase( removedEffectsIt, std::end( prevEffects ) );
+    std::for_each( std::begin( removedEffects ), std::end( removedEffects ),
+            [&]( int32_t i ) {     L1("halt for_each: %d\n",i); ap.Halt( i ); } );
+    std::for_each( std::begin( effects ), std::end( effects ),
+            [&]( EffectInst const& i ) { L1("play for_each: %d\n",i.UID);ap.Play( i.UID, i.Id, i.Pos ); } );
+}
 
 } // namespace audio
 

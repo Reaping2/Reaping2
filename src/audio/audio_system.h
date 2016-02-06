@@ -3,6 +3,7 @@
 
 #include "core/scene.h"
 #include "engine/system.h"
+#include "core/actor_event.h"
 
 namespace audio {
 

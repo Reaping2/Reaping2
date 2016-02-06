@@ -123,7 +123,7 @@
                 "set": [
                     {
                         "sounds":[
-                            { "name": "pistol_shot" }
+                            { "name": "pistol_single" }
                         ]
                     }
                 ]
@@ -222,6 +222,15 @@
                     "emit_type": "gatling_gun_particle"
                 }]
             }]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "gatling_shell_drop_short" }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -248,6 +257,15 @@
                     "emit_type": "gatling_gun_particle"
                 }]
             }]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "gatling_shell_drop_loop" }
+                        ]
+                    }
+                ]
             }
         ]
     },   
@@ -401,6 +419,15 @@
             },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":10.0}]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "ion"
+                            }]
+                    }
+                ]
             }
         ]
     },
@@ -428,6 +455,16 @@
             },
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":10.0}]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "ion_secondary",
+                            "loop_until_death": 1
+                            }]
+                    }
+                ]
             }
         ]
     },

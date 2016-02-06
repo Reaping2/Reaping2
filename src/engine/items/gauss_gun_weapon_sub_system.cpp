@@ -29,7 +29,7 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<GaussGun> weapon = inventoryC->GetSelectedWeapon();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-    if ( weapon->GetShootAlt() )
+    if ( weapon->GetShootAlt()&&weapon->GetCooldown()<=0.0 )
     {
         weapon->StartCharge();
     }
@@ -46,6 +46,16 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         return;
     }
 
+    if (weapon->IsCharging())
+    {
+        Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
+        if( ac.IsValid() )
+        {
+            static int32_t const loop = AutoId( "gauss_alt_charge" );
+            ac->AddLoopingEffect( loop );
+        }
+    }
+
     if ( moveC.IsValid() && !moveC->IsRooted() && weapon->IsCharging() )
     {
         Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
@@ -57,7 +67,7 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
             moveSpeedBuff->SetFlatBonus( 0 );
             moveSpeedBuff->SetPercentBonus( 0.0 );
             moveSpeedBuff->SetAutoRemove( true );
-            moveSpeedBuff->SetSecsToEnd( weapon->ChargeTime() );
+            moveSpeedBuff->SetSecsToEnd( weapon->ChargeTime()*1.1 );
             buffHolderC->AddBuff(buff);
         }
     }

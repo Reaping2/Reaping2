@@ -1,15 +1,19 @@
 [
     {
         "id": "plasma",
-        "file": "sounds/plasmagun.ogg"
+        "file": "sounds/plasma.ogg"
     },
     {
         "id": "plasma_alt",
-        "file": "sounds/plasmagunSecondary.ogg"
+        "file": "sounds/plasma_secondary.ogg"
     },
     {
         "id": "pistol_shot",
         "file": "sounds/pistol_shot.ogg"
+    },
+    {
+        "id": "pistol_single",
+        "file": "sounds/pistol_single.ogg"
     },
     {
         "id": "shotgun_projectile",
@@ -40,12 +44,49 @@
         "mode": 1
     },
     {
+        "id": "gatling_shot_loop",
+        "file": "sounds/gatling_shot_loop.ogg",
+        "interruptable": true,
+        "mode": 1
+    },
+    {
+        "id": "gatling_shell_drop_loop",
+        "file": "sounds/gatling_shell_drop_loop.ogg"
+    },
+    {
+        "id": "gatling_shell_drop_short",
+        "file": "sounds/gatling_shell_drop_short_2.ogg"
+    },
+    {
+        "id": "gatling_wind_loop",
+        "file": "sounds/gatling_wind_loop.ogg",
+        "interruptable": true,
+        "mode": 1
+    },
+    {
         "id": "gauss_shot",
         "file": "sounds/gauss.ogg"
     },
     {
         "id": "gauss_alt_shot",
         "file": "sounds/gauss.ogg"
+    },
+    {
+        "id": "gauss_alt_charge",
+        "file": "sounds/gauss_secondary.ogg",
+        "interruptable": true,
+        "mode": 1
+    },
+    {
+        "id": "ion_secondary",
+        "file": "sounds/ion_secondary.ogg",
+        "interruptable": true,
+        "mode": 1
+    },
+
+    {
+        "id": "ion",
+        "file": "sounds/ion.ogg"
     }
 ]
 

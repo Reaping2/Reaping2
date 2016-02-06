@@ -116,8 +116,10 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         if( ac.IsValid() )
         {
-            static int32_t const loop = AutoId( "gatling_loop" );
+            static int32_t const loop = AutoId( "gatling_shot_loop" );
+            static int32_t const windLoop = AutoId( "gatling_wind_loop" );
             ac->AddLoopingEffect( loop );
+            ac->AddLoopingEffect( windLoop );
         }
 
         WeaponItemSubSystem::Projectiles_t projectiles;
@@ -131,8 +133,10 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         if( ac.IsValid() )
         {
-            static int32_t const loop = AutoId( "gatling_loop" );
+            static int32_t const loop = AutoId( "gatling_shot_loop" );
+            static int32_t const windLoop = AutoId( "gatling_wind_loop" );
             ac->AddLoopingEffect( loop );
+            ac->AddLoopingEffect( windLoop );
         }
 
 
