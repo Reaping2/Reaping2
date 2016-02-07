@@ -31,14 +31,13 @@ struct ClientData
 {
     int32_t mClientId;
     Team::Type mTeam;
+    std::string mClientName;
     ClientData()
         :mClientId(0)
         ,mTeam(Team::Blue)
+        ,mClientName("")
     {
     }
-
-    ClientData(int32_t clientId, Team::Type team)
-        :mClientId(clientId),mTeam(team) {}
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -49,6 +48,7 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
 {
     ar & mClientId;
     ar & mTeam;
+    ar & mClientName;
 }
 class ProgramState : public platform::Singleton<ctf::ProgramState>
 {

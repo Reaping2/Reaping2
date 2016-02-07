@@ -92,7 +92,7 @@
 #include "cloak_system.h"
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
-#include "network/ctf_client_list_system.h"
+#include "network/ctf_client_list_displaying_system.h"
 #include "network/ffa_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/sync_item_message.h"
@@ -100,6 +100,7 @@
 #include "input/keyboard_adapter_system.h"
 #include "input/mouse_adapter_system.h"
 #include "network/waiting_start_system.h"
+#include "network/team_switch_request_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -179,8 +180,9 @@ SystemFactory::SystemFactory()
     Bind( AutoId("item_changed_message_sender_system"), &CreateSystem<network::ItemChangedMessageSenderSystem>);
     Bind( AutoId("cloak_changed_message_sender_system"), &CreateSystem<network::CloakChangedMessageSenderSystem>);
     Bind( AutoId("border_message_sender_system"), &CreateSystem<network::BorderMessageSenderSystem>);
+    Bind( AutoId("team_switch_request_message_sender_system"), &CreateSystem<network::TeamSwitchRequestMessageSenderSystem>);
 
-    Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
+    Bind( AutoId("ctf_client_list_displaying_system"), &CreateSystem<network::CtfClientListDisplayingSystem>);	
     Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);
     Bind( AutoId("waiting_system"), &CreateSystem<network::WaitingStartSystem>);
 

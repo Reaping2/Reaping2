@@ -34,6 +34,7 @@
 #include "border_message.h"
 #include "sync_item_message.h"
 #include "gamemode_selected_message.h"
+#include "team_switch_request_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -77,6 +78,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("border_message_handler_sub_system"), &CreateSubSystem<BorderMessageHandlerSubSystem>);
     Bind( AutoId("sync_item_message_handler_sub_system"), &CreateSubSystem<SyncItemMessageHandlerSubSystem>);
     Bind( AutoId("gamemode_selected_message_handler_sub_system"), &CreateSubSystem<GamemodeSelectedMessageHandlerSubSystem>);
+    Bind( AutoId("team_switch_request_message_handler_sub_system"), &CreateSubSystem<TeamSwitchRequestMessageHandlerSubSystem>);
 
 
 }

@@ -96,7 +96,7 @@
 				},
 				{
 					"type":"grid",
-					"source":"%ctf_client_list.red.names",
+					"source":"%ctf_client_list.rednames",
 					"startid":"#redidx",
 					"direction": "horizontal",
 					"color": "0xffffff",
@@ -119,7 +119,7 @@
                             "h":0.9,
                             "visible":1,
                             "enabled":1,
-                            "action":[["ctf_client_list.switch","%ctf_client_list.red.names#redidx"]],
+                            "action":[["ctf_client_list.switch","%ctf_client_list.rednames#redidx"]],
                             "children":
                             [
                                 {
@@ -131,7 +131,7 @@
                                     "w":1.0,
                                     "h":1.0,
                                     "enabled": 0,
-                                    "text":"%ctf_client_list.red.names#redidx",
+                                    "text":"%ctf_client_list.rednames#redidx",
                                     "fontsize": 6
                                 }
                             ]
@@ -194,7 +194,7 @@
 				},
                 {
                     "type":"grid",
-                    "source":"%ctf_client_list.blue.names",
+                    "source":"%ctf_client_list.bluenames",
                     "startid":"#blueidx",
                     "direction": "horizontal",
                     "color": "0xffffff",
@@ -217,7 +217,7 @@
                             "h":0.9,
                             "visible":1,
                             "enabled":1,
-                            "action":[["ctf_client_list.switch","%ctf_client_list.blue.names#blueidx"]],
+                            "action":[["ctf_client_list.switch","%ctf_client_list.bluenames#blueidx"]],
                             "children":
                             [
                                 {
@@ -229,7 +229,7 @@
                                     "w":1.0,
                                     "h":1.0,
                                     "enabled": 0,
-                                    "text":"%ctf_client_list.blue.names#blueidx",
+                                    "text":"%ctf_client_list.bluenames#blueidx",
                                     "fontsize": 6
                                 }
                             ]

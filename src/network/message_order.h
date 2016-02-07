@@ -43,6 +43,7 @@
 #include "core/buffs/cloak_buff.h"
 #include "border_message.h"
 #include "gamemode_selected_message.h"
+#include "team_switch_request_message.h"
 
 
     struct message_order
@@ -84,6 +85,7 @@
             type=network::BorderMessage::GetType_static();
             type=network::SyncItemMessage::GetType_static();
             type=network::GamemodeSelectedMessage::GetType_static();
+            type=network::TeamSwitchRequestMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -172,6 +174,7 @@
     BOOST_CLASS_EXPORT_GUID(network::BorderMessage, "border")
     BOOST_CLASS_EXPORT_GUID(network::SyncItemMessage, "sync_item")
     BOOST_CLASS_EXPORT_GUID(network::GamemodeSelectedMessage, "gamemode_selected_message")
+    BOOST_CLASS_EXPORT_GUID(network::TeamSwitchRequestMessage, "team_switch_request")
 
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

@@ -12,6 +12,7 @@
 #include "engine/buffs_engine/accuracy_buff_sub_system.h"
 #include "accuracy_message.h"
 #include "network/client_datas_message.h"
+#include "network/client_ready_event.h"
 
 namespace network {
 
@@ -88,9 +89,22 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
 	// put client name here into client_list
     if (mProgramState.mMode==ProgramState::Server)
     {
+        // TODO: need to checl teh ready flag?
+        // TODO: send message to clients too to store id <-> name
+        // or store naming in server too?
+        ClientReadyEvent event;
+        event.mClientId = clientData->mClientId;
+        event.mClientName = clientData->mClientName;
+        assert( clientData->mReady );
+        EventServer<ClientReadyEvent>::Get().SendEvent(event);
+        // TODO: send an event here with the new players data:
+        // name, id : ClientReadyEvent and catccch that in 
+        // ctf_client_list_handling_system
+        /*
         std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
+        */
     }
 }
 
