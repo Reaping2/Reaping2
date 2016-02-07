@@ -50,25 +50,21 @@ std::vector<std::string> CtfClientListDisplayingSystem::RedNames()
 
 void CtfClientListDisplayingSystem::OnCtfClientDatasChanged( CtfClientDatasChangedEvent const& event )
 {
-    ::ctf::ProgramState::ClientDatas_t const& clients = event.mCtfClientDatas;
-    std::vector<std::string> tmpnames;
-    for ( size_t i = 0; i < clients.size(); i++ )
+    mCtfClientDatas = event.mCtfClientDatas;
+    std::vector<std::string> tmpRedNames, tmpBlueNames;
+    for ( size_t i = 0; i < mCtfClientDatas.size(); i++ )
     {
-        if ( Team::Red == clients[i].mTeam )
+        if ( Team::Red == mCtfClientDatas[i].mTeam )
         {
-            tmpnames.push_back( clients[i].mClientName );
+            tmpRedNames.push_back( mCtfClientDatas[i].mClientName );
+        }
+        else
+        {
+            tmpBlueNames.push_back( mCtfClientDatas[i].mClientName );
         }
     }
-    mRedNames.swap( tmpnames );
-    tmpnames.clear();
-    for ( size_t i = 0; i < clients.size(); i++ )
-    {
-        if ( Team::Blue == clients[i].mTeam )
-        {
-            tmpnames.push_back( clients[i].mClientName );
-        }
-    }
-    mBlueNames.swap( tmpnames );
+    mRedNames.swap( tmpRedNames );
+    mBlueNames.swap( tmpBlueNames );
 }
 
 void CtfClientListDisplayingSystem::SwitchTeam( std::string const & player )

@@ -4,6 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include "network/team_switch_request_event.h"
 
 namespace network {
 
@@ -11,6 +12,7 @@ class TeamSwitchRequestMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
+    int32_t mClientId;
     DEFINE_MESSAGE_BASE(TeamSwitchRequestMessage)
     TeamSwitchRequestMessage()
     {
@@ -23,6 +25,7 @@ template<class Archive>
 void TeamSwitchRequestMessage::serialize(Archive& ar, const unsigned int version)
 {
     ar & boost::serialization::base_object<Message>(*this);
+    ar & mClientId;
 }
 
 class TeamSwitchRequestMessageHandlerSubSystem : public MessageHandlerSubSystem
@@ -37,6 +40,8 @@ public:
 
 class TeamSwitchRequestMessageSenderSystem : public MessageSenderSystem
 {
+    AutoReg mOnTeamSwitchRequestEvent;
+    void OnTeamSwitchRequest( TeamSwitchRequestEvent const& event );
 public:
     DEFINE_SYSTEM_BASE(TeamSwitchRequestMessageSenderSystem)
     TeamSwitchRequestMessageSenderSystem();

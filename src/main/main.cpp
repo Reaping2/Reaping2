@@ -221,6 +221,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
         Eng.AddSystem(AutoId("border_message_sender_system"));
         Eng.AddSystem(AutoId("sync_item_message_sender_system"));
+        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("ctf_client_list_handling_system"));
     }
     if (programState.mMode==ProgramState::Client) 
@@ -232,7 +233,6 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("revive_message_sender_system"));
         Eng.AddSystem(AutoId("ctf_client_list_displaying_system"));
         Eng.AddSystem(AutoId("ffa_client_list_system"));
-        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("gamemode_selected_message_sender_system"));
         Eng.AddSystem(AutoId("waiting_system"));
         Eng.AddSystem(AutoId("team_switch_request_message_sender_system"));
