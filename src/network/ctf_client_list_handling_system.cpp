@@ -5,20 +5,6 @@
 #include "client_ready_event.h"
 #include <algorithm>
 
-// TODO: register? systemfactoy?
-
-// TODO:
-// client:
-// - stores list: red (stirnglist) and blue(stringlist), name to id mapping
-// - sends team switch request if clicked item id is own id: event+message
-// - receives team setup
-// - implememts getter for team names
-//
-// server:
-// - stores team setup: list <id, name, team>
-// - handles team switch request: no team of 0 size is allowed
-// - sends team setup
-
 namespace network {
 
 
