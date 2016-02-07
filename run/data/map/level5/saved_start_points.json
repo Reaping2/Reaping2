@@ -1,0 +1,130 @@
+[
+   {
+      "name" : "ctf_flag_spawn_point",
+      "position" : {
+         "x" : 0,
+         "y" : 1750
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_flag_spawn_point",
+      "position" : {
+         "x" : 0,
+         "y" : -1750
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -559,
+         "y" : -2454
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 544,
+         "y" : -2441
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -1307,
+         "y" : -1798
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 1083,
+         "y" : -1701
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 800,
+         "y" : -1143
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -795,
+         "y" : -1147
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -12,
+         "y" : -697
+      },
+      "team" : "blue"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 11,
+         "y" : 723
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -807,
+         "y" : 1152
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 794,
+         "y" : 1175
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -545,
+         "y" : 2452
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 545,
+         "y" : 2457
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : 1036,
+         "y" : 1587
+      },
+      "team" : "red"
+   },
+   {
+      "name" : "ctf_soldier_spawn_point",
+      "position" : {
+         "x" : -1253,
+         "y" : 2054
+      },
+      "team" : "red"
+   }
+]
