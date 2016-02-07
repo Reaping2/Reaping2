@@ -8,6 +8,7 @@ namespace ctf {
 ClientDatasMessageSenderSystem::ClientDatasMessageSenderSystem()
     : MessageSenderSystem()
 {
+    mOnCtfClientDatasChanged = platform::EventServer<CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &ClientDatasMessageSenderSystem::OnCtfClientDatasChangedEvent, this, _1 ) );
 }
 
 

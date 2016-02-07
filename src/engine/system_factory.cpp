@@ -93,6 +93,7 @@
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
 #include "network/ctf_client_list_displaying_system.h"
+#include "network/ctf_client_list_handling_system.h"
 #include "network/ffa_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/sync_item_message.h"
@@ -183,6 +184,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("team_switch_request_message_sender_system"), &CreateSystem<network::TeamSwitchRequestMessageSenderSystem>);
 
     Bind( AutoId("ctf_client_list_displaying_system"), &CreateSystem<network::CtfClientListDisplayingSystem>);	
+    Bind( AutoId("ctf_client_list_handling_system"), &CreateSystem<network::CtfClientListHandlingSystem>);	
     Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);
     Bind( AutoId("waiting_system"), &CreateSystem<network::WaitingStartSystem>);
 

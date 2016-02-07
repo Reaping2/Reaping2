@@ -38,7 +38,7 @@ public:
 
 class ClientDatasMessageSenderSystem : public MessageSenderSystem
 {
-    AutoReg mOnCtfClientDatasChangedEvent;
+    AutoReg mOnCtfClientDatasChanged;
     void OnCtfClientDatasChangedEvent( CtfClientDatasChangedEvent const & evt );
 public:
     DEFINE_SYSTEM_BASE(::network::ctf::ClientDatasMessageSenderSystem)
