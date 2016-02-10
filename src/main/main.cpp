@@ -233,6 +233,8 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("modify_audible_component_message_sender_system"));
         Eng.AddSystem(AutoId("flag_state_changed_message_sender_system"));
         Eng.AddSystem(AutoId("fade_out_message_sender_system"));
+        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
+        Eng.AddSystem(AutoId("ctf_client_list_handling_system"));
 
     }
     if (programState.mMode==ProgramState::Client) 
@@ -242,9 +244,11 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
-        Eng.AddSystem(AutoId("ctf_client_list_system"));
+        Eng.AddSystem(AutoId("ctf_client_list_displaying_system"));
         Eng.AddSystem(AutoId("ffa_client_list_system"));
-        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
+        Eng.AddSystem(AutoId("gamemode_selected_message_sender_system"));
+        Eng.AddSystem(AutoId("waiting_system"));
+        Eng.AddSystem(AutoId("team_switch_request_message_sender_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 
@@ -321,6 +325,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ModifyAudibleComponentMessage::GetType_static(),AutoId("modify_audible_component_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::GamemodeSelectedMessage::GetType_static(),AutoId("gamemode_selected_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::TeamSwitchRequestMessage::GetType_static(),AutoId("team_switch_request_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

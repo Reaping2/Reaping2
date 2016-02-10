@@ -35,6 +35,7 @@
 #include "network/pickup_message.h"
 #include "network/ping_message.h"
 #include "network/revive_message.h"
+#include "network/gamemode_selected_message.h"
 #include "explosion_system.h"
 #include "stop_on_death_system.h"
 #include "target_holder_system.h"
@@ -91,7 +92,8 @@
 #include "cloak_system.h"
 #include "network/cloak_changed_message.h"
 #include "network/border_message.h"
-#include "network/ctf_client_list_system.h"
+#include "network/ctf_client_list_displaying_system.h"
+#include "network/ctf_client_list_handling_system.h"
 #include "network/ffa_client_list_system.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/sync_item_message.h"
@@ -105,6 +107,8 @@
 #include "network/modify_audible_component_message.h"
 #include "network/flag_state_changed_message.h"
 #include "network/fade_out_message.h"
+#include "network/waiting_start_system.h"
+#include "network/team_switch_request_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -190,9 +194,12 @@ SystemFactory::SystemFactory()
     Bind( AutoId("modify_audible_component_message_sender_system"), &CreateSystem<network::ModifyAudibleComponentMessageSenderSystem>);
     Bind( AutoId("flag_state_changed_message_sender_system"), &CreateSystem<network::FlagStateChangedMessageSenderSystem>);
     Bind( AutoId("fade_out_message_sender_system"), &CreateSystem<network::FadeOutMessageSenderSystem>);
+    Bind( AutoId("team_switch_request_message_sender_system"), &CreateSystem<network::TeamSwitchRequestMessageSenderSystem>);
 
-    Bind( AutoId("ctf_client_list_system"), &CreateSystem<network::CtfClientListSystem>);	
+    Bind( AutoId("ctf_client_list_displaying_system"), &CreateSystem<network::CtfClientListDisplayingSystem>);	
+    Bind( AutoId("ctf_client_list_handling_system"), &CreateSystem<network::CtfClientListHandlingSystem>);	
     Bind( AutoId("ffa_client_list_system"), &CreateSystem<network::FfaClientListSystem>);
+    Bind( AutoId("waiting_system"), &CreateSystem<network::WaitingStartSystem>);
 
     Bind( AutoId("target_holder_system"), &CreateSystem<TargetHolderSystem>);
     Bind( AutoId("removed_actors_system"), &CreateSystem<RemovedActorsSystem>);
@@ -232,6 +239,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
     Bind( AutoId("audio_system"), &CreateSystem<audio::AudioSystem>);
+    Bind( AutoId("gamemode_selected_message_sender_system"), &CreateSystem<network::GamemodeSelectedMessageSenderSystem>);
 }
 
 } // namespace engine

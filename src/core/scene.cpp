@@ -11,6 +11,7 @@
 #include "core/renderable_layer.h"
 #include "core/i_remove_on_death_component.h"
 #include "core/target_player_controller_component.h"
+#include "core/gamemode_selected_event.h"
 #include "actor_event.h"
 #include "player_controller_component.h"
 #include "program_state.h"
@@ -98,6 +99,8 @@ Scene::Scene()
     , mPlayerModel( "player", &RootModel::Get() )
     , mLevelModel( "level", &RootModel::Get() )
     , mSelectLevelModel( StringFunc( this, &Scene::SelectLevel ), "select", &mLevelModel )
+    , mGameModeModel( "gamemode", &RootModel::Get() )
+    , mSelectGameModeModel( StringFunc( this, &Scene::SelectGameMode ), "select", &mGameModeModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
 {
@@ -310,6 +313,7 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
+    RootModel::Get()["lifecycle.host"]();
 }
 
 std::string Scene::GetSelectedLevel()
@@ -328,3 +332,15 @@ void Scene::InsertNewActors()
     mNewActors.clear();
 }
 
+void Scene::SelectGameMode( std::string const& GameMode )
+{
+    mSelectedGameMode = GameMode;
+    core::GamemodeSelectedEvent event;
+    event.mGameMode = mSelectedGameMode;
+    EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );
+}
+
+std::string Scene::GetSelectedGameMode()
+{
+    return mSelectedGameMode;
+}

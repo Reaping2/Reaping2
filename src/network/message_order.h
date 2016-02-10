@@ -45,6 +45,8 @@
 #include "secs_to_revive_message.h"
 #include "flag_state_changed_message.h"
 #include "platform/rstdint.h"
+#include "gamemode_selected_message.h"
+#include "team_switch_request_message.h"
 
 
     struct message_order
@@ -89,6 +91,8 @@
             type=network::ModifyAudibleComponentMessage::GetType_static();
             type=network::FlagStateChangedMessage::GetType_static();
             type=network::FadeOutMessage::GetType_static();
+            type=network::GamemodeSelectedMessage::GetType_static();
+            type=network::TeamSwitchRequestMessage::GetType_static();
 
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
@@ -181,5 +185,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ModifyAudibleComponentMessage, "modify_audible_component")
     BOOST_CLASS_EXPORT_GUID(network::FlagStateChangedMessage, "flag_state_changed")
     BOOST_CLASS_EXPORT_GUID(network::FadeOutMessage, "fade_out")
+    BOOST_CLASS_EXPORT_GUID(network::GamemodeSelectedMessage, "gamemode_selected_message")
+    BOOST_CLASS_EXPORT_GUID(network::TeamSwitchRequestMessage, "team_switch_request")
 
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

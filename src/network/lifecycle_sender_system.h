@@ -18,7 +18,7 @@ public:
     LifecycleSenderSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
-    void Host(std::string const& mode);
+    void Host();
 };
 
 } // namespace network

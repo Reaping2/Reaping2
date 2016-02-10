@@ -17,7 +17,6 @@ struct ClientData
     int32_t mDeath;
     int32_t mAssist; // not used yet
     int32_t mScore;
-    bool mReady;
     ClientData();
 
     ClientData(int32_t clientId, std::string const& clientName);
@@ -38,7 +37,6 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
     ar & mDeath;
     ar & mAssist;
     ar & mScore;
-    ar & mReady;
 }
 class ProgramState : public platform::Singleton<ProgramState>
 {

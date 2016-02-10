@@ -22,7 +22,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["ui.load","ffa_client_list"]],
+					"action":[["ui.load","select_level"],["gamemode.select","ffa"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -48,7 +48,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["ui.load","ctf_client_list"]],
+					"action":[["ui.load","select_level"],["gamemode.select","ctf"]],
 					"children":[
 						{
 							"type":"text_widget",
