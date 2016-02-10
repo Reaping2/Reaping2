@@ -4,6 +4,8 @@
 #include "ui/ui.h"
 #include <boost/bind.hpp>
 
+#error THE JSON FOR THIS APPEARS IN LOCAL GAMEMODE AS WELL
+
 namespace network {
 using platform::RootModel;
 

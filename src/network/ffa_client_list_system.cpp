@@ -26,10 +26,10 @@ std::vector<std::string> FfaClientListSystem::clients()
 void FfaClientListSystem::OnClientListChanged( ClientListChangedEvent const & event )
 {
     core::ProgramState::ClientDatas_t const & clients = event.mClientList;
-    std::vector<std::string> readyClients;
+    std::vector<std::string> clientList;
     std::for_each( clients.begin(), clients.end(),
-            boost::bind<void>([]( core::ClientData const & d, std::vector<std::string> & c ){ if ( d.mReady ) { c.push_back(d.mClientName); } }, _1, boost::ref(readyClients)));
-    std::swap(readyClients, mClientList);
+            boost::bind<void>([]( core::ClientData const & d, std::vector<std::string> & c ){ c.push_back(d.mClientName); }, _1, boost::ref(clientList)));
+    std::swap(clientList, mClientList);
 }
 
 }

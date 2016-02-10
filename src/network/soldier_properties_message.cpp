@@ -83,28 +83,23 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
     }
 
     clientData->mSoldierProperties=msg.mSoldierProperties;
-    clientData->mReady = true;
     L1("**** Client: %s properties arrived. Ready to fight!!! **** from id: %d \n", clientData->mClientName.c_str(),msg.mSenderId );
     L1("   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", msg.mSoldierProperties.mMoveSpeed, msg.mSoldierProperties.mHealth, msg.mSoldierProperties.mAccuracy );
 	// put client name here into client_list
     if (mProgramState.mMode==ProgramState::Server)
     {
-        // TODO: need to checl teh ready flag?
         // TODO: send message to clients too to store id <-> name
         // or store naming in server too?
         ClientReadyEvent event;
         event.mClientId = clientData->mClientId;
         event.mClientName = clientData->mClientName;
-        assert( clientData->mReady );
         EventServer<ClientReadyEvent>::Get().SendEvent(event);
         // TODO: send an event here with the new players data:
         // name, id : ClientReadyEvent and catccch that in 
         // ctf_client_list_handling_system
-        /*
         std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
-        */
     }
 }
 
