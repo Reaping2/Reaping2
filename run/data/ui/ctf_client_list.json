@@ -23,7 +23,7 @@
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
-					"action":[["lifecycle.host","ctf"]],
+					"action":[["lifecycle.host"]],
 					"children":
 					[
 						{
