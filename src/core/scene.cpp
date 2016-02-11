@@ -103,6 +103,8 @@ Scene::Scene()
     , mSelectGameModeModel( StringFunc( this, &Scene::SelectGameMode ), "select", &mGameModeModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
+    , mSelectedLevel("")
+    , mSelectedGameMode("")
 {
 }
 
@@ -313,7 +315,14 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
-    RootModel::Get()["lifecycle.host"]();
+    if ( mSelectedGameMode == "ctf" )
+    {
+        Ui::Get().Load("ctf_client_list");
+    }
+    else if ( mSelectedGameMode == "ffa" )
+    {
+        Ui::Get().Load("ffa_client_list");
+    }
 }
 
 std::string Scene::GetSelectedLevel()
