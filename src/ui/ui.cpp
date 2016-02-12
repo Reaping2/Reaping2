@@ -60,7 +60,7 @@ Ui::Ui()
     mOnReleaseId = EventServer<UiMouseReleaseEvent>::Get().Subscribe( boost::bind( &Ui::OnMouseReleaseEvent, this, _1 ) );
     mOnMoveId = EventServer<UiMouseMoveEvent>::Get().Subscribe( boost::bind( &Ui::OnMouseMoveEvent, this, _1 ) );
     mOnInputId = EventServer<engine::InputStateChangedEvent>::Get().Subscribe( boost::bind( &Ui::OnInputStateChangedEvent, this, _1 ) );
-    Load( "start" );
+    Load( "start_nothing" );
 }
 
 void Ui::OnMousePressEvent( UiMousePressEvent const& Evt )

@@ -42,6 +42,18 @@ namespace core {
         return Opt<ClientData>();
     }
 
+    Opt<ClientData> ProgramState::FindClientDataByClientName(std::string clientName)
+    {
+        for (ClientDatas_t::iterator i=mClientDatas.begin(), e=mClientDatas.end();i!=e;++i)
+        {
+            if (i->mClientName==clientName)
+            {
+                return Opt<ClientData>(&*i);
+            }
+        }
+        return Opt<ClientData>();
+    }
+
 
     ClientData::ClientData() 
         :mClientId(0)
@@ -51,6 +63,7 @@ namespace core {
         ,mAssist(0)
         ,mScore(0)
         ,mReady(false)
+        ,mConnected(true)
     {
 
     }
@@ -64,6 +77,7 @@ namespace core {
         ,mAssist(0)
         ,mScore(0)
         ,mReady(false)
+        ,mConnected(true)
     {
 
     }

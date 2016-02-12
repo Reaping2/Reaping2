@@ -13,8 +13,9 @@ struct SoldierProperties
     int32_t mHealth;
 
     int32_t mPoints;
+    bool mArrived;  //has properties from client
     SoldierProperties()
-        :mMoveSpeed(0),mAccuracy(0),mHealth(0),mPoints(30)
+        :mMoveSpeed(0),mAccuracy(0),mHealth(0),mPoints(30),mArrived(false)
     {
     }
     template<class Archive>
@@ -29,6 +30,7 @@ void SoldierProperties::serialize(Archive& ar, const unsigned int version)
     ar & mAccuracy;
     ar & mHealth;
     ar & mPoints;
+    ar & mArrived;
 }
 
 } // namespace core

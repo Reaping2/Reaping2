@@ -19,6 +19,8 @@
 #include "client_datas_message.h"
 #include "engine/soldier_spawn_system.h"
 #include "core/start_game_mode_event.h"
+#include "engine/engine.h"
+#include "main/window.h"
 
 namespace network {
 
@@ -37,21 +39,41 @@ namespace network {
     {
         LifecycleMessage const& msg=static_cast<LifecycleMessage const&>(message);
         L1("executing lifecycle: state: %d \n",msg.mState );
-        if (mProgramState.mMode==ProgramState::Client)
+        if (mProgramState.mMode==ProgramState::Client
+            &&(msg.mClientId==-1||msg.mClientId==mProgramState.mClientId))
         {
-            EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mMode ));
+            if (msg.mState==LifecycleMessage::Start)
+            {
+                EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
+            }
+            else if (msg.mState==LifecycleMessage::WaitingForHost)
+            {
+                Ui::Get().Load("waiting_start");
+            }
+            else if (msg.mState==LifecycleMessage::SoldierProperties)
+            {
+                Ui::Get().Load("soldier_properties");
+            }
+            else if (msg.mState==LifecycleMessage::AlreadyConnected)
+            {
+                L1("\n\n\n\nAlready connected. If you lost connection please try reconnecting later! *** One Love!\n");
+                engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
+            }
         }
-        else
+        else if (mProgramState.mMode==ProgramState::Server)
         {
-            mScene.SelectLevel(msg.mLevel);
-            EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mMode ));
-            std::auto_ptr<network::LifecycleMessage> lifecycleMsg(new network::LifecycleMessage);
-            lifecycleMsg->mState=msg.mState;
-            lifecycleMsg->mMode=msg.mMode;
-            mMessageHolder.AddOutgoingMessage(lifecycleMsg);
-            std::auto_ptr<network::ClientDatasMessage> clientDatasMsg(new network::ClientDatasMessage);
-            clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
-            mMessageHolder.AddOutgoingMessage(clientDatasMsg);
+            if (msg.mState==LifecycleMessage::Start)
+            {
+                mScene.SelectLevel(msg.mSelectedLevel);
+                EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
+                std::auto_ptr<network::LifecycleMessage> lifecycleMsg(new network::LifecycleMessage);
+                lifecycleMsg->mState=msg.mState;
+                lifecycleMsg->mGameMode=msg.mGameMode;
+                mMessageHolder.AddOutgoingMessage(lifecycleMsg);
+                std::auto_ptr<network::ClientDatasMessage> clientDatasMsg(new network::ClientDatasMessage);
+                clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
+                mMessageHolder.AddOutgoingMessage(clientDatasMsg);
+            }
         }
     }
 

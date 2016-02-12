@@ -1,0 +1,16 @@
+{
+    "type":"root",
+    "children":[
+        {
+            "type":"fixed_ratio_container",
+            "x":0.0,
+            "y":0.0,
+            "w":1.0,
+            "h":1.0,
+            "align_h":"center",
+            "align_v":"center",
+            "visible":0,
+            "enabled":0
+        }
+    ]
+}

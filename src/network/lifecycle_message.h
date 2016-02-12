@@ -13,12 +13,20 @@ namespace network {
         enum State
         {
             Start=0,
-            Restart,
-            Exit
+            SoldierProperties,
+            WaitingForHost,
+            AlreadyConnected
         };
         State mState;
-        std::string mMode;
-        std::string mLevel;
+        std::string mGameMode;
+        std::string mSelectedLevel;
+        int32_t mClientId;
+        LifecycleMessage()
+            :mState(Start)
+            ,mGameMode()
+            ,mSelectedLevel()
+            ,mClientId(-1)
+        {}
         template<class Archive>
         void serialize(Archive& ar, const unsigned int version);
     };
@@ -28,8 +36,9 @@ namespace network {
     {
         ar & boost::serialization::base_object<Message>(*this);
         ar & mState;
-        ar & mMode;
-        ar & mLevel;
+        ar & mGameMode;
+        ar & mSelectedLevel;
+        ar & mClientId;
     }
 
 } // namespace network

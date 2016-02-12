@@ -18,6 +18,7 @@ struct ClientData
     int32_t mAssist; // not used yet
     int32_t mScore;
     bool mReady;
+    bool mConnected;
     ClientData();
 
     ClientData(int32_t clientId, std::string const& clientName);
@@ -39,6 +40,7 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
     ar & mAssist;
     ar & mScore;
     ar & mReady;
+    ar & mConnected;
 }
 class ProgramState : public platform::Singleton<ProgramState>
 {
@@ -76,6 +78,7 @@ public:
     ClientDatas_t mClientDatas;
     Opt<ClientData> FindClientDataByClientId(int32_t clientId); 
     Opt<ClientData> FindClientDataByActorGUID(int32_t actorGUID); 
+    Opt<ClientData> FindClientDataByClientName(std::string clientName); 
 };
 } // namespace core
 #endif//INCLUDED_CORE_PROGRAM_STATE_H

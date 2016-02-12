@@ -17,6 +17,7 @@ LocalSystem::LocalSystem()
 
 void LocalSystem::Init()
 {
+    Ui::Get().Load("start");
 }
 
 
