@@ -16,7 +16,20 @@ protected:
     friend class ComponentFactory;
     CollisionClass::Type mCollisionClassType;
     double mRadius;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void CollisionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<ICollisionComponent>(*this);
+    ar & mCollisionClassType;
+    ar & mRadius;
+}
 
 class CollisionComponentLoader: public ComponentLoader<CollisionComponent>
 {

@@ -8,6 +8,14 @@ NormalItem::NormalItem(int32_t Id)
     mType = ItemType::Normal;
 }
 
+NormalItem::NormalItem()
+    : Item()
+    , mUse(false)
+    , mConsumed(false)
+{
+
+}
+
 void NormalItem::SetUse(bool use)
 {
     mUse=use;

@@ -4,7 +4,7 @@
 #include "collision_component.h"
 #include "core/property_loader.h"
 #include <set>
-
+#include <boost/serialization/set.hpp>
 class AoeCollisionComponent : public CollisionComponent
 {
 public:
@@ -22,7 +22,21 @@ protected:
     bool mDamageOnce;
     int32_t mDamage;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void AoeCollisionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<CollisionComponent>(*this);
+    ar & mDamagedActorIds;
+    ar & mDamageOnce;
+    ar & mDamage;
+}
 
 class AoeCollisionComponentLoader : public ComponentLoader<AoeCollisionComponent>
 {

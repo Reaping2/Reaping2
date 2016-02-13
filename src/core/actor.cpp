@@ -43,3 +43,13 @@ void Actor::SetId( int32_t Id )
 {
     mId=Id;
 }
+
+void Actor::SetGUID(int32_t guid)
+{
+    mGUID=guid;
+}
+
+int32_t Actor::GetGUID() const
+{
+    return mGUID;
+}

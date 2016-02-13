@@ -17,7 +17,19 @@ protected:
     friend class AudibleComponentLoader;
     std::vector<AudibleEffectDesc> mEffects;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void AudibleComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IAudibleComponent>(*this);
+    ar & mEffects;
+}
 
 class AudibleComponentLoader : public ComponentLoader<AudibleComponent>
 {

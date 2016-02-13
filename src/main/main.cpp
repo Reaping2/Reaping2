@@ -70,6 +70,11 @@
 #include "network/flag_state_changed_message.h"
 #include "network/fade_out_message.h"
 #include "platform/init.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
+#include <iosfwd>
+#include "core/component_factory.h"
+
 
 using engine::Engine;
 namespace {
@@ -444,6 +449,21 @@ int main(int argc, char* argv[])
     L1("ctf_client_datas_message type: %d\n",network::ctf::ClientDatasMessage::GetType_static());
     L1("client_datas_message type: %d\n",network::ClientDatasMessage::GetType_static());
     L1("soldier_properties_message type: %d\n",network::SoldierPropertiesMessage::GetType_static());
+
+
+    std::auto_ptr<Component> cloakC=ComponentFactory::Get()(AutoId("cloak_component"));
+    static_cast<CloakComponent*>(cloakC.get())->SetActive(true);
+    std::ostringstream oss;
+    eos::portable_oarchive oa(oss);
+    oa & *cloakC.get();
+    std::string astr(oss.str());
+
+    std::istringstream iss(astr);
+    eos::portable_iarchive ia(iss);
+    Component retC;
+    ia >> retC;
+    CloakComponent& cc=static_cast<CloakComponent&>(retC);
+
     while( IsMainRunning )
     {
         Curtime = glfwGetTime();

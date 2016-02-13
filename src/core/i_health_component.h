@@ -25,6 +25,17 @@ public:
     virtual int32_t GetLastDamageOwnerGUID()const=0;
 protected:
     friend class ComponentFactory;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IHealthComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_HEALTH_COMPONENT_H

@@ -328,3 +328,56 @@ void Scene::InsertNewActors()
     mNewActors.clear();
 }
 
+ActorList_t const& Scene::GetActors() const
+{
+    return mActorHolder.mAllActors;
+}
+
+ActorList_t& Scene::GetActors()
+{
+    return mActorHolder.mAllActors;
+}
+
+void Scene::SetActors(ActorList_t& actors)
+{
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        mActorHolder.mAllActors.insert( *it );
+    }
+    mNewActors.clear();
+
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    {
+        delete (*it).Get();
+    }
+    mActorHolder.mAllActors.clear();
+    mActorHolder.mAllActors = actors;
+}
+
+void Scene::ClearActors( bool withEvents/*=true*/ )
+{
+    mPaused = false;
+    
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        if (withEvents)
+        {
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        }
+        L2("new actor inserted at Clear (GUID:%d)\n",(*it)->GetGUID());
+        mActorHolder.mAllActors.insert( *it );
+    }
+    mNewActors.clear();
+
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    {
+        if (withEvents)
+        {
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+        }
+        L2("actor deleted at Clear (GUID:%d)\n",(*it)->GetGUID());
+        delete (*it).Get();
+    }
+    mActorHolder.mAllActors.clear();
+}
+

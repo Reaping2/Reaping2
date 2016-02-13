@@ -18,7 +18,20 @@ protected:
     friend class ComponentFactory;
     int32_t mPickupContent;
     ItemType::Type mItemType;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void PickupCollisionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<CollisionComponent>(*this);
+    ar & mPickupContent;
+    ar & mItemType;
+}
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>
 {

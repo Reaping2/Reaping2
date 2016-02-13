@@ -17,7 +17,20 @@ protected:
     int32_t mParentGUID;
     int32_t mKillerGUID;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void NotifyParentOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<INotifyParentOnDeathComponent>(*this);
+    ar & mParentGUID;
+    ar & mKillerGUID;
+}
 
 class NotifyParentOnDeathComponentLoader : public ComponentLoader<NotifyParentOnDeathComponent>
 {

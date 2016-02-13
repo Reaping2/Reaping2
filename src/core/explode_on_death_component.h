@@ -8,7 +8,18 @@ class ExplodeOnDeathComponent : public IExplodeOnDeathComponent
 {
 public:
     ExplodeOnDeathComponent();
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ExplodeOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IExplodeOnDeathComponent>(*this);
+}
 
 class ExplodeOnDeathComponentLoader : public ComponentLoader<ExplodeOnDeathComponent>
 {

@@ -24,3 +24,10 @@ Item::Item( int32_t Id )
     LOG( "!Item: id: %d\n", mId );
 }
 
+Item::Item()
+    : mId(-1)
+    , mState(0)
+{
+
+}
+

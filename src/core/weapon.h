@@ -65,6 +65,8 @@ public:
     virtual std::string GetMouseText() const;
     virtual bool IsMouseResizable() const;
     Weapon( int32_t Id );
+    Weapon();
+    friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
     VIRTUAL_SERIALIZE;

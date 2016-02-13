@@ -13,6 +13,17 @@ public:
     virtual void SetZOrder( int32_t ZOrder )=0;
 protected:
     friend class ComponentFactory;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IRenderableComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_RENDERABLE_COMPONENT_H

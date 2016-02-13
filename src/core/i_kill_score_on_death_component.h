@@ -13,7 +13,18 @@ public:
     virtual int32_t GetDeadGUID()const=0;
     virtual void SetScored(bool scored)=0;
     virtual bool IsScored()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IKillScoreOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_KILL_SCORE_ON_DEATH_COMPONENT_H
 

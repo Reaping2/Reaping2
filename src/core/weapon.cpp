@@ -24,6 +24,26 @@ Weapon::Weapon( int32_t Id )
     mType = ItemType::Weapon;
 }
 
+Weapon::Weapon()
+    : Item()
+    , mActorFactory(ActorFactory::Get())
+    , mCooldown( 0.0 )
+    , mShootCooldown( 1.0 )
+    , mShootAltCooldown( 1.0 )
+    , mScatter( 0 )
+    , mShoot(false)
+    , mShootAlt(false)
+    , mBullets(0.0)
+    , mBulletsMax(10.0)
+    , mShotCost(1)
+    , mShotCostAlt(1)
+    , mReloadTime(0.0)
+    , mReloadTimeMax(2.0)
+    , mStaticReload(0.0)
+{
+
+}
+
 bool Weapon::IsShooting() const
 {
     return mShoot&&mBullets>=mShotCost;

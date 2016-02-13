@@ -1,6 +1,9 @@
 #ifndef INCLUDED_CORE_OPT_H
 #define INCLUDED_CORE_OPT_H
 #include <cstdio>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/export.hpp>
+
 template<typename T>
 class Opt
 {
@@ -19,6 +22,12 @@ public:
     T* Get() const;
     T* Get();
     void Reset();
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version)
+    {
+        ar & mPtr;
+    }
 private:
     mutable T* mPtr;
 };

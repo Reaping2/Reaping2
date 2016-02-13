@@ -14,7 +14,19 @@ protected:
     friend class ComponentFactory;
     Team::Type mTeam;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void TeamComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<ITeamComponent>(*this);
+    ar & mTeam;
+}
 
 class TeamComponentLoader : public ComponentLoader<TeamComponent>
 {

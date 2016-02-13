@@ -9,7 +9,19 @@ class IExplodeOnDeathComponent : public Component, public IExplode
 public:
     IExplodeOnDeathComponent();
     DEFINE_COMPONENT_BASE(IExplodeOnDeathComponent)
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IExplodeOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+    ar & boost::serialization::base_object<IExplode>(*this);
+}
 
 #endif//INCLUDED_CORE_I_EXPLODE_ON_DEATH_COMPONENT_H
 

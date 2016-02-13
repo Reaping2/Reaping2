@@ -14,7 +14,19 @@ protected:
     friend class ComponentFactory;
     bool mScored;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ScoreOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IScoreOnDeathComponent>(*this);
+    ar & mScored;
+}
 
 class ScoreOnDeathComponentLoader : public ComponentLoader<ScoreOnDeathComponent>
 {

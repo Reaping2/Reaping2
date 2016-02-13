@@ -9,3 +9,9 @@ AudibleEffectDesc::AudibleEffectDesc( int32_t id, bool autoLoopUntilDeath/*=fals
     UID = ++uid;
 }
 
+AudibleEffectDesc::AudibleEffectDesc()
+    : UID( 0 ), Id ( -1 ), TTL( TTL_Infinity ), AutoLoopUntilDeath(false)
+{
+
+}
+

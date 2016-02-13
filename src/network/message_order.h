@@ -1,5 +1,48 @@
 #ifndef INCLUDED_NETWORK_MESSAGE_ORDER_H
 #define INCLUDED_NETWORK_MESSAGE_ORDER_H
+#include "core/acceleration_component.h"
+#include "core/accuracy_component.h"
+#include "core/aoe_collision_component.h"
+#include "core/armor_component.h"
+#include "core/attachable_component.h"
+#include "core/audible_component.h"
+#include "core/border_component.h"
+#include "core/bounce_collision_component.h"
+#include "core/collision_component.h"
+#include "core/controller_component.h"
+#include "core/detonate_on_hit_component.h"
+#include "core/drop_on_death_component.h"
+#include "core/emitter_component.h"
+#include "core/explode_on_death_component.h"
+#include "core/explode_on_hit_component.h"
+#include "core/explosion_component.h"
+#include "core/fade_out_component.h"
+#include "core/flag_carrier_component.h"
+#include "core/flag_collision_component.h"
+#include "core/flag_receiver_component.h"
+#include "core/health_component.h"
+#include "core/heat_source_component.h"
+#include "core/inventory_component.h"
+#include "core/kill_score_on_death_component.h"
+#include "core/listen_child_death_component.h"
+#include "core/move_component.h"
+#include "core/notify_parent_on_death_component.h"
+#include "core/owner_component.h"
+#include "core/pickup_collision_component.h"
+#include "core/player_controller_component.h"
+#include "core/pointer_target_controller_component.h"
+#include "core/position_component.h"
+#include "core/random_controller_component.h"
+#include "core/remove_on_death_component.h"
+#include "core/renderable_component.h"
+#include "core/score_on_death_component.h"
+#include "core/shot_collision_component.h"
+#include "core/stop_on_death_component.h"
+#include "core/target_holder_component.h"
+#include "core/target_player_controller_component.h"
+#include "core/team_component.h"
+#include "core/wall_collision_component.h"
+#include "core/water_collision_component.h"
 #include "boost/serialization/export.hpp"
 #include "network/my_name_message.h"
 #include "network/client_id_message.h"
@@ -45,6 +88,10 @@
 #include "secs_to_revive_message.h"
 #include "flag_state_changed_message.h"
 #include "platform/rstdint.h"
+#include "core/cloak_component.h"
+#include "core/component.h"
+#include "core/weapon.h"
+#include "core/normal_item.h"
 
 
     struct message_order
@@ -182,4 +229,52 @@
     BOOST_CLASS_EXPORT_GUID(network::FlagStateChangedMessage, "flag_state_changed")
     BOOST_CLASS_EXPORT_GUID(network::FadeOutMessage, "fade_out")
 
+    BOOST_CLASS_EXPORT_GUID(CloakComponent, "cloak_component")
+    BOOST_CLASS_EXPORT_GUID(Weapon, "weapon")
+    BOOST_CLASS_EXPORT_GUID(NormalItem, "normal_item")
+
+    BOOST_CLASS_EXPORT_GUID(AccelerationComponent, "acceleration_component")
+    BOOST_CLASS_EXPORT_GUID(AccuracyComponent, "accuracy_component")
+    BOOST_CLASS_EXPORT_GUID(AoeCollisionComponent, "aoe_collision_component")
+    BOOST_CLASS_EXPORT_GUID(ArmorComponent, "armor_component")
+    BOOST_CLASS_EXPORT_GUID(ctf::AttachableComponent, "attachable_component")
+    BOOST_CLASS_EXPORT_GUID(AudibleComponent, "audible_component")
+    BOOST_CLASS_EXPORT_GUID(BorderComponent, "border_component")
+    BOOST_CLASS_EXPORT_GUID(BounceCollisionComponent, "bounce_collision_component")
+    BOOST_CLASS_EXPORT_GUID(CollisionComponent, "collision_component")
+    BOOST_CLASS_EXPORT_GUID(ControllerComponent, "controller_component")
+    BOOST_CLASS_EXPORT_GUID(DefaultComponent, "default_component")
+    BOOST_CLASS_EXPORT_GUID(DetonateOnHitComponent, "detonate_on_hit_component")
+    BOOST_CLASS_EXPORT_GUID(DropOnDeathComponent, "drop_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(EmitterComponent, "emitter_component")
+    BOOST_CLASS_EXPORT_GUID(ExplodeOnDeathComponent, "explode_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(ExplodeOnHitComponent, "explode_on_hit_component")
+    BOOST_CLASS_EXPORT_GUID(ExplosionComponent, "explosion_component")
+    BOOST_CLASS_EXPORT_GUID(FadeOutComponent, "fade_out_component")
+    BOOST_CLASS_EXPORT_GUID(ctf::FlagCarrierComponent, "flag_carrier_component")
+    BOOST_CLASS_EXPORT_GUID(ctf::FlagCollisionComponent, "flag_collision_component")
+    BOOST_CLASS_EXPORT_GUID(ctf::FlagReceiverComponent, "flag_receiver_component")
+    BOOST_CLASS_EXPORT_GUID(HealthComponent, "health_component")
+    BOOST_CLASS_EXPORT_GUID(HeatSourceComponent, "heat_source_component")
+    BOOST_CLASS_EXPORT_GUID(InventoryComponent, "inventory_component")
+    BOOST_CLASS_EXPORT_GUID(KillScoreOnDeathComponent, "kill_score_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(ListenChildDeathComponent, "listen_child_death_component")
+    BOOST_CLASS_EXPORT_GUID(MoveComponent, "move_component")
+    BOOST_CLASS_EXPORT_GUID(NotifyParentOnDeathComponent, "notify_parent_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(OwnerComponent, "owner_component")
+    BOOST_CLASS_EXPORT_GUID(PickupCollisionComponent, "pickup_collision_component")
+    BOOST_CLASS_EXPORT_GUID(PlayerControllerComponent, "player_controller_component")
+    BOOST_CLASS_EXPORT_GUID(PointerTargetControllerComponent, "pointer_target_controller_component")
+    BOOST_CLASS_EXPORT_GUID(PositionComponent, "position_component")
+    BOOST_CLASS_EXPORT_GUID(RandomControllerComponent, "random_controller_component")
+    BOOST_CLASS_EXPORT_GUID(RemoveOnDeathComponent, "remove_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(RenderableComponent, "renderable_component")
+    BOOST_CLASS_EXPORT_GUID(ScoreOnDeathComponent, "score_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(ShotCollisionComponent, "shot_collision_component")
+    BOOST_CLASS_EXPORT_GUID(StopOnDeathComponent, "stop_on_death_component")
+    BOOST_CLASS_EXPORT_GUID(TargetHolderComponent, "target_holder_component")
+    BOOST_CLASS_EXPORT_GUID(TargetPlayerControllerComponent, "target_player_controller_component")
+    BOOST_CLASS_EXPORT_GUID(TeamComponent, "team_component")
+    BOOST_CLASS_EXPORT_GUID(WallCollisionComponent, "wall_collision_component")
+    BOOST_CLASS_EXPORT_GUID(WaterCollisionComponent, "water_collision_component")
 #endif//INCLUDED_NETWORK_MESSAGE_ORDER_H

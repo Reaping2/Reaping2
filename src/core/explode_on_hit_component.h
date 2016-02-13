@@ -20,7 +20,21 @@ protected:
     double mAddActorRadius;
     bool mExploded;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ExplodeOnHitComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IExplodeOnHitComponent>(*this);
+    ar & mDetonatorMaterial;
+    ar & mAddActorRadius;
+    ar & mExploded;
+}
 
 class ExplodeOnHitComponentLoader : public ComponentLoader<ExplodeOnHitComponent>
 {

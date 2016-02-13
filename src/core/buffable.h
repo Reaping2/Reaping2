@@ -1,6 +1,9 @@
 #ifndef INCLUDED_CORE_BUFFABLE_H
 #define INCLUDED_CORE_BUFFABLE_H
 
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/export.hpp>
+
 template<typename T>
 class Limited
 {
@@ -17,6 +20,15 @@ private:
     T mMax;
     T mMin;
     T mVal;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version)
+    {
+        ar & mMax;
+        ar & mMin;
+        ar & mVal;
+    }
 };
 
 template<typename T>
@@ -78,6 +90,14 @@ public:
     Limited<T> mBase;
     Limited<double> mPercent;
     Limited<T> mFlat;
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version)
+    {
+        ar & mBase;
+        ar & mPercent;
+        ar & mFlat;
+    }
 };
 
 template<typename T>

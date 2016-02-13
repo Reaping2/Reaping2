@@ -5,7 +5,7 @@
 #include "core/property_loader.h"
 #include "core/opt.h"
 #include "core/weapon.h"
-
+#include <boost/serialization/list.hpp>
 class InventoryComponent : public IInventoryComponent
 {
 public:
@@ -30,7 +30,21 @@ private:
     ItemList_t mItems;
     Opt<Weapon> mSelectedWeapon;
     Opt<NormalItem> mSelectedNormalItem;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void InventoryComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IInventoryComponent>(*this);
+    ar & mItems;
+    ar & mSelectedWeapon;
+    ar & mSelectedNormalItem;
+}
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>
 {

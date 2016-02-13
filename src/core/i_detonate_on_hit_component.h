@@ -13,7 +13,18 @@ public:
     virtual double GetAddRadius()const=0;
     virtual void SetRemoveOnHit(bool removeOnHit)=0;
     virtual bool IsRemoveOnHit()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IDetonateOnHitComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_DETONATE_ON_HIT_COMPONENT_H
 

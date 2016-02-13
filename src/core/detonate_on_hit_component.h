@@ -20,7 +20,21 @@ protected:
     double mAddRadius;
     bool mRemoveOnHit;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void DetonateOnHitComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IDetonateOnHitComponent>(*this);
+    ar & mMaterial;
+    ar & mAddRadius;
+    ar & mRemoveOnHit;
+}
 
 class DetonateOnHitComponentLoader : public ComponentLoader<DetonateOnHitComponent>
 {

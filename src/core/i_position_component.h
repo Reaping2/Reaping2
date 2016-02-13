@@ -21,6 +21,17 @@ public:
 	virtual void SetOrientation( double Orientation )=0;
 protected:
 	friend class ComponentFactory;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IPositionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_POSITION_COMPONENT_H

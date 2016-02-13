@@ -1,6 +1,9 @@
 #ifndef INCLUDED_CORE_I_EXPLODE_H
 #define INCLUDED_CORE_I_EXPLODE_H
 #include "explode_distribution_type.h"
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/ptr_container/serialize_ptr_map.hpp>
 
 class IExplode
 {
@@ -33,6 +36,22 @@ protected:
     int32_t mPositionVariance;
     double mSpeedVariance;
     bool mAddActorRadius;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IExplode::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mExplosionProjectile;
+    ar & mCount;
+    ar & mExplosionScatter;
+    ar & mDistribution;
+    ar & mSecsToEndVariance;
+    ar & mPositionVariance;
+    ar & mSpeedVariance;
+}
 
 #endif//INCLUDED_CORE_I_EXPLODE_H

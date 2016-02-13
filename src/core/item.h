@@ -43,7 +43,7 @@ protected:
 
     friend class ItemFactory;
     Item( int32_t Id );
-
+    Item();
 public:
     double GetState()const
     {
@@ -57,6 +57,7 @@ public:
     {
         return mId;
     }
+    friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
 };
@@ -67,6 +68,7 @@ void Item::serialize(Archive& ar, const unsigned int version)
     ar & mId;
     ar & mType;
     ar & mState;
+    ar & mActorGUID;
 }
 
 class DefaultItem : public Item

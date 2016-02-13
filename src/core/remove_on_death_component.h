@@ -8,7 +8,18 @@ class RemoveOnDeathComponent : public IRemoveOnDeathComponent
 {
 public:
     RemoveOnDeathComponent();
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void RemoveOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IRemoveOnDeathComponent>(*this);
+}
 
 class RemoveOnDeathComponentLoader: public ComponentLoader<RemoveOnDeathComponent>
 {

@@ -29,7 +29,20 @@ protected:
     friend class ComponentFactory;
     RenderableLayer::Type mLayer;
     int32_t mZOrder;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void RenderableComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IRenderableComponent>(*this);
+    ar & mLayer;
+    ar & mZOrder;
+}
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>
 {
