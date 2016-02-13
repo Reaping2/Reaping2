@@ -10,10 +10,7 @@ SyncItemMessage::SyncItemMessage( Item const& item )
     , mItemID( item.GetId() )
     , mData()
 {
-    if( NULL != item.GetActor() )
-    {
-        mActorGUID = item.GetActor()->GetGUID();
-    }
+    mActorGUID = item.GetActorGUID();
     std::ostringstream oss;
     eos::portable_oarchive oa(oss);
     item.serialize( oa );

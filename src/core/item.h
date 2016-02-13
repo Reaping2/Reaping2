@@ -28,16 +28,16 @@ public:
     {
         LOG( "Item dead:%i", mId );
     }
-    virtual void SetActor( Actor* Obj );
+    virtual void SetActorGUID( int32_t actorGUID );
     ItemType::Type GetType() const
     {
         return mType;
     }
-    Actor* GetActor() const;
+    int32_t GetActorGUID() const;
     VIRTUAL_SERIALIZE;
 protected:
     int32_t mId;
-    Actor* mActor;
+    int32_t mActorGUID;
     ItemType::Type mType;
     double mState;
 

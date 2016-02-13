@@ -20,7 +20,7 @@ void AudibleComponent::AddOneShotEffect( int32_t id )
 {
     mEffects.emplace_back( id );
     platform::EventServer<core::AudibleEvent>::Get().SendEvent(
-            core::AudibleEvent( mActor->GetGUID(), id, true, true )
+            core::AudibleEvent( mActorGUID, id, true, true )
             );
 }
 
@@ -33,7 +33,7 @@ void AudibleComponent::AddLoopingEffect( int32_t id )
         d.TTL = 2;
         mEffects.push_back( d );
         platform::EventServer<core::AudibleEvent>::Get().SendEvent(
-                core::AudibleEvent( mActor->GetGUID(), id, false, true )
+                core::AudibleEvent( mActorGUID, id, false, true )
                 );
     }
     else

@@ -18,7 +18,7 @@ public:
     virtual void Update( double Seconds );
     virtual Opt<Weapon> GetSelectedWeapon();
     virtual void SetSelectedWeapon( int32_t Id );
-    virtual void SetActor(Actor* Obj);
+    virtual void SetActorGUID(int32_t actorGUID);
     virtual Opt<NormalItem> GetSelectedNormalItem();
     virtual void SetSelectedNormalItem( int32_t Id );
     virtual ~InventoryComponent();
