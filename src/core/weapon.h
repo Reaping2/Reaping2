@@ -69,7 +69,6 @@ public:
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
-    VIRTUAL_SERIALIZE;
 protected:
     ActorFactory& mActorFactory;
     double mCooldown;

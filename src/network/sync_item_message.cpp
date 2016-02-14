@@ -13,7 +13,7 @@ SyncItemMessage::SyncItemMessage( Item const& item )
     mActorGUID = item.GetActorGUID();
     std::ostringstream oss;
     eos::portable_oarchive oa(oss);
-    item.serialize( oa );
+    oa & item;
     mData = oss.str();
 }
 
@@ -67,7 +67,7 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
     }
     std::istringstream iss( msg.mData );
     eos::portable_iarchive ia(iss);
-    item->serialize( ia );
+    ia >> item;
 }
 
 } // namespace network

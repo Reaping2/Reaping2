@@ -16,7 +16,19 @@ protected:
     bool mApplied;
     int32_t mArmorMax;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ArmorBuff::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Buff>(*this);
+    ar & mApplied;
+    ar & mArmorMax;
+}
 
 #endif//INCLUDED_CORE_ARMOR_BUFF_H
 

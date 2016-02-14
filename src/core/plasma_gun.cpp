@@ -3,6 +3,18 @@
 PlasmaGun::PlasmaGun( int32_t Id )
     : Weapon( Id )
 {
+    InitMembers();
+
+}
+
+PlasmaGun::PlasmaGun()
+    : Weapon(-1)
+{
+    InitMembers();
+}
+
+void PlasmaGun::InitMembers()
+{
     mScatter.mIncrease=13;
     mScatter.mChill=40;
     mScatter.mAltIncrease=20;

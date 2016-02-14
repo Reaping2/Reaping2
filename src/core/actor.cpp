@@ -22,6 +22,13 @@ Actor::Actor( int32_t Id )
     mGUID = ++NextGuid;
 }
 
+Actor::Actor()
+    : ComponentHolder()
+    , mId(-1)
+{
+
+}
+
 
 Actor::~Actor()
 {

@@ -13,6 +13,7 @@ public:
 protected:
     int32_t mGUID;
     int32_t mId;
+    Actor();
 public:
     Actor( int32_t Id );
     int32_t GetId()const;

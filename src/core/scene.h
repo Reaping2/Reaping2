@@ -214,7 +214,7 @@ public:
     ActorList_t const& GetActors() const;
     ActorList_t& GetActors();
 
-    void SetActors(ActorList_t& actors);
+    void SetActors(ActorList_t& actors, bool withAddActorEvents=true);
     void ClearActors( bool withEvents=true );
     //the template version works well with '=' i just dont know is it really needed, maybe this creating a wrapper is better
 

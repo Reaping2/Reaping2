@@ -3,6 +3,17 @@
 IonGun::IonGun( int32_t Id )
     : Weapon( Id )
 {
+    InitMembers();
+}
+
+IonGun::IonGun()
+    : Weapon(-1)
+{
+    InitMembers();
+}
+
+void IonGun::InitMembers()
+{
     mScatter.mIncrease=13;
     mScatter.mChill=40;
     mScatter.mAltIncrease=20;

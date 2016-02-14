@@ -3,17 +3,13 @@
 LuckyRocket::LuckyRocket( int32_t Id )
     : Weapon( Id )
 {
-    mScatter.mIncrease=100;
-    mScatter.mChill=40;
-    mScatter.mAltIncrease=100;
-    mShootCooldown = 0.15;
-    mShootAltCooldown = 0.15;
+    InitMembers();
+}
 
-    mBulletsMax = 10.0;
-    mShotCost=0;
-    mShotCostAlt=0;
-    mReloadTimeMax=3.0;
-    mBullets=mBulletsMax;
+LuckyRocket::LuckyRocket()
+    : Weapon(-1)
+{
+    InitMembers();
 }
 
 glm::vec3 LuckyRocket::GetMouseColor() const
@@ -26,6 +22,21 @@ glm::vec3 LuckyRocket::GetMouseColor() const
 std::string LuckyRocket::GetMouseText() const
 {
     return mReloadTime>0.0 ? "Not so lucky!" : Weapon::GetMouseText();
+}
+
+void LuckyRocket::InitMembers()
+{
+    mScatter.mIncrease=100;
+    mScatter.mChill=40;
+    mScatter.mAltIncrease=100;
+    mShootCooldown = 0.15;
+    mShootAltCooldown = 0.15;
+
+    mBulletsMax = 10.0;
+    mShotCost=0;
+    mShotCostAlt=0;
+    mReloadTimeMax=3.0;
+    mBullets=mBulletsMax;
 }
 
 

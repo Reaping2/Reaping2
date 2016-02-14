@@ -8,6 +8,9 @@ class GaussGun : public Weapon
 {
     GaussGun( int32_t Id );
     friend class Factory<Item>;
+    GaussGun();
+
+    void InitMembers();
 
     double mChargeTime;
     double mCurrentCharge;
@@ -18,7 +21,19 @@ public:
     virtual bool IsShootingAlt() const;
     virtual bool IsCharging() const;
     virtual double ChargeTime() const;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void GaussGun::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Weapon>(*this);
+    ar & mChargeTime;
+    ar & mCurrentCharge;
+}
 
 #endif // INCLUDED_GAUSS_GUN_H
 

@@ -5,4 +5,9 @@ BlueGrenadeNormalItem::BlueGrenadeNormalItem( int32_t id )
 {
 }
 
+BlueGrenadeNormalItem::BlueGrenadeNormalItem()
+    : NormalItem(-1)
+{
+}
+
 

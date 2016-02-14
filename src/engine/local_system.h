@@ -5,6 +5,7 @@
 #include "engine/system.h"
 #include "core/program_state.h"
 #include "soldier_properties_ready_event.h"
+#include "input/keyboard.h"
 
 namespace engine {
 
@@ -23,6 +24,7 @@ private:
     void OnLocalStart();
     AutoReg mOnSoldierPropertiesReady;
     void OnSoldierPropertiesReady( SoldierPropertiesReadyEvent const& Evt );
+    Opt<engine::KeyboardSystem> mKeyboard;
 };
 
 } // namespace engine

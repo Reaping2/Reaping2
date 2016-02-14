@@ -5,6 +5,10 @@
 class GatlingGun : public Weapon
 {
     GatlingGun( int32_t Id );
+    GatlingGun();
+
+    void InitMembers();
+
     friend class Factory<Item>;
 public:
     enum DeployState
@@ -47,6 +51,23 @@ protected:
     double mDeployMax;
     double mDeploySpeed;
     DeployState mDeployState;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void GatlingGun::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Weapon>(*this);
+    ar & mWindup;
+    ar & mWindupMax;
+    ar & mWindupSpeed;
+    ar & mDeploy;
+    ar & mDeployMax;
+    ar & mDeploySpeed;
+    ar & mDeployState;
+}
 
 #endif//INCLUDED_CORE_GATLING_GUN_H

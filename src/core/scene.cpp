@@ -297,6 +297,10 @@ std::vector<int32_t> getBuffs( Actor* a )
 void Scene::SetPlayerModels(Opt<Actor> actor)
 {
     mPlayerModels.clear();
+    if (!actor.IsValid())
+    {
+        return;
+    }
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
@@ -338,7 +342,7 @@ ActorList_t& Scene::GetActors()
     return mActorHolder.mAllActors;
 }
 
-void Scene::SetActors(ActorList_t& actors)
+void Scene::SetActors(ActorList_t& actors, bool withAddActorEvents/*=true*/)
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
@@ -352,6 +356,13 @@ void Scene::SetActors(ActorList_t& actors)
     }
     mActorHolder.mAllActors.clear();
     mActorHolder.mAllActors = actors;
+    if (withAddActorEvents)
+    {
+        for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+        {
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        }
+    }
 }
 
 void Scene::ClearActors( bool withEvents/*=true*/ )

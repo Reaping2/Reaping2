@@ -10,17 +10,6 @@
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/export.hpp>
 
-#define VIRTUAL_SERIALIZE \
-    virtual void serialize( eos::portable_oarchive& ar ) const \
-{ \
-    ar << *this; \
-} \
-    virtual void serialize( eos::portable_iarchive& ar ) \
-{ \
-    ar >> *this; \
-} \
-
-
 class Item
 {
 public:
@@ -34,7 +23,6 @@ public:
         return mType;
     }
     int32_t GetActorGUID() const;
-    VIRTUAL_SERIALIZE;
 protected:
     int32_t mId;
     int32_t mActorGUID;

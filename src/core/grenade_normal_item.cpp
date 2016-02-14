@@ -5,3 +5,9 @@ GrenadeNormalItem::GrenadeNormalItem(int32_t Id)
 {
 
 }
+
+GrenadeNormalItem::GrenadeNormalItem()
+    : NormalItem(-1)
+{
+
+}
