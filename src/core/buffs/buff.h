@@ -5,6 +5,7 @@
 #include "core/opt.h"
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/serialization.hpp>
+#include <boost/serialization/base_object.hpp>
 
 #define DEFINE_BUFF_BASE( BuffType ) \
     static int GetType_static() \
