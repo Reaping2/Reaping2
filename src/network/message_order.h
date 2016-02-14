@@ -1,7 +1,7 @@
-#include "core\actor.h"
-#include "core/cloak_normal_item.h"
 #ifndef INCLUDED_NETWORK_MESSAGE_ORDER_H
 #define INCLUDED_NETWORK_MESSAGE_ORDER_H
+#include "core/actor.h"
+#include "core/cloak_normal_item.h"
 #include "core/acceleration_component.h"
 #include "core/accuracy_component.h"
 #include "core/aoe_collision_component.h"
