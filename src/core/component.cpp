@@ -5,16 +5,16 @@
 const double PRECISION=1000.0;
 
 Component::Component()
-    : mActor( NULL )
+    : mActorGUID( -1 )
 {
 }
 Component::~Component()
 {
 }
 
-void Component::SetActor(Actor* Obj)
+void Component::SetActorGUID(int32_t actorGUID)
 {
-    mActor=Obj;
+    mActorGUID=actorGUID;
 }
 
 void Component::SetId(int32_t id)
@@ -34,6 +34,11 @@ void Component::Save(Json::Value& component)
     {
         component["name"]=Json::Value(componentName);
     }
+}
+
+int Component::GetType() const
+{
+    return 0;
 }
 
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )

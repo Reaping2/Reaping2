@@ -5,6 +5,18 @@ Shotgun::Shotgun( int32_t Id )
     : Weapon( Id )
     , IExplode()
 {
+    InitMembers();
+}
+
+Shotgun::Shotgun()
+    : Weapon( -1 )
+    , IExplode()
+{
+    InitMembers();
+}
+
+void Shotgun::InitMembers()
+{
     mScatter.mIncrease=30;
     mScatter.mChill=40;
     mScatter.mAltIncrease=10;

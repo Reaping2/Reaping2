@@ -10,7 +10,18 @@ public:
     DEFINE_COMPONENT_BASE(IAttachableComponent)
     virtual void SetAttachedGUID(int32_t attachedGUID)=0;
     virtual int32_t GetAttachedGUID()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IAttachableComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 } // namespace ctf
 

@@ -302,6 +302,10 @@ std::vector<int32_t> getBuffs( Actor* a )
 void Scene::SetPlayerModels(Opt<Actor> actor)
 {
     mPlayerModels.clear();
+    if (!actor.IsValid())
+    {
+        return;
+    }
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
@@ -315,11 +319,13 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
-    if ( mSelectedGameMode == "ctf" )
+    // host selects the level -> almost last step in configuration
+    // display client list for the selected gamemode
+    if ( "ctf" == mSelectedGameMode )
     {
         Ui::Get().Load("ctf_client_list");
     }
-    else if ( mSelectedGameMode == "ffa" )
+    else if ( "ffa" == mSelectedGameMode )
     {
         Ui::Get().Load("ffa_client_list");
     }
@@ -339,6 +345,66 @@ void Scene::InsertNewActors()
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
+}
+
+ActorList_t const& Scene::GetActors() const
+{
+    return mActorHolder.mAllActors;
+}
+
+ActorList_t& Scene::GetActors()
+{
+    return mActorHolder.mAllActors;
+}
+
+void Scene::SetActors(ActorList_t& actors, bool withAddActorEvents/*=true*/)
+{
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        mActorHolder.mAllActors.insert( *it );
+    }
+    mNewActors.clear();
+
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    {
+        delete (*it).Get();
+    }
+    mActorHolder.mAllActors.clear();
+    mActorHolder.mAllActors = actors;
+    if (withAddActorEvents)
+    {
+        for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+        {
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        }
+    }
+}
+
+void Scene::ClearActors( bool withEvents/*=true*/ )
+{
+    mPaused = false;
+
+    for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
+    {
+        if (withEvents)
+        {
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+        }
+        L2("new actor inserted at Clear (GUID:%d)\n",(*it)->GetGUID());
+        mActorHolder.mAllActors.insert( *it );
+    }
+    mNewActors.clear();
+
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    {
+        if (withEvents)
+        {
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+        }
+        L2("actor deleted at Clear (GUID:%d)\n",(*it)->GetGUID());
+        delete (*it).Get();
+    }
+    mActorHolder.mAllActors.clear();
 }
 
 void Scene::SelectGameMode( std::string const& GameMode )

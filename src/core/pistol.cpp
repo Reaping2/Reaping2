@@ -6,6 +6,18 @@
 Pistol::Pistol( int32_t Id )
     : Weapon( Id )
 {
+    InitMembers();
+
+}
+
+Pistol::Pistol()
+    : Weapon( -1 )
+{
+    InitMembers();
+}
+
+void Pistol::InitMembers()
+{
     mScatter.mIncrease=20;
     mScatter.mChill=30;
     mScatter.mAltIncrease=20;

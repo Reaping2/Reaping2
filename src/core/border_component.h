@@ -18,7 +18,20 @@ protected:
     Borders_t mBorders;
     Borders_t mOuterBorders;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void BorderComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IBorderComponent>(*this);
+    ar & mBorders;
+    ar & mOuterBorders;
+}
 
 class BorderComponentLoader : public ComponentLoader<BorderComponent>
 {

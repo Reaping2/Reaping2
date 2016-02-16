@@ -35,7 +35,25 @@ public:
     double mTimeOfDeath;
     Buffable<int32_t> mMaxHP;
     int32_t mLastDamageOwnerGUID;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void HealthComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IHealthComponent>(*this);
+    ar & mHP;
+    ar & mDamage;
+    ar & mHeal;
+    ar & mAlive;
+    ar & mTimeOfDeath;
+    ar & mMaxHP;
+    ar & mLastDamageOwnerGUID;
+}
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>
 {

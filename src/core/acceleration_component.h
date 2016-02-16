@@ -23,7 +23,21 @@ private:
     double mAcceleration;
     double mMinSpeed;
     double mMaxSpeed;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void AccelerationComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IAccelerationComponent>(*this);
+    ar & mAcceleration;
+    ar & mMinSpeed;
+    ar & mMaxSpeed;
+}
 
 class AccelerationComponentLoader: public ComponentLoader<AccelerationComponent>
 {

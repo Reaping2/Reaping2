@@ -5,4 +5,9 @@ FlashNormalItem::FlashNormalItem( int32_t id )
 {
 }
 
+FlashNormalItem::FlashNormalItem()
+    : NormalItem(-1)
+{
+}
+
 

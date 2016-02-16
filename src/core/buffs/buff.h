@@ -3,6 +3,9 @@
 
 #include "platform/auto_id.h"
 #include "core/opt.h"
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/base_object.hpp>
 
 #define DEFINE_BUFF_BASE( BuffType ) \
     static int GetType_static() \
@@ -33,7 +36,19 @@ protected:
     Buff();
 private:
     static int32_t mNextUId;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void Buff::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mSecsToEnd;
+    ar & mAutoRemove;
+    ar & mUID;
+}
 
 
 class DefaultBuff : public Buff
@@ -41,6 +56,15 @@ class DefaultBuff : public Buff
 public:
     DEFINE_BUFF_BASE(DefaultBuff)
     DefaultBuff();
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void DefaultBuff::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Buff>(*this);
+}
 
 #endif//INCLUDED_CORE_BUFFS_BUFF_H

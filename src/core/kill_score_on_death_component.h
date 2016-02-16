@@ -20,7 +20,21 @@ protected:
     int32_t mDeadGUID;
     bool mScored;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void KillScoreOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IKillScoreOnDeathComponent>(*this);
+    ar & mKillerGUID;
+    ar & mDeadGUID;
+    ar & mScored;
+}
 
 class KillScoreOnDeathComponentLoader : public ComponentLoader<KillScoreOnDeathComponent>
 {

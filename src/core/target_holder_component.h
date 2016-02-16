@@ -14,7 +14,19 @@ protected:
     friend class ComponentFactory;
     int32_t mTargetGUID;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void TargetHolderComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<ITargetHolderComponent>(*this);
+    ar & mTargetGUID;
+}
 
 class TargetHolderComponentLoader : public ComponentLoader<TargetHolderComponent>
 {

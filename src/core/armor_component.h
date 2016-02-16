@@ -14,7 +14,19 @@ protected:
     friend class ComponentFactory;
     int32_t mCurrentArmor;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ArmorComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IArmorComponent>(*this);
+    ar & mCurrentArmor;
+}
 
 class ArmorComponentLoader : public ComponentLoader<ArmorComponent>
 {

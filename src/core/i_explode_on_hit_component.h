@@ -15,7 +15,19 @@ public:
     virtual double GetAddRadius()const=0;
     virtual void SetExploded(bool exploded)=0;
     virtual bool IsExploded()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IExplodeOnHitComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+    ar & boost::serialization::base_object<IExplode>(*this);
+}
 
 #endif//INCLUDED_CORE_I_EXPLODE_ON_HIT_COMPONENT_H
 

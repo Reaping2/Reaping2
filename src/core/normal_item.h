@@ -6,6 +6,7 @@ class NormalItem : public Item
 {
 public:
     NormalItem( int32_t Id );
+    NormalItem();
     virtual void SetUse(bool use);
     bool IsUse() const;
 
@@ -14,6 +15,17 @@ public:
 
     bool mUse;
     bool mConsumed;
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void NormalItem::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Item>(*this);
+    ar & mUse;
+    ar & mConsumed;
+}
 
 #endif//INCLUDED_CORE_NORMAL_ITEM_H

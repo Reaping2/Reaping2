@@ -14,7 +14,19 @@ protected:
     friend class ComponentFactory;
     double mSpeedLossPercent;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void BounceCollisionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<CollisionComponent>(*this);
+    ar & mSpeedLossPercent;
+}
 
 class BounceCollisionComponentLoader : public ComponentLoader<BounceCollisionComponent>
 {

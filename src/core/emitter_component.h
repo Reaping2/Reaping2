@@ -3,6 +3,7 @@
 
 #include "i_emitter_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/vector.hpp>
 
 class EmitterComponent : public IEmitterComponent
 {
@@ -24,11 +25,40 @@ private:
         int32_t mIterationVariance;
         int32_t mIterationCurrent; //number of times of emitted stuff
         EmitDesc();
+        friend class ::boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive& ar, const unsigned int version);
     };
+
     typedef std::vector<EmitDesc> EmitDescs;
     void InitEmitDescs(EmitDescs emitDescs);
     EmitDescs mEmitDescs;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void EmitterComponent::EmitDesc::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mEmitType;
+    ar & mDelay;
+    ar & mDelayVariance;
+    ar & mCooldown;
+    ar & mProbability;
+    ar & mIteration;
+    ar & mIterationVariance;
+    ar & mIterationCurrent;
+}
+
+template<class Archive>
+void EmitterComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IEmitterComponent>(*this);
+    ar & mEmitDescs;
+}
 
 class EmitterComponentLoader : public ComponentLoader<EmitterComponent>
 {

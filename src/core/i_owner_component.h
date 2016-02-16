@@ -9,7 +9,18 @@ public:
     DEFINE_COMPONENT_BASE(IOwnerComponent)
     virtual void SetOwnerGUID(int32_t ownerGUID)=0;
     virtual int32_t GetOwnerGUID()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IOwnerComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_OWNER_COMPONENT_H
 

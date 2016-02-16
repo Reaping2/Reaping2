@@ -29,7 +29,24 @@ private:
     double mHeadingModifierFrequency;
     double mHeadingModifier;
     bool mNeedInit;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void TargetPlayerControllerComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<ControllerComponent>(*this);
+    ar & mAttackCounter;
+    ar & mAttackFrequency;
+    ar & mHeadingModifierCounter;
+    ar & mHeadingModifierFrequency;
+    ar & mHeadingModifier;
+    ar & mNeedInit;
+}
 
 class TargetPlayerControllerComponentLoader: public ComponentLoader<TargetPlayerControllerComponent>
 {

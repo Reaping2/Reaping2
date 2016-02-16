@@ -11,7 +11,18 @@ public:
 protected:
     friend class ComponentFactory;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void HeatSourceComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IHeatSourceComponent>(*this);
+}
 
 class HeatSourceComponentLoader : public ComponentLoader<HeatSourceComponent>
 {

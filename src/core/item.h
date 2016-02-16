@@ -10,17 +10,6 @@
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/export.hpp>
 
-#define VIRTUAL_SERIALIZE \
-    virtual void serialize( eos::portable_oarchive& ar ) const \
-{ \
-    ar << *this; \
-} \
-    virtual void serialize( eos::portable_iarchive& ar ) \
-{ \
-    ar >> *this; \
-} \
-
-
 class Item
 {
 public:
@@ -28,22 +17,21 @@ public:
     {
         LOG( "Item dead:%i", mId );
     }
-    virtual void SetActor( Actor* Obj );
+    virtual void SetActorGUID( int32_t actorGUID );
     ItemType::Type GetType() const
     {
         return mType;
     }
-    Actor* GetActor() const;
-    VIRTUAL_SERIALIZE;
+    int32_t GetActorGUID() const;
 protected:
     int32_t mId;
-    Actor* mActor;
+    int32_t mActorGUID;
     ItemType::Type mType;
     double mState;
 
     friend class ItemFactory;
     Item( int32_t Id );
-
+    Item();
 public:
     double GetState()const
     {
@@ -57,6 +45,7 @@ public:
     {
         return mId;
     }
+    friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
 };
@@ -67,6 +56,7 @@ void Item::serialize(Archive& ar, const unsigned int version)
     ar & mId;
     ar & mType;
     ar & mState;
+    ar & mActorGUID;
 }
 
 class DefaultItem : public Item

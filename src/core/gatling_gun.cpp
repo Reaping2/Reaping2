@@ -14,17 +14,21 @@ GatlingGun::GatlingGun( int32_t Id )
     , mDeployState(Undeployed)
 
 {
-    mScatter.mIncrease=5;
-    mScatter.mChill=20;
-    mScatter.mAltIncrease=1.5;
-    mScatter.mMagicNumber=100;
-    mShootCooldown = 0.05;
-    mShootAltCooldown = 0.05;
-    mBulletsMax = 101.0;
-    mShotCost=1;
-    mShotCostAlt=1;
-    mReloadTimeMax=2.5;
-    mBullets=mBulletsMax;
+    InitMembers();
+
+}
+
+GatlingGun::GatlingGun()
+    : Weapon(-1)
+    , mWindup(0.0)
+    , mWindupMax(100.0)
+    , mWindupSpeed(100.0)
+    , mDeploy(0.0)
+    , mDeployMax(100.0)
+    , mDeploySpeed(100.0)
+    , mDeployState(Undeployed)
+{
+    InitMembers();
 }
 
 bool GatlingGun::IsShooting() const
@@ -164,6 +168,21 @@ bool GatlingGun::CanReload() const
 {
     return (mDeployState==Deployed||mDeployState==Undeployed)
         &&Weapon::CanReload();
+}
+
+void GatlingGun::InitMembers()
+{
+    mScatter.mIncrease=5;
+    mScatter.mChill=20;
+    mScatter.mAltIncrease=1.5;
+    mScatter.mMagicNumber=100;
+    mShootCooldown = 0.05;
+    mShootAltCooldown = 0.05;
+    mBulletsMax = 101.0;
+    mShotCost=1;
+    mShotCostAlt=1;
+    mReloadTimeMax=2.5;
+    mBullets=mBulletsMax;
 }
 
 

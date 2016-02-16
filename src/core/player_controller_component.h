@@ -19,7 +19,27 @@ public:
     int32_t mControllerId; //controller client id
     bool mReloadTyped;
     bool mMoving;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void PlayerControllerComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<ControllerComponent>(*this);
+    ar & mOrientation;
+    ar & mHeading;
+    ar & mShoot;
+    ar & mShootAlt;
+    ar & mUseNormalItem;
+    ar & mActive;
+    ar & mControllerId;
+    ar & mReloadTyped;
+    ar & mMoving;
+}
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>
 {

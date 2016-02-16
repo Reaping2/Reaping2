@@ -21,7 +21,21 @@ private:
     double mX;
     double mY;
     double mOrientation;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void PositionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IPositionComponent>(*this);
+    ar & mX;
+    ar & mY;
+    ar & mOrientation;
+}
 
 class PositionComponentLoader: public ComponentLoader<PositionComponent>
 {

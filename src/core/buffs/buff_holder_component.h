@@ -15,7 +15,18 @@ protected:
     friend class ComponentFactory;
     BuffHolder mBuffList;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void BuffHolderComponent::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<IBuffHolderComponent>(*this);
+    ar & mBuffList.mAllBuffs;
+}
 
 class SecsToEndModifier
 {

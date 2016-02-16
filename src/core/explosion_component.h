@@ -20,7 +20,21 @@ protected:
     double mMaxRadius;
     double mScaleSpeed;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ExplosionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IExplosionComponent>(*this);
+    ar & mStartRadius;
+    ar & mMaxRadius;
+    ar & mScaleSpeed;
+}
 
 class ExplosionComponentLoader : public ComponentLoader<ExplosionComponent>
 {

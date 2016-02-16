@@ -5,6 +5,11 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include "core/opt.h"
 #include "json/json.h"
+#include <portable_oarchive.hpp>
+#include <portable_iarchive.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/ptr_container/serialize_ptr_map.hpp>
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -24,17 +29,28 @@ class Actor;
 class Component 
 {
 public:
-    virtual int GetType() const=0;
+    virtual int GetType() const;
     virtual ~Component();
-    virtual void SetActor(Actor* Obj);
+    virtual void SetActorGUID(int32_t actorGUID);
     void SetId(int32_t id);
     int32_t GetId() const;
     virtual void Save(Json::Value& component);
-protected:
-    Actor* mActor;
-    int32_t mId;
+
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
     Component();
+protected:
+    int32_t mActorGUID;
+    int32_t mId;
 };
+
+template<class Archive>
+void Component::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mActorGUID;
+    ar & mId;
+}
 
 class ComponentFactory;
 
@@ -54,7 +70,17 @@ public:
     template<typename Component_t>
     Opt<Component_t> Get();
     virtual ~ComponentHolder();
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ComponentHolder::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mComponents;
+}
+
 template<typename Component_t>
 Opt<Component_t> ComponentHolder::Get() const
 {
@@ -74,7 +100,18 @@ class DefaultComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(DefaultComponent)
     DefaultComponent();
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void DefaultComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
+
 
 template<typename T,typename BASE>
 class PropertyLoader;

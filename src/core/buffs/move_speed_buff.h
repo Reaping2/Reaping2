@@ -19,7 +19,20 @@ protected:
     double mPercentBonus;
     bool mRooted;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void MoveSpeedBuff::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Buff>(*this);
+    ar & mFlatBonus;
+    ar & mPercentBonus;
+    ar & mRooted;
+}
 
 #endif//INCLUDED_CORE_MOVE_SPEED_BUFF_H
 

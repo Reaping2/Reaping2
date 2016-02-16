@@ -19,7 +19,21 @@ protected:
     int32_t mDamage;
     int32_t mParentGUID;
     std::vector<CollisionClass::Type> mPassThroughTypes;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ShotCollisionComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<CollisionComponent>(*this);
+    ar & mDamage;
+    ar & mParentGUID;
+    ar & mPassThroughTypes;
+}
 
 class ShotCollisionComponentLoader: public ComponentLoader<ShotCollisionComponent>
 {

@@ -3,6 +3,11 @@
 #include "ui/ui.h"
 #include "core/start_game_mode_event.h"
 #include "client_datas_changed_event.h"
+#include "engine.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
+#include "core/actor_factory.h"
+#include "core/program_state.h"
 
 namespace engine {
 
@@ -18,11 +23,31 @@ LocalSystem::LocalSystem()
 void LocalSystem::Init()
 {
     Ui::Get().Load("start");
+    mKeyboard=::engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
 }
 
 
 void LocalSystem::Update(double DeltaTime)
 {
+    if(mKeyboard->GetKey(GLFW_KEY_C).State==KeyState::Typed)
+    {
+        std::ostringstream oss;
+        eos::portable_oarchive oa(oss);
+        ActorList_t& actorlist = Scene::Get().GetActors();
+        oa & actorlist;
+        std::string astr(oss.str());
+
+        std::istringstream iss(astr);
+        eos::portable_iarchive ia(iss);
+        ActorList_t actorlist2;
+        ia >> actorlist2;
+
+        Scene::Get().SetPlayerModels(Opt<Actor>());
+        Scene::Get().ClearActors();
+        Scene::Get().SetActors(actorlist2);
+        Scene::Get().SetPlayerModels(Scene::Get().GetActor(core::ProgramState::Get().mControlledActorGUID));
+    }
+
 }
 
 void LocalSystem::OnLocalStart()

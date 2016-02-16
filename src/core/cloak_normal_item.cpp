@@ -5,4 +5,9 @@ CloakNormalItem::CloakNormalItem( int32_t id )
 {
 }
 
+CloakNormalItem::CloakNormalItem()
+    : NormalItem(-1)
+{
+}
+
 

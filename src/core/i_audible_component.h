@@ -10,7 +10,20 @@ struct AudibleEffectDesc {
     int32_t TTL;
     bool AutoLoopUntilDeath;
     AudibleEffectDesc( int32_t id, bool autoLoopUntilDeath=false );
+    AudibleEffectDesc();
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void AudibleEffectDesc::serialize(Archive& ar, const unsigned int version)
+{
+    ar & UID;
+    ar & Id;
+    ar & TTL;
+    ar & AutoLoopUntilDeath;
+}
 
 class IAudibleComponent : public Component
 {
@@ -20,7 +33,18 @@ public:
     virtual std::vector<AudibleEffectDesc>& GetEffects()=0;
     virtual void AddOneShotEffect( int32_t id )=0;
     virtual void AddLoopingEffect( int32_t id )=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IAudibleComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_AUDIBLE_COMPONENT_H
 

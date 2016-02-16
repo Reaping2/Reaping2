@@ -9,7 +9,18 @@ public:
     DEFINE_COMPONENT_BASE(IArmorComponent)
     virtual void SetCurrentArmor(int32_t currentArmor)=0;
     virtual int32_t GetCurrentArmor()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IArmorComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_ARMOR_COMPONENT_H
 

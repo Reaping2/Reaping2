@@ -5,10 +5,24 @@
 class LuckyRocket :	public Weapon
 {
     LuckyRocket(int32_t Id);
+    LuckyRocket();
+
+    void InitMembers();
+
     friend class Factory<Item>;
 public:
     virtual glm::vec3 GetMouseColor() const;
     virtual std::string GetMouseText() const;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void LuckyRocket::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Weapon>(*this);
+}
 
 #endif // INCLUDED_CORE_LUCKY_ROCKET_H

@@ -22,6 +22,13 @@ Actor::Actor( int32_t Id )
     mGUID = ++NextGuid;
 }
 
+Actor::Actor()
+    : ComponentHolder()
+    , mId(-1)
+{
+
+}
+
 
 Actor::~Actor()
 {
@@ -35,11 +42,21 @@ int32_t Actor::GetId() const
 
 void Actor::AddComponent(std::auto_ptr<Component> Comp)
 {
-    Comp->SetActor(this);
+    Comp->SetActorGUID(mGUID);
     ComponentHolder::AddComponent(Comp);
 }
 
 void Actor::SetId( int32_t Id )
 {
     mId=Id;
+}
+
+void Actor::SetGUID(int32_t guid)
+{
+    mGUID=guid;
+}
+
+int32_t Actor::GetGUID() const
+{
+    return mGUID;
 }

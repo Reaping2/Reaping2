@@ -62,7 +62,16 @@ public:
     typedef ActorList_t::nth_index<1>::type  ActorListRenderableComponent_t;
     ActorList_t mAllActors;
 
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void ActorHolder::serialize(Archive& ar, const unsigned int version)
+{
+    ar & mAllActors;
+}
 
 typedef ActorHolder::ActorList_t ActorList_t;
 
@@ -205,14 +214,11 @@ public:
         ActorList_t::iterator it = mActorHolder.mAllActors.find(Obj->GetGUID());
         mActorHolder.mAllActors.modify(it,Modifier);
     }
-    ActorList_t const& GetActors() const
-    {
-        return mActorHolder.mAllActors;
-    }
-    ActorList_t& GetActors()
-    {
-        return mActorHolder.mAllActors;
-    }
+    ActorList_t const& GetActors() const;
+    ActorList_t& GetActors();
+
+    void SetActors(ActorList_t& actors, bool withAddActorEvents=true);
+    void ClearActors( bool withEvents=true );
     //the template version works well with '=' i just dont know is it really needed, maybe this creating a wrapper is better
 
 //     template<int N>

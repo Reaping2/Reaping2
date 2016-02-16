@@ -13,7 +13,18 @@ public:
 protected:
     friend class ComponentFactory;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void FlagCarrierComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IFlagCarrierComponent>(*this);
+}
 
 class FlagCarrierComponentLoader : public ComponentLoader<FlagCarrierComponent>
 {

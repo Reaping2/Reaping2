@@ -25,10 +25,7 @@ InventoryComponent::ItemList_t& InventoryComponent::GetItems()
 void InventoryComponent::AddItem( int32_t Id )
 {
     std::auto_ptr<Item> a = mItemFactory( Id );
-    if (mActor)
-    {
-        a->SetActor(mActor);
-    }
+    a->SetActorGUID(mActorGUID);
     mItems.push_back( Opt<Item>(a.release()) );
 }
 
@@ -103,12 +100,12 @@ InventoryComponent::~InventoryComponent()
     mItems.clear();
 }
 
-void InventoryComponent::SetActor(Actor* Obj)
+void InventoryComponent::SetActorGUID(int32_t actorGUID)
 {
-    IInventoryComponent::SetActor(Obj);
+    IInventoryComponent::SetActorGUID(actorGUID);
     for(ItemList_t::iterator i=mItems.begin(), e=mItems.end();i!=e;++i)
     {
-        (*i)->SetActor( mActor );
+        (*i)->SetActorGUID( mActorGUID );
     }
 
 }

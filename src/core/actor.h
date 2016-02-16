@@ -13,6 +13,7 @@ public:
 protected:
     int32_t mGUID;
     int32_t mId;
+    Actor();
 public:
     Actor( int32_t Id );
     int32_t GetId()const;
@@ -22,17 +23,22 @@ public:
     virtual ~Actor();
 
     // dont use it pls its for network guid sync
-    void SetGUID(int32_t guid)
-    {
-        mGUID=guid;
-    }
+    void SetGUID(int32_t guid);
 
-    int32_t GetGUID()const
-    {
-        return mGUID;
-    }
+    int32_t GetGUID()const;
 
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void Actor::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<ComponentHolder>(*this); 
+    ar & mGUID;
+    ar & mId;
+}
 
 
 

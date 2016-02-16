@@ -7,14 +7,14 @@ DefaultItem::DefaultItem( int32_t Id )
     mType = ItemType::Normal;
 }
 
-void Item::SetActor( Actor* Obj )
+void Item::SetActorGUID( int32_t actorGUID )
 {
-    mActor = Obj;
+    mActorGUID = actorGUID;
 }
 
-Actor* Item::GetActor() const
+int32_t Item::GetActorGUID() const
 {
-    return mActor;
+    return mActorGUID;
 }
 
 Item::Item( int32_t Id )
@@ -22,5 +22,12 @@ Item::Item( int32_t Id )
     , mState( 0 )
 {
     LOG( "!Item: id: %d\n", mId );
+}
+
+Item::Item()
+    : mId(-1)
+    , mState(0)
+{
+
 }
 

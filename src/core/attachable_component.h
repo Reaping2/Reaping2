@@ -16,7 +16,19 @@ protected:
     friend class ComponentFactory;
     int32_t mAttachedGUID;
 private:
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void AttachableComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IAttachableComponent>(*this);
+    ar & mAttachedGUID;
+}
 
 class AttachableComponentLoader : public ComponentLoader<AttachableComponent>
 {

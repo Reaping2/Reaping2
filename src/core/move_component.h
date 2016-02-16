@@ -33,7 +33,27 @@ private:
     bool mMoving;
     Buffable<double> mSpeed;
     bool mRooted;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void MoveComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<IMoveComponent>(*this);
+    ar & mHeading;
+    ar & mHeadingCos;
+    ar & mHeadingSin;
+    ar & mHeadingModifier;
+    ar & mSpeedX;
+    ar & mSpeedY;
+    ar & mMoving;
+    ar & mSpeed;
+    ar & mRooted;
+}
 
 class MoveComponentLoader: public ComponentLoader<MoveComponent>
 {

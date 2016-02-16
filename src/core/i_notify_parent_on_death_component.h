@@ -11,6 +11,17 @@ public:
     virtual int32_t GetParentGUID()const=0;
     virtual void SetKillerGUID(int32_t killerId)=0;
     virtual int32_t GetKillerGUID()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void INotifyParentOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_NOTIFY_PARENT_ON_DEATH_COMPONENT_H

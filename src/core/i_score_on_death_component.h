@@ -9,7 +9,18 @@ public:
     DEFINE_COMPONENT_BASE(IScoreOnDeathComponent)
     virtual void SetScored(bool scored)=0;
     virtual bool IsScored()const=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IScoreOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_SCORE_ON_DEATH_COMPONENT_H
 

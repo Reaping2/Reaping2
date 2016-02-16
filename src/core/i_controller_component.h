@@ -13,6 +13,17 @@ public:
     virtual bool IsEnabled()=0;
 protected:
     friend class ComponentFactory;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IControllerComponent::serialize(Archive& ar, const unsigned int version)
+{
+    //NOTE: generated archive for this class
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_CONTROLLER_COMPONENT_H

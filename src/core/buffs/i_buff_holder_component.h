@@ -158,6 +158,15 @@ public:
     virtual BuffList_t& GetBuffList()=0;
     virtual void AddBuff(std::auto_ptr<Buff> buff)=0;
     DEFINE_COMPONENT_BASE(IBuffHolderComponent)
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version);
 };
+
+template<class Archive>
+void IBuffHolderComponent::serialize(Archive& ar, const unsigned int version)
+{
+    ar & boost::serialization::base_object<Component>(*this);
+}
 
 #endif//INCLUDED_CORE_I_BUFF_HOLDER_COMPONENT_H
