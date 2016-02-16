@@ -6,6 +6,8 @@
 #include <portable_oarchive.hpp>
 #include <iosfwd>
 #include "my_name_message.h"
+#include "engine/engine.h"
+#include "main/window.h"
 namespace network {
 
 ClientSystem::ClientSystem()
@@ -45,6 +47,7 @@ void ClientSystem::Init()
         L1 ("An error occurred while initializing ENet.\n");
     }
     atexit (enet_deinitialize);
+    Connect();
 }
 
 void ClientSystem::Update(double DeltaTime)
@@ -71,6 +74,8 @@ void ClientSystem::Update(double DeltaTime)
         case ENET_EVENT_TYPE_DISCONNECT:
             L1 ("%s disconnected.\n", event.peer -> data);
             mProgramState.mClientConnected=false;
+            L1("\n\n\n\nLost connection please try reconnecting later! One Love!\n");
+            engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
         }
     }
     PerfTimer.Log("client receive ended");

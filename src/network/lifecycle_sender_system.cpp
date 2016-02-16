@@ -30,8 +30,8 @@ void LifecycleSenderSystem::Host()
     }
     std::auto_ptr<LifecycleMessage> msg(new LifecycleMessage);
     msg->mState=LifecycleMessage::Start;
-    msg->mMode=mScene.GetSelectedGameMode();
-    msg->mLevel=mScene.GetSelectedLevel();
+    msg->mGameMode=mScene.GetSelectedGameMode();
+    msg->mSelectedLevel=mScene.GetSelectedLevel();
     mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));
 }
 

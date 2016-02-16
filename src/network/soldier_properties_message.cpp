@@ -13,6 +13,7 @@
 #include "accuracy_message.h"
 #include "network/client_datas_message.h"
 #include "network/client_ready_event.h"
+#include "lifecycle_message.h"
 
 namespace network {
 
@@ -83,23 +84,26 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
     }
 
     clientData->mSoldierProperties=msg.mSoldierProperties;
+    clientData->mSoldierProperties.mArrived=true;
     L1("**** Client: %s properties arrived. Ready to fight!!! **** from id: %d \n", clientData->mClientName.c_str(),msg.mSenderId );
     L1("   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", msg.mSoldierProperties.mMoveSpeed, msg.mSoldierProperties.mHealth, msg.mSoldierProperties.mAccuracy );
 	// put client name here into client_list
     if (mProgramState.mMode==ProgramState::Server)
     {
-        // TODO: send message to clients too to store id <-> name
-        // or store naming in server too?
         ClientReadyEvent event;
         event.mClientId = clientData->mClientId;
         event.mClientName = clientData->mClientName;
+        // for ctf
         EventServer<ClientReadyEvent>::Get().SendEvent(event);
-        // TODO: send an event here with the new players data:
-        // name, id : ClientReadyEvent and catccch that in 
-        // ctf_client_list_handling_system
+        // for ffa
         std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
+
+        std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+        lifecycleMsg->mClientId=msg.mSenderId;
+        lifecycleMsg->mState=LifecycleMessage::WaitingForHost;
+        mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
     }
 }
 

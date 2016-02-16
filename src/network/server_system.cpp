@@ -5,6 +5,8 @@
 #include "my_name_message.h"
 #include "client_system.h"
 #include "engine/frame_counter_system.h"
+#include "core/program_state.h"
+#include "engine/connection_event.h"
 namespace network {
 
 ServerSystem::ServerSystem()
@@ -77,10 +79,8 @@ void ServerSystem::Update(double DeltaTime)
             break;
 
         case ENET_EVENT_TYPE_DISCONNECT:
-            L1 ("%s disconnected.\n", event.peer -> data);
-            /* Reset the peer's client information. */
-            delete static_cast<int32_t*>(event.peer->data);
-            event.peer -> data = NULL;
+            ClientDisconnect(event);
+            break;
         }
     }
     PerfTimer.Log("server receive ended");
@@ -148,15 +148,36 @@ void ServerSystem::ClientConnect(ENetEvent& event)
         event.peer -> address.host,
         event.peer -> address.port);
     /* Store any relevant client information here. */
-
-    event.peer -> data = static_cast<void*>(new int32_t(mClientId));
-    mClients[mClientId++]=event.peer;
+    int32_t clientId=mClientId++;
+    event.peer -> data = static_cast<void*>(new int32_t(clientId));
+    mClients[clientId]=event.peer;
+    EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(clientId,true));
 }
 
 void ServerSystem::OnFrameCounterEvent(engine::FrameCounterEvent const& Evt)
 {
     L1("sent messages size (approx): %f\n",mSentMessagesSize/Evt.mDiff);
     mSentMessagesSize=0;
+}
+
+void ServerSystem::ClientDisconnect(ENetEvent& event)
+{
+    int32_t clientId=*static_cast<int32_t*>(event.peer -> data);
+    Opt<core::ClientData> clientData(core::ProgramState::Get().FindClientDataByClientId(clientId));
+    L1 ("client disconnected: %x:%u. client id: %d, name: %s\n", 
+        event.peer -> address.host,
+        event.peer -> address.port,
+        clientId,
+        clientData.IsValid()?clientData->mClientName.c_str():"_no_name_");
+    /* Reset the peer's client information. */
+    delete static_cast<int32_t*>(event.peer->data);
+    event.peer -> data = NULL;
+    if (clientData.IsValid())
+    {
+        // could be invalid if client tried to connect too early, and the system had it as connected
+        clientData->mConnected=false;
+    }
+    EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(clientId,false));
 }
 
 } // namespace engine

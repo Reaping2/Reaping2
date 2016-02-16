@@ -28,6 +28,8 @@ public:
     virtual void Init();
     virtual void Update( double DeltaTime );
 
+    void ClientDisconnect(ENetEvent& event);
+
     void ClientConnect(ENetEvent& event);
 
     void Receive(ENetEvent& event);
