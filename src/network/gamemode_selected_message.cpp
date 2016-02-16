@@ -29,7 +29,6 @@ void GamemodeSelectedMessageSenderSystem::OnGamemodeSelectedEvent(core::Gamemode
     msg->mGameMode = evt.mGameMode;
     msg->mOriginator = mProgramState.mClientId;
     mMessageHolder.AddOutgoingMessage(msg);
-    std::cerr << " .... GamemodeSelectedMessage client id " << mProgramState.mClientId << "\n";
 }
 
 GamemodeSelectedMessageHandlerSubSystem::GamemodeSelectedMessageHandlerSubSystem()
@@ -52,10 +51,8 @@ void GamemodeSelectedMessageHandlerSubSystem::Execute(Message const& message)
     GamemodeSelectedMessage const& msg=static_cast<GamemodeSelectedMessage const&>(message);
     if ( mProgramState.mMode == ProgramState::Client  )
     {
-        std::cerr << "Receiving gamemodeselected... my client id " << mProgramState.mClientId << " received cid : " << msg.mOriginator << "\n";
         if ( mProgramState.mClientId != msg.mOriginator )
         {
-            std::cerr << "Receiving gamemodeselected...and processing\n";
             network::LoadClientlistEvent event;
             event.mGameMode = msg.mGameMode;
             EventServer<network::LoadClientlistEvent>::Get().SendEvent(event);

@@ -27,7 +27,6 @@ void TeamSwitchRequestMessageSenderSystem::OnTeamSwitchRequest( TeamSwitchReques
     {
         if ( mProgramState.mClientId != event.mClientId )
         {
-            std::cerr << "error client != client\n";
             // ERROR: don't allow change other's team
             return;
         }
