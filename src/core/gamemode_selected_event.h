@@ -1,5 +1,5 @@
-#ifndef INCLUDED_ENGINE_GAMEMODE_SELECTED_EVENT_H
-#define INCLUDED_ENGINE_GAMEMODE_SELECTED_EVENT_H
+#ifndef INCLUDED_CORE_GAMEMODE_SELECTED_EVENT_H
+#define INCLUDED_CORE_GAMEMODE_SELECTED_EVENT_H
 
 #include "platform/event.h"
 
@@ -11,8 +11,8 @@ struct GamemodeSelectedEvent : public platform::Event
     GamemodeSelectedEvent(){}
 };
 
-} // namespace engine
+} // namespace core
 
-#endif//INCLUDED_ENGINE_GAMEMODE_SELECTED_EVENT_H
+#endif//INCLUDED_CORE_GAMEMODE_SELECTED_EVENT_H
 
 //command:  "./classgenerator" -g "event" -c "gamemode_selected_event"
