@@ -1,3 +1,4 @@
+#include "version.h"
 #include "window.h"
 #include "render/i_render.h"
 #include "platform/i_platform.h"
@@ -155,6 +156,7 @@ int main(int argc, char* argv[])
         ("-c", po::value<std::string>(&programState.mServerIp), "client")
         ("-s", "server ip")
         ("-n", po::value<std::string>(&programState.mClientName), "client name")
+        ("-v", "print version information" )
         ;
 
     po::variables_map vm;
@@ -163,6 +165,13 @@ int main(int argc, char* argv[])
     if (vm.count("help")) {
         std::cout << desc << "\n";
         return 1;
+    } else if( vm.count( "-v" ) )
+    {
+        std::cout << GIT_VERSION << "\n"
+            << GIT_DATE << "\n"
+            << GIT_BRANCH << "\n"
+            << GIT_REMOTE << "\n";
+        return 0;
     }
     if (vm.count("-c")) {
         L1("run as client");
