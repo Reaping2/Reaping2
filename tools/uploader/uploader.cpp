@@ -3,6 +3,7 @@
  * http://curl.haxx.se/libcurl/c/curl_easy_setopt.html
  ************************************************************************/
 #include <curl/curl.h>
+#include "version.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +25,7 @@ int main(int argc, char *argv[])
             CURLFORM_END);
     curl_formadd(&post1, &postend,
             CURLFORM_COPYNAME, "Version",
-            CURLFORM_COPYCONTENTS, "1.1",
+            CURLFORM_COPYCONTENTS, "\"" GIT_VERSION "-" GIT_DATE "-" GIT_REMOTE "-" GIT_BRANCH "\"",
             CURLFORM_END);
     curl_formadd(&post1, &postend,
             CURLFORM_COPYNAME, "upload_file_minidump",
