@@ -150,12 +150,15 @@ void ClientSystem::Connect()
         {
             L1("Connection timed out.\n");
             enet_peer_reset (mPeer);
-            exit (EXIT_FAILURE);
+            engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
         }
-        mProgramState.mClientConnected=true;
-        std::auto_ptr<MyNameMessage> msg(new MyNameMessage);
-        msg->mName=core::ProgramState::Get().mClientName;
-        mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));
+        else
+        {
+            mProgramState.mClientConnected=true;
+            std::auto_ptr<MyNameMessage> msg(new MyNameMessage);
+            msg->mName=core::ProgramState::Get().mClientName;
+            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));
+        }
 }
 void ClientSystem::Receive(ENetEvent& event)
 {

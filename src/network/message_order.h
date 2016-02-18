@@ -107,6 +107,7 @@
 #include "core/flash_normal_item.h"
 #include "core/grenade_normal_item.h"
 #include "core/shotgun.h"
+#include "actor_list_message.h"
 
 
     struct message_order
@@ -151,7 +152,90 @@
             type=network::ModifyAudibleComponentMessage::GetType_static();
             type=network::FlagStateChangedMessage::GetType_static();
             type=network::FadeOutMessage::GetType_static();
+            type=network::ActorListMessage::GetType_static();
 
+            type=IControllerComponent::GetType_static();
+            type=PlayerControllerComponent::GetType_static();
+            type=platform::AutoId("player_controller_component");
+    type=IAccelerationComponent::GetType_static();
+    type=IAccuracyComponent::GetType_static();
+    type=IArmorComponent::GetType_static();
+    type=ctf::IAttachableComponent::GetType_static();
+    type=IAudibleComponent::GetType_static();
+    type=IBorderComponent::GetType_static();
+    type=IBuffHolderComponent::GetType_static();
+    type=ICollisionComponent::GetType_static();
+    type=IControllerComponent::GetType_static();
+    type=IDetonateOnHitComponent::GetType_static();
+    type=IDropOnDeathComponent::GetType_static();
+    type=IEmitterComponent::GetType_static();
+    type=IExplodeOnDeathComponent::GetType_static();
+    type=IExplodeOnHitComponent::GetType_static();
+    type=IExplosionComponent::GetType_static();
+    type=IFadeOutComponent::GetType_static();
+    type=ctf::IFlagCarrierComponent::GetType_static();
+    type=ctf::IFlagReceiverComponent::GetType_static();
+    type=IHealthComponent::GetType_static();
+    type=IHeatSourceComponent::GetType_static();
+    type=IInventoryComponent::GetType_static();
+    type=IKillScoreOnDeathComponent::GetType_static();
+    type=IListenChildDeathComponent::GetType_static();
+    type=IMoveComponent::GetType_static();
+    type=INotifyParentOnDeathComponent::GetType_static();
+    type=IOwnerComponent::GetType_static();
+    type=IPositionComponent::GetType_static();
+    type=IRemoveOnDeathComponent::GetType_static();
+    type=IRenderableComponent::GetType_static();
+    type=IScoreOnDeathComponent::GetType_static();
+    type=IStopOnDeathComponent::GetType_static();
+    type=ITargetHolderComponent::GetType_static();
+    type=ITeamComponent::GetType_static();
+
+    type=platform::AutoId("i_acceleration_component");
+    type=platform::AutoId("i_accuracy_component");
+    type=platform::AutoId("i_armor_component");
+    type=platform::AutoId("i_attachable_component");
+    type=platform::AutoId("i_audible_component");
+    type=platform::AutoId("i_border_component");
+    type=platform::AutoId("buff_holder_component");
+    type=platform::AutoId("i_collision_component");
+    type=platform::AutoId("i_controller_component");
+    type=platform::AutoId("i_detonate_on_hit_component");
+    type=platform::AutoId("i_drop_on_death_component");
+    type=platform::AutoId("i_emitter_component");
+    type=platform::AutoId("i_explode_on_death_component");
+    type=platform::AutoId("i_explode_on_hit_component");
+    type=platform::AutoId("i_explosion_component");
+    type=platform::AutoId("i_fade_out_component");
+    type=platform::AutoId("i_flag_carrier_component");
+    type=platform::AutoId("i_flag_receiver_component");
+    type=platform::AutoId("i_health_component");
+    type=platform::AutoId("i_heat_source_component");
+    type=platform::AutoId("i_inventory_component");
+    type=platform::AutoId("i_kill_score_on_death_component");
+    type=platform::AutoId("i_listen_child_death_component");
+    type=platform::AutoId("i_move_component");
+    type=platform::AutoId("i_notify_parent_on_death_component");
+    type=platform::AutoId("i_owner_component");
+    type=platform::AutoId("i_position_component");
+    type=platform::AutoId("i_remove_on_death_component");
+    type=platform::AutoId("i_renderable_component");
+    type=platform::AutoId("i_score_on_death_component");
+    type=platform::AutoId("i_stop_on_death_component");
+    type=platform::AutoId("i_target_holder_component");
+    type=platform::AutoId("i_team_component");
+
+    type=platform::AutoId("collision_component");
+    type=platform::AutoId("aoe_collision_component");
+    type=platform::AutoId("bounce_collision_component");
+    type=platform::AutoId("collision_component");
+    type=platform::AutoId("flag_collision_component");
+    type=platform::AutoId("pickup_collision_component");
+    type=platform::AutoId("shot_collision_component");
+    type=platform::AutoId("wall_collision_component");
+    type=platform::AutoId("water_collision_component");
+
+    
             type=HealOverTimeBuff::GetType_static();
             type=MoveSpeedBuff::GetType_static();
             type=MaxHealthBuff::GetType_static();
@@ -243,6 +327,7 @@
     BOOST_CLASS_EXPORT_GUID(network::ModifyAudibleComponentMessage, "modify_audible_component")
     BOOST_CLASS_EXPORT_GUID(network::FlagStateChangedMessage, "flag_state_changed")
     BOOST_CLASS_EXPORT_GUID(network::FadeOutMessage, "fade_out")
+    BOOST_CLASS_EXPORT_GUID(network::ActorListMessage, "actor_list")
 
     BOOST_CLASS_EXPORT_GUID(Actor, "actor")
     BOOST_CLASS_EXPORT_GUID(CloakComponent, "cloak_component")

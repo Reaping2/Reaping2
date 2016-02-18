@@ -44,6 +44,7 @@ namespace network {
         {
             if (msg.mState==LifecycleMessage::Start)
             {
+                mProgramState.mGameMode=msg.mGameMode;
                 EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
             }
             else if (msg.mState==LifecycleMessage::WaitingForHost)
@@ -54,7 +55,11 @@ namespace network {
             {
                 Ui::Get().Load("soldier_properties");
             }
-            else if (msg.mState==LifecycleMessage::AlreadyConnected)
+        }
+        else if (mProgramState.mMode==ProgramState::Client
+            &&mProgramState.mClientId==-1)
+        {
+            if (msg.mState==LifecycleMessage::AlreadyConnected)
             {
                 L1("\n\n\n\nAlready connected. If you lost connection please try reconnecting later! *** One Love!\n");
                 engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
@@ -64,6 +69,7 @@ namespace network {
         {
             if (msg.mState==LifecycleMessage::Start)
             {
+                mProgramState.mGameMode=msg.mGameMode;
                 mScene.SelectLevel(msg.mSelectedLevel);
                 EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
                 std::auto_ptr<network::LifecycleMessage> lifecycleMsg(new network::LifecycleMessage);
@@ -73,6 +79,7 @@ namespace network {
                 std::auto_ptr<network::ClientDatasMessage> clientDatasMsg(new network::ClientDatasMessage);
                 clientDatasMsg->mClientDatas=mProgramState.mClientDatas;
                 mMessageHolder.AddOutgoingMessage(clientDatasMsg);
+                core::ProgramState::Get().mGameState=core::ProgramState::Running;
             }
         }
     }

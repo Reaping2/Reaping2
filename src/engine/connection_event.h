@@ -7,9 +7,15 @@ namespace engine {
 
 struct ConnectionEvent : public platform::Event
 {
+    enum State
+    {
+        Connected,
+        Disconnected,
+        Reconnected
+    };
     int32_t mClientId;
-    bool mConnected;
-    ConnectionEvent(int32_t clientId, bool connected)
+    State mConnected;
+    ConnectionEvent(int32_t clientId, State connected)
         :mClientId(clientId),mConnected(connected){}
 };
 

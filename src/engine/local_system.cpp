@@ -55,7 +55,9 @@ void LocalSystem::OnLocalStart()
     mProgramState.mClientId=0;
     mProgramState.mClientName="kvakmama";
     mProgramState.mClientDatas.clear();
-    mProgramState.mClientDatas.push_back(core::ClientData(mProgramState.mClientId,mProgramState.mClientName));
+    core::ClientData clientData = core::ClientData(mProgramState.mClientId,mProgramState.mClientName);
+    clientData.mConnected=true;
+    mProgramState.mClientDatas.push_back(clientData);
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent(engine::ClientDatasChangedEvent());
     Ui::Get().Load("soldier_properties");
 }
@@ -65,6 +67,7 @@ void LocalSystem::OnSoldierPropertiesReady(SoldierPropertiesReadyEvent const& Ev
     mScene.SelectLevel("level1");   // TODO: temporary level selection should be implemented in local too
     Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
     clientData->mSoldierProperties=mProgramState.mSoldierProperties;
+    mProgramState.mGameState=core::ProgramState::Running;
     EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( "ffa" ));
 }
 

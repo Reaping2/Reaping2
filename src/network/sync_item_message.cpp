@@ -67,7 +67,7 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
     }
     std::istringstream iss( msg.mData );
     eos::portable_iarchive ia(iss);
-    ia >> item;
+    ia >> *item;
 }
 
 } // namespace network

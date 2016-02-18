@@ -75,6 +75,7 @@
 #include <portable_oarchive.hpp>
 #include <iosfwd>
 #include "core/component_factory.h"
+#include "network/actor_list_message.h"
 
 
 using engine::Engine;
@@ -247,7 +248,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("modify_audible_component_message_sender_system"));
         Eng.AddSystem(AutoId("flag_state_changed_message_sender_system"));
         Eng.AddSystem(AutoId("fade_out_message_sender_system"));
-
+        Eng.AddSystem(AutoId("actor_list_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -335,6 +336,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ModifyAudibleComponentMessage::GetType_static(),AutoId("modify_audible_component_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ActorListMessage::GetType_static(),AutoId("actor_list_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

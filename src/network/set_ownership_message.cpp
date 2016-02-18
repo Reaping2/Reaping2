@@ -62,7 +62,7 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending(Message const& message)
 
     if (msg.mClientId==mProgramState.mClientId)
     {
-        L1("thats my id! actorguid: %d \n",msg.mActorGUID);
+        L1("thats my id! actorguid: %d,%d \n",msg.mActorGUID,PlayerControllerComponent::GetType_static());
         Opt<Actor> oldActor=mScene.GetActor(mProgramState.mControlledActorGUID);
         if (oldActor.IsValid())
         {

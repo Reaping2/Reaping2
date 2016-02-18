@@ -13,6 +13,10 @@
 #include "accuracy_message.h"
 #include "network/client_datas_message.h"
 #include "lifecycle_message.h"
+#include "ctf_client_datas_message.h"
+#include "core/ctf_program_state.h"
+#include "actor_list_message.h"
+#include "client_list_changed_event.h"
 
 namespace network {
 
@@ -73,7 +77,6 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
 {
     SoldierPropertiesMessage const& msg=static_cast<SoldierPropertiesMessage const&>(message);
     L1("executing soldierProperties from id: %d \n",msg.mSenderId );
-    L2("got revive message: senderId:%d\n",msg.mSenderId);
 
     Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(msg.mSenderId));
     if (!clientData.IsValid())
@@ -93,10 +96,35 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
         std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
-        std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-        lifecycleMsg->mClientId=msg.mSenderId;
-        lifecycleMsg->mState=LifecycleMessage::WaitingForHost;
-        mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+                    
+        std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
+        message->mClientDatas = ::ctf::ProgramState::Get().mClientDatas;
+        mMessageHolder.AddOutgoingMessage(message);
+
+        if (mProgramState.mGameState==core::ProgramState::Running)
+        {
+            std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+            lifecycleMsg->mState=LifecycleMessage::Start;
+            lifecycleMsg->mGameMode=mProgramState.mGameMode;
+            lifecycleMsg->mClientId=clientData->mClientId;
+            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+
+            std::auto_ptr<ActorListMessage> actorListMsg(new ActorListMessage);
+            actorListMsg->mClientId=clientData->mClientId;
+            std::ostringstream oss;
+            eos::portable_oarchive oa(oss);
+            ActorList_t& actorlist = Scene::Get().GetActors();
+            oa & actorlist;
+            actorListMsg->mActorList=oss.str();
+            mMessageHolder.AddOutgoingMessage(actorListMsg);
+        }
+        else
+        {
+            std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+            lifecycleMsg->mClientId=msg.mSenderId;
+            lifecycleMsg->mState=LifecycleMessage::WaitingForHost;
+            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+        }
     }
 }
 

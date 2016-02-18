@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/ctf_client_datas_message.h"
 #include "core/ctf_program_state.h"
+#include "engine/client_datas_changed_event.h"
+#include "platform/event.h"
 
 namespace network {
 namespace ctf {
@@ -51,6 +53,7 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
         L1("**** ctf arrived. **** from id: %d \n", i->mClientId );
         L1("   team:%d\n", i->mTeam );
     }
+    EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent(engine::ClientDatasChangedEvent());
 }
 
 } // namespace ctf

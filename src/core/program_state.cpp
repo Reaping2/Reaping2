@@ -3,12 +3,17 @@
 namespace core {
 
     ProgramState::ProgramState()
-        : mMode(ProgramState::Local)
-        , mClientConnected(false)
-        , mControlledActorGUID(-1)
-        , mProgramStateModel( "programstate", &platform::RootModel::Get() )
+        : mProgramStateModel( "programstate", &platform::RootModel::Get() )
         , mIsClientModel( RefTo( mIsClient ), "isclient", &mProgramStateModel )
         , mIsClient(0)
+        , mMode(ProgramState::Local)
+        , mGameState(NotRunning)
+        , mClientConnected(false)
+        , mClientName("")
+        , mClientId(-1)
+        , mControlledActorGUID(-1)
+        , mServerIp("")
+        , mGameMode("")
     {
     }
 
@@ -56,7 +61,7 @@ namespace core {
 
 
     ClientData::ClientData() 
-        :mClientId(0)
+        :mClientId(-1)
         ,mClientActorGUID(-1)
         ,mKill(0)
         ,mDeath(0)
