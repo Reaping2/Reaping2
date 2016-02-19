@@ -2,6 +2,7 @@
 #include "network/create_actor_message_handler_sub_system.h"
 #include "create_actor_message.h"
 #include "core/shot_collision_component.h"
+#include "core/i_renderable_component.h"
 namespace network {
 
     CreateActorMessageHandlerSubSystem::CreateActorMessageHandlerSubSystem()
@@ -28,6 +29,11 @@ namespace network {
                 L1("executing createactor: pickup! %d \n",msg.mSenderId );
             }
             actor->SetGUID(msg.mActorGUID);
+            Opt<IRenderableComponent> renderableC(actor->Get<IRenderableComponent>());
+            if (renderableC.IsValid())
+            {
+                renderableC->SetZOrder(actor->GetGUID());
+            }
             //TODO: handle parent from lower engine level (not only for shots)
             if (msg.mParentGUID!=-1)
             {
