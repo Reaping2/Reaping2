@@ -35,19 +35,46 @@ void FlagCollisionSubSystem::Init()
 
 void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 {
-    if (!mOther)
+}
+
+void FlagCollisionSubSystem::OnAttachStateChanged(engine::AttachStateChangedEvent const& Evt)
+{
+    if (Evt.mType==AttachStateChangedEvent::Detached)
     {
-        return;
+        Opt<Actor> actor(mScene.GetActor(Evt.mActorGUID));
+        if (!actor.IsValid())
+        {
+            return;
+        }
+        if (!actor->Get<FlagCollisionComponent>().IsValid())
+        {
+            return; //not the flag
+        }
+        Opt<ITeamComponent> actorTeamC;
+        actorTeamC=actor->Get<ITeamComponent>();
+        EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
+            ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Dropped,actorTeamC.IsValid()?actorTeamC->GetTeam():Team::None,Evt.mAttachedGUID,Evt.mActorGUID));
     }
+}
+
+
+void FlagCollisionSubSystem::ClipScene(Actor& actor)
+{
+    CollisionSubSystem::ClipScene(actor);
+    Opt<FlagCollisionComponent> flagCC=actor.Get<FlagCollisionComponent>();
+}
+
+void FlagCollisionSubSystem::Collide(Actor& actor, Actor& other)
+{
     Opt<IAttachableComponent> actorAttachableC=actor.Get<IAttachableComponent>();
     if (!actorAttachableC.IsValid())
     {
         return;
     }
 
-    Opt<IFlagCarrierComponent> otherFlagCarrierC(mOther->Get<IFlagCarrierComponent>());
+    Opt<IFlagCarrierComponent> otherFlagCarrierC(other.Get<IFlagCarrierComponent>());
 
-    Opt<ITeamComponent> otherTeamC(mOther->Get<ITeamComponent>());
+    Opt<ITeamComponent> otherTeamC(other.Get<ITeamComponent>());
     if (!otherTeamC.IsValid())
     {
         return;
@@ -60,7 +87,7 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 
     if (actorAttachableC->GetAttachedGUID()!=-1)
     {
-        Opt<IFlagReceiverComponent> otherFlagReceiverC(mOther->Get<IFlagReceiverComponent>());
+        Opt<IFlagReceiverComponent> otherFlagReceiverC(other.Get<IFlagReceiverComponent>());
 
         if (otherFlagReceiverC.IsValid())
         {
@@ -92,45 +119,17 @@ void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
             if (positionC->GetX()!=x||positionC->GetY()!=y)
             {
                 EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-                    ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Returned,actorTeamC->GetTeam(),mOther->GetGUID(),actor.GetGUID()));
+                    ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Returned,actorTeamC->GetTeam(),other.GetGUID(),actor.GetGUID()));
             }
         }
         else
         {
-            actorAttachableC->SetAttachedGUID(mOther->GetGUID());
-            //EventServer< AttachStateChangedEvent>::Get().SendEvent(AttachStateChangedEvent(AttachStateChangedEvent::Attached,mOther->GetGUID(),actor.GetGUID()));
+            actorAttachableC->SetAttachedGUID(other.GetGUID());
+            //EventServer< AttachStateChangedEvent>::Get().SendEvent(AttachStateChangedEvent(AttachStateChangedEvent::Attached,other.GetGUID(),actor.GetGUID()));
             EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-                ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Captured,actorTeamC->GetTeam(),mOther->GetGUID(),actor.GetGUID()));
+                ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Captured,actorTeamC->GetTeam(),other.GetGUID(),actor.GetGUID()));
         }
     }
-
-}
-
-void FlagCollisionSubSystem::OnAttachStateChanged(engine::AttachStateChangedEvent const& Evt)
-{
-    if (Evt.mType==AttachStateChangedEvent::Detached)
-    {
-        Opt<Actor> actor(mScene.GetActor(Evt.mActorGUID));
-        if (!actor.IsValid())
-        {
-            return;
-        }
-        if (!actor->Get<FlagCollisionComponent>().IsValid())
-        {
-            return; //not the flag
-        }
-        Opt<ITeamComponent> actorTeamC;
-        actorTeamC=actor->Get<ITeamComponent>();
-        EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-            ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Dropped,actorTeamC.IsValid()?actorTeamC->GetTeam():Team::None,Evt.mAttachedGUID,Evt.mActorGUID));
-    }
-}
-
-
-void FlagCollisionSubSystem::ClipScene(Actor& actor)
-{
-    CollisionSubSystem::ClipScene(actor);
-    Opt<FlagCollisionComponent> flagCC=actor.Get<FlagCollisionComponent>();
 }
 
 } // namespace ctf

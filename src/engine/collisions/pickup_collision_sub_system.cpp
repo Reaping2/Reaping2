@@ -23,14 +23,13 @@ void PickupCollisionSubSystem::Init()
 
 void PickupCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 {
-    if (!mOther)
-    {
-        return;
-    }
+}
 
+void PickupCollisionSubSystem::Collide(Actor& actor, Actor& other)
+{
     Opt<PickupCollisionComponent> pickupCC = actor.Get<PickupCollisionComponent>();
 
-    Opt<IInventoryComponent> inventoryC = mOther->Get<IInventoryComponent>();
+    Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid())
     {
         if (pickupCC->GetItemType()==ItemType::Weapon)
@@ -47,13 +46,13 @@ void PickupCollisionSubSystem::Update(Actor& actor, double DeltaTime)
         }
         else if (pickupCC->GetItemType()==ItemType::Buff)
         {
-            Opt<IBuffHolderComponent> buffHolderC=mOther->Get<IBuffHolderComponent>();
+            Opt<IBuffHolderComponent> buffHolderC=other.Get<IBuffHolderComponent>();
             if (buffHolderC.IsValid())
             {
                 buffHolderC->AddBuff(core::BuffFactory::Get()(pickupCC->GetPickupContent()));
             }
         }
-        EventServer<PickupEvent>::Get().SendEvent(PickupEvent(Opt<Actor>(mOther),pickupCC->GetItemType(),pickupCC->GetPickupContent()));
+        EventServer<PickupEvent>::Get().SendEvent(PickupEvent(Opt<Actor>(&other),pickupCC->GetItemType(),pickupCC->GetPickupContent()));
     }
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if (healthC.IsValid())
@@ -62,5 +61,6 @@ void PickupCollisionSubSystem::Update(Actor& actor, double DeltaTime)
     }
 
 }
+
 } // namespace engine
 

@@ -7,13 +7,7 @@ namespace engine {
 
 CollisionSubSystem::CollisionSubSystem()
     : mScene( Scene::Get() )
-    , mOther(NULL)
 {
-}
-
-void CollisionSubSystem::SetOther(Actor* other)
-{
-    mOther=other;
 }
 
 void CollisionSubSystem::ClipScene(Actor& actor)
@@ -43,6 +37,11 @@ void CollisionSubSystem::ClipScene(Actor& actor)
     {
         positionC->SetY( AllowedDimensions.w );
     }
+}
+
+void CollisionSubSystem::Collide(Actor& actor, Actor& other)
+{
+
 }
 
 } // namespace engine

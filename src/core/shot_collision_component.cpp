@@ -11,6 +11,8 @@ ShotCollisionComponent::ShotCollisionComponent()
     : CollisionComponent()
     , mDamage( 0 )
     , mParentGUID( -1 )
+    , mHitClosest(true)
+    , mDamageOnce(true)
 {
 
 }
@@ -45,6 +47,36 @@ void ShotCollisionComponent::SetPassThrough( std::vector<CollisionClass::Type> c
     mPassThroughTypes = CollTypes;
 }
 
+bool ShotCollisionComponent::IsHitClosest()
+{
+    return mHitClosest;
+}
+
+void ShotCollisionComponent::SetHitClosest(bool hitClosest)
+{
+    mHitClosest=hitClosest;
+}
+
+bool ShotCollisionComponent::IsDamageOnce()
+{
+    return mDamageOnce;
+}
+
+void ShotCollisionComponent::SetDamageOnce(bool damageOnce)
+{
+    mDamageOnce=damageOnce;
+}
+
+void ShotCollisionComponent::AddDamagedActorId(int32_t damagedActorId)
+{
+    mDamagedActorIds.insert(damagedActorId);
+}
+
+ShotCollisionComponent::Damaged_Actor_Ids_t const& ShotCollisionComponent::GetDamagedActorIds() const
+{
+    return mDamagedActorIds;
+}
+
 void ShotCollisionComponentLoader::BindValues()
 {
     Bind("damage",func_int32_t(&ShotCollisionComponent::SetDamage));
@@ -61,6 +93,8 @@ void ShotCollisionComponentLoader::BindValues()
         PassThroughTypes.push_back( typ );
     }
     Bind<std::vector<CollisionClass::Type> >( &ShotCollisionComponent::SetPassThrough, PassThroughTypes );
+    Bind("damage_once",func_bool(&ShotCollisionComponent::SetDamageOnce));
+    Bind("hit_closest",func_bool(&ShotCollisionComponent::SetHitClosest));
 }
 
 ShotCollisionComponentLoader::ShotCollisionComponentLoader()

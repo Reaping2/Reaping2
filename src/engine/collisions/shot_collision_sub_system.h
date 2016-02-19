@@ -3,6 +3,7 @@
 
 #include "core/scene.h"
 #include "engine/collisions/collision_sub_system.h"
+#include "core/shot_collision_component.h"
 
 namespace engine {
 
@@ -14,6 +15,12 @@ public:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene(Actor& actor);
+    virtual void Collide(Actor& actor, Actor& other);
+    typedef std::vector<Opt<Actor> > ActorsCollided_t;
+    ActorsCollided_t mActorsCollided;
+private:
+    void TakeDamage(Actor &actor, Actor &target, Opt<ShotCollisionComponent> shotCC);
+
 };
 
 } // namespace engine

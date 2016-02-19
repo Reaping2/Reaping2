@@ -21,44 +21,7 @@ void BounceCollisionSubSystem::Init()
 
 void BounceCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 {
-    if (!mOther)
-    {
-        return;
-    }
-    //TODO: for now its wallcc should be a bouncableComponent or this should be a collision class 
-    Opt<WallCollisionComponent> wallCC = mOther->Get<WallCollisionComponent>();
-    if(!wallCC.IsValid())
-    {
-        return;
-    }
-    Opt<BounceCollisionComponent> bounceCC=actor.Get<BounceCollisionComponent>();
-    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-    Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
 
-    Opt<IPositionComponent> otherPositionC = mOther->Get<IPositionComponent>();
-    Opt<ICollisionComponent> otherCC = mOther->Get<ICollisionComponent>();
-    if (!otherPositionC.IsValid()||!otherCC.IsValid()||!positionC.IsValid())
-    {
-        return;
-    }
-    double const dx = otherPositionC->GetX() - positionC->GetX();
-    double const dy = otherPositionC->GetY() - positionC->GetY();
-
-    const double h = moveC->GetHeading();
-    double c = cos( h );
-    double s = sin( h );
-    double at = atan2(s,c);
-    double at2 = atan2(c,s);
-    if( std::abs( dx ) > std::abs( dy ) )
-    {
-        c*=-1;
-    }
-    else if( std::abs( dx ) < std::abs( dy ) )
-    {
-        s*=-1;
-    }
-    moveC->SetHeading(atan2(s,c));
-    moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
 }
 
 
@@ -95,6 +58,45 @@ void BounceCollisionSubSystem::ClipScene(Actor& actor)
         moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
     }
     CollisionSubSystem::ClipScene(actor);
+}
+
+void BounceCollisionSubSystem::Collide(Actor& actor, Actor& other)
+{
+    //TODO: for now its wallcc should be a bouncableComponent or this should be a collision class 
+    Opt<WallCollisionComponent> wallCC = other.Get<WallCollisionComponent>();
+    if(!wallCC.IsValid())
+    {
+        return;
+    }
+    Opt<BounceCollisionComponent> bounceCC=actor.Get<BounceCollisionComponent>();
+    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+    Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+
+    Opt<IPositionComponent> otherPositionC = other.Get<IPositionComponent>();
+    Opt<ICollisionComponent> otherCC = other.Get<ICollisionComponent>();
+    if (!otherPositionC.IsValid()||!otherCC.IsValid()||!positionC.IsValid())
+    {
+        return;
+    }
+    double const dx = otherPositionC->GetX() - positionC->GetX();
+    double const dy = otherPositionC->GetY() - positionC->GetY();
+
+    const double h = moveC->GetHeading();
+    double c = cos( h );
+    double s = sin( h );
+    double at = atan2(s,c);
+    double at2 = atan2(c,s);
+    if( std::abs( dx ) > std::abs( dy ) )
+    {
+        c*=-1;
+    }
+    else if( std::abs( dx ) < std::abs( dy ) )
+    {
+        s*=-1;
+    }
+    moveC->SetHeading(atan2(s,c));
+    moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
+
 }
 
 

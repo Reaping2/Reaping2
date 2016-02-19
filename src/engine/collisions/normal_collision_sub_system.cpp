@@ -18,5 +18,10 @@ void NormalCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 {
 }
 
+void NormalCollisionSubSystem::Collide(Actor& actor, Actor& other)
+{
+
+}
+
 } // namespace engine
 

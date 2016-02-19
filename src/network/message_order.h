@@ -243,6 +243,7 @@
             type=ArmorBuff::GetType_static();
             type=CloakBuff::GetType_static();
 
+            type=platform::AutoId("weapon");
             type=platform::AutoId("player");
             type=platform::AutoId("ctf_player");
             type=platform::AutoId("flag");

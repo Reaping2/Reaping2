@@ -54,19 +54,27 @@ void CollisionSystem::Update(double DeltaTime)
         Opt<CollisionSubSystem> ACollisionSS=GetCollisionSubSystem(ACollisionC->GetId());
         if (ACollisionSS.IsValid())
         {
-            ACollisionSS->SetOther(&B);
-            ACollisionSS->Update(A,DeltaTime);
-            ACollisionSS->SetOther(NULL);
+            ACollisionSS->Collide(A,B);
         }
         Opt<CollisionSubSystem> BCollisionSS=GetCollisionSubSystem(BCollisionC->GetId());
         if (BCollisionSS.IsValid())
         {
-            BCollisionSS->SetOther(&A);
-            BCollisionSS->Update(B,DeltaTime);
-            BCollisionSS->SetOther(NULL);
+            BCollisionSS->Collide(B,A);
         }
     }
-
+    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    {
+        Actor& actor = **it;
+        Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
+        if (collisionC.IsValid())
+        {
+            Opt<CollisionSubSystem> collisionSS=GetCollisionSubSystem(collisionC->GetId());
+            if (collisionSS.IsValid())
+            {
+                collisionSS->Update(actor,DeltaTime);
+            }
+        }
+    }
 }
 
 Opt<CollisionSubSystem> CollisionSystem::GetCollisionSubSystem(int32_t id)
