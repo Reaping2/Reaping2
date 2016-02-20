@@ -12,6 +12,10 @@ project(Reaping2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake_support)
 
+if(NOT DEFINED REAPING2_DEPS_INSTALL_DIR AND EXISTS ${PROJECT_SOURCE_DIR}/local)
+    set(REAPING2_DEPS_INSTALL_DIR ${PROJECT_SOURCE_DIR}/local)
+endif()
+
 include( FindDeps ) 
 include( CMakeHelper )
 
@@ -28,6 +32,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin/relea
 if(WIN32)
     set( WIN32_ENET_INCLUDE_WS2_32 ws2_32.lib )
     set( WIN32_ENET_INCLUDE_WINMM winmm.lib )
+    # Had to use this when compiled debug+64bit with msvc
+    # see: https://msdn.microsoft.com/en-us/library/8578y171.aspx
+    set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /bigobj" )
 endif(WIN32)
 
 link_directories(
