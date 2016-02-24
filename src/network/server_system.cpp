@@ -44,6 +44,7 @@ void ServerSystem::Init()
     }
     atexit (enet_deinitialize);
     mOnFrameCounterEvent = EventServer<engine::FrameCounterEvent>::Get().Subscribe( boost::bind( &ServerSystem::OnFrameCounterEvent, this, _1 ) );
+    mOnClientIdChanged = EventServer<ClientIdChangedEvent>::Get().Subscribe( boost::bind( &ServerSystem::OnClientIdChanged, this, _1 ) );
 
     /* Bind the server to the default localhost.     */
     /* A specific host address can be specified by   */
@@ -151,7 +152,6 @@ void ServerSystem::ClientConnect(ENetEvent& event)
     int32_t clientId=mClientId++;
     event.peer -> data = static_cast<void*>(new int32_t(clientId));
     mClients[clientId]=event.peer;
-    EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(clientId,true));
 }
 
 void ServerSystem::OnFrameCounterEvent(engine::FrameCounterEvent const& Evt)
@@ -177,7 +177,25 @@ void ServerSystem::ClientDisconnect(ENetEvent& event)
         // could be invalid if client tried to connect too early, and the system had it as connected
         clientData->mConnected=false;
     }
-    EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(clientId,false));
+    mClients.erase(clientId);
+    EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(clientId,engine::ConnectionEvent::Disconnected));
+}
+
+void ServerSystem::OnClientIdChanged(ClientIdChangedEvent const& Evt)
+{
+    auto currPeer=mClients.find(Evt.mCurrClientId);
+    if (currPeer==mClients.end())
+    {
+        // client connect should happen before client id change
+        BOOST_ASSERT(currPeer!=mClients.end());
+        return;
+    }
+    // client should be removed at this time (clientDisconnet should happen before client can reconnect)
+    BOOST_ASSERT(mClients.find(Evt.mNewClientId)==mClients.end());
+    delete static_cast<int32_t*>(currPeer->second->data);
+    currPeer->second -> data = static_cast<void*>(new int32_t(Evt.mNewClientId));
+    mClients[Evt.mNewClientId]=currPeer->second;
+    mClients.erase(Evt.mCurrClientId);
 }
 
 } // namespace engine

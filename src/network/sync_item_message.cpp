@@ -67,7 +67,16 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
     }
     std::istringstream iss( msg.mData );
     eos::portable_iarchive ia(iss);
-    ia >> item;
+    ia >> *item;
+    if (item->GetType()==ItemType::Normal)
+    {
+        inv->SetSelectedNormalItem(item->GetId());
+    }
+    else if (item->GetType()==ItemType::Weapon)
+    {
+        inv->SetSelectedWeapon(item->GetId());
+    }
+
 }
 
 } // namespace network

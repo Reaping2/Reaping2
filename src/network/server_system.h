@@ -8,6 +8,7 @@
 #include "messsage_holder.h"
 #include "engine/frame_counter_system.h"
 #include "platform/register.h"
+#include "client_id_changed.h"
 
 namespace network {
 
@@ -21,6 +22,8 @@ class ServerSystem: public engine::System
     MessageHolder& mMessageHolder;
     AutoReg mOnFrameCounterEvent;
     void OnFrameCounterEvent( engine::FrameCounterEvent const& Evt );
+    AutoReg mOnClientIdChanged;
+    void OnClientIdChanged( ClientIdChangedEvent const& Evt );
     int32_t mSentMessagesSize;
 public:
     DEFINE_SYSTEM_BASE(ServerSystem)

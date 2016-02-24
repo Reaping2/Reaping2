@@ -109,6 +109,7 @@
 #include "network/fade_out_message.h"
 #include "network/waiting_start_system.h"
 #include "network/team_switch_request_message.h"
+#include "network/actor_list_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -195,6 +196,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("flag_state_changed_message_sender_system"), &CreateSystem<network::FlagStateChangedMessageSenderSystem>);
     Bind( AutoId("fade_out_message_sender_system"), &CreateSystem<network::FadeOutMessageSenderSystem>);
     Bind( AutoId("team_switch_request_message_sender_system"), &CreateSystem<network::TeamSwitchRequestMessageSenderSystem>);
+    Bind( AutoId("actor_list_message_sender_system"), &CreateSystem<network::ActorListMessageSenderSystem>);
 
     Bind( AutoId("ctf_client_list_displaying_system"), &CreateSystem<network::CtfClientListDisplayingSystem>);	
     Bind( AutoId("ctf_client_list_handling_system"), &CreateSystem<network::CtfClientListHandlingSystem>);	

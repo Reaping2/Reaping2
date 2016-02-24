@@ -3,6 +3,7 @@
 
 #include "core/collision_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/set.hpp>
 
 class ShotCollisionComponent : public CollisionComponent
 {
@@ -13,12 +14,22 @@ public:
     virtual int32_t GetParentGuid() const;
     virtual bool CanPassThrough( CollisionClass::Type CollType ) const;
     virtual void SetPassThrough( std::vector<CollisionClass::Type> const& CollTypes );
+    virtual bool IsHitClosest();
+    virtual void SetHitClosest(bool hitClosest);
+    virtual bool IsDamageOnce();
+    virtual void SetDamageOnce(bool damageOnce);
+    typedef std::set<int32_t> Damaged_Actor_Ids_t;
+    virtual void AddDamagedActorId(int32_t damagedActorId);
+    virtual Damaged_Actor_Ids_t const& GetDamagedActorIds()const;
 protected:
     ShotCollisionComponent();
     friend class ComponentFactory;
     int32_t mDamage;
     int32_t mParentGUID;
     std::vector<CollisionClass::Type> mPassThroughTypes;
+    bool mHitClosest;
+    Damaged_Actor_Ids_t mDamagedActorIds;
+    bool mDamageOnce;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -33,6 +44,9 @@ void ShotCollisionComponent::serialize(Archive& ar, const unsigned int version)
     ar & mDamage;
     ar & mParentGUID;
     ar & mPassThroughTypes;
+    ar & mHitClosest;
+    ar & mDamagedActorIds;
+    ar & mDamageOnce;
 }
 
 class ShotCollisionComponentLoader: public ComponentLoader<ShotCollisionComponent>

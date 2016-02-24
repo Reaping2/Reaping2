@@ -32,15 +32,24 @@ void SoldierAutoReviveSystem::Init()
 
 void SoldierAutoReviveSystem::Update(double DeltaTime)
 {
+    if (mProgramState.mGameState!=core::ProgramState::Running)
+    {
+        return;
+    }
     if (mProgramState.mMode!=core::ProgramState::Client)
     {
         double secsToRevive=mSoldierAutoReviveMES->GetSecsToRevive();
         double currTime=glfwGetTime();
         for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
         {
+            core::ClientData& clientData=*i;
             Opt<Actor> player(mScene.GetActor((*i).mClientActorGUID));
             if (!player.IsValid())
             {
+                if (clientData.mConnected&&clientData.mReady)
+                {
+                    EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
+                }
                 continue;
             }
             Opt<IHealthComponent> healthC(player->Get<IHealthComponent>());
@@ -56,7 +65,10 @@ void SoldierAutoReviveSystem::Update(double DeltaTime)
                     playerControllerC->SetEnabled(false);
                     playerControllerC->mActive=false;
                 }
-                EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
+                if (clientData.mConnected)
+                {
+                    EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
+                }
             }
         }
     }

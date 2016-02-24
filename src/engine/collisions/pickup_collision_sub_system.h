@@ -24,6 +24,7 @@ public:
     PickupCollisionSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
+    virtual void Collide(Actor& actor, Actor& other);
 };
 
 } // namespace engine

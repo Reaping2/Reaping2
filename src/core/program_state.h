@@ -17,6 +17,7 @@ struct ClientData
     int32_t mDeath;
     int32_t mAssist; // not used yet
     int32_t mScore;
+    bool mReady;
     bool mConnected;
     ClientData();
 
@@ -38,6 +39,7 @@ void ClientData::serialize(Archive& ar, const unsigned int version)
     ar & mDeath;
     ar & mAssist;
     ar & mScore;
+    ar & mReady;
     ar & mConnected;
 }
 class ProgramState : public platform::Singleton<ProgramState>
@@ -58,6 +60,13 @@ public:
     };
     // main type of this instance (local,client,server)
     Mode mMode;
+    enum GameState
+    {
+        NotRunning,
+        Running
+    };
+    // which mode is the game at currently. (running etc.)
+    GameState mGameState;
     void SetMode(ProgramState::Mode mode);
     // is this client connected to server
     bool mClientConnected;
@@ -71,6 +80,8 @@ public:
 
     // target servers ip
     std::string mServerIp;
+    // a string representation of game mode. ("ctf" or "ffa" or any later extension)
+    std::string mGameMode;
     typedef std::vector<ClientData> ClientDatas_t;
     // currently connected clients to server
     ClientDatas_t mClientDatas;

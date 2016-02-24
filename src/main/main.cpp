@@ -1,3 +1,4 @@
+#include "version.h"
 #include "window.h"
 #include "render/i_render.h"
 #include "platform/i_platform.h"
@@ -74,6 +75,7 @@
 #include <portable_oarchive.hpp>
 #include <iosfwd>
 #include "core/component_factory.h"
+#include "network/actor_list_message.h"
 
 
 using engine::Engine;
@@ -155,6 +157,7 @@ int main(int argc, char* argv[])
         ("-c", po::value<std::string>(&programState.mServerIp), "client")
         ("-s", "server ip")
         ("-n", po::value<std::string>(&programState.mClientName), "client name")
+        ("-v", "print version information" )
         ;
 
     po::variables_map vm;
@@ -163,6 +166,13 @@ int main(int argc, char* argv[])
     if (vm.count("help")) {
         std::cout << desc << "\n";
         return 1;
+    } else if( vm.count( "-v" ) )
+    {
+        std::cout << GIT_VERSION << "\n"
+            << GIT_DATE << "\n"
+            << GIT_BRANCH << "\n"
+            << GIT_REMOTE << "\n";
+        return 0;
     }
     if (vm.count("-c")) {
         L1("run as client");
@@ -241,6 +251,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
         Eng.AddSystem(AutoId("ctf_client_list_handling_system"));
 
+        Eng.AddSystem(AutoId("actor_list_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
     {
@@ -332,6 +343,7 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::GamemodeSelectedMessage::GetType_static(),AutoId("gamemode_selected_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::TeamSwitchRequestMessage::GetType_static(),AutoId("team_switch_request_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::ActorListMessage::GetType_static(),AutoId("actor_list_message_handler_sub_system"));
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

@@ -174,7 +174,8 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":7, "damage":90, "passthrough": [ "creep", "player" ] }]
+                "set":[{"class":"projectile", "radius":7, "damage":90, "passthrough": [ "creep", "player" ]
+                        ,"hit_closest":0}]
             },
             {"name":"health_component"},
             {"name":"owner_component"},

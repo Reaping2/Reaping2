@@ -39,6 +39,7 @@
 #include "fade_out_message.h"
 #include "gamemode_selected_message.h"
 #include "team_switch_request_message.h"
+#include "actor_list_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -87,6 +88,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("fade_out_message_handler_sub_system"), &CreateSubSystem<FadeOutMessageHandlerSubSystem>);
     Bind( AutoId("gamemode_selected_message_handler_sub_system"), &CreateSubSystem<GamemodeSelectedMessageHandlerSubSystem>);
     Bind( AutoId("team_switch_request_message_handler_sub_system"), &CreateSubSystem<TeamSwitchRequestMessageHandlerSubSystem>);
+    Bind( AutoId("actor_list_message_handler_sub_system"), &CreateSubSystem<ActorListMessageHandlerSubSystem>);
 
 }
 

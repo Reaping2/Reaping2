@@ -22,45 +22,40 @@ void ShotCollisionSubSystem::Init()
 
 void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 {
-    if (!mOther)
+    if (mActorsCollided.empty())
     {
         return;
     }
     Opt<ShotCollisionComponent> shotCC=actor.Get<ShotCollisionComponent>();
-    if( mOther->GetGUID() == shotCC->GetParentGuid() )
+    if (shotCC->IsHitClosest())
     {
-        return;
-    }
-
-    Opt<IHealthComponent> otherHealthC=mOther->Get<IHealthComponent>();
-    Opt<IOwnerComponent> ownerC=actor.Get<IOwnerComponent>();
-    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-
-    if(otherHealthC.IsValid()&&otherHealthC->IsAlive())
-    {
-        otherHealthC->TakeDamage(shotCC->GetDamage());
-        if (ownerC.IsValid())
+        Opt<Actor> closestActor;
+        double lowestDist=std::numeric_limits<double>::max();
+        for (ActorsCollided_t::iterator it=mActorsCollided.begin(),e=mActorsCollided.end();it!=e;++it)
         {
-            otherHealthC->SetLastDamageOwnerGUID(ownerC->GetOwnerGUID());
+            Actor& other=**it;
+            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+            Opt<IPositionComponent> otherPositionC = other.Get<IPositionComponent>();
+            double distPow=std::pow(positionC->GetX()-otherPositionC->GetX(),2)
+                +std::pow(positionC->GetY()-otherPositionC->GetY(),2);
+            if (distPow<lowestDist)
+            {
+                lowestDist=distPow;
+                closestActor=*it;
+            }
+        }
+        TakeDamage(actor,*closestActor,shotCC);
+    }
+    else
+    {
+        for (ActorsCollided_t::iterator it=mActorsCollided.begin(),e=mActorsCollided.end();it!=e;++it)
+        {
+            Actor& other=**it;
+            TakeDamage(actor, other, shotCC);
+
         }
     }
-
-    if (healthC.IsValid())
-    {
-        Opt<ICollisionComponent> otherCollC = mOther->Get<ICollisionComponent>();
-        if( otherCollC.IsValid() && !shotCC->CanPassThrough( otherCollC->GetCollisionClass() ) )
-        {
-            healthC->SetHP(0);
-        }
-    }
-    Opt<INotifyParentOnDeathComponent> notifyParentC=actor.Get<INotifyParentOnDeathComponent>();
-    if(notifyParentC.IsValid())
-    {
-        notifyParentC->SetKillerGUID(mOther->GetGUID());
-    }
-
-
+    mActorsCollided.clear();
 }
 
 void ShotCollisionSubSystem::ClipScene(Actor& actor)
@@ -77,6 +72,50 @@ void ShotCollisionSubSystem::ClipScene(Actor& actor)
         positionC->GetY() - radius > AllowedDimensions.w * 2 )
     {
         healthC->SetHP(0);
+    }
+}
+
+void ShotCollisionSubSystem::Collide(Actor& actor, Actor& other)
+{
+    Opt<ShotCollisionComponent> shotCC=actor.Get<ShotCollisionComponent>();
+    if( other.GetGUID() == shotCC->GetParentGuid() )
+    {
+        return;
+    }
+
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+
+    mActorsCollided.push_back(Opt<Actor>(&other));
+
+    if (healthC.IsValid())
+    {
+        Opt<ICollisionComponent> otherCollC = other.Get<ICollisionComponent>();
+        if( otherCollC.IsValid() && !shotCC->CanPassThrough( otherCollC->GetCollisionClass() ) )
+        {
+            healthC->SetHP(0);
+        }
+    }
+    Opt<INotifyParentOnDeathComponent> notifyParentC=actor.Get<INotifyParentOnDeathComponent>();
+    if(notifyParentC.IsValid())
+    {
+        notifyParentC->SetKillerGUID(other.GetGUID());
+    }
+}
+
+void ShotCollisionSubSystem::TakeDamage(Actor &actor, Actor &target, Opt<ShotCollisionComponent> shotCC)
+{
+    Opt<IHealthComponent> otherHealthC=target.Get<IHealthComponent>();
+    Opt<IOwnerComponent> ownerC=actor.Get<IOwnerComponent>();
+
+    if((!shotCC->IsDamageOnce()||shotCC->GetDamagedActorIds().find(target.GetGUID())==shotCC->GetDamagedActorIds().end())
+        &&otherHealthC.IsValid()&&otherHealthC->IsAlive())
+    {
+        otherHealthC->TakeDamage(shotCC->GetDamage());
+        shotCC->AddDamagedActorId(target.GetGUID());
+        if (ownerC.IsValid())
+        {
+            otherHealthC->SetLastDamageOwnerGUID(ownerC->GetOwnerGUID());
+        }
     }
 }
 

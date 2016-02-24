@@ -10,11 +10,10 @@ class CollisionSubSystem : public SubSystem
 {
 public:
     CollisionSubSystem();
-    void SetOther(Actor* other);
     virtual void ClipScene(Actor& actor);
+    virtual void Collide(Actor& actor, Actor& other);
 protected:
     Scene& mScene;
-    Actor* mOther;
 };
 
 } // namespace engine

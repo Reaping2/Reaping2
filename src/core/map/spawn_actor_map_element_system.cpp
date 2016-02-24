@@ -34,6 +34,7 @@ void SpawnActorMapElementSystem::Update(double DeltaTime)
                 i->second->FillProperties(actor.get());
             }
             spawnActorMapElement->SetSpawnedActorGUID(actor->GetGUID());
+            L1("spawned actor: %d",actor->GetGUID());
             mScene.AddActor(actor.release());
         }
         spawnActorMapElement->ResetValues();
