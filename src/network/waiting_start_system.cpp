@@ -8,7 +8,7 @@ namespace network {
 using platform::RootModel;
 
 WaitingStartSystem::WaitingStartSystem()
-    : mWaitModel("waiting_system",&RootModel::Get())
+    : mWaitModel("waiting_start",&RootModel::Get())
 {
     mOnLoadClientlistEvent = platform::EventServer<network::LoadClientlistEvent>::Get().Subscribe( boost::bind( &WaitingStartSystem::OnLoadClientlistEvent, this, _1 ) );
 }
