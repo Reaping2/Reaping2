@@ -26,6 +26,8 @@
 #include "engine/soldier_spawn_system.h"
 #include "map_load_event.h"
 #include "map_start_event.h"
+#include "level_selected_event.h"
+
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -319,16 +321,7 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
-    // host selects the level -> almost last step in configuration
-    // display client list for the selected gamemode
-    if ( "ctf" == mSelectedGameMode )
-    {
-        Ui::Get().Load("ctf_client_list");
-    }
-    else if ( "ffa" == mSelectedGameMode )
-    {
-        Ui::Get().Load("ffa_client_list");
-    }
+    EventServer<core::LevelSelectedEvent>::Get().SendEvent(core::LevelSelectedEvent(Level));
 }
 
 std::string Scene::GetSelectedLevel()
