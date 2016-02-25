@@ -6,6 +6,7 @@
 #include "opt.h"
 #include <map>
 #include <vector>
+#include <boost/serialization/export.hpp>
 
 class Team : public platform::Singleton<Team>
 {
@@ -69,4 +70,6 @@ public:
     Opt<ClientData> FindClientDataByClientId(int32_t clientId); 
 };
 } // namespace ctf
+
+BOOST_CLASS_EXPORT_KEY2(::ctf::ClientData,"ctf_client_data");
 #endif//INCLUDED_CTF_PROGRAM_STATE_H

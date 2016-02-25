@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_GATLING_GUN_H
 #define INCLUDED_CORE_GATLING_GUN_H
 #include "core/weapon.h"
+#include <boost/serialization/export.hpp>
 
 class GatlingGun : public Weapon
 {
@@ -70,4 +71,6 @@ void GatlingGun::serialize(Archive& ar, const unsigned int version)
     ar & mDeployState;
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(GatlingGun,"gatling_gun");
 #endif//INCLUDED_CORE_GATLING_GUN_H

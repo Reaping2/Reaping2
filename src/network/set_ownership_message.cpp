@@ -2,6 +2,8 @@
 #include "network/set_ownership_message.h"
 #include "core/player_controller_component.h"
 #include "core/i_inventory_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -84,3 +86,5 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending(Message const& message)
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::SetOwnershipMessage);

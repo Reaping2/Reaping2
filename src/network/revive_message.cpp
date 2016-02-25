@@ -7,6 +7,8 @@
 #include "engine/soldier_spawn_system.h"
 #include "core/player_controller_component.h"
 #include "core/revive_event.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace network {
 
     ReviveMessageSenderSystem::ReviveMessageSenderSystem()
@@ -63,3 +65,5 @@ namespace network {
 
 } // namespace engine
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ReviveMessage);

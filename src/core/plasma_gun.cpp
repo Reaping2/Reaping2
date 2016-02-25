@@ -1,4 +1,6 @@
 #include "core/plasma_gun.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 PlasmaGun::PlasmaGun( int32_t Id )
     : Weapon( Id )
@@ -29,3 +31,5 @@ void PlasmaGun::InitMembers()
     mStaticReload=5;
     mBullets=mBulletsMax;
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(PlasmaGun);

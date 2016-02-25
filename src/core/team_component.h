@@ -3,6 +3,7 @@
 
 #include "i_team_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class TeamComponent : public ITeamComponent
 {
@@ -36,6 +37,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(TeamComponent,"team_component");
 #endif//INCLUDED_CORE_TEAM_COMPONENT_H
 
 

@@ -3,6 +3,7 @@
 
 #include "i_stop_on_death_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class StopOnDeathComponent : public IStopOnDeathComponent
 {
@@ -36,4 +37,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(StopOnDeathComponent,"stop_on_death_component");
 #endif//INCLUDED_CORE_STOP_ON_DEATH_COMPONENT_H

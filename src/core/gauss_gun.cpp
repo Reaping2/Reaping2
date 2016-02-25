@@ -2,6 +2,8 @@
 #include "core/gauss_gun.h"
 #include "core/audible_event.h"
 #include "core/i_move_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 GaussGun::GaussGun( int32_t Id )
     : Weapon( Id )
@@ -74,3 +76,5 @@ void GaussGun::InitMembers()
     mBullets=mBulletsMax;
 }
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(GaussGun);

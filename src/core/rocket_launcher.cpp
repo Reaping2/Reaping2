@@ -1,4 +1,6 @@
 #include "core/rocket_launcher.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 RocketLauncher::RocketLauncher( int32_t Id )
 	: Weapon( Id )
@@ -26,3 +28,5 @@ void RocketLauncher::InitMembers()
     mReloadTimeMax=3.0;
     mBullets=mBulletsMax;
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(RocketLauncher);

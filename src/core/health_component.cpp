@@ -8,6 +8,8 @@
 #include "core/scene.h"
 #include "core/opt.h"
 #include "core/renderable_layer.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 using platform::EventServer;
@@ -119,3 +121,5 @@ void HealthComponentLoader::BindValues()
 HealthComponentLoader::HealthComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(HealthComponent);

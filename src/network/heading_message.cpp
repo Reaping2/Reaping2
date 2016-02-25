@@ -1,5 +1,7 @@
 #include "network/heading_message.h"
 #include "core/i_move_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace network {
 
     HeadingMessageSenderSystem::HeadingMessageSenderSystem()
@@ -96,3 +98,5 @@ namespace network {
 
 } // namespace engine
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::HeadingMessage);

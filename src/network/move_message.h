@@ -2,6 +2,7 @@
 #define INCLUDED_NETWORK_MOVE_MESSAGE_H
 
 #include "network/message.h"
+#include <boost/serialization/export.hpp>
 namespace network {
 
     class MoveMessage: public Message
@@ -55,4 +56,6 @@ namespace network {
     }
 
 } // namespace network
+
+BOOST_CLASS_EXPORT_KEY2(network::MoveMessage,"move");
 #endif//INCLUDED_NETWORK_MOVE_MESSAGE_H

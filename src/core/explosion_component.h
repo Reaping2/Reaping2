@@ -3,6 +3,7 @@
 
 #include "i_explosion_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class ExplosionComponent : public IExplosionComponent
 {
@@ -44,5 +45,7 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(ExplosionComponent,"explosion_component");
 #endif//INCLUDED_CORE_EXPLOSION_COMPONENT_H
 

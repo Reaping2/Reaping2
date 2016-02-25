@@ -4,6 +4,7 @@
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
+#include <boost/serialization/export.hpp>
 
 class IExplode
 {
@@ -54,4 +55,6 @@ void IExplode::serialize(Archive& ar, const unsigned int version)
     ar & mSpeedVariance;
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(IExplode,"i_explode");
 #endif//INCLUDED_CORE_I_EXPLODE_H

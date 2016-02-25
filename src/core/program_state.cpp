@@ -1,5 +1,7 @@
 #include "core/program_state.h"
 #include "platform/model_value.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace core {
 
     ProgramState::ProgramState()
@@ -88,3 +90,6 @@ namespace core {
     }
 
 } // namespace core
+
+BOOST_CLASS_EXPORT_IMPLEMENT(::core::ClientData);
+

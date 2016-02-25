@@ -2,6 +2,9 @@
 if(WIN32)
 	# ugly boost bug workaround, boost w/ static build crashes in codecvt
 	set( Boost_USE_STATIC_LIBS ON )
+        if(MINGW)
+            add_definitions( -DBOOST_THREAD_USE_LIB )
+        endif(MINGW)
 endif(WIN32)
 if(NOT DEFINED BOOST_ROOT)
     set(BOOST_ROOT ${REAPING2_DEPS_INSTALL_DIR})

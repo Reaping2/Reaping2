@@ -5,6 +5,7 @@
 #include "platform/i_platform.h"
 #include "actor.h"
 #include "soldier_properties.h"
+#include <boost/serialization/export.hpp>
 
 namespace core {
 struct ClientData
@@ -90,4 +91,6 @@ public:
     Opt<ClientData> FindClientDataByClientName(std::string clientName); 
 };
 } // namespace core
+
+BOOST_CLASS_EXPORT_KEY2(::core::ClientData,"client_data");
 #endif//INCLUDED_CORE_PROGRAM_STATE_H

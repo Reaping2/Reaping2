@@ -3,6 +3,7 @@
 
 #include "core/i_drop_on_death_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class DropOnDeathComponent : public IDropOnDeathComponent
 {
@@ -36,4 +37,6 @@ public:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(DropOnDeathComponent,"drop_on_death_component");
 #endif//INCLUDED_CORE_DROP_ON_DEATH_COMPONENT_H

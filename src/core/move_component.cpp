@@ -1,4 +1,6 @@
 #include "move_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 MoveComponent::MoveComponent()
     : mHeading(0.0)
@@ -90,3 +92,5 @@ MoveComponentLoader::MoveComponentLoader()
 {
 
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(MoveComponent);

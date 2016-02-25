@@ -3,6 +3,7 @@
 
 #include "i_armor_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class ArmorComponent : public IArmorComponent
 {
@@ -36,6 +37,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(ArmorComponent,"armor_component");
 #endif//INCLUDED_CORE_ARMOR_COMPONENT_H
 
 

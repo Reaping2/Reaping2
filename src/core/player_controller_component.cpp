@@ -5,6 +5,8 @@
 #include "core/player_controller_component.h"
 #include "core/i_health_component.h"
 #include "core/scene.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 PlayerControllerComponent::PlayerControllerComponent()
     : ControllerComponent()
@@ -30,3 +32,5 @@ PlayerControllerComponentLoader::PlayerControllerComponentLoader()
 {
 
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(PlayerControllerComponent);

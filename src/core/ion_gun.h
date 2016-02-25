@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_ION_GUN_H
 #define INCLUDED_CORE_ION_GUN_H
 #include "core/weapon.h"
+#include <boost/serialization/export.hpp>
 
 class IonGun : public Weapon
 {
@@ -22,4 +23,6 @@ void IonGun::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Weapon>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(IonGun,"ion_gun");
 #endif//INCLUDED_CORE_ION_GUN_H

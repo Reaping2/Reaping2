@@ -1,4 +1,6 @@
 #include "core/ion_gun.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 IonGun::IonGun( int32_t Id )
     : Weapon( Id )
@@ -27,3 +29,5 @@ void IonGun::InitMembers()
     mReloadTimeMax=2.2;
     mBullets=mBulletsMax;
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(IonGun);

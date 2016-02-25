@@ -1,4 +1,6 @@
 #include "core/aoe_collision_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 AoeCollisionComponent::AoeCollisionComponent()
     : mDamagedActorIds()
@@ -49,3 +51,5 @@ AoeCollisionComponentLoader::AoeCollisionComponentLoader()
 {
     SetBase<CollisionComponentLoader>();
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(AoeCollisionComponent);

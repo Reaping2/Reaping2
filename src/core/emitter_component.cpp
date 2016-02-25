@@ -1,5 +1,7 @@
 #include "core/emitter_component.h"
 #include <boost/lambda/lambda.hpp>
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 EmitterComponent::EmitterComponent()
 {
@@ -108,3 +110,5 @@ void EmitterComponentLoader::BindValues()
 EmitterComponentLoader::EmitterComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(EmitterComponent);

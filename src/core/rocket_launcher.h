@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_ROCKET_LAUNCHER_H
 #define INCLUDED_CORE_ROCKET_LAUNCHER_H
 #include "core/weapon.h"
+#include <boost/serialization/export.hpp>
 
 class RocketLauncher :	public Weapon
 {
@@ -22,4 +23,6 @@ void RocketLauncher::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Weapon>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(RocketLauncher,"rocket_launcher");
 #endif // INCLUDED_CORE_ROCKET_LAUNCHER_H

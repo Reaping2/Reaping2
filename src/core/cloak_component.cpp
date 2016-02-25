@@ -1,4 +1,6 @@
 #include "core/cloak_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 CloakComponent::CloakComponent()
     : mActive(false)
@@ -24,3 +26,5 @@ void CloakComponentLoader::BindValues()
 CloakComponentLoader::CloakComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(CloakComponent);

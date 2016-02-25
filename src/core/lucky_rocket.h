@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_LUCKY_ROCKET_H
 #define INCLUDED_CORE_LUCKY_ROCKET_H
 #include "core/weapon.h"
+#include <boost/serialization/export.hpp>
 
 class LuckyRocket :	public Weapon
 {
@@ -25,4 +26,6 @@ void LuckyRocket::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Weapon>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(LuckyRocket,"lucky_rocket");
 #endif // INCLUDED_CORE_LUCKY_ROCKET_H

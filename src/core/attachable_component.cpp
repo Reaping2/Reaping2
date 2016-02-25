@@ -1,4 +1,6 @@
 #include "core/attachable_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace ctf {
 
@@ -28,3 +30,4 @@ AttachableComponentLoader::AttachableComponentLoader()
 }
 
 } // namespace ctf
+BOOST_CLASS_EXPORT_IMPLEMENT(ctf::AttachableComponent);

@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "engine/show_text_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -54,6 +55,8 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::ShowTextMessageMessage,"show_text_message");
 #endif//INCLUDED_NETWORK_SHOW_TEXT_MESSAGE_H
 
 //command:  "classgenerator.exe" -g "message" -c "show_text_message" -m "double-seconds std::string-text" -e "engine-showText"

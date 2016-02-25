@@ -3,6 +3,7 @@
 
 #include "i_notify_parent_on_death_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class NotifyParentOnDeathComponent : public INotifyParentOnDeathComponent
 {
@@ -40,4 +41,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(NotifyParentOnDeathComponent,"notify_parent_on_death_component");
 #endif//INCLUDED_CORE_NOTIFY_PARENT_ON_DEATH_COMPONENT_H

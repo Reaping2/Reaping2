@@ -2,6 +2,8 @@
 #include "network/flag_state_changed_message.h"
 #include "core/i_attachable_component.h"
 #include "position_message_sender_system.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -85,3 +87,5 @@ void FlagStateChangedMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::FlagStateChangedMessage);

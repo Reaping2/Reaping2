@@ -3,6 +3,7 @@
 
 #include "i_move_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class MoveComponent : public IMoveComponent
 {
@@ -63,4 +64,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(MoveComponent,"move_component");
 #endif//INCLUDED_CORE_MOVE_COMPONENT_H

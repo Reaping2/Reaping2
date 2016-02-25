@@ -4,6 +4,9 @@
 #include "platform/event.h"
 #include "engine/client_datas_changed_event.h"
 #include "network/client_list_changed_event.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
+
 
 namespace network {
 
@@ -50,4 +53,6 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
 
 
 } // namespace network
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ClientDatasMessage);
 

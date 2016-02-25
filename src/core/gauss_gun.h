@@ -3,6 +3,7 @@
 #define INCLUDED_GAUSS_GUN_H
 
 #include "core/weapon.h"
+#include <boost/serialization/export.hpp>
 
 class GaussGun : public Weapon
 {
@@ -35,5 +36,7 @@ void GaussGun::serialize(Archive& ar, const unsigned int version)
     ar & mCurrentCharge;
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(GaussGun,"gauss_gun");
 #endif // INCLUDED_GAUSS_GUN_H
 

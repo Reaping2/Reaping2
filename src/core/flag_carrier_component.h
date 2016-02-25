@@ -3,6 +3,7 @@
 
 #include "i_flag_carrier_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 namespace ctf {
 
@@ -36,6 +37,8 @@ public:
 
 } // namespace ctf
 
+
+BOOST_CLASS_EXPORT_KEY2(ctf::FlagCarrierComponent,"flag_carrier_component");
 #endif//INCLUDED_CTF_FLAG_CARRIER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "flag_carrier_component" -n "ctf"

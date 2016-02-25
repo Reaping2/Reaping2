@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_KILL_SCORE_ON_DEATH_COMPONENT_H
 
 #include "component.h"
+#include <boost/serialization/export.hpp>
 
 class IKillScoreOnDeathComponent : public Component
 {
@@ -26,6 +27,8 @@ void IKillScoreOnDeathComponent::serialize(Archive& ar, const unsigned int versi
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(IKillScoreOnDeathComponent,"i_kill_score_on_death_component");
 #endif//INCLUDED_CORE_I_KILL_SCORE_ON_DEATH_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_kill_score_on_death_component" -m "int32_t-killerGUID int32_t-deadGUID bool-scored"

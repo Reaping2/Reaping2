@@ -1,5 +1,6 @@
 #include "core/ctf_program_state.h"
-
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 
@@ -56,3 +57,6 @@ int32_t const& ProgramState::GetRedScore()
 
 
 } // namespace ctf
+
+BOOST_CLASS_EXPORT_IMPLEMENT(::ctf::ClientData);
+

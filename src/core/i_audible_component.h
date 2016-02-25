@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_AUDIBLE_COMPONENT_H
 
 #include "component.h"
+#include <boost/serialization/export.hpp>
 
 struct AudibleEffectDesc {
     static const int32_t TTL_Infinity;
@@ -46,6 +47,8 @@ void IAudibleComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(IAudibleComponent,"i_audible_component");
 #endif//INCLUDED_CORE_I_AUDIBLE_COMPONENT_H
 
 //command:  "classgenerator" -g "i_component" -c "i_audible_component" -m "std::vector<AudibleEffectDesc>-effects int32_t-uid"

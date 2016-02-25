@@ -1,4 +1,6 @@
 #include "core/explosion_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 ExplosionComponent::ExplosionComponent()
     : mStartRadius(0.0)
@@ -49,3 +51,5 @@ void ExplosionComponentLoader::BindValues()
 ExplosionComponentLoader::ExplosionComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(ExplosionComponent);

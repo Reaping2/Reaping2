@@ -1,4 +1,6 @@
 #include "inventory_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
@@ -134,3 +136,5 @@ InventoryComponentLoader::InventoryComponentLoader()
 {
 
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(InventoryComponent);

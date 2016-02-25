@@ -4,6 +4,7 @@
 #include "core/controller_component.h"
 #include "core/actor.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class RandomControllerComponent : public ControllerComponent
 {
@@ -41,4 +42,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(RandomControllerComponent,"random_controller_component");
 #endif//INCLUDED_CORE_RANDOM_CONTROLLER_H

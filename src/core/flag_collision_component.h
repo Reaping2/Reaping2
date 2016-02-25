@@ -3,6 +3,7 @@
 
 #include "collision_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 namespace ctf {
 
@@ -37,6 +38,8 @@ public:
 
 } // namespace ctf
 
+
+BOOST_CLASS_EXPORT_KEY2(ctf::FlagCollisionComponent,"flag_collision_component");
 #endif//INCLUDED_CORE_FLAG_COLLISION_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "flag_collision_component" -p "collision_component"

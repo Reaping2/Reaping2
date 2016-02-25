@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "engine/soldier_created_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -54,5 +55,7 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::SetOwnershipMessage,"set_ownership");
 #endif//INCLUDED_NETWORK_SET_OWNERSHIP_H
 

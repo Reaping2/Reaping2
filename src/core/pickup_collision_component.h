@@ -3,6 +3,7 @@
 
 #include "core/collision_component.h"
 #include "item.h"
+#include <boost/serialization/export.hpp>
 
 class PickupCollisionComponent : public CollisionComponent
 {
@@ -43,4 +44,6 @@ protected:
     CollisionClass& mCollisionClass;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(PickupCollisionComponent,"pickup_collision_component");
 #endif//INCLUDED_CORE_PICKUP_COLLISION_COMPONENT_H

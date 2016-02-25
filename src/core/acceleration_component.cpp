@@ -1,4 +1,6 @@
 #include "core/acceleration_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 AccelerationComponent::AccelerationComponent()
     : mAcceleration(0.0)
@@ -49,3 +51,5 @@ AccelerationComponentLoader::AccelerationComponentLoader()
 {
 
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(AccelerationComponent);

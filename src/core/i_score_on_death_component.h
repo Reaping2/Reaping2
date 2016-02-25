@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_SCORE_ON_DEATH_COMPONENT_H
 
 #include "component.h"
+#include <boost/serialization/export.hpp>
 
 class IScoreOnDeathComponent : public Component
 {
@@ -22,6 +23,8 @@ void IScoreOnDeathComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(IScoreOnDeathComponent,"i_score_on_death_component");
 #endif//INCLUDED_CORE_I_SCORE_ON_DEATH_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_score_on_death_component" -m "bool-scored"

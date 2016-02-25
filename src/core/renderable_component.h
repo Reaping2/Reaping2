@@ -3,6 +3,7 @@
 
 #include "i_renderable_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class Actor;
 
@@ -53,4 +54,6 @@ protected:
 public:
     RenderableComponentLoader();
 };
+
+BOOST_CLASS_EXPORT_KEY2(RenderableComponent,"renderable_component");
 #endif//INCLUDED_CORE_RENDERABLE_COMPONENT_H
