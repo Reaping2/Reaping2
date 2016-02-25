@@ -11,6 +11,7 @@ ExternalProject_Add(ext_glfw
         URL_MD5 "1e82fdefb1b0df2727cce116d21cd8af"
         CMAKE_ARGS
             ${PLATFORM_CMAKE_ARGS}
+            ${TOOLCHAIN_CMAKE_ARGS}
             -G ${CMAKE_GENERATOR}
             -DCMAKE_INSTALL_PREFIX=${EXTERNALS_INSTALL_DIR}
             -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})

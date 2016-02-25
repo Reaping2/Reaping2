@@ -3,6 +3,7 @@
 
 #include "network/message.h"
 #include "core/actor_event.h"
+#include <boost/serialization/export.hpp>
 namespace network {
 
     class CreateActorMessage: public Message
@@ -30,4 +31,6 @@ namespace network {
     }
 
 } // namespace network
+
+BOOST_CLASS_EXPORT_KEY2(network::CreateActorMessage,"create_actor");
 #endif//INCLUDED_NETWORK_CREATE_ACTOR_MESSAGE_H

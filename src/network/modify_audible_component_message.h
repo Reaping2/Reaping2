@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/audible_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -60,6 +61,8 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::ModifyAudibleComponentMessage,"modify_audible_component");
 #endif//INCLUDED_NETWORK_MODIFY_AUDIBLE_COMPONENT_H
 
 //command:  "classgenerator" -g "message" -c "modify_audible_component" -m "int32_t-actorGUID int32_t-id bool-isOneShot bool-isAddition" -e "core-audible" -p "pending"

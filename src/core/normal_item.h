@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_NORMAL_ITEM_H
 #define INCLUDED_CORE_NORMAL_ITEM_H
 #include "core/item.h"
+#include <boost/serialization/export.hpp>
 
 class NormalItem : public Item
 {
@@ -28,4 +29,6 @@ void NormalItem::serialize(Archive& ar, const unsigned int version)
     ar & mConsumed;
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(NormalItem,"normal_item");
 #endif//INCLUDED_CORE_NORMAL_ITEM_H

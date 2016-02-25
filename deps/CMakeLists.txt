@@ -11,10 +11,18 @@ else()
     set(EXTERNALS_INSTALL_DIR ${PROJECT_SOURCE_DIR}/../local)
 endif()
 message(STATUS "Setting staging dir for ${PROJECT_NAME}: ${EXTERNALS_INSTALL_DIR}")
+set(PLATFORM_CMAKE_ARGS ${PLATFORM_CMAKE_ARGS} "-DCMAKE_FIND_ROOT_PATH=${EXTERNALS_INSTALL_DIR}")
 
 if(UNIX)
     set(PLATFORM_CMAKE_ARGS "-DCMAKE_INSTALL_RPATH=${EXERNALS_INSTALL_DIR}/lib")
 endif(UNIX)
+
+if(CMAKE_TOOLCHAIN_FILE)
+    set(TOOLCHAIN_CMAKE_ARGS "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
+endif()
+
+message( STATUS "Platform CMAKE arguments: ${PLATFORM_CMAKE_ARGS}" )
+message( STATUS "Toolchain CMAKE arguments: ${TOOLCHAIN_CMAKE_ARGS}" )
 
 # Most often we want to build everything on Windows, but not on Linux. It can
 # be still overridden by specifying the -DUSE_BUNDLED_DEFAULT option with the

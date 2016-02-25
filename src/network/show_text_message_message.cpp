@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/show_text_message_message.h"
 #include "platform/event.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -53,3 +55,5 @@ void ShowTextMessageMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ShowTextMessageMessage);

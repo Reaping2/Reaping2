@@ -1,4 +1,6 @@
 #include "core/score_on_death_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 ScoreOnDeathComponent::ScoreOnDeathComponent()
     : mScored(false)
@@ -24,3 +26,5 @@ void ScoreOnDeathComponentLoader::BindValues()
 ScoreOnDeathComponentLoader::ScoreOnDeathComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(ScoreOnDeathComponent);

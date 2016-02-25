@@ -3,6 +3,7 @@
 
 #include "collision_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class WaterCollisionComponent : public CollisionComponent
 {
@@ -32,6 +33,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(WaterCollisionComponent,"water_collision_component");
 #endif//INCLUDED_CORE_WATER_COLLISION_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "water_collision_component" -p "collision_component"

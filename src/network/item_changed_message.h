@@ -6,6 +6,7 @@
 #include "network/message_sender_system.h"
 #include "engine/item_changed_event.h"
 #include "engine/soldier_created_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -60,6 +61,8 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::ItemChangedMessage,"item_changed");
 #endif//INCLUDED_NETWORK_ITEM_CHANGED_H
 
 //command:  "classgenerator.exe" -g "message" -c "item_changed" -e "engine-itemChanged" -m "int32_t-actorGUID int32_t-normalId int32_t-weaponId" -p "pending"

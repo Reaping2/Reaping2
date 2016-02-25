@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/border_message.h"
 #include "core/i_border_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -68,3 +70,5 @@ std::auto_ptr<BorderMessage> BorderMessageSenderSystem::GenerateBorderMessage(Ac
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::BorderMessage);

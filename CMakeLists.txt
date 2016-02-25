@@ -35,9 +35,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin/relea
 if(WIN32)
     set( WIN32_ENET_INCLUDE_WS2_32 ws2_32.lib )
     set( WIN32_ENET_INCLUDE_WINMM winmm.lib )
-    # Had to use this when compiled debug+64bit with msvc
-    # see: https://msdn.microsoft.com/en-us/library/8578y171.aspx
-    set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /bigobj" )
+    if(MINGW)
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj" )
+    else(MINGW)
+        # Had to use this when compiled debug+64bit with msvc
+        # see: https://msdn.microsoft.com/en-us/library/8578y171.aspx
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj" )
+    endif(MINGW)
 endif(WIN32)
 
 link_directories(

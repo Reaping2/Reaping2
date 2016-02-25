@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "core/shotgun.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 Shotgun::Shotgun( int32_t Id )
     : Weapon( Id )
@@ -37,3 +39,5 @@ ShotgunLoader::ShotgunLoader()
 {
     SetBase<WeaponLoader>();
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(Shotgun);

@@ -1,4 +1,6 @@
 #include "core/explode_on_death_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 ExplodeOnDeathComponent::ExplodeOnDeathComponent()
     : IExplodeOnDeathComponent()
@@ -29,3 +31,5 @@ ExplodeOnDeathComponentLoader::ExplodeOnDeathComponentLoader()
     : mExplodeDistributionType(ExplodeDistributionType::Get())
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(ExplodeOnDeathComponent);

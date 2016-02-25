@@ -3,6 +3,7 @@
 
 #include "i_listen_child_death_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class ListenChildDeathComponent : public IListenChildDeathComponent
 {
@@ -36,4 +37,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(ListenChildDeathComponent,"listen_child_death_component");
 #endif//INCLUDED_CORE_LISTEN_CHILD_DEATH_COMPONENT_H

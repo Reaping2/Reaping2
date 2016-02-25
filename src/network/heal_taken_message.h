@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/heal_taken_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -59,4 +60,6 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::HealTakenMessage,"heal_taken");
 #endif//INCLUDED_NETWORK_HEAL_TAKEN_H

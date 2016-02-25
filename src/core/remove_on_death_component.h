@@ -3,6 +3,7 @@
 
 #include "core/i_remove_on_death_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class RemoveOnDeathComponent : public IRemoveOnDeathComponent
 {
@@ -33,4 +34,5 @@ public:
     friend class ComponentLoaderFactory;
 };
 
+BOOST_CLASS_EXPORT_KEY2(RemoveOnDeathComponent,"remove_on_death_component");
 #endif//INCLUDED_CORE_REMOVE_ON_DEATH_COMPONENT_H

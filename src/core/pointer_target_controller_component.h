@@ -3,6 +3,7 @@
 
 #include "controller_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class PointerTargetControllerComponent : public ControllerComponent
 {
@@ -56,5 +57,7 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(PointerTargetControllerComponent,"pointer_target_controller_component");
 #endif//INCLUDED_CORE_POINTER_TARGET_CONTROLLER_COMPONENT_H
 

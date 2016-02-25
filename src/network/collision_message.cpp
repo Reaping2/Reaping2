@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/collision_message.h"
 #include "core/i_collision_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -69,3 +71,5 @@ std::auto_ptr<CollisionMessage> CollisionMessageSenderSystem::GenerateCollisionM
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::CollisionMessage);

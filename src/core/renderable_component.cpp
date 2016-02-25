@@ -1,6 +1,8 @@
 #include "core/renderable_component.h"
 #include "core/actor.h"
 #include "platform/i_platform.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 RenderableComponent::RenderableComponent()
     : mLayer(RenderableLayer::Background)
@@ -54,3 +56,5 @@ RenderableComponentLoader::RenderableComponentLoader()
     : mRenderableLayer(RenderableLayer::Get())
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(RenderableComponent);

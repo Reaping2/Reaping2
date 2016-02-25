@@ -3,6 +3,8 @@
 #include "core/ctf_program_state.h"
 #include "engine/client_datas_changed_event.h"
 #include "platform/event.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 namespace ctf {
@@ -59,3 +61,5 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace ctf
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ctf::ClientDatasMessage);

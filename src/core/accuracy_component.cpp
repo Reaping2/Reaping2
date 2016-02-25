@@ -1,4 +1,6 @@
 #include "core/accuracy_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 AccuracyComponent::AccuracyComponent()
 {
@@ -27,3 +29,5 @@ void AccuracyComponentLoader::BindValues()
 AccuracyComponentLoader::AccuracyComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(AccuracyComponent);

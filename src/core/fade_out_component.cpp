@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "core/fade_out_component.h"
 #include "core/scene.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 
@@ -31,3 +33,5 @@ void FadeOutComponentLoader::BindValues()
 {
     Bind("secs_to_end",func_double(&FadeOutComponent::SetSecsToEnd));
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(FadeOutComponent);

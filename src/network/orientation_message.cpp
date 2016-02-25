@@ -1,5 +1,7 @@
 #include "network/orientation_message.h"
 #include "core/i_position_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace network {
 
     OrientationMessageSenderSystem::OrientationMessageSenderSystem()
@@ -93,3 +95,5 @@ namespace network {
 
 } // namespace engine
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::OrientationMessage);

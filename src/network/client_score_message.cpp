@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/client_score_message.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -56,3 +58,5 @@ void ClientScoreMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ClientScoreMessage);

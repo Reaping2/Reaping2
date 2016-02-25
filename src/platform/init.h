@@ -25,5 +25,16 @@ public:
 
 }
 
+#define REGISTER_INIT( InitName, InitFunc ) \
+namespace { \
+struct RegisterInit { \
+RegisterInit() \
+{ \
+    platform::Init::Get().Register( __FILE__ #InitName, InitFunc ); \
+} \
+} registerSystem; \
+}
+
+
 #endif // INCLUDED_INIT_H
 

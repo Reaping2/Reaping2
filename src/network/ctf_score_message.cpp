@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/ctf_score_message.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 namespace ctf {
@@ -57,3 +59,5 @@ void CtfScoreMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace ctf
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ctf::CtfScoreMessage);

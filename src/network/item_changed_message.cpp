@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/item_changed_message.h"
 #include "core/i_inventory_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -89,3 +91,5 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending(Message const& message)
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ItemChangedMessage);

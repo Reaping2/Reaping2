@@ -1,5 +1,7 @@
 #include "core/border_component.h"
 #include "platform/id_storage.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 BorderComponent::BorderComponent()
     : mBorders()
@@ -101,3 +103,5 @@ void BorderComponentLoader::BindValues()
 BorderComponentLoader::BorderComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(BorderComponent);

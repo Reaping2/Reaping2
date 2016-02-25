@@ -2,6 +2,7 @@
 #define INCLUDED_CTF_I_FLAG_CARRIER_COMPONENT_H
 
 #include "component.h"
+#include <boost/serialization/export.hpp>
 
 namespace ctf {
 
@@ -24,6 +25,8 @@ void IFlagCarrierComponent::serialize(Archive& ar, const unsigned int version)
 
 } // namespace ctf
 
+
+BOOST_CLASS_EXPORT_KEY2(ctf::IFlagCarrierComponent,"i_flag_carrier_component");
 #endif//INCLUDED_CTF_I_FLAG_CARRIER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_flag_carrier_component" -n "ctf"

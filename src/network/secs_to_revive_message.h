@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "engine/secs_to_revive_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -54,6 +55,8 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::SecsToReviveMessage,"secs_to_revive");
 #endif//INCLUDED_NETWORK_SECS_TO_REVIVE_H
 
 //command:  "classgenerator" -g "message" -c "secs_to_revive" -e "engine-secsToRevive" -m "int32_t-clientId double-secsToRevive"

@@ -3,6 +3,7 @@
 
 #include "i_attachable_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 namespace ctf {
 
@@ -40,6 +41,8 @@ public:
 
 } // namespace ctf
 
+
+BOOST_CLASS_EXPORT_KEY2(ctf::AttachableComponent,"attachable_component");
 #endif//INCLUDED_CORE_ATTACHABLE_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "attachable_component" -m "int32_t-attachedGUID"

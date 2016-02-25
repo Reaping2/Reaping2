@@ -1,6 +1,8 @@
 #include "network/damage_taken_message.h"
 #include "core/player_controller_component.h"
 #include "core/i_health_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace network {
 
     DamageTakenMessageSenderSystem::DamageTakenMessageSenderSystem()
@@ -64,3 +66,5 @@ namespace network {
 
 } // namespace engine
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::DamageTakenMessage);

@@ -3,6 +3,7 @@
 
 #include "normal_item.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class BlueGrenadeNormalItem : public NormalItem
 {
@@ -23,6 +24,8 @@ void BlueGrenadeNormalItem::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<NormalItem>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(BlueGrenadeNormalItem,"blue_grenade_normal_item");
 #endif//INCLUDED_CORE_BLUE_GRENADE_NORMAL_ITEM_H
 
 //command:  "classgenerator.exe" -g "normal_item" -c "blue_grenade_normal_item"

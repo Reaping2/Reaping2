@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/shot_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -60,6 +61,8 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::ShotMessage,"shot");
 #endif//INCLUDED_NETWORK_SHOT_H
 
 //command:  "classgenerator.exe" -g "message" -c "shot" -m "int32_t-actorGUID int32_t-x int32_t-y bool-isAlt" -e "core-shot"

@@ -2,6 +2,9 @@
 #include "core/pistol.h"
 #include "core/audible_event.h"
 #include "core/i_move_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
+
 
 Pistol::Pistol( int32_t Id )
     : Weapon( Id )
@@ -21,3 +24,4 @@ PistolLoader::PistolLoader()
 {
     SetBase<WeaponLoader>();
 }
+BOOST_CLASS_EXPORT_IMPLEMENT(Pistol);

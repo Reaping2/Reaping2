@@ -2,7 +2,7 @@ set(BOOST_URL
         "http://downloads.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.gz"
         CACHE STRING "Location of boost source package")
 
-if(WIN32)
+if(CMAKE_HOST_WIN32)
     set(BOOST_BOOTSTRAP_CMD bootstrap.bat)
     set(BOOST_BUILD_CMD b2)
     if("v90" STREQUAL "${CMAKE_GENERATOR_TOOLSET}")
@@ -16,11 +16,15 @@ if(WIN32)
     elseif("v140" STREQUAL "${CMAKE_GENERATOR_TOOLSET}")
         set(BOOST_TOOLSET_ARG "--toolset=msvc-14.0")
     endif()
-else(WIN32)
+else(CMAKE_HOST_WIN32)
     set(BOOST_BOOTSTRAP_CMD ./bootstrap.sh)
     set(BOOST_BUILD_CMD ./b2)
-    set(BOOST_RPATH_ARG "dll-path=${EXTERNALS_INSTALL_DIR}/lib")
-endif(WIN32)
+    if(WIN32 AND CMAKE_CROSSCOMPILING AND CMAKE_TOOLCHAIN_BOOST_TOOLSET_ARGS)
+        set(BOOST_TOOLSET_ARG ${CMAKE_TOOLCHAIN_BOOST_TOOLSET_ARGS})
+    else(WIN32 AND CMAKE_CROSSCOMPILING AND CMAKE_TOOLCHAIN_BOOST_TOOLSET_ARGS)
+        set(BOOST_RPATH_ARG "dll-path=${EXTERNALS_INSTALL_DIR}/lib")
+    endif(WIN32 AND CMAKE_CROSSCOMPILING AND CMAKE_TOOLCHAIN_BOOST_TOOLSET_ARGS)
+endif(CMAKE_HOST_WIN32)
 
 if(NOT DEFINED BOOST_ADDRESS_MODEL)
     # This script does not handle all cases on all platforms,

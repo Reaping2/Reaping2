@@ -3,6 +3,7 @@
 
 #include "i_cloak_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class CloakComponent : public ICloakComponent
 {
@@ -34,6 +35,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(CloakComponent,"cloak_component");
 #endif//INCLUDED_CORE_CLOAK_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "cloak_component" -m "bool-active"

@@ -1,4 +1,6 @@
 #include "core/bounce_collision_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 BounceCollisionComponent::BounceCollisionComponent()
     : mSpeedLossPercent(0.0)
@@ -26,3 +28,5 @@ BounceCollisionComponentLoader::BounceCollisionComponentLoader()
 {
     SetBase<CollisionComponentLoader>();
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(BounceCollisionComponent);

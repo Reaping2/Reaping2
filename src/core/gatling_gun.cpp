@@ -2,6 +2,8 @@
 #include "core/gatling_gun.h"
 #include "core/audible_event.h"
 #include "core/i_move_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 GatlingGun::GatlingGun( int32_t Id )
     : Weapon( Id )
@@ -153,3 +155,6 @@ GatlingGunLoader::GatlingGunLoader()
 {
     SetBase<WeaponLoader>();
 }
+
+
+BOOST_CLASS_EXPORT_IMPLEMENT(GatlingGun);

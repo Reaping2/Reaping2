@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/modify_audible_component_message.h"
 #include "core/i_audible_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -81,3 +83,5 @@ bool ModifyAudibleComponentMessageHandlerSubSystem::ProcessPending(Message const
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::ModifyAudibleComponentMessage);

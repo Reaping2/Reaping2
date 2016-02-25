@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "core/component.h"
 #include "core/component_factory.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 const double PRECISION=1000.0;
 
@@ -77,3 +79,5 @@ DefaultComponent::DefaultComponent()
 {
 }
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(DefaultComponent);

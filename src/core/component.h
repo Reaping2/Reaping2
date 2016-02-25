@@ -11,6 +11,7 @@
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
+#include <boost/serialization/export.hpp>
 
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
@@ -145,4 +146,5 @@ void ComponentLoader<COMPONENT>::FillProperties(ComponentHolder& actor) const
     }
 }
 
+BOOST_CLASS_EXPORT_KEY2(DefaultComponent,"default_component");
 #endif//INCLUDED_CORE_COMPONENT_H

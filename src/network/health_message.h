@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/health_changed_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -64,6 +65,8 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::HealthMessage,"health");
 #endif//INCLUDED_NETWORK_HEALTH_H
 
 // TODO: to main.cpp:

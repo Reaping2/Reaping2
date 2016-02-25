@@ -6,6 +6,7 @@
 #include "network/message_sender_system.h"
 #include "core/ctf_program_state.h"
 #include "network/ctf_client_datas_changed_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 namespace ctf {
@@ -49,6 +50,7 @@ public:
 } // namespace ctf
 } // namespace network
 
+BOOST_CLASS_EXPORT_KEY2(network::ctf::ClientDatasMessage,"ctf_client_datas");
 #endif//INCLUDED_NETWORK_CTF_CLIENT_DATAS_H
 
 // TODO: to main.cpp:

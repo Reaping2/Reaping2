@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/accuracy_message.h"
 #include "core/i_accuracy_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -74,3 +76,5 @@ std::auto_ptr<AccuracyMessage> AccuracyMessageSenderSystem::GenerateAccuracyMess
 
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_IMPLEMENT(network::AccuracyMessage);

@@ -3,6 +3,8 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/scene.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 Weapon::Weapon( int32_t Id )
     : Item( Id )
@@ -278,3 +280,4 @@ void WeaponLoader::BindValues()
 WeaponLoader::WeaponLoader()
 {
 }
+BOOST_CLASS_EXPORT_IMPLEMENT(Weapon);

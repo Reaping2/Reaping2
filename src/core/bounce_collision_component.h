@@ -3,6 +3,7 @@
 
 #include "collision_component.h"
 #include "core/property_loader.h"
+#include <boost/serialization/export.hpp>
 
 class BounceCollisionComponent : public CollisionComponent
 {
@@ -36,4 +37,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+BOOST_CLASS_EXPORT_KEY2(BounceCollisionComponent,"bounce_collision_component");
 #endif//INCLUDED_CORE_BOUNCE_COLLISION_COMPONENT_H

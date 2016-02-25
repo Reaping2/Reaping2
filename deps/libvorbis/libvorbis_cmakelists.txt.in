@@ -57,7 +57,7 @@ set(hdr
         lib/window.h
 )
 
-if(WIN32)
+if(WIN32 AND NOT MINGW)
     set(vorbis_defs win32/vorbis.def)
     set(vorbisfile_defs win32/vorbisfile.def)
 endif()

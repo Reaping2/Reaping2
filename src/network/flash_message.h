@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "engine/items/flash_event.h"
+#include <boost/serialization/export.hpp>
 
 namespace network {
 
@@ -62,4 +63,6 @@ public:
 };
 } // namespace network
 
+
+BOOST_CLASS_EXPORT_KEY2(network::FlashMessage,"flash");
 #endif//INCLUDED_NETWORK_FLASH_H

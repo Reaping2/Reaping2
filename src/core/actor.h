@@ -3,6 +3,7 @@
 
 #include "platform/i_platform.h"
 #include "core/component.h"
+#include <boost/serialization/export.hpp>
 
 using namespace ::boost::multi_index;
 
@@ -42,4 +43,6 @@ void Actor::serialize(Archive& ar, const unsigned int version)
 
 
 
+
+BOOST_CLASS_EXPORT_KEY2(Actor,"actor");
 #endif//INCLUDED_CORE_ACTOR_H

@@ -1,4 +1,6 @@
 #include "core/lucky_rocket.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 LuckyRocket::LuckyRocket( int32_t Id )
     : Weapon( Id )
@@ -31,3 +33,5 @@ LuckyRocketLoader::LuckyRocketLoader()
 {
     SetBase<WeaponLoader>();
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(LuckyRocket);

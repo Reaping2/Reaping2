@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_CONTROLLER_COMPONENT_H
 
 #include "component.h"
+#include <boost/serialization/export.hpp>
 
 class Actor;
 class IControllerComponent : public Component
@@ -26,4 +27,6 @@ void IControllerComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+BOOST_CLASS_EXPORT_KEY2(IControllerComponent,"i_controller_component");
 #endif//INCLUDED_CORE_I_CONTROLLER_COMPONENT_H

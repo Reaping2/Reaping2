@@ -10,6 +10,8 @@
 #include "core/renderable_layer.h"
 #include "core/i_drop_on_death_component.h"
 #include "core/i_remove_on_death_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 
@@ -60,3 +62,5 @@ int32_t Actor::GetGUID() const
 {
     return mGUID;
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(Actor);

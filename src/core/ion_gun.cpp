@@ -1,4 +1,6 @@
 #include "core/ion_gun.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 IonGun::IonGun( int32_t Id )
     : Weapon( Id )
@@ -19,3 +21,5 @@ IonGunLoader::IonGunLoader()
 {
     SetBase<WeaponLoader>();
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(IonGun);

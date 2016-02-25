@@ -1,4 +1,6 @@
 #include "core/armor_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 ArmorComponent::ArmorComponent()
     : mCurrentArmor(0)
@@ -24,3 +26,5 @@ void ArmorComponentLoader::BindValues()
 ArmorComponentLoader::ArmorComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(ArmorComponent);

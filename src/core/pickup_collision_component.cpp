@@ -5,6 +5,8 @@
 #include "platform/auto_id.h"
 #include "item_type.h"
 #include "platform/id_storage.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 
@@ -73,3 +75,5 @@ PickupCollisionComponentLoader::PickupCollisionComponentLoader()
 {
     SetBase<CollisionComponentLoader>();
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(PickupCollisionComponent);

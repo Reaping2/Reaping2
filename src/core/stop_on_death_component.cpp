@@ -1,4 +1,6 @@
 #include "core/stop_on_death_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 StopOnDeathComponent::StopOnDeathComponent()
     : mStopped(false)
@@ -24,3 +26,5 @@ void StopOnDeathComponentLoader::BindValues()
 StopOnDeathComponentLoader::StopOnDeathComponentLoader()
 {
 }
+
+BOOST_CLASS_EXPORT_IMPLEMENT(StopOnDeathComponent);

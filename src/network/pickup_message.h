@@ -8,6 +8,7 @@
 #include "engine/collisions/pickup_collision_sub_system.h"
 #include "core/actor_event.h"
 #include "core/item_type.h"
+#include <boost/serialization/export.hpp>
 namespace network {
 
     class PickupMessage: public Message
@@ -58,4 +59,6 @@ namespace network {
     };
 
 } // namespace network
+
+BOOST_CLASS_EXPORT_KEY2(network::PickupMessage,"pickup");
 #endif//INCLUDED_NETWORK_PICKUP_MESSAGE_H
