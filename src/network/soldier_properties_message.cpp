@@ -104,10 +104,6 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
                     
-        std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
-        message->mClientDatas = ::ctf::ProgramState::Get().mClientDatas;
-        mMessageHolder.AddOutgoingMessage(message);
-
         if (mProgramState.mGameState==core::ProgramState::Running)
         {
             std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
