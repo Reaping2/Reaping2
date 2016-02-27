@@ -11,12 +11,10 @@ namespace network {
     public:
         DEFINE_MESSAGE_BASE(CreateActorMessage)
 
-        int32_t mActorId;
         int32_t mActorGUID;
-        int32_t mParentGUID; //for shots atm, //TODO: there will be an engine upgrade for this
         ActorEvent::State mState;
-
-        CreateActorMessage():mActorId(-1), mActorGUID(-1),mParentGUID(-1){}
+        std::string mActor;
+        CreateActorMessage(Opt<Actor> actor=Opt<Actor>(NULL));
 
         template<class Archive>
         void serialize(Archive& ar, const unsigned int version);
@@ -26,10 +24,9 @@ namespace network {
     void CreateActorMessage::serialize(Archive& ar, const unsigned int version)
     {
         ar & boost::serialization::base_object<Message>(*this);
-        ar & mActorId;
         ar & mActorGUID;
-        ar & mParentGUID;
         ar & mState;
+        ar & mActor;
     }
 
 } // namespace network

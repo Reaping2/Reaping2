@@ -22,34 +22,12 @@ namespace network {
         CreateActorMessage const& msg=static_cast<CreateActorMessage const&>(message);
         if (msg.mState==ActorEvent::Added)
         {
-            //L1("executing createactor: %d \n",msg.mSenderId );
-            std::auto_ptr<Actor> actor(mActorFactory(msg.mActorId));
-            if(msg.mActorId==AutoId("pickup"))
-            {
-                L1("executing createactor: pickup! %d \n",msg.mSenderId );
-            }
-            actor->SetGUID(msg.mActorGUID);
-            Opt<IRenderableComponent> renderableC(actor->Get<IRenderableComponent>());
-            if (renderableC.IsValid())
-            {
-                renderableC->SetZOrder(actor->GetGUID());
-            }
-            //TODO: handle parent from lower engine level (not only for shots)
-            if (msg.mParentGUID!=-1)
-            {
-                Opt<ShotCollisionComponent> collisionC=actor->Get<ShotCollisionComponent>();
-                if (collisionC.IsValid())
-                {
-                    Opt<Actor> parent=mScene.GetActor(msg.mParentGUID);
-                    if(parent.IsValid())
-                    {
-                        collisionC->SetParentGUID(parent->GetGUID());
-                    }
-                }
-            }
+            std::istringstream iss( msg.mActor );
+            eos::portable_iarchive ia(iss);
+            Opt<Actor> actor;
+            ia >> actor;
             L2("createactormessage executed with (GUID:%d)\n",actor->GetGUID());
-
-            mScene.AddActor(actor.release());
+            mScene.AddActor(actor.Get());
         }
         else if (msg.mState==ActorEvent::Removed)
         {
