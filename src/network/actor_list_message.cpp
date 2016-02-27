@@ -41,14 +41,9 @@ void ActorListMessageHandlerSubSystem::Execute(Message const& message)
     if (msg.mClientId==mProgramState.mClientId)
     {
         L1("actorlist arrived for me!");
-        std::istringstream iss(msg.mActorList);
-        eos::portable_iarchive ia(iss);
-        ActorList_t actorlist2;
-        ia >> actorlist2;
-
         Scene::Get().SetPlayerModels(Opt<Actor>());
         Scene::Get().ClearActors();
-        Scene::Get().SetActors(actorlist2);
+        Scene::Get().SetActors(*msg.mActorList);
         Scene::Get().SetPlayerModels(Scene::Get().GetActor(core::ProgramState::Get().mControlledActorGUID));
 
     }
