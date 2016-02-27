@@ -13,7 +13,7 @@ SyncItemMessage::SyncItemMessage( Item const& item )
     mActorGUID = item.GetActorGUID();
     std::ostringstream oss;
     eos::portable_oarchive oa(oss);
-    oa & item;
+    oa & Opt<Item>(const_cast<Item*>(&item));
     mData = oss.str();
 }
 
@@ -60,14 +60,12 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
     {
         return;
     }
-    Opt<Item> item = inv->GetItem( msg.mItemID );
-    if( !item.IsValid() )
-    {
-        return;
-    }
+    inv->DropItem( msg.mItemID );
     std::istringstream iss( msg.mData );
     eos::portable_iarchive ia(iss);
-    ia >> *item;
+    Opt<Item> item;
+    ia >> item;
+    inv->AddItem(std::unique_ptr<Item>(item.Get()));
     if (item->GetType()==ItemType::Normal)
     {
         inv->SetSelectedNormalItem(item->GetId());
