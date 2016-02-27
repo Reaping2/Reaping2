@@ -4,6 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include "core/consumable.h"
 namespace network {
 
     class PlayerControllerMessage: public Message
@@ -16,8 +17,8 @@ namespace network {
         int32_t mHeading;
         bool mShoot;
         bool mShootAlt;
-        bool mUseNormalItem;
-        bool mReload;
+        Consumable mUseNormalItem;
+        Consumable mReload;
         bool mMoving;
         PlayerControllerMessage()
             : mActorGUID(0)
