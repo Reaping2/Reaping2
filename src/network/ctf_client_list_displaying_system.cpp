@@ -28,7 +28,7 @@ void CtfClientListDisplayingSystem::Update( double DeltaTime )
 
 std::vector<std::string> CtfClientListDisplayingSystem::BlueNames()
 {
-	return mBlueNames;
+    return mBlueNames;
 }
 
 std::vector<std::string> CtfClientListDisplayingSystem::RedNames()
