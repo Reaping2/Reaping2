@@ -70,19 +70,19 @@ void SpawnActorMapElement::LoadComponentLoaders(Json::Value& setters, ActorCreat
         }
         Json::Value& compSetters=component["set"];
         int32_t componentId=AutoId(compName);
-        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+        std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
         if(compSetters.isArray()&&!compSetters.empty())
         {
             compLoader->Load(*compSetters.begin());
         }
 
-        componentLoaders.insert(componentId,compLoader);
+        componentLoaders.insert(componentId,static_cast<ActorCreator::ComponentLoader_t *>(compLoader.release()));
     }
 }
 
-void SpawnActorMapElement::AddComponentLoader(int32_t componentId, std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader)
+void SpawnActorMapElement::AddComponentLoader(int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader)
 {
-    mComponentLoaders.insert(componentId,compLoader);
+    mComponentLoaders.insert(componentId,static_cast<ActorCreator::ComponentLoader_t *>(compLoader.release()));
 }
 
 void SpawnActorMapElement::Save(Json::Value& Element)

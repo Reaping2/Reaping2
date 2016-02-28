@@ -36,11 +36,6 @@ void Component::Save(Json::Value& component)
     }
 }
 
-int Component::GetType() const
-{
-    return 0;
-}
-
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 {
     ComponentList_t::iterator i = mComponents.find( Comp->GetType() );

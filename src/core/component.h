@@ -29,7 +29,7 @@ class Actor;
 class Component 
 {
 public:
-    virtual int GetType() const;
+    DEFINE_COMPONENT_BASE(Component)
     virtual ~Component();
     virtual void SetActorGUID(int32_t actorGUID);
     void SetId(int32_t id);
@@ -118,5 +118,30 @@ class PropertyLoader;
 template<typename COMPONENT>
 class ComponentLoader: public PropertyLoader<COMPONENT, Component>
 {
+public:
+    virtual void FillProperties(ComponentHolder& actor)const;
 };
+
+template<typename COMPONENT>
+void ComponentLoader<COMPONENT>::FillProperties(ComponentHolder& actor) const
+{
+    if (mBase.get())
+    {
+        static_cast<const ComponentLoader<Component> *>(mBase.get())->FillProperties(actor);
+    }
+    if(mSetterFuncList.empty())
+    {
+        return;
+    }
+    Opt<COMPONENT> castedTarget=actor.Get<COMPONENT>();
+    if (!castedTarget.IsValid())
+    {
+        return;
+    }
+    for(typename SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
+    {
+        (*i)(castedTarget.Get());
+    }
+}
+
 #endif//INCLUDED_CORE_COMPONENT_H
