@@ -127,7 +127,6 @@
             type=network::OrientationMessage::GetType_static();
             type=network::HeadingMessage::GetType_static();
             type=network::PickupMessage::GetType_static();
-            type=network::SetPickupContentMessage::GetType_static();
             type=network::PingMessage::GetType_static();
             type=network::ReviveMessage::GetType_static();
             type=network::FlashMessage::GetType_static();
@@ -303,7 +302,6 @@
     BOOST_CLASS_EXPORT_GUID(network::OrientationMessage, "orientation")
     BOOST_CLASS_EXPORT_GUID(network::HeadingMessage, "heading")
     BOOST_CLASS_EXPORT_GUID(network::PickupMessage, "pickup")
-    BOOST_CLASS_EXPORT_GUID(network::SetPickupContentMessage, "set_pickup")
     BOOST_CLASS_EXPORT_GUID(network::PingMessage, "ping")
     BOOST_CLASS_EXPORT_GUID(network::ReviveMessage, "revive")
     BOOST_CLASS_EXPORT_GUID(network::FlashMessage, "flash")

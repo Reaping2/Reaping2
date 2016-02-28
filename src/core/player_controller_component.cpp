@@ -15,7 +15,7 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mUseNormalItem(false)
     , mActive(false)
     , mControllerId(0)
-    , mReloadTyped(false)
+    , mUseReload(false)
     , mMoving(false)
 {
 }

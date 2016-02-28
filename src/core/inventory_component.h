@@ -12,6 +12,7 @@ public:
     virtual ItemList_t const& GetItems()const;
     virtual ItemList_t& GetItems();
     virtual void AddItem( int32_t Id );
+    virtual void AddItem( std::unique_ptr<Item> item );
     virtual void DropItem( int32_t Id );
     virtual Opt<Item> GetItem( int32_t Id );
     virtual void DropItemType( ItemType::Type Type );
