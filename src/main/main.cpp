@@ -76,7 +76,7 @@
 #include <iosfwd>
 #include "core/component_factory.h"
 #include "network/actor_list_message.h"
-
+#include "engine/remove_components_on_death_system.h"
 
 using engine::Engine;
 namespace {
@@ -415,6 +415,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("remove_on_death_system"));
         Eng.AddSystem(AutoId("explode_on_death_system"));
     }
+    Eng.AddSystem(AutoId("remove_components_on_death_system"));
     Eng.AddSystem(AutoId("soldier_auto_revive_system"));
     Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));

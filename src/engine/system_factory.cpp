@@ -106,6 +106,7 @@
 #include "network/flag_state_changed_message.h"
 #include "network/fade_out_message.h"
 #include "network/actor_list_message.h"
+#include "remove_components_on_death_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -234,6 +235,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("detonate_on_hit_system"), &CreateSystem<engine::DetonateOnHitSystem>);
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
     Bind( AutoId("audio_system"), &CreateSystem<audio::AudioSystem>);
+    Bind( AutoId("remove_components_on_death_system"), &CreateSystem<engine::RemoveComponentsOnDeathSystem>);
 }
 
 } // namespace engine

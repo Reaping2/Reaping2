@@ -7,7 +7,7 @@ class IRemoveOnDeathComponent : public Component
 public:
     DEFINE_COMPONENT_BASE(IRemoveOnDeathComponent)
 protected:
-	friend class ComponentFactory;
+    friend class ComponentFactory;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
