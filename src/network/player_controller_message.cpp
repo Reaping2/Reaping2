@@ -35,7 +35,7 @@ namespace network {
                 playerControllerMsg->mShoot=playerControllerC->mShoot;
                 playerControllerMsg->mShootAlt=playerControllerC->mShootAlt;
                 playerControllerMsg->mUseNormalItem=playerControllerC->mUseNormalItem;
-                playerControllerMsg->mReload=playerControllerC->mReloadTyped;
+                playerControllerMsg->mUseReload=playerControllerC->mUseReload;
                 playerControllerMsg->mMoving=playerControllerC->mMoving;
                 mMessageHolder.AddOutgoingMessage(playerControllerMsg);
             }
@@ -75,7 +75,7 @@ namespace network {
         playerControllerC->mShoot=msg.mShoot;
         playerControllerC->mShootAlt=msg.mShootAlt;
         playerControllerC->mUseNormalItem.SetActive(msg.mUseNormalItem.IsActive());
-        playerControllerC->mReloadTyped.SetActive(msg.mReload.IsActive());
+        playerControllerC->mUseReload.SetActive(msg.mUseReload.IsActive());
         playerControllerC->mMoving=msg.mMoving;
     }
 

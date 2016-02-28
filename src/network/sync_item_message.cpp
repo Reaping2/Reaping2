@@ -65,14 +65,16 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
     eos::portable_iarchive ia(iss);
     Opt<Item> item;
     ia >> item;
+    ItemType::Type itemType=item->GetType();
+    int32_t itemId=item->GetId();
     inv->AddItem(std::unique_ptr<Item>(item.Get()));
-    if (item->GetType()==ItemType::Normal)
+    if (itemType==ItemType::Normal)
     {
-        inv->SetSelectedNormalItem(item->GetId());
+        inv->SetSelectedNormalItem(itemId);
     }
-    else if (item->GetType()==ItemType::Weapon)
+    else if (itemType==ItemType::Weapon)
     {
-        inv->SetSelectedWeapon(item->GetId());
+        inv->SetSelectedWeapon(itemId);
     }
 
 }

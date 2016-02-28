@@ -80,7 +80,7 @@ void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponen
         normalItem->SetUse(playerControllerC->mUseNormalItem.GetValue());
         if (playerControllerC->mUseNormalItem.GetValue())
         {
-            playerControllerC->mUseNormalItem.SetConsumed(true);
+            playerControllerC->mUseNormalItem.SetHandled(true);
         }
     }   
 }
@@ -102,14 +102,14 @@ void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerC
     playerControllerC->mShoot=mInputSystem->GetInputState().mShoot;
     playerControllerC->mShootAlt=mInputSystem->GetInputState().mShootAlt;
     playerControllerC->mUseNormalItem.SetActive(mInputSystem->GetInputState().mUseNormalItem);
-    playerControllerC->mReloadTyped.SetActive(mInputSystem->GetInputState().mReload);
+    playerControllerC->mUseReload.SetActive(mInputSystem->GetInputState().mReload);
     playerControllerC->mMoving=mInputSystem->GetInputState().mMoving;
     playerControllerC->mHeading=mInputSystem->GetInputState().mHeading;
 }
 
 void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC)
 {
-    if (!playerControllerC->mReloadTyped.GetValue())
+    if (!playerControllerC->mUseReload.GetValue())
     {
         return;
     }
@@ -126,7 +126,7 @@ void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerC
     }
     if (mProgramState.mMode!=core::ProgramState::Client)
     {
-        playerControllerC->mReloadTyped.SetConsumed(true);
+        playerControllerC->mUseReload.SetHandled(true);
     }
 }
 

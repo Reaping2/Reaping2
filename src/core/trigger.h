@@ -2,19 +2,19 @@
 #define INCLUDED_CORE_CONSUMABLE_H
 #include <boost/serialization/serialization.hpp>
 
-class Consumable
+class Trigger
 {
 public:
-    Consumable(bool active=false);
+    Trigger(bool active=false);
     bool GetValue()const;
     void SetActive(bool active);
-    void SetConsumed(bool consumed);
+    void SetHandled(bool consumed);
     bool IsActive()const;
-    bool IsConsumed()const;
+    bool IsHandled()const;
 protected:
     friend class ComponentFactory;
     bool mActive;
-    bool mConsumed;
+    bool mHandled;
 private:
 public:
     friend class ::boost::serialization::access;
@@ -23,7 +23,7 @@ public:
 };
 
 template<class Archive>
-void Consumable::serialize(Archive& ar, const unsigned int version)
+void Trigger::serialize(Archive& ar, const unsigned int version)
 {
     ar & mActive;
 }

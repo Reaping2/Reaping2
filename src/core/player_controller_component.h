@@ -5,7 +5,7 @@
 #include "core/controller_component.h"
 #include "core/actor.h"
 #include "core/property_loader.h"
-#include "consumable.h"
+#include "trigger.h"
 
 class PlayerControllerComponent : public ControllerComponent
 {
@@ -15,10 +15,10 @@ public:
     double mHeading;
     bool mShoot;
     bool mShootAlt;
-    Consumable mUseNormalItem;
+    Trigger mUseNormalItem;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
-    Consumable mReloadTyped;
+    Trigger mUseReload;
     bool mMoving;
 public:
     friend class ::boost::serialization::access;
@@ -38,7 +38,7 @@ void PlayerControllerComponent::serialize(Archive& ar, const unsigned int versio
     ar & mUseNormalItem;
     ar & mActive;
     ar & mControllerId;
-    ar & mReloadTyped;
+    ar & mUseReload;
     ar & mMoving;
 }
 
