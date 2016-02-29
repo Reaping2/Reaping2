@@ -12,6 +12,8 @@ public:
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
+    virtual double GetRemainingTime() const = 0;
+    virtual void SetRemainingTime( double rt ) = 0;
 };
 
 template<class Archive>

@@ -54,9 +54,9 @@ namespace render{
         {
             SpritePhase const& Phase = Spr( (int32_t)GetState() );
             Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
-            glm::vec4 col=ColorRepo::Get()(playerCC->mControllerId);
+            glm::vec4 col= playerCC.IsValid() ? ColorRepo::Get()(playerCC->mControllerId) : glm::vec4( 1, 1, 1, 1 );
             col.a=GetCloakColor(actor).a;
-            renderableSprites.push_back( 
+            renderableSprites.push_back(
                 RenderableSprite( &actor, mHatId, &Spr, &Phase, col ) );
         }
     }

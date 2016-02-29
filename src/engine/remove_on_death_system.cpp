@@ -26,13 +26,14 @@ void RemoveOnDeathSystem::Update(double DeltaTime)
             continue;
         }
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-        if(!healthC.IsValid())
+        if(!healthC.IsValid() || healthC->IsAlive())
         {
-            continue; 
+            continue;
         }
-        if(!healthC->IsAlive())
+        double RemainingTime = removeOnDeathC->GetRemainingTime() - DeltaTime;
+        removeOnDeathC->SetRemainingTime( RemainingTime );
+        if( RemainingTime <= 0 )
         {
-            
             mScene.RemoveActor(it);
         }
     }

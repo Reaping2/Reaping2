@@ -843,6 +843,8 @@
             {"name":"kill_score_on_death_component"},
             {"name":"heat_source_component"},
             {"name":"audible_component"},
+            {"name":"remove_on_death_component",
+                "set":[{"delay":2.0}] },
             {"name":"remove_components_on_death_component",
                 "set":[
                     {
@@ -857,7 +859,9 @@
                             "score_on_death_component",
                             "kill_score_on_death_component",
                             "heat_source_component",
-                            "audible_component"
+                            "audible_component",
+                            "player_controller_component",
+                            "remove_components_on_death_component"
                         ]
                     }
                 ]
@@ -895,7 +899,31 @@
             {"name":"score_on_death_component"},
             {"name":"kill_score_on_death_component"},
             {"name":"heat_source_component"},
-            {"name":"audible_component"}
+            {"name":"audible_component"},
+            {"name":"remove_on_death_component",
+                "set":[{"delay":2.0}] },
+            {"name":"remove_components_on_death_component",
+                "set":[
+                    {
+                        "components":[
+                            "collision_component",
+                            "move_component",
+                            "accuracy_component",
+                            "armor_component",
+                            "cloak_component",
+                            "flag_carrier_component",
+                            "stop_on_death_component",
+                            "buff_holder_component",
+                            "score_on_death_component",
+                            "kill_score_on_death_component",
+                            "heat_source_component",
+                            "audible_component",
+                            "player_controller_component",
+                            "remove_components_on_death_component"
+                        ]
+                    }
+                ]
+            }
         ]
     },
     {

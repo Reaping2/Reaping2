@@ -35,7 +35,8 @@ void RemoveComponentsOnDeathSystem::Update(double DeltaTime)
         {
             continue;
         }
-        std::vector<int32_t> const& comps = removeComponentsOnDeathC->GetComponents();
+        // create copy, component might drop itself
+        std::vector<int32_t> const comps = removeComponentsOnDeathC->GetComponents();
         std::for_each( std::begin( comps ), std::end( comps ),
                 [&]( int32_t id ) { actor.DropComponent( id ); } );
     }

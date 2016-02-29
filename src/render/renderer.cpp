@@ -115,7 +115,7 @@ void RendererSystem::Update(double DeltaTime)
     static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
     static std::set<RenderableLayer::Type> const fglayers;
     mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers);
-    mDecalEngine.Draw( DecalEngine::GroundParticle );
+    mDecalEngine.Draw();
     mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers);
     render::ParticleEngine::Get().Draw();
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );

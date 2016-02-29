@@ -50,6 +50,7 @@
 #include "network/show_text_message_message.h"
 #include "network/collision_message.h"
 #include "render/damage_particles.h"
+#include "render/corpses.h"
 #include "network/shot_message.h"
 #include "network/kill_score_message.h"
 #include "network/client_score_message.h"
@@ -207,6 +208,7 @@ int main(int argc, char* argv[])
     AudioPlayer::Get();
     audio::AudioEffectRepo::Get();
     DamageDecals::Get();
+    Corpses::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
@@ -443,6 +445,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("renderer_system"));
     Eng.AddSystem(AutoId("show_text_system"));
 
+    Eng.AddSystem(AutoId("player_model_system"));
     if (programState.mMode!=ProgramState::Client)
     {
         Eng.AddSystem(AutoId("removed_actors_system"));

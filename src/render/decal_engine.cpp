@@ -6,99 +6,171 @@
 
 DecalEngine::DecalEngine()
     : mRenderables( RenderableRepo::Get() )
+    , mTexIndex( 0 )
+    , mPosIndex( 0 )
+    , mHeadingIndex( 0 )
+    , mAlphaIndex( 0 )
+    , mRadiusIndex( 0 )
+    , mPrevDecalsSize( 0 )
+    , mDirty( false )
 {
     mMaxDecalsPerType = 10000;
-    for( size_t i = 0; i < NumTypes; ++i )
-    {
-        mNextIdx[i] = 0;
-        mNumDecals[i] = 0;
-    }
     mVAO.Init();
-    mVAO.Bind();
-    mOneTypeSize = mMaxDecalsPerType * ( sizeof( glm::vec2 ) + sizeof( glm::vec4 ) );
-    glBufferData( GL_ARRAY_BUFFER, NumTypes * mOneTypeSize, NULL, GL_DYNAMIC_DRAW );
-    mVAO.Unbind();
+    ShaderManager& ShaderMgr( ShaderManager::Get() );
+    ShaderMgr.ActivateShader( "decals" );
+    ShaderMgr.UploadData( "spriteTexture", GLuint( 3 ) );
 }
 
 void DecalEngine::Add( Decal const& Part, DecalType Typ )
 {
-    mNewDecals[Typ].push_back( Part );
+    mDirty = true;
+    mDecals.push_back( Part );
+    // TODO
+    // check max num of possible decals
+    // slowly fade out the first decals with decresing alpha
 }
 
-void DecalEngine::UpdateBuffers( DecalType Typ )
+namespace {
+typedef std::vector<Decal> Decals_t;
+typedef std::vector<glm::vec2> Vec2s_t;
+typedef std::vector<glm::vec4> Vec4s_t;
+typedef std::vector<GLfloat> Floats_t;
+bool getNextTextId( Decals_t::const_iterator& i, Decals_t::const_iterator e,
+        Vec2s_t& Positions, Floats_t& Alphas, Vec4s_t& TexCoords,
+        Floats_t& Headings, Floats_t& Radii,
+        GLuint& TexId )
 {
-    // todo create update method, put data upload there
-    Particles_t& Parts = mNewDecals[Typ];
-    if( Parts.empty() )
+    if( i == e )
+    {
+        return false;
+    }
+    auto const& p = *i;
+    Positions.push_back( p.mCenter );
+    TexCoords.push_back( p.mTexCoords );
+    Headings.push_back( p.mHeading );
+    Radii.push_back( p.mRadius );
+    Alphas.push_back( p.mAlpha );
+    TexId = p.mTexId;
+    ++i;
+    return true;
+}
+}
+void DecalEngine::UpdateBuffers()
+{
+    if( !mDirty || mDecals.empty() )
     {
         return;
     }
+    mDirty = false;
+    size_t CurSize = mDecals.size();
+
+    Vec2s_t Positions;
+    Vec4s_t TexCoords;
+    Floats_t Headings;
+    Floats_t Radii;
+    Floats_t Alphas;
+    Positions.reserve( CurSize );
+    Alphas.reserve( CurSize );
+    TexCoords.reserve( CurSize );
+    Headings.reserve( CurSize );
+    Radii.reserve( CurSize );
+
+    Decals_t::const_iterator i = mDecals.begin();
+    mCounts = render::count(
+            boost::lambda::bind( &getNextTextId, boost::ref( i ), mDecals.end(),
+                boost::ref( Positions ), boost::ref( Alphas ), boost::ref( TexCoords ),
+                boost::ref( Headings ), boost::ref( Radii ),
+                boost::lambda::_1 )
+            );
+
 
     mVAO.Bind();
-    std::vector<glm::vec2> PosBuf;
-    std::vector<glm::vec4> TexBuf;
-    PosBuf.reserve( Parts.size() );
-    TexBuf.reserve( Parts.size() );
-    for( Particles_t::const_iterator b = Parts.begin(), i = b, e = Parts.end(); i != e; ++i )
+
+    if( CurSize != mPrevDecalsSize )
     {
-        Decal const& p = *i;
-        static int32_t DefaultActId = AutoId( "default_action" );
-        Sprite const& Spr = mRenderables( p.mId )( DefaultActId );
-        if( !Spr.IsValid() )
-        {
-            continue;
-        }
-        SpritePhase const& Phase = Spr( 0 );
-        mTexId = Phase.TexId;
-        PosBuf.push_back( p.mCenter );
-        TexBuf.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
+        size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 3 * sizeof( GLfloat ) );
+        glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
+        mPrevDecalsSize = CurSize;
     }
-    size_t Remaining = TexBuf.size();
-    size_t& WhereToAppend = mNextIdx[Typ];
-    size_t NumToAppend = std::min<size_t>( Remaining, mMaxDecalsPerType - WhereToAppend );
-    while( NumToAppend )
-    {
-        glBufferSubData( GL_ARRAY_BUFFER, Typ * mOneTypeSize + WhereToAppend * sizeof( glm::vec4 ), NumToAppend * sizeof( glm::vec4 ), &TexBuf[0] );
-        glBufferSubData( GL_ARRAY_BUFFER, Typ * mOneTypeSize + mMaxDecalsPerType * sizeof( glm::vec4 ) + WhereToAppend * sizeof( glm::vec2 ), NumToAppend * sizeof( glm::vec2 ), &PosBuf[0] );
-        WhereToAppend += NumToAppend;
-        if( WhereToAppend >= mMaxDecalsPerType )
-        {
-            WhereToAppend = 0;
-        }
-        size_t NextRound = std::min<size_t>( Remaining - NumToAppend, mMaxDecalsPerType - WhereToAppend );
-        Remaining -= NumToAppend;
-        NumToAppend = NextRound;
-    }
-    mNumDecals[Typ] += TexBuf.size();
-    if( mNumDecals[Typ] > mMaxDecalsPerType )
-    {
-        mNumDecals[Typ] = mMaxDecalsPerType;
-    }
+
+    size_t CurrentOffset = 0;
+    size_t CurrentSize = 0;
+    GLuint CurrentAttribIndex = 0;
+
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &TexCoords[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mTexIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+    CurrentOffset += CurrentSize;
+
+    CurrentSize = CurSize * sizeof( glm::vec2 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Positions[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mPosIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+    CurrentOffset += CurrentSize;
+
+    CurrentSize = CurSize * sizeof( GLfloat );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Headings[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mHeadingIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+    CurrentOffset += CurrentSize;
+
+    CurrentSize = CurSize * sizeof( GLfloat );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Alphas[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mAlphaIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+    CurrentOffset += CurrentSize;
+
+    CurrentSize = CurSize * sizeof( GLfloat );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Radii[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mRadiusIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+    CurrentOffset += CurrentSize;
+
     mVAO.Unbind();
-    Parts.clear();
 }
 
-void DecalEngine::Draw( DecalType Type )
+void DecalEngine::Draw()
 {
-    UpdateBuffers( Type );
-    if( !mNumDecals[Type] )
+    UpdateBuffers();
+    if( mDecals.empty() )
     {
         return;
     }
     mVAO.Bind();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "decal" );
+    ShaderMgr.ActivateShader( "decals" );
     glActiveTexture( GL_TEXTURE0 + 3 );
-    //todo: bind only once
-    glBindTexture( GL_TEXTURE_2D, mTexId );
-    ShaderMgr.UploadData( "spriteTexture", GLuint( 3 ) );
-    glEnableVertexAttribArray( 0 );
-    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( Type * mOneTypeSize ) );
-    glVertexAttribDivisor( 0, 1 );
-    glEnableVertexAttribArray( 1 );
-    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( Type * mOneTypeSize + mMaxDecalsPerType * sizeof( glm::vec4 ) ) );
-    glVertexAttribDivisor( 1, 1 );
-    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, mNumDecals[Type] );
+    for( render::Counts_t::const_iterator i = mCounts.begin(), e = mCounts.end(); i != e; ++i )
+    {
+        render::CountByTexId const& Part = *i;
+        GLuint CurrentAttribIndex = 0;
+        glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mTexIndex + sizeof( glm::vec4 )*Part.Start ) );
+        glVertexAttribDivisor( CurrentAttribIndex, 1 );
+        ++CurrentAttribIndex;
+        glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPosIndex + sizeof( glm::vec2 )*Part.Start ) );
+        glVertexAttribDivisor( CurrentAttribIndex, 1 );
+        ++CurrentAttribIndex;
+        glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mHeadingIndex + sizeof( GLfloat )*Part.Start ) );
+        glVertexAttribDivisor( CurrentAttribIndex, 1 );
+        ++CurrentAttribIndex;
+        glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mAlphaIndex + sizeof( GLfloat )*Part.Start ) );
+        glVertexAttribDivisor( CurrentAttribIndex, 1 );
+        ++CurrentAttribIndex;
+        glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mRadiusIndex + sizeof( GLfloat )*Part.Start ) );
+        glVertexAttribDivisor( CurrentAttribIndex, 1 );
+        if( Part.TexId != GLuint( -1 ) )
+        {
+            glBindTexture( GL_TEXTURE_2D, Part.TexId );
+        }
+        glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
+    }
+
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();
 }

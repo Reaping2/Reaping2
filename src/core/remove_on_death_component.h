@@ -6,12 +6,15 @@
 
 class RemoveOnDeathComponent : public IRemoveOnDeathComponent
 {
+    double mRemainingTime;
 public:
     RemoveOnDeathComponent();
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
+    double GetRemainingTime() const;
+    void SetRemainingTime( double rt );
 };
 
 template<class Archive>
@@ -19,6 +22,7 @@ void RemoveOnDeathComponent::serialize(Archive& ar, const unsigned int version)
 {
     //NOTE: generated archive for this class
     ar & boost::serialization::base_object<IRemoveOnDeathComponent>(*this);
+    ar & mRemainingTime;
 }
 
 class RemoveOnDeathComponentLoader: public ComponentLoader<RemoveOnDeathComponent>
