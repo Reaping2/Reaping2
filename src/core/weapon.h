@@ -44,6 +44,8 @@ public:
     double GetShootAltCooldown() const;
     void SetShootAltCooldown(double cooldown);
     Scatter& GetScatter();
+    //ItemLoader uses
+    void SetScatter(Scatter scatter);
     void SetBullets(double bullets);
     double GetBullets()const;
     void SetBulletsMax(double bulletsMax);
@@ -105,5 +107,13 @@ void Weapon::serialize(Archive& ar, const unsigned int version)
     ar & mReloadTimeMax;
     ar & mStaticReload;
 }
+
+class WeaponLoader: public ItemLoader<Weapon>
+{
+public:
+    virtual void BindValues();
+    WeaponLoader();
+    friend class ItemLoaderFactory;
+};
 
 #endif//INCLUDED_CORE_WEAPON_ASSET_H
