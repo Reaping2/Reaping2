@@ -69,4 +69,4 @@ ExplodeOnHitComponentLoader::ExplodeOnHitComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ExplodeOnHitComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ExplodeOnHitComponent, ExplodeOnHitComponent);

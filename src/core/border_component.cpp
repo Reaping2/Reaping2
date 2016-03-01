@@ -104,4 +104,4 @@ BorderComponentLoader::BorderComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(BorderComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(BorderComponent, BorderComponent);

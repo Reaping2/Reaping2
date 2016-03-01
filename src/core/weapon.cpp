@@ -251,4 +251,4 @@ double Scatter::GetCalculated() const
     return mCurrent/(mMagicNumber+mCurrent);
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Weapon);
+REAPING2_CLASS_EXPORT_IMPLEMENT(Weapon, Weapon);

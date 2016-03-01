@@ -66,4 +66,4 @@ void HealTakenMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::HealTakenMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__HealTakenMessage, network::HealTakenMessage);

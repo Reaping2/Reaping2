@@ -59,4 +59,4 @@ void ClientScoreMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ClientScoreMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ClientScoreMessage, network::ClientScoreMessage);

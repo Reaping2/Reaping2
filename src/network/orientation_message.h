@@ -5,7 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "single_message_sender.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 namespace network {
 
     class OrientationMessage: public Message
@@ -63,5 +63,5 @@ namespace network {
 
 } // namespace network
 
-BOOST_CLASS_EXPORT_KEY2(network::OrientationMessage,"orientation");
+REAPING2_CLASS_EXPORT_KEY2(network__OrientationMessage, network::OrientationMessage,"orientation");
 #endif//INCLUDED_NETWORK_ORIENTATION_MESSAGE_H

@@ -142,4 +142,4 @@ InventoryComponentLoader::InventoryComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(InventoryComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(InventoryComponent, InventoryComponent);

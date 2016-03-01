@@ -3,7 +3,7 @@
 
 #include "i_target_holder_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class TargetHolderComponent : public ITargetHolderComponent
 {
@@ -38,5 +38,5 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(TargetHolderComponent,"target_holder_component");
+REAPING2_CLASS_EXPORT_KEY2(TargetHolderComponent, TargetHolderComponent,"target_holder_component");
 #endif//INCLUDED_CORE_TARGET_HOLDER_COMPONENT_H

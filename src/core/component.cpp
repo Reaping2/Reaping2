@@ -69,4 +69,4 @@ DefaultComponent::DefaultComponent()
 }
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(DefaultComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(DefaultComponent, DefaultComponent);

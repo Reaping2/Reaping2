@@ -3,7 +3,7 @@
 
 #include "i_accuracy_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class AccuracyComponent : public IAccuracyComponent
 {
@@ -38,6 +38,6 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(AccuracyComponent,"accuracy_component");
+REAPING2_CLASS_EXPORT_KEY2(AccuracyComponent, AccuracyComponent,"accuracy_component");
 #endif//INCLUDED_CORE_ACCURACY_COMPONENT_H
 

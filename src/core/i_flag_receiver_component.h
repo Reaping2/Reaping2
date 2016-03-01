@@ -2,7 +2,7 @@
 #define INCLUDED_CTF_I_FLAG_RECEIVER_COMPONENT_H
 
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace ctf {
 
@@ -26,7 +26,7 @@ void IFlagReceiverComponent::serialize(Archive& ar, const unsigned int version)
 } // namespace ctf
 
 
-BOOST_CLASS_EXPORT_KEY2(ctf::IFlagReceiverComponent,"i_flag_receiver_component");
+REAPING2_CLASS_EXPORT_KEY2(ctf__IFlagReceiverComponent, ctf::IFlagReceiverComponent,"i_flag_receiver_component");
 #endif//INCLUDED_CTF_I_FLAG_RECEIVER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_flag_receiver_component" -n "ctf"

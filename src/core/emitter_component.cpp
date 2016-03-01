@@ -111,4 +111,4 @@ EmitterComponentLoader::EmitterComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(EmitterComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(EmitterComponent, EmitterComponent);

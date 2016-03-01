@@ -98,4 +98,4 @@ bool IExplode::IsAddActorRadius() const
     return mAddActorRadius;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(IExplode);
+REAPING2_CLASS_EXPORT_IMPLEMENT(IExplode, IExplode);

@@ -33,4 +33,4 @@ void Pistol::InitMembers()
     mBullets=mBulletsMax;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Pistol);
+REAPING2_CLASS_EXPORT_IMPLEMENT(Pistol, Pistol);

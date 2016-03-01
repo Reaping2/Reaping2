@@ -5,7 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/collision_class.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace network {
 
@@ -57,7 +57,7 @@ public:
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::CollisionMessage,"collision");
+REAPING2_CLASS_EXPORT_KEY2(network__CollisionMessage, network::CollisionMessage,"collision");
 #endif//INCLUDED_NETWORK_COLLISION_H
 
 //command:  "classgenerator.exe" -g "message" -c "collision" -m "int32_t-actorGUID CollisionClass::Type-collisionClass double-radius"

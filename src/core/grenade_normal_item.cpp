@@ -14,4 +14,4 @@ GrenadeNormalItem::GrenadeNormalItem()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(GrenadeNormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT(GrenadeNormalItem, GrenadeNormalItem);

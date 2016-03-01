@@ -30,4 +30,4 @@ AccuracyComponentLoader::AccuracyComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(AccuracyComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(AccuracyComponent, AccuracyComponent);

@@ -82,4 +82,4 @@ PointerTargetControllerComponentLoader::PointerTargetControllerComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(PointerTargetControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(PointerTargetControllerComponent, PointerTargetControllerComponent);

@@ -67,4 +67,4 @@ namespace network {
 } // namespace engine
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::DamageTakenMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__DamageTakenMessage, network::DamageTakenMessage);

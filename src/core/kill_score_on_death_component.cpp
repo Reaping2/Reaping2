@@ -49,4 +49,4 @@ KillScoreOnDeathComponentLoader::KillScoreOnDeathComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(KillScoreOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(KillScoreOnDeathComponent, KillScoreOnDeathComponent);

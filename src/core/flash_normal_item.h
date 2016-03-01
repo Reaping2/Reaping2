@@ -3,7 +3,7 @@
 
 #include "normal_item.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class FlashNormalItem : public NormalItem
 {
@@ -25,5 +25,5 @@ void FlashNormalItem::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(FlashNormalItem,"flash_normal_item");
+REAPING2_CLASS_EXPORT_KEY2(FlashNormalItem, FlashNormalItem,"flash_normal_item");
 #endif//INCLUDED_CORE_FLASH_NORMAL_ITEM_H

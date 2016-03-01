@@ -29,4 +29,4 @@ void RocketLauncher::InitMembers()
     mBullets=mBulletsMax;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(RocketLauncher);
+REAPING2_CLASS_EXPORT_IMPLEMENT(RocketLauncher, RocketLauncher);

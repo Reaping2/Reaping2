@@ -3,7 +3,7 @@
 
 #include "core/i_health_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class HealthComponent : public IHealthComponent
 {
@@ -65,5 +65,5 @@ public:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(HealthComponent,"health_component");
+REAPING2_CLASS_EXPORT_KEY2(HealthComponent, HealthComponent,"health_component");
 #endif//INCLUDED_CORE_HEALTH_COMPONENT_H

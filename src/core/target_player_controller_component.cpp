@@ -93,4 +93,4 @@ TargetPlayerControllerComponentLoader::TargetPlayerControllerComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(TargetPlayerControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(TargetPlayerControllerComponent, TargetPlayerControllerComponent);

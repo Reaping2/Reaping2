@@ -2,4 +2,4 @@
 #include <portable_oarchive.hpp>
 #include <portable_iarchive.hpp>
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::MoveMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__MoveMessage, network::MoveMessage);

@@ -72,4 +72,4 @@ std::auto_ptr<CollisionMessage> CollisionMessageSenderSystem::GenerateCollisionM
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::CollisionMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__CollisionMessage, network::CollisionMessage);

@@ -2,7 +2,7 @@
 #define INCLUDED_NETWORK_POSITION_MESSAGE_H
 
 #include "network/message.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 namespace network {
 
     class PositionMessage: public Message
@@ -44,5 +44,5 @@ namespace network {
 
 } // namespace network
 
-BOOST_CLASS_EXPORT_KEY2(network::PositionMessage,"position");
+REAPING2_CLASS_EXPORT_KEY2(network__PositionMessage, network::PositionMessage,"position");
 #endif//INCLUDED_NETWORK_POSITION_MESSAGE_H

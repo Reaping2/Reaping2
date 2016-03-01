@@ -17,4 +17,4 @@ CreateActorMessage::CreateActorMessage(Opt<Actor> actor)
 }
 } // namespace network
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::CreateActorMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__CreateActorMessage, network::CreateActorMessage);

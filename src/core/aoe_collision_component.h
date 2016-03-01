@@ -5,7 +5,7 @@
 #include "core/property_loader.h"
 #include <set>
 #include <boost/serialization/set.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 class AoeCollisionComponent : public CollisionComponent
 {
 public:
@@ -48,6 +48,6 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(AoeCollisionComponent,"aoe_collision_component");
+REAPING2_CLASS_EXPORT_KEY2(AoeCollisionComponent, AoeCollisionComponent,"aoe_collision_component");
 #endif//INCLUDED_CORE_AOE_COLLISION_COMPONENT_H
 

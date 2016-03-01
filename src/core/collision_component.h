@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_COLLISION_COMPONENT_H
 #include "core/i_collision_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class CollisionComponent : public ICollisionComponent
 {
@@ -43,5 +43,5 @@ public:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(CollisionComponent,"collision_component");
+REAPING2_CLASS_EXPORT_KEY2(CollisionComponent, CollisionComponent,"collision_component");
 #endif//INCLUDED_CORE_COLLISION_COMPONENT_H

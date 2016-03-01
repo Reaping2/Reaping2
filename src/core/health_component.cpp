@@ -122,4 +122,4 @@ HealthComponentLoader::HealthComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(HealthComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(HealthComponent, HealthComponent);

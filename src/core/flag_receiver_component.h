@@ -3,7 +3,7 @@
 
 #include "i_flag_receiver_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace ctf {
 
@@ -38,7 +38,7 @@ public:
 } // namespace ctf
 
 
-BOOST_CLASS_EXPORT_KEY2(ctf::FlagReceiverComponent,"flag_receiver_component");
+REAPING2_CLASS_EXPORT_KEY2(ctf__FlagReceiverComponent, ctf::FlagReceiverComponent,"flag_receiver_component");
 #endif//INCLUDED_CTF_FLAG_RECEIVER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "flag_receiver_component" -n "ctf"

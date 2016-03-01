@@ -92,4 +92,4 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ItemChangedMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ItemChangedMessage, network::ItemChangedMessage);

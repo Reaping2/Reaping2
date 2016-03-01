@@ -4,7 +4,7 @@
 #include "core/controller_component.h"
 #include "core/actor.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class TargetPlayerControllerComponent : public ControllerComponent
 {
@@ -58,5 +58,5 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(TargetPlayerControllerComponent,"target_player_controller_component");
+REAPING2_CLASS_EXPORT_KEY2(TargetPlayerControllerComponent, TargetPlayerControllerComponent,"target_player_controller_component");
 #endif//INCLUDED_CORE_TARGET_PLAYER_CONTROLLER_H

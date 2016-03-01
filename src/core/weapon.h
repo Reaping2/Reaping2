@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_WEAPON_ASSET_H
 #include "core/item.h"
 #include "core/actor_factory.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 struct Scatter
 {
@@ -108,5 +108,5 @@ void Weapon::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(Weapon,"weapon");
+REAPING2_CLASS_EXPORT_KEY2(Weapon, Weapon,"weapon");
 #endif//INCLUDED_CORE_WEAPON_ASSET_H

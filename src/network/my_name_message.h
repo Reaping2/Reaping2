@@ -2,7 +2,7 @@
 #define INCLUDED_NETWORK_MY_NAME_MESSAGE_H
 
 #include "network/message.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 namespace network {
 
 class MyNameMessage: public Message
@@ -25,5 +25,5 @@ void MyNameMessage::serialize(Archive& ar, const unsigned int version)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::MyNameMessage,"my_name");
+REAPING2_CLASS_EXPORT_KEY2(network__MyNameMessage, network::MyNameMessage,"my_name");
 #endif//INCLUDED_NETWORK_MY_NAME_MESSAGE_H

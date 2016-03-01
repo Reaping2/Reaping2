@@ -54,5 +54,5 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ClientDatasMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ClientDatasMessage, network::ClientDatasMessage);
 

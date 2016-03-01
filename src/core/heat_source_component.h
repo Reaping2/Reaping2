@@ -3,7 +3,7 @@
 
 #include "i_heat_source_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class HeatSourceComponent : public IHeatSourceComponent
 {
@@ -34,7 +34,7 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(HeatSourceComponent,"heat_source_component");
+REAPING2_CLASS_EXPORT_KEY2(HeatSourceComponent, HeatSourceComponent,"heat_source_component");
 #endif//INCLUDED_CORE_HEAT_SOURCE_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "heat_source_component"

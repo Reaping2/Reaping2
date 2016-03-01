@@ -6,7 +6,7 @@
 #include "network/message_sender_system.h"
 #include "core/flag_state_changed_event.h"
 #include "core/ctf_program_state.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace network {
 
@@ -63,7 +63,7 @@ public:
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::FlagStateChangedMessage,"flag_state_changed");
+REAPING2_CLASS_EXPORT_KEY2(network__FlagStateChangedMessage, network::FlagStateChangedMessage,"flag_state_changed");
 #endif//INCLUDED_NETWORK_FLAG_STATE_CHANGED_H
 
 //command:  "classgenerator.exe" -g "message" -c "flag_state_changed" -e "ctf-flagStateChanged" -m "ctf::FlagStateChangedEvent::Type-type Team::Type-team int32_t-carrirGUID int32_t-flagGUID"

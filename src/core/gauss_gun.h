@@ -3,7 +3,7 @@
 #define INCLUDED_GAUSS_GUN_H
 
 #include "core/weapon.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class GaussGun : public Weapon
 {
@@ -37,6 +37,6 @@ void GaussGun::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(GaussGun,"gauss_gun");
+REAPING2_CLASS_EXPORT_KEY2(GaussGun, GaussGun,"gauss_gun");
 #endif // INCLUDED_GAUSS_GUN_H
 

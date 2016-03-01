@@ -32,4 +32,4 @@ void PlasmaGun::InitMembers()
     mBullets=mBulletsMax;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(PlasmaGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(PlasmaGun, PlasmaGun);

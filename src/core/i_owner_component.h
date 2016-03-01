@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_OWNER_COMPONENT_H
 
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IOwnerComponent : public Component
 {
@@ -24,7 +24,7 @@ void IOwnerComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IOwnerComponent,"i_owner_component");
+REAPING2_CLASS_EXPORT_KEY2(IOwnerComponent, IOwnerComponent,"i_owner_component");
 #endif//INCLUDED_CORE_I_OWNER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_owner_component" -m "int32_t-ownerGUID"

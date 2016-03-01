@@ -27,4 +27,4 @@ CloakComponentLoader::CloakComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(CloakComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(CloakComponent, CloakComponent);

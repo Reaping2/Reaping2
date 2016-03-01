@@ -3,7 +3,7 @@
 
 #include "i_kill_score_on_death_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class KillScoreOnDeathComponent : public IKillScoreOnDeathComponent
 {
@@ -46,7 +46,7 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(KillScoreOnDeathComponent,"kill_score_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2(KillScoreOnDeathComponent, KillScoreOnDeathComponent,"kill_score_on_death_component");
 #endif//INCLUDED_CORE_KILL_SCORE_ON_DEATH_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "kill_score_on_death_component" -m "int32_t-killerGUID int32_t-deadGUID bool-scored"

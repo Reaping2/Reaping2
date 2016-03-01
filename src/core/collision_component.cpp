@@ -54,4 +54,4 @@ CollisionComponentLoader::CollisionComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(CollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(CollisionComponent, CollisionComponent);

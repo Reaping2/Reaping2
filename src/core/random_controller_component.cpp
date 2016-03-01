@@ -45,4 +45,4 @@ RandomControllerComponentLoader::RandomControllerComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(RandomControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(RandomControllerComponent, RandomControllerComponent);

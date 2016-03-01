@@ -27,4 +27,4 @@ TargetHolderComponentLoader::TargetHolderComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(TargetHolderComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(TargetHolderComponent, TargetHolderComponent);

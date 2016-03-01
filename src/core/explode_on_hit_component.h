@@ -3,7 +3,7 @@
 
 #include "i_explode_on_hit_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class ExplodeOnHitComponent : public IExplodeOnHitComponent
 {
@@ -47,7 +47,7 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(ExplodeOnHitComponent,"explode_on_hit_component");
+REAPING2_CLASS_EXPORT_KEY2(ExplodeOnHitComponent, ExplodeOnHitComponent,"explode_on_hit_component");
 #endif//INCLUDED_CORE_EXPLODE_ON_HIT_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "explode_on_hit_component" -m "int32_t-detonatorMaterial double-addRadius bool-exploded"

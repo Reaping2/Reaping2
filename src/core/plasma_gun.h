@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_PLASMA_GUN_H
 #define INCLUDED_CORE_PLASMA_GUN_H
 #include "core/weapon.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class PlasmaGun : public Weapon
 {
@@ -24,5 +24,5 @@ void PlasmaGun::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(PlasmaGun,"plasma_gun");
+REAPING2_CLASS_EXPORT_KEY2(PlasmaGun, PlasmaGun,"plasma_gun");
 #endif//INCLUDED_CORE_PLASMA_GUN_H

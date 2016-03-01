@@ -22,6 +22,8 @@ void ICloakComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+REAPING2_CLASS_EXPORT_KEY2( ICloakComponent, ICloakComponent, "i_cloak_component" );
+
 #endif//INCLUDED_CORE_I_CLOAK_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_cloak_component" -m "bool-active"

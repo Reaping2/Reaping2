@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_POSITION_COMPONENT_H
 #include "component.h"
 #include "platform/event.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 struct PositionChangedEvent : public platform::Event
 {
@@ -36,5 +36,5 @@ void IPositionComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IPositionComponent,"i_position_component");
+REAPING2_CLASS_EXPORT_KEY2(IPositionComponent, IPositionComponent,"i_position_component");
 #endif//INCLUDED_CORE_I_POSITION_COMPONENT_H

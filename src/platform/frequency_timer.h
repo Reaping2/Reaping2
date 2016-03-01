@@ -2,7 +2,7 @@
 #define INCLUDED_PLATFORM_FREQUENCY_TIMER_H
 
 #include "rstdint.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
 

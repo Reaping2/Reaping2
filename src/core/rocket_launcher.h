@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_ROCKET_LAUNCHER_H
 #define INCLUDED_CORE_ROCKET_LAUNCHER_H
 #include "core/weapon.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class RocketLauncher :	public Weapon
 {
@@ -24,5 +24,5 @@ void RocketLauncher::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(RocketLauncher,"rocket_launcher");
+REAPING2_CLASS_EXPORT_KEY2(RocketLauncher, RocketLauncher,"rocket_launcher");
 #endif // INCLUDED_CORE_ROCKET_LAUNCHER_H

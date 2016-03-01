@@ -3,7 +3,7 @@
 
 #include "network/message.h"
 #include "core/program_state.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 namespace network {
 
     class LifecycleMessage: public Message
@@ -44,5 +44,5 @@ namespace network {
 
 } // namespace network
 
-BOOST_CLASS_EXPORT_KEY2(network::LifecycleMessage,"lifecycle");
+REAPING2_CLASS_EXPORT_KEY2(network__LifecycleMessage, network::LifecycleMessage,"lifecycle");
 #endif//INCLUDED_NETWORK_LIFECYCLE_MESSAGE_H

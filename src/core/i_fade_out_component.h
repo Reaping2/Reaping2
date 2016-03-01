@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_I_FADE_OUT_COMPONENT_H
 #define INCLUDED_CORE_I_FADE_OUT_COMPONENT_H
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IFadeOutComponent : public Component
 {
@@ -26,5 +26,5 @@ void IFadeOutComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IFadeOutComponent,"i_fade_out_component");
+REAPING2_CLASS_EXPORT_KEY2(IFadeOutComponent, IFadeOutComponent,"i_fade_out_component");
 #endif//INCLUDED_CORE_I_FADE_OUT_COMPONENT_H

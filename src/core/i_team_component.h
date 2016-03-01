@@ -3,7 +3,7 @@
 
 #include "component.h"
 #include "ctf_program_state.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class ITeamComponent : public Component
 {
@@ -25,7 +25,7 @@ void ITeamComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(ITeamComponent,"i_team_component");
+REAPING2_CLASS_EXPORT_KEY2(ITeamComponent, ITeamComponent,"i_team_component");
 #endif//INCLUDED_CORE_I_TEAM_COMPONENT_H
 
 //command:  "classgenerator" -g "i_component" -c "i_team_component" -m "Team::Type-team"

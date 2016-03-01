@@ -6,7 +6,7 @@
 #include "opt.h"
 #include <map>
 #include <vector>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class Team : public platform::Singleton<Team>
 {
@@ -71,5 +71,5 @@ public:
 };
 } // namespace ctf
 
-BOOST_CLASS_EXPORT_KEY2(::ctf::ClientData,"ctf_client_data");
+REAPING2_CLASS_EXPORT_KEY2(__ctf__ClientData, ::ctf::ClientData,"ctf_client_data");
 #endif//INCLUDED_CTF_PROGRAM_STATE_H

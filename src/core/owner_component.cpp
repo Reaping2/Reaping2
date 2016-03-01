@@ -27,4 +27,4 @@ OwnerComponentLoader::OwnerComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(OwnerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(OwnerComponent, OwnerComponent);

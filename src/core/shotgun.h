@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_SHOTGUN_H
 #include "core/weapon.h"
 #include "i_explode.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class Shotgun : public Weapon, public IExplode
 {
@@ -26,5 +26,5 @@ void Shotgun::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(Shotgun,"shotgun");
+REAPING2_CLASS_EXPORT_KEY2(Shotgun, Shotgun,"shotgun");
 #endif//INCLUDED_CORE_SHOTGUN_H

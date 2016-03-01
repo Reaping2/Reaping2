@@ -14,4 +14,4 @@ BlueGrenadeNormalItem::BlueGrenadeNormalItem()
 
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(BlueGrenadeNormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT(BlueGrenadeNormalItem, BlueGrenadeNormalItem);

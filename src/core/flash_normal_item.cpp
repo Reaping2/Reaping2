@@ -14,4 +14,4 @@ FlashNormalItem::FlashNormalItem()
 
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(FlashNormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT(FlashNormalItem, FlashNormalItem);

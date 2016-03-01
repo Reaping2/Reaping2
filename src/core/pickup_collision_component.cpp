@@ -76,4 +76,4 @@ PickupCollisionComponentLoader::PickupCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(PickupCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(PickupCollisionComponent, PickupCollisionComponent);

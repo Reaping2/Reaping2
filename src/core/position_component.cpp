@@ -58,4 +58,4 @@ PositionComponentLoader::PositionComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(PositionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(PositionComponent, PositionComponent);

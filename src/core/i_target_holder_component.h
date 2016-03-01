@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_TARGET_HOLDER_COMPONENT_H
 
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class ITargetHolderComponent : public Component
 {
@@ -24,5 +24,5 @@ void ITargetHolderComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(ITargetHolderComponent,"i_target_holder_component");
+REAPING2_CLASS_EXPORT_KEY2(ITargetHolderComponent, ITargetHolderComponent,"i_target_holder_component");
 #endif//INCLUDED_CORE_I_TARGET_HOLDER_COMPONENT_H

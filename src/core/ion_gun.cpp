@@ -30,4 +30,4 @@ void IonGun::InitMembers()
     mBullets=mBulletsMax;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(IonGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(IonGun, IonGun);

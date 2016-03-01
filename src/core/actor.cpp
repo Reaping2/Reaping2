@@ -63,4 +63,4 @@ int32_t Actor::GetGUID() const
     return mGUID;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Actor);
+REAPING2_CLASS_EXPORT_IMPLEMENT(Actor, Actor);

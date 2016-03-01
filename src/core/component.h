@@ -7,10 +7,10 @@
 #include "json/json.h"
 #include <portable_oarchive.hpp>
 #include <portable_iarchive.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -121,5 +121,5 @@ class ComponentLoader: public PropertyLoader<COMPONENT, Component>
 {
 };
 
-BOOST_CLASS_EXPORT_KEY2(DefaultComponent,"default_component");
+REAPING2_CLASS_EXPORT_KEY2(DefaultComponent, DefaultComponent,"default_component");
 #endif//INCLUDED_CORE_COMPONENT_H

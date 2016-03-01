@@ -40,4 +40,4 @@ void Shotgun::InitMembers()
     mExplosionProjectile=AutoId("shotgun_projectile");
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Shotgun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(Shotgun, Shotgun);

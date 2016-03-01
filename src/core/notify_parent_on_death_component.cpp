@@ -38,4 +38,4 @@ NotifyParentOnDeathComponentLoader::NotifyParentOnDeathComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(NotifyParentOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(NotifyParentOnDeathComponent, NotifyParentOnDeathComponent);

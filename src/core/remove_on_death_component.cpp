@@ -21,4 +21,4 @@ void RemoveOnDeathComponentLoader::BindValues()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(RemoveOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(RemoveOnDeathComponent, RemoveOnDeathComponent);

@@ -33,5 +33,5 @@ PlayerControllerComponentLoader::PlayerControllerComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(PlayerControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(PlayerControllerComponent, PlayerControllerComponent);
 

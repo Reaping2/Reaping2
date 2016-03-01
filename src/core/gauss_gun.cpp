@@ -77,4 +77,4 @@ void GaussGun::InitMembers()
 }
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(GaussGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(GaussGun, GaussGun);

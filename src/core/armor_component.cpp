@@ -27,4 +27,4 @@ ArmorComponentLoader::ArmorComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ArmorComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ArmorComponent, ArmorComponent);

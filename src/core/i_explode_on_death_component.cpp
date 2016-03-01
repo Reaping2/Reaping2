@@ -8,4 +8,4 @@ IExplodeOnDeathComponent::IExplodeOnDeathComponent()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(IExplodeOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(IExplodeOnDeathComponent, IExplodeOnDeathComponent);
