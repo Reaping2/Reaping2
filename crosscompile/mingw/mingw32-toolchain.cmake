@@ -17,6 +17,8 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
+set(Boost_THREADAPI win32)
+
 set(CMAKE_TOOLCHAIN_BOOST_TOOLSET_ARGS "toolset=gcc-mingw" "target-os=windows" "threadapi=win32" "threading=multi" "architecture=x86" "variant=debug" "--user-config=${CMAKE_CURRENT_LIST_DIR}/user-config.jam")
 message( STATUS "Using toolset in ${CMAKE_CURRENT_LIST_DIR}" )
 message( STATUS "Root path ${CMAKE_FIND_ROOT_PATH}" )
