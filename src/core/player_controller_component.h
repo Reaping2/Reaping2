@@ -5,6 +5,7 @@
 #include "core/controller_component.h"
 #include "core/actor.h"
 #include "core/property_loader.h"
+#include "trigger.h"
 #include <boost/serialization/export.hpp>
 
 class PlayerControllerComponent : public ControllerComponent
@@ -15,10 +16,10 @@ public:
     double mHeading;
     bool mShoot;
     bool mShootAlt;
-    bool mUseNormalItem;
+    Trigger mUseNormalItem;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
-    bool mReloadTyped;
+    Trigger mUseReload;
     bool mMoving;
 public:
     friend class ::boost::serialization::access;
@@ -38,7 +39,7 @@ void PlayerControllerComponent::serialize(Archive& ar, const unsigned int versio
     ar & mUseNormalItem;
     ar & mActive;
     ar & mControllerId;
-    ar & mReloadTyped;
+    ar & mUseReload;
     ar & mMoving;
 }
 
@@ -53,3 +54,4 @@ protected:
 
 BOOST_CLASS_EXPORT_KEY2(PlayerControllerComponent,"player_controller_component");
 #endif//INCLUDED_CORE_PLAYER_CONTROLLER_H
+

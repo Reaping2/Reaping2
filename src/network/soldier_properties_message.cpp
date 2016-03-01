@@ -113,11 +113,7 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
 
             std::auto_ptr<ActorListMessage> actorListMsg(new ActorListMessage);
             actorListMsg->mClientId=clientData->mClientId;
-            std::ostringstream oss;
-            eos::portable_oarchive oa(oss);
-            ActorList_t& actorlist = Scene::Get().GetActors();
-            oa & actorlist;
-            actorListMsg->mActorList=oss.str();
+            actorListMsg->mActorList=&Scene::Get().GetActors();
             mMessageHolder.AddOutgoingMessage(actorListMsg);
         }
         else

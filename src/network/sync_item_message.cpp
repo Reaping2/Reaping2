@@ -15,7 +15,7 @@ SyncItemMessage::SyncItemMessage( Item const& item )
     mActorGUID = item.GetActorGUID();
     std::ostringstream oss;
     eos::portable_oarchive oa(oss);
-    oa & item;
+    oa & Opt<Item>(const_cast<Item*>(&item));
     mData = oss.str();
 }
 
@@ -62,21 +62,21 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
     {
         return;
     }
-    Opt<Item> item = inv->GetItem( msg.mItemID );
-    if( !item.IsValid() )
-    {
-        return;
-    }
+    inv->DropItem( msg.mItemID );
     std::istringstream iss( msg.mData );
     eos::portable_iarchive ia(iss);
-    ia >> *item;
-    if (item->GetType()==ItemType::Normal)
+    Opt<Item> item;
+    ia >> item;
+    ItemType::Type itemType=item->GetType();
+    int32_t itemId=item->GetId();
+    inv->AddItem(std::unique_ptr<Item>(item.Get()));
+    if (itemType==ItemType::Normal)
     {
-        inv->SetSelectedNormalItem(item->GetId());
+        inv->SetSelectedNormalItem(itemId);
     }
-    else if (item->GetType()==ItemType::Weapon)
+    else if (itemType==ItemType::Weapon)
     {
-        inv->SetSelectedWeapon(item->GetId());
+        inv->SetSelectedWeapon(itemId);
     }
 
 }

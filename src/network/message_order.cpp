@@ -139,7 +139,6 @@ void InitMessageOrder()
     type=network::OrientationMessage::GetType_static();
     type=network::HeadingMessage::GetType_static();
     type=network::PickupMessage::GetType_static();
-    type=network::SetPickupContentMessage::GetType_static();
     type=network::PingMessage::GetType_static();
     type=network::ReviveMessage::GetType_static();
     type=network::FlashMessage::GetType_static();

@@ -31,6 +31,11 @@ void InventoryComponent::AddItem( int32_t Id )
     mItems.push_back( Opt<Item>(a.release()) );
 }
 
+void InventoryComponent::AddItem(std::unique_ptr<Item> item)
+{
+    mItems.push_back(Opt<Item>(item.release()));
+}
+
 Opt<Item> InventoryComponent::GetItem(int32_t Id)
 {
     for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
@@ -128,7 +133,7 @@ void InventoryComponentLoader::BindValues()
     //TODO: handle more than one items (additem in an array nothing much)
     if( Json::GetStr( (*mSetters)["add_item"], istr))
     {
-        Bind<int32_t>(&InventoryComponent::AddItem,AutoId(istr));
+        Bind<int32_t>(static_cast<void (InventoryComponent::*)(int32_t)>(&InventoryComponent::AddItem),AutoId(istr));
     }
 }
 

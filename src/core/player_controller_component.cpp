@@ -17,7 +17,7 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mUseNormalItem(false)
     , mActive(false)
     , mControllerId(0)
-    , mReloadTyped(false)
+    , mUseReload(false)
     , mMoving(false)
 {
 }
@@ -34,3 +34,4 @@ PlayerControllerComponentLoader::PlayerControllerComponentLoader()
 }
 
 BOOST_CLASS_EXPORT_IMPLEMENT(PlayerControllerComponent);
+

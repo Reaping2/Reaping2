@@ -4,7 +4,9 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include "core/trigger.h"
 #include <boost/serialization/export.hpp>
+
 namespace network {
 
     class PlayerControllerMessage: public Message
@@ -17,8 +19,8 @@ namespace network {
         int32_t mHeading;
         bool mShoot;
         bool mShootAlt;
-        bool mUseNormalItem;
-        bool mReload;
+        Trigger mUseNormalItem;
+        Trigger mUseReload;
         bool mMoving;
         PlayerControllerMessage()
             : mActorGUID(0)
@@ -27,7 +29,7 @@ namespace network {
             , mShoot(false)
             , mShootAlt(false)
             , mUseNormalItem(false)
-            , mReload(false)
+            , mUseReload(false)
             , mMoving(false)
         {
         }
@@ -45,7 +47,7 @@ namespace network {
         ar & mShoot;
         ar & mShootAlt;
         ar & mUseNormalItem;
-        ar & mReload;
+        ar & mUseReload;
         ar & mMoving;
     }
 

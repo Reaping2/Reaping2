@@ -138,7 +138,6 @@ namespace network {
         AddSubSystem(network::OrientationMessage::GetType_static(),AutoId("orientation_message_handler_sub_system"));
         AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));
         AddSubSystem(network::PickupMessage::GetType_static(),AutoId("pickup_message_handler_sub_system"));
-        AddSubSystem(network::SetPickupContentMessage::GetType_static(),AutoId("set_pickup_content_message_handler_sub_system"));
         AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
         AddSubSystem(network::ReviveMessage::GetType_static(),AutoId("revive_message_handler_sub_system"));
         AddSubSystem(network::FlashMessage::GetType_static(),AutoId("flash_message_handler_sub_system"));

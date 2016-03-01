@@ -13,10 +13,10 @@ class ActorListMessage : public Message
     friend class ::boost::serialization::access;
 public:
     DEFINE_MESSAGE_BASE(ActorListMessage)
-    std::string mActorList;
+    ActorList_t* mActorList;
     int32_t mClientId;
     ActorListMessage()
-        : mActorList("")
+        : mActorList(NULL)
         , mClientId(-1)
     {
     }
