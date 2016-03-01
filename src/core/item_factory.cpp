@@ -18,13 +18,13 @@ ItemFactory::ItemFactory()
     Bind<DefaultItem>( AutoId( "default_item" ) );
     SetDefault( AutoId( "default_item" ) );
     Bind( AutoId("plasma_gun"), &CreateItem<PlasmaGun>);
-    Bind<Pistol>( AutoId( "pistol" ) );
-    Bind<Shotgun>( AutoId( "shotgun" ) );
-    Bind<RocketLauncher>(AutoId("rocket_launcher"));
-    Bind<IonGun>(AutoId("ion_gun"));
-    Bind<GatlingGun>( AutoId( "gatling_gun" ) );
-    Bind<GaussGun>( AutoId( "gauss_gun" ) );
-    Bind<LuckyRocket>(AutoId("lucky_rocket"));
+    Bind( AutoId("pistol"), &CreateItem<Pistol>);
+    Bind( AutoId("shotgun"), &CreateItem<Shotgun>);
+    Bind( AutoId("rocket_launcher"), &CreateItem<RocketLauncher>);
+    Bind( AutoId("ion_gun"), &CreateItem<IonGun>);
+    Bind( AutoId("gatling_gun"), &CreateItem<GatlingGun>);
+    Bind( AutoId("gauss_gun"), &CreateItem<GaussGun>);
+    Bind( AutoId("lucky_rocket"), &CreateItem<LuckyRocket>);
 
     Bind<GrenadeNormalItem>(AutoId("grenade_normal_item"));
     Bind<FlashNormalItem>(AutoId("flash_normal_item"));

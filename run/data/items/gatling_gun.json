@@ -1,0 +1,20 @@
+[
+    {
+        "name":"gatling_gun",
+        "set":[{
+            "shoot_cooldown":0.05,
+            "shoot_alt_cooldown":0.05,
+            "bullets":101.0,
+            "shot_cost":1,
+            "shot_cost_alt":1,
+            "reload_time":2.5,
+            "static_reload":0,
+            "scatter_increase":5,
+            "scatter_alt_increase":1.5,
+            "scatter_chill":20,
+            "scatter_magic_number":100,
+            "windup_time":1.0,
+            "deploy_time":1.0
+        }]
+    }
+]

@@ -4,13 +4,9 @@
 
 class Pistol : public Weapon
 {
-    Pistol( int32_t Id );
-    friend class Factory<Item>;
-    Pistol();
-
-    void InitMembers();
-
 public:
+    Pistol( int32_t Id );
+    Pistol();
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -21,5 +17,13 @@ void Pistol::serialize(Archive& ar, const unsigned int version)
 {
     ar & boost::serialization::base_object<Weapon>(*this);
 }
+
+class PistolLoader: public ItemLoader<Pistol>
+{
+public:
+    virtual void BindValues();
+    PistolLoader();
+    friend class ItemLoaderFactory;
+};
 
 #endif//INCLUDED_CORE_PISTOL_H

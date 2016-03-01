@@ -6,22 +6,18 @@
 
 class GaussGun : public Weapon
 {
-    GaussGun( int32_t Id );
-    friend class Factory<Item>;
-    GaussGun();
-
-    void InitMembers();
-
     double mChargeTime;
     double mCurrentCharge;
 public:
+    GaussGun( int32_t Id );
+    GaussGun();
     virtual glm::vec3 GetMouseColor() const;
     virtual void StartCharge();
     virtual void EndCharge();
     virtual bool IsShootingAlt() const;
     virtual bool IsCharging() const;
     virtual double ChargeTime() const;
-public:
+    virtual void SetChargeTime(bool chargeTime);
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -34,6 +30,14 @@ void GaussGun::serialize(Archive& ar, const unsigned int version)
     ar & mChargeTime;
     ar & mCurrentCharge;
 }
+
+class GaussGunLoader: public ItemLoader<GaussGun>
+{
+public:
+    virtual void BindValues();
+    GaussGunLoader();
+    friend class ItemLoaderFactory;
+};
 
 #endif // INCLUDED_GAUSS_GUN_H
 

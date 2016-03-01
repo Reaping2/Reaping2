@@ -213,7 +213,6 @@ bool Weapon::CanReload() const
 
 void Weapon::SetScatter(Scatter scatter)
 {
-    L1("Scatter: %f %f %f %f",scatter.mIncrease,scatter.mAltIncrease,scatter.mChill,scatter.mMagicNumber);
     mScatter=scatter;
 }
 
@@ -273,9 +272,6 @@ void WeaponLoader::BindValues()
     Json::GetDouble((*mSetters)["scatter_chill"],scatter.mChill);
     Json::GetDouble((*mSetters)["scatter_magic_number"],scatter.mMagicNumber);
     L1("Scatter in: %f %f %f %f",scatter.mIncrease,scatter.mAltIncrease,scatter.mChill,scatter.mMagicNumber);
-    int32_t ii;
-    Json::GetInt((*mSetters)["scatter_increase"],ii);
-    L1("scatter ii: %d",ii);
     Bind<Scatter>(&Weapon::SetScatter,scatter);
 }
 

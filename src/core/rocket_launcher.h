@@ -4,13 +4,9 @@
 
 class RocketLauncher :	public Weapon
 {
-	RocketLauncher(int32_t Id);
-	friend class Factory<Item>;
-    RocketLauncher();
-
-    void InitMembers();
-
 public:
+	RocketLauncher(int32_t Id);
+    RocketLauncher();
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -21,5 +17,14 @@ void RocketLauncher::serialize(Archive& ar, const unsigned int version)
 {
     ar & boost::serialization::base_object<Weapon>(*this);
 }
+
+
+class RocketLauncherLoader: public ItemLoader<RocketLauncher>
+{
+public:
+    virtual void BindValues();
+    RocketLauncherLoader();
+    friend class ItemLoaderFactory;
+};
 
 #endif // INCLUDED_CORE_ROCKET_LAUNCHER_H

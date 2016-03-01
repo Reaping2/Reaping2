@@ -7,11 +7,7 @@ class PlasmaGun : public Weapon
 {
 public:
     PlasmaGun( int32_t Id );
-    friend class Factory<Item>;
     PlasmaGun();
-
-    void InitMembers();
-
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -23,7 +19,7 @@ void PlasmaGun::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Weapon>(*this);
 }
 
-class PlasmaGunLoader: public ItemLoader<Weapon>
+class PlasmaGunLoader: public ItemLoader<PlasmaGun>
 {
 public:
     virtual void BindValues();

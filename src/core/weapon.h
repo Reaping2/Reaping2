@@ -44,7 +44,7 @@ public:
     double GetShootAltCooldown() const;
     void SetShootAltCooldown(double cooldown);
     Scatter& GetScatter();
-    //ItemLoader uses
+    // used by ItemLoader
     void SetScatter(Scatter scatter);
     void SetBullets(double bullets);
     double GetBullets()const;
