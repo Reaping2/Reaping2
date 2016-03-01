@@ -41,4 +41,4 @@ void DropOnDeathComponentLoader::BindValues()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(DropOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(DropOnDeathComponent, DropOnDeathComponent);

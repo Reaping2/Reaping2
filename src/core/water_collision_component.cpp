@@ -18,4 +18,4 @@ WaterCollisionComponentLoader::WaterCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(WaterCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(WaterCollisionComponent, WaterCollisionComponent);

@@ -91,5 +91,5 @@ namespace core {
 
 } // namespace core
 
-BOOST_CLASS_EXPORT_IMPLEMENT(::core::ClientData);
+REAPING2_CLASS_EXPORT_IMPLEMENT(__core__ClientData, ::core::ClientData);
 

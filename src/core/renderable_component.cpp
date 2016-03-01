@@ -57,4 +57,4 @@ RenderableComponentLoader::RenderableComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(RenderableComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(RenderableComponent, RenderableComponent);

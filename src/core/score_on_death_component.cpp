@@ -27,4 +27,4 @@ ScoreOnDeathComponentLoader::ScoreOnDeathComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ScoreOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ScoreOnDeathComponent, ScoreOnDeathComponent);

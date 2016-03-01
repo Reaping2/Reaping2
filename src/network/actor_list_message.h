@@ -4,7 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace network {
 
@@ -53,7 +53,7 @@ public:
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::ActorListMessage,"actor_list");
+REAPING2_CLASS_EXPORT_KEY2(network__ActorListMessage, network::ActorListMessage,"actor_list");
 #endif//INCLUDED_NETWORK_ACTOR_LIST_H
 
 //command:  "classgenerator.exe" -g "message" -c "actor_list" -m "std::string-actorList int32_t-clientId"

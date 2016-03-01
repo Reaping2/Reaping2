@@ -88,4 +88,4 @@ void FlagStateChangedMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::FlagStateChangedMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__FlagStateChangedMessage, network::FlagStateChangedMessage);

@@ -84,4 +84,4 @@ bool ModifyAudibleComponentMessageHandlerSubSystem::ProcessPending(Message const
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ModifyAudibleComponentMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ModifyAudibleComponentMessage, network::ModifyAudibleComponentMessage);

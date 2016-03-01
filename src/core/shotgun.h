@@ -3,7 +3,7 @@
 #include "core/weapon.h"
 #include "i_explode.h"
 #include "explode_distribution_type.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class Shotgun : public Weapon, public IExplode
 {
@@ -32,5 +32,5 @@ protected:
     ExplodeDistributionType& mExplodeDistributionType;
 };
 
-BOOST_CLASS_EXPORT_KEY2(Shotgun,"shotgun");
+REAPING2_CLASS_EXPORT_KEY2(Shotgun, Shotgun,"shotgun");
 #endif//INCLUDED_CORE_SHOTGUN_H

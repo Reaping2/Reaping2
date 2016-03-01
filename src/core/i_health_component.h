@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_HEALTH_COMPONENT_H
 #include "component.h"
 #include "buffable.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IHealthComponent : public Component
 {
@@ -40,5 +40,5 @@ void IHealthComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IHealthComponent,"i_health_component");
+REAPING2_CLASS_EXPORT_KEY2(IHealthComponent, IHealthComponent,"i_health_component");
 #endif//INCLUDED_CORE_I_HEALTH_COMPONENT_H

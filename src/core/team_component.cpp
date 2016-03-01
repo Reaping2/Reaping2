@@ -27,4 +27,4 @@ TeamComponentLoader::TeamComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(TeamComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(TeamComponent, TeamComponent);

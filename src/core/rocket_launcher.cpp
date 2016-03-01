@@ -21,4 +21,4 @@ RocketLauncherLoader::RocketLauncherLoader()
     SetBase<WeaponLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(RocketLauncher);
+REAPING2_CLASS_EXPORT_IMPLEMENT(RocketLauncher, RocketLauncher);

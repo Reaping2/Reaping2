@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_PISTOL_H
 #define INCLUDED_CORE_PISTOL_H
 #include "core/weapon.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class Pistol : public Weapon
 {
@@ -27,5 +27,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-BOOST_CLASS_EXPORT_KEY2(Pistol,"pistol");
+REAPING2_CLASS_EXPORT_KEY2(Pistol, Pistol,"pistol");
 #endif//INCLUDED_CORE_PISTOL_H

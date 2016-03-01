@@ -18,4 +18,4 @@ AudibleEffectDesc::AudibleEffectDesc()
 }
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(IAudibleComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(IAudibleComponent, IAudibleComponent);

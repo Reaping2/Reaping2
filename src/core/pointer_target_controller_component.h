@@ -3,7 +3,7 @@
 
 #include "controller_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class PointerTargetControllerComponent : public ControllerComponent
 {
@@ -58,6 +58,6 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(PointerTargetControllerComponent,"pointer_target_controller_component");
+REAPING2_CLASS_EXPORT_KEY2(PointerTargetControllerComponent, PointerTargetControllerComponent,"pointer_target_controller_component");
 #endif//INCLUDED_CORE_POINTER_TARGET_CONTROLLER_COMPONENT_H
 

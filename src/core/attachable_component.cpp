@@ -30,4 +30,4 @@ AttachableComponentLoader::AttachableComponentLoader()
 }
 
 } // namespace ctf
-BOOST_CLASS_EXPORT_IMPLEMENT(ctf::AttachableComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ctf__AttachableComponent, ctf::AttachableComponent);

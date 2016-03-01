@@ -32,4 +32,4 @@ double RemoveOnDeathComponent::GetRemainingTime() const
     return mRemainingTime;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(RemoveOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(RemoveOnDeathComponent, RemoveOnDeathComponent);

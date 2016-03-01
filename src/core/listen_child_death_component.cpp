@@ -27,4 +27,4 @@ ListenChildDeathComponentLoader::ListenChildDeathComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ListenChildDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ListenChildDeathComponent, ListenChildDeathComponent);

@@ -32,4 +32,4 @@ ExplodeOnDeathComponentLoader::ExplodeOnDeathComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ExplodeOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ExplodeOnDeathComponent, ExplodeOnDeathComponent);

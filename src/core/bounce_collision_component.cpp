@@ -29,4 +29,4 @@ BounceCollisionComponentLoader::BounceCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(BounceCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(BounceCollisionComponent, BounceCollisionComponent);

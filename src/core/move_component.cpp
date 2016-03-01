@@ -94,4 +94,4 @@ MoveComponentLoader::MoveComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(MoveComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(MoveComponent, MoveComponent);

@@ -58,5 +58,5 @@ int32_t const& ProgramState::GetRedScore()
 
 } // namespace ctf
 
-BOOST_CLASS_EXPORT_IMPLEMENT(::ctf::ClientData);
+REAPING2_CLASS_EXPORT_IMPLEMENT(__ctf__ClientData, ::ctf::ClientData);
 

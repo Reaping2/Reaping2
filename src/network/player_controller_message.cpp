@@ -84,4 +84,4 @@ namespace network {
 } // namespace engine
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::PlayerControllerMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__PlayerControllerMessage, network::PlayerControllerMessage);

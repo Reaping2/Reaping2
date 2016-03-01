@@ -4,7 +4,7 @@
 #include "core/collision_component.h"
 #include "core/property_loader.h"
 #include <boost/serialization/set.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 #include <boost/serialization/vector.hpp>
 
 class ShotCollisionComponent : public CollisionComponent
@@ -60,5 +60,5 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(ShotCollisionComponent,"shot_collision_component");
+REAPING2_CLASS_EXPORT_KEY2(ShotCollisionComponent, ShotCollisionComponent,"shot_collision_component");
 #endif//INCLUDED_CORE_SHOT_COLLISION_COMPONENT_H

@@ -38,4 +38,4 @@ bool NormalItem::IsConsumed() const
     return mConsumed;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(NormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT(NormalItem, NormalItem);

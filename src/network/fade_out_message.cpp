@@ -67,4 +67,4 @@ std::auto_ptr<FadeOutMessage> FadeOutMessageSenderSystem::GenerateFadeOutMessage
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::FadeOutMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__FadeOutMessage, network::FadeOutMessage);

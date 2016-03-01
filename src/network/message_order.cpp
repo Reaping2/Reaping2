@@ -46,7 +46,6 @@
 #include "core/team_component.h"
 #include "core/wall_collision_component.h"
 #include "core/water_collision_component.h"
-#include "boost/serialization/export.hpp"
 #include "network/my_name_message.h"
 #include "network/client_id_message.h"
 #include "network/lifecycle_message.h"
@@ -113,9 +112,6 @@
 #include "network/sync_item_message.h"
 #include "network/modify_audible_component_message.h"
 
-
-#include <boost/serialization/export.hpp>
-
 namespace network {
 bool instantiateMessageOrder()
 {
@@ -171,6 +167,7 @@ void InitMessageOrder()
     type=IAccelerationComponent::GetType_static();
     type=IAccuracyComponent::GetType_static();
     type=IArmorComponent::GetType_static();
+    type=ICloakComponent::GetType_static();
     type=ctf::IAttachableComponent::GetType_static();
     type=IAudibleComponent::GetType_static();
     type=IBorderComponent::GetType_static();
@@ -205,6 +202,7 @@ void InitMessageOrder()
     type=platform::AutoId("i_acceleration_component");
     type=platform::AutoId("i_accuracy_component");
     type=platform::AutoId("i_armor_component");
+    type=platform::AutoId("i_cloak_component");
     type=platform::AutoId("i_attachable_component");
     type=platform::AutoId("i_audible_component");
     type=platform::AutoId("i_border_component");

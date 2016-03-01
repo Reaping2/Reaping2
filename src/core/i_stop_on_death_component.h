@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_STOP_ON_DEATH_COMPONENT_H
 
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IStopOnDeathComponent : public Component
 {
@@ -24,5 +24,5 @@ void IStopOnDeathComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IStopOnDeathComponent,"i_stop_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2(IStopOnDeathComponent, IStopOnDeathComponent,"i_stop_on_death_component");
 #endif//INCLUDED_CORE_I_STOP_ON_DEATH_COMPONENT_H

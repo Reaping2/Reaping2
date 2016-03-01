@@ -8,4 +8,4 @@ namespace core {
 } // namespace core
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(::core::SoldierProperties);
+REAPING2_CLASS_EXPORT_IMPLEMENT(__core__SoldierProperties, ::core::SoldierProperties);

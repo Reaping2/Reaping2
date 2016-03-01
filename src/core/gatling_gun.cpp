@@ -157,4 +157,4 @@ GatlingGunLoader::GatlingGunLoader()
 }
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(GatlingGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(GatlingGun, GatlingGun);

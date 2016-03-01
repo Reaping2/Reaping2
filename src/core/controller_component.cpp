@@ -23,4 +23,4 @@ void ControllerComponent::Update(double Seconds)
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ControllerComponent, ControllerComponent);

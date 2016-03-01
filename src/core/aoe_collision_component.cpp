@@ -52,4 +52,4 @@ AoeCollisionComponentLoader::AoeCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(AoeCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(AoeCollisionComponent, AoeCollisionComponent);

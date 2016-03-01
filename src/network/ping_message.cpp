@@ -73,4 +73,4 @@ namespace network {
 } // namespace engine
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::PingMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__PingMessage, network::PingMessage);

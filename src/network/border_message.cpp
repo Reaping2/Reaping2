@@ -71,4 +71,4 @@ std::auto_ptr<BorderMessage> BorderMessageSenderSystem::GenerateBorderMessage(Ac
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::BorderMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__BorderMessage, network::BorderMessage);

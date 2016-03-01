@@ -6,7 +6,7 @@
 #include "network/message_sender_system.h"
 #include "core/item.h"
 #include "engine/item_properties_changed_event.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace network {
 
@@ -59,6 +59,6 @@ public:
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::SyncItemMessage,"sync_item");
+REAPING2_CLASS_EXPORT_KEY2(network__SyncItemMessage, network::SyncItemMessage,"sync_item");
 #endif//INCLUDED_NETWORK_SYNC_ITEM_H
 //command:  "../../../Reaping2_build/build/tools/classgenerator/classgenerator" -g "message" -c "sync_item" -p "pending" -m "int32_t-actorGUID int32_t-itemID std::string-data" -e "engine-itemPropertiesChanged"

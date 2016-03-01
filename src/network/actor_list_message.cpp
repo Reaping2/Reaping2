@@ -54,4 +54,4 @@ void ActorListMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ActorListMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ActorListMessage, network::ActorListMessage);

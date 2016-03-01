@@ -78,4 +78,4 @@ AudibleComponentLoader::AudibleComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(AudibleComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(AudibleComponent, AudibleComponent);

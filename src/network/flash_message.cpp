@@ -67,4 +67,4 @@ void FlashMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::FlashMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__FlashMessage, network::FlashMessage);

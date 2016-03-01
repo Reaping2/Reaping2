@@ -6,7 +6,7 @@
 #include <portable_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/list.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 #define DEFINE_MESSAGE_BASE( MessageType ) \
     static int32_t GetType_static() \

@@ -34,4 +34,4 @@ void FadeOutComponentLoader::BindValues()
     Bind("secs_to_end",func_double(&FadeOutComponent::SetSecsToEnd));
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(FadeOutComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(FadeOutComponent, FadeOutComponent);

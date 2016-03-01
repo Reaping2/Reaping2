@@ -16,4 +16,5 @@ CreateActorMessage::CreateActorMessage(Opt<Actor> actor)
     mActor = oss.str();
 }
 } // namespace network
-BOOST_CLASS_EXPORT_IMPLEMENT(network::CreateActorMessage);
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__CreateActorMessage, network::CreateActorMessage);

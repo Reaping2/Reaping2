@@ -54,4 +54,4 @@ DetonateOnHitComponentLoader::DetonateOnHitComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(DetonateOnHitComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(DetonateOnHitComponent, DetonateOnHitComponent);

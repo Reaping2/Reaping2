@@ -84,4 +84,4 @@ std::auto_ptr<HealthMessage> HealthMessageSenderSystem::GenerateHealthMessage(Ac
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::HealthMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__HealthMessage, network::HealthMessage);

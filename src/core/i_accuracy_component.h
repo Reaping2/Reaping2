@@ -3,7 +3,7 @@
 
 #include "component.h"
 #include "buffable.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IAccuracyComponent : public Component
 {
@@ -24,5 +24,5 @@ void IAccuracyComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IAccuracyComponent,"i_accuracy_component");
+REAPING2_CLASS_EXPORT_KEY2(IAccuracyComponent, IAccuracyComponent,"i_accuracy_component");
 #endif//INCLUDED_CORE_I_ACCURACY_COMPONENT_H

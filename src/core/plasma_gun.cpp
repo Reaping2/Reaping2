@@ -21,4 +21,4 @@ PlasmaGunLoader::PlasmaGunLoader()
     SetBase<WeaponLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(PlasmaGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(PlasmaGun, PlasmaGun);

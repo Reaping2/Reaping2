@@ -104,4 +104,4 @@ ShotCollisionComponentLoader::ShotCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ShotCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ShotCollisionComponent, ShotCollisionComponent);

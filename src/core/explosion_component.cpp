@@ -52,4 +52,4 @@ ExplosionComponentLoader::ExplosionComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(ExplosionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(ExplosionComponent, ExplosionComponent);

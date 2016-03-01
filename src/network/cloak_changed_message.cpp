@@ -67,4 +67,4 @@ void CloakChangedMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::CloakChangedMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__CloakChangedMessage, network::CloakChangedMessage);

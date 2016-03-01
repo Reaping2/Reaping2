@@ -5,7 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/ctf_program_state.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace network {
 namespace ctf {
@@ -61,7 +61,7 @@ private:
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::ctf::CtfScoreMessage,"ctf_score");
+REAPING2_CLASS_EXPORT_KEY2(network__ctf__CtfScoreMessage, network::ctf::CtfScoreMessage,"ctf_score");
 #endif//INCLUDED_NETWORK_CTF_SCORE_H
 
 //command:  "classgenerator.exe" -g "message" -c "ctf_score" -m "int32_t-blueScore int32_t-redScore"

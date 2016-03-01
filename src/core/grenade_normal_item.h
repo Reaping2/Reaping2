@@ -1,7 +1,7 @@
 #ifndef INCLUDED_CORE_GRENADE_NORMAL_ITEM_H
 #define INCLUDED_CORE_GRENADE_NORMAL_ITEM_H
 #include "normal_item.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class GrenadeNormalItem : public NormalItem
 {
@@ -22,5 +22,5 @@ void GrenadeNormalItem::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(GrenadeNormalItem,"grenade_normal_item");
+REAPING2_CLASS_EXPORT_KEY2(GrenadeNormalItem, GrenadeNormalItem,"grenade_normal_item");
 #endif//INCLUDED_CORE_GRENADE_NORMAL_ITEM_H

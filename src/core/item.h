@@ -8,8 +8,8 @@
 #include <portable_oarchive.hpp>
 #include <portable_iarchive.hpp>
 #include <boost/serialization/serialization.hpp>
-#include <boost/serialization/export.hpp>
 #include "item_loader.h"
+#include "platform/export.h"
 
 class Item
 {

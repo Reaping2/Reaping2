@@ -80,4 +80,4 @@ std::auto_ptr<SetTeamMessage> SetTeamMessageSenderSystem::GenerateSetTeamMessage
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::SetTeamMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__SetTeamMessage, network::SetTeamMessage);

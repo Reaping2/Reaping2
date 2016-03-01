@@ -96,4 +96,4 @@ namespace network {
 } // namespace engine
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::OrientationMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__OrientationMessage, network::OrientationMessage);

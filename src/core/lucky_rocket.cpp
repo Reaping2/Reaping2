@@ -34,4 +34,4 @@ LuckyRocketLoader::LuckyRocketLoader()
     SetBase<WeaponLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(LuckyRocket);
+REAPING2_CLASS_EXPORT_IMPLEMENT(LuckyRocket, LuckyRocket);

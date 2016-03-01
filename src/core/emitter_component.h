@@ -4,7 +4,7 @@
 #include "i_emitter_component.h"
 #include "core/property_loader.h"
 #include <boost/serialization/vector.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class EmitterComponent : public IEmitterComponent
 {
@@ -70,7 +70,7 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(EmitterComponent,"emitter_component");
+REAPING2_CLASS_EXPORT_KEY2(EmitterComponent, EmitterComponent,"emitter_component");
 #endif//INCLUDED_CORE_EMITTER_COMPONENT_H
 
 //command:  "../../build/tools/classgenerator/classgenerator" -g "component" -c "emitter_component" -m "int32_t-emitType bool-isemitting double-frequency"

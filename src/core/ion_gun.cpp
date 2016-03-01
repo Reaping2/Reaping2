@@ -22,4 +22,4 @@ IonGunLoader::IonGunLoader()
     SetBase<WeaponLoader>();
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(IonGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT(IonGun, IonGun);

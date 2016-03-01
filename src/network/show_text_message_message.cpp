@@ -56,4 +56,4 @@ void ShowTextMessageMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ShowTextMessageMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ShowTextMessageMessage, network::ShowTextMessageMessage);

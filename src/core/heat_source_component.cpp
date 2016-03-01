@@ -16,4 +16,4 @@ HeatSourceComponentLoader::HeatSourceComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(HeatSourceComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(HeatSourceComponent, HeatSourceComponent);

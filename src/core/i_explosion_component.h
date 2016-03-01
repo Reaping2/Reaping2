@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_EXPLOSION_COMPONENT_H
 
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IExplosionComponent : public Component
 {
@@ -28,5 +28,5 @@ void IExplosionComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IExplosionComponent,"i_explosion_component");
+REAPING2_CLASS_EXPORT_KEY2(IExplosionComponent, IExplosionComponent,"i_explosion_component");
 #endif//INCLUDED_CORE_I_EXPLOSION_COMPONENT_H

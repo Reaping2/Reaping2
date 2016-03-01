@@ -84,4 +84,4 @@ void SyncItemMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::SyncItemMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__SyncItemMessage, network::SyncItemMessage);

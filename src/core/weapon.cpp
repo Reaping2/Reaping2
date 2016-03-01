@@ -280,4 +280,4 @@ void WeaponLoader::BindValues()
 WeaponLoader::WeaponLoader()
 {
 }
-BOOST_CLASS_EXPORT_IMPLEMENT(Weapon);
+REAPING2_CLASS_EXPORT_IMPLEMENT(Weapon, Weapon);

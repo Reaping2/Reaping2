@@ -5,7 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "engine/kill_score_event.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace network {
 
@@ -56,7 +56,7 @@ public:
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_KEY2(network::KillScoreMessage,"kill_score");
+REAPING2_CLASS_EXPORT_KEY2(network__KillScoreMessage, network::KillScoreMessage,"kill_score");
 #endif//INCLUDED_NETWORK_KILL_SCORE_H
 
 //command:  "classgenerator.exe" -g "message" -c "kill_score" -m "int32_t-killerGUID int32_t-deathGUID" -e "engine-killScore"

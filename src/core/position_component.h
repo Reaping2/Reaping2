@@ -3,7 +3,7 @@
 
 #include "i_position_component.h"
 #include "core/property_loader.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class PositionComponent : public IPositionComponent
 {
@@ -47,5 +47,5 @@ protected:
 };
 
 
-BOOST_CLASS_EXPORT_KEY2(PositionComponent,"position_component");
+REAPING2_CLASS_EXPORT_KEY2(PositionComponent, PositionComponent,"position_component");
 #endif//INCLUDED_CORE_POSITION_COMPONENT_H

@@ -52,4 +52,4 @@ AccelerationComponentLoader::AccelerationComponentLoader()
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(AccelerationComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(AccelerationComponent, AccelerationComponent);

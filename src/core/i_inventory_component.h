@@ -7,7 +7,7 @@
 #include "weapon.h"
 #include "normal_item.h"
 #include "item_type.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IInventoryComponent : public Component
 {
@@ -42,5 +42,5 @@ void IInventoryComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-BOOST_CLASS_EXPORT_KEY2(IInventoryComponent,"i_inventory_component");
+REAPING2_CLASS_EXPORT_KEY2(IInventoryComponent, IInventoryComponent,"i_inventory_component");
 #endif//INCLUDED_CORE_I_INVENTORY_COMPONENT_H

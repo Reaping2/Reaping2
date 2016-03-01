@@ -77,4 +77,4 @@ std::auto_ptr<AccuracyMessage> AccuracyMessageSenderSystem::GenerateAccuracyMess
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::AccuracyMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__AccuracyMessage, network::AccuracyMessage);

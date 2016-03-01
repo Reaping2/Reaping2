@@ -27,4 +27,4 @@ StopOnDeathComponentLoader::StopOnDeathComponentLoader()
 {
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(StopOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT(StopOnDeathComponent, StopOnDeathComponent);

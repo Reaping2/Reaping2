@@ -55,4 +55,4 @@ void SecsToReviveMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::SecsToReviveMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__SecsToReviveMessage, network::SecsToReviveMessage);

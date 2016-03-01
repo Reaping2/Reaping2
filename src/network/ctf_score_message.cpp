@@ -60,4 +60,4 @@ void CtfScoreMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::ctf::CtfScoreMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ctf__CtfScoreMessage, network::ctf::CtfScoreMessage);

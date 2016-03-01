@@ -5,7 +5,7 @@
 #include "platform/i_platform.h"
 #include "actor.h"
 #include "soldier_properties.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 namespace core {
 struct ClientData
@@ -92,5 +92,5 @@ public:
 };
 } // namespace core
 
-BOOST_CLASS_EXPORT_KEY2(::core::ClientData,"client_data");
+REAPING2_CLASS_EXPORT_KEY2(__core__ClientData, ::core::ClientData,"client_data");
 #endif//INCLUDED_CORE_PROGRAM_STATE_H

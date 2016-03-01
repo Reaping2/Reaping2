@@ -14,4 +14,4 @@ CloakNormalItem::CloakNormalItem()
 
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(CloakNormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT(CloakNormalItem, CloakNormalItem);

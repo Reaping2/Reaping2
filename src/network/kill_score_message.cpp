@@ -56,4 +56,4 @@ void KillScoreMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-BOOST_CLASS_EXPORT_IMPLEMENT(network::KillScoreMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__KillScoreMessage, network::KillScoreMessage);
