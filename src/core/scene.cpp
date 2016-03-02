@@ -25,6 +25,7 @@
 #include "engine/soldier_spawn_system.h"
 #include "map_load_event.h"
 #include "map_start_event.h"
+#include "magic_consts.h"
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -88,7 +89,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -2500, -2500, 2500, 2500 )
+    : mDimensions( -2500*MAGIC_SIZE, -2500*MAGIC_SIZE, 2500*MAGIC_SIZE, 2500*MAGIC_SIZE )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )

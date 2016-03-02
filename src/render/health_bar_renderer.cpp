@@ -17,6 +17,7 @@
 #include "core/i_team_component.h"
 #include "core/i_armor_component.h"
 #include "engine/cloak_system.h"
+#include "core/magic_consts.h"
 
 
 void HealthBarRenderer::Init()
@@ -85,16 +86,16 @@ void HealthBarRenderer::Draw()
         double currPercent=healthC->GetHP()/double(healthC->GetMaxHP().Get());
         double currArmorPercent=armor/double(healthC->GetMaxHP().Get()+armor);
 
-        glm::vec2 size(100,7);
+        glm::vec2 size(150,14);
         glm::vec2 position(-size.x/2,45);
         bool isself=i->mClientActorGUID==mProgramState.mControlledActorGUID;
         {
-            glm::vec4 dim(int32_t(positionC->GetX())+position.x-2,int32_t(positionC->GetY())+position.y-2,size.x+3,size.y+3);
+            glm::vec4 dim(int32_t(positionC->GetX()*MAGIC_SIZE)+position.x-2,int32_t(positionC->GetY()*MAGIC_SIZE)+position.y-2,size.x+3,size.y+3);
             glm::vec4 col=isself?glm::vec4(0.0,0.0,0.0,0.7):glm::vec4(0.0,0.0,0.0,0.7);
             ColoredBox( dim,col, Inserter );
         }
         {
-            glm::vec4 dim(int32_t(positionC->GetX())+position.x,int32_t(positionC->GetY())+position.y,currPercent*size.x,size.y);
+            glm::vec4 dim(int32_t(positionC->GetX()*MAGIC_SIZE)+position.x,int32_t(positionC->GetY()*MAGIC_SIZE)+position.y,currPercent*size.x,size.y);
             glm::vec4 col=isself?glm::vec4(0.59,0.15,0.7,1.0):glm::vec4(0.0,0.8,0.0,0.7);
             if (teamC.IsValid())
             {
@@ -104,8 +105,8 @@ void HealthBarRenderer::Draw()
         }
         {
             double currCombinedPercent=currPercent+currArmorPercent>1.0?1-currArmorPercent:currPercent;
-            glm::vec4 dim(int32_t(positionC->GetX())+position.x+currCombinedPercent*size.x
-                ,int32_t(positionC->GetY())+position.y
+            glm::vec4 dim(int32_t(positionC->GetX()*MAGIC_SIZE)+position.x+currCombinedPercent*size.x
+                ,int32_t(positionC->GetY()*MAGIC_SIZE)+position.y
                 ,currArmorPercent*size.x,size.y);
             glm::vec4 col=glm::vec4(1.0,1.0,1.0,0.7);
             ColoredBox( dim,col, Inserter );
