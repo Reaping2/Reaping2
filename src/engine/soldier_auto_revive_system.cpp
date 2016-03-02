@@ -44,11 +44,11 @@ void SoldierAutoReviveSystem::Update(double DeltaTime)
         {
             core::ClientData& clientData=*i;
             auto deathTimeIt = mTimesOfDeath.find( i->mClientActorGUID );
-            if ( deathTimeIt != mTimesOfDeath.end() && deathTimeIt->second + secsToRevive <= currTime)
+            Opt<Actor> player = mScene.GetActor( i->mClientActorGUID );
+            if ( deathTimeIt != mTimesOfDeath.end() && deathTimeIt->second + secsToRevive <= currTime )
             {
                 if (clientData.mConnected)
                 {
-                    Opt<Actor> player(mScene.GetActor((*i).mClientActorGUID));
                     if( player.IsValid() )
                     {
                         Opt<PlayerControllerComponent> playerControllerC(player->Get<PlayerControllerComponent>());
@@ -61,6 +61,10 @@ void SoldierAutoReviveSystem::Update(double DeltaTime)
                     EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
                     mTimesOfDeath.erase( deathTimeIt );
                 }
+            }
+            else if( !player.IsValid() && clientData.mConnected && clientData.mReady )
+            {
+                EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
             }
         }
     }
