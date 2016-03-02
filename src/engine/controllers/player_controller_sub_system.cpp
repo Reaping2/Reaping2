@@ -9,6 +9,7 @@
 #include "core/weapon.h"
 #include "core/i_health_component.h"
 #include "../soldier_spawn_system.h"
+#include "../item_properties_changed_event.h"
 
 namespace engine {
 
@@ -30,23 +31,17 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
-    if (mProgramState.mMode==core::ProgramState::Client)
-    {
-        playerControllerC->mReloadTyped=false;
-    }
-
     if(playerControllerC->mActive)
     {
         HandleInputs(actor,playerControllerC);
     }
 
-    HandleReload(actor,playerControllerC);
     Shoot(actor,playerControllerC);
     if (mProgramState.mMode==core::ProgramState::Client)
     {
         return;
     }
-
+    HandleReload(actor,playerControllerC);
     SetSpeedAndOrientation(actor,playerControllerC);
     SetOrientation(actor,playerControllerC);
 }
@@ -82,8 +77,12 @@ void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponen
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
     if (normalItem.IsValid())
     {
-        normalItem->SetUse(playerControllerC->mUseNormalItem);
-    }
+        normalItem->SetUse(playerControllerC->mUseNormalItem.GetValue());
+        if (playerControllerC->mUseNormalItem.GetValue())
+        {
+            playerControllerC->mUseNormalItem.SetHandled(true);
+        }
+    }   
 }
 
 void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
@@ -102,15 +101,15 @@ void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerC
     playerControllerC->mOrientation=mInputSystem->GetInputState().mOrientation;
     playerControllerC->mShoot=mInputSystem->GetInputState().mShoot;
     playerControllerC->mShootAlt=mInputSystem->GetInputState().mShootAlt;
-    playerControllerC->mUseNormalItem=mInputSystem->GetInputState().mUseNormalItem;
-    playerControllerC->mReloadTyped=mInputSystem->GetInputState().mReload;
+    playerControllerC->mUseNormalItem.SetActive(mInputSystem->GetInputState().mUseNormalItem);
+    playerControllerC->mUseReload.SetActive(mInputSystem->GetInputState().mReload);
     playerControllerC->mMoving=mInputSystem->GetInputState().mMoving;
     playerControllerC->mHeading=mInputSystem->GetInputState().mHeading;
 }
 
 void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC)
 {
-    if (!playerControllerC->mReloadTyped)
+    if (!playerControllerC->mUseReload.GetValue())
     {
         return;
     }
@@ -122,11 +121,12 @@ void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerC
         if (weapon->CanReload())
         {
             weapon->SetBullets(0.0);
+            EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
         }
     }
     if (mProgramState.mMode!=core::ProgramState::Client)
     {
-        playerControllerC->mReloadTyped=false;
+        playerControllerC->mUseReload.SetHandled(true);
     }
 }
 

@@ -22,11 +22,11 @@ double const& MoveComponent::GetHeading() const
 
 double MoveComponent::GetSpeedX() const
 {
-    return mHeadingCos*mSpeed.Get();
+    return mHeadingCos*mSpeed.Get()*1.3; //TODO: temporary for testing only
 }
 double MoveComponent::GetSpeedY() const
 {
-    return mHeadingSin*mSpeed.Get();
+    return mHeadingSin*mSpeed.Get()*1.3; //TODO: temporary for testing only
 }
 void MoveComponent::SetHeading( double Heading )
 {

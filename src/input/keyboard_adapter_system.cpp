@@ -41,14 +41,13 @@ void KeyboardAdapterSystem::Update(double DeltaTime)
 
     InputState inputState=mInputSystem->GetInputState();
     if( mKeyboard->GetKey(GLFW_KEY_Q).State==KeyState::Typed /*obsolete enabled for one iteration*/
-        ||mKeyboard->GetKey(GLFW_KEY_SPACE).State==KeyState::Typed)
+        ||mKeyboard->GetKey(GLFW_KEY_SPACE).State==KeyState::Down)
     {
         inputState.mUseNormalItem=true;
     }
-    if( mKeyboard->GetKey(GLFW_KEY_R).State==KeyState::Typed )
+    if( mKeyboard->GetKey(GLFW_KEY_R).State==KeyState::Down )
     {
         inputState.mReload=true;
-        L2("reload typed!\n");
     }
 
     int x = ( ( currentMovement & MF_Left ) ? -1 : 0 ) + ( ( currentMovement & MF_Right ) ? 1 : 0 );

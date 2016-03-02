@@ -317,7 +317,6 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::OrientationMessage::GetType_static(),AutoId("orientation_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PickupMessage::GetType_static(),AutoId("pickup_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::SetPickupContentMessage::GetType_static(),AutoId("set_pickup_content_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ReviveMessage::GetType_static(),AutoId("revive_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FlashMessage::GetType_static(),AutoId("flash_message_handler_sub_system"));

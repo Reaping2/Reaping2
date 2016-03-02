@@ -62,7 +62,6 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("orientation_message_handler_sub_system"), &CreateSubSystem<OrientationMessageHandlerSubSystem>);
     Bind( AutoId("heading_message_handler_sub_system"), &CreateSubSystem<HeadingMessageHandlerSubSystem>);
     Bind( AutoId("pickup_message_handler_sub_system"), &CreateSubSystem<PickupMessageHandlerSubSystem>);
-    Bind( AutoId("set_pickup_content_message_handler_sub_system"), &CreateSubSystem<SetPickupContentMessageHandlerSubSystem>);
     Bind( AutoId("ping_message_handler_sub_system"), &CreateSubSystem<PingMessageHandlerSubSystem>);
     Bind( AutoId("revive_message_handler_sub_system"), &CreateSubSystem<ReviveMessageHandlerSubSystem>);
     Bind( AutoId("flash_message_handler_sub_system"), &CreateSubSystem<FlashMessageHandlerSubSystem>);
