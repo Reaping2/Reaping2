@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "platform/i_platform.h"
 #include "core/scene.h"
 #include "core/i_position_component.h"
