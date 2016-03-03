@@ -2141,6 +2141,7 @@ std::auto_ptr<Generator> GeneratorFactory::CreateGenerator( int32_t Id )
 
 int main(int argc, char* argv[])
 {
+    platform::IdStorage::Get().Init();
 	namespace po=boost::program_options;
 	// Declare the supported options.
 	po::options_description desc("Allowed options");

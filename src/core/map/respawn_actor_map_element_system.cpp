@@ -57,7 +57,7 @@ void RespawnActorMapElementSystem::SpawnActor(Opt<RespawnActorMapElement> respaw
     ActorCreator::ComponentLoaderMap_t const& componentLoaders=respawnActorMapElement->GetComponentLoaders();
     for(ActorCreator::ComponentLoaderMap_t::const_iterator i=componentLoaders.begin(), e=componentLoaders.end();i!=e;++i)
     {
-        i->second->FillProperties(actor.get());
+        i->second->FillProperties(*actor.get());
     }
     respawnActorMapElement->SetSpawnedActorGUID(actor->GetGUID());
     respawnActorMapElement->SetSecsToRespawn(respawnActorMapElement->GetSecsToRespawnOriginal());

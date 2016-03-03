@@ -50,6 +50,7 @@
 #include "network/show_text_message_message.h"
 #include "network/collision_message.h"
 #include "render/damage_particles.h"
+#include "render/corpses.h"
 #include "network/shot_message.h"
 #include "network/kill_score_message.h"
 #include "network/client_score_message.h"
@@ -76,7 +77,7 @@
 #include <iosfwd>
 #include "core/component_factory.h"
 #include "network/actor_list_message.h"
-
+#include "engine/remove_components_on_death_system.h"
 
 using engine::Engine;
 namespace {
@@ -207,6 +208,7 @@ int main(int argc, char* argv[])
     AudioPlayer::Get();
     audio::AudioEffectRepo::Get();
     DamageDecals::Get();
+    Corpses::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
@@ -421,6 +423,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("remove_on_death_system"));
         Eng.AddSystem(AutoId("explode_on_death_system"));
     }
+    Eng.AddSystem(AutoId("remove_components_on_death_system"));
     Eng.AddSystem(AutoId("soldier_auto_revive_system"));
     Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));
@@ -448,6 +451,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("renderer_system"));
     Eng.AddSystem(AutoId("show_text_system"));
 
+    Eng.AddSystem(AutoId("player_model_system"));
     if (programState.mMode!=ProgramState::Client)
     {
         Eng.AddSystem(AutoId("removed_actors_system"));

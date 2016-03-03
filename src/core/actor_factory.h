@@ -15,7 +15,7 @@ class ActorCreator
 {
 public:
     ActorCreator();
-    typedef PropertyLoaderBase<Component> ComponentLoader_t;
+    typedef ComponentLoader<Component> ComponentLoader_t;
     typedef boost::ptr_map<int32_t,ComponentLoader_t > ComponentLoaderMap_t;
     ComponentLoaderMap_t mComponentLoaders;
     void SetId(int32_t id);

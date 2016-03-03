@@ -2,6 +2,7 @@
 #include "core/actor_factory.h"
 #include "core/property_loader.h"
 #include "core/i_renderable_component.h"
+#include "component.h"
 
 ActorFactory::ActorFactory()
 {
@@ -103,13 +104,13 @@ int32_t ActorCreator::GetId()
 
 void ActorCreator::AddComponent(int32_t componentId, Json::Value& setters)
 {
-    std::auto_ptr<ComponentLoader_t> compLoader=mComponentLoaderFactory(componentId);
+    std::auto_ptr<PropertyLoaderBase<Component> > compLoader=mComponentLoaderFactory(componentId);
     if(setters.isArray()&&!setters.empty())
     {
         compLoader->Load(*setters.begin());
     }
 
-    mComponentLoaders.insert(componentId,compLoader);
+    mComponentLoaders.insert(componentId,static_cast<ComponentLoader_t *>(compLoader.release()));
 }
 
 std::auto_ptr<Actor> ActorCreator::Create()const
@@ -119,7 +120,7 @@ std::auto_ptr<Actor> ActorCreator::Create()const
     {
 //        actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
         actor->AddComponent(mComponentFactory(i->first));
-        i->second->FillProperties(actor.get());
+        i->second->FillProperties(*actor.get());
     }
     //TODO: guid will come from outside zorder will be done by ordering at renderer
     Opt<IRenderableComponent> renderableC = actor->Get<IRenderableComponent>();

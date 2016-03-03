@@ -24,25 +24,34 @@ void DamageDecals::Load()
         {
             break;
         }
-        mValidIds.push_back( Id );
+        static int32_t DefaultActId = AutoId( "default_action" );
+        Sprite const& Spr = Rends( Id )( DefaultActId );
+        if( !Spr.IsValid() )
+        {
+            continue;
+        }
+        SpritePhase const& Phase = Spr( 0 );
+        mDecalDescs.emplace_back(DamageDecal{ Phase.TexId, glm::vec4{ Phase.Left, Phase.Right, Phase.Bottom, Phase.Top } });
     }
 }
 
 void DamageDecals::OnDamageTaken( DamageTakenEvent const& Evt )
 {
-    if( mValidIds.empty() )
+    if( mDecalDescs.empty() )
     {
         return;
     }
-//     if( !( rand() % 3 ) )
-//     {
-//         return;
-//     }
+
     if (Evt.type==DamageTakenEvent::Health)
     {
         Decal Part;
         Part.mCenter = Evt.Pos + glm::vec2( ( rand() % 10 - 5.f ) / 200.f, ( rand() % 10 - 5.f ) / 200.f );
-        Part.mId = mValidIds[rand() % mValidIds.size()];
+        DamageDecal const& decal = mDecalDescs[rand() % mDecalDescs.size()];
+        Part.mTexId = decal.TexId;
+        Part.mTexCoords = decal.TexCoords;
+        Part.mRadius = rand() % 2000 / 10.;
+        Part.mHeading = rand() % 360 / 180. * 3.141592654;
+        Part.mAlpha = rand() % 100 / 100.;
         mDecalEngine.Add( Part, DecalEngine::GroundParticle );
     }
 }

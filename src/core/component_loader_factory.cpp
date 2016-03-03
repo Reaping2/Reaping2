@@ -45,6 +45,7 @@
 #include "border_component.h"
 #include "water_collision_component.h"
 #include "audible_component.h"
+#include "remove_components_on_death_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -105,6 +106,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId("explode_on_hit_component"), &CreateComponentLoader<ExplodeOnHitComponentLoader>);
     Bind( AutoId("detonate_on_hit_component"), &CreateComponentLoader<DetonateOnHitComponentLoader>);
     Bind( AutoId("audible_component"), &CreateComponentLoader<AudibleComponentLoader>);
+    Bind( AutoId("remove_components_on_death_component"), &CreateComponentLoader<RemoveComponentsOnDeathComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

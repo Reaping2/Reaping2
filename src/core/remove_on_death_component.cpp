@@ -5,6 +5,7 @@
 #include <boost/assert.hpp>
 
 RemoveOnDeathComponent::RemoveOnDeathComponent()
+    : mRemainingTime( 0 )
 {
 
 }
@@ -16,5 +17,15 @@ RemoveOnDeathComponentLoader::RemoveOnDeathComponentLoader()
 
 void RemoveOnDeathComponentLoader::BindValues()
 {
+    Bind("delay",func_double(&RemoveOnDeathComponent::SetRemainingTime));
+}
 
+void RemoveOnDeathComponent::SetRemainingTime( double rt )
+{
+    mRemainingTime = rt;
+}
+
+double RemoveOnDeathComponent::GetRemainingTime() const
+{
+    return mRemainingTime;
 }

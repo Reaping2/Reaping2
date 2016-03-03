@@ -52,6 +52,7 @@ void IExplode::serialize(Archive& ar, const unsigned int version)
     ar & mSecsToEndVariance;
     ar & mPositionVariance;
     ar & mSpeedVariance;
+    ar & mAddActorRadius;
 }
 
 #endif//INCLUDED_CORE_I_EXPLODE_H

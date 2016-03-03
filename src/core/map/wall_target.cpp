@@ -69,7 +69,7 @@ void WallTarget::AddPositionLoader(glm::vec2 &position, Opt<SpawnActorMapElement
 {
     int32_t componentId=AutoId("position_component");
     ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-    std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+    std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
     Opt<PositionComponentLoader> positionCompLoader(static_cast<PositionComponentLoader*>(compLoader.get()));
     positionCompLoader->Bind<double>(&PositionComponent::SetX,position.x);
     positionCompLoader->Bind<double>(&PositionComponent::SetY,position.y);
@@ -81,7 +81,7 @@ void WallTarget::AddBorderLoader(IBorderComponent::Borders_t& borders, IBorderCo
     {
         int32_t componentId=AutoId("border_component");
         ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+        std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
         Opt<BorderComponentLoader> borderCompLoader(static_cast<BorderComponentLoader*>(compLoader.get()));
         borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetBorders, borders );
         borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetOuterBorders, outerBorders );

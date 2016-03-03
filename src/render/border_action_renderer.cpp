@@ -3,6 +3,7 @@
 #include "core/i_border_component.h"
 #include "platform/id_storage.h"
 #include "core/i_collision_component.h"
+#include "core/magic_consts.h"
 
 namespace render {
 
@@ -80,7 +81,7 @@ void BorderActionRenderer::FillRenderableSprites(const Actor& actor, RenderableS
             SpritePhase const& Phase = Spr( (int32_t)GetState() );
             RenderableSprite renderableSprite=RenderableSprite( &actor, mActionId, &Spr, &Phase/*, color*/);
             glm::vec2 pos=mBorderType.GetNeighborDirs()[*outer_i];
-            renderableSprite.RelativePosition=glm::vec2(2*pos.x*mActorSize,2*pos.y*mActorSize);
+            renderableSprite.RelativePosition=glm::vec2(2*pos.x*mActorSize*MAGIC_SIZE,2*pos.y*mActorSize*MAGIC_SIZE);
             renderableSprites.push_back(renderableSprite);
         }
     }

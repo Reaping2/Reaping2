@@ -22,6 +22,7 @@ private:
     Scene& mScene;
     core::ProgramState& mProgramState;
     Opt<map::SoldierAutoReviveMapElementSystem> mSoldierAutoReviveMES;
+    std::map<int32_t, double> mTimesOfDeath;
     ModelValue mAutoReviveTextModel;
     std::string const& GetText();
     std::string mAutoReviveText;

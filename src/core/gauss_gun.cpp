@@ -8,7 +8,6 @@ GaussGun::GaussGun( int32_t Id )
     , mChargeTime( 1.0 )
     , mCurrentCharge( 0.0 )
 {
-    InitMembers();
 }
 
 GaussGun::GaussGun()
@@ -16,7 +15,6 @@ GaussGun::GaussGun()
     , mChargeTime( 1.0 )
     , mCurrentCharge( 0.0 )
 {
-    InitMembers();
 }
 
 glm::vec3 GaussGun::GetMouseColor() const
@@ -59,18 +57,18 @@ double GaussGun::ChargeTime() const
     return mChargeTime;
 }
 
-void GaussGun::InitMembers()
+void GaussGun::SetChargeTime(bool chargeTime)
 {
-    mScatter.mIncrease=15;
-    mScatter.mChill=40;
-    mScatter.mAltIncrease=220;
-    mScatter.mMagicNumber=100;
-    mShootCooldown = 1.6;
-    mShootAltCooldown = 1.6;
-    mBulletsMax = 6.0;
-    mShotCost=1;
-    mShotCostAlt=1;
-    mReloadTimeMax=1.7;
-    mBullets=mBulletsMax;
+    mChargeTime=chargeTime;
 }
 
+
+void GaussGunLoader::BindValues()
+{
+    Bind("charge_time",func_double(&GaussGun::SetChargeTime));
+}
+
+GaussGunLoader::GaussGunLoader()
+{
+    SetBase<WeaponLoader>();
+}

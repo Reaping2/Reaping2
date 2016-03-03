@@ -5,8 +5,12 @@
 struct Decal
 {
     glm::vec2 mCenter;
-    int32_t mId;
-    Decal(): mId( 0 ) {}
+    float mHeading;
+    float mRadius;
+    float mAlpha;
+    GLuint mTexId;
+    glm::vec4 mTexCoords;
+    Decal(): mHeading( 0 ), mRadius( 0 ), mAlpha( 1 ), mTexId( 0 ) {}
 };
 
 #endif//INCLUDED_RENDER_DECAL_H
