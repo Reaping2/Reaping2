@@ -31,9 +31,6 @@ void WaitingStartSystem::OnLoadClientlistEvent( LoadClientlistEvent const& event
     {
         Ui::Get().Load("ctf_client_list");
     }
-    else
-    {
-    }
 }
 
 }
