@@ -9,6 +9,7 @@
 #include <portable_iarchive.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/export.hpp>
+#include "item_loader.h"
 
 class Item
 {
@@ -64,7 +65,13 @@ class DefaultItem : public Item
 public:
     DefaultItem( int32_t Id );
     ~DefaultItem() {};
-    friend class ItemFactory;
+};
+
+class DefaultItemLoader: public ItemLoader<DefaultItem>
+{
+public:
+    virtual void BindValues();
+    DefaultItemLoader();
 };
 
 #endif//INCLUDED_CORE_ITEM_H

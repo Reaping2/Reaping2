@@ -211,6 +211,11 @@ bool Weapon::CanReload() const
         &&mStaticReload==0.0;
 }
 
+void Weapon::SetScatter(Scatter scatter)
+{
+    mScatter=scatter;
+}
+
 
 
 Scatter::Scatter(double increase/*=0.0*/,double altIncrease/*=0.0*/, double chill/*=0.0*/, double magicNumber/*=100*/)
@@ -247,4 +252,29 @@ void Scatter::Shot(bool alt)
 double Scatter::GetCalculated() const
 {
     return mCurrent/(mMagicNumber+mCurrent);
+}
+
+void WeaponLoader::BindValues()
+{
+    L1("Bind Weapon values \n");
+    Bind("shoot_cooldown",func_double(&Weapon::SetShootCooldown));
+    Bind("shoot_alt_cooldown",func_double(&Weapon::SetShootAltCooldown));
+    Bind("bullets",func_double(&Weapon::SetBullets));
+    Bind("bullets",func_double(&Weapon::SetBulletsMax));
+    Bind("shot_cost",func_int32_t(&Weapon::SetShotCost));
+    Bind("shot_cost_alt",func_int32_t(&Weapon::SetShotCostAlt));
+    Bind("reload_time",func_double(&Weapon::SetReloadTimeMax));
+    Bind("static_reload",func_double(&Weapon::SetStaticReload));
+
+    Scatter scatter;
+    Json::GetDouble((*mSetters)["scatter_increase"],scatter.mIncrease);
+    Json::GetDouble((*mSetters)["scatter_alt_increase"],scatter.mAltIncrease);
+    Json::GetDouble((*mSetters)["scatter_chill"],scatter.mChill);
+    Json::GetDouble((*mSetters)["scatter_magic_number"],scatter.mMagicNumber);
+    L1("Scatter in: %f %f %f %f",scatter.mIncrease,scatter.mAltIncrease,scatter.mChill,scatter.mMagicNumber);
+    Bind<Scatter>(&Weapon::SetScatter,scatter);
+}
+
+WeaponLoader::WeaponLoader()
+{
 }

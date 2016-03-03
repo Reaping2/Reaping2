@@ -4,13 +4,9 @@
 
 class IonGun : public Weapon
 {
-    IonGun( int32_t Id );
-    friend class Factory<Item>;
-    IonGun();
-
-    void InitMembers();
-
 public:
+    IonGun( int32_t Id );
+    IonGun();
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -21,5 +17,13 @@ void IonGun::serialize(Archive& ar, const unsigned int version)
 {
     ar & boost::serialization::base_object<Weapon>(*this);
 }
+
+class IonGunLoader: public ItemLoader<IonGun>
+{
+public:
+    virtual void BindValues();
+    IonGunLoader();
+    friend class ItemLoaderFactory;
+};
 
 #endif//INCLUDED_CORE_ION_GUN_H

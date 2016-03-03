@@ -6,29 +6,22 @@
 GatlingGun::GatlingGun( int32_t Id )
     : Weapon( Id )
     , mWindup(0.0)
-    , mWindupMax(100.0)
-    , mWindupSpeed(100.0)
+    , mWindupMax(1.0)
     , mDeploy(0.0)
-    , mDeployMax(100.0)
-    , mDeploySpeed(100.0)
+    , mDeployMax(1.0)
     , mDeployState(Undeployed)
 
 {
-    InitMembers();
-
 }
 
 GatlingGun::GatlingGun()
     : Weapon(-1)
     , mWindup(0.0)
-    , mWindupMax(100.0)
-    , mWindupSpeed(100.0)
+    , mWindupMax(1.0)
     , mDeploy(0.0)
-    , mDeployMax(100.0)
-    , mDeploySpeed(100.0)
+    , mDeployMax(1.0)
     , mDeployState(Undeployed)
 {
-    InitMembers();
 }
 
 bool GatlingGun::IsShooting() const
@@ -61,16 +54,6 @@ double GatlingGun::GetWindupMax()const
     return mWindupMax;
 }
 
-void GatlingGun::SetWindupSpeed(double windupSpeed)
-{
-    mWindupSpeed=windupSpeed;
-}
-
-double GatlingGun::GetWindupSpeed()const
-{
-    return mWindupSpeed;
-}
-
 void GatlingGun::SetDeploy(double deploy)
 {
     mDeploy=deploy;
@@ -89,16 +72,6 @@ void GatlingGun::SetDeployMax(double deployMax)
 double GatlingGun::GetDeployMax()const
 {
     return mDeployMax;
-}
-
-void GatlingGun::SetDeploySpeed(double deploySpeed)
-{
-    mDeploySpeed=deploySpeed;
-}
-
-double GatlingGun::GetDeploySpeed()const
-{
-    return mDeploySpeed;
 }
 
 void GatlingGun::SetDeployState(DeployState deployState)
@@ -170,19 +143,13 @@ bool GatlingGun::CanReload() const
         &&Weapon::CanReload();
 }
 
-void GatlingGun::InitMembers()
+void GatlingGunLoader::BindValues()
 {
-    mScatter.mIncrease=5;
-    mScatter.mChill=20;
-    mScatter.mAltIncrease=1.5;
-    mScatter.mMagicNumber=100;
-    mShootCooldown = 0.05;
-    mShootAltCooldown = 0.05;
-    mBulletsMax = 101.0;
-    mShotCost=1;
-    mShotCostAlt=1;
-    mReloadTimeMax=2.5;
-    mBullets=mBulletsMax;
+    Bind("windup_time",func_double(&GatlingGun::SetWindupMax));
+    Bind("deploy_time",func_double(&GatlingGun::SetDeployMax));
 }
 
-
+GatlingGunLoader::GatlingGunLoader()
+{
+    SetBase<WeaponLoader>();
+}

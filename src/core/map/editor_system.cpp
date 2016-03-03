@@ -16,6 +16,7 @@
 #include "ctf_flag_spawn_point_map_element.h"
 #include "../i_renderable_component.h"
 #include "input/keyboard_adapter_system.h"
+#include "../magic_consts.h"
 
 namespace map {
 
@@ -96,8 +97,8 @@ void EditorSystem::Update(double DeltaTime)
         Save();
     }
     glm::vec2 cameraCenter=mRenderer->GetCamera().GetCenter();
-    mX=cameraCenter.x;
-    mY=cameraCenter.y;
+    mX=cameraCenter.x/MAGIC_SIZE;
+    mY=cameraCenter.y/MAGIC_SIZE;
     uint32_t currentKeyMovement = 0;
     if( mKeyboard->GetKey(GLFW_KEY_W).State==KeyState::Down)
     {

@@ -2,16 +2,13 @@
 #define INCLUDED_CORE_SHOTGUN_H
 #include "core/weapon.h"
 #include "i_explode.h"
+#include "explode_distribution_type.h"
 
 class Shotgun : public Weapon, public IExplode
 {
-    Shotgun( int32_t Id );
-    friend class Factory<Item>;
-    Shotgun();
-
-    void InitMembers();
-
 public:
+    Shotgun( int32_t Id );
+    Shotgun();
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version);
@@ -23,5 +20,15 @@ void Shotgun::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Weapon>(*this);
     ar & boost::serialization::base_object<IExplode>(*this);
 }
+
+class ShotgunLoader: public ItemLoader<Shotgun>
+{
+public:
+    virtual void BindValues();
+    ShotgunLoader();
+    friend class ItemLoaderFactory;
+protected:
+    ExplodeDistributionType& mExplodeDistributionType;
+};
 
 #endif//INCLUDED_CORE_SHOTGUN_H

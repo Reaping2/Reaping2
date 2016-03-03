@@ -4,6 +4,7 @@
 #include "../i_position_component.h"
 #include "../i_collision_component.h"
 #include "../pickup_collision_component.h"
+#include "../actor_factory.h"
 
 namespace map {
 
@@ -75,9 +76,9 @@ double RespawnActorMapElement::GetSecsToRespawnOriginal()const
     return mSecsToRespawnOriginal;
 }
 
-void RespawnActorMapElement::AddComponentLoader(int32_t componentId, std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader)
+void RespawnActorMapElement::AddComponentLoader(int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader)
 {
-    mComponentLoaders.insert(componentId,compLoader);
+    mComponentLoaders.insert(componentId,static_cast<ActorCreator::ComponentLoader_t *>(compLoader.release()));
 }
 
 void RespawnActorMapElement::Save(Json::Value& Element)
