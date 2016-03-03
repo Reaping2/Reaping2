@@ -5,16 +5,21 @@
 		[
 			{"recognizer":"death",
 				"renderer":"death"},
-			{"recognizer":"idle",
-				"renderer":"idle"},
 			{"recognizer":"leg_move",
 				"renderer":"leg_move"},
+			{"recognizer":"body_color",
+				"renderer":"body_color"},                
+			{"recognizer":"idle",
+				"renderer":"idle"},
 			{"recognizer":"body_move",
 				"renderer":"body_move"},
 			{"recognizer":"weapon",
 				"renderer":"weapon"},
-			{"recognizer":"hat",
-				"renderer":"hat"}
+			{"recognizer":"body_color",
+				"renderer":"head_color"},
+			{"recognizer":"head",
+				"renderer":"head"}
+                
 		]
 	},
 	{
@@ -23,18 +28,22 @@
 		[
 			{"recognizer":"death",
 				"renderer":"death"},
-			{"recognizer":"ctf_hat",
+			{"recognizer":"ctf_body_color",
 				"renderer":"soldier_current"},				
-			{"recognizer":"idle",
-				"renderer":"idle"},
 			{"recognizer":"leg_move",
 				"renderer":"leg_move"},
+			{"recognizer":"ctf_body_color",
+				"renderer":"ctf_body_color"},                
+			{"recognizer":"idle",
+				"renderer":"idle"},
 			{"recognizer":"body_move",
 				"renderer":"body_move"},
 			{"recognizer":"weapon",
 				"renderer":"weapon"},
-			{"recognizer":"ctf_hat",
-				"renderer":"ctf_hat"}
+			{"recognizer":"ctf_body_color",
+				"renderer":"ctf_head_color"},
+            {"recognizer":"head",
+				"renderer":"head"}
 		]
 	},
 	{
@@ -49,8 +58,8 @@
 		"name":"platform",
 		"recognizers":
 		[
-			{"recognizer":"ctf_hat",
-				"renderer":"ctf_hat"},
+			{"recognizer":"ctf_body_color",
+				"renderer":"ctf_body_color"},
 			{"recognizer":"idle",
 				"renderer":"idle"}
 		]
