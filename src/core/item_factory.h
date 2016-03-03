@@ -4,6 +4,7 @@
 #include "platform/factory.h"
 #include "platform/singleton.h"
 #include "item_loader_factory.h"
+#include "item_loader.h"
 
 class Item;
 class ItemFactory : public platform::Factory<Item>, public platform::Singleton<ItemFactory>
@@ -16,7 +17,7 @@ protected:
 };
 
 template<typename Elem_T>
-static std::auto_ptr<Item> ItemFactory::CreateItem(int32_t Id)
+std::auto_ptr<Item> ItemFactory::CreateItem(int32_t Id)
 {
     static ItemLoaderRepo& mItemLoaderRepo=ItemLoaderRepo::Get();
     return static_cast<ItemLoader<Item>& >(mItemLoaderRepo(Id))
