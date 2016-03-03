@@ -12,7 +12,11 @@ class DamageDecals : public Singleton<DamageDecals>
     void Load();
     friend class Singleton<DamageDecals>;
     AutoReg mOnDamageTaken;
-    std::vector<int32_t> mValidIds;
+    struct DamageDecal {
+        GLuint TexId;
+        glm::vec4 TexCoords;
+    };
+    std::vector<DamageDecal> mDecalDescs;
     void OnDamageTaken( core::DamageTakenEvent const& Evt );
 };
 
