@@ -101,7 +101,8 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map
     clientData.mClientActorGUID=player->GetGUID(); //TODO: might seek for a better place
     L2("player created clientId:%d clientName:%s actorId:%d\n",clientData.mClientId,clientData.mClientName.c_str(),clientData.mClientActorGUID);
 
-    if (mProgramState.mClientDatas.begin()->mClientActorGUID==player->GetGUID())
+    if ( mProgramState.mMode != core::ProgramState::Server &&
+        mProgramState.mClientDatas.begin()->mClientActorGUID==player->GetGUID() )
     {
         Scene::Get().SetPlayerModels(Opt<Actor>(player.get()));
     }

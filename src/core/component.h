@@ -64,7 +64,8 @@ protected:
 public:
     ComponentHolder();
     virtual void AddComponent( std::auto_ptr<Component> Comp  );
-   
+    void DropComponent( int32_t id );
+
     template<typename Component_t>
     Opt<Component_t> Get() const;
     template<typename Component_t>

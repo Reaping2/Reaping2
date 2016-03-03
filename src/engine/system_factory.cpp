@@ -110,6 +110,8 @@
 #include "network/waiting_start_system.h"
 #include "network/team_switch_request_message.h"
 #include "network/actor_list_message.h"
+#include "remove_components_on_death_system.h"
+#include "player_model_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -242,6 +244,8 @@ SystemFactory::SystemFactory()
     Bind( AutoId("explode_on_hit_system"), &CreateSystem<engine::ExplodeOnHitSystem>);
     Bind( AutoId("audio_system"), &CreateSystem<audio::AudioSystem>);
     Bind( AutoId("gamemode_selected_message_sender_system"), &CreateSystem<network::GamemodeSelectedMessageSenderSystem>);
+    Bind( AutoId("remove_components_on_death_system"), &CreateSystem<engine::RemoveComponentsOnDeathSystem>);
+    Bind( AutoId("player_model_system"), &CreateSystem<engine::PlayerModelSystem>);
 }
 
 } // namespace engine
