@@ -8,6 +8,7 @@ IExplode::IExplode()
     , mSecsToEndVariance(0.0)
     , mPositionVariance(0.0)
     , mSpeedVariance(0.0)
+    , mAddActorRadius(true)
 {
 }
 

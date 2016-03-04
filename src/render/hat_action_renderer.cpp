@@ -28,7 +28,7 @@ namespace render{
     HatActionRenderer::HatActionRenderer(int32_t Id)
         : ActionRenderer(Id)
     {
-        mHatId=AutoId("hat");
+        mHatId=AutoId("body_color");
     }
 
     void HatActionRenderer::Init(const Actor& actor)

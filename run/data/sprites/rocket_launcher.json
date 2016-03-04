@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/rocket_launcher.png",
+        "texture_path":"textures/weapon_rocket_launcher.png",
         "actor_visuals":
         [
             {
@@ -9,9 +9,9 @@
                 [
                     {
                         "name":"rocket_launcher",
-                        "w":30,
-                        "h":17,
-                        "scale":1.0,
+                        "w":179,
+                        "h":179,
+                        "scale":2.0,
                         "phases":[{"x":0,"y":0}]
                     }
                 ]
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/rocket_launcher.png",
+        "texture_path":"textures/weapon_rocket_launcher.png",
         "actor_visuals":
         [
             {
@@ -28,8 +28,8 @@
                 [
                     {
                         "name":"rocket_launcher",
-                        "w":30,
-                        "h":17,
+                        "w":179,
+                        "h":179,
                         "scale":2.0,
                         "phases":[{"x":0,"y":0}]
                     }
@@ -90,7 +90,7 @@
     },
     
     {
-        "texture_path":"textures/Shotgun.png",
+        "texture_path":"textures/weapon_shotgun.png",
         "actor_visuals":
         [
             {
@@ -99,9 +99,9 @@
                 [
                     {
                         "name":"shotgun",
-                        "w":30,
-                        "h":17,
-                        "scale":1.0,
+                        "w":179,
+                        "h":179,
+                        "scale":2.0,
                         "phases":[{"x":0,"y":0}]
                     }
                 ]
@@ -109,7 +109,7 @@
         ]
     },
     {
-        "texture_path":"textures/Shotgun.png",
+        "texture_path":"textures/weapon_shotgun.png",
         "actor_visuals":
         [
             {
@@ -118,8 +118,8 @@
                 [
                     {
                         "name":"shotgun",
-                        "w":30,
-                        "h":17,
+                        "w":179,
+                        "h":179,
                         "scale":2.0,
                         "phases":[{"x":0,"y":0}]
                     }
