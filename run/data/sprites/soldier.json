@@ -158,6 +158,19 @@
                   "scale" : 2.0,
                   "w" : 90,
                   "secs_to_end" : 1 
+               },
+               {
+                  "h" : 90,
+                  "name" : "corpse",
+                  "phases" : [
+                     {
+                        "x" : 96,
+                        "y" : 776
+                     }
+                  ],
+                  "scale" : 2.0,
+                  "w" : 90,
+                  "secs_to_end" : 1 
                }
             ],
             "name" : "player"
@@ -343,10 +356,23 @@
                                 "y" : 776
                             }
                         ],
-                        "scale" : 4.0,
+                        "scale" : 2.0,
                         "w" : 90,
                         "secs_to_end" : 1
-                    }
+                    },
+                    {
+                        "h" : 90,
+                        "name" : "corpse",
+                        "phases" : [
+                            {
+                                "x" : 96,
+                                "y" : 776
+                            }
+                        ],
+                        "scale" : 2.0,
+                        "w" : 90,
+                        "secs_to_end" : 1 
+                   }
                 ]
             }
         ]

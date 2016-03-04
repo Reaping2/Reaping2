@@ -4,8 +4,6 @@
 #include "platform/factory.h"
 #include "platform/singleton.h"
 #include <boost/ptr_container/ptr_map.hpp>
-#include "core/component.h"
-#include "core/component_factory.h"
 #include <list>
 #include <string>
 #include <boost/function.hpp>

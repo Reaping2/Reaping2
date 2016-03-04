@@ -5,11 +5,13 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include "core/opt.h"
 #include "json/json.h"
+#include "property_loader.h"
 #include <portable_oarchive.hpp>
 #include <portable_iarchive.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
+
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -64,7 +66,8 @@ protected:
 public:
     ComponentHolder();
     virtual void AddComponent( std::auto_ptr<Component> Comp  );
-   
+    void DropComponent( int32_t id );
+
     template<typename Component_t>
     Opt<Component_t> Get() const;
     template<typename Component_t>
@@ -113,8 +116,6 @@ void DefaultComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-template<typename T,typename BASE>
-class PropertyLoader;
 template<typename COMPONENT>
 class ComponentLoader: public PropertyLoader<COMPONENT, Component>
 {
@@ -125,11 +126,11 @@ public:
 template<typename COMPONENT>
 void ComponentLoader<COMPONENT>::FillProperties(ComponentHolder& actor) const
 {
-    if (mBase.get())
+    if ( this->mBase.get())
     {
-        static_cast<const ComponentLoader<Component> *>(mBase.get())->FillProperties(actor);
+        static_cast<const ComponentLoader<Component> *>( this->mBase.get())->FillProperties(actor);
     }
-    if(mSetterFuncList.empty())
+    if ( this->mSetterFuncList.empty())
     {
         return;
     }
@@ -138,9 +139,9 @@ void ComponentLoader<COMPONENT>::FillProperties(ComponentHolder& actor) const
     {
         return;
     }
-    for(typename SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
+    for( auto const& fun : this->mSetterFuncList )
     {
-        (*i)(castedTarget.Get());
+        fun(castedTarget.Get());
     }
 }
 

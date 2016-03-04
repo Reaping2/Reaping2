@@ -13,7 +13,7 @@
 
 using platform::AutoId;
 
-DefaultItemLoader const ItemLoaderRepo::mDefault = DefaultItemLoader();
+DefaultItemLoader const ItemLoaderRepo::mDefault;
 ItemLoaderRepo::ItemLoaderRepo()
     : Repository<PropertyLoaderBase<Item> >(mDefault)
 {

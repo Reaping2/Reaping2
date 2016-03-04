@@ -46,6 +46,22 @@ void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
     }
 }
 
+void ComponentHolder::DropComponent( int32_t id )
+{
+    for( auto it = std::begin( mComponents ); it != std::end( mComponents ); )
+    {
+        auto const& comp = *it->second;
+        if( comp.GetId() == id )
+        {
+            it = mComponents.erase( it );
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
 ComponentHolder::ComponentHolder()
     : mComponentFactory( ComponentFactory::Get() )
 {

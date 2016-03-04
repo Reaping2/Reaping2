@@ -43,35 +43,32 @@ void SoldierAutoReviveSystem::Update(double DeltaTime)
         for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
         {
             core::ClientData& clientData=*i;
-            Opt<Actor> player(mScene.GetActor((*i).mClientActorGUID));
-            if (!player.IsValid())
+            auto deathTimeIt = mTimesOfDeath.find( i->mClientActorGUID );
+            Opt<Actor> player = mScene.GetActor( i->mClientActorGUID );
+            if ( deathTimeIt != mTimesOfDeath.end() && deathTimeIt->second + secsToRevive <= currTime )
             {
-                if (clientData.mConnected&&clientData.mReady)
-                {
-                    EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
-                }
-                continue;
-            }
-            Opt<IHealthComponent> healthC(player->Get<IHealthComponent>());
-            if (!healthC.IsValid()||healthC->IsAlive())
-            {
-                continue;
-            }
-            if (healthC->GetTimeOfDeath()+secsToRevive<=currTime)
-            {
-                Opt<PlayerControllerComponent> playerControllerC(player->Get<PlayerControllerComponent>());
-                if (playerControllerC.IsValid())
-                {
-                    playerControllerC->SetEnabled(false);
-                    playerControllerC->mActive=false;
-                }
                 if (clientData.mConnected)
                 {
+                    if( player.IsValid() )
+                    {
+                        Opt<PlayerControllerComponent> playerControllerC(player->Get<PlayerControllerComponent>());
+                        if (playerControllerC.IsValid())
+                        {
+                            playerControllerC->SetEnabled(false);
+                            playerControllerC->mActive=false;
+                        }
+                    }
                     EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
+                    mTimesOfDeath.erase( deathTimeIt );
                 }
+            }
+            else if( !player.IsValid() && clientData.mConnected && clientData.mReady )
+            {
+                EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( Opt<core::ClientData>(&*i) ) );
             }
         }
     }
+
     if (mSecsToRevive>0)
     {
         mSecsToRevive-=DeltaTime;
@@ -99,6 +96,11 @@ void SoldierAutoReviveSystem::OnActorEvent(ActorEvent const& Evt)
         Opt<core::ClientData> clientData(mProgramState.FindClientDataByActorGUID(Evt.mActor->GetGUID()));
         if (clientData.IsValid())
         {
+            Opt<IHealthComponent> healthC(Evt.mActor->Get<IHealthComponent>());
+            if ( healthC.IsValid() )
+            {
+                mTimesOfDeath[ Evt.mActor->GetGUID() ] = healthC->GetTimeOfDeath();
+            }
             EventServer<engine::SecsToReviveEvent>::Get().SendEvent( engine::SecsToReviveEvent(clientData->mClientId,mSoldierAutoReviveMES->GetSecsToRevive() ) );
         }
     }

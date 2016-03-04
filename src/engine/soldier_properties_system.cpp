@@ -82,11 +82,11 @@ SoldierPropertiesSystem::~SoldierPropertiesSystem()
 
 void SoldierPropertiesSystem::OnSoldierPropertiesReady()
 {
-//     if (mProgramState.mMode!=core::ProgramState::Local)
-//     {
-//         //TODO client_workflow_system to handle this. 
-//         Ui::Get().Load("waiting_start");
-//     }
+    if (mProgramState.mMode!=core::ProgramState::Local)
+    {
+        //TODO client_workflow_system to handle this. 
+        Ui::Get().Load("waiting_start");
+    }
     EventServer<SoldierPropertiesReadyEvent>::Get().SendEvent(SoldierPropertiesReadyEvent());
 }
 

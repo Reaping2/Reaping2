@@ -46,6 +46,7 @@
 #include "border_component.h"
 #include "water_collision_component.h"
 #include "audible_component.h"
+#include "remove_components_on_death_component.h"
 
 using platform::AutoId;
 
@@ -110,4 +111,5 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId("explode_on_hit_component"), &CreateComponent<ExplodeOnHitComponent>);
     Bind( AutoId("detonate_on_hit_component"), &CreateComponent<DetonateOnHitComponent>);
     Bind( AutoId("audible_component"), &CreateComponent<AudibleComponent>);
+    Bind( AutoId("remove_components_on_death_component"), &CreateComponent<RemoveComponentsOnDeathComponent>);
 }

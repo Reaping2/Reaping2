@@ -50,6 +50,7 @@
 #include "network/show_text_message_message.h"
 #include "network/collision_message.h"
 #include "render/damage_particles.h"
+#include "render/corpses.h"
 #include "network/shot_message.h"
 #include "network/kill_score_message.h"
 #include "network/client_score_message.h"
@@ -76,7 +77,7 @@
 #include <iosfwd>
 #include "core/component_factory.h"
 #include "network/actor_list_message.h"
-
+#include "engine/remove_components_on_death_system.h"
 
 using engine::Engine;
 namespace {
@@ -207,6 +208,7 @@ int main(int argc, char* argv[])
     AudioPlayer::Get();
     audio::AudioEffectRepo::Get();
     DamageDecals::Get();
+    Corpses::Get();
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
@@ -248,6 +250,9 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("modify_audible_component_message_sender_system"));
         Eng.AddSystem(AutoId("flag_state_changed_message_sender_system"));
         Eng.AddSystem(AutoId("fade_out_message_sender_system"));
+        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
+        Eng.AddSystem(AutoId("ctf_client_list_handling_system"));
+
         Eng.AddSystem(AutoId("actor_list_message_sender_system"));
     }
     if (programState.mMode==ProgramState::Client) 
@@ -257,9 +262,11 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("player_controller_message_sender_system"));
         Eng.AddSystem(AutoId("ping_message_sender_system"));
         Eng.AddSystem(AutoId("revive_message_sender_system"));
-        Eng.AddSystem(AutoId("ctf_client_list_system"));
+        Eng.AddSystem(AutoId("ctf_client_list_displaying_system"));
         Eng.AddSystem(AutoId("ffa_client_list_system"));
-        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
+        Eng.AddSystem(AutoId("gamemode_selected_message_sender_system"));
+        Eng.AddSystem(AutoId("waiting_system"));
+        Eng.AddSystem(AutoId("team_switch_request_message_sender_system"));
 
     }
     if (programState.mMode==ProgramState::Local) 
@@ -335,6 +342,8 @@ int main(int argc, char* argv[])
         messageHandlerSSH->AddSubSystem(network::ModifyAudibleComponentMessage::GetType_static(),AutoId("modify_audible_component_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::GamemodeSelectedMessage::GetType_static(),AutoId("gamemode_selected_message_handler_sub_system"));
+        messageHandlerSSH->AddSubSystem(network::TeamSwitchRequestMessage::GetType_static(),AutoId("team_switch_request_message_handler_sub_system"));
         messageHandlerSSH->AddSubSystem(network::ActorListMessage::GetType_static(),AutoId("actor_list_message_handler_sub_system"));
     }
 
@@ -414,6 +423,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("remove_on_death_system"));
         Eng.AddSystem(AutoId("explode_on_death_system"));
     }
+    Eng.AddSystem(AutoId("remove_components_on_death_system"));
     Eng.AddSystem(AutoId("soldier_auto_revive_system"));
     Eng.AddSystem(AutoId("explosion_system"));
     Eng.AddSystem(AutoId("acceleration_system"));
@@ -441,6 +451,7 @@ int main(int argc, char* argv[])
     Eng.AddSystem(AutoId("renderer_system"));
     Eng.AddSystem(AutoId("show_text_system"));
 
+    Eng.AddSystem(AutoId("player_model_system"));
     if (programState.mMode!=ProgramState::Client)
     {
         Eng.AddSystem(AutoId("removed_actors_system"));

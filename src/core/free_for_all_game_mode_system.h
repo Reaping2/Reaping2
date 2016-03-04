@@ -4,6 +4,7 @@
 #include "core/scene.h"
 #include "engine/system.h"
 #include "start_game_mode_event.h"
+#include "level_selected_event.h"
 
 namespace core {
 
@@ -18,7 +19,9 @@ protected:
 private:
     Scene& mScene;
     AutoReg mOnStartGameMode;
+    AutoReg mOnLevelSelected;
     void OnStartGameMode(core::StartGameModeEvent const& Evt);
+    void OnLevelSelected(core::LevelSelectedEvent const& Evt);
 };
 
 } // namespace core

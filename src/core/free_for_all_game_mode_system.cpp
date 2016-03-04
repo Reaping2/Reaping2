@@ -19,6 +19,7 @@
 
 namespace core {
 
+    // TODO: subscribe to gamemodeselected event
 FreeForAllGameModeSystem::FreeForAllGameModeSystem()
     : mScene( Scene::Get() )
 {
@@ -28,6 +29,7 @@ FreeForAllGameModeSystem::FreeForAllGameModeSystem()
 void FreeForAllGameModeSystem::Init()
 {
     mOnStartGameMode=EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnStartGameMode, this, _1 ) );
+    mOnLevelSelected=EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnLevelSelected, this, _1 ) );
 }
 
 
@@ -127,6 +129,16 @@ void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& E
         Pl->Get<IMoveComponent>()->SetMoving(false);
         mScene.AddActor( Pl.release() );
     }
+}
+
+void FreeForAllGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
+{
+    if ( "ffa" != mScene.GetSelectedGameMode() )
+    {
+        return;
+    }
+    // the host did the last step in config, redirect it to the client list
+    Ui::Get().Load("ffa_client_list");
 }
 
 
