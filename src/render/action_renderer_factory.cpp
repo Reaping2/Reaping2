@@ -11,6 +11,9 @@
 #include "ctf_flag_action_renderer.h"
 #include "soldier_current_action_renderer.h"
 #include "border_action_renderer.h"
+#include "head_color_action_renderer.h"
+#include "head_action_renderer.h"
+#include "ctf_head_color_action_renderer.h"
 namespace render {
     ActionRendererFactory::ActionRendererFactory()
     {
@@ -24,10 +27,13 @@ namespace render {
         Bind<DeathActionRenderer>( AutoId( "death" ) );
         Bind<WeaponActionRenderer>( AutoId( "weapon" ) );
         Bind<PickupActionRenderer>( AutoId( "pickup" ) );
-        Bind<HatActionRenderer>( AutoId( "hat" ) );
-        Bind<ctf::CtfHatActionRenderer>(AutoId("ctf_hat"));
+        Bind<HatActionRenderer>( AutoId( "body_color" ) );
+        Bind<ctf::CtfHatActionRenderer>(AutoId("ctf_body_color"));
         Bind<ctf::CtfFlagActionRenderer>(AutoId("flag"));
         Bind<ctf::SoldierCurrentActionRenderer>(AutoId("soldier_current"));
         Bind<BorderActionRenderer>(AutoId("border"));
+        Bind<HeadColorActionRenderer>(AutoId("head_color"));
+        Bind<HeadActionRenderer>(AutoId("head"));
+        Bind<CtfHeadColorActionRenderer>(AutoId("ctf_head_color"));
     }
 } // namespace render

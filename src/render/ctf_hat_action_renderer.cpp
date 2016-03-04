@@ -10,7 +10,7 @@ CtfHatActionRenderer::CtfHatActionRenderer(int32_t Id)
     : ActionRenderer(Id)
     , mColorRepo(ColorRepo::Get())
 {
-    mCtfHatId=AutoId("ctf_hat");
+    mCtfHatId=AutoId("ctf_body_color");
 }
 
 

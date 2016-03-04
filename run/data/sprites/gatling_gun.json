@@ -1,6 +1,6 @@
 [
 	{
-		"texture_path":"textures/GatlingGun.png",
+		"texture_path":"textures/weapon_gatling_gun.png",
 		"actor_visuals":
 		[
 			{
@@ -9,9 +9,9 @@
 				[
 					{
 						"name":"gatling_gun",
-						"w":30,
-						"h":17,
-						"scale":1.0,
+						"w":179,
+						"h":179,
+						"scale":2.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -19,7 +19,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/GatlingGun.png",
+		"texture_path":"textures/weapon_gatling_gun.png",
 		"actor_visuals":
 		[
 			{
@@ -28,8 +28,8 @@
 				[
 					{
 						"name":"gatling_gun",
-						"w":30,
-						"h":17,
+						"w":179,
+						"h":179,
 						"scale":2.0,
 						"phases":[{"x":0,"y":0}]
 					}
