@@ -15,7 +15,6 @@ using platform::AutoReg;
 
 class CtfClientListHandlingSystem : public engine::System
 {
-    ::ctf::ProgramState::ClientDatas_t mClientDatas;
     AutoReg mOnTeamSwitchRequestEvent;
     AutoReg mClientReadyEvent;
     void OnTeamSwitchRequestEvent( TeamSwitchRequestEvent const& event );
