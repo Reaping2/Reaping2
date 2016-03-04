@@ -31,7 +31,7 @@ void SpawnActorMapElementSystem::Update(double DeltaTime)
             ActorCreator::ComponentLoaderMap_t const& componentLoaders=spawnActorMapElement->GetComponentLoaders();
             for(ActorCreator::ComponentLoaderMap_t::const_iterator i=componentLoaders.begin(), e=componentLoaders.end();i!=e;++i)
             {
-                i->second->FillProperties(actor.get());
+                i->second->FillProperties(*actor.get());
             }
             spawnActorMapElement->SetSpawnedActorGUID(actor->GetGUID());
             L1("spawned actor: %d",actor->GetGUID());

@@ -4,6 +4,7 @@
 #include "../i_position_component.h"
 #include "ui/ui.h"
 #include "../i_collision_component.h"
+#include "../magic_consts.h"
 
 namespace map {
 
@@ -79,8 +80,8 @@ glm::vec2 EditorTargetSystem::GetCursorPosition() const
 
 void EditorTargetSystem::SetCursorPosition(double x, double y)
 {
-    mCursorPosition.x=x;
-    mCursorPosition.y=y;
+    mCursorPosition.x=x/MAGIC_SIZE;
+    mCursorPosition.y=y/MAGIC_SIZE;
 }
 
 Opt<Actor> EditorTargetSystem::GetCursor() const

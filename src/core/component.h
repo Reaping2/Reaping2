@@ -5,11 +5,13 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include "core/opt.h"
 #include "json/json.h"
+#include "property_loader.h"
 #include <portable_oarchive.hpp>
 #include <portable_iarchive.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
+
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -29,7 +31,7 @@ class Actor;
 class Component 
 {
 public:
-    virtual int GetType() const;
+    DEFINE_COMPONENT_BASE(Component)
     virtual ~Component();
     virtual void SetActorGUID(int32_t actorGUID);
     void SetId(int32_t id);
@@ -114,10 +116,33 @@ void DefaultComponent::serialize(Archive& ar, const unsigned int version)
 }
 
 
-template<typename T,typename BASE>
-class PropertyLoader;
 template<typename COMPONENT>
 class ComponentLoader: public PropertyLoader<COMPONENT, Component>
 {
+public:
+    virtual void FillProperties(ComponentHolder& actor)const;
 };
+
+template<typename COMPONENT>
+void ComponentLoader<COMPONENT>::FillProperties(ComponentHolder& actor) const
+{
+    if ( this->mBase.get())
+    {
+        static_cast<const ComponentLoader<Component> *>( this->mBase.get())->FillProperties(actor);
+    }
+    if ( this->mSetterFuncList.empty())
+    {
+        return;
+    }
+    Opt<COMPONENT> castedTarget=actor.Get<COMPONENT>();
+    if (!castedTarget.IsValid())
+    {
+        return;
+    }
+    for( auto const& fun : this->mSetterFuncList )
+    {
+        fun(castedTarget.Get());
+    }
+}
+
 #endif//INCLUDED_CORE_COMPONENT_H

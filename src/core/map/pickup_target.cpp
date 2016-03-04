@@ -48,7 +48,7 @@ void PickupTarget::PutTarget(glm::vec2 position)
     {
         int32_t componentId=AutoId("position_component");
         ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+        std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
         Opt<PositionComponentLoader> positionCompLoader(static_cast<PositionComponentLoader*>(compLoader.get()));
         positionCompLoader->Bind<double>(&PositionComponent::SetX,position.x);
         positionCompLoader->Bind<double>(&PositionComponent::SetY,position.y);
@@ -57,7 +57,7 @@ void PickupTarget::PutTarget(glm::vec2 position)
     {
         int32_t componentId=AutoId("pickup_collision_component");
         ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-        std::auto_ptr<ActorCreator::ComponentLoader_t> compLoader=componentLoaderFactory(componentId);
+        std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
         Opt<PickupCollisionComponentLoader> pickupCompLoader(static_cast<PickupCollisionComponentLoader*>(compLoader.get()));
         pickupCompLoader->Bind<int32_t>(&PickupCollisionComponent::SetPickupContent,mContentId);
         pickupCompLoader->Bind<ItemType::Type>(&PickupCollisionComponent::SetItemType,ItemType::Get()(mTypeId));

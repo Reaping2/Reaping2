@@ -27,6 +27,7 @@
 #include "map_load_event.h"
 #include "map_start_event.h"
 #include "level_selected_event.h"
+#include "magic_consts.h"
 
 using core::ProgramState;
 
@@ -91,7 +92,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -2500, -2500, 2500, 2500 )
+    : mDimensions( -2500*MAGIC_SIZE, -2500*MAGIC_SIZE, 2500*MAGIC_SIZE, 2500*MAGIC_SIZE )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )

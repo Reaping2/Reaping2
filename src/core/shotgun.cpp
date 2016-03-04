@@ -5,35 +5,35 @@ Shotgun::Shotgun( int32_t Id )
     : Weapon( Id )
     , IExplode()
 {
-    InitMembers();
 }
 
 Shotgun::Shotgun()
     : Weapon( -1 )
     , IExplode()
 {
-    InitMembers();
 }
 
-void Shotgun::InitMembers()
+void ShotgunLoader::BindValues()
 {
-    mScatter.mIncrease=30;
-    mScatter.mChill=40;
-    mScatter.mAltIncrease=10;
-    mShootCooldown = 1.2;
-    mShootAltCooldown = 1.8;
+    std::string istr;
+    if( Json::GetStr( (*mSetters)["explosion_projectile"], istr))
+    {
+        Bind<int32_t>(&Shotgun::SetExplosionProjectile,AutoId(istr));
+    }
+    Bind("count",func_int32_t(&Shotgun::SetCount));
+    Bind("scatter",func_double(&Shotgun::SetExplosionScatter));
+    if( Json::GetStr( (*mSetters)["distribution"], istr))
+    {
+        Bind<ExplodeDistributionType::Type>(&Shotgun::SetDistribution,mExplodeDistributionType(AutoId(istr)));
+    }
+    Bind("secs_to_end_variance",func_double(&Shotgun::SetSecsToEndVariance));
+    Bind("position_variance",func_int32_t(&Shotgun::SetPositionVariance));
+    Bind("speed_variance",func_double(&Shotgun::SetSpeedVariance));
+    Bind("add_actor_radius",func_bool(&Shotgun::SetAddActorRadius));
+}
 
-    mBulletsMax = 20.0;
-    mShotCost=1;
-    mShotCostAlt=2;
-    mReloadTimeMax=2.0;
-    mBullets=mBulletsMax;
-
-    mCount=9;
-    mDistribution=ExplodeDistributionType::Random;
-    mSecsToEndVariance=0.2;
-    mPositionVariance=50;
-    mSpeedVariance=0.2;
-    mExplosionScatter=0.35;
-    mExplosionProjectile=AutoId("shotgun_projectile");
+ShotgunLoader::ShotgunLoader()
+    : mExplodeDistributionType(ExplodeDistributionType::Get())
+{
+    SetBase<WeaponLoader>();
 }

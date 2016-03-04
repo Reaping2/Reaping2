@@ -4,13 +4,9 @@
 
 class GatlingGun : public Weapon
 {
+public:
     GatlingGun( int32_t Id );
     GatlingGun();
-
-    void InitMembers();
-
-    friend class Factory<Item>;
-public:
     enum DeployState
     {
         Undeployed=0,
@@ -25,14 +21,10 @@ public:
     double GetWindup()const;
     void SetWindupMax(double windupMax);
     double GetWindupMax()const;
-    void SetWindupSpeed(double windupSpeed);
-    double GetWindupSpeed()const;
     void SetDeploy(double deploy);
     double GetDeploy()const;
     void SetDeployMax(double deployMax);
     double GetDeployMax()const;
-    void SetDeploySpeed(double deploySpeed);
-    double GetDeploySpeed()const;
     void SetDeployState(DeployState deployState);
     DeployState GetDeployState()const;
 
@@ -45,11 +37,9 @@ protected:
     friend class ComponentFactory;
     double mWindup;
     double mWindupMax;
-    double mWindupSpeed;
 
     double mDeploy;
     double mDeployMax;
-    double mDeploySpeed;
     DeployState mDeployState;
 public:
     friend class ::boost::serialization::access;
@@ -63,11 +53,17 @@ void GatlingGun::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Weapon>(*this);
     ar & mWindup;
     ar & mWindupMax;
-    ar & mWindupSpeed;
     ar & mDeploy;
     ar & mDeployMax;
-    ar & mDeploySpeed;
     ar & mDeployState;
 }
+
+class GatlingGunLoader: public ItemLoader<GatlingGun>
+{
+public:
+    virtual void BindValues();
+    GatlingGunLoader();
+    friend class ItemLoaderFactory;
+};
 
 #endif//INCLUDED_CORE_GATLING_GUN_H

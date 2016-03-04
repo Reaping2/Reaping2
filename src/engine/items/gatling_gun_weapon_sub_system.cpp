@@ -35,7 +35,7 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         // shooting has a windup time before actual shots come out. deployed or undelpoyed state is needed
         weapon->SetWindup(
-            std::min(windup+weapon->GetWindupSpeed()*DeltaTime,weapon->GetWindupMax()));
+            std::min(windup+DeltaTime,weapon->GetWindupMax()));
         if( windup != weapon->GetWindup() && ac.IsValid() && windup >= weapon->GetWindupMax() * 0.35 )
         {
             static int32_t const loop = AutoId( "gatling_up" );
@@ -46,7 +46,7 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         // not shooting raises back the windup time.
         weapon->SetWindup(
-            std::max(windup-weapon->GetWindupSpeed()*DeltaTime,0.0));
+            std::max(windup-DeltaTime,0.0));
         if( windup != weapon->GetWindup() && ac.IsValid() )
         {
             static int32_t const loop = AutoId( "gatling_down" );
@@ -67,7 +67,7 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     if (deployState==GatlingGun::Deploying)
     {
         weapon->SetDeploy(
-            std::min(weapon->GetDeploy()+weapon->GetDeploySpeed()*DeltaTime,weapon->GetDeployMax()));
+            std::min(weapon->GetDeploy()+DeltaTime,weapon->GetDeployMax()));
         if (weapon->GetDeploy()==weapon->GetDeployMax())
         {
             deployState=GatlingGun::Deployed;
@@ -76,7 +76,7 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     else if (deployState==GatlingGun::Undeploying)
     {
         weapon->SetDeploy(
-            std::max(weapon->GetDeploy()-weapon->GetDeploySpeed()*DeltaTime,0.0));
+            std::max(weapon->GetDeploy()-DeltaTime,0.0));
         if (weapon->GetDeploy()==0.0)
         {
             deployState=GatlingGun::Undeployed;
@@ -103,7 +103,7 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
                 moveSpeedBuff->SetFlatBonus( 0 );
                 moveSpeedBuff->SetPercentBonus( 0.0 );
                 moveSpeedBuff->SetAutoRemove( true );
-                moveSpeedBuff->SetSecsToEnd( weapon->GetDeployMax() / weapon->GetDeploySpeed() );
+                moveSpeedBuff->SetSecsToEnd( weapon->GetDeployMax() / 4.0 );
                 buffHolderC->AddBuff(buff);
             }
         }
