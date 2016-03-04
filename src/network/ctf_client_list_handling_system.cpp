@@ -34,26 +34,20 @@ void CtfClientListHandlingSystem::OnTeamSwitchRequestEvent( TeamSwitchRequestEve
         return;
     }
     Team::Type team = (*it).mTeam;
-    int teamsize = std::count_if( mClientDatas.begin(), mClientDatas.end(),
-           boost::bind<bool>( []( ::ctf::ClientData const& d, Team::Type t ){ return d.mTeam == t; }, _1, team ) );
 
-    // don't allow switch in team of size 1 -> it would become empty
-    if ( teamsize > 1 )
+    // switch team
+    if ( Team::Blue == team )
     {
-        // switch team
-        if ( Team::Blue == team )
-        {
-            (*it).mTeam = Team::Red;
-        }
-        else
-        {
-            (*it).mTeam = Team::Blue;
-        }
-        // send out the new team setup
-        CtfClientDatasChangedEvent event;
-        event.mCtfClientDatas = mClientDatas;
-        EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(event);
+	    (*it).mTeam = Team::Red;
     }
+    else
+    {
+	    (*it).mTeam = Team::Blue;
+    }
+    // send out the new team setup
+    CtfClientDatasChangedEvent event;
+    event.mCtfClientDatas = mClientDatas;
+    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(event);
 }
 
 void CtfClientListHandlingSystem::OnClientReadyEvent( ClientReadyEvent const& event )
