@@ -8,7 +8,6 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-
 PlayerControllerComponent::PlayerControllerComponent()
     : ControllerComponent()
     , mOrientation(0.0)

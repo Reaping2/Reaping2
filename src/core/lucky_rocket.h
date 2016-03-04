@@ -30,6 +30,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-
 REAPING2_CLASS_EXPORT_KEY2(LuckyRocket, LuckyRocket,"lucky_rocket");
 #endif // INCLUDED_CORE_LUCKY_ROCKET_H

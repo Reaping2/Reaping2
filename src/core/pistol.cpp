@@ -5,7 +5,6 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-
 Pistol::Pistol( int32_t Id )
     : Weapon( Id )
 {
@@ -24,4 +23,5 @@ PistolLoader::PistolLoader()
 {
     SetBase<WeaponLoader>();
 }
+
 REAPING2_CLASS_EXPORT_IMPLEMENT(Pistol, Pistol);

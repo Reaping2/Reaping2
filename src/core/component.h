@@ -13,7 +13,6 @@
 #include <boost/ptr_container/serialize_ptr_map.hpp>
 #include "platform/export.h"
 
-
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
     { \

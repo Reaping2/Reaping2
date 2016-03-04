@@ -28,6 +28,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-
 REAPING2_CLASS_EXPORT_KEY2(PlasmaGun, PlasmaGun,"plasma_gun");
 #endif//INCLUDED_CORE_PLASMA_GUN_H
