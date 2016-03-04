@@ -51,7 +51,9 @@ void GamemodeSelectedMessageHandlerSubSystem::Execute(Message const& message)
     GamemodeSelectedMessage const& msg=static_cast<GamemodeSelectedMessage const&>(message);
     if ( mProgramState.mMode == ProgramState::Client  )
     {
-        if ( mProgramState.mClientId != msg.mOriginator )
+        Opt<core::ClientData> clientData = mProgramState.FindClientDataByClientId(mProgramState.mClientId);
+        // if soldier properties are finished (and the message doesn't come originally from me) then let's trigger client list loading
+        if ( clientData.IsValid() && clientData->mSoldierProperties.mArrived && (mProgramState.mClientId != msg.mOriginator) )
         {
             network::LoadClientlistEvent event;
             event.mGameMode = msg.mGameMode;
