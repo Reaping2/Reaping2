@@ -45,9 +45,9 @@ void CtfClientListHandlingSystem::OnTeamSwitchRequestEvent( TeamSwitchRequestEve
 	    (*it).mTeam = Team::Blue;
     }
     // send out the new team setup
-    CtfClientDatasChangedEvent event;
-    event.mCtfClientDatas = mClientDatas;
-    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(event);
+    CtfClientDatasChangedEvent clientDatasChangedEvent;
+    clientDatasChangedEvent.mCtfClientDatas = mClientDatas;
+    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(clientDatasChangedEvent);
 }
 
 void CtfClientListHandlingSystem::OnClientReadyEvent( ClientReadyEvent const& event )
