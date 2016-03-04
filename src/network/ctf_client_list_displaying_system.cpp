@@ -61,7 +61,6 @@ void CtfClientListDisplayingSystem::SwitchTeam( std::string const & player )
             boost::bind<bool>([]( ::ctf::ClientData const& d, std::string const& s ){ return d.mClientName == s; },_1, player ) );
     if ( mCtfClientDatas.end() != it )
     {
-        ::ctf::ClientData clientData = *it;
         TeamSwitchRequestEvent event;
         event.mClientId = (*it).mClientId;
         EventServer<TeamSwitchRequestEvent>::Get().SendEvent(event);
