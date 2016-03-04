@@ -59,6 +59,11 @@ int32_t ActorHolder::GetCollisionClass::operator()(const Opt<Actor>& Obj) const
 
 void Scene::AddActor( Actor* Object )
 {
+    if( NULL == Object )
+    {
+        L1( "Prevent adding NULL actor\n" );
+        return;
+    }
     L2("AddActor called (GUID:%d)\n",Object->GetGUID());
     mNewActors.push_back( Opt<Actor>(Object) );
 }
