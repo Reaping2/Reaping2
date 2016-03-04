@@ -12,6 +12,7 @@
 #include "engine/buffs_engine/accuracy_buff_sub_system.h"
 #include "accuracy_message.h"
 #include "network/client_datas_message.h"
+#include "network/client_ready_event.h"
 #include "lifecycle_message.h"
 #include "ctf_client_datas_message.h"
 #include "core/ctf_program_state.h"
@@ -93,14 +94,16 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
 	// put client name here into client_list
     if (mProgramState.mMode==ProgramState::Server)
     {
+        ClientReadyEvent event;
+        event.mClientId = clientData->mClientId;
+        event.mClientName = clientData->mClientName;
+        // for ctf
+        EventServer<ClientReadyEvent>::Get().SendEvent(event);
+        // for ffa
         std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
         mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
                     
-        std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
-        message->mClientDatas = ::ctf::ProgramState::Get().mClientDatas;
-        mMessageHolder.AddOutgoingMessage(message);
-
         if (mProgramState.mGameState==core::ProgramState::Running)
         {
             std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);

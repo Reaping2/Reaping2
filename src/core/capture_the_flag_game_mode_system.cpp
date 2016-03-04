@@ -32,6 +32,7 @@ void CaptureTheFlagGameModeSystem::Init()
     mOnStartGameMode=EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnStartGameMode, this, _1 ) );
     mOnFlagStateChanged=EventServer<ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnFlagStateChanged, this, _1 ) );
     mOnScore=EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnScore, this, _1 ) );
+    mOnLevelSelected=EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnLevelSelected, this, _1) );
     mInputSystem=engine::InputSystem::Get();
     mTeamModels.clear();
     mTeamModels.push_back(new ModelValue( GetIntFunc( &mCtfProgramState, &ctf::ProgramState::GetBlueScore ), "blue", &mCtfModel ));
@@ -180,6 +181,15 @@ void CaptureTheFlagGameModeSystem::OnScore(engine::ScoreEvent const& Evt)
     }
 }
 
+void CaptureTheFlagGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
+{
+    if ( "ctf" != mScene.GetSelectedGameMode() )
+    {
+        return;
+    }
+    // the host did the last step in config, redirect it to the client list
+    Ui::Get().Load("ctf_client_list");
+}
 
 } // namespace core
 

@@ -10,13 +10,13 @@ namespace ctf {
 ClientDatasMessageSenderSystem::ClientDatasMessageSenderSystem()
     : MessageSenderSystem()
 {
+    mOnCtfClientDatasChanged = platform::EventServer<CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &ClientDatasMessageSenderSystem::OnCtfClientDatasChangedEvent, this, _1 ) );
 }
 
 
 void ClientDatasMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnCtfClientDatasChangedEvent = EventServer<CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &ClientDatasMessageSenderSystem::OnCtfClientDatasChangedEvent, this, _1) );
 }
 
 
@@ -27,9 +27,12 @@ void ClientDatasMessageSenderSystem::Update(double DeltaTime)
 
 void ClientDatasMessageSenderSystem::OnCtfClientDatasChangedEvent( CtfClientDatasChangedEvent const & event )
 {
-    std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
-    message->mClientDatas = event.mCtfClientDatas;
-    mMessageHolder.AddOutgoingMessage(message);
+    if ( mProgramState.mMode == ProgramState::Server )
+    {
+        std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
+        message->mClientDatas = event.mCtfClientDatas;
+        mMessageHolder.AddOutgoingMessage(message);
+    }
 }
 
 ClientDatasMessageHandlerSubSystem::ClientDatasMessageHandlerSubSystem()
@@ -53,7 +56,12 @@ void ClientDatasMessageHandlerSubSystem::Execute(Message const& message)
         L1("**** ctf arrived. **** from id: %d \n", i->mClientId );
         L1("   team:%d\n", i->mTeam );
     }
-    EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent(engine::ClientDatasChangedEvent());
+    if ( mProgramState.mMode == ProgramState::Client )
+    {
+        CtfClientDatasChangedEvent event;
+        event.mCtfClientDatas = msg.mClientDatas;
+        EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(event);
+    }
 }
 
 } // namespace ctf

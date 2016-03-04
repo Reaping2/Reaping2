@@ -37,6 +37,8 @@
 #include "modify_audible_component_message.h"
 #include "flag_state_changed_message.h"
 #include "fade_out_message.h"
+#include "gamemode_selected_message.h"
+#include "team_switch_request_message.h"
 #include "actor_list_message.h"
 
 using platform::AutoId;
@@ -83,6 +85,8 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId("modify_audible_component_message_handler_sub_system"), &CreateSubSystem<ModifyAudibleComponentMessageHandlerSubSystem>);
     Bind( AutoId("flag_state_changed_message_handler_sub_system"), &CreateSubSystem<FlagStateChangedMessageHandlerSubSystem>);
     Bind( AutoId("fade_out_message_handler_sub_system"), &CreateSubSystem<FadeOutMessageHandlerSubSystem>);
+    Bind( AutoId("gamemode_selected_message_handler_sub_system"), &CreateSubSystem<GamemodeSelectedMessageHandlerSubSystem>);
+    Bind( AutoId("team_switch_request_message_handler_sub_system"), &CreateSubSystem<TeamSwitchRequestMessageHandlerSubSystem>);
     Bind( AutoId("actor_list_message_handler_sub_system"), &CreateSubSystem<ActorListMessageHandlerSubSystem>);
 
 }

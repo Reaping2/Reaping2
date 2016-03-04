@@ -90,6 +90,8 @@
 #include "secs_to_revive_message.h"
 #include "flag_state_changed_message.h"
 #include "platform/rstdint.h"
+#include "gamemode_selected_message.h"
+#include "team_switch_request_message.h"
 #include "core/cloak_component.h"
 #include "core/component.h"
 #include "core/weapon.h"
@@ -108,7 +110,6 @@
 #include "core/grenade_normal_item.h"
 #include "core/shotgun.h"
 #include "actor_list_message.h"
-
 
     struct message_order
     {
@@ -151,6 +152,8 @@
             type=network::ModifyAudibleComponentMessage::GetType_static();
             type=network::FlagStateChangedMessage::GetType_static();
             type=network::FadeOutMessage::GetType_static();
+            type=network::GamemodeSelectedMessage::GetType_static();
+            type=network::TeamSwitchRequestMessage::GetType_static();
             type=network::ActorListMessage::GetType_static();
 
             type=IControllerComponent::GetType_static();
@@ -326,6 +329,8 @@
     BOOST_CLASS_EXPORT_GUID(network::ModifyAudibleComponentMessage, "modify_audible_component")
     BOOST_CLASS_EXPORT_GUID(network::FlagStateChangedMessage, "flag_state_changed")
     BOOST_CLASS_EXPORT_GUID(network::FadeOutMessage, "fade_out")
+    BOOST_CLASS_EXPORT_GUID(network::GamemodeSelectedMessage, "gamemode_selected_message")
+    BOOST_CLASS_EXPORT_GUID(network::TeamSwitchRequestMessage, "team_switch_request")
     BOOST_CLASS_EXPORT_GUID(network::ActorListMessage, "actor_list")
 
     BOOST_CLASS_EXPORT_GUID(Actor, "actor")

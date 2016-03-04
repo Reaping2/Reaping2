@@ -9,6 +9,7 @@
 #include "flag_state_changed_event.h"
 #include "engine/score_event.h"
 #include "input/input_system.h"
+#include "level_selected_event.h"
 
 namespace core {
 using platform::ModelValue;
@@ -24,6 +25,7 @@ protected:
 private:
     Scene& mScene;
     AutoReg mOnStartGameMode;
+    AutoReg mOnLevelSelected;
     core::ProgramState& mProgramState;
     ctf::ProgramState& mCtfProgramState;
     Opt<engine::InputSystem> mInputSystem;
@@ -31,6 +33,7 @@ private:
     ModelValue mCtfModel;
     boost::ptr_vector<ModelValue> mTeamModels;
     void OnStartGameMode(core::StartGameModeEvent const& Evt);
+    void OnLevelSelected(core::LevelSelectedEvent const& Evt);
     AutoReg mOnFlagStateChanged;
     void OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt);
     AutoReg mOnScore;
