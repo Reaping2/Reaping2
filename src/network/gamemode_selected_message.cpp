@@ -1,0 +1,76 @@
+#include "platform/i_platform.h"
+#include "network/gamemode_selected_message.h"
+#include "network/load_clientlist_event.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
+
+namespace network {
+
+GamemodeSelectedMessageSenderSystem::GamemodeSelectedMessageSenderSystem()
+    : MessageSenderSystem()
+{
+}
+
+
+void GamemodeSelectedMessageSenderSystem::Init()
+{
+    MessageSenderSystem::Init();
+    mOnGamemodeSelectedEvent =
+        EventServer<core::GamemodeSelectedEvent>::Get().Subscribe( boost::bind(&GamemodeSelectedMessageSenderSystem::OnGamemodeSelectedEvent, this, _1 ) );
+}
+
+
+void GamemodeSelectedMessageSenderSystem::Update(double DeltaTime)
+{
+    MessageSenderSystem::Update(DeltaTime);
+}
+
+void GamemodeSelectedMessageSenderSystem::OnGamemodeSelectedEvent(core::GamemodeSelectedEvent const & evt)
+{
+    std::auto_ptr<GamemodeSelectedMessage> msg(new GamemodeSelectedMessage);
+    msg->mGameMode = evt.mGameMode;
+    msg->mOriginator = mProgramState.mClientId;
+    mMessageHolder.AddOutgoingMessage(msg);
+}
+
+GamemodeSelectedMessageHandlerSubSystem::GamemodeSelectedMessageHandlerSubSystem()
+    : MessageHandlerSubSystem()
+{
+}
+
+
+void GamemodeSelectedMessageHandlerSubSystem::Init()
+{
+}
+
+void GamemodeSelectedMessageHandlerSubSystem::Update(double DeltaTime)
+{
+    MessageHandlerSubSystem::Update(DeltaTime);
+}
+
+void GamemodeSelectedMessageHandlerSubSystem::Execute(Message const& message)
+{
+    GamemodeSelectedMessage const& msg=static_cast<GamemodeSelectedMessage const&>(message);
+    if ( mProgramState.mMode == ProgramState::Client  )
+    {
+        Opt<core::ClientData> clientData = mProgramState.FindClientDataByClientId(mProgramState.mClientId);
+        // if soldier properties are finished (and the message doesn't come originally from me) then let's trigger client list loading
+        if ( clientData.IsValid() && clientData->mSoldierProperties.mArrived && (mProgramState.mClientId != msg.mOriginator) )
+        {
+            network::LoadClientlistEvent event;
+            event.mGameMode = msg.mGameMode;
+            EventServer<network::LoadClientlistEvent>::Get().SendEvent(event);
+        }
+    }
+    else if ( mProgramState.mMode == ProgramState::Server )
+    {
+        std::auto_ptr<GamemodeSelectedMessage> reply(new GamemodeSelectedMessage);
+        reply->mGameMode = msg.mGameMode;
+        reply->mOriginator = msg.mOriginator;
+        mMessageHolder.AddOutgoingMessage( reply );
+    }
+}
+
+} // namespace network
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__GamemodeSelectedMessage, network::GamemodeSelectedMessage )
+

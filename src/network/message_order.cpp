@@ -111,6 +111,8 @@
 #include "network/fade_out_message.h"
 #include "network/sync_item_message.h"
 #include "network/modify_audible_component_message.h"
+#include "gamemode_selected_message.h"
+#include "team_switch_request_message.h"
 
 namespace network {
 bool instantiateMessageOrder()
@@ -159,6 +161,8 @@ void InitMessageOrder()
     type=network::ModifyAudibleComponentMessage::GetType_static();
     type=network::FlagStateChangedMessage::GetType_static();
     type=network::FadeOutMessage::GetType_static();
+    type=network::GamemodeSelectedMessage::GetType_static();
+    type=network::TeamSwitchRequestMessage::GetType_static();
     type=network::ActorListMessage::GetType_static();
 
     type=IControllerComponent::GetType_static();

@@ -34,7 +34,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["ui.load","select_level"]],
+					"action":[["ui.load","select_game_mode"]],
 					"children":[
 						{
 							"type":"text_widget",

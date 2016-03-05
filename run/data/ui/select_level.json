@@ -22,7 +22,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["level.select","level1"],["ui.load","select_game_mode"]],
+					"action":[["level.select","level1"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -48,7 +48,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["level.select","level2"],["ui.load","select_game_mode"]],
+					"action":[["level.select","level2"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -74,7 +74,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["level.select","level3"],["ui.load","select_game_mode"]],
+					"action":[["level.select","level3"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -100,7 +100,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["level.select","level4"],["ui.load","select_game_mode"]],
+					"action":[["level.select","level4"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -126,7 +126,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["level.select","level5"],["ui.load","select_game_mode"]],
+					"action":[["level.select","level5"]],
 					"children":[
 						{
 							"type":"text_widget",

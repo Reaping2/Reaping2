@@ -42,6 +42,8 @@
 #include "network/heading_message.h"
 #include "network/pickup_message.h"
 #include "network/revive_message.h"
+#include "team_switch_request_message.h"
+#include "gamemode_selected_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -161,6 +163,8 @@ namespace network {
         AddSubSystem(network::ModifyAudibleComponentMessage::GetType_static(),AutoId("modify_audible_component_message_handler_sub_system"));
         AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
         AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
+        AddSubSystem(network::GamemodeSelectedMessage::GetType_static(),AutoId("gamemode_selected_message_handler_sub_system"));
+        AddSubSystem(network::TeamSwitchRequestMessage::GetType_static(),AutoId("team_switch_request_message_handler_sub_system"));
         AddSubSystem(network::ActorListMessage::GetType_static(),AutoId("actor_list_message_handler_sub_system"));
     }
 

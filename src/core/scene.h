@@ -183,6 +183,9 @@ class Scene : public platform::Singleton<Scene>
     ModelValue mLevelModel;
     ModelValue mSelectLevelModel;
     std::string mSelectedLevel;
+    ModelValue mGameModeModel;
+    ModelValue mSelectGameModeModel;
+    std::string mSelectedGameMode;
     int32_t mMaxHP;
     core::ProgramState& mProgramState;
 public:
@@ -228,7 +231,11 @@ public:
     void SelectLevel( std::string const& Level );
 
     std::string GetSelectedLevel();
-    
+
+    void SelectGameMode( std::string const& GameMode );
+
+    std::string GetSelectedGameMode();
+
     void AddTestCreep(double X, double Y);
 
     void Pause()

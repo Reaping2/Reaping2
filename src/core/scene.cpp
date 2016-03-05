@@ -11,6 +11,7 @@
 #include "core/renderable_layer.h"
 #include "core/i_remove_on_death_component.h"
 #include "core/target_player_controller_component.h"
+#include "core/gamemode_selected_event.h"
 #include "actor_event.h"
 #include "player_controller_component.h"
 #include "program_state.h"
@@ -25,7 +26,9 @@
 #include "engine/soldier_spawn_system.h"
 #include "map_load_event.h"
 #include "map_start_event.h"
+#include "level_selected_event.h"
 #include "magic_consts.h"
+
 using core::ProgramState;
 
 int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
@@ -89,7 +92,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -2500*MAGIC_SIZE, -2500*MAGIC_SIZE, 2500*MAGIC_SIZE, 2500*MAGIC_SIZE )
+    : mDimensions( -2500* MAGIC_SIZE, -2500*MAGIC_SIZE, 2500*MAGIC_SIZE, 2500*MAGIC_SIZE )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )
@@ -99,8 +102,12 @@ Scene::Scene()
     , mPlayerModel( "player", &RootModel::Get() )
     , mLevelModel( "level", &RootModel::Get() )
     , mSelectLevelModel( StringFunc( this, &Scene::SelectLevel ), "select", &mLevelModel )
+    , mGameModeModel( "gamemode", &RootModel::Get() )
+    , mSelectGameModeModel( StringFunc( this, &Scene::SelectGameMode ), "select", &mGameModeModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
+    , mSelectedLevel("")
+    , mSelectedGameMode("")
 {
 }
 
@@ -315,6 +322,7 @@ void Scene::SelectLevel(std::string const& Level)
 {
     mSelectedLevel=Level;
     L1("selected level: %s",Level.c_str());
+    EventServer<core::LevelSelectedEvent>::Get().SendEvent(core::LevelSelectedEvent(Level));
 }
 
 std::string Scene::GetSelectedLevel()
@@ -369,7 +377,7 @@ void Scene::SetActors(ActorList_t& actors, bool withAddActorEvents/*=true*/)
 void Scene::ClearActors( bool withEvents/*=true*/ )
 {
     mPaused = false;
-    
+
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         if (withEvents)
@@ -393,3 +401,15 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
     mActorHolder.mAllActors.clear();
 }
 
+void Scene::SelectGameMode( std::string const& GameMode )
+{
+    mSelectedGameMode = GameMode;
+    core::GamemodeSelectedEvent event;
+    event.mGameMode = mSelectedGameMode;
+    EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );
+}
+
+std::string Scene::GetSelectedGameMode()
+{
+    return mSelectedGameMode;
+}
