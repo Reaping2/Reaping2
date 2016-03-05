@@ -20,6 +20,8 @@ public:
     virtual void SetHitClosest(bool hitClosest);
     virtual bool IsDamageOnce();
     virtual void SetDamageOnce(bool damageOnce);
+    typedef std::vector<Opt<Actor> > ActorsCollided_t;
+    virtual ActorsCollided_t& GetActorsCollided();
     typedef std::set<int32_t> Damaged_Actor_Ids_t;
     virtual void AddDamagedActorId(int32_t damagedActorId);
     virtual Damaged_Actor_Ids_t const& GetDamagedActorIds()const;
@@ -32,6 +34,7 @@ protected:
     bool mHitClosest;
     Damaged_Actor_Ids_t mDamagedActorIds;
     bool mDamageOnce;
+    ActorsCollided_t mActorsCollided;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

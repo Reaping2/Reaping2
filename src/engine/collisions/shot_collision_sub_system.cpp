@@ -22,16 +22,16 @@ void ShotCollisionSubSystem::Init()
 
 void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
 {
-    if (mActorsCollided.empty())
+    Opt<ShotCollisionComponent> shotCC = actor.Get<ShotCollisionComponent>();
+    if (shotCC->GetActorsCollided().empty())
     {
         return;
     }
-    Opt<ShotCollisionComponent> shotCC=actor.Get<ShotCollisionComponent>();
     if (shotCC->IsHitClosest())
     {
         Opt<Actor> closestActor;
         double lowestDist=std::numeric_limits<double>::max();
-        for (ActorsCollided_t::iterator it=mActorsCollided.begin(),e=mActorsCollided.end();it!=e;++it)
+        for (ShotCollisionComponent::ActorsCollided_t::iterator it= shotCC->GetActorsCollided().begin(),e=shotCC->GetActorsCollided().end();it!=e;++it)
         {
             Actor& other=**it;
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
@@ -45,17 +45,19 @@ void ShotCollisionSubSystem::Update(Actor& actor, double DeltaTime)
             }
         }
         TakeDamage(actor,*closestActor,shotCC);
+        KillShot(actor, *closestActor, shotCC);
     }
     else
     {
-        for (ActorsCollided_t::iterator it=mActorsCollided.begin(),e=mActorsCollided.end();it!=e;++it)
+        for (ShotCollisionComponent::ActorsCollided_t::iterator it= shotCC->GetActorsCollided().begin(),e= shotCC->GetActorsCollided().end();it!=e;++it)
         {
-            Actor& other=**it;
+            Actor& other = **it;
             TakeDamage(actor, other, shotCC);
-
+            KillShot(actor, other, shotCC);
         }
     }
-    mActorsCollided.clear();
+
+    shotCC->GetActorsCollided().clear();
 }
 
 void ShotCollisionSubSystem::ClipScene(Actor& actor)
@@ -83,23 +85,8 @@ void ShotCollisionSubSystem::Collide(Actor& actor, Actor& other)
         return;
     }
 
-    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    shotCC->GetActorsCollided().push_back(Opt<Actor>(&other));
 
-    mActorsCollided.push_back(Opt<Actor>(&other));
-
-    if (healthC.IsValid())
-    {
-        Opt<ICollisionComponent> otherCollC = other.Get<ICollisionComponent>();
-        if( otherCollC.IsValid() && !shotCC->CanPassThrough( otherCollC->GetCollisionClass() ) )
-        {
-            healthC->SetHP(0);
-        }
-    }
-    Opt<INotifyParentOnDeathComponent> notifyParentC=actor.Get<INotifyParentOnDeathComponent>();
-    if(notifyParentC.IsValid())
-    {
-        notifyParentC->SetKillerGUID(other.GetGUID());
-    }
 }
 
 void ShotCollisionSubSystem::TakeDamage(Actor &actor, Actor &target, Opt<ShotCollisionComponent> shotCC)
@@ -115,6 +102,25 @@ void ShotCollisionSubSystem::TakeDamage(Actor &actor, Actor &target, Opt<ShotCol
         if (ownerC.IsValid())
         {
             otherHealthC->SetLastDamageOwnerGUID(ownerC->GetOwnerGUID());
+        }
+    }
+}
+
+void ShotCollisionSubSystem::KillShot(Actor &actor, Actor &target, Opt<ShotCollisionComponent> shotCC)
+{
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if (healthC.IsValid())
+    {
+        Opt<ICollisionComponent> otherCollC = target.Get<ICollisionComponent>();
+        if (otherCollC.IsValid() && !shotCC->CanPassThrough(otherCollC->GetCollisionClass()))
+        {
+            healthC->SetHP(0);
+            L1("killshot: self: %d target: %d", actor.GetGUID(), target.GetGUID());
+            Opt<INotifyParentOnDeathComponent> notifyParentC = actor.Get<INotifyParentOnDeathComponent>();
+            if (notifyParentC.IsValid())
+            {
+                notifyParentC->SetKillerGUID(target.GetGUID());
+            }
         }
     }
 }
