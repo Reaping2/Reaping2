@@ -6,7 +6,9 @@ set( CMAKE_CXX_STANDARD 11 )
 
 # support for YouCompleteMe
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-set( CMAKE_CXX_FLAGS "-Wno-deprecated-declarations" )
+if(UNIX)
+    set( CMAKE_CXX_FLAGS "-Wno-deprecated-declarations" )
+endif(UNIX)
 if($ENV{REAPING2_PROFILE})
     set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg" )
 endif($ENV{REAPING2_PROFILE})
