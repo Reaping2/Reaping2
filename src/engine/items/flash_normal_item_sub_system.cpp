@@ -9,7 +9,6 @@ FlashNormalItemSubSystem::FlashNormalItemSubSystem()
     : mScene(Scene::Get())
     , mNormalItemSubSystem(NormalItemSubSystem::Get())
     , mActorFactory(ActorFactory::Get())
-    , mProjectileId(AutoId("_fill_me_"))
 {
 }
 

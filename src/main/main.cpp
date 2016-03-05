@@ -161,6 +161,7 @@ int main(int argc, char* argv[])
         L1("run local");
         programState.SetMode(ProgramState::Local);
     }
+    Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
     IsMainRunning=true;
@@ -179,7 +180,6 @@ int main(int argc, char* argv[])
     RootModel::Get();
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Startup ) );
     PerfTimer.Log( "wnd" );
-    Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     AudioPlayer::Get();
     audio::AudioEffectRepo::Get();
     DamageDecals::Get();

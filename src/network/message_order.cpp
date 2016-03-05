@@ -113,6 +113,7 @@
 #include "network/modify_audible_component_message.h"
 #include "gamemode_selected_message.h"
 #include "team_switch_request_message.h"
+#include "core/remove_components_on_death_component.h"
 
 namespace network {
 bool instantiateMessageOrder()
@@ -197,6 +198,7 @@ void InitMessageOrder()
     type=IOwnerComponent::GetType_static();
     type=IPositionComponent::GetType_static();
     type=IRemoveOnDeathComponent::GetType_static();
+    type=IRemoveComponentsOnDeathComponent::GetType_static();
     type=IRenderableComponent::GetType_static();
     type=IScoreOnDeathComponent::GetType_static();
     type=IStopOnDeathComponent::GetType_static();
@@ -232,6 +234,7 @@ void InitMessageOrder()
     type=platform::AutoId("i_owner_component");
     type=platform::AutoId("i_position_component");
     type=platform::AutoId("i_remove_on_death_component");
+    type=platform::AutoId("i_remove_component_on_death_component");
     type=platform::AutoId("i_renderable_component");
     type=platform::AutoId("i_score_on_death_component");
     type=platform::AutoId("i_stop_on_death_component");
@@ -249,6 +252,7 @@ void InitMessageOrder()
     type=platform::AutoId("water_collision_component");
 
 
+    type=DefaultBuff::GetType_static();
     type=HealOverTimeBuff::GetType_static();
     type=MoveSpeedBuff::GetType_static();
     type=MaxHealthBuff::GetType_static();
