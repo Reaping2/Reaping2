@@ -18,7 +18,6 @@ private:
     Scene& mScene;
     Opt<NormalItemSubSystem> mNormalItemSubSystem;
     ActorFactory& mActorFactory;
-    int32_t mProjectileId;
 };
 
 } // namespace engine

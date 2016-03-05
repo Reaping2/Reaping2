@@ -68,8 +68,12 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending(Message const& message)
         Opt<Actor> oldActor=mScene.GetActor(mProgramState.mControlledActorGUID);
         if (oldActor.IsValid())
         {
-            oldActor->Get<PlayerControllerComponent>()->SetEnabled(false);
-            oldActor->Get<PlayerControllerComponent>()->mActive=false;
+            Opt<PlayerControllerComponent> pcc = oldActor->Get<PlayerControllerComponent>();
+            if( pcc.IsValid() )
+            {
+                pcc->SetEnabled(false);
+                pcc->mActive=false;
+            }
         }
         mProgramState.mControlledActorGUID=msg.mActorGUID;
         playerControllerC->SetEnabled(true);

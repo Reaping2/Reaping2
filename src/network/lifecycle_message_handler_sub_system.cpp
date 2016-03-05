@@ -46,6 +46,7 @@ namespace network {
             if (msg.mState==LifecycleMessage::Start)
             {
                 EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
+                core::ProgramState::Get().mGameState=core::ProgramState::Running;
             }
             else if (msg.mState==LifecycleMessage::WaitingForHost)
             {
@@ -55,21 +56,21 @@ namespace network {
             {
                 Ui::Get().Load("soldier_properties");
             }
-			else if (msg.mState == LifecycleMessage::ClientList)
-			{
-				Opt<core::ClientData> clientData = mProgramState.FindClientDataByClientId(mProgramState.mClientId);
-				if (clientData.IsValid() && clientData->mSoldierProperties.mArrived )
-				{
-					network::LoadClientlistEvent event;
-					event.mGameMode = msg.mGameMode;
-					EventServer<network::LoadClientlistEvent>::Get().SendEvent(event);
-				}
-			}
-			else if (msg.mState == LifecycleMessage::SelectLevel)
-			{
-				Ui::Get().Load("select_level");
-			}
-		}
+            else if (msg.mState == LifecycleMessage::ClientList)
+            {
+                Opt<core::ClientData> clientData = mProgramState.FindClientDataByClientId(mProgramState.mClientId);
+                if (clientData.IsValid() && clientData->mSoldierProperties.mArrived )
+                {
+                    network::LoadClientlistEvent event;
+                    event.mGameMode = msg.mGameMode;
+                    EventServer<network::LoadClientlistEvent>::Get().SendEvent(event);
+                }
+            }
+            else if (msg.mState == LifecycleMessage::SelectLevel)
+            {
+                Ui::Get().Load("select_level");
+            }
+        }
         else if (mProgramState.mMode==ProgramState::Client
             &&mProgramState.mClientId==-1)
         {
@@ -77,6 +78,10 @@ namespace network {
             {
                 L1("\n\n\n\nAlready connected. If you lost connection please try reconnecting later! *** One Love!\n");
                 engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
+            }
+            else if ( msg.mState == LifecycleMessage::Start )
+            {
+                core::ProgramState::Get().mGameState=core::ProgramState::Running;
             }
         }
         else if (mProgramState.mMode==ProgramState::Server)

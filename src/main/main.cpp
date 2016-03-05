@@ -159,21 +159,23 @@ int main(int argc, char* argv[])
     } else if (vm.count("-s")) {
         L1("run as server");
         programState.SetMode(ProgramState::Server);
-	} else if (vm.count("-h")) {
-		L1("run as host");
-		programState.SetMode(ProgramState::Client);
-		programState.mIsHost = 1;
-		programState.mServerIp = "localhost";
-	} else {
+    } else if (vm.count("-h")) {
+        L1("run as host");
+        programState.SetMode(ProgramState::Client);
+        programState.mIsHost = 1;
+        programState.mServerIp = "localhost";
+    } else {
         L1("run local");
         programState.SetMode(ProgramState::Local);
     }
-	if (vm.count("-r")) {
-		L1("run as a random named soldier. RanBro");
-		programState.SetMode(ProgramState::Client);
-		programState.mServerIp = "localhost";
-		programState.mClientName = "RanBro" + boost::lexical_cast<std::string>(rand() % 1000);
-	}
+    if (vm.count("-r")) {
+        L1("run as a random named soldier. RanBro");
+        programState.SetMode(ProgramState::Client);
+        programState.mServerIp = "localhost";
+        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>(rand() % 1000);
+    }
+
+    Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
     IsMainRunning=true;
@@ -192,7 +194,6 @@ int main(int argc, char* argv[])
     RootModel::Get();
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Startup ) );
     PerfTimer.Log( "wnd" );
-    Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     AudioPlayer::Get();
     audio::AudioEffectRepo::Get();
     DamageDecals::Get();

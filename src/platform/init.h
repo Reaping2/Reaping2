@@ -25,15 +25,18 @@ public:
 
 }
 
-#define REGISTER_INIT( InitName, InitFunc ) \
+#define REGISTER_INIT_PRIO( Prio, InitName, InitFunc ) \
 namespace { \
 struct RegisterInit { \
 RegisterInit() \
 { \
-    platform::Init::Get().Register( __FILE__ #InitName, InitFunc ); \
+    platform::Init::Get().Register( #Prio __FILE__ #InitName, InitFunc ); \
 } \
 } registerSystem; \
 }
+
+#define REGISTER_INIT( InitName, InitFunc ) \
+    REGISTER_INIT_PRIO( normal, InitName, InitFunc )
 
 
 #endif // INCLUDED_INIT_H
