@@ -135,7 +135,9 @@ int main(int argc, char* argv[])
         ("-s", "server ip")
         ("-n", po::value<std::string>(&programState.mClientName), "client name")
         ("-v", "print version information" )
-        ;
+		("-h", "connect as a client to localhost with Host privileges")
+		("-r", "connect as a random named soldier to localhost.")
+		;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -157,10 +159,21 @@ int main(int argc, char* argv[])
     } else if (vm.count("-s")) {
         L1("run as server");
         programState.SetMode(ProgramState::Server);
-    } else {
+	} else if (vm.count("-h")) {
+		L1("run as host");
+		programState.SetMode(ProgramState::Client);
+		programState.mIsHost = 1;
+		programState.mServerIp = "localhost";
+	} else {
         L1("run local");
         programState.SetMode(ProgramState::Local);
     }
+	if (vm.count("-r")) {
+		L1("run as a random named soldier. RanBro");
+		programState.SetMode(ProgramState::Client);
+		programState.mServerIp = "localhost";
+		programState.mClientName = "RanBro" + boost::lexical_cast<std::string>(rand() % 1000);
+	}
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
     IsMainRunning=true;

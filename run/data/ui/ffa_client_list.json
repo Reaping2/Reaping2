@@ -21,8 +21,8 @@
 					"y":0.0,
 					"w":0.25,
 					"h":0.1,
-					"visible":1,
-					"enabled":1,
+					"visible":"%programstate.ishost",
+					"enabled":"%programstate.ishost",
 					"action":[["lifecycle.host"]],
 					"children":
 					[
@@ -33,7 +33,7 @@
 							"y":0.0,
 							"w":1.0,
 							"h":1.0,
-							"visible":1,
+							"visible":"%programstate.ishost",
 							"enabled":0,
 							"text":"Play",
 							"fontsize":6

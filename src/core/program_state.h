@@ -51,7 +51,8 @@ class ProgramState : public platform::Singleton<ProgramState>
 public:
     platform::ModelValue mProgramStateModel;
     platform::ModelValue mIsClientModel;
-    int32_t mIsClient;
+	platform::ModelValue mIsHostModel;
+	int32_t mIsClient;
     ProgramState();
     enum Mode
     {
@@ -86,6 +87,8 @@ public:
     typedef std::vector<ClientData> ClientDatas_t;
     // currently connected clients to server
     ClientDatas_t mClientDatas;
+	// this client is the host
+	int32_t mIsHost;
     Opt<ClientData> FindClientDataByClientId(int32_t clientId); 
     Opt<ClientData> FindClientDataByActorGUID(int32_t actorGUID); 
     Opt<ClientData> FindClientDataByClientName(std::string clientName); 
