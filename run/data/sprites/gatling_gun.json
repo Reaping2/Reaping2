@@ -11,7 +11,7 @@
 						"name":"gatling_gun",
 						"w":179,
 						"h":179,
-						"scale":2.0,
+						"scale":3.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]
@@ -30,7 +30,7 @@
 						"name":"gatling_gun",
 						"w":179,
 						"h":179,
-						"scale":2.0,
+						"scale":3.0,
 						"phases":[{"x":0,"y":0}]
 					}
 				]

@@ -823,7 +823,7 @@
                 "set":[{"layer":"players"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"player", "radius":60}]
+                "set":[{"class":"player", "radius":30}]
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component",
