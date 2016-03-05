@@ -183,7 +183,7 @@ void CaptureTheFlagGameModeSystem::OnScore(engine::ScoreEvent const& Evt)
 
 void CaptureTheFlagGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
 {
-    if ( "ctf" != mScene.GetSelectedGameMode() )
+    if ( "ctf" != mProgramState.mGameMode )
     {
         return;
     }

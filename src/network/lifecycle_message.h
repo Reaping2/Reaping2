@@ -16,7 +16,9 @@ namespace network {
             Start=0,
             SoldierProperties,
             WaitingForHost,
-            AlreadyConnected
+            AlreadyConnected,
+			ClientList,
+			SelectLevel
         };
         State mState;
         std::string mGameMode;

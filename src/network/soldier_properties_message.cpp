@@ -121,10 +121,21 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
         }
         else
         {
-            std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-            lifecycleMsg->mClientId=msg.mSenderId;
-            lifecycleMsg->mState=LifecycleMessage::WaitingForHost;
-            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+			if (mProgramState.mGameMode.empty())
+			{
+				std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+				lifecycleMsg->mClientId = msg.mSenderId;
+				lifecycleMsg->mState = LifecycleMessage::WaitingForHost;
+				mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+			}
+			else
+			{
+				std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+				lifecycleMsg->mState = LifecycleMessage::ClientList;
+				lifecycleMsg->mGameMode = mProgramState.mGameMode;
+				lifecycleMsg->mClientId = msg.mSenderId;
+				mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+			}
         }
     }
 }
