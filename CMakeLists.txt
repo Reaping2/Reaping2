@@ -1,19 +1,23 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+project(Reaping2)
+
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set( CMAKE_CXX_STANDARD 11 )
 
 # support for YouCompleteMe
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-if(UNIX)
-    set( CMAKE_CXX_FLAGS "-Wno-deprecated-declarations" )
-endif(UNIX)
-if($ENV{REAPING2_PROFILE})
-    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg" )
-endif($ENV{REAPING2_PROFILE})
 
-project(Reaping2)
+if( CMAKE_HOST_UNIX )
+    set( CMAKE_CXX_FLAGS "-Wno-deprecated-declarations" )
+    if($ENV{REAPING2_PROFILE})
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg" )
+    endif($ENV{REAPING2_PROFILE})
+
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g -Wall")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Wall")
+endif( CMAKE_HOST_UNIX )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake_support)
 
@@ -28,8 +32,6 @@ include( FindDeps )
 include( CMakeHelper )
 
 set(BUILD_SHARED_LIBS ON)
-
-set(CMAKE_BUILD_TYPE "Debug")
 
 set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/debug)
 set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin/debug)
