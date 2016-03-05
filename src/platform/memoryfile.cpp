@@ -1,6 +1,7 @@
 #include "memoryfile.h"
 
 #include <vector>
+#include <algorithm>
 #include <string.h>
 #include <boost/assert.hpp>
 

@@ -6,6 +6,7 @@
 #include <png.h>
 #include <boost/assert.hpp>
 #include <cstring>
+#include <algorithm>
 
 namespace platform {
 namespace {
