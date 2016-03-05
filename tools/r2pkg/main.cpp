@@ -44,8 +44,9 @@ void BuildPackage(const std::string& FolderName,std::string FileName)
 	AutoFile f(new OsFile(FileName,std::ios_base::out|std::ios_base::trunc));
 	PackageWriter writer(f);
 	PathVector Paths;
-	BuildFilesList(FolderName,Paths);
-	fs::path BasePath=fs::current_path()/FolderName;
+	fs::path Dir(FolderName);
+	BuildFilesList(Dir,Paths);
+	fs::path BasePath=Dir.is_absolute() ? Dir : fs::current_path()/FolderName;
 	for(PathVector::const_iterator i=Paths.begin(),e=Paths.end();i!=e;++i)
 	{
 		const fs::path& RelPath=*i;
