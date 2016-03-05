@@ -18,6 +18,7 @@ protected:
 public:
     template<typename Elem_T>
     void RegisterSystem( std::string const& name );
+    void Init();
 };
 
 template<typename Elem_T>

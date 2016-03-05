@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "platform/init.h"
 #include "engine/system_factory.h"
 #include "engine/system.h"
 #include "engine/collision_system.h"
@@ -117,6 +118,11 @@ using platform::AutoId;
 namespace engine {
 
 SystemFactory::SystemFactory()
+{
+
+}
+
+void SystemFactory::Init()
 {
     Bind( AutoId("default_system"), &CreateSystem<DefaultSystem> );
     SetDefault( AutoId("default_system") );
@@ -247,5 +253,7 @@ SystemFactory::SystemFactory()
     Bind( AutoId("remove_components_on_death_system"), &CreateSystem<engine::RemoveComponentsOnDeathSystem>);
     Bind( AutoId("player_model_system"), &CreateSystem<engine::PlayerModelSystem>);
 }
+
+REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )
 
 } // namespace engine

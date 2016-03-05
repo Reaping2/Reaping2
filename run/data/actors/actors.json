@@ -844,7 +844,7 @@
             {"name":"heat_source_component"},
             {"name":"audible_component"},
             {"name":"remove_on_death_component",
-                "set":[{"delay":2.0}] },
+                "set":[{"delay":5.0}] },
             {"name":"remove_components_on_death_component",
                 "set":[
                     {
@@ -899,7 +899,7 @@
             {"name":"heat_source_component"},
             {"name":"audible_component"},
             {"name":"remove_on_death_component",
-                "set":[{"delay":2.0}] },
+                "set":[{"delay":5.0}] },
             {"name":"remove_components_on_death_component",
                 "set":[
                     {
