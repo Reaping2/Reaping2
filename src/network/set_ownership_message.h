@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "engine/soldier_created_event.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -54,5 +55,7 @@ public:
 };
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_KEY2(network__SetOwnershipMessage, network::SetOwnershipMessage,"set_ownership");
 #endif//INCLUDED_NETWORK_SET_OWNERSHIP_H
 

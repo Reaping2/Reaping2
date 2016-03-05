@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_ATTACHABLE_COMPONENT_H
 
 #include "component.h"
+#include "platform/export.h"
 namespace ctf {
 
 class IAttachableComponent : public Component
@@ -25,6 +26,8 @@ void IAttachableComponent::serialize(Archive& ar, const unsigned int version)
 
 } // namespace ctf
 
+
+REAPING2_CLASS_EXPORT_KEY2(ctf__IAttachableComponent, ctf::IAttachableComponent,"i_attachable_component");
 #endif//INCLUDED_CORE_I_ATTACHABLE_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_attachable_component" -m "int32_t-attachedGUID"

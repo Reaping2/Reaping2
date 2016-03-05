@@ -1,4 +1,6 @@
 #include "core/owner_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 OwnerComponent::OwnerComponent()
     : mOwnerGUID(-1)
@@ -24,3 +26,5 @@ void OwnerComponentLoader::BindValues()
 OwnerComponentLoader::OwnerComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(OwnerComponent, OwnerComponent);

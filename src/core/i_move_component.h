@@ -3,6 +3,7 @@
 #include "component.h"
 #include "platform/event.h"
 #include "buffable.h"
+#include "platform/export.h"
 
 struct MoveChangedEvent : public platform::Event
 {
@@ -42,4 +43,6 @@ void IMoveComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IMoveComponent, IMoveComponent,"i_move_component");
 #endif//INCLUDED_CORE_I_MOVE_COMPONENT_H

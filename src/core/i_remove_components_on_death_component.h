@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_REMOVE_COMPONENTS_ON_DEATH_COMPONENT_H
 
 #include "component.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 class IRemoveComponentsOnDeathComponent : public Component
 {
@@ -20,7 +20,7 @@ void IRemoveComponentsOnDeathComponent::serialize(Archive& ar, const unsigned in
     ar & boost::serialization::base_object<Component>(*this);
 }
 
-BOOST_CLASS_EXPORT_KEY2( IRemoveComponentsOnDeathComponent, "i_remove_components_on_death_component" )
+REAPING2_CLASS_EXPORT_KEY2( IRemoveComponentsOnDeathComponent, IRemoveComponentsOnDeathComponent, "i_remove_components_on_death_component" )
 
 #endif//INCLUDED_CORE_I_REMOVE_COMPONENTS_ON_DEATH_COMPONENT_H
 

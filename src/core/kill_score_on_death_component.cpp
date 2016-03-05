@@ -1,4 +1,6 @@
 #include "core/kill_score_on_death_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 KillScoreOnDeathComponent::KillScoreOnDeathComponent()
     : mKillerGUID(-1)
@@ -46,3 +48,5 @@ void KillScoreOnDeathComponentLoader::BindValues()
 KillScoreOnDeathComponentLoader::KillScoreOnDeathComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(KillScoreOnDeathComponent, KillScoreOnDeathComponent);

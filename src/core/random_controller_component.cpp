@@ -3,6 +3,8 @@
 #include "core/i_move_component.h"
 #include "core/i_health_component.h"
 #include "core/i_position_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 RandomControllerComponent::RandomControllerComponent()
     : ControllerComponent()
@@ -42,3 +44,5 @@ RandomControllerComponentLoader::RandomControllerComponentLoader()
 {
 
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(RandomControllerComponent, RandomControllerComponent);

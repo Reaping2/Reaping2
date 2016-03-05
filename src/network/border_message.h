@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/i_border_component.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -56,6 +57,8 @@ public:
 };
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_KEY2(network__BorderMessage, network::BorderMessage,"border");
 #endif//INCLUDED_NETWORK_BORDER_H
 
 //command:  "classgenerator.exe" -g "message" -c "border" -p "pending" -t "border" -m "int32_t-actorGUID IBorderComponent::Borders_t-borders"

@@ -1,5 +1,7 @@
 #include "network/player_controller_message.h"
 #include "core/player_controller_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace network {
 
     PlayerControllerMessageSenderSystem::PlayerControllerMessageSenderSystem()
@@ -81,3 +83,5 @@ namespace network {
 
 } // namespace engine
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__PlayerControllerMessage, network::PlayerControllerMessage);

@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_I_ACCELERATION_COMPONENT_H
 #define INCLUDED_CORE_I_ACCELERATION_COMPONENT_H
 #include "component.h"
+#include "platform/export.h"
 
 class IAccelerationComponent : public Component
 {
@@ -28,4 +29,6 @@ void IAccelerationComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IAccelerationComponent, IAccelerationComponent,"i_acceleration_component");
 #endif//INCLUDED_CORE_I_ACCELERATION_COMPONENT_H

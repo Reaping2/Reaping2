@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/gamemode_selected_message.h"
 #include "network/load_clientlist_event.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -70,4 +72,5 @@ void GamemodeSelectedMessageHandlerSubSystem::Execute(Message const& message)
 }
 
 } // namespace network
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__GamemodeSelectedMessage, network::GamemodeSelectedMessage )
 

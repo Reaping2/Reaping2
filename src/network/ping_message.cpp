@@ -2,6 +2,8 @@
 #include "GLFW/glfw3.h"
 #include "ui/ui.h"
 #include <boost/lambda/bind.hpp>
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -70,3 +72,5 @@ namespace network {
 
 } // namespace engine
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__PingMessage, network::PingMessage);

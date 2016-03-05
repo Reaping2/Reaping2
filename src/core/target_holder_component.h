@@ -3,6 +3,7 @@
 
 #include "i_target_holder_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
 
 class TargetHolderComponent : public ITargetHolderComponent
 {
@@ -36,4 +37,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(TargetHolderComponent, TargetHolderComponent,"target_holder_component");
 #endif//INCLUDED_CORE_TARGET_HOLDER_COMPONENT_H

@@ -32,7 +32,7 @@ void CloakBuffSubSystem::Update(Actor& actor, double DeltaTime)
         return;
     }
     BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),CloakBuff::GetType_static());
-    if (buffListFilter.size()==0)
+    if (buffListFilter.size()==0 && cloakC->IsActive() )
     {
         cloakC->SetActive(false);
         EventServer<engine::CloakChangedEvent>::Get().SendEvent(engine::CloakChangedEvent(actor.GetGUID(),false));

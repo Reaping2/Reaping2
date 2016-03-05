@@ -3,6 +3,7 @@
 
 #include "i_detonate_on_hit_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
 
 class DetonateOnHitComponent : public IDetonateOnHitComponent
 {
@@ -44,6 +45,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(DetonateOnHitComponent, DetonateOnHitComponent,"detonate_on_hit_component");
 #endif//INCLUDED_CORE_DETONATE_ON_HIT_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "detonate_on_hit_component" -m "int32_t-material double-addRadius bool-removeOnHit"

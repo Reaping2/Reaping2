@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_ION_GUN_H
 #define INCLUDED_CORE_ION_GUN_H
 #include "core/weapon.h"
+#include "platform/export.h"
 
 class IonGun : public Weapon
 {
@@ -26,4 +27,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
+REAPING2_CLASS_EXPORT_KEY2(IonGun, IonGun,"ion_gun");
 #endif//INCLUDED_CORE_ION_GUN_H

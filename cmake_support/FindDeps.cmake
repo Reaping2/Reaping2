@@ -2,11 +2,11 @@
 if(WIN32)
 	# ugly boost bug workaround, boost w/ static build crashes in codecvt
 	set( Boost_USE_STATIC_LIBS ON )
+        if(MINGW)
+            add_definitions( -DBOOST_THREAD_USE_LIB )
+        endif(MINGW)
 endif(WIN32)
-if(NOT DEFINED BOOST_ROOT)
-    set(BOOST_ROOT ${REAPING2_DEPS_INSTALL_DIR})
-    set(Boost_ADDITIONAL_VERSIONS 1.59 1.60)
-endif()
+set(Boost_ADDITIONAL_VERSIONS 1.59 1.60)
 find_package( Boost 1.59 COMPONENTS filesystem system thread date_time program_options atomic serialization chrono )
 
 if( NOT Boost_FOUND )

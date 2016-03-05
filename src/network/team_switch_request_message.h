@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "network/team_switch_request_event.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -50,5 +51,6 @@ public:
 };
 } // namespace network
 
+REAPING2_CLASS_EXPORT_KEY2( network__TeamSwitchRequestMessage, network::TeamSwitchRequestMessage, "team_switch_request_message" )
 #endif//INCLUDED_NETWORK_TEAM_SWITCH_REQUEST_H
 //command:  "./classgenerator" -g "message" -c "team_switch_request"

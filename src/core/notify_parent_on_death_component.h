@@ -3,6 +3,7 @@
 
 #include "i_notify_parent_on_death_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
 
 class NotifyParentOnDeathComponent : public INotifyParentOnDeathComponent
 {
@@ -40,4 +41,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(NotifyParentOnDeathComponent, NotifyParentOnDeathComponent,"notify_parent_on_death_component");
 #endif//INCLUDED_CORE_NOTIFY_PARENT_ON_DEATH_COMPONENT_H

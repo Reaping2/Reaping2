@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "core/position_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 
 PositionComponent::PositionComponent()
@@ -55,3 +57,5 @@ PositionComponentLoader::PositionComponentLoader()
 {
 
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(PositionComponent, PositionComponent);

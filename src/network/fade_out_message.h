@@ -4,6 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -52,6 +53,8 @@ public:
 };
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_KEY2(network__FadeOutMessage, network::FadeOutMessage,"fade_out");
 #endif//INCLUDED_NETWORK_FADE_OUT_H
 
 //command:  "classgenerator.exe" -g "message" -c "fade_out" -m "int32_t-actorGUID double-secsToEnd" -t "i_fade_out_component" -p "pending"

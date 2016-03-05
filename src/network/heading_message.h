@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "single_message_sender.h"
+#include "platform/export.h"
 namespace network {
 
     class HeadingMessage: public Message
@@ -61,4 +62,6 @@ namespace network {
     };
 
 } // namespace network
+
+REAPING2_CLASS_EXPORT_KEY2(network__HeadingMessage, network::HeadingMessage,"heading");
 #endif//INCLUDED_NETWORK_HEADING_MESSAGE_H

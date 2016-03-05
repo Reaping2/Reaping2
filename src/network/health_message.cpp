@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/health_message.h"
 #include "core/i_health_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -81,3 +83,5 @@ std::auto_ptr<HealthMessage> HealthMessageSenderSystem::GenerateHealthMessage(Ac
 
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__HealthMessage, network::HealthMessage);

@@ -3,6 +3,7 @@
 
 #include "i_armor_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
 
 class ArmorComponent : public IArmorComponent
 {
@@ -36,6 +37,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(ArmorComponent, ArmorComponent,"armor_component");
 #endif//INCLUDED_CORE_ARMOR_COMPONENT_H
 
 

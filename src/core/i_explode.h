@@ -1,9 +1,10 @@
 #ifndef INCLUDED_CORE_I_EXPLODE_H
 #define INCLUDED_CORE_I_EXPLODE_H
 #include "explode_distribution_type.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
+#include "platform/export.h"
 
 class IExplode
 {
@@ -55,4 +56,6 @@ void IExplode::serialize(Archive& ar, const unsigned int version)
     ar & mAddActorRadius;
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IExplode, IExplode,"i_explode");
 #endif//INCLUDED_CORE_I_EXPLODE_H

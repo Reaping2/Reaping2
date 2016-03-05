@@ -5,6 +5,8 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/trigger.h"
+#include "platform/export.h"
+
 namespace network {
 
     class PlayerControllerMessage: public Message
@@ -68,4 +70,6 @@ namespace network {
     };
 
 } // namespace network
+
+REAPING2_CLASS_EXPORT_KEY2(network__PlayerControllerMessage, network::PlayerControllerMessage,"player_c");
 #endif//INCLUDED_NETWORK_PLAYER_CONTROLLER_MESSAGE_H

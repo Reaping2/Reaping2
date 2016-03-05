@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "platform/register.h"
+#include "platform/export.h"
 namespace network {
 
     class ReviveMessage: public Message
@@ -44,4 +45,6 @@ namespace network {
     };
 
 } // namespace network
+
+REAPING2_CLASS_EXPORT_KEY2(network__ReviveMessage, network::ReviveMessage,"revive");
 #endif//INCLUDED_NETWORK_REVIVE_MESSAGE_H

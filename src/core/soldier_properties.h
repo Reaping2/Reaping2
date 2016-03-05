@@ -4,6 +4,7 @@
 #include "platform/singleton.h"
 #include "platform/i_platform.h"
 #include "actor.h"
+#include "platform/export.h"
 
 namespace core {
 struct SoldierProperties
@@ -34,4 +35,6 @@ void SoldierProperties::serialize(Archive& ar, const unsigned int version)
 }
 
 } // namespace core
+
+REAPING2_CLASS_EXPORT_KEY2(__core__SoldierProperties, ::core::SoldierProperties,"soldier_prop_base");
 #endif//INCLUDED_CORE_SOLDIER_PROPERTIES_H

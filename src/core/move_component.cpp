@@ -1,5 +1,7 @@
 #include "move_component.h"
 #include "magic_consts.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 MoveComponent::MoveComponent()
     : mHeading(0.0)
@@ -91,3 +93,5 @@ MoveComponentLoader::MoveComponentLoader()
 {
 
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(MoveComponent, MoveComponent);

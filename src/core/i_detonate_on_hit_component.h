@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_DETONATE_ON_HIT_COMPONENT_H
 
 #include "component.h"
+#include "platform/export.h"
 
 class IDetonateOnHitComponent : public Component
 {
@@ -26,6 +27,8 @@ void IDetonateOnHitComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IDetonateOnHitComponent, IDetonateOnHitComponent,"i_detonate_on_hit_component");
 #endif//INCLUDED_CORE_I_DETONATE_ON_HIT_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_detonate_on_hit_component" -m "int32_t-material double-addRadius bool-removeOnHit"

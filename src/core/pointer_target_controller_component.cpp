@@ -1,4 +1,6 @@
 #include "core/pointer_target_controller_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 PointerTargetControllerComponent::PointerTargetControllerComponent()
     : mPointedTargetGUID(-1)
@@ -79,3 +81,5 @@ void PointerTargetControllerComponentLoader::BindValues()
 PointerTargetControllerComponentLoader::PointerTargetControllerComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(PointerTargetControllerComponent, PointerTargetControllerComponent);

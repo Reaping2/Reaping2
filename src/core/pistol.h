@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_PISTOL_H
 #define INCLUDED_CORE_PISTOL_H
 #include "core/weapon.h"
+#include "platform/export.h"
 
 class Pistol : public Weapon
 {
@@ -26,4 +27,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
+REAPING2_CLASS_EXPORT_KEY2(Pistol, Pistol,"pistol");
 #endif//INCLUDED_CORE_PISTOL_H

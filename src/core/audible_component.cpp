@@ -1,6 +1,8 @@
 #include "core/audible_component.h"
 #include "audible_event.h"
 #include <boost/lambda/lambda.hpp>
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 AudibleComponent::AudibleComponent()
 {
@@ -75,3 +77,5 @@ void AudibleComponentLoader::BindValues()
 AudibleComponentLoader::AudibleComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(AudibleComponent, AudibleComponent);

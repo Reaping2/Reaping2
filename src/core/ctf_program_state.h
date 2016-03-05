@@ -6,6 +6,7 @@
 #include "opt.h"
 #include <map>
 #include <vector>
+#include "platform/export.h"
 
 class Team : public platform::Singleton<Team>
 {
@@ -69,4 +70,6 @@ public:
     Opt<ClientData> FindClientDataByClientId(int32_t clientId); 
 };
 } // namespace ctf
+
+REAPING2_CLASS_EXPORT_KEY2(__ctf__ClientData, ::ctf::ClientData,"ctf_client_data");
 #endif//INCLUDED_CTF_PROGRAM_STATE_H

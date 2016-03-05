@@ -1,4 +1,6 @@
 #include "core/team_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 TeamComponent::TeamComponent()
     : mTeam(Team::Blue)
@@ -24,3 +26,5 @@ void TeamComponentLoader::BindValues()
 TeamComponentLoader::TeamComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(TeamComponent, TeamComponent);

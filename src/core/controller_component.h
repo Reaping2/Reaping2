@@ -3,6 +3,7 @@
 
 #include "core/i_controller_component.h"
 #include "core/actor.h"
+#include "platform/export.h"
 
 class ControllerComponent : public IControllerComponent
 {
@@ -27,4 +28,6 @@ void ControllerComponent::serialize(Archive& ar, const unsigned int version)
     ar & mEnabled;
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(ControllerComponent, ControllerComponent,"controller_component");
 #endif//INCLUDED_CORE_CONTROLLER_COMPONENT_H

@@ -4,6 +4,7 @@
 #include "component.h"
 #include "border_type.h"
 #include <vector>
+#include "platform/export.h"
 
 class IBorderComponent : public Component
 {
@@ -27,6 +28,8 @@ void IBorderComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IBorderComponent, IBorderComponent,"i_border_component");
 #endif//INCLUDED_CORE_I_BORDER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_border_component" -m "Borders_t-borders"

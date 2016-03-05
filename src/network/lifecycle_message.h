@@ -3,6 +3,7 @@
 
 #include "network/message.h"
 #include "core/program_state.h"
+#include "platform/export.h"
 namespace network {
 
     class LifecycleMessage: public Message
@@ -42,4 +43,6 @@ namespace network {
     }
 
 } // namespace network
+
+REAPING2_CLASS_EXPORT_KEY2(network__LifecycleMessage, network::LifecycleMessage,"lifecycle");
 #endif//INCLUDED_NETWORK_LIFECYCLE_MESSAGE_H

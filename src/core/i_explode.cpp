@@ -1,4 +1,6 @@
 #include "i_explode.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 IExplode::IExplode()
     : mExplosionProjectile(-1)
@@ -96,3 +98,5 @@ bool IExplode::IsAddActorRadius() const
 {
     return mAddActorRadius;
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(IExplode, IExplode);

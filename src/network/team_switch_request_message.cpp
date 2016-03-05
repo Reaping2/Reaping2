@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/team_switch_request_message.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -63,4 +65,5 @@ void TeamSwitchRequestMessageHandlerSubSystem::Execute(Message const& message)
 }
 
 } // namespace network
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__TeamSwitchRequestMessage, network::TeamSwitchRequestMessage )
 

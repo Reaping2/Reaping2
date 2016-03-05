@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_NOTIFY_PARENT_ON_DEATH_COMPONENT_H
 
 #include "component.h"
+#include "platform/export.h"
 
 class INotifyParentOnDeathComponent : public Component
 {
@@ -24,4 +25,6 @@ void INotifyParentOnDeathComponent::serialize(Archive& ar, const unsigned int ve
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(INotifyParentOnDeathComponent, INotifyParentOnDeathComponent,"i_notify_parent_on_death_component");
 #endif//INCLUDED_CORE_I_NOTIFY_PARENT_ON_DEATH_COMPONENT_H

@@ -1,4 +1,6 @@
 #include "core/target_holder_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 TargetHolderComponent::TargetHolderComponent()
     : mTargetGUID(-1)
@@ -24,3 +26,5 @@ void TargetHolderComponentLoader::BindValues()
 TargetHolderComponentLoader::TargetHolderComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(TargetHolderComponent, TargetHolderComponent);

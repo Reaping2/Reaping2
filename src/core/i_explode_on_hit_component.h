@@ -3,6 +3,7 @@
 
 #include "component.h"
 #include "i_explode.h"
+#include "platform/export.h"
 
 class IExplodeOnHitComponent : public Component, public IExplode
 {
@@ -29,6 +30,8 @@ void IExplodeOnHitComponent::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<IExplode>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IExplodeOnHitComponent, IExplodeOnHitComponent,"i_explode_on_hit_component");
 #endif//INCLUDED_CORE_I_EXPLODE_ON_HIT_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_explode_on_hit_component" -m "int32_t-detonatorMaterial double-addRadius bool-exploded"

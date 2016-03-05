@@ -4,6 +4,7 @@
 #include "i_move_component.h"
 #include "core/property_loader.h"
 #include "i_acceleration_component.h"
+#include "platform/export.h"
 
 
 
@@ -47,4 +48,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(AccelerationComponent, AccelerationComponent,"acceleration_component");
 #endif//INCLUDED_CORE_ACCELERATION_COMPONENT_H

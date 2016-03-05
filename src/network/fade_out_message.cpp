@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/fade_out_message.h"
 #include "core/i_fade_out_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -64,3 +66,5 @@ std::auto_ptr<FadeOutMessage> FadeOutMessageSenderSystem::GenerateFadeOutMessage
 
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__FadeOutMessage, network::FadeOutMessage);

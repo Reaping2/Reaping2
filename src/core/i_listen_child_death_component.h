@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_I_LISTEN_CHILD_DEATH_COMPONENT_H
 
 #include "component.h"
+#include "platform/export.h"
 
 class IListenChildDeathComponent : public Component
 {
@@ -22,4 +23,6 @@ void IListenChildDeathComponent::serialize(Archive& ar, const unsigned int versi
     ar & boost::serialization::base_object<Component>(*this);
 }
 
+
+REAPING2_CLASS_EXPORT_KEY2(IListenChildDeathComponent, IListenChildDeathComponent,"i_listen_child_death_component");
 #endif//INCLUDED_CORE_I_LISTEN_CHILD_DEATH_COMPONENT_H

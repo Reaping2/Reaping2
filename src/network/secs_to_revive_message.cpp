@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/secs_to_revive_message.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -52,3 +54,5 @@ void SecsToReviveMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__SecsToReviveMessage, network::SecsToReviveMessage);

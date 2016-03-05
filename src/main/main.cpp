@@ -18,37 +18,17 @@
 #include "render/recognizer_repo.h"
 #include <boost/program_options.hpp>
 #include "core/program_state.h"
-#include "network/client_id_message.h"
-#include "network/my_name_message.h"
-
 #include "network/message_handler_sub_system_holder.h"
-#include "network/position_message.h"
-#include "network/set_ownership_message.h"
 #include <stdlib.h>
 #include "boost/date_time/posix_time/posix_time_types.hpp"
 #include "boost/date_time/posix_time/ptime.hpp"
 #include "boost/date_time/posix_time/posix_time_config.hpp"
 #include "boost/date_time/gregorian/greg_date.hpp"
-#include "network/move_message.h"
-#include "network/player_controller_message.h"
-#include "network/damage_taken_message.h"
-#include "network/orientation_message.h"
-#include "network/ping_message.h"
 #include "engine/items/normal_item_sub_system.h"
-#include "network/flash_message.h"
 #include "engine/buffs_engine/buff_holder_system.h"
 #include "core/buffs/heal_over_time_buff.h"
-#include "network/soldier_properties_message.h"
-#include "network/client_datas_message.h"
 #include "core/buffs/max_health_buff.h"
-#include "network/health_message.h"
-#include "network/accuracy_message.h"
 #include "core/buffs/accuracy_buff.h"
-#include "network/ctf_client_datas_message.h"
-#include "network/set_team_message.h"
-#include "network/ctf_score_message.h"
-#include "network/show_text_message_message.h"
-#include "network/collision_message.h"
 #include "render/damage_particles.h"
 #include "render/corpses.h"
 #include "network/shot_message.h"
@@ -56,21 +36,13 @@
 #include "network/client_score_message.h"
 #include "core/free_for_all_game_mode_system.h"
 #include "core/capture_the_flag_game_mode_system.h"
-#include "network/item_changed_message.h"
 #include "render/particle_system.h"
 #include "network/server_system.h"
 #include "network/client_system.h"
 #include "core/buffs/armor_buff.h"
 #include "core/buffs/cloak_buff.h"
-#include "network/cloak_changed_message.h"
-#include "network/border_message.h"
-#include "network/sync_item_message.h"
 #include "audio/audio_system.h"
-#include "network/secs_to_revive_message.h"
-#include "network/modify_audible_component_message.h"
 #include "audio/audio_effect_repo.h"
-#include "network/flag_state_changed_message.h"
-#include "network/fade_out_message.h"
 #include "platform/init.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
@@ -78,6 +50,10 @@
 #include "core/component_factory.h"
 #include "network/actor_list_message.h"
 #include "engine/remove_components_on_death_system.h"
+#include "core/buffs/move_speed_buff.h"
+#include "network/client_datas_message.h"
+#include "network/ctf_client_datas_message.h"
+#include "network/soldier_properties_message.h"
 
 using engine::Engine;
 namespace {
@@ -186,7 +162,6 @@ int main(int argc, char* argv[])
         programState.SetMode(ProgramState::Local);
     }
     platform::IdStorage::Get().Init();
-    message_order Order;
     platform::Init::Get().Execute();
     IsMainRunning=true;
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
@@ -306,45 +281,7 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("soldier_properties_message_sender_system"));
 
         Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
-        messageHandlerSSH->AddSubSystem(network::ClientIdMessage::GetType_static(),AutoId("client_id_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::MyNameMessage::GetType_static(),AutoId("my_name_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::LifecycleMessage::GetType_static(),AutoId("lifecycle_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::CreateActorMessage::GetType_static(),AutoId("create_actor_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::SetOwnershipMessage::GetType_static(),AutoId("set_ownership_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::PositionMessage::GetType_static(),AutoId("position_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::MoveMessage::GetType_static(),AutoId("move_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::PlayerControllerMessage::GetType_static(),AutoId("player_controller_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::HealTakenMessage::GetType_static(),AutoId("heal_taken_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::DamageTakenMessage::GetType_static(),AutoId("damage_taken_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::OrientationMessage::GetType_static(),AutoId("orientation_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::HeadingMessage::GetType_static(),AutoId("heading_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::PickupMessage::GetType_static(),AutoId("pickup_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::PingMessage::GetType_static(),AutoId("ping_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ReviveMessage::GetType_static(),AutoId("revive_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::FlashMessage::GetType_static(),AutoId("flash_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::SoldierPropertiesMessage::GetType_static(),AutoId("soldier_properties_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ClientDatasMessage::GetType_static(),AutoId("client_datas_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ctf::ClientDatasMessage::GetType_static(),AutoId("ctf_client_datas_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::HealthMessage::GetType_static(),AutoId("health_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::AccuracyMessage::GetType_static(),AutoId("accuracy_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::SetTeamMessage::GetType_static(),AutoId("set_team_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ctf::CtfScoreMessage::GetType_static(),AutoId("ctf_score_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::KillScoreMessage::GetType_static(),AutoId("kill_score_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ShowTextMessageMessage::GetType_static(),AutoId("show_text_message_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::CollisionMessage::GetType_static(),AutoId("collision_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ShotMessage::GetType_static(),AutoId("shot_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ClientScoreMessage::GetType_static(),AutoId("client_score_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ItemChangedMessage::GetType_static(),AutoId("item_changed_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::CloakChangedMessage::GetType_static(),AutoId("cloak_changed_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::BorderMessage::GetType_static(),AutoId("border_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::SyncItemMessage::GetType_static(),AutoId("sync_item_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::SecsToReviveMessage::GetType_static(),AutoId("secs_to_revive_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ModifyAudibleComponentMessage::GetType_static(),AutoId("modify_audible_component_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::FlagStateChangedMessage::GetType_static(),AutoId("flag_state_changed_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::FadeOutMessage::GetType_static(),AutoId("fade_out_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::GamemodeSelectedMessage::GetType_static(),AutoId("gamemode_selected_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::TeamSwitchRequestMessage::GetType_static(),AutoId("team_switch_request_message_handler_sub_system"));
-        messageHandlerSSH->AddSubSystem(network::ActorListMessage::GetType_static(),AutoId("actor_list_message_handler_sub_system"));
+        messageHandlerSSH->InitHandlers();
     }
 
     Eng.AddSystem(AutoId("timer_server_system"));

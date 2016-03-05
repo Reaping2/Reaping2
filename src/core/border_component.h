@@ -3,6 +3,8 @@
 
 #include "i_border_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
+#include <boost/serialization/vector.hpp>
 
 class BorderComponent : public IBorderComponent
 {
@@ -41,6 +43,8 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(BorderComponent, BorderComponent,"border_component");
 #endif//INCLUDED_CORE_BORDER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "border_component" -m "Borders_t-borders"

@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/actor_list_message.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -51,3 +53,5 @@ void ActorListMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__ActorListMessage, network::ActorListMessage);

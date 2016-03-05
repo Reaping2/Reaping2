@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/flash_message.h"
 #include "core/i_position_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -64,3 +66,5 @@ void FlashMessageHandlerSubSystem::Execute(Message const& message)
 
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__FlashMessage, network::FlashMessage);

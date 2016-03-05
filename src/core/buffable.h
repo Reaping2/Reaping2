@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_BUFFABLE_H
 
 #include <boost/serialization/serialization.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 template<typename T>
 class Limited

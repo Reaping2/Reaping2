@@ -6,6 +6,8 @@
 #include "core/i_collision_component.h"
 #include "core/scene.h"
 #include "platform/i_platform.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 ShotCollisionComponent::ShotCollisionComponent()
     : CollisionComponent()
@@ -101,3 +103,5 @@ ShotCollisionComponentLoader::ShotCollisionComponentLoader()
 {
     SetBase<CollisionComponentLoader>();
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(ShotCollisionComponent, ShotCollisionComponent);

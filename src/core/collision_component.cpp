@@ -4,6 +4,8 @@
 #include "platform/event.h"
 #include "core/scene.h"
 #include "platform/i_platform.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 using platform::EventServer;
@@ -51,3 +53,5 @@ CollisionComponentLoader::CollisionComponentLoader()
     : mCollisionClass(CollisionClass::Get())
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(CollisionComponent, CollisionComponent);

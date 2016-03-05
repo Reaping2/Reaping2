@@ -3,6 +3,7 @@
 
 #include "core/i_remove_on_death_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
 
 class RemoveOnDeathComponent : public IRemoveOnDeathComponent
 {
@@ -33,4 +34,5 @@ public:
     friend class ComponentLoaderFactory;
 };
 
+REAPING2_CLASS_EXPORT_KEY2(RemoveOnDeathComponent, RemoveOnDeathComponent,"remove_on_death_component");
 #endif//INCLUDED_CORE_REMOVE_ON_DEATH_COMPONENT_H

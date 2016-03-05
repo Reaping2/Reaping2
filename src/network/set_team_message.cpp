@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "network/set_team_message.h"
 #include "core/i_team_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace network {
 
@@ -77,3 +79,5 @@ std::auto_ptr<SetTeamMessage> SetTeamMessageSenderSystem::GenerateSetTeamMessage
 
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__SetTeamMessage, network::SetTeamMessage);

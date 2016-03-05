@@ -1,4 +1,6 @@
 #include "i_audible_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 int32_t const AudibleEffectDesc::TTL_Infinity = -100;
 
@@ -15,3 +17,5 @@ AudibleEffectDesc::AudibleEffectDesc()
 
 }
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(IAudibleComponent, IAudibleComponent);

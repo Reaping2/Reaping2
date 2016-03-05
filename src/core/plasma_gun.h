@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_PLASMA_GUN_H
 #include "core/weapon.h"
 #include "item_loader.h"
+#include "platform/export.h"
 
 class PlasmaGun : public Weapon
 {
@@ -27,5 +28,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-
+REAPING2_CLASS_EXPORT_KEY2(PlasmaGun, PlasmaGun,"plasma_gun");
 #endif//INCLUDED_CORE_PLASMA_GUN_H

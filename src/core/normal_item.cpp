@@ -1,4 +1,6 @@
 #include "normal_item.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 NormalItem::NormalItem(int32_t Id)
     : Item(Id)
@@ -35,3 +37,5 @@ bool NormalItem::IsConsumed() const
 {
     return mConsumed;
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(NormalItem, NormalItem);

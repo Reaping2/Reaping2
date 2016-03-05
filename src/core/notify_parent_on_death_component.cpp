@@ -1,4 +1,6 @@
 #include "core/notify_parent_on_death_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 NotifyParentOnDeathComponent::NotifyParentOnDeathComponent()
     : mParentGUID(-1)
@@ -35,3 +37,5 @@ void NotifyParentOnDeathComponentLoader::BindValues()
 NotifyParentOnDeathComponentLoader::NotifyParentOnDeathComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(NotifyParentOnDeathComponent, NotifyParentOnDeathComponent);

@@ -1,4 +1,6 @@
 #include "core/detonate_on_hit_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 DetonateOnHitComponent::DetonateOnHitComponent()
     : mMaterial(-1)
@@ -51,3 +53,5 @@ void DetonateOnHitComponentLoader::BindValues()
 DetonateOnHitComponentLoader::DetonateOnHitComponentLoader()
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(DetonateOnHitComponent, DetonateOnHitComponent);

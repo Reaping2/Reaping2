@@ -21,7 +21,7 @@ public:
 };
 
 OsFileImpl::OsFileImpl( const boost::filesystem::path& Path, std::ios_base::openmode Mode )
-    : mFile( Path.c_str(), Mode | std::ios_base::binary )
+    : mFile( Path.string().c_str(), Mode | std::ios_base::binary )
     , mPosition( 0 )
 {
     if( IsValid() && ( Mode & std::ios_base::in ) )

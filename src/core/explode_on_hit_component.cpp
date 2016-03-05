@@ -1,4 +1,6 @@
 #include "core/explode_on_hit_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 ExplodeOnHitComponent::ExplodeOnHitComponent()
     : IExplodeOnHitComponent()
@@ -66,3 +68,5 @@ ExplodeOnHitComponentLoader::ExplodeOnHitComponentLoader()
     : mExplodeDistributionType(ExplodeDistributionType::Get())
 {
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(ExplodeOnHitComponent, ExplodeOnHitComponent);

@@ -3,6 +3,7 @@
 #define INCLUDED_GAUSS_GUN_H
 
 #include "core/weapon.h"
+#include "platform/export.h"
 
 class GaussGun : public Weapon
 {
@@ -39,5 +40,6 @@ public:
     friend class ItemLoaderFactory;
 };
 
+REAPING2_CLASS_EXPORT_KEY2(GaussGun, GaussGun,"gauss_gun");
 #endif // INCLUDED_GAUSS_GUN_H
 

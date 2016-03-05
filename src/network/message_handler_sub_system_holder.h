@@ -89,6 +89,7 @@ namespace network {
         virtual ~MessageHandlerSubSystemHolder();
         virtual void Init();
         virtual void Update( double DeltaTime );
+        void InitHandlers();
     protected:
         SubSystems_t mSubSystems;
         MessageHandlerSubSystemFactory& mSubSystemFactory;

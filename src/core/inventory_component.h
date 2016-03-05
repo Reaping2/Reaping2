@@ -6,6 +6,7 @@
 #include "core/opt.h"
 #include "core/weapon.h"
 #include <boost/serialization/list.hpp>
+#include "platform/export.h"
 class InventoryComponent : public IInventoryComponent
 {
 public:
@@ -55,4 +56,6 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(InventoryComponent, InventoryComponent,"inventory_component");
 #endif//INCLUDED_CORE_INVENTORY_COMPONENT_H

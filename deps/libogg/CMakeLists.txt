@@ -21,6 +21,7 @@ ExternalProject_Add(ext_libogg
                     ${EXTERNALS_WORK_DIR}/src/libogg/FindOgg.cmake
         CMAKE_ARGS
             ${PLATFORM_CMAKE_ARGS}
+            ${TOOLCHAIN_CMAKE_ARGS}
             -G ${CMAKE_GENERATOR}
             -DCMAKE_INSTALL_PREFIX=${EXTERNALS_INSTALL_DIR}
             -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})

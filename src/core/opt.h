@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_OPT_H
 #include <cstdio>
 #include <boost/serialization/serialization.hpp>
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 
 template<typename T>
 class Opt

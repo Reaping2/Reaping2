@@ -1,4 +1,6 @@
 #include "core/controller_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 void ControllerComponent::SetEnabled(bool Enabled)
 {
@@ -20,3 +22,5 @@ void ControllerComponent::Update(double Seconds)
 {
 
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(ControllerComponent, ControllerComponent);

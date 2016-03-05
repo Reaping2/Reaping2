@@ -3,6 +3,8 @@
 #include "core/i_health_component.h"
 #include "core/actor.h"
 #include <boost/assert.hpp>
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 RemoveOnDeathComponent::RemoveOnDeathComponent()
     : mRemainingTime( 0 )
@@ -29,3 +31,5 @@ double RemoveOnDeathComponent::GetRemainingTime() const
 {
     return mRemainingTime;
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(RemoveOnDeathComponent, RemoveOnDeathComponent);

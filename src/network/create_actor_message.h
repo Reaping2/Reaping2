@@ -3,6 +3,7 @@
 
 #include "network/message.h"
 #include "core/actor_event.h"
+#include "platform/export.h"
 namespace network {
 
     class CreateActorMessage: public Message
@@ -30,4 +31,6 @@ namespace network {
     }
 
 } // namespace network
+
+REAPING2_CLASS_EXPORT_KEY2(network__CreateActorMessage, network::CreateActorMessage,"create_actor");
 #endif//INCLUDED_NETWORK_CREATE_ACTOR_MESSAGE_H

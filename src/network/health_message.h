@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/health_changed_event.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -64,6 +65,8 @@ public:
 };
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_KEY2(network__HealthMessage, network::HealthMessage,"health");
 #endif//INCLUDED_NETWORK_HEALTH_H
 
 // TODO: to main.cpp:

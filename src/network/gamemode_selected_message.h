@@ -5,6 +5,7 @@
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
 #include "core/gamemode_selected_event.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -49,6 +50,6 @@ public:
 };
 } // namespace network
 
+REAPING2_CLASS_EXPORT_KEY2( network__GamemodeSelectedMessage, network::GamemodeSelectedMessage, "gamemode_selected_message" )
 #endif//INCLUDED_NETWORK_GAMEMODE_SELECTED_MESSAGE_H
-
 //command:  "./classgenerator" -g "message" -c "gamemode_selected_message"

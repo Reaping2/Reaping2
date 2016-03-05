@@ -6,6 +6,8 @@
 #include "core/actor_factory.h"
 #include "platform/auto_id.h"
 #include <boost/assert.hpp>
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 using platform::AutoId;
 
@@ -38,3 +40,5 @@ void DropOnDeathComponentLoader::BindValues()
 {
 
 }
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(DropOnDeathComponent, DropOnDeathComponent);

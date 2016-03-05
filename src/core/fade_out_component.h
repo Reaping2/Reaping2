@@ -3,6 +3,7 @@
 
 #include "core/i_fade_out_component.h"
 #include "core/property_loader.h"
+#include "platform/export.h"
 
 class FadeOutComponent : public IFadeOutComponent
 {
@@ -36,4 +37,6 @@ public:
     friend class ComponentLoaderFactory;
 };
 
+
+REAPING2_CLASS_EXPORT_KEY2(FadeOutComponent, FadeOutComponent,"fade_out_component");
 #endif//INCLUDED_CORE_FADE_OUT_COMPONENT_H

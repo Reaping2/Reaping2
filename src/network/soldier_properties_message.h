@@ -7,6 +7,7 @@
 #include "core/actor_event.h"
 #include "engine/soldier_properties_ready_event.h"
 #include "engine/soldier_created_event.h"
+#include "platform/export.h"
 
 using core::SoldierProperties;
 namespace network {
@@ -55,5 +56,7 @@ public:
 };
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_KEY2(network__SoldierPropertiesMessage, network::SoldierPropertiesMessage,"soldier_properties");
 #endif//INCLUDED_NETWORK_SOLDIER_PROPERTIES_H
 

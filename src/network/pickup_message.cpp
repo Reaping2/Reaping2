@@ -6,6 +6,8 @@
 #include "core/buffs/i_buff_holder_component.h"
 #include "platform/auto_id.h"
 #include "core/buffs/buff_factory.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 namespace network {
 
     PickupMessageSenderSystem::PickupMessageSenderSystem()
@@ -86,3 +88,5 @@ namespace network {
 
 } // namespace engine
 
+
+REAPING2_CLASS_EXPORT_IMPLEMENT(network__PickupMessage, network::PickupMessage);

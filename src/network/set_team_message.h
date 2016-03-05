@@ -7,6 +7,7 @@
 #include "core/ctf_program_state.h"
 #include "engine/soldier_created_event.h"
 #include "engine/flag_created_event.h"
+#include "platform/export.h"
 
 namespace network {
 
@@ -59,6 +60,8 @@ public:
 };
 } // namespace network
 
+
+REAPING2_CLASS_EXPORT_KEY2(network__SetTeamMessage, network::SetTeamMessage,"set_team");
 #endif//INCLUDED_NETWORK_SET_TEAM_H
 
 //command:  "classgenerator.exe" -g "message" -c "set_team" -m "Team::Type-team" -e "engine-soldierCreated" -p "pending" -t "team"

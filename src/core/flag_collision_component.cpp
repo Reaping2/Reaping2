@@ -1,4 +1,6 @@
 #include "core/flag_collision_component.h"
+#include <portable_iarchive.hpp>
+#include <portable_oarchive.hpp>
 
 namespace ctf {
 
@@ -18,3 +20,4 @@ FlagCollisionComponentLoader::FlagCollisionComponentLoader()
 }
 
 } // namespace ctf
+REAPING2_CLASS_EXPORT_IMPLEMENT(ctf__FlagCollisionComponent, ctf::FlagCollisionComponent);

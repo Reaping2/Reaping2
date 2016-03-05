@@ -3,7 +3,7 @@
 
 #include "platform/auto_id.h"
 #include "core/opt.h"
-#include <boost/serialization/export.hpp>
+#include "platform/export.h"
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/base_object.hpp>
 
