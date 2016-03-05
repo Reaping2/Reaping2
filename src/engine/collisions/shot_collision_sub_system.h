@@ -16,10 +16,10 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene(Actor& actor);
     virtual void Collide(Actor& actor, Actor& other);
-    typedef std::vector<Opt<Actor> > ActorsCollided_t;
-    ActorsCollided_t mActorsCollided;
 private:
     void TakeDamage(Actor &actor, Actor &target, Opt<ShotCollisionComponent> shotCC);
+
+    void KillShot(Actor &actor, Actor &target, Opt<ShotCollisionComponent> shotCC);
 
 };
 
