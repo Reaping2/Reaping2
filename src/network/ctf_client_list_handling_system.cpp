@@ -26,9 +26,10 @@ void CtfClientListHandlingSystem::Update( double DeltaTime )
 
 void CtfClientListHandlingSystem::OnTeamSwitchRequestEvent( TeamSwitchRequestEvent const& event )
 {
-    std::vector<::ctf::ClientData>::iterator it = std::find_if( mClientDatas.begin(), mClientDatas.end(),
+    ::ctf::ProgramState::ClientDatas_t& ctfClientDatas = ::ctf::ProgramState::Get().mClientDatas;
+    std::vector<::ctf::ClientData>::iterator it = std::find_if( ctfClientDatas.begin(), ctfClientDatas.end(),
            boost::bind<bool>( []( ::ctf::ClientData const& d, int32_t clientId ){ return d.mClientId == clientId; }, _1, event.mClientId ) );
-    if ( mClientDatas.end() == it )
+    if ( ctfClientDatas.end() == it )
     {
         // something went wrong if we end up here
         return;
@@ -46,16 +47,17 @@ void CtfClientListHandlingSystem::OnTeamSwitchRequestEvent( TeamSwitchRequestEve
     }
     // send out the new team setup
     CtfClientDatasChangedEvent clientDatasChangedEvent;
-    clientDatasChangedEvent.mCtfClientDatas = mClientDatas;
+    clientDatasChangedEvent.mCtfClientDatas = ctfClientDatas;
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(clientDatasChangedEvent);
 }
 
 void CtfClientListHandlingSystem::OnClientReadyEvent( ClientReadyEvent const& event )
 {
+    ::ctf::ProgramState::ClientDatas_t& ctfClientDatas = ::ctf::ProgramState::Get().mClientDatas;
     // if ready then add to 
-    int reds = std::count_if( mClientDatas.begin(), mClientDatas.end(),
+    int reds = std::count_if( ctfClientDatas.begin(), ctfClientDatas.end(),
            []( ::ctf::ClientData const& d ){ return d.mTeam == Team::Red; } );
-    int blues = std::count_if( mClientDatas.begin(), mClientDatas.end(),
+    int blues = std::count_if( ctfClientDatas.begin(), ctfClientDatas.end(),
            []( ::ctf::ClientData const& d ){ return d.mTeam == Team::Blue; } );
     ::ctf::ClientData data;
     data.mClientId = event.mClientId;
@@ -69,10 +71,10 @@ void CtfClientListHandlingSystem::OnClientReadyEvent( ClientReadyEvent const& ev
     {
         data.mTeam = Team::Blue;
     }
-    mClientDatas.push_back( data );
+    ctfClientDatas.push_back( data );
     // send out the new team setup
     CtfClientDatasChangedEvent evt;
-    evt.mCtfClientDatas = mClientDatas;
+    evt.mCtfClientDatas = ctfClientDatas;
     EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(evt);
 }
 
