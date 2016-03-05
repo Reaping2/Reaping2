@@ -18,7 +18,7 @@ find_package( OpenGL )
 # add possible lib names at the end of the arg list
 macro( my_find_package pkg_name header default_lib_name )
 
-    find_package( ${pkg_name} QUIET )
+    find_package( ${pkg_name} QUIET MODULE )
 
     if(NOT ${${pkg_name}_FOUND})
         message(STATUS "Package ${pkg_name} not found! Trying to find paths manually ...")
