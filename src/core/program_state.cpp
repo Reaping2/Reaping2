@@ -7,7 +7,8 @@ namespace core {
     ProgramState::ProgramState()
         : mProgramStateModel( "programstate", &platform::RootModel::Get() )
         , mIsClientModel( RefTo( mIsClient ), "isclient", &mProgramStateModel )
-        , mIsClient(0)
+		, mIsHostModel(RefTo(mIsHost), "ishost", &mProgramStateModel)
+		, mIsClient(0)
         , mMode(ProgramState::Local)
         , mGameState(NotRunning)
         , mClientConnected(false)
@@ -16,6 +17,7 @@ namespace core {
         , mControlledActorGUID(-1)
         , mServerIp("")
         , mGameMode("")
+		, mIsHost(0)
     {
     }
 

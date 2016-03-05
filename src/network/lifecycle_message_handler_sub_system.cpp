@@ -21,6 +21,7 @@
 #include "core/start_game_mode_event.h"
 #include "engine/engine.h"
 #include "main/window.h"
+#include "load_clientlist_event.h"
 
 namespace network {
 
@@ -44,7 +45,6 @@ namespace network {
         {
             if (msg.mState==LifecycleMessage::Start)
             {
-                mProgramState.mGameMode=msg.mGameMode;
                 EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
             }
             else if (msg.mState==LifecycleMessage::WaitingForHost)
@@ -55,7 +55,21 @@ namespace network {
             {
                 Ui::Get().Load("soldier_properties");
             }
-        }
+			else if (msg.mState == LifecycleMessage::ClientList)
+			{
+				Opt<core::ClientData> clientData = mProgramState.FindClientDataByClientId(mProgramState.mClientId);
+				if (clientData.IsValid() && clientData->mSoldierProperties.mArrived )
+				{
+					network::LoadClientlistEvent event;
+					event.mGameMode = msg.mGameMode;
+					EventServer<network::LoadClientlistEvent>::Get().SendEvent(event);
+				}
+			}
+			else if (msg.mState == LifecycleMessage::SelectLevel)
+			{
+				Ui::Get().Load("select_level");
+			}
+		}
         else if (mProgramState.mMode==ProgramState::Client
             &&mProgramState.mClientId==-1)
         {
@@ -69,7 +83,6 @@ namespace network {
         {
             if (msg.mState==LifecycleMessage::Start)
             {
-                mProgramState.mGameMode=msg.mGameMode;
                 mScene.SelectLevel(msg.mSelectedLevel);
                 EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ));
                 std::auto_ptr<network::LifecycleMessage> lifecycleMsg(new network::LifecycleMessage);

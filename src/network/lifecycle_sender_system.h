@@ -4,6 +4,7 @@
 #include "engine/system.h"
 #include "messsage_holder.h"
 #include "core/scene.h"
+#include "core/program_state.h"
 
 namespace network {
 
@@ -14,6 +15,7 @@ class LifecycleSenderSystem: public engine::System
     ModelValue mLifecycleModel;
     ModelValue mHostModel;
     Scene& mScene;
+	core::ProgramState& mProgramState;
 public:
     LifecycleSenderSystem();
     virtual void Init();

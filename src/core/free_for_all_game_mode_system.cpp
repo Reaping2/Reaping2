@@ -22,6 +22,7 @@ namespace core {
     // TODO: subscribe to gamemodeselected event
 FreeForAllGameModeSystem::FreeForAllGameModeSystem()
     : mScene( Scene::Get() )
+	, mProgramState(core::ProgramState::Get())
 {
 }
 
@@ -133,7 +134,7 @@ void FreeForAllGameModeSystem::OnStartGameMode(core::StartGameModeEvent const& E
 
 void FreeForAllGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
 {
-    if ( "ffa" != mScene.GetSelectedGameMode() )
+    if ( "ffa" != mProgramState.mGameMode)
     {
         return;
     }

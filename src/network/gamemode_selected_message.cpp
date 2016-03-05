@@ -3,6 +3,7 @@
 #include "network/load_clientlist_event.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "lifecycle_message.h"
 
 namespace network {
 
@@ -51,24 +52,28 @@ void GamemodeSelectedMessageHandlerSubSystem::Update(double DeltaTime)
 void GamemodeSelectedMessageHandlerSubSystem::Execute(Message const& message)
 {
     GamemodeSelectedMessage const& msg=static_cast<GamemodeSelectedMessage const&>(message);
-    if ( mProgramState.mMode == ProgramState::Client  )
+	if (mProgramState.mMode == ProgramState::Client)
+	{
+		mProgramState.mGameMode = msg.mGameMode;
+	}
+	if (mProgramState.mMode == ProgramState::Server)
     {
-        Opt<core::ClientData> clientData = mProgramState.FindClientDataByClientId(mProgramState.mClientId);
-        // if soldier properties are finished (and the message doesn't come originally from me) then let's trigger client list loading
-        if ( clientData.IsValid() && clientData->mSoldierProperties.mArrived && (mProgramState.mClientId != msg.mOriginator) )
-        {
-            network::LoadClientlistEvent event;
-            event.mGameMode = msg.mGameMode;
-            EventServer<network::LoadClientlistEvent>::Get().SendEvent(event);
-        }
-    }
-    else if ( mProgramState.mMode == ProgramState::Server )
-    {
-        std::auto_ptr<GamemodeSelectedMessage> reply(new GamemodeSelectedMessage);
-        reply->mGameMode = msg.mGameMode;
-        reply->mOriginator = msg.mOriginator;
-        mMessageHolder.AddOutgoingMessage( reply );
-    }
+		mProgramState.mGameMode = msg.mGameMode;
+		std::auto_ptr<GamemodeSelectedMessage> gameModeSelectedMsg(new GamemodeSelectedMessage);
+		gameModeSelectedMsg->mGameMode = msg.mGameMode;
+		gameModeSelectedMsg->mOriginator = mProgramState.mClientId;
+		mMessageHolder.AddOutgoingMessage(gameModeSelectedMsg);
+		std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
+		lifecycleMsg->mState = LifecycleMessage::ClientList;
+		lifecycleMsg->mGameMode = msg.mGameMode;
+		lifecycleMsg->mClientId = -1;
+		mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+		lifecycleMsg.reset(new LifecycleMessage);
+		lifecycleMsg->mState = LifecycleMessage::SelectLevel;
+		lifecycleMsg->mGameMode = msg.mGameMode;
+		lifecycleMsg->mClientId = msg.mOriginator;
+		mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+	}
 }
 
 } // namespace network

@@ -112,7 +112,6 @@ Scene::Scene()
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
     , mSelectedLevel("")
-    , mSelectedGameMode("")
 {
 }
 
@@ -408,13 +407,8 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
 
 void Scene::SelectGameMode( std::string const& GameMode )
 {
-    mSelectedGameMode = GameMode;
+	mProgramState.mGameMode = GameMode;
     core::GamemodeSelectedEvent event;
-    event.mGameMode = mSelectedGameMode;
+    event.mGameMode = GameMode;
     EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );
-}
-
-std::string Scene::GetSelectedGameMode()
-{
-    return mSelectedGameMode;
 }
