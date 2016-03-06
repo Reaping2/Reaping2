@@ -10,49 +10,54 @@ set( CMAKE_CXX_STANDARD 11 )
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 if( CMAKE_HOST_UNIX )
-    set( CMAKE_CXX_FLAGS "-Wall -Wno-deprecated-declarations" )
+    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-deprecated-declarations" )
     if($ENV{REAPING2_PROFILE})
         set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg" )
     endif($ENV{REAPING2_PROFILE})
-
 endif( CMAKE_HOST_UNIX )
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake_support)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_support)
 
 if(NOT DEFINED REAPING2_DEPS_INSTALL_DIR AND EXISTS ${PROJECT_SOURCE_DIR}/local)
     set(REAPING2_DEPS_INSTALL_DIR ${PROJECT_SOURCE_DIR}/local)
 endif()
+# Ensure that it's cached and absolute
+find_path(REAPING2_DEPS_INSTALL_DIR ${REAPING2_DEPS_INSTALL_DIR}
+    HINTS ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
+    )
 
 list(APPEND CMAKE_FIND_ROOT_PATH ${REAPING2_DEPS_INSTALL_DIR})
 set(CMAKE_PREFIX_PATH ${REAPING2_DEPS_INSTALL_DIR})
 
-include( FindDeps ) 
+include( FindDeps )
 include( CMakeHelper )
 
 set(BUILD_SHARED_LIBS ON)
 
-set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/debug)
-set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin/debug)
-set(CMAKE_EXECUTABLE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin/release)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/debug)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin/debug)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin/release)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+foreach(CONFIG_NAME DEBUG RELEASE RELWITHDEBINFO)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG_NAME} ${PROJECT_BINARY_DIR}/bin/$<LOWER_CASE:$<CONFIG>>)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG_NAME} ${PROJECT_BINARY_DIR}/lib/$<LOWER_CASE:$<CONFIG>>)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${CONFIG_NAME} ${PROJECT_BINARY_DIR}/lib/$<LOWER_CASE:$<CONFIG>>)
+endforeach()
+
 if(WIN32)
     set( WIN32_ENET_INCLUDE_WS2_32 ws2_32.lib )
     set( WIN32_ENET_INCLUDE_WINMM winmm.lib )
     if(MINGW)
         set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj" )
-    else(MINGW)
-        # Had to use this when compiled debug+64bit with msvc
-        # see: https://msdn.microsoft.com/en-us/library/8578y171.aspx
+    elseif(MSVC)
         set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj" )
-    endif(MINGW)
+        option(ENABLE_MSVC_MP "Enable multi-processor compilation" ON)
+        if(ENABLE_MSVC_MP)
+            set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP" )
+        endif(ENABLE_MSVC_MP)
+    endif()
 endif(WIN32)
 
-link_directories(
-    "${CMAKE_CURRENT_SOURCE_DIR}/bin/libs"
-    ${Boost_LIBRARY_DIRS}
-    )
+link_directories(${Boost_LIBRARY_DIRS})
 
 # use ccache if available
 find_program(CCACHE_FOUND ccache)
@@ -80,7 +85,8 @@ include_directories(
     ${ENET_INCLUDE_DIR}
     )
 
-
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
 
 add_subdirectory( src )
 add_subdirectory( tools )
