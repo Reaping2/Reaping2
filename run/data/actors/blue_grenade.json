@@ -5,7 +5,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1000}]
+                "set":[{"speed":800}]
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":-600,"min_speed":0}]
@@ -23,7 +23,7 @@
                 "set":[{"explosion_projectile":"blue_grenade_explode_projectile"}]
             },
             {"name":"fade_out_component",
-                "set":[{"secs_to_end":1.5}]
+                "set":[{"secs_to_end":1.3}]
             },
             {"name":"explode_on_hit_component",
                 "set":[{"explosion_projectile":"",
@@ -44,7 +44,7 @@
                 "set":[{"class":"aoe", "radius":14, "damage":45, "damage_once":1 }]
             },
             {"name":"explosion_component",
-                "set":[{"scale_speed":1500.0, "max_radius":350.0}]
+                "set":[{"scale_speed":1500.0, "max_radius":400.0}]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -55,7 +55,7 @@
             },
             {"name":"remove_on_death_component"},
             {"name":"fade_out_component",
-                "set":[{"secs_to_end":0.325}]
+                "set":[{"secs_to_end":0.4}]
             }
         ]
     }    

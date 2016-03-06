@@ -2,7 +2,7 @@
     {
         "name":"gauss_gun",
         "set":[{
-            "shoot_cooldown":1.6,
+            "shoot_cooldown":2.5,
             "shoot_alt_cooldown":1.6,
             "bullets":6.0,
             "shot_cost":1,

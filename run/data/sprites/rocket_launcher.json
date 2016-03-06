@@ -57,7 +57,7 @@
         ]
     },
     {
-        "texture_path":"textures/rocket_launcher_projectile.png",
+        "texture_path":"textures/rocket_launcher_projectile_new.png",
         "actor_visuals":
         [
             {
@@ -66,8 +66,8 @@
                 [
                     {
                         "name":"move",
-                        "w":30,
-                        "h":17,
+                        "w":93,
+                        "h":53,
                         "scale":4.0,
                         "phases":[{"x":0,"y":0}]
                     }
@@ -79,9 +79,9 @@
                 [
                     {
                         "name":"move",
-                        "w":30,
-                        "h":17,
-                        "scale":5,
+                        "w":93,
+                        "h":53,
+                        "scale":10,
                         "phases":[{"x":0,"y":0}]
                     }
                 ]
