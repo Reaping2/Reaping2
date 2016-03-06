@@ -69,6 +69,11 @@ void ShotCollisionComponent::SetDamageOnce(bool damageOnce)
     mDamageOnce=damageOnce;
 }
 
+ShotCollisionComponent::ActorsCollided_t& ShotCollisionComponent::GetActorsCollided()
+{
+    return mActorsCollided;
+}
+
 void ShotCollisionComponent::AddDamagedActorId(int32_t damagedActorId)
 {
     mDamagedActorIds.insert(damagedActorId);

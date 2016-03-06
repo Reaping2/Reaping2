@@ -14,7 +14,7 @@
             "scatter_chill":40,
             "scatter_magic_number":100,
             "explosion_projectile":"shotgun_projectile",
-            "count":9,
+            "count":13,
             "distribution":"random",
             "secs_to_end_variance":0.2,
             "position_variance":50,
