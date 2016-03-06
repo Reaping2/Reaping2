@@ -178,7 +178,7 @@ Widget* Widget::GetHit( const glm::vec2& Pos )
             return Wdg;
         }
     }
-    return mProperties( PT_Enabled ).Value.ToInt ? this : NULL;
+    return mProperties( PT_Enabled ).operator int32_t() ? this : NULL;
 }
 
 bool Widget::IsInside( const glm::vec2& Pos ) const
