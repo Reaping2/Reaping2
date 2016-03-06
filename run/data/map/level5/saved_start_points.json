@@ -5,7 +5,7 @@
          "x" : 0,
          "y" : 1750
       },
-      "team" : "blue"
+      "team" : "red"
    },
    {
       "name" : "ctf_flag_spawn_point",
@@ -13,7 +13,7 @@
          "x" : 0,
          "y" : -1750
       },
-      "team" : "red"
+      "team" : "blue"
    },
    {
       "name" : "ctf_soldier_spawn_point",
