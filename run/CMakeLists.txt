@@ -31,11 +31,17 @@ if(R2PKG_VAR)
     add_custom_command(OUTPUT data.pkg
         COMMAND
             ${SETENV_FOR_UPDATE_DATA}
-            ${R2PKG_VAR} -c ${CMAKE_CURRENT_SOURCE_DIR}/data
+            ${R2PKG_VAR}
+                -c ${CMAKE_CURRENT_SOURCE_DIR}/data
+                -o ${PROJECT_BINARY_DIR}/bin/$<LOWER_CASE:$<CONFIG>>/data.pkg
         DEPENDS ${data_src})
 
     add_custom_target(update_data ALL
         DEPENDS data.pkg
         SOURCES ${data_src})
+
+    set_property(TARGET update_data PROPERTY FOLDER "tools")
+
+    install(FILES ${PROJECT_BINARY_DIR}/bin/$<LOWER_CASE:$<CONFIG>>/data.pkg DESTINATION bin)
 
 endif(R2PKG_VAR)
