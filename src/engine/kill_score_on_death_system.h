@@ -9,7 +9,7 @@ namespace engine {
 class KillScoreOnDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(KillScoreOnDeathSystem)
+    DEFINE_SYSTEM_BASE( KillScoreOnDeathSystem )
     KillScoreOnDeathSystem();
 protected:
     virtual void Init();

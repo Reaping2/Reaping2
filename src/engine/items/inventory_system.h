@@ -10,7 +10,7 @@ namespace engine {
 class InventorySystem : public System, public SubSystemHolder
 {
 public:
-    DEFINE_SYSTEM_BASE(InventorySystem)
+    DEFINE_SYSTEM_BASE( InventorySystem )
     InventorySystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

@@ -9,8 +9,8 @@ struct CloakChangedEvent : public platform::Event
 {
     int32_t mActorGUID;
     bool mActivated;
-    CloakChangedEvent(int32_t actorGUID, bool activated)
-        :mActorGUID(actorGUID),mActivated(activated){}
+    CloakChangedEvent( int32_t actorGUID, bool activated )
+        : mActorGUID( actorGUID ), mActivated( activated ) {}
 };
 
 } // namespace engine

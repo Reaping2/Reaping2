@@ -14,7 +14,7 @@ public:
     virtual void SetX( double X );
     virtual void SetY( double Y );
     virtual void SetOrientation( double Orientation );
-    virtual void Save(Json::Value& component);
+    virtual void Save( Json::Value& component );
 protected:
     PositionComponent();
     friend class ComponentFactory;
@@ -25,17 +25,17 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void PositionComponent::serialize(Archive& ar, const unsigned int version)
+void PositionComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IPositionComponent>(*this);
-    ar & mX;
-    ar & mY;
-    ar & mOrientation;
+    ar& boost::serialization::base_object<IPositionComponent>( *this );
+    ar& mX;
+    ar& mY;
+    ar& mOrientation;
 }
 
 class PositionComponentLoader: public ComponentLoader<PositionComponent>
@@ -47,5 +47,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(PositionComponent, PositionComponent,"position_component");
+REAPING2_CLASS_EXPORT_KEY2( PositionComponent, PositionComponent, "position_component" );
 #endif//INCLUDED_CORE_POSITION_COMPONENT_H

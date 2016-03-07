@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 TeamComponent::TeamComponent()
-    : mTeam(Team::Blue)
+    : mTeam( Team::Blue )
 {
 }
 
-void TeamComponent::SetTeam(Team::Type team)
+void TeamComponent::SetTeam( Team::Type team )
 {
-    mTeam=team;
+    mTeam = team;
 }
 
 Team::Type TeamComponent::GetTeam()const
@@ -27,4 +27,4 @@ TeamComponentLoader::TeamComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(TeamComponent, TeamComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( TeamComponent, TeamComponent );

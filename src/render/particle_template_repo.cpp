@@ -80,20 +80,20 @@ ParticleTemplate::ParticleTemplate( Json::Value const& json )
     RotDir = RotAccelerationDir = Rot_Any;
     Heading = H_Any;
 
-    typedef std::map<std::string,RotationDirection> rotmap_t;
+    typedef std::map<std::string, RotationDirection> rotmap_t;
     static rotmap_t const rotmap = boost::assign::map_list_of
-        ( std::string( "+" ), Rot_P )
-        ( std::string( "-" ), Rot_N )
-        ( std::string( "=" ), Rot_Any );
-    typedef std::map<std::string,SpeedDirection> spdmap_t;
+                                   ( std::string( "+" ), Rot_P )
+                                   ( std::string( "-" ), Rot_N )
+                                   ( std::string( "=" ), Rot_Any );
+    typedef std::map<std::string, SpeedDirection> spdmap_t;
     static spdmap_t const spdmap = boost::assign::map_list_of
-        ( std::string( "Towards" ), Towards )
-        ( std::string( "Away" ), Away )
-        ( std::string( "Any" ), Any );
-    typedef std::map<std::string,HeadingType> hmap_t;
+                                   ( std::string( "Towards" ), Towards )
+                                   ( std::string( "Away" ), Away )
+                                   ( std::string( "Any" ), Any );
+    typedef std::map<std::string, HeadingType> hmap_t;
     static hmap_t const hmap = boost::assign::map_list_of
-        ( std::string( "Actor" ), H_Actor )
-        ( std::string( "Any" ), H_Any );
+                               ( std::string( "Actor" ), H_Actor )
+                               ( std::string( "Any" ), H_Any );
     std::string str;
 #define MAP( type, name ) \
     if( Json::GetStr( json[ #name ], str ) ) \

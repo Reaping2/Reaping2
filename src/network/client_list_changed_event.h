@@ -9,8 +9,8 @@ namespace network {
 struct ClientListChangedEvent : public platform::Event
 {
     core::ProgramState::ClientDatas_t mClientList;
-    ClientListChangedEvent( core::ProgramState::ClientDatas_t & clients )
-        : mClientList(clients)
+    ClientListChangedEvent( core::ProgramState::ClientDatas_t& clients )
+        : mClientList( clients )
     {
     }
 };

@@ -169,7 +169,7 @@ void PngLoadData::RowCallback( png_structp PngPtr, png_bytep NewRow, png_uint_32
         return;
     }
 
-    uint8_t* Dst = &( ( &Self->mTexture->mData.at(0) )[Self->mTexture->mWidth * detail::TextureImpl::mChannels * RowNum] );
+    uint8_t* Dst = &( ( &Self->mTexture->mData.at( 0 ) )[Self->mTexture->mWidth * detail::TextureImpl::mChannels * RowNum] );
     if( Self->mNeedConversion )
     {
         detail::TextureImpl::ConvertRGBtoRGBA( NewRow, Self->mTexture->mWidth, Dst );

@@ -9,7 +9,7 @@ namespace engine {
 class FlashNormalItemSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(FlashNormalItemSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( FlashNormalItemSubSystem )
     FlashNormalItemSubSystem();
 protected:
     virtual void Init();

@@ -15,8 +15,8 @@ struct ConnectionEvent : public platform::Event
     };
     int32_t mClientId;
     State mConnected;
-    ConnectionEvent(int32_t clientId, State connected)
-        :mClientId(clientId),mConnected(connected){}
+    ConnectionEvent( int32_t clientId, State connected )
+        : mClientId( clientId ), mConnected( connected ) {}
 };
 
 } // namespace engine

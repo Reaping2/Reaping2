@@ -18,7 +18,7 @@
     { \
         return MessageType::GetType_static(); \
     } \
-
+ 
 
 namespace network {
 
@@ -26,32 +26,32 @@ class Message
 {
     friend class ::boost::serialization::access;
 public:
-    virtual int32_t GetType() const=0;
+    virtual int32_t GetType() const = 0;
     int32_t mSenderId;
     Message();
     virtual ~Message();
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void Message::serialize(Archive& ar, const unsigned int version)
+void Message::serialize( Archive& ar, const unsigned int version )
 {
 }
 
 class DefaultMessage : public Message
 {
 public:
-    DEFINE_MESSAGE_BASE(DefaultMessage)
+    DEFINE_MESSAGE_BASE( DefaultMessage )
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void DefaultMessage::serialize(Archive& ar, const unsigned int version)
+void DefaultMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
+    ar& boost::serialization::base_object<Message>( *this );
 }
 
 } // namespace network

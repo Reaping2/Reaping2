@@ -13,18 +13,18 @@ struct PickupEvent : Event
     Opt<Actor> mActor;
     ItemType::Type mItemType;
     int32_t mItemId;
-    PickupEvent(Opt<Actor> actor, ItemType::Type itemType, int32_t itemId)
-        :mActor(actor),mItemType(itemType),mItemId(itemId){}
+    PickupEvent( Opt<Actor> actor, ItemType::Type itemType, int32_t itemId )
+        : mActor( actor ), mItemType( itemType ), mItemId( itemId ) {}
 };
 
 class PickupCollisionSubSystem : public CollisionSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(PickupCollisionSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( PickupCollisionSubSystem )
     PickupCollisionSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
-    virtual void Collide(Actor& actor, Actor& other);
+    virtual void Collide( Actor& actor, Actor& other );
 };
 
 } // namespace engine

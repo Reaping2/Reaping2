@@ -5,11 +5,11 @@
 #include "platform/singleton.h"
 #include "render/action_renderer.h"
 namespace render {
-    class ActionRendererFactory : public platform::Factory<ActionRenderer>, public platform::Singleton<ActionRendererFactory>
-    {
-        friend class platform::Singleton<ActionRendererFactory>;
-        ActionRendererFactory();
-    };
+class ActionRendererFactory : public platform::Factory<ActionRenderer>, public platform::Singleton<ActionRendererFactory>
+{
+    friend class platform::Singleton<ActionRendererFactory>;
+    ActionRendererFactory();
+};
 } // namespace render
 
 

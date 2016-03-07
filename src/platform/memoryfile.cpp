@@ -203,7 +203,7 @@ size_t MemoryFileImpl::Buffer_t::read( void* d, size_t s )
 
 MemoryFile::MemoryFile( size_t PreallocatedBuffers )
 {
-     mImpl.reset( new detail::MemoryFileImpl( PreallocatedBuffers ) );
+    mImpl.reset( new detail::MemoryFileImpl( PreallocatedBuffers ) );
 }
 
 MemoryFile::~MemoryFile()

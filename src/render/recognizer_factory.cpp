@@ -25,9 +25,9 @@ RecognizerFactory::RecognizerFactory()
     Bind<WeaponRecognizer>( AutoId( "weapon" ) );
     Bind<PickupRecognizer>( AutoId( "pickup" ) );
     Bind<HatRecognizer>( AutoId( "body_color" ) );
-    Bind<ctf::CtfHatRecognizer>(AutoId("ctf_body_color"));
-    Bind<ctf::CtfFlagRecognizer>(AutoId("flag"));
-    Bind<BorderRecognizer>(AutoId("border"));
-    Bind<HeadRecognizer>(AutoId("head"));
+    Bind<ctf::CtfHatRecognizer>( AutoId( "ctf_body_color" ) );
+    Bind<ctf::CtfFlagRecognizer>( AutoId( "flag" ) );
+    Bind<BorderRecognizer>( AutoId( "border" ) );
+    Bind<HeadRecognizer>( AutoId( "head" ) );
 }
 } // namespace render

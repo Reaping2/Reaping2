@@ -14,11 +14,11 @@ bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB
         //they do not collide, is some of them can't thats for sure
         return false;
     }
-    return AreActorsColliding(ObjA, ObjB, objAcollisionC->GetRadius(), objBcollisionC->GetRadius(), Dt);
+    return AreActorsColliding( ObjA, ObjB, objAcollisionC->GetRadius(), objBcollisionC->GetRadius(), Dt );
 
 }
 
-bool BoxCollisionModel::AreActorsColliding(Actor const &ObjA, Actor const &ObjB, double radiusA, double radiusB, double Dt)
+bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double radiusA, double radiusB, double Dt )
 {
     // A: (0,0)
     //TODO: this may change, or will be simplified, because this is kind of ugly, to gat these two positions. Time will tell
@@ -35,10 +35,10 @@ bool BoxCollisionModel::AreActorsColliding(Actor const &ObjA, Actor const &ObjB,
     }
     Opt<IMoveComponent> ObjAmoveC = ObjA.Get<IMoveComponent>();
     Opt<IMoveComponent> ObjBmoveC = ObjB.Get<IMoveComponent>();
-    float const ObjASpdX = ObjAmoveC.IsValid()?ObjAmoveC->GetSpeedX():0.0f;
-    float const ObjASpdY = ObjAmoveC.IsValid()?ObjAmoveC->GetSpeedY():0.0f;
-    float const ObjBSpdX = ObjBmoveC.IsValid()?ObjBmoveC->GetSpeedX():0.0f;
-    float const ObjBSpdY = ObjBmoveC.IsValid()?ObjBmoveC->GetSpeedY():0.0f;
+    float const ObjASpdX = ObjAmoveC.IsValid() ? ObjAmoveC->GetSpeedX() : 0.0f;
+    float const ObjASpdY = ObjAmoveC.IsValid() ? ObjAmoveC->GetSpeedY() : 0.0f;
+    float const ObjBSpdX = ObjBmoveC.IsValid() ? ObjBmoveC->GetSpeedX() : 0.0f;
+    float const ObjBSpdY = ObjBmoveC.IsValid() ? ObjBmoveC->GetSpeedY() : 0.0f;
 
     glm::vec2 Spd( ObjBSpdX - ObjASpdX, ObjBSpdY - ObjASpdY );
     glm::vec2 T1minusB = ASize - B;

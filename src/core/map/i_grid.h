@@ -10,11 +10,11 @@ class IGrid
 public:
     IGrid( int32_t Id );
     virtual ~IGrid();
-    virtual void Update( double DeltaTime )=0;
+    virtual void Update( double DeltaTime ) = 0;
     virtual glm::vec2 GetProcessedPosition();
-    virtual void SetMousePosition(double x, double y);
+    virtual void SetMousePosition( double x, double y );
     virtual glm::vec2 GetMousePosition();
-    virtual Neighbors GetNeighbors(glm::vec2 position, int32_t actorID);
+    virtual Neighbors GetNeighbors( glm::vec2 position, int32_t actorID );
 protected:
     glm::vec2 mMousePosition;
     glm::vec2 mProcessedPosition;

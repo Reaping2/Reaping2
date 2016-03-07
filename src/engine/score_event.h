@@ -5,12 +5,12 @@
 
 namespace engine {
 
-    struct ScoreEvent : public platform::Event
-    {
-        int32_t mActorGUID;
-        ScoreEvent(int32_t actorGUID)
-            :mActorGUID(actorGUID){}
-    };
+struct ScoreEvent : public platform::Event
+{
+    int32_t mActorGUID;
+    ScoreEvent( int32_t actorGUID )
+        : mActorGUID( actorGUID ) {}
+};
 
 } // namespace engine
 

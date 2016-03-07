@@ -14,12 +14,12 @@ namespace engine {
 class SoldierSpawnSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(SoldierSpawnSystem)
+    DEFINE_SYSTEM_BASE( SoldierSpawnSystem )
     SoldierSpawnSystem();
     static Opt<SoldierSpawnSystem> Get();
-    std::auto_ptr<Actor> Spawn(core::ClientData& clientData);
-    std::auto_ptr<Actor> Spawn(core::ClientData& clientData, map::SpawnPoint spawnPoint);
-    std::auto_ptr<Actor> Spawn(core::ClientData& clientData, map::SpawnPoint spawnPoint, std::auto_ptr<Actor> player);
+    std::auto_ptr<Actor> Spawn( core::ClientData& clientData );
+    std::auto_ptr<Actor> Spawn( core::ClientData& clientData, map::SpawnPoint spawnPoint );
+    std::auto_ptr<Actor> Spawn( core::ClientData& clientData, map::SpawnPoint spawnPoint, std::auto_ptr<Actor> player );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -29,7 +29,7 @@ private:
     ActorFactory& mActorFactory;
     int32_t mPlayerAutoId;
     AutoReg mOnRevive;
-    void OnRevive(core::ReviveEvent const& Evt);
+    void OnRevive( core::ReviveEvent const& Evt );
 };
 
 } // namespace engine

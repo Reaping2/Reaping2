@@ -11,7 +11,7 @@ namespace ctf {
 class CtfSpawnSoldiersMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(CtfSpawnSoldiersMapElementSystem)
+    DEFINE_SYSTEM_BASE( CtfSpawnSoldiersMapElementSystem )
     CtfSpawnSoldiersMapElementSystem();
 protected:
     virtual void Init();

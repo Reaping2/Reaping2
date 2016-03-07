@@ -9,7 +9,7 @@ class BuffHolderComponent : public IBuffHolderComponent
 public:
     BuffHolderComponent();
     virtual BuffList_t& GetBuffList();
-    virtual void AddBuff(std::auto_ptr<Buff> buff);
+    virtual void AddBuff( std::auto_ptr<Buff> buff );
     ~BuffHolderComponent();
 protected:
     friend class ComponentFactory;
@@ -18,21 +18,21 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void BuffHolderComponent::serialize(Archive& ar, const unsigned int version)
+void BuffHolderComponent::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<IBuffHolderComponent>(*this);
-    ar & mBuffList.mAllBuffs;
+    ar& boost::serialization::base_object<IBuffHolderComponent>( *this );
+    ar& mBuffList.mAllBuffs;
 }
 
 class SecsToEndModifier
 {
 public:
-    SecsToEndModifier(double secsToEnd);
-    void operator()(Opt<Buff> buff);
+    SecsToEndModifier( double secsToEnd );
+    void operator()( Opt<Buff> buff );
 
 protected:
     double mSecsToEnd;

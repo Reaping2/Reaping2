@@ -10,11 +10,11 @@ namespace network {
 
 MessageFactory::MessageFactory()
 {
-    Bind( AutoId("default_message"), &CreateMessage<DefaultMessage> );
-    SetDefault( AutoId("default_message") );
+    Bind( AutoId( "default_message" ), &CreateMessage<DefaultMessage> );
+    SetDefault( AutoId( "default_message" ) );
 
-    Bind( AutoId("my_name_message"), &CreateMessage<MyNameMessage> );
-    Bind( AutoId("client_id_message"), &CreateMessage<ClientIdMessage> );
+    Bind( AutoId( "my_name_message" ), &CreateMessage<MyNameMessage> );
+    Bind( AutoId( "client_id_message" ), &CreateMessage<ClientIdMessage> );
 }
 
 } // namespace engine

@@ -10,9 +10,9 @@ namespace ctf {
 class FlagSpawnSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(FlagSpawnSystem)
+    DEFINE_SYSTEM_BASE( FlagSpawnSystem )
     FlagSpawnSystem();
-    void SetFlagPositionToStart(Actor& actor);
+    void SetFlagPositionToStart( Actor& actor );
     static Opt<FlagSpawnSystem> Get();
 protected:
     virtual void Init();

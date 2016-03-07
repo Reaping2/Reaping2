@@ -13,50 +13,50 @@ class CloakChangedMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(CloakChangedMessage)
+    DEFINE_MESSAGE_BASE( CloakChangedMessage )
     int32_t mActorGUID;
     bool mActivated;
     CloakChangedMessage()
-        : mActorGUID(-1)
-        , mActivated(false)
+        : mActorGUID( -1 )
+        , mActivated( false )
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void CloakChangedMessage::serialize(Archive& ar, const unsigned int version)
+void CloakChangedMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mActorGUID;
-    ar & mActivated;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mActorGUID;
+    ar& mActivated;
 }
 
 class CloakChangedMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(CloakChangedMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( CloakChangedMessageHandlerSubSystem )
     CloakChangedMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
-    virtual void Update(double DeltaTime);
+    virtual void Execute( Message const& message );
+    virtual void Update( double DeltaTime );
 };
 
 class CloakChangedMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnCloakChanged;
-    void OnCloakChanged(engine::CloakChangedEvent const& Evt);
+    void OnCloakChanged( engine::CloakChangedEvent const& Evt );
 public:
-    DEFINE_SYSTEM_BASE(CloakChangedMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( CloakChangedMessageSenderSystem )
     CloakChangedMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_KEY2(network__CloakChangedMessage, network::CloakChangedMessage,"cloak_changed");
+REAPING2_CLASS_EXPORT_KEY2( network__CloakChangedMessage, network::CloakChangedMessage, "cloak_changed" );
 #endif//INCLUDED_NETWORK_CLOAK_CHANGED_H
 
 //command:  "classgenerator.exe" -g "message" -c "cloak_changed" -m "int32_t-actorGUID bool-activated" -e "engine-cloakChanged"

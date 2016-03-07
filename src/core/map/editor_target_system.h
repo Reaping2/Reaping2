@@ -12,13 +12,13 @@ namespace map {
 class EditorTargetSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(EditorTargetSystem)
+    DEFINE_SYSTEM_BASE( EditorTargetSystem )
     EditorTargetSystem();
     ~EditorTargetSystem();
     static Opt<EditorTargetSystem> Get();
     ITarget& GetTarget();
     glm::vec2 GetCursorPosition() const;
-    void SetCursorPosition(double x, double y);
+    void SetCursorPosition( double x, double y );
     Opt<Actor> GetCursor() const;
     double GetCursorRadius() const;
 protected:
@@ -31,7 +31,7 @@ private:
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;
     boost::ptr_vector<ModelValue> mEditorModels;
-    void TargetChanged(std::string const& target);
+    void TargetChanged( std::string const& target );
 };
 
 } // namespace map

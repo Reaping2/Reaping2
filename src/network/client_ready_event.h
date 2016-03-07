@@ -9,7 +9,7 @@ struct ClientReadyEvent : public platform::Event
 {
     int32_t mClientId;
     std::string mClientName;
-    ClientReadyEvent(){}
+    ClientReadyEvent() {}
 };
 
 } // namespace engine

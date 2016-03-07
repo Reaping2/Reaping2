@@ -7,52 +7,52 @@
 #include "platform/export.h"
 namespace network {
 
-    class PingMessage: public Message
+class PingMessage: public Message
+{
+    friend class ::boost::serialization::access;
+public:
+    DEFINE_MESSAGE_BASE( PingMessage )
+    double mCurrentTime;
+    int32_t mClientId; //TODO: there will be a per client sending option. later
+    PingMessage()
+        : mCurrentTime( 0.0 )
+        , mClientId( -1 )
     {
-        friend class ::boost::serialization::access;
-    public:
-        DEFINE_MESSAGE_BASE(PingMessage)
-        double mCurrentTime;
-        int32_t mClientId; //TODO: there will be a per client sending option. later
-        PingMessage()
-            : mCurrentTime(0.0)
-            , mClientId(-1)
-        {
-        }
-        template<class Archive>
-        void serialize(Archive& ar, const unsigned int version);
-    };
-
-    template<class Archive>
-    void PingMessage::serialize(Archive& ar, const unsigned int version)
-    {
-        ar & boost::serialization::base_object<Message>(*this);
-        ar & mCurrentTime;
-        ar & mClientId;
     }
+    template<class Archive>
+    void serialize( Archive& ar, const unsigned int version );
+};
 
-    class PingMessageHandlerSubSystem: public MessageHandlerSubSystem
-    {
-        int32_t mPing;
-    public:
-        ModelValue mPingModel;
-        int32_t GetPing();
-        DEFINE_SUB_SYSTEM_BASE(PingMessageHandlerSubSystem)
-        PingMessageHandlerSubSystem();
-        virtual void Init();
-        virtual void Execute(Message const& message );
-    };
+template<class Archive>
+void PingMessage::serialize( Archive& ar, const unsigned int version )
+{
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mCurrentTime;
+    ar& mClientId;
+}
 
-    class PingMessageSenderSystem: public MessageSenderSystem
-    {
-    public:
-        DEFINE_SYSTEM_BASE(PingMessageSenderSystem)
-        PingMessageSenderSystem();
-        virtual void Init();
-        virtual void Update( double DeltaTime );
-    };
+class PingMessageHandlerSubSystem: public MessageHandlerSubSystem
+{
+    int32_t mPing;
+public:
+    ModelValue mPingModel;
+    int32_t GetPing();
+    DEFINE_SUB_SYSTEM_BASE( PingMessageHandlerSubSystem )
+    PingMessageHandlerSubSystem();
+    virtual void Init();
+    virtual void Execute( Message const& message );
+};
+
+class PingMessageSenderSystem: public MessageSenderSystem
+{
+public:
+    DEFINE_SYSTEM_BASE( PingMessageSenderSystem )
+    PingMessageSenderSystem();
+    virtual void Init();
+    virtual void Update( double DeltaTime );
+};
 
 } // namespace network
 
-REAPING2_CLASS_EXPORT_KEY2(network__PingMessage, network::PingMessage,"ping");
+REAPING2_CLASS_EXPORT_KEY2( network__PingMessage, network::PingMessage, "ping" );
 #endif//INCLUDED_NETWORK_PING_MESSAGE_H

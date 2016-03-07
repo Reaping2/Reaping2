@@ -1,17 +1,17 @@
 #include "core/trigger.h"
 
-Trigger::Trigger(bool active/*=false*/)
-    : mActive(active)
-    , mHandled(false)
+Trigger::Trigger( bool active/*=false*/ )
+    : mActive( active )
+    , mHandled( false )
 {
 }
 
-void Trigger::SetActive(bool active)
+void Trigger::SetActive( bool active )
 {
-    mActive=active;
-    if (!active)
+    mActive = active;
+    if ( !active )
     {
-        SetHandled(false);
+        SetHandled( false );
     }
 }
 
@@ -20,9 +20,9 @@ bool Trigger::IsActive()const
     return mActive;
 }
 
-void Trigger::SetHandled(bool consumed)
+void Trigger::SetHandled( bool consumed )
 {
-    mHandled=consumed;
+    mHandled = consumed;
 }
 
 bool Trigger::IsHandled()const
@@ -32,5 +32,5 @@ bool Trigger::IsHandled()const
 
 bool Trigger::GetValue() const
 {
-    return !mHandled&&mActive;
+    return !mHandled && mActive;
 }

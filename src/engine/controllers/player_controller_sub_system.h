@@ -14,17 +14,17 @@ namespace engine {
 class PlayerControllerSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(PlayerControllerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( PlayerControllerSubSystem )
     PlayerControllerSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
 
 private:
-    void SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
-    void SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
-    void Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
-    void HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC);
-    void HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC);
+    void SetSpeedAndOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
 
     Scene& mScene;
     core::ProgramState& mProgramState;

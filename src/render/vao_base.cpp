@@ -7,7 +7,7 @@ GLint maxTextureUnits()
     static GLint tu = -1;
     if( tu == -1 )
     {
-        glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &tu);
+        glGetIntegerv( GL_MAX_TEXTURE_IMAGE_UNITS, &tu );
     }
     return tu;
 }
@@ -35,7 +35,7 @@ void VaoBase::Bind()const
 {
     glBindVertexArray( mVAO );
     glBindBuffer( GL_ARRAY_BUFFER, mDataBuffer );
-    for( GLint i = 0, e = maxTextureUnits(); i != e; ++ i)
+    for( GLint i = 0, e = maxTextureUnits(); i != e; ++ i )
     {
         glBindSampler( i, mSampler );
     }
@@ -45,7 +45,7 @@ void VaoBase::Unbind()const
 {
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     glBindVertexArray( 0 );
-    for( GLint i = 0, e = maxTextureUnits(); i != e; ++ i)
+    for( GLint i = 0, e = maxTextureUnits(); i != e; ++ i )
     {
         glBindSampler( i, 0 );
     }

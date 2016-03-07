@@ -7,13 +7,13 @@ struct ActorEvent : public Event
 {
     enum State
     {
-        Added=0,
+        Added = 0,
         Died,
         Removed
     };
     Opt<Actor> mActor;
     State mState;
-    ActorEvent( Opt<Actor> actor, State state ): mActor( actor ), mState(state){}
+    ActorEvent( Opt<Actor> actor, State state ): mActor( actor ), mState( state ) {}
 };
 
 struct SceneLoadEvent : public Event

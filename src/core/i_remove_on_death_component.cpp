@@ -2,4 +2,4 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(IRemoveOnDeathComponent, IRemoveOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( IRemoveOnDeathComponent, IRemoveOnDeathComponent );

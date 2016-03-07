@@ -10,7 +10,7 @@ struct FlagStateChangedEvent : public platform::Event
 {
     enum Type
     {
-        Captured=0,
+        Captured = 0,
         Returned,
         Scored,
         Dropped
@@ -19,8 +19,8 @@ struct FlagStateChangedEvent : public platform::Event
     Team::Type mTeam;
     int32_t mCarrierGUID;
     int32_t mFlagGUID;
-    FlagStateChangedEvent(Type type, Team::Type team, int32_t carrierGUID, int32_t flagGUID)
-        :mType(type),mTeam(team),mCarrierGUID(carrierGUID),mFlagGUID(flagGUID){}
+    FlagStateChangedEvent( Type type, Team::Type team, int32_t carrierGUID, int32_t flagGUID )
+        : mType( type ), mTeam( team ), mCarrierGUID( carrierGUID ), mFlagGUID( flagGUID ) {}
 };
 
 } // namespace ctf

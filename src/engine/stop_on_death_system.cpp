@@ -17,33 +17,33 @@ void StopOnDeathSystem::Init()
 }
 
 
-void StopOnDeathSystem::Update(double DeltaTime)
+void StopOnDeathSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
-       Actor& actor = **it;
-       Opt<IStopOnDeathComponent> stopOnDeathC=actor.Get<IStopOnDeathComponent>();
-       if (!stopOnDeathC.IsValid()||stopOnDeathC->IsStopped())
-       {
-           continue;
-       }
+        Actor& actor = **it;
+        Opt<IStopOnDeathComponent> stopOnDeathC = actor.Get<IStopOnDeathComponent>();
+        if ( !stopOnDeathC.IsValid() || stopOnDeathC->IsStopped() )
+        {
+            continue;
+        }
 
-       Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-       if (!healthC.IsValid())
-       {
-           continue;
-       }
-       if (healthC->IsAlive())
-       {
-           continue;
-       }
-       stopOnDeathC->SetStopped(true);
-       Opt<IMoveComponent> moveC=actor.Get<IMoveComponent>();
-       if(moveC.IsValid())
-       {
-           moveC->SetMoving(false);
-           moveC->SetHeadingModifier(0);
-       }
+        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        if ( !healthC.IsValid() )
+        {
+            continue;
+        }
+        if ( healthC->IsAlive() )
+        {
+            continue;
+        }
+        stopOnDeathC->SetStopped( true );
+        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+        if( moveC.IsValid() )
+        {
+            moveC->SetMoving( false );
+            moveC->SetHeadingModifier( 0 );
+        }
     }
 }
 

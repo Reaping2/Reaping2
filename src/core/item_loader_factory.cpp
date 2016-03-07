@@ -15,16 +15,24 @@ using platform::AutoId;
 
 DefaultItemLoader const ItemLoaderRepo::mDefault;
 ItemLoaderRepo::ItemLoaderRepo()
-    : Repository<PropertyLoaderBase<Item> >(mDefault)
+    : Repository<PropertyLoaderBase<Item> >( mDefault )
 {
-    int32_t id=AutoId("plasma_gun"); mElements.insert(id,new PlasmaGunLoader());
-    id=AutoId("pistol"); mElements.insert(id,new PistolLoader());
-    id=AutoId("shotgun"); mElements.insert(id,new ShotgunLoader());
-    id=AutoId("rocket_launcher"); mElements.insert(id,new RocketLauncherLoader());
-    id=AutoId("ion_gun"); mElements.insert(id,new IonGunLoader());
-    id=AutoId("gatling_gun"); mElements.insert(id,new GatlingGunLoader());
-    id=AutoId("gauss_gun"); mElements.insert(id,new GaussGunLoader());
-    id=AutoId("lucky_rocket"); mElements.insert(id,new LuckyRocketLoader());
+    int32_t id = AutoId( "plasma_gun" );
+    mElements.insert( id, new PlasmaGunLoader() );
+    id = AutoId( "pistol" );
+    mElements.insert( id, new PistolLoader() );
+    id = AutoId( "shotgun" );
+    mElements.insert( id, new ShotgunLoader() );
+    id = AutoId( "rocket_launcher" );
+    mElements.insert( id, new RocketLauncherLoader() );
+    id = AutoId( "ion_gun" );
+    mElements.insert( id, new IonGunLoader() );
+    id = AutoId( "gatling_gun" );
+    mElements.insert( id, new GatlingGunLoader() );
+    id = AutoId( "gauss_gun" );
+    mElements.insert( id, new GaussGunLoader() );
+    id = AutoId( "lucky_rocket" );
+    mElements.insert( id, new LuckyRocketLoader() );
     Init();
 }
 
@@ -67,26 +75,26 @@ void ItemLoaderRepo::Init()
 
 }
 
-bool ItemLoaderRepo::LoadItemFromOneDesc(Json::Value& ItemDesc)
+bool ItemLoaderRepo::LoadItemFromOneDesc( Json::Value& ItemDesc )
 {
     std::string nameStr;
-    if( !Json::GetStr( ItemDesc["name"], nameStr))
+    if( !Json::GetStr( ItemDesc["name"], nameStr ) )
     {
         return false;
     }
-    PropertyLoaderBase<Item>& itemLoader=operator()(AutoId(nameStr));
+    PropertyLoaderBase<Item>& itemLoader = operator()( AutoId( nameStr ) );
 
-    Json::Value& setters=ItemDesc["set"];
-    if (!setters.isArray())
+    Json::Value& setters = ItemDesc["set"];
+    if ( !setters.isArray() )
     {
         return false;
     }
-    if (setters.empty())
+    if ( setters.empty() )
     {
         return true;
     }
-    L1("Load item_loader: %s\n",nameStr.c_str());
-    itemLoader.Load(*setters.begin());
+    L1( "Load item_loader: %s\n", nameStr.c_str() );
+    itemLoader.Load( *setters.begin() );
     return true;
 }
 

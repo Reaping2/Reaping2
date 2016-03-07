@@ -18,9 +18,9 @@ void CollisionMessageSenderSystem::Init()
 }
 
 
-void CollisionMessageSenderSystem::Update(double DeltaTime)
+void CollisionMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
 CollisionMessageHandlerSubSystem::CollisionMessageHandlerSubSystem()
@@ -33,38 +33,38 @@ void CollisionMessageHandlerSubSystem::Init()
 {
 }
 
-void CollisionMessageHandlerSubSystem::Update(double DeltaTime)
+void CollisionMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    PendingMessageHandlerSubSystem::Update(DeltaTime);
+    PendingMessageHandlerSubSystem::Update( DeltaTime );
 }
 
-bool CollisionMessageHandlerSubSystem::ProcessPending(Message const& message)
+bool CollisionMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
-    CollisionMessage const& msg=static_cast<CollisionMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed
+    CollisionMessage const& msg = static_cast<CollisionMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
     //L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
     Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
-    if (!collisionC.IsValid())
+    if ( !collisionC.IsValid() )
     {
-        L1("collisionMessage arrived for actor without i_collision_component actorGUID %d \n",msg.mActorGUID );
+        L1( "collisionMessage arrived for actor without i_collision_component actorGUID %d \n", msg.mActorGUID );
         return true;
     }
-    collisionC->SetCollisionClass(msg.mCollisionClass);
-    collisionC->SetRadius(msg.mRadius);
+    collisionC->SetCollisionClass( msg.mCollisionClass );
+    collisionC->SetRadius( msg.mRadius );
     return true;
 }
- 
-std::auto_ptr<CollisionMessage> CollisionMessageSenderSystem::GenerateCollisionMessage(Actor &actor)
+
+std::auto_ptr<CollisionMessage> CollisionMessageSenderSystem::GenerateCollisionMessage( Actor& actor )
 {
     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-    if (!collisionC.IsValid())
+    if ( !collisionC.IsValid() )
     {
         return std::auto_ptr<CollisionMessage>();
     }
-    std::auto_ptr<CollisionMessage> collisionMessage(new CollisionMessage);
-    collisionMessage->mActorGUID=actor.GetGUID();
-    collisionMessage->mCollisionClass=collisionC->GetCollisionClass();
-    collisionMessage->mRadius=collisionC->GetRadius();
+    std::auto_ptr<CollisionMessage> collisionMessage( new CollisionMessage );
+    collisionMessage->mActorGUID = actor.GetGUID();
+    collisionMessage->mCollisionClass = collisionC->GetCollisionClass();
+    collisionMessage->mRadius = collisionC->GetRadius();
     return collisionMessage;
 
 }
@@ -72,4 +72,4 @@ std::auto_ptr<CollisionMessage> CollisionMessageSenderSystem::GenerateCollisionM
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__CollisionMessage, network::CollisionMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__CollisionMessage, network::CollisionMessage );

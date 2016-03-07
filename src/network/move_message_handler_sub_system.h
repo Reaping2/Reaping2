@@ -4,14 +4,14 @@
 
 namespace network {
 
-    class MoveMessageHandlerSubSystem: public MessageHandlerSubSystem
-    {
-    public:
-        DEFINE_SUB_SYSTEM_BASE(MoveMessageHandlerSubSystem)
-        MoveMessageHandlerSubSystem();
-        virtual void Init();
-        virtual void Execute(Message const& message );
-    };
+class MoveMessageHandlerSubSystem: public MessageHandlerSubSystem
+{
+public:
+    DEFINE_SUB_SYSTEM_BASE( MoveMessageHandlerSubSystem )
+    MoveMessageHandlerSubSystem();
+    virtual void Init();
+    virtual void Execute( Message const& message );
+};
 
 } // namespace network
 

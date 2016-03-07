@@ -9,9 +9,9 @@ class NotifyParentOnDeathComponent : public INotifyParentOnDeathComponent
 {
 public:
     NotifyParentOnDeathComponent();
-    virtual void SetParentGUID(int32_t parentId);
+    virtual void SetParentGUID( int32_t parentId );
     virtual int32_t GetParentGUID()const;
-    virtual void SetKillerGUID(int32_t killerId);
+    virtual void SetKillerGUID( int32_t killerId );
     virtual int32_t GetKillerGUID()const;
 protected:
     friend class ComponentFactory;
@@ -21,16 +21,16 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void NotifyParentOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+void NotifyParentOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<INotifyParentOnDeathComponent>(*this);
-    ar & mParentGUID;
-    ar & mKillerGUID;
+    ar& boost::serialization::base_object<INotifyParentOnDeathComponent>( *this );
+    ar& mParentGUID;
+    ar& mKillerGUID;
 }
 
 class NotifyParentOnDeathComponentLoader : public ComponentLoader<NotifyParentOnDeathComponent>
@@ -42,5 +42,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(NotifyParentOnDeathComponent, NotifyParentOnDeathComponent,"notify_parent_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2( NotifyParentOnDeathComponent, NotifyParentOnDeathComponent, "notify_parent_on_death_component" );
 #endif//INCLUDED_CORE_NOTIFY_PARENT_ON_DEATH_COMPONENT_H

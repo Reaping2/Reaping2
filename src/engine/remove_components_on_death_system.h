@@ -9,7 +9,7 @@ namespace engine {
 class RemoveComponentsOnDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(RemoveComponentsOnDeathSystem)
+    DEFINE_SYSTEM_BASE( RemoveComponentsOnDeathSystem )
     RemoveComponentsOnDeathSystem();
 protected:
     virtual void Init();

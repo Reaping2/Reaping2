@@ -7,7 +7,7 @@ namespace engine {
 
 struct ClientDatasChangedEvent : public platform::Event
 {
-    ClientDatasChangedEvent(){}
+    ClientDatasChangedEvent() {}
 };
 
 } // namespace engine

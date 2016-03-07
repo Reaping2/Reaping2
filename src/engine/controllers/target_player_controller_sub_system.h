@@ -11,14 +11,14 @@ namespace engine {
 class TargetPlayerControllerSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(TargetPlayerControllerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( TargetPlayerControllerSubSystem )
     TargetPlayerControllerSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
 
-    static double GetRotationDiffRadians(Actor const& actor,Actor const& target);
+    static double GetRotationDiffRadians( Actor const& actor, Actor const& target );
 
-    void UpdateTarget(Opt<ITargetHolderComponent> targetHolderC);
+    void UpdateTarget( Opt<ITargetHolderComponent> targetHolderC );
 
 private:
     Scene& mScene;

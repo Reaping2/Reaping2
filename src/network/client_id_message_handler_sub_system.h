@@ -6,11 +6,11 @@ namespace network {
 
 class ClientIdMessageHandlerSubSystem: public MessageHandlerSubSystem
 {
-    DEFINE_SUB_SYSTEM_BASE(ClientIdMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( ClientIdMessageHandlerSubSystem )
 public:
     ClientIdMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
+    virtual void Execute( Message const& message );
 };
 
 } // namespace network

@@ -27,17 +27,17 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void AccelerationComponent::serialize(Archive& ar, const unsigned int version)
+void AccelerationComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IAccelerationComponent>(*this);
-    ar & mAcceleration;
-    ar & mMinSpeed;
-    ar & mMaxSpeed;
+    ar& boost::serialization::base_object<IAccelerationComponent>( *this );
+    ar& mAcceleration;
+    ar& mMinSpeed;
+    ar& mMaxSpeed;
 }
 
 class AccelerationComponentLoader: public ComponentLoader<AccelerationComponent>
@@ -49,5 +49,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(AccelerationComponent, AccelerationComponent,"acceleration_component");
+REAPING2_CLASS_EXPORT_KEY2( AccelerationComponent, AccelerationComponent, "acceleration_component" );
 #endif//INCLUDED_CORE_ACCELERATION_COMPONENT_H

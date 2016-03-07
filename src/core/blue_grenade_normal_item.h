@@ -15,17 +15,17 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void BlueGrenadeNormalItem::serialize(Archive& ar, const unsigned int version)
+void BlueGrenadeNormalItem::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<NormalItem>(*this);
+    ar& boost::serialization::base_object<NormalItem>( *this );
 }
 
 
-REAPING2_CLASS_EXPORT_KEY2(BlueGrenadeNormalItem, BlueGrenadeNormalItem,"blue_grenade_normal_item");
+REAPING2_CLASS_EXPORT_KEY2( BlueGrenadeNormalItem, BlueGrenadeNormalItem, "blue_grenade_normal_item" );
 #endif//INCLUDED_CORE_BLUE_GRENADE_NORMAL_ITEM_H
 
 //command:  "classgenerator.exe" -g "normal_item" -c "blue_grenade_normal_item"

@@ -12,7 +12,7 @@ namespace map {
 class EditorGridSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(EditorGridSystem)
+    DEFINE_SYSTEM_BASE( EditorGridSystem )
     EditorGridSystem();
     ~EditorGridSystem();
     static Opt<EditorGridSystem> Get();
@@ -25,7 +25,7 @@ private:
     GridRepo& mGridRepo;
     int32_t mGridId;
     boost::ptr_vector<ModelValue> mEditorModels;
-    void GridChanged(std::string const& grid);
+    void GridChanged( std::string const& grid );
     AutoReg mOnWorldMouseMove;
     void OnWorldMouseMoveEvent( const WorldMouseMoveEvent& Event );
 };

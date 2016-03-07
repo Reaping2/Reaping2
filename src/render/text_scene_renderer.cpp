@@ -24,7 +24,7 @@ void TextSceneRenderer::Init()
     glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     ShaderMgr.UploadData( "uiTexture", GLuint( 4 ) );
     glActiveTexture( GL_TEXTURE0 );
-    mWindow=engine::Engine::Get().GetSystem<engine::WindowSystem>();
+    mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
 }
 
 TextSceneRenderer::TextSceneRenderer()
@@ -53,18 +53,18 @@ void TextSceneRenderer::Draw()
         size_t Start;
         size_t Count;
     };
-    int32_t lastVertexIndex=0;
+    int32_t lastVertexIndex = 0;
 
     for( Texts_t::const_iterator i = mTexts.begin(), e = mTexts.end(); i != e; ++i )
     {
-        Text const& text=*i;
+        Text const& text = *i;
         TextUiModel::CollectVertices( text, Inserter );
-        if (Vertices.empty())
+        if ( Vertices.empty() )
         {
             continue;
         }
         UiVertex vertex = Vertices.back();
-        float correction=text.mAlignMiddle?(vertex.Pos.x+vertex.TexCoord.x)/2.0f:0.0f;
+        float correction = text.mAlignMiddle ? ( vertex.Pos.x + vertex.TexCoord.x ) / 2.0f : 0.0f;
 
         // todo: check and track changes
         for( size_t i = lastVertexIndex, e = Vertices.size(); i != e; ++i )
@@ -73,13 +73,13 @@ void TextSceneRenderer::Draw()
             Positions.push_back( Vert.Pos );
             TexCoords.push_back( Vert.TexCoord );
             Colors.push_back( Vert.Color );
-            TextPosition.push_back(glm::vec2(text.mPosition.x-correction,text.mPosition.y));
+            TextPosition.push_back( glm::vec2( text.mPosition.x - correction, text.mPosition.y ) );
         }
-        lastVertexIndex=Vertices.size();
-        lastVertexIndex=std::max(0,lastVertexIndex);
+        lastVertexIndex = Vertices.size();
+        lastVertexIndex = std::max( 0, lastVertexIndex );
     }
     size_t const CurSize = Vertices.size();
-    if (CurSize==0)
+    if ( CurSize == 0 )
     {
         return;
     }
@@ -134,8 +134,8 @@ void TextSceneRenderer::Draw()
     mTexts.clear();
 }
 
-void TextSceneRenderer::AddText(Text const& text)
+void TextSceneRenderer::AddText( Text const& text )
 {
-    mTexts.push_back(text);
+    mTexts.push_back( text );
 }
 

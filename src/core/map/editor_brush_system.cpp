@@ -7,29 +7,29 @@ namespace map {
 
 EditorBrushSystem::EditorBrushSystem()
     : mScene( Scene::Get() )
-    , mBrushRepo(BrushRepo::Get())
-    , mBrushId(-1)
+    , mBrushRepo( BrushRepo::Get() )
+    , mBrushId( -1 )
 {
 }
 
 
 void EditorBrushSystem::Init()
 {
-    ModelValue& editorModel = const_cast<ModelValue&>(RootModel::Get()["editor"]);
-    mEditorModels.push_back(new ModelValue( StringFunc(this,&EditorBrushSystem::BrushChanged),"brush",&editorModel));
-    mBrushId=AutoId("border");
+    ModelValue& editorModel = const_cast<ModelValue&>( RootModel::Get()["editor"] );
+    mEditorModels.push_back( new ModelValue( StringFunc( this, &EditorBrushSystem::BrushChanged ), "brush", &editorModel ) );
+    mBrushId = AutoId( "border" );
 }
 
 
-void EditorBrushSystem::Update(double DeltaTime)
+void EditorBrushSystem::Update( double DeltaTime )
 {
-    GetBrush().Update(DeltaTime);
+    GetBrush().Update( DeltaTime );
 }
 
-void EditorBrushSystem::BrushChanged(std::string const& brush)
+void EditorBrushSystem::BrushChanged( std::string const& brush )
 {
-    mBrushId=AutoId(brush);
-    Ui::Get().Load("editor_hud");
+    mBrushId = AutoId( brush );
+    Ui::Get().Load( "editor_hud" );
 }
 
 EditorBrushSystem::~EditorBrushSystem()
@@ -44,7 +44,7 @@ Opt<EditorBrushSystem> EditorBrushSystem::Get()
 
 IBrush& EditorBrushSystem::GetBrush()
 {
-    return mBrushRepo(mBrushId);
+    return mBrushRepo( mBrushId );
 }
 
 

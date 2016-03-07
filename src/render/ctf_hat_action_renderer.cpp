@@ -6,49 +6,49 @@
 namespace render {
 namespace ctf {
 
-CtfHatActionRenderer::CtfHatActionRenderer(int32_t Id)
-    : ActionRenderer(Id)
-    , mColorRepo(ColorRepo::Get())
+CtfHatActionRenderer::CtfHatActionRenderer( int32_t Id )
+    : ActionRenderer( Id )
+    , mColorRepo( ColorRepo::Get() )
 {
-    mCtfHatId=AutoId("ctf_body_color");
+    mCtfHatId = AutoId( "ctf_body_color" );
 }
 
 
-void CtfHatActionRenderer::Init(Actor const& actor)
+void CtfHatActionRenderer::Init( Actor const& actor )
 {
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCtfHatId);
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    Sprite const& Spr = Sprites( mCtfHatId );
     if( Spr.IsValid() )
     {
-        mSecsToEnd=Spr.GetSecsToEnd();
+        mSecsToEnd = Spr.GetSecsToEnd();
     }
 }
 
 
-void CtfHatActionRenderer::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)
+void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCtfHatId);
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    Sprite const& Spr = Sprites( mCtfHatId );
     if( Spr.IsValid() )
     {
-//         Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
-//         if (playerCC.IsValid())
-//         {
-//             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));
-//             if (ctfClientData.IsValid())
-//             {
-        Opt<ITeamComponent> teamC(actor.Get<ITeamComponent>());
-        if (teamC.IsValid())
+        //         Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
+        //         if (playerCC.IsValid())
+        //         {
+        //             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));
+        //             if (ctfClientData.IsValid())
+        //             {
+        Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+        if ( teamC.IsValid() )
         {
-            SpritePhase const& Phase = Spr( (int32_t)GetState() );
-            glm::vec4 col=ColorRepo::Get()(teamC->GetTeam());
-            col.a=GetCloakColor(actor).a;
+            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
+            glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
+            col.a = GetCloakColor( actor ).a;
             renderableSprites.push_back(
                 RenderableSprite( &actor, mCtfHatId, &Spr, &Phase, col ) );
         }
-//             }
-// 
-//         }
+        //             }
+        //
+        //         }
     }
 }
 

@@ -9,20 +9,20 @@ namespace map {
 class LinkMapElement : public MapElement
 {
 public:
-    DEFINE_MAP_ELEMENT_BASE(LinkMapElement)
-    LinkMapElement(int32_t Id);
-    void Load(Json::Value& setters);
-    void SetTargetInputUID(int32_t targetInputUID);
+    DEFINE_MAP_ELEMENT_BASE( LinkMapElement )
+    LinkMapElement( int32_t Id );
+    void Load( Json::Value& setters );
+    void SetTargetInputUID( int32_t targetInputUID );
     int32_t GetTargetInputUID()const;
-    void SetTargetInputNodeId(int32_t targetInputNodeId);
+    void SetTargetInputNodeId( int32_t targetInputNodeId );
     int32_t GetTargetInputNodeId()const;
-    void SetTargetInputNodeOrdinal(int32_t targetInputNodeOrdinal);
+    void SetTargetInputNodeOrdinal( int32_t targetInputNodeOrdinal );
     int32_t GetTargetInputNodeOrdinal()const;
-    void SetTargetOutputUID(int32_t targetOutputUID);
+    void SetTargetOutputUID( int32_t targetOutputUID );
     int32_t GetTargetOutputUID()const;
-    void SetTargetOutputNodeId(int32_t targetOutputNodeId);
+    void SetTargetOutputNodeId( int32_t targetOutputNodeId );
     int32_t GetTargetOutputNodeId()const;
-    void SetTargetOutputNodeOrdinal(int32_t targetOutputNodeOrdinal);
+    void SetTargetOutputNodeOrdinal( int32_t targetOutputNodeOrdinal );
     int32_t GetTargetOutputNodeOrdinal()const;
 private:
     int32_t mTargetInputUID;

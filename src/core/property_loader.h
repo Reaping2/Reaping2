@@ -16,8 +16,8 @@ class PropertyLoaderBase
 {
 public:
     virtual ~PropertyLoaderBase();
-    virtual void Load(Json::Value& setters)=0;
-    virtual std::auto_ptr<BASE> FillProperties(std::auto_ptr<BASE> target)const=0;
+    virtual void Load( Json::Value& setters ) = 0;
+    virtual std::auto_ptr<BASE> FillProperties( std::auto_ptr<BASE> target )const = 0;
 };
 
 template<typename BASE>
@@ -28,30 +28,30 @@ PropertyLoaderBase<BASE>::~PropertyLoaderBase()
 
 
 template<typename T, typename BASE>
-class PropertyLoader:public PropertyLoaderBase<BASE>
+class PropertyLoader: public PropertyLoaderBase<BASE>
 {
     BOOST_STATIC_ASSERT_MSG(
         ( boost::is_base_of<BASE, T>::value ),
         "First template arg T must be a descendant of BASE"
-        );
+    );
 public:
-    typedef boost::function<void (T*)> SetterFunc_t;
-   	typedef std::list<SetterFunc_t > SetterFuncList_t;
-	SetterFuncList_t mSetterFuncList;
+    typedef boost::function<void ( T* )> SetterFunc_t;
+    typedef std::list<SetterFunc_t > SetterFuncList_t;
+    SetterFuncList_t mSetterFuncList;
 
     template<class VALUE_T>
-    void Bind(boost::function<void (T*,VALUE_T)> func, VALUE_T val);
-    typedef boost::function<void (T*,int32_t)> func_int32_t;
-    void Bind(std::string const& val, func_int32_t func);
-    typedef boost::function<void (T*,double)> func_double;
-    void Bind(std::string const& val, func_double func);
-    typedef boost::function<void (T*,bool)> func_bool;
-    void Bind(std::string const& val, func_bool func);
+    void Bind( boost::function<void ( T*, VALUE_T )> func, VALUE_T val );
+    typedef boost::function<void ( T*, int32_t )> func_int32_t;
+    void Bind( std::string const& val, func_int32_t func );
+    typedef boost::function<void ( T*, double )> func_double;
+    void Bind( std::string const& val, func_double func );
+    typedef boost::function<void ( T*, bool )> func_bool;
+    void Bind( std::string const& val, func_bool func );
 
-    virtual void Load(Json::Value& setters);
-    virtual void BindValues()=0;
+    virtual void Load( Json::Value& setters );
+    virtual void BindValues() = 0;
 
-	virtual std::auto_ptr<BASE> FillProperties(std::auto_ptr<BASE> target)const;
+    virtual std::auto_ptr<BASE> FillProperties( std::auto_ptr<BASE> target )const;
 
     template<typename PARENT>
     void SetBase();
@@ -60,7 +60,7 @@ protected:
     Json::Value* mSetters;
     std::auto_ptr<PropertyLoaderBase<BASE> > mBase;
     PropertyLoader();
-    void Add(SetterFunc_t func);
+    void Add( SetterFunc_t func );
 };
 
 template<typename T, typename BASE>
@@ -70,71 +70,73 @@ void PropertyLoader<T, BASE>::SetBase()
     BOOST_STATIC_ASSERT_MSG(
         ( boost::is_base_of<PropertyLoaderBase<BASE>, PARENT>::value ),
         "PARENT should be the same PropertyLoaderBase<BASE> type!"
-        );
-    mBase.reset(static_cast<PropertyLoaderBase<BASE> *>(new PARENT));
+    );
+    mBase.reset( static_cast<PropertyLoaderBase<BASE> *>( new PARENT ) );
 }
 
 template<typename T, typename BASE>
-std::auto_ptr<BASE> PropertyLoader<T, BASE>::FillProperties(std::auto_ptr<BASE> target)const
+std::auto_ptr<BASE> PropertyLoader<T, BASE>::FillProperties( std::auto_ptr<BASE> target )const
 {
-    if (mBase.get())
+    if ( mBase.get() )
     {
-        target=mBase->FillProperties(target);
+        target = mBase->FillProperties( target );
     }
-    if(mSetterFuncList.empty())
+    if( mSetterFuncList.empty() )
+    {
         return target;
-    T* castedTarget=static_cast<T*>(target.release());
-    for(typename SetterFuncList_t::const_iterator i=mSetterFuncList.begin(),e=mSetterFuncList.end();i!=e;++i)
-    {
-        (*i)(castedTarget);
     }
-    return std::auto_ptr<BASE>(static_cast<BASE*>(castedTarget));
+    T* castedTarget = static_cast<T*>( target.release() );
+    for( typename SetterFuncList_t::const_iterator i = mSetterFuncList.begin(), e = mSetterFuncList.end(); i != e; ++i )
+    {
+        ( *i )( castedTarget );
+    }
+    return std::auto_ptr<BASE>( static_cast<BASE*>( castedTarget ) );
 }
 
 template<typename T, typename BASE>
 template<class VALUE_T>
-void PropertyLoader<T, BASE>::Bind(boost::function<void (T*,VALUE_T)> func, VALUE_T val)
+void PropertyLoader<T, BASE>::Bind( boost::function<void ( T*, VALUE_T )> func, VALUE_T val )
 {
-    Add(boost::bind(func,_1,val));
+    Add( boost::bind( func, _1, val ) );
 }
 
 template<typename T, typename BASE>
-void PropertyLoader<T, BASE>::Bind(std::string const& val,func_int32_t func)
+void PropertyLoader<T, BASE>::Bind( std::string const& val, func_int32_t func )
 {
     int32_t iv;
-    if( Json::GetInt( (*mSetters)[val], iv))
+    if( Json::GetInt( ( *mSetters )[val], iv ) )
     {
-        Bind<int32_t>(func,iv);
+        Bind<int32_t>( func, iv );
     }
 }
 
 template<typename T, typename BASE>
-void PropertyLoader<T, BASE>::Bind(std::string const& val,func_double func)
+void PropertyLoader<T, BASE>::Bind( std::string const& val, func_double func )
 {
     double dv;
-    if( Json::GetDouble( (*mSetters)[val], dv))
+    if( Json::GetDouble( ( *mSetters )[val], dv ) )
     {
-        Bind<double>(func,dv);
+        Bind<double>( func, dv );
     }
 }
 
 template<typename T, typename BASE>
-void PropertyLoader<T, BASE>::Bind(std::string const& val,func_bool func)
+void PropertyLoader<T, BASE>::Bind( std::string const& val, func_bool func )
 {
     int iv;
-    if( Json::GetInt( (*mSetters)[val], iv))
+    if( Json::GetInt( ( *mSetters )[val], iv ) )
     {
-        Bind<bool>(func,(iv!=0));
+        Bind<bool>( func, ( iv != 0 ) );
     }
 }
 
 template<typename T, typename BASE>
-void PropertyLoader<T, BASE>::Load(Json::Value& setters)
+void PropertyLoader<T, BASE>::Load( Json::Value& setters )
 {
-    mSetters=&setters;
-    if (mBase.get())
+    mSetters = &setters;
+    if ( mBase.get() )
     {
-        mBase->Load(setters);
+        mBase->Load( setters );
     }
     BindValues();
 }
@@ -155,9 +157,9 @@ PropertyLoader<T, BASE>::PropertyLoader()
 
 
 template<typename T, typename BASE>
-void PropertyLoader<T, BASE>::Add(SetterFunc_t func)
+void PropertyLoader<T, BASE>::Add( SetterFunc_t func )
 {
-    mSetterFuncList.push_back(func);
+    mSetterFuncList.push_back( func );
 }
 
 

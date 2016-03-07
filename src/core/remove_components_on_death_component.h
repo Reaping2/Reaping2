@@ -9,10 +9,10 @@ class RemoveComponentsOnDeathComponent : public IRemoveComponentsOnDeathComponen
 {
 public:
     RemoveComponentsOnDeathComponent();
-    virtual void SetComponents(std::vector<int32_t> const& components);
+    virtual void SetComponents( std::vector<int32_t> const& components );
     virtual std::vector<int32_t> const& GetComponents()const;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 protected:
     friend class ::boost::serialization::access;
     friend class ComponentFactory;
@@ -21,10 +21,10 @@ private:
 };
 
 template<class Archive>
-void RemoveComponentsOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+void RemoveComponentsOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<IRemoveComponentsOnDeathComponent>(*this);
-    ar & mComponents;
+    ar& boost::serialization::base_object<IRemoveComponentsOnDeathComponent>( *this );
+    ar& mComponents;
 }
 
 class RemoveComponentsOnDeathComponentLoader : public ComponentLoader<RemoveComponentsOnDeathComponent>

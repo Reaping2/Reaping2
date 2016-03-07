@@ -9,7 +9,7 @@ namespace engine {
 class ArmorSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(ArmorSystem)
+    DEFINE_SYSTEM_BASE( ArmorSystem )
     ArmorSystem();
 protected:
     virtual void Init();

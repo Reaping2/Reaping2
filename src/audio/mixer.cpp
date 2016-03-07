@@ -6,9 +6,13 @@ namespace {
 float left( float x )
 {
     if( x < 0.0f )
+    {
         return 1.f - 1.f / ( 2.f + 2.f * std::abs( x / 1e3 ) );
+    }
     else
+    {
         return 1.f / ( 2.f + 2.f * ( x / 1e3 ) );
+    }
 }
 float right( float x )
 {
@@ -26,12 +30,12 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
     ModelValue const& PlayerModel = RootModel::Get()["player"];
     if( PlayerModel.IsValid() )
     {
-        ModelValue const& mx=PlayerModel["x"];
-        ModelValue const& my=PlayerModel["y"];
+        ModelValue const& mx = PlayerModel["x"];
+        ModelValue const& my = PlayerModel["y"];
         if ( mx.IsValid() && my.IsValid() )
         {
-            playerPos.x = double(mx);
-            playerPos.y = double(my);
+            playerPos.x = double( mx );
+            playerPos.y = double( my );
         }
     }
     size_t const DestChannels = Dest.GetChannels();
@@ -53,7 +57,7 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
         {
             glm::vec2 const& pos = f.GetPosition();
             glm::vec2 const dif = pos - playerPos;
-            const float DistWeight = std::max(1.f / ( 1.f + glm::dot( dif, dif ) / 1e6 )-0.1,0.0);
+            const float DistWeight = std::max( 1.f / ( 1.f + glm::dot( dif, dif ) / 1e6 ) - 0.1, 0.0 );
             Weight *= DistWeight;
             l = left( dif.x );
             r = right( dif.x );

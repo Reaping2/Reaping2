@@ -22,7 +22,7 @@ void MouseSystem::Init()
 
 void MouseSystem::OnMouseMove( GLFWwindow* Wnd, double x, double y )
 {
-    Opt<MouseSystem> M(engine::Engine::Get().GetSystem<MouseSystem>());
+    Opt<MouseSystem> M( engine::Engine::Get().GetSystem<MouseSystem>() );
     M->mRawMouseCoord.x = ( float )x;
     M->mRawMouseCoord.y = ( float )y;
     EventServer<ScreenMouseMoveEvent>::Get().SendEvent( ScreenMouseMoveEvent( M->mRawMouseCoord ) );
@@ -67,7 +67,7 @@ void MouseSystem::MousePressed( int button, int action, int /*mods*/ )
         }
         mHeldButtons &= ~( 1 << Button );
     }
-//    LOG( "Held buttons:%d", mHeldButtons );
+    //    LOG( "Held buttons:%d", mHeldButtons );
 
 }
 

@@ -12,8 +12,8 @@ struct FlashEvent : public platform::Event
     double mOriginalY;
     double mX;
     double mY;
-    FlashEvent(int32_t actorGUID, double originalX, double originalY, double X, double Y)
-        :mActorGUID(actorGUID),mOriginalX(originalX),mOriginalY(originalY),mX(X),mY(Y){}
+    FlashEvent( int32_t actorGUID, double originalX, double originalY, double X, double Y )
+        : mActorGUID( actorGUID ), mOriginalX( originalX ), mOriginalY( originalY ), mX( X ), mY( Y ) {}
 };
 
 } // namespace engine

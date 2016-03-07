@@ -3,15 +3,15 @@
 #include <portable_oarchive.hpp>
 
 BlueGrenadeNormalItem::BlueGrenadeNormalItem( int32_t id )
-    : NormalItem(id)
+    : NormalItem( id )
 {
 }
 
 BlueGrenadeNormalItem::BlueGrenadeNormalItem()
-    : NormalItem(-1)
+    : NormalItem( -1 )
 {
 }
 
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(BlueGrenadeNormalItem, BlueGrenadeNormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT( BlueGrenadeNormalItem, BlueGrenadeNormalItem );

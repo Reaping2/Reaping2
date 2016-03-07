@@ -15,12 +15,12 @@ class PositionMessageSenderSystem: public MessageSenderSystem
     AutoActorGUIDSingleMessageSender<PositionMessage> mSingleMessageSender;
     ActorFrequencyTimerHolder mActorFrequencyTimerHolder;
 public:
-    DEFINE_SYSTEM_BASE(PositionMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( PositionMessageSenderSystem )
     PositionMessageSenderSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
 
-    static std::auto_ptr<PositionMessage> GeneratePositionMessage(Actor const& actor);
+    static std::auto_ptr<PositionMessage> GeneratePositionMessage( Actor const& actor );
 
 };
 

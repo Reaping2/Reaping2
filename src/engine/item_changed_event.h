@@ -10,8 +10,8 @@ struct ItemChangedEvent : public platform::Event
     int32_t mActorGUID;
     int32_t mNormalId;
     int32_t mWeaponId;
-    ItemChangedEvent(int32_t actorGUID, int32_t normalId, int32_t weaponId)
-        :mActorGUID(actorGUID),mNormalId(normalId),mWeaponId(weaponId){}
+    ItemChangedEvent( int32_t actorGUID, int32_t normalId, int32_t weaponId )
+        : mActorGUID( actorGUID ), mNormalId( normalId ), mWeaponId( weaponId ) {}
 };
 
 } // namespace engine

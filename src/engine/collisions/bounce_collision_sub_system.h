@@ -8,13 +8,13 @@ namespace engine {
 class BounceCollisionSubSystem : public CollisionSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(BounceCollisionSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( BounceCollisionSubSystem )
     BounceCollisionSubSystem();
 protected:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene( Actor& actor );
-    virtual void Collide(Actor& actor, Actor& other);
+    virtual void Collide( Actor& actor, Actor& other );
 };
 
 } // namespace engine

@@ -17,20 +17,20 @@ namespace map {
 
 MapElementFactory::MapElementFactory()
 {
-    Bind( AutoId("default"), &CreateMapElement<DefaultMapElement> );
-    SetDefault( AutoId("default") );
+    Bind( AutoId( "default" ), &CreateMapElement<DefaultMapElement> );
+    SetDefault( AutoId( "default" ) );
 
-    Bind( AutoId("link"), &CreateMapElement<LinkMapElement> );
-    Bind( AutoId("map_start"), &CreateMapElement<MapStartMapElement>);
-    Bind( AutoId("spawn_soldiers"), &CreateMapElement<SpawnSoldiersMapElement>);
-    Bind( AutoId("soldier_spawn_point"), &CreateMapElement<SoldierSpawnPointMapElement>);
-    Bind( AutoId("spawn_actor"), &CreateMapElement<SpawnActorMapElement>);
-    Bind( AutoId("respawn_actor"), &CreateMapElement<RespawnActorMapElement>);
-    Bind( AutoId("ctf_soldier_spawn_point"), &CreateMapElement<ctf::CtfSoldierSpawnPointMapElement>);
-    Bind( AutoId("ctf_spawn_soldiers"), &CreateMapElement<ctf::CtfSpawnSoldiersMapElement>);
-    Bind( AutoId("ctf_flag_spawn_point"), &CreateMapElement<ctf::CtfFlagSpawnPointMapElement>);
-    Bind( AutoId("ctf_spawn_flags"), &CreateMapElement<ctf::CtfSpawnFlagsMapElement>);
-    Bind( AutoId("soldier_auto_revive"), &CreateMapElement<SoldierAutoReviveMapElement>);
+    Bind( AutoId( "link" ), &CreateMapElement<LinkMapElement> );
+    Bind( AutoId( "map_start" ), &CreateMapElement<MapStartMapElement> );
+    Bind( AutoId( "spawn_soldiers" ), &CreateMapElement<SpawnSoldiersMapElement> );
+    Bind( AutoId( "soldier_spawn_point" ), &CreateMapElement<SoldierSpawnPointMapElement> );
+    Bind( AutoId( "spawn_actor" ), &CreateMapElement<SpawnActorMapElement> );
+    Bind( AutoId( "respawn_actor" ), &CreateMapElement<RespawnActorMapElement> );
+    Bind( AutoId( "ctf_soldier_spawn_point" ), &CreateMapElement<ctf::CtfSoldierSpawnPointMapElement> );
+    Bind( AutoId( "ctf_spawn_soldiers" ), &CreateMapElement<ctf::CtfSpawnSoldiersMapElement> );
+    Bind( AutoId( "ctf_flag_spawn_point" ), &CreateMapElement<ctf::CtfFlagSpawnPointMapElement> );
+    Bind( AutoId( "ctf_spawn_flags" ), &CreateMapElement<ctf::CtfSpawnFlagsMapElement> );
+    Bind( AutoId( "soldier_auto_revive" ), &CreateMapElement<SoldierAutoReviveMapElement> );
 }
 
 } // namespace map

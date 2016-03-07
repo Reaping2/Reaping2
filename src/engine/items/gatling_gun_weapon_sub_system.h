@@ -8,7 +8,7 @@ namespace engine {
 class GatlingGunWeaponSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(GatlingGunWeaponSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( GatlingGunWeaponSubSystem )
 
     GatlingGunWeaponSubSystem();
     virtual void Init();

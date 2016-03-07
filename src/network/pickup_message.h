@@ -11,54 +11,54 @@
 #include "platform/export.h"
 namespace network {
 
-    class PickupMessage: public Message
+class PickupMessage: public Message
+{
+    friend class ::boost::serialization::access;
+public:
+    DEFINE_MESSAGE_BASE( PickupMessage )
+    int32_t mActorGUID;
+    ItemType::Type mItemType;
+    int32_t mItemId;
+    PickupMessage()
+        : mActorGUID( 0 )
+        , mItemType( ItemType::Normal )
+        , mItemId( 0 )
     {
-        friend class ::boost::serialization::access;
-    public:
-        DEFINE_MESSAGE_BASE(PickupMessage)
-        int32_t mActorGUID;
-        ItemType::Type mItemType;
-        int32_t mItemId;
-        PickupMessage()
-            : mActorGUID(0)
-            , mItemType(ItemType::Normal)
-            , mItemId(0)
-        {
-        }
-        template<class Archive>
-        void serialize(Archive& ar, const unsigned int version);
-    };
-
-    template<class Archive>
-    void PickupMessage::serialize(Archive& ar, const unsigned int version)
-    {
-        ar & boost::serialization::base_object<Message>(*this);
-        ar & mActorGUID;
-        ar & mItemType;
-        ar & mItemId;
     }
+    template<class Archive>
+    void serialize( Archive& ar, const unsigned int version );
+};
 
-    class PickupMessageHandlerSubSystem: public MessageHandlerSubSystem
-    {
-    public:
-        DEFINE_SUB_SYSTEM_BASE(PickupMessageHandlerSubSystem)
-        PickupMessageHandlerSubSystem();
-        virtual void Init();
-        virtual void Execute(Message const& message );
-    };
+template<class Archive>
+void PickupMessage::serialize( Archive& ar, const unsigned int version )
+{
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mActorGUID;
+    ar& mItemType;
+    ar& mItemId;
+}
 
-    class PickupMessageSenderSystem: public MessageSenderSystem
-    {
-        AutoReg mOnPickup;
-        void OnPickup( engine::PickupEvent const& Evt );
-    public:
-        DEFINE_SYSTEM_BASE(PickupMessageSenderSystem)
-        PickupMessageSenderSystem();
-        virtual void Init();
-        virtual void Update( double DeltaTime );
-    };
+class PickupMessageHandlerSubSystem: public MessageHandlerSubSystem
+{
+public:
+    DEFINE_SUB_SYSTEM_BASE( PickupMessageHandlerSubSystem )
+    PickupMessageHandlerSubSystem();
+    virtual void Init();
+    virtual void Execute( Message const& message );
+};
+
+class PickupMessageSenderSystem: public MessageSenderSystem
+{
+    AutoReg mOnPickup;
+    void OnPickup( engine::PickupEvent const& Evt );
+public:
+    DEFINE_SYSTEM_BASE( PickupMessageSenderSystem )
+    PickupMessageSenderSystem();
+    virtual void Init();
+    virtual void Update( double DeltaTime );
+};
 
 } // namespace network
 
-REAPING2_CLASS_EXPORT_KEY2(network__PickupMessage, network::PickupMessage,"pickup");
+REAPING2_CLASS_EXPORT_KEY2( network__PickupMessage, network::PickupMessage, "pickup" );
 #endif//INCLUDED_NETWORK_PICKUP_MESSAGE_H

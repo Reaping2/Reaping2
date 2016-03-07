@@ -8,26 +8,26 @@ namespace ctf {
 class IAttachableComponent : public Component
 {
 public:
-    DEFINE_COMPONENT_BASE(IAttachableComponent)
-    virtual void SetAttachedGUID(int32_t attachedGUID)=0;
-    virtual int32_t GetAttachedGUID()const=0;
+    DEFINE_COMPONENT_BASE( IAttachableComponent )
+    virtual void SetAttachedGUID( int32_t attachedGUID ) = 0;
+    virtual int32_t GetAttachedGUID()const = 0;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void IAttachableComponent::serialize(Archive& ar, const unsigned int version)
+void IAttachableComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<Component>(*this);
+    ar& boost::serialization::base_object<Component>( *this );
 }
 
 } // namespace ctf
 
 
-REAPING2_CLASS_EXPORT_KEY2(ctf__IAttachableComponent, ctf::IAttachableComponent,"i_attachable_component");
+REAPING2_CLASS_EXPORT_KEY2( ctf__IAttachableComponent, ctf::IAttachableComponent, "i_attachable_component" );
 #endif//INCLUDED_CORE_I_ATTACHABLE_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "i_component" -c "i_attachable_component" -m "int32_t-attachedGUID"

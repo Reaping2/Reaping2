@@ -25,7 +25,7 @@ template<typename Elem_T>
 std::auto_ptr<System> SystemFactory::CreateSystem( int32_t Id )
 {
     std::auto_ptr<System> r( new Elem_T() );
-    r->SetEnabled(true);
+    r->SetEnabled( true );
     return r;
 }
 

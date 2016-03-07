@@ -9,7 +9,7 @@ namespace engine {
 class DetonateOnHitSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(DetonateOnHitSystem)
+    DEFINE_SYSTEM_BASE( DetonateOnHitSystem )
     DetonateOnHitSystem();
 protected:
     virtual void Init();

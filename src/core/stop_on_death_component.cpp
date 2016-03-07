@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 StopOnDeathComponent::StopOnDeathComponent()
-    : mStopped(false)
+    : mStopped( false )
 {
 }
 
-void StopOnDeathComponent::SetStopped(bool stopped)
+void StopOnDeathComponent::SetStopped( bool stopped )
 {
-    mStopped=stopped;
+    mStopped = stopped;
 }
 
 bool StopOnDeathComponent::IsStopped()const
@@ -27,4 +27,4 @@ StopOnDeathComponentLoader::StopOnDeathComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(StopOnDeathComponent, StopOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( StopOnDeathComponent, StopOnDeathComponent );

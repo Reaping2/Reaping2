@@ -12,7 +12,7 @@ namespace engine {
 class KeyboardAdapterSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(KeyboardAdapterSystem)
+    DEFINE_SYSTEM_BASE( KeyboardAdapterSystem )
     KeyboardAdapterSystem();
     enum MoveFlags
     {

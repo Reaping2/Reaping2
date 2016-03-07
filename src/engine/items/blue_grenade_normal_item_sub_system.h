@@ -9,7 +9,7 @@ namespace engine {
 class BlueGrenadeNormalItemSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(BlueGrenadeNormalItemSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( BlueGrenadeNormalItemSubSystem )
     BlueGrenadeNormalItemSubSystem();
 protected:
     virtual void Init();

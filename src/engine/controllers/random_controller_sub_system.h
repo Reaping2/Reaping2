@@ -10,7 +10,7 @@ namespace engine {
 class RandomControllerSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(RandomControllerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( RandomControllerSubSystem )
     RandomControllerSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );

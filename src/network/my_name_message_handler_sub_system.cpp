@@ -21,117 +21,117 @@
 #include "engine/connection_event.h"
 namespace network {
 
-    MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
-        : MessageHandlerSubSystem()
+MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
+    : MessageHandlerSubSystem()
+{
+
+}
+
+void MyNameMessageHandlerSubSystem::Init()
+{
+
+}
+
+// Server gets the name from the client. Then server decides in what state the client is.
+void MyNameMessageHandlerSubSystem::Execute( Message const& message )
+{
+    MyNameMessage const& msg = static_cast<MyNameMessage const&>( message );
+    L1( "executing myname: %s from current id: %d \n", msg.mName.c_str(), msg.mSenderId );
+
+
+
+    Opt<core::ClientData> clientData( core::ProgramState::Get().FindClientDataByClientName( msg.mName ) );
+    if ( clientData.IsValid() )
     {
-
-    }
-
-    void MyNameMessageHandlerSubSystem::Init()
-    {
-
-    }
-
-    // Server gets the name from the client. Then server decides in what state the client is.
-    void MyNameMessageHandlerSubSystem::Execute(Message const& message)
-    {
-        MyNameMessage const& msg=static_cast<MyNameMessage const&>(message);
-        L1("executing myname: %s from current id: %d \n",msg.mName.c_str(),msg.mSenderId );
-
-
-
-        Opt<core::ClientData> clientData(core::ProgramState::Get().FindClientDataByClientName(msg.mName));
-        if (clientData.IsValid())
+        if ( clientData->mConnected )
         {
-            if (clientData->mConnected)
+            L1( "client wth the name: %s is already connected.\n", msg.mName.c_str() );
+            std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+            lifecycleMsg->mState = LifecycleMessage::AlreadyConnected;
+            lifecycleMsg->mClientId = msg.mSenderId;
+            mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+            return;
+        }
+        clientData->mConnected = true;
+        EventServer<ClientIdChangedEvent>::Get().SendEvent( ClientIdChangedEvent( msg.mSenderId, clientData->mClientId ) );
+        std::auto_ptr<ClientIdMessage> newmsg( new ClientIdMessage );
+        newmsg->mName = msg.mName;
+        newmsg->mClientId = clientData->mClientId;
+        mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( newmsg.release() ) );
+        L1( "client was connected before setting setting clientId back to old clientId! name: %s old id: %d new id: %d \n", msg.mName.c_str(), msg.mSenderId, clientData->mClientId );
+        EventServer<engine::ConnectionEvent>::Get().SendEvent( engine::ConnectionEvent( clientData->mClientId, engine::ConnectionEvent::Reconnected ) );
+
+        if ( clientData->mSoldierProperties.mArrived )
+        {
+            if ( mProgramState.mGameState == core::ProgramState::Running )
             {
-                L1("client wth the name: %s is already connected.\n",msg.mName.c_str());
-                std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-                lifecycleMsg->mState=LifecycleMessage::AlreadyConnected;
-                lifecycleMsg->mClientId=msg.mSenderId;
-                mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
-                return;
-            }
-            clientData->mConnected=true;
-            EventServer<ClientIdChangedEvent>::Get().SendEvent(ClientIdChangedEvent(msg.mSenderId,clientData->mClientId));
-            std::auto_ptr<ClientIdMessage> newmsg(new ClientIdMessage);
-            newmsg->mName=msg.mName;
-            newmsg->mClientId=clientData->mClientId;
-            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(newmsg.release()));
-            L1("client was connected before setting setting clientId back to old clientId! name: %s old id: %d new id: %d \n",msg.mName.c_str(),msg.mSenderId,clientData->mClientId );
-            EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(clientData->mClientId,engine::ConnectionEvent::Reconnected));
+                L1( "client sent soldier prorties before! Game is running. Sending everything to name: %s\n", msg.mName.c_str() );
+                std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
+                clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( clientDatasMessage.release() ) );
 
-            if (clientData->mSoldierProperties.mArrived)
-            {
-                if (mProgramState.mGameState==core::ProgramState::Running)
-                {
-                    L1("client sent soldier prorties before! Game is running. Sending everything to name: %s\n",msg.mName.c_str() );
-                    std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
-                    clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
-                    mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
+                std::auto_ptr<ctf::ClientDatasMessage> message( new ctf::ClientDatasMessage );
+                message->mClientDatas = ::ctf::ProgramState::Get().mClientDatas;
+                mMessageHolder.AddOutgoingMessage( message );
 
-                    std::auto_ptr<ctf::ClientDatasMessage> message(new ctf::ClientDatasMessage);
-                    message->mClientDatas = ::ctf::ProgramState::Get().mClientDatas;
-                    mMessageHolder.AddOutgoingMessage(message);
+                std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+                lifecycleMsg->mState = LifecycleMessage::Start;
+                lifecycleMsg->mGameMode = mProgramState.mGameMode;
+                lifecycleMsg->mClientId = clientData->mClientId;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
 
-                    std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-                    lifecycleMsg->mState=LifecycleMessage::Start;
-                    lifecycleMsg->mGameMode=mProgramState.mGameMode;
-                    lifecycleMsg->mClientId=clientData->mClientId;
-                    mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+                std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage );
+                actorListMsg->mClientId = clientData->mClientId;
+                actorListMsg->mActorList = &Scene::Get().GetActors();
+                mMessageHolder.AddOutgoingMessage( actorListMsg );
 
-                    std::auto_ptr<ActorListMessage> actorListMsg(new ActorListMessage);
-                    actorListMsg->mClientId=clientData->mClientId;
-                    actorListMsg->mActorList=&Scene::Get().GetActors();
-                    mMessageHolder.AddOutgoingMessage(actorListMsg);
-
-                    std::auto_ptr<SetOwnershipMessage> setOwnershipMsg(new SetOwnershipMessage);
-                    setOwnershipMsg->mActorGUID=clientData->mClientActorGUID;
-                    setOwnershipMsg->mClientId=clientData->mClientId;
-                    mMessageHolder.AddOutgoingMessage(setOwnershipMsg);
+                std::auto_ptr<SetOwnershipMessage> setOwnershipMsg( new SetOwnershipMessage );
+                setOwnershipMsg->mActorGUID = clientData->mClientActorGUID;
+                setOwnershipMsg->mClientId = clientData->mClientId;
+                mMessageHolder.AddOutgoingMessage( setOwnershipMsg );
 
 
-                }
-                else
-                {
-                    L1("client sent soldier prorties before! setting client to waitingforhost. name: %s\n",msg.mName.c_str() );
-                    std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-                    lifecycleMsg->mState=LifecycleMessage::WaitingForHost;
-                    lifecycleMsg->mClientId=clientData->mClientId;
-                    mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
-
-                    std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
-                    clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
-                    mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
-                }
             }
             else
             {
-                L1("client never sent soldier properties! setting client to soldier_properties. name: %s\n",msg.mName.c_str() );
-                std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-                lifecycleMsg->mState=LifecycleMessage::SoldierProperties;
-                lifecycleMsg->mClientId=clientData->mClientId;
-                mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+                L1( "client sent soldier prorties before! setting client to waitingforhost. name: %s\n", msg.mName.c_str() );
+                std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+                lifecycleMsg->mState = LifecycleMessage::WaitingForHost;
+                lifecycleMsg->mClientId = clientData->mClientId;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+
+                std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
+                clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( clientDatasMessage.release() ) );
             }
         }
         else
         {
-            L1("absolutely new client is connected! name %s clientId: %d \n", msg.mName.c_str(),msg.mSenderId);
-            std::auto_ptr<ClientIdMessage> newmsg(new ClientIdMessage);
-            newmsg->mName=msg.mName;
-            newmsg->mClientId=msg.mSenderId;
-            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(newmsg.release()));
-
-            mProgramState.mClientDatas.push_back(core::ClientData(msg.mSenderId,msg.mName));
-
-            std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-            lifecycleMsg->mState=LifecycleMessage::SoldierProperties;
-            lifecycleMsg->mClientId=msg.mSenderId;
-            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
-            EventServer<engine::ConnectionEvent>::Get().SendEvent(engine::ConnectionEvent(msg.mSenderId,engine::ConnectionEvent::Connected));
+            L1( "client never sent soldier properties! setting client to soldier_properties. name: %s\n", msg.mName.c_str() );
+            std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+            lifecycleMsg->mState = LifecycleMessage::SoldierProperties;
+            lifecycleMsg->mClientId = clientData->mClientId;
+            mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
         }
-        EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent(engine::ClientDatasChangedEvent());
     }
+    else
+    {
+        L1( "absolutely new client is connected! name %s clientId: %d \n", msg.mName.c_str(), msg.mSenderId );
+        std::auto_ptr<ClientIdMessage> newmsg( new ClientIdMessage );
+        newmsg->mName = msg.mName;
+        newmsg->mClientId = msg.mSenderId;
+        mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( newmsg.release() ) );
+
+        mProgramState.mClientDatas.push_back( core::ClientData( msg.mSenderId, msg.mName ) );
+
+        std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+        lifecycleMsg->mState = LifecycleMessage::SoldierProperties;
+        lifecycleMsg->mClientId = msg.mSenderId;
+        mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+        EventServer<engine::ConnectionEvent>::Get().SendEvent( engine::ConnectionEvent( msg.mSenderId, engine::ConnectionEvent::Connected ) );
+    }
+    EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );
+}
 
 } // namespace engine
 

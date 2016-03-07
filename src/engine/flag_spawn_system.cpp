@@ -20,7 +20,7 @@ void FlagSpawnSystem::Init()
 }
 
 
-void FlagSpawnSystem::Update(double DeltaTime)
+void FlagSpawnSystem::Update( double DeltaTime )
 {
 }
 
@@ -29,28 +29,28 @@ Opt<FlagSpawnSystem> FlagSpawnSystem::Get()
     return Engine::Get().GetSystem<FlagSpawnSystem>();
 }
 
-void FlagSpawnSystem::SetFlagPositionToStart(Actor& actor)
+void FlagSpawnSystem::SetFlagPositionToStart( Actor& actor )
 {
-    Opt<ITeamComponent> actorTeamC(actor.Get<ITeamComponent>());
-    if (!actorTeamC.IsValid())
+    Opt<ITeamComponent> actorTeamC( actor.Get<ITeamComponent>() );
+    if ( !actorTeamC.IsValid() )
     {
         return;
     }
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-    if (!positionC.IsValid())
+    if ( !positionC.IsValid() )
     {
         return;
     }
 
-    map::MapElementListFilter<map::MapSystem::All> mapElementListFilter(map::MapSystem::Get()->GetMapElementList(),map::ctf::CtfFlagSpawnPointMapElement::GetType_static());
+    map::MapElementListFilter<map::MapSystem::All> mapElementListFilter( map::MapSystem::Get()->GetMapElementList(), map::ctf::CtfFlagSpawnPointMapElement::GetType_static() );
     for( map::MapElementListFilter<map::MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
     {
-        Opt<map::ctf::CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement(*ctfFlagSpawnPointMapElementIt);
-        if(ctfFlagSpawnPointMapElement->GetTeam()==actorTeamC->GetTeam())
+        Opt<map::ctf::CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement( *ctfFlagSpawnPointMapElementIt );
+        if( ctfFlagSpawnPointMapElement->GetTeam() == actorTeamC->GetTeam() )
         {
-            positionC->SetX(ctfFlagSpawnPointMapElement->GetX());
-            positionC->SetY(ctfFlagSpawnPointMapElement->GetY());
-            positionC->SetOrientation(0.0);
+            positionC->SetX( ctfFlagSpawnPointMapElement->GetX() );
+            positionC->SetY( ctfFlagSpawnPointMapElement->GetY() );
+            positionC->SetOrientation( 0.0 );
             break;
         }
     }

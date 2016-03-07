@@ -4,12 +4,12 @@
 #include "render/recognizer.h"
 namespace render {
 
-    class HatRecognizer: public Recognizer
-    {
-    public:
-        HatRecognizer( int32_t Id );
-        virtual bool Recognize(Actor const&);
-    };
+class HatRecognizer: public Recognizer
+{
+public:
+    HatRecognizer( int32_t Id );
+    virtual bool Recognize( Actor const& );
+};
 
 } // namespace render
 

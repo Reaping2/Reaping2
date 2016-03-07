@@ -25,21 +25,21 @@ void ActorRenderer::Init()
     mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &ActorRenderer::OnMouseMoveEvent, this, _1 ) );
 }
 
-void ActorRenderer::OnActorEvent(ActorEvent const& Evt)
+void ActorRenderer::OnActorEvent( ActorEvent const& Evt )
 {
-    if(Evt.mState==ActorEvent::Added)
+    if( Evt.mState == ActorEvent::Added )
     {
         mActionRenderersMap[Evt.mActor->GetGUID()];
     }
-    else if (Evt.mState==ActorEvent::Removed)
+    else if ( Evt.mState == ActorEvent::Removed )
     {
-        mActionRenderersMap.erase(Evt.mActor->GetGUID());
+        mActionRenderersMap.erase( Evt.mActor->GetGUID() );
     }
 }
 
 ActorRenderer::ActorRenderer()
-    : mRecognizerRepo(RecognizerRepo::Get())
-    , mActionRendererFactory(ActionRendererFactory::Get())
+    : mRecognizerRepo( RecognizerRepo::Get() )
+    , mActionRendererFactory( ActionRendererFactory::Get() )
 {
     Init();
 }
@@ -51,8 +51,8 @@ typedef std::vector<glm::vec4> TexCoords_t;
 typedef std::vector<glm::vec4> Colors_t;
 typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
-        Positions_t& Positions, Floats_t& Headings, TexCoords_t& TexCoords, Floats_t& Sizes, Colors_t& Colors,
-        GLuint& TexId )
+                    Positions_t& Positions, Floats_t& Headings, TexCoords_t& TexCoords, Floats_t& Sizes, Colors_t& Colors,
+                    GLuint& TexId )
 {
     if( i == e )
     {
@@ -60,12 +60,12 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     }
     TexId = i->Spr->TexId;
     Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
-    Positions.push_back( glm::vec2( positionC->GetX()*MAGIC_SIZE, positionC->GetY()*MAGIC_SIZE )+i->RelativePosition );
+    Positions.push_back( glm::vec2( positionC->GetX()*MAGIC_SIZE, positionC->GetY()*MAGIC_SIZE ) + i->RelativePosition );
     Headings.push_back( ( GLfloat )positionC->GetOrientation() );
 
     Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
     //TODO: this one should not depend on collision radius
-    Sizes.push_back( ( GLfloat )( (collisionC.IsValid()?collisionC->GetRadius()*MAGIC_SIZE:50)*i->Anim->GetScale() ) );
+    Sizes.push_back( ( GLfloat )( ( collisionC.IsValid() ? collisionC->GetRadius()*MAGIC_SIZE : 50 )*i->Anim->GetScale() ) );
     TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
     Colors.push_back( i->Color );
     ++i;
@@ -84,65 +84,65 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime, std::set<Render
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( PrevVecSize );
     //the template version works well with '=' i just dont know is it really needed, maybe this one is more self explaining
-    ActorListFilter<Scene::RenderableActors> wrp(Lst);//=Object.GetActors<Scene::RenderableComponents>();
-    for(ActorListFilter<Scene::RenderableActors>::const_iterator i=wrp.begin(),e=wrp.end();i!=e;++i)
+    ActorListFilter<Scene::RenderableActors> wrp( Lst ); //=Object.GetActors<Scene::RenderableComponents>();
+    for( ActorListFilter<Scene::RenderableActors>::const_iterator i = wrp.begin(), e = wrp.end(); i != e; ++i )
     {
         const Actor& Object = **i;
-        Opt<IRenderableComponent> renderableC(Object.Get<IRenderableComponent>());
-        if(renderableC.IsValid()
+        Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
+        if( renderableC.IsValid()
             //Layers does not contain the layer
-            &&(!Layers.empty()&&Layers.find(renderableC->GetLayer())==Layers.end()
-              //or ExcludeLayers contains the layer
-              ||!ExludeLayers.empty()&&ExludeLayers.find(renderableC->GetLayer())!=ExludeLayers.end()))
+            && ( !Layers.empty() && Layers.find( renderableC->GetLayer() ) == Layers.end()
+                 //or ExcludeLayers contains the layer
+                 || !ExludeLayers.empty() && ExludeLayers.find( renderableC->GetLayer() ) != ExludeLayers.end() ) )
         {
             continue;
         }
-        if (mRecognizerRepo.HasRecognizers(Object.GetId()))
+        if ( mRecognizerRepo.HasRecognizers( Object.GetId() ) )
         {
-            RecognizerRepo::Recognizers_t& recognizers=mRecognizerRepo.GetRecognizers(Object.GetId());
+            RecognizerRepo::Recognizers_t& recognizers = mRecognizerRepo.GetRecognizers( Object.GetId() );
             RecognizerRepo::ExcludedRecognizers_t excluded;
 
-            ActionRenderersMap_t::iterator actionRenderersIt = mActionRenderersMap.find(Object.GetGUID());
-            BOOST_ASSERT(actionRenderersIt!=mActionRenderersMap.end());
-            ActionRenderers_t& actionRenderers=actionRenderersIt->second;
+            ActionRenderersMap_t::iterator actionRenderersIt = mActionRenderersMap.find( Object.GetGUID() );
+            BOOST_ASSERT( actionRenderersIt != mActionRenderersMap.end() );
+            ActionRenderers_t& actionRenderers = actionRenderersIt->second;
 
-            for (RecognizerRepo::Recognizers_t::iterator recogIt=recognizers.begin(),recogE=recognizers.end(); recogIt!=recogE;++recogIt)
+            for ( RecognizerRepo::Recognizers_t::iterator recogIt = recognizers.begin(), recogE = recognizers.end(); recogIt != recogE; ++recogIt )
             {
-                render::Recognizer& recognizer=*recogIt;
-                if (excluded.find(recognizer.GetId())==excluded.end()
-                    &&recognizer.Recognize(Object))
+                render::Recognizer& recognizer = *recogIt;
+                if ( excluded.find( recognizer.GetId() ) == excluded.end()
+                     && recognizer.Recognize( Object ) )
                 {
                     int32_t actionRendererId = recognizer.GetActionRenderer();
-                    ActionRenderers_t::iterator foundActionRendererIt = 
-                        std::find_if(actionRenderers.begin(),actionRenderers.end(), FindActionRenderer(actionRendererId));
-                    if (foundActionRendererIt==actionRenderers.end())
+                    ActionRenderers_t::iterator foundActionRendererIt =
+                        std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( actionRendererId ) );
+                    if ( foundActionRendererIt == actionRenderers.end() )
                     {
-                        std::auto_ptr<ActionRenderer> actionRenderer(mActionRendererFactory(actionRendererId));
-                        actionRenderer->SetOrder(recognizer.GetOrder());
-                        actionRenderer->Init(Object);
-                        actionRenderers.insert(actionRenderer);
+                        std::auto_ptr<ActionRenderer> actionRenderer( mActionRendererFactory( actionRendererId ) );
+                        actionRenderer->SetOrder( recognizer.GetOrder() );
+                        actionRenderer->Init( Object );
+                        actionRenderers.insert( actionRenderer );
                     }
-                    if (mRecognizerRepo.HasExcludedRecognizers(recognizer.GetId()))
+                    if ( mRecognizerRepo.HasExcludedRecognizers( recognizer.GetId() ) )
                     {
-                        RecognizerRepo::ExcludedRecognizers_t& excludedRecognizers=mRecognizerRepo.GetExcludedRecognizers(recognizer.GetId());
-                        excluded.insert(excludedRecognizers.begin(),excludedRecognizers.end());
+                        RecognizerRepo::ExcludedRecognizers_t& excludedRecognizers = mRecognizerRepo.GetExcludedRecognizers( recognizer.GetId() );
+                        excluded.insert( excludedRecognizers.begin(), excludedRecognizers.end() );
                     }
                 }
             }
-            for (RecognizerRepo::ExcludedRecognizers_t::iterator excludedIt=excluded.begin(), excludedE=excluded.end();excludedIt!=excludedE;++excludedIt)
+            for ( RecognizerRepo::ExcludedRecognizers_t::iterator excludedIt = excluded.begin(), excludedE = excluded.end(); excludedIt != excludedE; ++excludedIt )
             {
-                ActionRenderers_t::iterator arIt=std::find_if(actionRenderers.begin(),actionRenderers.end(), FindActionRenderer(*excludedIt));
-                if(arIt!=actionRenderers.end())
+                ActionRenderers_t::iterator arIt = std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( *excludedIt ) );
+                if( arIt != actionRenderers.end() )
                 {
-                    actionRenderers.erase(arIt);
+                    actionRenderers.erase( arIt );
 
                 }
             }
-            for (ActionRenderers_t::iterator actionRendererIt=actionRenderers.begin(), actionRendererE=actionRenderers.end();actionRendererIt!=actionRendererE;++actionRendererIt)
+            for ( ActionRenderers_t::iterator actionRendererIt = actionRenderers.begin(), actionRendererE = actionRenderers.end(); actionRendererIt != actionRendererE; ++actionRendererIt )
             {
-                ActionRenderer& actionRenderer=*actionRendererIt;
-                actionRenderer.FillRenderableSprites(Object,RenderableSprites);
-                actionRenderer.Update(DeltaTime);
+                ActionRenderer& actionRenderer = *actionRendererIt;
+                actionRenderer.FillRenderableSprites( Object, RenderableSprites );
+                actionRenderer.Update( DeltaTime );
             }
         }
     }
@@ -170,10 +170,10 @@ void ActorRenderer::Draw( Scene const& Object, double DeltaTime, std::set<Render
 
     RenderableSprites_t::const_iterator i = RenderableSprites.begin();
     render::Counts_t const& Counts = render::count(
-            boost::lambda::bind( &getNextTextId, boost::ref( i ), RenderableSprites.end(),
-                boost::ref( Positions ), boost::ref( Headings ), boost::ref( TexCoords ), boost::ref( Sizes ), boost::ref( Colors ),
-                boost::lambda::_1 )
-            );
+                                         boost::lambda::bind( &getNextTextId, boost::ref( i ), RenderableSprites.end(),
+                                                 boost::ref( Positions ), boost::ref( Headings ), boost::ref( TexCoords ), boost::ref( Sizes ), boost::ref( Colors ),
+                                                 boost::lambda::_1 )
+                                     );
     mVAO.Bind();
 
     if( CurSize != PrevVecSize )
@@ -252,7 +252,7 @@ ActorRenderer::~ActorRenderer()
 
 }
 
-void ActorRenderer::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
+void ActorRenderer::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 {
     mX = Event.Pos.x;
     mY = Event.Pos.y;
@@ -262,11 +262,11 @@ bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const&
 {
     Opt<IRenderableComponent> Rs1RenderableC = Rs1.Obj->Get<IRenderableComponent>();
     Opt<IRenderableComponent> Rs2RenderableC = Rs2.Obj->Get<IRenderableComponent>();
-    return Rs1RenderableC->GetLayer()< Rs2RenderableC->GetLayer()||
-        ( Rs1RenderableC->GetLayer()== Rs2RenderableC->GetLayer()&&
-        ( Rs1RenderableC->GetZOrder()< Rs2RenderableC->GetZOrder()||
-        ( Rs1RenderableC->GetZOrder()< Rs2RenderableC->GetZOrder() &&
-        ( Rs1.ActId < Rs2.ActId ||
-        ( Rs1.ActId == Rs2.ActId &&
-        Rs1.Spr->TexId < Rs2.Spr->TexId ) ) ) ) );
+    return Rs1RenderableC->GetLayer() < Rs2RenderableC->GetLayer() ||
+           ( Rs1RenderableC->GetLayer() == Rs2RenderableC->GetLayer() &&
+             ( Rs1RenderableC->GetZOrder() < Rs2RenderableC->GetZOrder() ||
+               ( Rs1RenderableC->GetZOrder() < Rs2RenderableC->GetZOrder() &&
+                 ( Rs1.ActId < Rs2.ActId ||
+                   ( Rs1.ActId == Rs2.ActId &&
+                     Rs1.Spr->TexId < Rs2.Spr->TexId ) ) ) ) );
 }

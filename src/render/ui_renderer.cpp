@@ -15,8 +15,8 @@ namespace {
 typedef std::vector<glm::vec2> Positions_t;
 typedef std::vector<glm::vec4> Colors_t;
 bool getNextTextId( UiVertices_t::const_iterator& i, UiVertices_t::const_iterator e,
-        Positions_t& Positions, Colors_t& Colors, Positions_t& TexCoords,
-        GLuint& TexId )
+                    Positions_t& Positions, Colors_t& Colors, Positions_t& TexCoords,
+                    GLuint& TexId )
 {
     if( i == e )
     {
@@ -72,7 +72,7 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     }
 
     size_t const CurSize = Vertices.size();
-    if (CurSize==0)
+    if ( CurSize == 0 )
     {
         return;
     }
@@ -89,10 +89,10 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     // todo: check and track changes
     UiVertices_t::const_iterator i = Vertices.begin();
     render::Counts_t const& Counts = render::count(
-            boost::lambda::bind( &getNextTextId, boost::ref( i ), Vertices.end(),
-                boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
-                boost::lambda::_1 )
-            );
+                                         boost::lambda::bind( &getNextTextId, boost::ref( i ), Vertices.end(),
+                                                 boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
+                                                 boost::lambda::_1 )
+                                     );
 
     mVAO.Bind();
     if( CurSize != mPrevVertices.size() )
@@ -161,7 +161,7 @@ void UiRenderer::Init()
     glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     ShaderMgr.UploadData( "uiTexture", GLuint( 4 ) );
     glActiveTexture( GL_TEXTURE0 );
-    mWindow=engine::Engine::Get().GetSystem<engine::WindowSystem>();
+    mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
 }
 
 UiRenderer::UiRenderer()

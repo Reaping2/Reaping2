@@ -21,43 +21,43 @@ void PickupCollisionSubSystem::Init()
 {
 }
 
-void PickupCollisionSubSystem::Update(Actor& actor, double DeltaTime)
+void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
 }
 
-void PickupCollisionSubSystem::Collide(Actor& actor, Actor& other)
+void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
     Opt<PickupCollisionComponent> pickupCC = actor.Get<PickupCollisionComponent>();
 
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
-    if (inventoryC.IsValid())
+    if ( inventoryC.IsValid() )
     {
-        if (pickupCC->GetItemType()==ItemType::Weapon)
+        if ( pickupCC->GetItemType() == ItemType::Weapon )
         {
             inventoryC->DropItemType( pickupCC->GetItemType() );
             inventoryC->AddItem( pickupCC->GetPickupContent() );
             inventoryC->SetSelectedWeapon( pickupCC->GetPickupContent() );
         }
-        else if (pickupCC->GetItemType()==ItemType::Normal)
+        else if ( pickupCC->GetItemType() == ItemType::Normal )
         {
             inventoryC->DropItemType( pickupCC->GetItemType() );
             inventoryC->AddItem( pickupCC->GetPickupContent() );
             inventoryC->SetSelectedNormalItem( pickupCC->GetPickupContent() );
         }
-        else if (pickupCC->GetItemType()==ItemType::Buff)
+        else if ( pickupCC->GetItemType() == ItemType::Buff )
         {
-            Opt<IBuffHolderComponent> buffHolderC=other.Get<IBuffHolderComponent>();
-            if (buffHolderC.IsValid())
+            Opt<IBuffHolderComponent> buffHolderC = other.Get<IBuffHolderComponent>();
+            if ( buffHolderC.IsValid() )
             {
-                buffHolderC->AddBuff(core::BuffFactory::Get()(pickupCC->GetPickupContent()));
+                buffHolderC->AddBuff( core::BuffFactory::Get()( pickupCC->GetPickupContent() ) );
             }
         }
-        EventServer<PickupEvent>::Get().SendEvent(PickupEvent(Opt<Actor>(&other),pickupCC->GetItemType(),pickupCC->GetPickupContent()));
+        EventServer<PickupEvent>::Get().SendEvent( PickupEvent( Opt<Actor>( &other ), pickupCC->GetItemType(), pickupCC->GetPickupContent() ) );
     }
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if (healthC.IsValid())
+    if ( healthC.IsValid() )
     {
-        healthC->SetHP(0);
+        healthC->SetHP( 0 );
     }
 
 }

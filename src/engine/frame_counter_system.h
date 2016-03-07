@@ -7,15 +7,15 @@
 
 namespace engine {
 
-    struct FrameCounterEvent : platform::Event
-    {
-        double mDiff;
-        FrameCounterEvent(double diff):mDiff(diff){}
-    };
+struct FrameCounterEvent : platform::Event
+{
+    double mDiff;
+    FrameCounterEvent( double diff ): mDiff( diff ) {}
+};
 
 class FrameCounterSystem: public System
 {
-    DEFINE_SYSTEM_BASE(FrameCounterSystem)
+    DEFINE_SYSTEM_BASE( FrameCounterSystem )
     uint32_t mFrames;
     double mStart;
     double mPrev;

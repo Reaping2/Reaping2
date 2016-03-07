@@ -9,8 +9,8 @@ namespace engine {
 struct ItemPropertiesChangedEvent : public platform::Event
 {
     Item const& mItem;
-    ItemPropertiesChangedEvent(Item const& item)
-        :mItem(item){}
+    ItemPropertiesChangedEvent( Item const& item )
+        : mItem( item ) {}
 };
 
 } // namespace engine

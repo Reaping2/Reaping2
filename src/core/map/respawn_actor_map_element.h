@@ -11,18 +11,18 @@ namespace map {
 class RespawnActorMapElement : public MapElement, public BaseInput
 {
 public:
-    DEFINE_MAP_ELEMENT_BASE(RespawnActorMapElement)
-    RespawnActorMapElement(int32_t Id);
-    void Load(Json::Value& setters);
-    void Save(Json::Value& Element);
-    void SetActorID(int32_t actorID);
+    DEFINE_MAP_ELEMENT_BASE( RespawnActorMapElement )
+    RespawnActorMapElement( int32_t Id );
+    void Load( Json::Value& setters );
+    void Save( Json::Value& Element );
+    void SetActorID( int32_t actorID );
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
-    void AddComponentLoader(int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader);
+    void AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader );
 
-    void SetSecsToRespawn(double secsToRespawn);
+    void SetSecsToRespawn( double secsToRespawn );
     double GetSecsToRespawn()const;
-    void SetSecsToRespawnOriginal(double secsToRespawnOriginal);
+    void SetSecsToRespawnOriginal( double secsToRespawnOriginal );
     double GetSecsToRespawnOriginal()const;
     static int32_t SpawnNodeId();
 private:

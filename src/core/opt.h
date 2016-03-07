@@ -8,11 +8,11 @@ template<typename T>
 class Opt
 {
 public:
-    Opt(T* Ptr=NULL);
+    Opt( T* Ptr = NULL );
     template<typename U>
-    Opt(const Opt<U>& Other)
+    Opt( const Opt<U>& Other )
     {
-        mPtr=dynamic_cast<T*>(Other.Get());
+        mPtr = dynamic_cast<T*>( Other.Get() );
     }
     bool IsValid()const;
     T* operator->() const;
@@ -24,9 +24,9 @@ public:
     void Reset();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version)
+    void serialize( Archive& ar, const unsigned int version )
     {
-        ar & mPtr;
+        ar& mPtr;
     }
 private:
     mutable T* mPtr;
@@ -36,7 +36,7 @@ private:
 template<typename T>
 void Opt<T>::Reset()
 {
-    mPtr=NULL;
+    mPtr = NULL;
 }
 
 template<typename T>
@@ -52,15 +52,15 @@ T* Opt<T>::Get() const
 }
 
 template<typename T>
-Opt<T>::Opt(T* Ptr)
+Opt<T>::Opt( T* Ptr )
 {
-    mPtr=Ptr;
+    mPtr = Ptr;
 }
 
 template<typename T>
 bool Opt<T>::IsValid()const
 {
-    return mPtr!=NULL;
+    return mPtr != NULL;
 }
 
 template<typename T>
@@ -78,12 +78,12 @@ T& Opt<T>::operator*() const
 template<typename T>
 T* Opt<T>::operator->()
 {
-    return const_cast<T*>(((const Opt*)this)->operator->());
+    return const_cast<T*>( ( ( const Opt* )this )->operator->() );
 }
 
 template<typename T>
 T& Opt<T>::operator*()
 {
-    return const_cast<T&>(((const Opt*)this)->operator*());
+    return const_cast<T&>( ( ( const Opt* )this )->operator*() );
 }
 #endif//INCLUDED_CORE_OPT_H

@@ -20,7 +20,7 @@ class TextSceneRenderer
 public:
     TextSceneRenderer();
     void Draw();
-    void AddText(Text const& text);
+    void AddText( Text const& text );
 };
 
 #endif//INCLUDED_RENDER_TEXT_SCENE_RENDERER_H

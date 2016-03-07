@@ -83,7 +83,7 @@ bool GetColor( Json::Value const& Color, glm::vec4& O )
             ( ( c & 0x00ff0000 ) >> 16 ) / 255.,
             ( ( c & 0x0000ff00 ) >> 8 ) / 255.,
             ( ( c & 0x000000ff ) ) / 255.
-            );
+        );
     return true;
 }
 } // namespace Json

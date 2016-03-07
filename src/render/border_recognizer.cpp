@@ -3,16 +3,16 @@
 
 namespace render {
 
-BorderRecognizer::BorderRecognizer(int32_t Id)
-    : Recognizer(Id)
+BorderRecognizer::BorderRecognizer( int32_t Id )
+    : Recognizer( Id )
 {
 }
 
 
-bool BorderRecognizer::Recognize(Actor const& actor)
+bool BorderRecognizer::Recognize( Actor const& actor )
 {
-    Opt<IBorderComponent> borderC=actor.Get<IBorderComponent>();
-    if (!borderC.IsValid())
+    Opt<IBorderComponent> borderC = actor.Get<IBorderComponent>();
+    if ( !borderC.IsValid() )
     {
         return false;
     }

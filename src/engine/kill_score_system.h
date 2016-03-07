@@ -10,7 +10,7 @@ namespace engine {
 class KillScoreSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(KillScoreSystem)
+    DEFINE_SYSTEM_BASE( KillScoreSystem )
     KillScoreSystem();
 protected:
     virtual void Init();
@@ -21,7 +21,7 @@ private:
     core::ProgramState& mProgramState;
     ModelValue mScoreModel;
     boost::ptr_vector<ModelValue> mScoreModels;
-    void OnKillScore(engine::KillScoreEvent const& Evt);
+    void OnKillScore( engine::KillScoreEvent const& Evt );
     int32_t mKill;
     int32_t mDeath;
     int32_t mScore;

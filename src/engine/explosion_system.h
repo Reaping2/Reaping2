@@ -9,7 +9,7 @@ namespace engine {
 class ExplosionSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(ExplosionSystem)
+    DEFINE_SYSTEM_BASE( ExplosionSystem )
     ExplosionSystem();
 protected:
     virtual void Init();

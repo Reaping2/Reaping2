@@ -19,7 +19,7 @@ double RandomControllerComponent::GetCounter() const
     return mCounter;
 }
 
-void RandomControllerComponent::SetCounter(double counter)
+void RandomControllerComponent::SetCounter( double counter )
 {
     mCounter = counter;
 }
@@ -29,7 +29,7 @@ double RandomControllerComponent::GetHeadingModifier() const
     return mHeadingModifier;
 }
 
-void RandomControllerComponent::SetHeadingModifier(double headingModifier)
+void RandomControllerComponent::SetHeadingModifier( double headingModifier )
 {
     mHeadingModifier = headingModifier;
 }
@@ -45,4 +45,4 @@ RandomControllerComponentLoader::RandomControllerComponentLoader()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(RandomControllerComponent, RandomControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( RandomControllerComponent, RandomControllerComponent );

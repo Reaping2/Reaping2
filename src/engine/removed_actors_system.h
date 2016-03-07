@@ -11,7 +11,7 @@ namespace engine {
 class RemovedActorsSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(RemovedActorsSystem)
+    DEFINE_SYSTEM_BASE( RemovedActorsSystem )
     RemovedActorsSystem();
     typedef std::set<int32_t> RemovedActorsGUIDs_t;
     RemovedActorsGUIDs_t const& GetRemovedActors() const;

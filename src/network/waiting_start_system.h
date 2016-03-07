@@ -12,15 +12,16 @@ using platform::ModelValue;
 
 class LoadClientlistEvent;
 
-class WaitingStartSystem : public engine::System {
+class WaitingStartSystem : public engine::System
+{
     ModelValue mWaitModel;
     AutoReg mOnLoadClientlistEvent;
-    void OnLoadClientlistEvent( LoadClientlistEvent const & event );
-public:    
-    DEFINE_SYSTEM_BASE(WaitingStartSystem)
+    void OnLoadClientlistEvent( LoadClientlistEvent const& event );
+public:
+    DEFINE_SYSTEM_BASE( WaitingStartSystem )
     WaitingStartSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 
 }

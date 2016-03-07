@@ -10,15 +10,15 @@
 
 PlayerControllerComponent::PlayerControllerComponent()
     : ControllerComponent()
-    , mOrientation(0.0)
-    , mHeading(0.0)
-    , mShoot(false)
-    , mShootAlt(false)
-    , mUseNormalItem(false)
-    , mActive(false)
-    , mControllerId(0)
-    , mUseReload(false)
-    , mMoving(false)
+    , mOrientation( 0.0 )
+    , mHeading( 0.0 )
+    , mShoot( false )
+    , mShootAlt( false )
+    , mUseNormalItem( false )
+    , mActive( false )
+    , mControllerId( 0 )
+    , mUseReload( false )
+    , mMoving( false )
 {
 }
 
@@ -33,4 +33,4 @@ PlayerControllerComponentLoader::PlayerControllerComponentLoader()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(PlayerControllerComponent, PlayerControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( PlayerControllerComponent, PlayerControllerComponent );

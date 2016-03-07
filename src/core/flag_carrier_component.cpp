@@ -20,4 +20,4 @@ FlagCarrierComponentLoader::FlagCarrierComponentLoader()
 
 } // namespace ctf
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ctf__FlagCarrierComponent, ctf::FlagCarrierComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ctf__FlagCarrierComponent, ctf::FlagCarrierComponent );

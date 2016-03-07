@@ -5,75 +5,75 @@
 namespace network {
 
 
-    PositionMessageSenderSystem::PositionMessageSenderSystem()
-        : MessageSenderSystem()
-    {
+PositionMessageSenderSystem::PositionMessageSenderSystem()
+    : MessageSenderSystem()
+{
 
+}
+
+void PositionMessageSenderSystem::Init()
+{
+    MessageSenderSystem::Init();
+    SetFrequency( 10 );
+    //         mSendPositions.insert(platform::AutoId("player"));
+    //         mSendPositions.insert(platform::AutoId("spider1"));
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 600.0, platform::AutoId( "spider1" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 600.0, platform::AutoId( "spider2" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1target" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2target" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "player" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "ctf_player" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 1000.0, platform::AutoId( "flag" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "grenade_projectile" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "blue_grenade_projectile" ) ) );
+    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
+
+}
+
+void PositionMessageSenderSystem::Update( double DeltaTime )
+{
+    MessageSenderSystem::Update( DeltaTime );
+    mActorFrequencyTimerHolder.Update( DeltaTime );
+    if ( !IsTime() )
+    {
+        return;
     }
-
-    void PositionMessageSenderSystem::Init()
+    mSendPositions = mActorFrequencyTimerHolder.GetActorIds();
+    if ( mSendPositions.empty() )
     {
-        MessageSenderSystem::Init();
-        SetFrequency(10);
-//         mSendPositions.insert(platform::AutoId("player"));
-//         mSendPositions.insert(platform::AutoId("spider1"));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(600.0,platform::AutoId("spider1")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(600.0,platform::AutoId("spider2")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider1target")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("spider2target")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("player")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(300.0,platform::AutoId("ctf_player")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(1000.0,platform::AutoId("flag")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("grenade_projectile")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("blue_grenade_projectile")));
-        mActorFrequencyTimerHolder.Add(ActorFrequencyTimer(100.0,platform::AutoId("rocket_launcher_target_projectile")));
-
+        return;
     }
-
-    void PositionMessageSenderSystem::Update(double DeltaTime)
+    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
-        MessageSenderSystem::Update(DeltaTime);
-        mActorFrequencyTimerHolder.Update(DeltaTime);
-        if (!IsTime())
+        Actor& actor = **it;
+        if ( mSendPositions.find( actor.GetId() ) == mSendPositions.end() )
         {
-            return;
+            continue;
         }
-        mSendPositions=mActorFrequencyTimerHolder.GetActorIds();
-        if (mSendPositions.empty())
+        std::auto_ptr<PositionMessage> positionMessage( GeneratePositionMessage( actor ) );
+        if ( positionMessage.get() != NULL )
         {
-            return;
-        }
-        for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-        {
-            Actor& actor=**it;
-            if (mSendPositions.find(actor.GetId())==mSendPositions.end())
-            {
-                continue;
-            }
-            std::auto_ptr<PositionMessage> positionMessage(GeneratePositionMessage(actor));
-            if (positionMessage.get()!=NULL)
-            {
-                mSingleMessageSender.Add(actor.GetGUID(),positionMessage);
-            }
-
+            mSingleMessageSender.Add( actor.GetGUID(), positionMessage );
         }
 
     }
 
-    std::auto_ptr<PositionMessage> PositionMessageSenderSystem::GeneratePositionMessage(Actor const& actor)
+}
+
+std::auto_ptr<PositionMessage> PositionMessageSenderSystem::GeneratePositionMessage( Actor const& actor )
+{
+    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+    if ( !positionC.IsValid() )
     {
-        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-        if (!positionC.IsValid())
-        {
-            return std::auto_ptr<PositionMessage>();
-        }
-        std::auto_ptr<PositionMessage> positionMsg(new PositionMessage);
-        positionMsg->mX=std::floor(positionC->GetX()*PRECISION);
-        positionMsg->mY=std::floor(positionC->GetY()*PRECISION);
-        //positionMsg->mOrientation=positionC->GetOrientation();
-        positionMsg->mActorGUID=actor.GetGUID();
-        return positionMsg;
+        return std::auto_ptr<PositionMessage>();
     }
+    std::auto_ptr<PositionMessage> positionMsg( new PositionMessage );
+    positionMsg->mX = std::floor( positionC->GetX() * PRECISION );
+    positionMsg->mY = std::floor( positionC->GetY() * PRECISION );
+    //positionMsg->mOrientation=positionC->GetOrientation();
+    positionMsg->mActorGUID = actor.GetGUID();
+    return positionMsg;
+}
 
 } // namespace engine
 

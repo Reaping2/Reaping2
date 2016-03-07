@@ -9,13 +9,13 @@ namespace engine {
 class GrenadeNormalItemSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(GrenadeNormalItemSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( GrenadeNormalItemSubSystem )
 
     GrenadeNormalItemSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
 
-    static void SetGrenadeProperties(Actor& Proj, Actor& actor);
+    static void SetGrenadeProperties( Actor& Proj, Actor& actor );
 
 private:
     Scene& mScene;

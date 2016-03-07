@@ -4,12 +4,12 @@
 #include "render/recognizer.h"
 namespace render {
 
-    class WeaponRecognizer: public Recognizer
-    {
-    public:
-        WeaponRecognizer( int32_t Id );
-        virtual bool Recognize(Actor const&);
-    };
+class WeaponRecognizer: public Recognizer
+{
+public:
+    WeaponRecognizer( int32_t Id );
+    virtual bool Recognize( Actor const& );
+};
 
 } // namespace render
 

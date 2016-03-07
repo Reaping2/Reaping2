@@ -11,21 +11,21 @@ class IExplode
 public:
     IExplode();
     virtual ~IExplode();
-    virtual void SetExplosionProjectile(int32_t explosionProjectile);
+    virtual void SetExplosionProjectile( int32_t explosionProjectile );
     virtual int32_t GetExplosionProjectile()const;
-    virtual void SetCount(int32_t count);
+    virtual void SetCount( int32_t count );
     virtual int32_t GetCount()const;
-    virtual void SetExplosionScatter(double scatter);
+    virtual void SetExplosionScatter( double scatter );
     virtual double GetExplosionScatter()const;
-    virtual void SetDistribution(ExplodeDistributionType::Type distribution);
+    virtual void SetDistribution( ExplodeDistributionType::Type distribution );
     virtual ExplodeDistributionType::Type GetDistribution()const;
-    virtual void SetSecsToEndVariance(double secsToEndVariance);
+    virtual void SetSecsToEndVariance( double secsToEndVariance );
     virtual double GetSecsToEndVariance()const;
-    virtual void SetPositionVariance(int32_t positionVariance);
+    virtual void SetPositionVariance( int32_t positionVariance );
     virtual int32_t GetPositionVariance()const;
-    virtual void SetSpeedVariance(double speedVariance);
+    virtual void SetSpeedVariance( double speedVariance );
     virtual double GetSpeedVariance()const;
-    virtual void SetAddActorRadius(bool addRadius);
+    virtual void SetAddActorRadius( bool addRadius );
     virtual bool IsAddActorRadius()const;
 protected:
     friend class ComponentFactory;
@@ -40,22 +40,22 @@ protected:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void IExplode::serialize(Archive& ar, const unsigned int version)
+void IExplode::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mExplosionProjectile;
-    ar & mCount;
-    ar & mExplosionScatter;
-    ar & mDistribution;
-    ar & mSecsToEndVariance;
-    ar & mPositionVariance;
-    ar & mSpeedVariance;
-    ar & mAddActorRadius;
+    ar& mExplosionProjectile;
+    ar& mCount;
+    ar& mExplosionScatter;
+    ar& mDistribution;
+    ar& mSecsToEndVariance;
+    ar& mPositionVariance;
+    ar& mSpeedVariance;
+    ar& mAddActorRadius;
 }
 
 
-REAPING2_CLASS_EXPORT_KEY2(IExplode, IExplode,"i_explode");
+REAPING2_CLASS_EXPORT_KEY2( IExplode, IExplode, "i_explode" );
 #endif//INCLUDED_CORE_I_EXPLODE_H

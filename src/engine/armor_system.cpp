@@ -18,39 +18,39 @@ void ArmorSystem::Init()
 }
 
 
-void ArmorSystem::Update(double DeltaTime)
+void ArmorSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<IArmorComponent> armorC=actor.Get<IArmorComponent>();
-        if (!armorC.IsValid())
+        Opt<IArmorComponent> armorC = actor.Get<IArmorComponent>();
+        if ( !armorC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-        if (!healthC.IsValid()||!healthC->IsAlive()
-            ||healthC->GetDamage()<=0)
+        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        if ( !healthC.IsValid() || !healthC->IsAlive()
+             || healthC->GetDamage() <= 0 )
         {
             continue;
         }
-        int32_t damage=healthC->GetDamage();
-        int32_t newArmor=armorC->GetCurrentArmor()-damage;
+        int32_t damage = healthC->GetDamage();
+        int32_t newArmor = armorC->GetCurrentArmor() - damage;
         healthC->ResetDamage();
-        if (newArmor<0)
+        if ( newArmor < 0 )
         {
-            healthC->TakeDamage(-1*newArmor);
-            newArmor=0;
+            healthC->TakeDamage( -1 * newArmor );
+            newArmor = 0;
         }
-        int32_t armorDiff=armorC->GetCurrentArmor()-newArmor;
-        armorC->SetCurrentArmor(newArmor);
+        int32_t armorDiff = armorC->GetCurrentArmor() - newArmor;
+        armorC->SetCurrentArmor( newArmor );
         Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-        if(positionC.IsValid())
+        if( positionC.IsValid() )
         {
             core::DamageTakenEvent damageTakeEvent = core::DamageTakenEvent( positionC->GetX(), positionC->GetY() );
-            damageTakeEvent.ActorGUID=actor.GetGUID();
-            damageTakeEvent.Damage=armorDiff;
-            damageTakeEvent.type=core::DamageTakenEvent::Armor;
+            damageTakeEvent.ActorGUID = actor.GetGUID();
+            damageTakeEvent.Damage = armorDiff;
+            damageTakeEvent.type = core::DamageTakenEvent::Armor;
             EventServer<core::DamageTakenEvent>::Get().SendEvent( damageTakeEvent );
         }
     }

@@ -16,47 +16,47 @@ class SoldierPropertiesMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(SoldierPropertiesMessage)
+    DEFINE_MESSAGE_BASE( SoldierPropertiesMessage )
     SoldierProperties mSoldierProperties;
     SoldierPropertiesMessage()
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void SoldierPropertiesMessage::serialize(Archive& ar, const unsigned int version)
+void SoldierPropertiesMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mSoldierProperties;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mSoldierProperties;
 }
 
 class SoldierPropertiesMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(SoldierPropertiesMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( SoldierPropertiesMessageHandlerSubSystem )
     SoldierPropertiesMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
+    virtual void Execute( Message const& message );
 };
 
 class SoldierPropertiesMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnSoldierCreatedEvent;
-    void OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt);
+    void OnSoldierCreatedEvent( engine::SoldierCreatedEvent const& Evt );
     AutoReg mOnSoldierPropertiesReady;
     void OnSoldierPropertiesReady( engine::SoldierPropertiesReadyEvent const& Evt );
 public:
-    DEFINE_SYSTEM_BASE(SoldierPropertiesMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( SoldierPropertiesMessageSenderSystem )
     SoldierPropertiesMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 
 };
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_KEY2(network__SoldierPropertiesMessage, network::SoldierPropertiesMessage,"soldier_properties");
+REAPING2_CLASS_EXPORT_KEY2( network__SoldierPropertiesMessage, network::SoldierPropertiesMessage, "soldier_properties" );
 #endif//INCLUDED_NETWORK_SOLDIER_PROPERTIES_H
 

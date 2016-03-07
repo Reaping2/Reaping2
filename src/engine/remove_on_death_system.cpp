@@ -15,18 +15,18 @@ void RemoveOnDeathSystem::Init()
 {
 }
 
-void RemoveOnDeathSystem::Update(double DeltaTime)
+void RemoveOnDeathSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
     {
         Actor& actor = **it;
         Opt<IRemoveOnDeathComponent> removeOnDeathC = actor.Get<IRemoveOnDeathComponent>();
-        if (!removeOnDeathC.IsValid())
+        if ( !removeOnDeathC.IsValid() )
         {
             continue;
         }
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-        if(!healthC.IsValid() || healthC->IsAlive())
+        if( !healthC.IsValid() || healthC->IsAlive() )
         {
             continue;
         }
@@ -34,7 +34,7 @@ void RemoveOnDeathSystem::Update(double DeltaTime)
         removeOnDeathC->SetRemainingTime( RemainingTime );
         if( RemainingTime <= 0 )
         {
-            mScene.RemoveActor(it);
+            mScene.RemoveActor( it );
         }
     }
 }

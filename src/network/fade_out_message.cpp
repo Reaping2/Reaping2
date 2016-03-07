@@ -18,9 +18,9 @@ void FadeOutMessageSenderSystem::Init()
 }
 
 
-void FadeOutMessageSenderSystem::Update(double DeltaTime)
+void FadeOutMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
 FadeOutMessageHandlerSubSystem::FadeOutMessageHandlerSubSystem()
@@ -33,38 +33,38 @@ void FadeOutMessageHandlerSubSystem::Init()
 {
 }
 
-void FadeOutMessageHandlerSubSystem::Update(double DeltaTime)
+void FadeOutMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    PendingMessageHandlerSubSystem::Update(DeltaTime);
+    PendingMessageHandlerSubSystem::Update( DeltaTime );
 }
 
-bool FadeOutMessageHandlerSubSystem::ProcessPending(Message const& message)
+bool FadeOutMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
-    FadeOutMessage const& msg=static_cast<FadeOutMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed
-    L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
+    FadeOutMessage const& msg = static_cast<FadeOutMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
+    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IFadeOutComponent> fadeOutC = actor->Get<IFadeOutComponent>();
-    if (fadeOutC.IsValid())
+    if ( fadeOutC.IsValid() )
     {
-        fadeOutC->SetSecsToEnd(msg.mSecsToEnd);
-    }    
+        fadeOutC->SetSecsToEnd( msg.mSecsToEnd );
+    }
     return true;
 }
 
-std::auto_ptr<FadeOutMessage> FadeOutMessageSenderSystem::GenerateFadeOutMessage(Actor &actor)
+std::auto_ptr<FadeOutMessage> FadeOutMessageSenderSystem::GenerateFadeOutMessage( Actor& actor )
 {
     Opt<IFadeOutComponent> fadeOutC = actor.Get<IFadeOutComponent>();
-    if (!fadeOutC.IsValid())
+    if ( !fadeOutC.IsValid() )
     {
         return std::auto_ptr<FadeOutMessage>();
     }
-    std::auto_ptr<FadeOutMessage> fadeOutMsg(new FadeOutMessage);
-    fadeOutMsg->mActorGUID=actor.GetGUID();
-    fadeOutMsg->mSecsToEnd=fadeOutC->GetSecsToEnd();
+    std::auto_ptr<FadeOutMessage> fadeOutMsg( new FadeOutMessage );
+    fadeOutMsg->mActorGUID = actor.GetGUID();
+    fadeOutMsg->mSecsToEnd = fadeOutC->GetSecsToEnd();
     return fadeOutMsg;
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__FadeOutMessage, network::FadeOutMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__FadeOutMessage, network::FadeOutMessage );

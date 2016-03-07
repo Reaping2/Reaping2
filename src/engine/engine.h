@@ -18,7 +18,7 @@ struct SystemElement
     int32_t mOrder;
     bool mEnabled;
     mutable Opt<System> mSystem;
-    SystemElement(int32_t id, int32_t order, bool enabled, Opt<System> system);
+    SystemElement( int32_t id, int32_t order, bool enabled, Opt<System> system );
 };
 
 class SystemHolder
@@ -26,37 +26,37 @@ class SystemHolder
 public:
 
     struct SystemDefaultOrderer
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const SystemElement& system)const;
+        result_type operator()( const SystemElement& system )const;
     };
 
     struct SystemIdOrderer
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const SystemElement& system)const;
+        result_type operator()( const SystemElement& system )const;
     };
 
     struct IsEnabled
-    { 
+    {
         typedef bool result_type;
-        bool operator()(const SystemElement& system)const;
+        bool operator()( const SystemElement& system )const;
     };
 
-    typedef multi_index_container<
-        SystemElement,
-        indexed_by<
-            ordered_unique<
-                SystemHolder::SystemIdOrderer
-            >,
-            ordered_non_unique<
-                composite_key<
-                    SystemElement,
-                    SystemHolder::IsEnabled,
-                    SystemHolder::SystemDefaultOrderer
-                >
-            >
-        >
+    typedef multi_index_container <
+    SystemElement,
+    indexed_by <
+    ordered_unique <
+    SystemHolder::SystemIdOrderer
+    >,
+    ordered_non_unique <
+    composite_key <
+    SystemElement,
+    SystemHolder::IsEnabled,
+    SystemHolder::SystemDefaultOrderer
+    >
+    >
+    >
     > Systems_t;
     Systems_t mSystems;
 };
@@ -72,10 +72,10 @@ protected:
     Systems_t::const_iterator mI;
     Systems_t::const_iterator mE;
 public:
-    SystemsFilter(Systems_t const& systems)
+    SystemsFilter( Systems_t const& systems )
     {
-        mI=systems.begin();
-        mE=systems.end();
+        mI = systems.begin();
+        mE = systems.end();
     }
     const_iterator begin()
     {
@@ -96,9 +96,9 @@ protected:
     const_iterator mI;
     const_iterator mE;
 public:
-    SystemsFilter(Systems_t const& systems)
+    SystemsFilter( Systems_t const& systems )
     {
-        boost::tie(mI,mE)=systems.get<1>().equal_range(boost::make_tuple(true));
+        boost::tie( mI, mE ) = systems.get<1>().equal_range( boost::make_tuple( true ) );
     }
     const_iterator begin()
     {
@@ -113,8 +113,8 @@ public:
 class SystemEnableModifier
 {
 public:
-    SystemEnableModifier(bool enabled);
-    void operator()(SystemElement& system);
+    SystemEnableModifier( bool enabled );
+    void operator()( SystemElement& system );
 protected:
     bool mEnabled;
 };
@@ -141,7 +141,7 @@ public:
     template<typename System_t>
     Opt<System_t> GetSystem();
     template<typename System_t>
-    void SetEnabled(bool enabled);
+    void SetEnabled( bool enabled );
     void OnPhaseChangedEvent( PhaseChangedEvent const& Evt );
 };
 
@@ -149,8 +149,8 @@ template<typename System_t>
 Opt<System_t> Engine::GetSystem() const
 {
     Systems_t::const_iterator i = mSystemHolder.mSystems.find( System_t::GetType_static() );
-    return Opt<System_t>(static_cast<System_t*>(const_cast<System*>(
-        i == mSystemHolder.mSystems.end()?NULL:i->mSystem.Get()))); 
+    return Opt<System_t>( static_cast<System_t*>( const_cast<System*>(
+                              i == mSystemHolder.mSystems.end() ? NULL : i->mSystem.Get() ) ) );
 }
 
 template<typename System_t>
@@ -159,12 +159,12 @@ Opt<System_t> Engine::GetSystem()
     return ( ( const Engine* )this )->GetSystem<System_t>();
 }
 template<typename System_t>
-void Engine::SetEnabled(bool enabled)
+void Engine::SetEnabled( bool enabled )
 {
-    Systems_t::iterator it = mSystemHolder.mSystems.find(System_t::GetType_static());
-    if (it!=mSystemHolder.mSystems.end())
+    Systems_t::iterator it = mSystemHolder.mSystems.find( System_t::GetType_static() );
+    if ( it != mSystemHolder.mSystems.end() )
     {
-        mSystemHolder.mSystems.modify(it,SystemEnableModifier(enabled));
+        mSystemHolder.mSystems.modify( it, SystemEnableModifier( enabled ) );
     }
 }
 

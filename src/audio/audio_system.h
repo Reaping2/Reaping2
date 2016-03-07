@@ -10,7 +10,7 @@ namespace audio {
 class AudioSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(AudioSystem)
+    DEFINE_SYSTEM_BASE( AudioSystem )
     AudioSystem();
 protected:
     virtual void Init();

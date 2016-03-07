@@ -12,7 +12,7 @@ public:
     virtual int32_t GetPickupContent() const;
     virtual void SetItemType( ItemType::Type itemType );
     virtual ItemType::Type GetItemType() const;
-    virtual void Save(Json::Value& component);
+    virtual void Save( Json::Value& component );
 
 protected:
     PickupCollisionComponent();
@@ -22,16 +22,16 @@ protected:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void PickupCollisionComponent::serialize(Archive& ar, const unsigned int version)
+void PickupCollisionComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<CollisionComponent>(*this);
-    ar & mPickupContent;
-    ar & mItemType;
+    ar& boost::serialization::base_object<CollisionComponent>( *this );
+    ar& mPickupContent;
+    ar& mItemType;
 }
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>
@@ -45,5 +45,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(PickupCollisionComponent, PickupCollisionComponent,"pickup_collision_component");
+REAPING2_CLASS_EXPORT_KEY2( PickupCollisionComponent, PickupCollisionComponent, "pickup_collision_component" );
 #endif//INCLUDED_CORE_PICKUP_COLLISION_COMPONENT_H

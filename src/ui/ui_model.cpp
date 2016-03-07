@@ -10,9 +10,9 @@ UiModel::Val::Val()
 platform::ModelValue* UiModel::CreateModel( std::string const& name )
 {
     BOOST_ASSERT( name.find( '.' ) == std::string::npos );
-    ModelValue* m = new ModelValue( (get_int_t) boost::lambda::bind( &UiModel::Value, this, name ), name, this );
+    ModelValue* m = new ModelValue( ( get_int_t ) boost::lambda::bind( &UiModel::Value, this, name ), name, this );
     mOwnedModels.push_back( m );
-    mOwnedCallModels.push_back( new ModelValue( (int_function_t) boost::lambda::bind( &UiModel::Add, this, name, boost::lambda::_1 ), "add", m ) );
+    mOwnedCallModels.push_back( new ModelValue( ( int_function_t ) boost::lambda::bind( &UiModel::Add, this, name, boost::lambda::_1 ), "add", m ) );
     return m;
 }
 

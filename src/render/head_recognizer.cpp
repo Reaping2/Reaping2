@@ -2,13 +2,13 @@
 
 namespace render {
 
-HeadRecognizer::HeadRecognizer(int32_t Id)
-    : Recognizer(Id)
+HeadRecognizer::HeadRecognizer( int32_t Id )
+    : Recognizer( Id )
 {
 }
 
 
-bool HeadRecognizer::Recognize(Actor const& actor)
+bool HeadRecognizer::Recognize( Actor const& actor )
 {
     return true;
 }

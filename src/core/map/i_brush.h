@@ -10,7 +10,7 @@ class IBrush
 public:
     IBrush( int32_t Id );
     virtual ~IBrush();
-    virtual void Update( double DeltaTime )=0;
+    virtual void Update( double DeltaTime ) = 0;
     std::vector<int32_t> GetActorsToRemove();
 protected:
     int32_t mId;

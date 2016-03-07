@@ -3,13 +3,13 @@
 namespace render {
 namespace ctf {
 
-CtfFlagRecognizer::CtfFlagRecognizer(int32_t Id)
-    : Recognizer(Id)
+CtfFlagRecognizer::CtfFlagRecognizer( int32_t Id )
+    : Recognizer( Id )
 {
 }
 
 
-bool CtfFlagRecognizer::Recognize(Actor const& actor)
+bool CtfFlagRecognizer::Recognize( Actor const& actor )
 {
     return true;
 }

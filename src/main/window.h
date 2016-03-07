@@ -15,7 +15,7 @@ namespace engine {
 class WindowSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(WindowSystem)
+    DEFINE_SYSTEM_BASE( WindowSystem )
     bool Create( const uint32_t Width, const uint32_t Height, const std::string& Title );
     void Resize( const uint32_t Width, const uint32_t Height );
     void Destroy();

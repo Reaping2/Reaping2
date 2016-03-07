@@ -13,7 +13,7 @@ namespace engine {
 class PointerTargetControllerSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(PointerTargetControllerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( PointerTargetControllerSubSystem )
     PointerTargetControllerSubSystem();
 protected:
     Opt<RemovedActorsSystem> mRemovedActorsSystem;
@@ -22,7 +22,7 @@ protected:
 private:
     Scene& mScene;
     ProgramState& mProgramState;
-    ActorFactory &mActorFactory;
+    ActorFactory& mActorFactory;
     int32_t mLaserPointerProjectileId;
 };
 

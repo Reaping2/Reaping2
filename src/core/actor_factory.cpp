@@ -9,48 +9,48 @@ ActorFactory::ActorFactory()
     Init();
     //every created actor is handled the same way.
     //actorCreators create actors from json data files.
-    Bind( AutoId( "default_actor" ),boost::bind(&ActorFactory::CreateActor,this,_1) );
+    Bind( AutoId( "default_actor" ), boost::bind( &ActorFactory::CreateActor, this, _1 ) );
     SetDefault( AutoId( "default_actor" ) );
 }
 
 std::auto_ptr<Actor> ActorFactory::CreateActor( int32_t Id )
 {
-    ActorCreatorMap_t::iterator i = mActorCreators.find(Id);
-    return (i!=mActorCreators.end())?i->second->Create():std::auto_ptr<Actor>( new Actor(Id) );
+    ActorCreatorMap_t::iterator i = mActorCreators.find( Id );
+    return ( i != mActorCreators.end() ) ? i->second->Create() : std::auto_ptr<Actor>( new Actor( Id ) );
 }
 
 
 bool ActorFactory::AddActorCreatorFromOneDesc( Json::Value& ActorsDesc, ActorCreatorMap_t& actorCreators )
 {
-    std::auto_ptr<ActorCreator> actorCreator(new ActorCreator());
+    std::auto_ptr<ActorCreator> actorCreator( new ActorCreator() );
     std::string nameStr;
-    if( !Json::GetStr( ActorsDesc["name"], nameStr))
+    if( !Json::GetStr( ActorsDesc["name"], nameStr ) )
     {
         return false;
     }
-    actorCreator->SetId(AutoId(nameStr));
-    Json::Value& components=ActorsDesc["components"];
-    if (!components.isArray())
+    actorCreator->SetId( AutoId( nameStr ) );
+    Json::Value& components = ActorsDesc["components"];
+    if ( !components.isArray() )
     {
         return false;
     }
-    if (components.empty())
+    if ( components.empty() )
     {
         return true;
     }
     for( Json::Value::iterator i = components.begin(), e = components.end(); i != e; ++i )
     {
-        Json::Value& component=*i;
+        Json::Value& component = *i;
         std::string compName;
-        if (!Json::GetStr( component["name"],compName))
+        if ( !Json::GetStr( component["name"], compName ) )
         {
             return false;
         }
-        Json::Value& setters=component["set"];
-        actorCreator->AddComponent(AutoId(compName),setters);
+        Json::Value& setters = component["set"];
+        actorCreator->AddComponent( AutoId( compName ), setters );
     }
-    int32_t actorCreatorId=actorCreator->GetId();
-    actorCreators.insert(actorCreatorId, actorCreator);
+    int32_t actorCreatorId = actorCreator->GetId();
+    actorCreators.insert( actorCreatorId, actorCreator );
     return true;
 }
 
@@ -92,9 +92,9 @@ void ActorFactory::Init()
     }
 }
 
-void ActorCreator::SetId(int32_t id)
+void ActorCreator::SetId( int32_t id )
 {
-    mId=id;
+    mId = id;
 }
 
 int32_t ActorCreator::GetId()
@@ -102,38 +102,38 @@ int32_t ActorCreator::GetId()
     return mId;
 }
 
-void ActorCreator::AddComponent(int32_t componentId, Json::Value& setters)
+void ActorCreator::AddComponent( int32_t componentId, Json::Value& setters )
 {
-    std::auto_ptr<PropertyLoaderBase<Component> > compLoader=mComponentLoaderFactory(componentId);
-    if(setters.isArray()&&!setters.empty())
+    std::auto_ptr<PropertyLoaderBase<Component> > compLoader = mComponentLoaderFactory( componentId );
+    if( setters.isArray() && !setters.empty() )
     {
-        compLoader->Load(*setters.begin());
+        compLoader->Load( *setters.begin() );
     }
 
-    mComponentLoaders.insert(componentId,static_cast<ComponentLoader_t *>(compLoader.release()));
+    mComponentLoaders.insert( componentId, static_cast<ComponentLoader_t*>( compLoader.release() ) );
 }
 
 std::auto_ptr<Actor> ActorCreator::Create()const
 {
-    std::auto_ptr<Actor> actor(new Actor(mId));
-    for(ComponentLoaderMap_t::const_iterator i=mComponentLoaders.begin(), e=mComponentLoaders.end();i!=e;++i)
+    std::auto_ptr<Actor> actor( new Actor( mId ) );
+    for( ComponentLoaderMap_t::const_iterator i = mComponentLoaders.begin(), e = mComponentLoaders.end(); i != e; ++i )
     {
-//        actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
-        actor->AddComponent(mComponentFactory(i->first));
-        i->second->FillProperties(*actor.get());
+        //        actor->AddComponent(i->second->FillProperties(mComponentFactory(i->first)));
+        actor->AddComponent( mComponentFactory( i->first ) );
+        i->second->FillProperties( *actor.get() );
     }
     //TODO: guid will come from outside zorder will be done by ordering at renderer
     Opt<IRenderableComponent> renderableC = actor->Get<IRenderableComponent>();
-    if (renderableC.IsValid())
+    if ( renderableC.IsValid() )
     {
-        renderableC->SetZOrder(actor->GetGUID());
+        renderableC->SetZOrder( actor->GetGUID() );
     }
     return actor;
 }
 
 ActorCreator::ActorCreator()
-    : mComponentFactory(ComponentFactory::Get())
-    , mComponentLoaderFactory(ComponentLoaderFactory::Get())
+    : mComponentFactory( ComponentFactory::Get() )
+    , mComponentLoaderFactory( ComponentLoaderFactory::Get() )
 {
 
 }

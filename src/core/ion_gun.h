@@ -10,13 +10,13 @@ public:
     IonGun();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void IonGun::serialize(Archive& ar, const unsigned int version)
+void IonGun::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Weapon>(*this);
+    ar& boost::serialization::base_object<Weapon>( *this );
 }
 
 class IonGunLoader: public ItemLoader<IonGun>
@@ -27,5 +27,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(IonGun, IonGun,"ion_gun");
+REAPING2_CLASS_EXPORT_KEY2( IonGun, IonGun, "ion_gun" );
 #endif//INCLUDED_CORE_ION_GUN_H

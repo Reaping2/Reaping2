@@ -3,15 +3,15 @@
 #include <portable_oarchive.hpp>
 
 ExplosionComponent::ExplosionComponent()
-    : mStartRadius(0.0)
-    , mMaxRadius(0.0)
-    , mScaleSpeed(0.0)
+    : mStartRadius( 0.0 )
+    , mMaxRadius( 0.0 )
+    , mScaleSpeed( 0.0 )
 {
 }
 
-void ExplosionComponent::SetStartRadius(double startRadius)
+void ExplosionComponent::SetStartRadius( double startRadius )
 {
-    mStartRadius=startRadius;
+    mStartRadius = startRadius;
 }
 
 double ExplosionComponent::GetStartRadius()const
@@ -19,9 +19,9 @@ double ExplosionComponent::GetStartRadius()const
     return mStartRadius;
 }
 
-void ExplosionComponent::SetMaxRadius(double maxRadius)
+void ExplosionComponent::SetMaxRadius( double maxRadius )
 {
-    mMaxRadius=maxRadius;
+    mMaxRadius = maxRadius;
 }
 
 double ExplosionComponent::GetMaxRadius()const
@@ -29,9 +29,9 @@ double ExplosionComponent::GetMaxRadius()const
     return mMaxRadius;
 }
 
-void ExplosionComponent::SetScaleSpeed(double scaleSpeed)
+void ExplosionComponent::SetScaleSpeed( double scaleSpeed )
 {
-    mScaleSpeed=scaleSpeed;
+    mScaleSpeed = scaleSpeed;
 }
 
 double ExplosionComponent::GetScaleSpeed()const
@@ -43,13 +43,13 @@ double ExplosionComponent::GetScaleSpeed()const
 
 void ExplosionComponentLoader::BindValues()
 {
-    Bind("start_radius",func_double(&ExplosionComponent::SetStartRadius));
-    Bind("max_radius",func_double(&ExplosionComponent::SetMaxRadius));
-    Bind("scale_speed",func_double(&ExplosionComponent::SetScaleSpeed));
+    Bind( "start_radius", func_double( &ExplosionComponent::SetStartRadius ) );
+    Bind( "max_radius", func_double( &ExplosionComponent::SetMaxRadius ) );
+    Bind( "scale_speed", func_double( &ExplosionComponent::SetScaleSpeed ) );
 }
 
 ExplosionComponentLoader::ExplosionComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ExplosionComponent, ExplosionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ExplosionComponent, ExplosionComponent );

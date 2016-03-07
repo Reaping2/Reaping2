@@ -15,7 +15,7 @@ void RemovedActorsSystem::Init()
 }
 
 
-void RemovedActorsSystem::Update(double DeltaTime)
+void RemovedActorsSystem::Update( double DeltaTime )
 {
     mRemovedActorGUIDs.clear();
 }
@@ -25,11 +25,11 @@ RemovedActorsSystem::RemovedActorsGUIDs_t const& RemovedActorsSystem::GetRemoved
     return mRemovedActorGUIDs;
 }
 
-void RemovedActorsSystem::OnActorEvent(ActorEvent const& Evt)
+void RemovedActorsSystem::OnActorEvent( ActorEvent const& Evt )
 {
-    if(Evt.mState==ActorEvent::Removed)
+    if( Evt.mState == ActorEvent::Removed )
     {
-        mRemovedActorGUIDs.insert(Evt.mActor->GetGUID());
+        mRemovedActorGUIDs.insert( Evt.mActor->GetGUID() );
     }
 }
 

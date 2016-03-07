@@ -9,7 +9,7 @@ namespace engine {
 class CloakNormalItemSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(CloakNormalItemSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( CloakNormalItemSubSystem )
     CloakNormalItemSubSystem();
 protected:
     virtual void Init();

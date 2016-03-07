@@ -13,8 +13,8 @@ RendererSystem::RendererSystem()
     , mUi( Ui::Get() )
     , mDecalEngine( DecalEngine::Get() )
     , mShaderManager( ShaderManager::Get() )
-    , mMouseRawPos(0)
-    , mMouseWorldPos(0)
+    , mMouseRawPos( 0 )
+    , mMouseWorldPos( 0 )
 {
     Font::Get();
     mMouseMoveId = EventServer<ScreenMouseMoveEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMouseMoveEvent, this, _1 ) );
@@ -52,7 +52,7 @@ bool RendererSystem::EndRender()
 void RendererSystem::OnMouseMoveEvent( const ScreenMouseMoveEvent& Event )
 {
     glm::vec3 EvtPos( Event.Pos.x, Event.Pos.y, 0 );
-    mMouseRawPos=EvtPos;
+    mMouseRawPos = EvtPos;
     glm::vec3 UiEvtPos = mUiProjector.Unproject( EvtPos );
     UiMouseMoveEvent UiEvt( glm::vec2( UiEvtPos.x, UiEvtPos.y ) );
     if( EventServer<UiMouseMoveEvent>::Get().SendEvent( UiEvt ) )
@@ -99,7 +99,7 @@ void RendererSystem::Init()
     glEnable( GL_BLEND );
 }
 
-void RendererSystem::Update(double DeltaTime)
+void RendererSystem::Update( double DeltaTime )
 {
     render::ParticleEngine::Get().Update( DeltaTime );
     SendWorldMouseMoveEvent();
@@ -114,9 +114,9 @@ void RendererSystem::Update(double DeltaTime)
     mSceneRenderer.Draw( Scen );
     static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
     static std::set<RenderableLayer::Type> const fglayers;
-    mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers);
+    mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers );
     mDecalEngine.Draw();
-    mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers);
+    mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers );
     render::ParticleEngine::Get().Draw();
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
@@ -128,10 +128,10 @@ void RendererSystem::Update(double DeltaTime)
 
 void RendererSystem::SendWorldMouseMoveEvent()
 {
-    glm::vec3 newMouseWorldPos= glm::vec3(mCamera.GetInverseView()*glm::vec4( mWorldProjector.Unproject( mMouseRawPos ), 1.0 ));
-    if (newMouseWorldPos!=mMouseWorldPos)
+    glm::vec3 newMouseWorldPos = glm::vec3( mCamera.GetInverseView() * glm::vec4( mWorldProjector.Unproject( mMouseRawPos ), 1.0 ) );
+    if ( newMouseWorldPos != mMouseWorldPos )
     {
-        mMouseWorldPos=newMouseWorldPos;
+        mMouseWorldPos = newMouseWorldPos;
         WorldMouseMoveEvent WorldEvt( glm::vec2( mMouseWorldPos.x, mMouseWorldPos.y ) );
         EventServer<WorldMouseMoveEvent>::Get().SendEvent( WorldEvt );
     }

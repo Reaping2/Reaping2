@@ -5,24 +5,24 @@
 namespace render {
 namespace ctf {
 
-CtfHatRecognizer::CtfHatRecognizer(int32_t Id)
-    : Recognizer(Id)
+CtfHatRecognizer::CtfHatRecognizer( int32_t Id )
+    : Recognizer( Id )
 {
 }
 
 
-bool CtfHatRecognizer::Recognize(Actor const& actor)
+bool CtfHatRecognizer::Recognize( Actor const& actor )
 {
-//     Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
-//     if (!playerCC.IsValid())
-//     {
-//         return false;
-//     }
-//     Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-//     if (!healthC.IsValid()||!healthC->IsAlive())
-//     {
-//         return false;
-//     }
+    //     Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
+    //     if (!playerCC.IsValid())
+    //     {
+    //         return false;
+    //     }
+    //     Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
+    //     if (!healthC.IsValid()||!healthC->IsAlive())
+    //     {
+    //         return false;
+    //     }
     return true;
 }
 

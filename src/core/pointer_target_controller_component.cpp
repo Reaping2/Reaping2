@@ -3,18 +3,18 @@
 #include <portable_oarchive.hpp>
 
 PointerTargetControllerComponent::PointerTargetControllerComponent()
-    : mPointedTargetGUID(-1)
-    , mPointedTargetCounter(0)
-    , mNextLaserCounter(0.0)
-    , mNextLaserFrequency(0.2)
-    , mHeadingModifierCounter(0.0)
-    , mHeadingModifierFrequency(0.15)
+    : mPointedTargetGUID( -1 )
+    , mPointedTargetCounter( 0 )
+    , mNextLaserCounter( 0.0 )
+    , mNextLaserFrequency( 0.2 )
+    , mHeadingModifierCounter( 0.0 )
+    , mHeadingModifierFrequency( 0.15 )
 {
 }
 
-void PointerTargetControllerComponent::SetPointedTargetGUID(int32_t pointedTargetId)
+void PointerTargetControllerComponent::SetPointedTargetGUID( int32_t pointedTargetId )
 {
-    mPointedTargetGUID=pointedTargetId;
+    mPointedTargetGUID = pointedTargetId;
 }
 
 int32_t PointerTargetControllerComponent::GetPointedTargetGUID()const
@@ -22,9 +22,9 @@ int32_t PointerTargetControllerComponent::GetPointedTargetGUID()const
     return mPointedTargetGUID;
 }
 
-void PointerTargetControllerComponent::SetPointedTargetCounter(int32_t pointedTargetCounter)
+void PointerTargetControllerComponent::SetPointedTargetCounter( int32_t pointedTargetCounter )
 {
-    mPointedTargetCounter=pointedTargetCounter;
+    mPointedTargetCounter = pointedTargetCounter;
 }
 
 int32_t PointerTargetControllerComponent::GetPointedTargetCounter()const
@@ -32,9 +32,9 @@ int32_t PointerTargetControllerComponent::GetPointedTargetCounter()const
     return mPointedTargetCounter;
 }
 
-void PointerTargetControllerComponent::SetNextLaserCounter(double nextLaserCounter)
+void PointerTargetControllerComponent::SetNextLaserCounter( double nextLaserCounter )
 {
-    mNextLaserCounter=nextLaserCounter;
+    mNextLaserCounter = nextLaserCounter;
 }
 
 double PointerTargetControllerComponent::GetNextLaserCounter()const
@@ -42,9 +42,9 @@ double PointerTargetControllerComponent::GetNextLaserCounter()const
     return mNextLaserCounter;
 }
 
-void PointerTargetControllerComponent::SetNextLaserFrequency(double nextLaserFrequency)
+void PointerTargetControllerComponent::SetNextLaserFrequency( double nextLaserFrequency )
 {
-    mNextLaserFrequency=nextLaserFrequency;
+    mNextLaserFrequency = nextLaserFrequency;
 }
 
 double PointerTargetControllerComponent::GetNextLaserFrequency()const
@@ -52,9 +52,9 @@ double PointerTargetControllerComponent::GetNextLaserFrequency()const
     return mNextLaserFrequency;
 }
 
-void PointerTargetControllerComponent::SetHeadingModifierCounter(double headingModifierCounter)
+void PointerTargetControllerComponent::SetHeadingModifierCounter( double headingModifierCounter )
 {
-    mHeadingModifierCounter=headingModifierCounter;
+    mHeadingModifierCounter = headingModifierCounter;
 }
 
 double PointerTargetControllerComponent::GetHeadingModifierCounter()const
@@ -62,9 +62,9 @@ double PointerTargetControllerComponent::GetHeadingModifierCounter()const
     return mHeadingModifierCounter;
 }
 
-void PointerTargetControllerComponent::SetHeadingModifierFrequency(double headingModifierFrequency)
+void PointerTargetControllerComponent::SetHeadingModifierFrequency( double headingModifierFrequency )
 {
-    mHeadingModifierFrequency=headingModifierFrequency;
+    mHeadingModifierFrequency = headingModifierFrequency;
 }
 
 double PointerTargetControllerComponent::GetHeadingModifierFrequency()const
@@ -82,4 +82,4 @@ PointerTargetControllerComponentLoader::PointerTargetControllerComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(PointerTargetControllerComponent, PointerTargetControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( PointerTargetControllerComponent, PointerTargetControllerComponent );

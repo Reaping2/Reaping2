@@ -11,8 +11,8 @@ struct SoldierCreatedEvent : public platform::Event
 {
     core::ClientData& mClientData;
     Opt<Actor> mActor;
-    SoldierCreatedEvent(core::ClientData& clientData, Opt<Actor> actor)
-        :mClientData(clientData),mActor(actor){}
+    SoldierCreatedEvent( core::ClientData& clientData, Opt<Actor> actor )
+        : mClientData( clientData ), mActor( actor ) {}
 };
 
 } // namespace engine

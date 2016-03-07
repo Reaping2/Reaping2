@@ -84,7 +84,7 @@ detail::TextureImpl* Load( File& F )
     if( Head.PixelDepth() == 32 )
     {
         assert( ( Head.ImageDescriptor() & 15 ) == 8 );
-        Succ = F.Read( static_cast< void* >( &impl->mData.at(0) ), DataSize );
+        Succ = F.Read( static_cast< void* >( &impl->mData.at( 0 ) ), DataSize );
     }
     else
     {
@@ -93,7 +93,7 @@ detail::TextureImpl* Load( File& F )
         Succ = F.Read( Buf, InSize );
         if( Succ )
         {
-            detail::TextureImpl::ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), ImgSize, &impl->mData.at(0) );
+            detail::TextureImpl::ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), ImgSize, &impl->mData.at( 0 ) );
         }
     }
     if( !Succ )
@@ -103,7 +103,7 @@ detail::TextureImpl* Load( File& F )
     }
     else
     {
-        Reorder( &impl->mData.at(0), ImgSize );
+        Reorder( &impl->mData.at( 0 ), ImgSize );
     }
     return impl.release();
 }

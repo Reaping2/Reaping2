@@ -14,18 +14,18 @@
 #include "../i_position_component.h"
 namespace map {
 
-PickupTarget::PickupTarget(int32_t Id, int32_t typeId, int32_t contentId)
-    : ITarget(Id)
-    , mCursorId(Id)
-    , mActorId(Id)
-    , mTypeId(typeId)
-    , mContentId(contentId)
-    , mScene(Scene::Get())
+PickupTarget::PickupTarget( int32_t Id, int32_t typeId, int32_t contentId )
+    : ITarget( Id )
+    , mCursorId( Id )
+    , mActorId( Id )
+    , mTypeId( typeId )
+    , mContentId( contentId )
+    , mScene( Scene::Get() )
 {
 
 }
 
-void PickupTarget::Update(double DeltaTime)
+void PickupTarget::Update( double DeltaTime )
 {
 
 }
@@ -40,40 +40,40 @@ int32_t PickupTarget::GetActorId() const
     return mActorId;
 }
 
-void PickupTarget::PutTarget(glm::vec2 position)
+void PickupTarget::PutTarget( glm::vec2 position )
 {
-    std::auto_ptr<MapElement> mapElement(MapElementFactory::Get()(AutoId("respawn_actor")));
-    Opt<RespawnActorMapElement> spawnActor(static_cast<RespawnActorMapElement*>(mapElement.get()));
-    spawnActor->GetInputNodeId(RespawnActorMapElement::SpawnNodeId())(1);
+    std::auto_ptr<MapElement> mapElement( MapElementFactory::Get()( AutoId( "respawn_actor" ) ) );
+    Opt<RespawnActorMapElement> spawnActor( static_cast<RespawnActorMapElement*>( mapElement.get() ) );
+    spawnActor->GetInputNodeId( RespawnActorMapElement::SpawnNodeId() )( 1 );
     {
-        int32_t componentId=AutoId("position_component");
-        ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-        std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
-        Opt<PositionComponentLoader> positionCompLoader(static_cast<PositionComponentLoader*>(compLoader.get()));
-        positionCompLoader->Bind<double>(&PositionComponent::SetX,position.x);
-        positionCompLoader->Bind<double>(&PositionComponent::SetY,position.y);
-        spawnActor->AddComponentLoader(componentId,compLoader);
+        int32_t componentId = AutoId( "position_component" );
+        ComponentLoaderFactory& componentLoaderFactory = ComponentLoaderFactory::Get();
+        std::auto_ptr<PropertyLoaderBase<Component> > compLoader = componentLoaderFactory( componentId );
+        Opt<PositionComponentLoader> positionCompLoader( static_cast<PositionComponentLoader*>( compLoader.get() ) );
+        positionCompLoader->Bind<double>( &PositionComponent::SetX, position.x );
+        positionCompLoader->Bind<double>( &PositionComponent::SetY, position.y );
+        spawnActor->AddComponentLoader( componentId, compLoader );
     }
     {
-        int32_t componentId=AutoId("pickup_collision_component");
-        ComponentLoaderFactory& componentLoaderFactory=ComponentLoaderFactory::Get();
-        std::auto_ptr<PropertyLoaderBase<Component> > compLoader=componentLoaderFactory(componentId);
-        Opt<PickupCollisionComponentLoader> pickupCompLoader(static_cast<PickupCollisionComponentLoader*>(compLoader.get()));
-        pickupCompLoader->Bind<int32_t>(&PickupCollisionComponent::SetPickupContent,mContentId);
-        pickupCompLoader->Bind<ItemType::Type>(&PickupCollisionComponent::SetItemType,ItemType::Get()(mTypeId));
-        spawnActor->AddComponentLoader(componentId,compLoader);
+        int32_t componentId = AutoId( "pickup_collision_component" );
+        ComponentLoaderFactory& componentLoaderFactory = ComponentLoaderFactory::Get();
+        std::auto_ptr<PropertyLoaderBase<Component> > compLoader = componentLoaderFactory( componentId );
+        Opt<PickupCollisionComponentLoader> pickupCompLoader( static_cast<PickupCollisionComponentLoader*>( compLoader.get() ) );
+        pickupCompLoader->Bind<int32_t>( &PickupCollisionComponent::SetPickupContent, mContentId );
+        pickupCompLoader->Bind<ItemType::Type>( &PickupCollisionComponent::SetItemType, ItemType::Get()( mTypeId ) );
+        spawnActor->AddComponentLoader( componentId, compLoader );
     }
-    spawnActor->SetActorID(EditorTargetSystem::Get()->GetTarget().GetActorId());
-    mapElement->SetUID(AutoId("spawn_at_start"));
-    spawnActor->SetSecsToRespawnOriginal(15);
-    MapSystem::Get()->GetMapElementList().insert(Opt<MapElement>(mapElement.release()));
+    spawnActor->SetActorID( EditorTargetSystem::Get()->GetTarget().GetActorId() );
+    mapElement->SetUID( AutoId( "spawn_at_start" ) );
+    spawnActor->SetSecsToRespawnOriginal( 15 );
+    MapSystem::Get()->GetMapElementList().insert( Opt<MapElement>( mapElement.release() ) );
 }
 
 std::auto_ptr<Actor> PickupTarget::GetCursor()
 {
-    std::auto_ptr<Actor> pickup(ActorFactory::Get()(mCursorId));
+    std::auto_ptr<Actor> pickup( ActorFactory::Get()( mCursorId ) );
     pickup->Get<PickupCollisionComponent>()->SetPickupContent( mContentId );
-    pickup->Get<PickupCollisionComponent>()->SetItemType( ItemType::Get()(mTypeId) );
+    pickup->Get<PickupCollisionComponent>()->SetItemType( ItemType::Get()( mTypeId ) );
     return pickup;
 }
 

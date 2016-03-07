@@ -6,10 +6,10 @@
 namespace engine {
 
 CloakNormalItemSubSystem::CloakNormalItemSubSystem()
-    : mScene(Scene::Get())
-    , mNormalItemSubSystem(NormalItemSubSystem::Get())
-    , mActorFactory(ActorFactory::Get())
-    , mProjectileId(AutoId("CloakBuff"))
+    : mScene( Scene::Get() )
+    , mNormalItemSubSystem( NormalItemSubSystem::Get() )
+    , mActorFactory( ActorFactory::Get() )
+    , mProjectileId( AutoId( "CloakBuff" ) )
 {
 }
 
@@ -19,20 +19,20 @@ void CloakNormalItemSubSystem::Init()
 }
 
 
-void CloakNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
+void CloakNormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
-    if (normalItem->IsUse())
+    if ( normalItem->IsUse() )
     {
-        Opt<IBuffHolderComponent> buffHolderC=actor.Get<IBuffHolderComponent>();
-        if (buffHolderC.IsValid())
+        Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
+        if ( buffHolderC.IsValid() )
         {
-            buffHolderC->AddBuff(core::BuffFactory::Get()(mProjectileId));
+            buffHolderC->AddBuff( core::BuffFactory::Get()( mProjectileId ) );
         }
 
         //TODO: do some stuff with it
-        normalItem->SetConsumed(true);
+        normalItem->SetConsumed( true );
     }
 }
 

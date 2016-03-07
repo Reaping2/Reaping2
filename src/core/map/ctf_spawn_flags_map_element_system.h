@@ -11,9 +11,9 @@ namespace ctf {
 class CtfSpawnFlagsMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(CtfSpawnFlagsMapElementSystem)
+    DEFINE_SYSTEM_BASE( CtfSpawnFlagsMapElementSystem )
     CtfSpawnFlagsMapElementSystem();
-    static void Spawn(Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement);
+    static void Spawn( Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

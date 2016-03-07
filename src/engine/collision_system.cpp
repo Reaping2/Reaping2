@@ -19,20 +19,20 @@ void CollisionSystem::Init()
     mCollisionGrid.Build( mScene.GetDimensions(), 400.0f );
 }
 
-void CollisionSystem::Update(double DeltaTime)
+void CollisionSystem::Update( double DeltaTime )
 {
     mCollisionGrid.Clear();
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
-        if (collisionC.IsValid())
+        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+        if ( collisionC.IsValid() )
         {
             mCollisionGrid.AddActor( &actor, DeltaTime );
-            Opt<CollisionSubSystem> collisionSS=GetCollisionSubSystem(collisionC->GetId());
-            if (collisionSS.IsValid())
+            Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
+            if ( collisionSS.IsValid() )
             {
-                collisionSS->ClipScene(actor);
+                collisionSS->ClipScene( actor );
             }
         }
     }
@@ -43,7 +43,7 @@ void CollisionSystem::Update(double DeltaTime)
         Actor& B = *( i->A2 );
         Opt<ICollisionComponent> ACollisionC = A.Get<ICollisionComponent>();
         Opt<ICollisionComponent> BCollisionC = B.Get<ICollisionComponent>();
-        BOOST_ASSERT(ACollisionC.IsValid() && BCollisionC.IsValid()); //TODO: here this one should be true
+        BOOST_ASSERT( ACollisionC.IsValid() && BCollisionC.IsValid() ); //TODO: here this one should be true
 
         CollisionModel const& CollModel = mCollisionStore.GetCollisionModel( ACollisionC->GetCollisionClass(), BCollisionC->GetCollisionClass() );
         if( !CollModel.AreActorsColliding( A, B, DeltaTime ) )
@@ -51,42 +51,42 @@ void CollisionSystem::Update(double DeltaTime)
             continue;
         }
         //TODO: needs optimization, maybe a template parameter for SubSystemHolder to subsystem would do
-        Opt<CollisionSubSystem> ACollisionSS=GetCollisionSubSystem(ACollisionC->GetId());
-        if (ACollisionSS.IsValid())
+        Opt<CollisionSubSystem> ACollisionSS = GetCollisionSubSystem( ACollisionC->GetId() );
+        if ( ACollisionSS.IsValid() )
         {
-            ACollisionSS->Collide(A,B);
+            ACollisionSS->Collide( A, B );
         }
-        Opt<CollisionSubSystem> BCollisionSS=GetCollisionSubSystem(BCollisionC->GetId());
-        if (BCollisionSS.IsValid())
+        Opt<CollisionSubSystem> BCollisionSS = GetCollisionSubSystem( BCollisionC->GetId() );
+        if ( BCollisionSS.IsValid() )
         {
-            BCollisionSS->Collide(B,A);
+            BCollisionSS->Collide( B, A );
         }
     }
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
-        if (collisionC.IsValid())
+        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+        if ( collisionC.IsValid() )
         {
-            Opt<CollisionSubSystem> collisionSS=GetCollisionSubSystem(collisionC->GetId());
-            if (collisionSS.IsValid())
+            Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
+            if ( collisionSS.IsValid() )
             {
-                collisionSS->Update(actor,DeltaTime);
+                collisionSS->Update( actor, DeltaTime );
             }
         }
     }
 }
 
-Opt<CollisionSubSystem> CollisionSystem::GetCollisionSubSystem(int32_t id)
+Opt<CollisionSubSystem> CollisionSystem::GetCollisionSubSystem( int32_t id )
 {
     Opt<CollisionSubSystem> r;
-    BindIds_t& bindIds=mSubSystems.get<SubSystemHolder::AllByBindId>();
-    BindIds_t::iterator subsysIt=bindIds.find(id);
-    if (subsysIt!=bindIds.end())
+    BindIds_t& bindIds = mSubSystems.get<SubSystemHolder::AllByBindId>();
+    BindIds_t::iterator subsysIt = bindIds.find( id );
+    if ( subsysIt != bindIds.end() )
     {
-        r=Opt<CollisionSubSystem>(
-            dynamic_cast<CollisionSubSystem*>(
-            subsysIt->mSystem.Get()));
+        r = Opt<CollisionSubSystem>(
+                dynamic_cast<CollisionSubSystem*>(
+                    subsysIt->mSystem.Get() ) );
     }
     return r;
 }

@@ -9,7 +9,7 @@ namespace engine {
 class AccelerationSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(AccelerationSystem)
+    DEFINE_SYSTEM_BASE( AccelerationSystem )
     AccelerationSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

@@ -18,7 +18,7 @@ namespace map {
 class EditorSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(EditorSystem)
+    DEFINE_SYSTEM_BASE( EditorSystem )
     EditorSystem();
     ~EditorSystem();
     EditorLayer::Type GetEditorLayerType();
@@ -44,15 +44,15 @@ private:
 
     Opt<engine::KeyboardSystem> mKeyboard;
     void Start();
-    void Load(std::string const& level);
+    void Load( std::string const& level );
     void Save();
-    void LayerSelect(std::string const& layer);
+    void LayerSelect( std::string const& layer );
 
     uint32_t mCurrentMovement;
     Opt<engine::RendererSystem> mRenderer;
     Opt<engine::WindowSystem> mWindow;
     AutoReg mOnScreenMouseMove;
-    void OnScreenMouseMove(::ScreenMouseMoveEvent const& Evt);
+    void OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt );
     AutoReg mKeyId;
     bool mHudState;
     bool mSpaceTyped;

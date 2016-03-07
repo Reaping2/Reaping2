@@ -5,8 +5,8 @@
 #include <portable_oarchive.hpp>
 
 RenderableComponent::RenderableComponent()
-    : mLayer(RenderableLayer::Background)
-    , mZOrder( 0 ) 
+    : mLayer( RenderableLayer::Background )
+    , mZOrder( 0 )
 {
 }
 
@@ -15,9 +15,9 @@ RenderableLayer::Type const& RenderableComponent::GetLayer() const
     return mLayer;
 }
 
-void RenderableComponent::SetLayer(RenderableLayer::Type Lay)
+void RenderableComponent::SetLayer( RenderableLayer::Type Lay )
 {
-    mLayer=Lay;
+    mLayer = Lay;
 }
 
 int32_t const& RenderableComponent::GetZOrder() const
@@ -25,36 +25,36 @@ int32_t const& RenderableComponent::GetZOrder() const
     return mZOrder;
 }
 
-void RenderableComponent::SetZOrder(int32_t ZOrder)
+void RenderableComponent::SetZOrder( int32_t ZOrder )
 {
-    mZOrder=ZOrder;
+    mZOrder = ZOrder;
 }
 
-RenderableComponentModifier::RenderableComponentModifier(RenderableLayer::Type Lay,int32_t ZOrder)
-    : mLayer(Lay)
-    , mZOrder(ZOrder)
+RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder )
+    : mLayer( Lay )
+    , mZOrder( ZOrder )
 {
 }
 
-void RenderableComponentModifier::operator()(Opt<Actor>& Obj)
+void RenderableComponentModifier::operator()( Opt<Actor>& Obj )
 {
-    Obj->Get<IRenderableComponent>()->SetLayer(mLayer);
-    Obj->Get<IRenderableComponent>()->SetZOrder(mZOrder);
+    Obj->Get<IRenderableComponent>()->SetLayer( mLayer );
+    Obj->Get<IRenderableComponent>()->SetZOrder( mZOrder );
 }
 
 void RenderableComponentLoader::BindValues()
 {
-    Bind("zorder",func_int32_t(&RenderableComponent::SetZOrder));
+    Bind( "zorder", func_int32_t( &RenderableComponent::SetZOrder ) );
     std::string istr;
-    if( Json::GetStr( (*mSetters)["layer"], istr))
+    if( Json::GetStr( ( *mSetters )["layer"], istr ) )
     {
-        Bind<RenderableLayer::Type>(&RenderableComponent::SetLayer,mRenderableLayer(AutoId(istr)));
+        Bind<RenderableLayer::Type>( &RenderableComponent::SetLayer, mRenderableLayer( AutoId( istr ) ) );
     }
 }
 
 RenderableComponentLoader::RenderableComponentLoader()
-    : mRenderableLayer(RenderableLayer::Get())
+    : mRenderableLayer( RenderableLayer::Get() )
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(RenderableComponent, RenderableComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( RenderableComponent, RenderableComponent );

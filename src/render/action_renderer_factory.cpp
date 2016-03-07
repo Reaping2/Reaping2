@@ -15,25 +15,25 @@
 #include "head_action_renderer.h"
 #include "ctf_head_color_action_renderer.h"
 namespace render {
-    ActionRendererFactory::ActionRendererFactory()
-    {
-        Bind<DefaultActionRenderer>( AutoId( "default_action_renderer" ) );
-        SetDefault( AutoId( "default_action_renderer" ) );
+ActionRendererFactory::ActionRendererFactory()
+{
+    Bind<DefaultActionRenderer>( AutoId( "default_action_renderer" ) );
+    SetDefault( AutoId( "default_action_renderer" ) );
 
-        Bind<IdleActionRenderer>( AutoId( "idle" ) );
-        Bind<BodyMoveActionRenderer>( AutoId( "body_move" ) );
-        Bind<LegMoveActionRenderer>( AutoId( "leg_move" ) );
-        Bind<LegMoveActionRenderer>( AutoId( "move" ) );
-        Bind<DeathActionRenderer>( AutoId( "death" ) );
-        Bind<WeaponActionRenderer>( AutoId( "weapon" ) );
-        Bind<PickupActionRenderer>( AutoId( "pickup" ) );
-        Bind<HatActionRenderer>( AutoId( "body_color" ) );
-        Bind<ctf::CtfHatActionRenderer>(AutoId("ctf_body_color"));
-        Bind<ctf::CtfFlagActionRenderer>(AutoId("flag"));
-        Bind<ctf::SoldierCurrentActionRenderer>(AutoId("soldier_current"));
-        Bind<BorderActionRenderer>(AutoId("border"));
-        Bind<HeadColorActionRenderer>(AutoId("head_color"));
-        Bind<HeadActionRenderer>(AutoId("head"));
-        Bind<CtfHeadColorActionRenderer>(AutoId("ctf_head_color"));
-    }
+    Bind<IdleActionRenderer>( AutoId( "idle" ) );
+    Bind<BodyMoveActionRenderer>( AutoId( "body_move" ) );
+    Bind<LegMoveActionRenderer>( AutoId( "leg_move" ) );
+    Bind<LegMoveActionRenderer>( AutoId( "move" ) );
+    Bind<DeathActionRenderer>( AutoId( "death" ) );
+    Bind<WeaponActionRenderer>( AutoId( "weapon" ) );
+    Bind<PickupActionRenderer>( AutoId( "pickup" ) );
+    Bind<HatActionRenderer>( AutoId( "body_color" ) );
+    Bind<ctf::CtfHatActionRenderer>( AutoId( "ctf_body_color" ) );
+    Bind<ctf::CtfFlagActionRenderer>( AutoId( "flag" ) );
+    Bind<ctf::SoldierCurrentActionRenderer>( AutoId( "soldier_current" ) );
+    Bind<BorderActionRenderer>( AutoId( "border" ) );
+    Bind<HeadColorActionRenderer>( AutoId( "head_color" ) );
+    Bind<HeadActionRenderer>( AutoId( "head" ) );
+    Bind<CtfHeadColorActionRenderer>( AutoId( "ctf_head_color" ) );
+}
 } // namespace render

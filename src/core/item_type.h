@@ -12,7 +12,7 @@ protected:
 public:
     enum Type
     {
-        Normal=0,
+        Normal = 0,
         Weapon,
         Buff,
         Num_Classes
@@ -20,7 +20,7 @@ public:
     ItemType::Type operator()( int32_t Id ) const;
     int32_t operator()( ItemType::Type type ) const;
 private:
-    typedef boost::bimap<int32_t,ItemType::Type> IdToItemTypeMap_t;
+    typedef boost::bimap<int32_t, ItemType::Type> IdToItemTypeMap_t;
     IdToItemTypeMap_t mIdToItemTypeMap;
 };
 

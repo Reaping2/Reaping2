@@ -10,7 +10,7 @@ namespace engine {
 class ListenChildDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(ListenChildDeathSystem)
+    DEFINE_SYSTEM_BASE( ListenChildDeathSystem )
     ListenChildDeathSystem();
 protected:
     Opt<RemovedActorsSystem> mRemovedActorsSystem;

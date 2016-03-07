@@ -20,31 +20,31 @@ void NameRenderer::Init()
 }
 
 NameRenderer::NameRenderer()
-    : mProgramState(core::ProgramState::Get())
-    , mColorRepo(render::ColorRepo::Get())
+    : mProgramState( core::ProgramState::Get() )
+    , mColorRepo( render::ColorRepo::Get() )
 {
 }
 
 void NameRenderer::Draw( TextSceneRenderer& textSceneRenderer )
 {
-    for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
+    for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
     {
-        Opt<Actor> player(Scene::Get().GetActor((*i).mClientActorGUID));
-        if (!player.IsValid())
+        Opt<Actor> player( Scene::Get().GetActor( ( *i ).mClientActorGUID ) );
+        if ( !player.IsValid() )
         {
             continue;
         }
-        engine::CloakSystem::CloakState cloakState=engine::CloakSystem::GetCloakState(*player.Get());
-        if (cloakState==engine::CloakSystem::Invisible)
+        engine::CloakSystem::CloakState cloakState = engine::CloakSystem::GetCloakState( *player.Get() );
+        if ( cloakState == engine::CloakSystem::Invisible )
         {
             continue;
         }
-        Opt<IPositionComponent> positionC=player->Get<IPositionComponent>();
-        Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
-        Text text(76.0,glm::vec4(0,0,500,500),
-            teamC.IsValid()?mColorRepo(teamC->GetTeam()):glm::vec4(1.0,1.0,1.0,1.0)
-            ,(*i).mClientName,glm::vec2(positionC->GetX()*MAGIC_SIZE,(positionC->GetY()+50)*MAGIC_SIZE),true);
-        textSceneRenderer.AddText(text);
+        Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
+        Opt<ITeamComponent> teamC( player->Get<ITeamComponent>() );
+        Text text( 76.0, glm::vec4( 0, 0, 500, 500 ),
+                   teamC.IsValid() ? mColorRepo( teamC->GetTeam() ) : glm::vec4( 1.0, 1.0, 1.0, 1.0 )
+                   , ( *i ).mClientName, glm::vec2( positionC->GetX()*MAGIC_SIZE, ( positionC->GetY() + 50 )*MAGIC_SIZE ), true );
+        textSceneRenderer.AddText( text );
     }
 }
 

@@ -9,7 +9,7 @@ namespace platform {
 struct AutoNormalFile
 {
     FILE* mFile;
-    AutoNormalFile(const char* name, const char* mode);
+    AutoNormalFile( const char* name, const char* mode );
     ~AutoNormalFile();
 };
 

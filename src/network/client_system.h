@@ -14,20 +14,20 @@ namespace network {
 class ClientSystem: public engine::System
 {
     ENetAddress mAddress;
-    ENetHost * mClient;
-    ENetPeer * mPeer;
+    ENetHost* mClient;
+    ENetPeer* mPeer;
 
     ModelValue mClientModel;
     ModelValue mConnectModel;
     MessageHolder& mMessageHolder;
     ProgramState& mProgramState;
 public:
-    DEFINE_SYSTEM_BASE(ClientSystem)
+    DEFINE_SYSTEM_BASE( ClientSystem )
     ClientSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
     void Connect();
-    void Receive(ENetEvent& event);
+    void Receive( ENetEvent& event );
 };
 
 } // namespace network

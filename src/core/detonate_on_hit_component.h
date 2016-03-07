@@ -9,11 +9,11 @@ class DetonateOnHitComponent : public IDetonateOnHitComponent
 {
 public:
     DetonateOnHitComponent();
-    virtual void SetMaterial(int32_t material);
+    virtual void SetMaterial( int32_t material );
     virtual int32_t GetMaterial()const;
-    virtual void SetAddRadius(double addRadius);
+    virtual void SetAddRadius( double addRadius );
     virtual double GetAddRadius()const;
-    virtual void SetRemoveOnHit(bool removeOnHit);
+    virtual void SetRemoveOnHit( bool removeOnHit );
     virtual bool IsRemoveOnHit()const;
 protected:
     friend class ComponentFactory;
@@ -24,17 +24,17 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void DetonateOnHitComponent::serialize(Archive& ar, const unsigned int version)
+void DetonateOnHitComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IDetonateOnHitComponent>(*this);
-    ar & mMaterial;
-    ar & mAddRadius;
-    ar & mRemoveOnHit;
+    ar& boost::serialization::base_object<IDetonateOnHitComponent>( *this );
+    ar& mMaterial;
+    ar& mAddRadius;
+    ar& mRemoveOnHit;
 }
 
 class DetonateOnHitComponentLoader : public ComponentLoader<DetonateOnHitComponent>
@@ -46,7 +46,7 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(DetonateOnHitComponent, DetonateOnHitComponent,"detonate_on_hit_component");
+REAPING2_CLASS_EXPORT_KEY2( DetonateOnHitComponent, DetonateOnHitComponent, "detonate_on_hit_component" );
 #endif//INCLUDED_CORE_DETONATE_ON_HIT_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "detonate_on_hit_component" -m "int32_t-material double-addRadius bool-removeOnHit"

@@ -12,7 +12,7 @@ class CreateActorMessageSenderSystem: public MessageSenderSystem
     AutoReg mOnActorEvent;
     void OnActorEvent( ActorEvent const& Evt );
 public:
-    DEFINE_SYSTEM_BASE(CreateActorMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( CreateActorMessageSenderSystem )
     CreateActorMessageSenderSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

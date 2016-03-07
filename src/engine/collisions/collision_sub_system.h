@@ -10,8 +10,8 @@ class CollisionSubSystem : public SubSystem
 {
 public:
     CollisionSubSystem();
-    virtual void ClipScene(Actor& actor);
-    virtual void Collide(Actor& actor, Actor& other);
+    virtual void ClipScene( Actor& actor );
+    virtual void Collide( Actor& actor, Actor& other );
 protected:
     Scene& mScene;
 };

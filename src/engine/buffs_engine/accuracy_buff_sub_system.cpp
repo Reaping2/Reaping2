@@ -6,8 +6,8 @@
 namespace engine {
 
 AccuracyBuffSubSystem::AccuracyBuffSubSystem()
-    : mScene(Scene::Get())
-    , mProgramState(core::ProgramState::Get())
+    : mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -17,31 +17,31 @@ void AccuracyBuffSubSystem::Init()
 }
 
 
-void AccuracyBuffSubSystem::Update(Actor& actor, double DeltaTime)
+void AccuracyBuffSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    RecalculateBuffs(actor);
+    RecalculateBuffs( actor );
 }
 
-void AccuracyBuffSubSystem::RecalculateBuffs(Actor &actor)
+void AccuracyBuffSubSystem::RecalculateBuffs( Actor& actor )
 {
     Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
-    if (!buffHolderC.IsValid())
+    if ( !buffHolderC.IsValid() )
     {
         return;
     }
-    Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
-    if(!accuracyC.IsValid())
+    Opt<IAccuracyComponent> accuracyC = actor.Get<IAccuracyComponent>();
+    if( !accuracyC.IsValid() )
     {
         return;
     }
-    accuracyC->GetAccuracy().mFlat.Set(0.0);
-    accuracyC->GetAccuracy().mPercent.Set(0.0);
-    BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),AccuracyBuff::GetType_static());
+    accuracyC->GetAccuracy().mFlat.Set( 0.0 );
+    accuracyC->GetAccuracy().mPercent.Set( 0.0 );
+    BuffListFilter<IBuffHolderComponent::All> buffListFilter( buffHolderC->GetBuffList(), AccuracyBuff::GetType_static() );
     for( BuffListFilter<IBuffHolderComponent::All>::const_iterator accuracyBuffIt = buffListFilter.begin(), accuracyBuffE = buffListFilter.end(); accuracyBuffIt != accuracyBuffE; ++accuracyBuffIt )
     {
-        Opt<AccuracyBuff> accuracyBuff(*accuracyBuffIt);
-        accuracyC->GetAccuracy().mFlat.Set(accuracyC->GetAccuracy().mFlat.Get()+accuracyBuff->GetFlatBonus());
-        accuracyC->GetAccuracy().mPercent.Set(accuracyC->GetAccuracy().mPercent.Get()+accuracyBuff->GetPercentBonus());
+        Opt<AccuracyBuff> accuracyBuff( *accuracyBuffIt );
+        accuracyC->GetAccuracy().mFlat.Set( accuracyC->GetAccuracy().mFlat.Get() + accuracyBuff->GetFlatBonus() );
+        accuracyC->GetAccuracy().mPercent.Set( accuracyC->GetAccuracy().mPercent.Get() + accuracyBuff->GetPercentBonus() );
     }
 }
 

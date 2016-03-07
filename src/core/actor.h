@@ -24,25 +24,25 @@ public:
     virtual ~Actor();
 
     // dont use it pls its for network guid sync
-    void SetGUID(int32_t guid);
+    void SetGUID( int32_t guid );
 
     int32_t GetGUID()const;
 
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void Actor::serialize(Archive& ar, const unsigned int version)
+void Actor::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<ComponentHolder>(*this); 
-    ar & mGUID;
-    ar & mId;
+    ar& boost::serialization::base_object<ComponentHolder>( *this );
+    ar& mGUID;
+    ar& mId;
 }
 
 
 
 
-REAPING2_CLASS_EXPORT_KEY2(Actor, Actor,"actor");
+REAPING2_CLASS_EXPORT_KEY2( Actor, Actor, "actor" );
 #endif//INCLUDED_CORE_ACTOR_H

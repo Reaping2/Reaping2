@@ -11,12 +11,13 @@ class EmitterComponent : public IEmitterComponent
 public:
     EmitterComponent();
     virtual std::vector<int32_t> GetEmitTypes() const;
-    virtual void Emitted(std::vector<int32_t> emitTypes);
+    virtual void Emitted( std::vector<int32_t> emitTypes );
     virtual void Update( double dt );
 private:
     friend class ComponentFactory;
     friend class EmitterComponentLoader;
-    struct EmitDesc {
+    struct EmitDesc
+    {
         int32_t mEmitType;
         double mDelay;
         double mDelayVariance;
@@ -28,37 +29,37 @@ private:
         EmitDesc();
         friend class ::boost::serialization::access;
         template<class Archive>
-        void serialize(Archive& ar, const unsigned int version);
+        void serialize( Archive& ar, const unsigned int version );
     };
 
     typedef std::vector<EmitDesc> EmitDescs;
-    void InitEmitDescs(EmitDescs emitDescs);
+    void InitEmitDescs( EmitDescs emitDescs );
     EmitDescs mEmitDescs;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void EmitterComponent::EmitDesc::serialize(Archive& ar, const unsigned int version)
+void EmitterComponent::EmitDesc::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mEmitType;
-    ar & mDelay;
-    ar & mDelayVariance;
-    ar & mCooldown;
-    ar & mProbability;
-    ar & mIteration;
-    ar & mIterationVariance;
-    ar & mIterationCurrent;
+    ar& mEmitType;
+    ar& mDelay;
+    ar& mDelayVariance;
+    ar& mCooldown;
+    ar& mProbability;
+    ar& mIteration;
+    ar& mIterationVariance;
+    ar& mIterationCurrent;
 }
 
 template<class Archive>
-void EmitterComponent::serialize(Archive& ar, const unsigned int version)
+void EmitterComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IEmitterComponent>(*this);
-    ar & mEmitDescs;
+    ar& boost::serialization::base_object<IEmitterComponent>( *this );
+    ar& mEmitDescs;
 }
 
 class EmitterComponentLoader : public ComponentLoader<EmitterComponent>
@@ -70,7 +71,7 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(EmitterComponent, EmitterComponent,"emitter_component");
+REAPING2_CLASS_EXPORT_KEY2( EmitterComponent, EmitterComponent, "emitter_component" );
 #endif//INCLUDED_CORE_EMITTER_COMPONENT_H
 
 //command:  "../../build/tools/classgenerator/classgenerator" -g "component" -c "emitter_component" -m "int32_t-emitType bool-isemitting double-frequency"

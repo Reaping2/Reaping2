@@ -9,7 +9,7 @@ class AccuracyComponent : public IAccuracyComponent
 {
 public:
     AccuracyComponent();
-    void SetAccuracyBase(int32_t accuracy);
+    void SetAccuracyBase( int32_t accuracy );
     virtual Buffable<int32_t>& GetAccuracy();
 protected:
     friend class ComponentFactory;
@@ -18,15 +18,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void AccuracyComponent::serialize(Archive& ar, const unsigned int version)
+void AccuracyComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IAccuracyComponent>(*this);
-    ar & mAccuracy;
+    ar& boost::serialization::base_object<IAccuracyComponent>( *this );
+    ar& mAccuracy;
 }
 
 class AccuracyComponentLoader : public ComponentLoader<AccuracyComponent>
@@ -38,6 +38,6 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(AccuracyComponent, AccuracyComponent,"accuracy_component");
+REAPING2_CLASS_EXPORT_KEY2( AccuracyComponent, AccuracyComponent, "accuracy_component" );
 #endif//INCLUDED_CORE_ACCURACY_COMPONENT_H
 

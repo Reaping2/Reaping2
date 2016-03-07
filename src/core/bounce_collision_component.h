@@ -9,7 +9,7 @@ class BounceCollisionComponent : public CollisionComponent
 {
 public:
     BounceCollisionComponent();
-    virtual void SetSpeedLossPercent(double speedLossPercent);
+    virtual void SetSpeedLossPercent( double speedLossPercent );
     virtual double GetSpeedLossPercent()const;
 protected:
     friend class ComponentFactory;
@@ -18,15 +18,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void BounceCollisionComponent::serialize(Archive& ar, const unsigned int version)
+void BounceCollisionComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<CollisionComponent>(*this);
-    ar & mSpeedLossPercent;
+    ar& boost::serialization::base_object<CollisionComponent>( *this );
+    ar& mSpeedLossPercent;
 }
 
 class BounceCollisionComponentLoader : public ComponentLoader<BounceCollisionComponent>
@@ -38,5 +38,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(BounceCollisionComponent, BounceCollisionComponent,"bounce_collision_component");
+REAPING2_CLASS_EXPORT_KEY2( BounceCollisionComponent, BounceCollisionComponent, "bounce_collision_component" );
 #endif//INCLUDED_CORE_BOUNCE_COLLISION_COMPONENT_H

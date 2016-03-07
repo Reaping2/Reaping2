@@ -31,29 +31,29 @@
 
 using core::ProgramState;
 
-int32_t ActorHolder::ActorDefaultOrderer::operator ()(const Opt<Actor>& Obj)const
+int32_t ActorHolder::ActorDefaultOrderer::operator ()( const Opt<Actor>& Obj )const
 {
     return Obj->GetGUID();
 }
 
-bool ActorHolder::IsRenderable::operator ()(const Opt<Actor>& Obj)const
+bool ActorHolder::IsRenderable::operator ()( const Opt<Actor>& Obj )const
 {
     return Obj->Get<IRenderableComponent>().IsValid();
 }
 
-int32_t ActorHolder::GetLayer::operator ()(const Opt<Actor>& Obj)const
+int32_t ActorHolder::GetLayer::operator ()( const Opt<Actor>& Obj )const
 {
-    return Obj->Get<IRenderableComponent>().IsValid()?Obj->Get<IRenderableComponent>()->GetLayer():0;
+    return Obj->Get<IRenderableComponent>().IsValid() ? Obj->Get<IRenderableComponent>()->GetLayer() : 0;
 }
 
-int32_t ActorHolder::GetZOrder::operator ()(const Opt<Actor>& Obj)const
+int32_t ActorHolder::GetZOrder::operator ()( const Opt<Actor>& Obj )const
 {
-    return Obj->Get<IRenderableComponent>().IsValid()?Obj->Get<IRenderableComponent>()->GetZOrder():0;
+    return Obj->Get<IRenderableComponent>().IsValid() ? Obj->Get<IRenderableComponent>()->GetZOrder() : 0;
 }
 
-int32_t ActorHolder::GetCollisionClass::operator()(const Opt<Actor>& Obj) const
+int32_t ActorHolder::GetCollisionClass::operator()( const Opt<Actor>& Obj ) const
 {
-    return Obj->Get<ICollisionComponent>().IsValid()?int32_t(Obj->Get<ICollisionComponent>()->GetCollisionClass()):0;
+    return Obj->Get<ICollisionComponent>().IsValid() ? int32_t( Obj->Get<ICollisionComponent>()->GetCollisionClass() ) : 0;
 }
 
 
@@ -64,8 +64,8 @@ void Scene::AddActor( Actor* Object )
         L1( "Prevent adding NULL actor\n" );
         return;
     }
-    L2("AddActor called (GUID:%d)\n",Object->GetGUID());
-    mNewActors.push_back( Opt<Actor>(Object) );
+    L2( "AddActor called (GUID:%d)\n", Object->GetGUID() );
+    mNewActors.push_back( Opt<Actor>( Object ) );
 }
 
 void Scene::Update( double DeltaTime )
@@ -76,19 +76,19 @@ void Scene::Update( double DeltaTime )
         return;
     }
 
-    Opt<Actor> player(GetActor(mProgramState.mControlledActorGUID));
-    if (player.IsValid())
+    Opt<Actor> player( GetActor( mProgramState.mControlledActorGUID ) );
+    if ( player.IsValid() )
     {
-        Opt<IHealthComponent> healthC=player->Get<IHealthComponent>();
-        mMaxHP=healthC->GetMaxHP().Get();
+        Opt<IHealthComponent> healthC = player->Get<IHealthComponent>();
+        mMaxHP = healthC->GetMaxHP().Get();
     }
     //TODO: testing
-    if (false&&ProgramState::Get().mMode!=ProgramState::Client
-        &&rand()%600==1
-        &&mActorHolder.mAllActors.size()<1500)
+    if ( false && ProgramState::Get().mMode != ProgramState::Client
+         && rand() % 600 == 1
+         && mActorHolder.mAllActors.size() < 1500 )
     {
-        AddTestCreep(mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) ) 
-            , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
+        AddTestCreep( mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) )
+                      , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
     }
     //testing end
 
@@ -97,7 +97,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -2500* MAGIC_SIZE, -2500*MAGIC_SIZE, 2500*MAGIC_SIZE, 2500*MAGIC_SIZE )
+    : mDimensions( -2500 * MAGIC_SIZE, -2500 * MAGIC_SIZE, 2500 * MAGIC_SIZE, 2500 * MAGIC_SIZE )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )
@@ -111,7 +111,7 @@ Scene::Scene()
     , mSelectGameModeModel( StringFunc( this, &Scene::SelectGameMode ), "select", &mGameModeModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
-    , mSelectedLevel("")
+    , mSelectedLevel( "" )
 {
 }
 
@@ -125,16 +125,16 @@ Scene::~Scene()
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         //EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
-        L2("new actor inserted at destruct (GUID:%d)\n",(*it)->GetGUID());
+        L2( "new actor inserted at destruct (GUID:%d)\n", ( *it )->GetGUID() );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
         //EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
-        L2("actor delete at destruct (GUID:%d)\n",(*it)->GetGUID());
-        delete (*it).Get();
+        L2( "actor delete at destruct (GUID:%d)\n", ( *it )->GetGUID() );
+        delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
     mPlayerModels.clear();
@@ -152,101 +152,101 @@ int32_t Scene::GetTypeId() const
 
 void Scene::Load( std::string const& Level )
 {
-    EventServer<core::MapLoadEvent>::Get().SendEvent(core::MapLoadEvent("map/"+Level));
+    EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( "map/" + Level ) );
     mPaused = false;
-    
+
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
-        L2("new actor inserted at Load (GUID:%d)\n",(*it)->GetGUID());
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Added ) );
+        L2( "new actor inserted at Load (GUID:%d)\n", ( *it )->GetGUID() );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
-        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
-        L2("actor delete at Load (GUID:%d)\n",(*it)->GetGUID());
-        delete (*it).Get();
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Removed ) );
+        L2( "actor delete at Load (GUID:%d)\n", ( *it )->GetGUID() );
+        delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
     SetType( "grass" );
 
-    EventServer<core::MapStartEvent>::Get().SendEvent(core::MapStartEvent());
+    EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent() );
 
 }
 
-void Scene::AddTestCreep(double X, double Y)
+void Scene::AddTestCreep( double X, double Y )
 {
     std::auto_ptr<Actor> Obj;
-    switch(rand()%4)
+    switch( rand() % 4 )
     {
     case 0:
-        Obj=ActorFactory::Get()(AutoId("spider1"));
+        Obj = ActorFactory::Get()( AutoId( "spider1" ) );
         break;
     case 1:
-        Obj=ActorFactory::Get()(AutoId("spider2"));
+        Obj = ActorFactory::Get()( AutoId( "spider2" ) );
         break;
     case 2:
-        Obj=ActorFactory::Get()(AutoId("spider1target"));
+        Obj = ActorFactory::Get()( AutoId( "spider1target" ) );
         break;
     case 3:
-        Obj=ActorFactory::Get()(AutoId("spider2target"));
+        Obj = ActorFactory::Get()( AutoId( "spider2target" ) );
         break;
     }
-    Obj->Get<IPositionComponent>()->SetX(X);
-    Obj->Get<IPositionComponent>()->SetY(Y);
+    Obj->Get<IPositionComponent>()->SetX( X );
+    Obj->Get<IPositionComponent>()->SetY( Y );
     AddActor( Obj.release() );
 }
 
-void Scene::RemoveActor(ActorList_t::iterator it)
+void Scene::RemoveActor( ActorList_t::iterator it )
 {
-    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
-    L2("removeActor it (GUID:%d)\n",(*it)->GetGUID());
-    delete (*it).Get();
-    mActorHolder.mAllActors.erase(it);
+    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Removed ) );
+    L2( "removeActor it (GUID:%d)\n", ( *it )->GetGUID() );
+    delete ( *it ).Get();
+    mActorHolder.mAllActors.erase( it );
 }
 
-void Scene::RemoveActor(int32_t guid)
+void Scene::RemoveActor( int32_t guid )
 {
-    ActorList_t::iterator it = mActorHolder.mAllActors.find(guid);
-    if (it!=mActorHolder.mAllActors.end())
+    ActorList_t::iterator it = mActorHolder.mAllActors.find( guid );
+    if ( it != mActorHolder.mAllActors.end() )
     {
-        L2("removeActor from existing actors (GUID:%d)\n",(*it)->GetGUID());
-        RemoveActor(it);
+        L2( "removeActor from existing actors (GUID:%d)\n", ( *it )->GetGUID() );
+        RemoveActor( it );
         return;
     }
     else
     {
-        for(NewActorList_t::iterator i=mNewActors.begin(),e=mNewActors.end();i!=e;++i)
+        for( NewActorList_t::iterator i = mNewActors.begin(), e = mNewActors.end(); i != e; ++i )
         {
-            if ((*i)->GetGUID()==guid)
+            if ( ( *i )->GetGUID() == guid )
             {
-                L2("removeActor from new actors (GUID:%d)\n",(*i)->GetGUID());
-                delete (*i).Get();
-                mNewActors.erase(i);
+                L2( "removeActor from new actors (GUID:%d)\n", ( *i )->GetGUID() );
+                delete ( *i ).Get();
+                mNewActors.erase( i );
                 return;
             }
         }
     }
-    L1("removeActor is called on an actor that does not exist (no good at all) (GUID:%d)\n",guid);
+    L1( "removeActor is called on an actor that does not exist (no good at all) (GUID:%d)\n", guid );
 }
 
-Opt<Actor> Scene::GetActor(int32_t guid)
+Opt<Actor> Scene::GetActor( int32_t guid )
 {
-    ActorList_t::iterator it = mActorHolder.mAllActors.find(guid);
-    if (it!=mActorHolder.mAllActors.end())
+    ActorList_t::iterator it = mActorHolder.mAllActors.find( guid );
+    if ( it != mActorHolder.mAllActors.end() )
     {
-        return (*it);
+        return ( *it );
     }
-    for(NewActorList_t::iterator i=mNewActors.begin(),e=mNewActors.end();i!=e;++i)
+    for( NewActorList_t::iterator i = mNewActors.begin(), e = mNewActors.end(); i != e; ++i )
     {
-        if ((*i)->GetGUID()==guid)
+        if ( ( *i )->GetGUID() == guid )
         {
-            return (*i);
+            return ( *i );
         }
     }
-    return Opt<Actor>(NULL);
+    return Opt<Actor>( NULL );
 }
 
 namespace {
@@ -293,7 +293,7 @@ std::vector<int32_t> getBuffs( Actor* a )
     {
         return rv;
     }
-    BuffList_t::nth_index<1>::type const& buffList=buffHolderC->GetBuffList().get<1>();
+    BuffList_t::nth_index<1>::type const& buffList = buffHolderC->GetBuffList().get<1>();
     for( BuffList_t::nth_index_const_iterator<1>::type i = buffList.begin(), e = buffList.end(); i != e; ++i )
     {
         Buff const& b = **i;
@@ -306,27 +306,27 @@ std::vector<int32_t> getBuffs( Actor* a )
 }
 }
 
-void Scene::SetPlayerModels(Opt<Actor> actor)
+void Scene::SetPlayerModels( Opt<Actor> actor )
 {
     mPlayerModels.clear();
-    if (!actor.IsValid())
+    if ( !actor.IsValid() )
     {
         return;
     }
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_double_t) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &getSpecialId, actor.Get() ), "special", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::lambda::bind( &getBuffs, actor.Get() ), "buffs", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_double_t ) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_double_t ) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &getWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &getSpecialId, actor.Get() ), "special", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_vec_t ) boost::lambda::bind( &getBuffs, actor.Get() ), "buffs", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
 }
 
-void Scene::SelectLevel(std::string const& Level)
+void Scene::SelectLevel( std::string const& Level )
 {
-    mSelectedLevel=Level;
-    L1("selected level: %s",Level.c_str());
-    EventServer<core::LevelSelectedEvent>::Get().SendEvent(core::LevelSelectedEvent(Level));
+    mSelectedLevel = Level;
+    L1( "selected level: %s", Level.c_str() );
+    EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( Level ) );
 }
 
 std::string Scene::GetSelectedLevel()
@@ -338,8 +338,8 @@ void Scene::InsertNewActors()
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
-        L2("new actor inserted at update (GUID:%d)\n",(*it)->GetGUID());
+        EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Added ) );
+        L2( "new actor inserted at update (GUID:%d)\n", ( *it )->GetGUID() );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
@@ -355,7 +355,7 @@ ActorList_t& Scene::GetActors()
     return mActorHolder.mAllActors;
 }
 
-void Scene::SetActors(ActorList_t& actors, bool withAddActorEvents/*=true*/)
+void Scene::SetActors( ActorList_t& actors, bool withAddActorEvents/*=true*/ )
 {
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
@@ -363,17 +363,17 @@ void Scene::SetActors(ActorList_t& actors, bool withAddActorEvents/*=true*/)
     }
     mNewActors.clear();
 
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
-        delete (*it).Get();
+        delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
     mActorHolder.mAllActors = actors;
-    if (withAddActorEvents)
+    if ( withAddActorEvents )
     {
-        for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+        for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
         {
-            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Added ) );
         }
     }
 }
@@ -384,30 +384,30 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
-        if (withEvents)
+        if ( withEvents )
         {
-            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Added ) );
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Added ) );
         }
-        L2("new actor inserted at Clear (GUID:%d)\n",(*it)->GetGUID());
+        L2( "new actor inserted at Clear (GUID:%d)\n", ( *it )->GetGUID() );
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
 
-    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it!=e; ++it )
+    for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
-        if (withEvents)
+        if ( withEvents )
         {
-            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Removed ) );
         }
-        L2("actor deleted at Clear (GUID:%d)\n",(*it)->GetGUID());
-        delete (*it).Get();
+        L2( "actor deleted at Clear (GUID:%d)\n", ( *it )->GetGUID() );
+        delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
 }
 
 void Scene::SelectGameMode( std::string const& GameMode )
 {
-	mProgramState.mGameMode = GameMode;
+    mProgramState.mGameMode = GameMode;
     core::GamemodeSelectedEvent event;
     event.mGameMode = GameMode;
     EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );

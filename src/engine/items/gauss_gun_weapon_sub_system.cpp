@@ -11,11 +11,11 @@ namespace engine {
 GaussGunWeaponSubSystem::GaussGunWeaponSubSystem()
     : SubSystemHolder()
     , mScene( Scene::Get() )
-    , mWeaponItemSubSystem(WeaponItemSubSystem::Get())
-    , mActorFactory(ActorFactory::Get())
+    , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
+    , mActorFactory( ActorFactory::Get() )
     , mShotId( AutoId( "gauss_shot" ) )
     , mAltShotId( AutoId( "gauss_alt_shot" ) )
-    , mProgramState( core::ProgramState::Get())
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -24,12 +24,12 @@ void GaussGunWeaponSubSystem::Init()
     SubSystemHolder::Init();
 }
 
-void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
+void GaussGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<GaussGun> weapon = inventoryC->GetSelectedWeapon();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-    if ( weapon->GetShootAlt()&&weapon->GetCooldown()<=0.0 )
+    if ( weapon->GetShootAlt() && weapon->GetCooldown() <= 0.0 )
     {
         weapon->StartCharge();
     }
@@ -41,12 +41,12 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         weapon->EndCharge();
     }
-    if (mProgramState.mMode==core::ProgramState::Client)
+    if ( mProgramState.mMode == core::ProgramState::Client )
     {
         return;
     }
 
-    if (weapon->IsCharging())
+    if ( weapon->IsCharging() )
     {
         Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
         if( ac.IsValid() )
@@ -59,44 +59,44 @@ void GaussGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     if ( moveC.IsValid() && !moveC->IsRooted() && weapon->IsCharging() )
     {
         Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
-        if(buffHolderC.IsValid())
+        if( buffHolderC.IsValid() )
         {
-            std::auto_ptr<Buff> buff(core::BuffFactory::Get()(MoveSpeedBuff::GetType_static()));
-            MoveSpeedBuff* moveSpeedBuff= (MoveSpeedBuff*)buff.get();
+            std::auto_ptr<Buff> buff( core::BuffFactory::Get()( MoveSpeedBuff::GetType_static() ) );
+            MoveSpeedBuff* moveSpeedBuff = ( MoveSpeedBuff* )buff.get();
             moveSpeedBuff->SetRooted( true );
             moveSpeedBuff->SetFlatBonus( 0 );
             moveSpeedBuff->SetPercentBonus( 0.0 );
             moveSpeedBuff->SetAutoRemove( true );
-            moveSpeedBuff->SetSecsToEnd( weapon->ChargeTime()*1.1 );
-            buffHolderC->AddBuff(buff);
+            moveSpeedBuff->SetSecsToEnd( weapon->ChargeTime() * 1.1 );
+            buffHolderC->AddBuff( buff );
         }
     }
-    if (weapon->GetCooldown()>0)
+    if ( weapon->GetCooldown() > 0 )
     {
         return;
     }
     Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
-    if (weapon->IsShooting())
+    if ( weapon->IsShooting() )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        projectiles.push_back( Opt<Actor>(ps.release()) );
+        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        projectiles.push_back( Opt<Actor>( ps.release() ) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );
         if( ac.IsValid() )
         {
             ac->AddOneShotEffect( mShotId );
         }
     }
-    else if (weapon->IsShootingAlt())
+    else if ( weapon->IsShootingAlt() )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory(mAltShotId);
-        projectiles.push_back( Opt<Actor>(ps.release()) );
+        std::auto_ptr<Actor> ps = mActorFactory( mAltShotId );
+        projectiles.push_back( Opt<Actor>( ps.release() ) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
         if( ac.IsValid() )
         {
             ac->AddOneShotEffect( mAltShotId );

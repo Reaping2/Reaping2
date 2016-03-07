@@ -8,7 +8,7 @@ PlasmaGun::PlasmaGun( int32_t Id )
 }
 
 PlasmaGun::PlasmaGun()
-    : Weapon(-1)
+    : Weapon( -1 )
 {
 }
 
@@ -21,4 +21,4 @@ PlasmaGunLoader::PlasmaGunLoader()
     SetBase<WeaponLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(PlasmaGun, PlasmaGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT( PlasmaGun, PlasmaGun );

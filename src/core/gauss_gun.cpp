@@ -32,7 +32,9 @@ glm::vec3 GaussGun::GetMouseColor() const
 void GaussGun::StartCharge()
 {
     if( mCurrentCharge >= 0.0 )
+    {
         return;
+    }
     mCurrentCharge = glfwGetTime();
 }
 
@@ -44,8 +46,8 @@ void GaussGun::EndCharge()
 bool GaussGun::IsShootingAlt() const
 {
     return Weapon::IsShootingAlt() &&
-        mCurrentCharge > 0.0 &&
-        glfwGetTime() - mCurrentCharge >= mChargeTime;
+           mCurrentCharge > 0.0 &&
+           glfwGetTime() - mCurrentCharge >= mChargeTime;
 
 }
 
@@ -59,19 +61,19 @@ double GaussGun::ChargeTime() const
     return mChargeTime;
 }
 
-void GaussGun::SetChargeTime(bool chargeTime)
+void GaussGun::SetChargeTime( bool chargeTime )
 {
-    mChargeTime=chargeTime;
+    mChargeTime = chargeTime;
 }
 
 
 void GaussGunLoader::BindValues()
 {
-    Bind("charge_time",func_double(&GaussGun::SetChargeTime));
+    Bind( "charge_time", func_double( &GaussGun::SetChargeTime ) );
 }
 
 GaussGunLoader::GaussGunLoader()
 {
     SetBase<WeaponLoader>();
 }
-REAPING2_CLASS_EXPORT_IMPLEMENT(GaussGun, GaussGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT( GaussGun, GaussGun );

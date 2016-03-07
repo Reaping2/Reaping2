@@ -14,29 +14,29 @@ class TeamSwitchRequestMessage : public Message
     friend class ::boost::serialization::access;
 public:
     int32_t mClientId;
-    DEFINE_MESSAGE_BASE(TeamSwitchRequestMessage)
+    DEFINE_MESSAGE_BASE( TeamSwitchRequestMessage )
     TeamSwitchRequestMessage()
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void TeamSwitchRequestMessage::serialize(Archive& ar, const unsigned int version)
+void TeamSwitchRequestMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mClientId;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mClientId;
 }
 
 class TeamSwitchRequestMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(TeamSwitchRequestMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( TeamSwitchRequestMessageHandlerSubSystem )
     TeamSwitchRequestMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
-    virtual void Update(double DeltaTime);
+    virtual void Execute( Message const& message );
+    virtual void Update( double DeltaTime );
 };
 
 class TeamSwitchRequestMessageSenderSystem : public MessageSenderSystem
@@ -44,10 +44,10 @@ class TeamSwitchRequestMessageSenderSystem : public MessageSenderSystem
     AutoReg mOnTeamSwitchRequestEvent;
     void OnTeamSwitchRequest( TeamSwitchRequestEvent const& event );
 public:
-    DEFINE_SYSTEM_BASE(TeamSwitchRequestMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( TeamSwitchRequestMessageSenderSystem )
     TeamSwitchRequestMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace network
 

@@ -9,8 +9,8 @@ struct SecsToReviveEvent : public platform::Event
 {
     int32_t mClientId;
     double mSecsToRevive;
-    SecsToReviveEvent(int32_t clientId, double secsToRevive)
-        :mClientId(clientId),mSecsToRevive(secsToRevive){}
+    SecsToReviveEvent( int32_t clientId, double secsToRevive )
+        : mClientId( clientId ), mSecsToRevive( secsToRevive ) {}
 };
 
 } // namespace engine
