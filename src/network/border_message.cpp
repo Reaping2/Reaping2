@@ -18,9 +18,9 @@ void BorderMessageSenderSystem::Init()
 }
 
 
-void BorderMessageSenderSystem::Update(double DeltaTime)
+void BorderMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
 BorderMessageHandlerSubSystem::BorderMessageHandlerSubSystem()
@@ -33,42 +33,42 @@ void BorderMessageHandlerSubSystem::Init()
 {
 }
 
-void BorderMessageHandlerSubSystem::Update(double DeltaTime)
+void BorderMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    PendingMessageHandlerSubSystem::Update(DeltaTime);
+    PendingMessageHandlerSubSystem::Update( DeltaTime );
 }
 
-bool BorderMessageHandlerSubSystem::ProcessPending(Message const& message)
+bool BorderMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
-    BorderMessage const& msg=static_cast<BorderMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed
-    L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
+    BorderMessage const& msg = static_cast<BorderMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
+    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IBorderComponent> borderC = actor->Get<IBorderComponent>();
-    if (!borderC.IsValid())
+    if ( !borderC.IsValid() )
     {
-        L1("borderC not valid");
+        L1( "borderC not valid" );
         return true;
-    } 
-    borderC->SetBorders(msg.mBorders);
-    borderC->SetOuterBorders(msg.mOuterBorders);
+    }
+    borderC->SetBorders( msg.mBorders );
+    borderC->SetOuterBorders( msg.mOuterBorders );
     return true;
 }
 
-std::auto_ptr<BorderMessage> BorderMessageSenderSystem::GenerateBorderMessage(Actor &actor)
+std::auto_ptr<BorderMessage> BorderMessageSenderSystem::GenerateBorderMessage( Actor& actor )
 {
     Opt<IBorderComponent> borderC = actor.Get<IBorderComponent>();
-    if (!borderC.IsValid())
+    if ( !borderC.IsValid() )
     {
         return std::auto_ptr<BorderMessage>();
     }
-    std::auto_ptr<BorderMessage> borderMsg(new BorderMessage);
-    borderMsg->mActorGUID=actor.GetGUID();
-    borderMsg->mBorders=borderC->GetBorders();
-    borderMsg->mOuterBorders=borderC->GetOuterBorders();
+    std::auto_ptr<BorderMessage> borderMsg( new BorderMessage );
+    borderMsg->mActorGUID = actor.GetGUID();
+    borderMsg->mBorders = borderC->GetBorders();
+    borderMsg->mOuterBorders = borderC->GetOuterBorders();
     return borderMsg;
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__BorderMessage, network::BorderMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__BorderMessage, network::BorderMessage );

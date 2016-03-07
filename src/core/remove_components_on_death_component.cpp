@@ -6,9 +6,9 @@ RemoveComponentsOnDeathComponent::RemoveComponentsOnDeathComponent()
 {
 }
 
-void RemoveComponentsOnDeathComponent::SetComponents(std::vector<int32_t> const& components)
+void RemoveComponentsOnDeathComponent::SetComponents( std::vector<int32_t> const& components )
 {
-    mComponents=components;
+    mComponents = components;
 }
 
 std::vector<int32_t> const& RemoveComponentsOnDeathComponent::GetComponents()const
@@ -20,7 +20,7 @@ std::vector<int32_t> const& RemoveComponentsOnDeathComponent::GetComponents()con
 
 void RemoveComponentsOnDeathComponentLoader::BindValues()
 {
-    Json::Value const& json = (*mSetters)["components"];
+    Json::Value const& json = ( *mSetters )["components"];
     if( json.isArray() )
     {
         std::vector<int32_t> components;

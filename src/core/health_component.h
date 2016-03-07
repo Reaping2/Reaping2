@@ -23,7 +23,7 @@ public:
     virtual void SetTimeOfDeath( double timeOfDeath );
     virtual Buffable<int32_t>& GetMaxHP();
     void SetHPandMaxHP( int32_t Hp );
-    virtual void SetLastDamageOwnerGUID(int32_t lastDamageOwnerGUID);
+    virtual void SetLastDamageOwnerGUID( int32_t lastDamageOwnerGUID );
     virtual int32_t GetLastDamageOwnerGUID()const;
 
     HealthComponent();
@@ -39,21 +39,21 @@ public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void HealthComponent::serialize(Archive& ar, const unsigned int version)
+void HealthComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IHealthComponent>(*this);
-    ar & mHP;
-    ar & mDamage;
-    ar & mHeal;
-    ar & mAlive;
-    ar & mTimeOfDeath;
-    ar & mMaxHP;
-    ar & mLastDamageOwnerGUID;
+    ar& boost::serialization::base_object<IHealthComponent>( *this );
+    ar& mHP;
+    ar& mDamage;
+    ar& mHeal;
+    ar& mAlive;
+    ar& mTimeOfDeath;
+    ar& mMaxHP;
+    ar& mLastDamageOwnerGUID;
 }
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>
@@ -65,5 +65,5 @@ public:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(HealthComponent, HealthComponent,"health_component");
+REAPING2_CLASS_EXPORT_KEY2( HealthComponent, HealthComponent, "health_component" );
 #endif//INCLUDED_CORE_HEALTH_COMPONENT_H

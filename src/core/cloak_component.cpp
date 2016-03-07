@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 CloakComponent::CloakComponent()
-    : mActive(false)
+    : mActive( false )
 {
 }
 
-void CloakComponent::SetActive(bool active)
+void CloakComponent::SetActive( bool active )
 {
-    mActive=active;
+    mActive = active;
 }
 
 bool CloakComponent::IsActive()const
@@ -27,4 +27,4 @@ CloakComponentLoader::CloakComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(CloakComponent, CloakComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( CloakComponent, CloakComponent );

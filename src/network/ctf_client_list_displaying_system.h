@@ -25,13 +25,13 @@ class CtfClientListDisplayingSystem : public engine::System
     AutoReg mOnCtfClientDatasChanged;
     void OnCtfClientDatasChanged( CtfClientDatasChangedEvent const& event );
 public:
-    DEFINE_SYSTEM_BASE(CtfClientListDisplayingSystem)
+    DEFINE_SYSTEM_BASE( CtfClientListDisplayingSystem )
     CtfClientListDisplayingSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
     std::vector<std::string> BlueNames();
     std::vector<std::string> RedNames();
-    void SwitchTeam( std::string const & player );
+    void SwitchTeam( std::string const& player );
 };
 
 }

@@ -14,21 +14,21 @@ namespace engine {
 class WeaponItemSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(WeaponItemSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( WeaponItemSubSystem )
 
     WeaponItemSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
     typedef std::list<Opt<Actor> > Projectiles_t;
 
-    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt=false, bool addRadius=true);
+    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt = false, bool addRadius = true );
     static Opt<WeaponItemSubSystem> Get();
-    static void SetProjectilePosition(Actor& projectile, Actor& actoraddRadius, bool addRadius=true);
+    static void SetProjectilePosition( Actor& projectile, Actor& actoraddRadius, bool addRadius = true );
 private:
     Scene& mScene;
     core::ProgramState& mProgramState;
     AutoReg mOnShot;
-    void OnShot(core::ShotEvent const& Evt);
+    void OnShot( core::ShotEvent const& Evt );
 };
 
 } // namespace engine

@@ -20,4 +20,4 @@ FlagReceiverComponentLoader::FlagReceiverComponentLoader()
 
 } // namespace ctf
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ctf__FlagReceiverComponent, ctf::FlagReceiverComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ctf__FlagReceiverComponent, ctf::FlagReceiverComponent );

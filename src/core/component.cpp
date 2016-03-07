@@ -4,7 +4,7 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-const double PRECISION=1000.0;
+const double PRECISION = 1000.0;
 
 Component::Component()
     : mActorGUID( -1 )
@@ -14,12 +14,12 @@ Component::~Component()
 {
 }
 
-void Component::SetActorGUID(int32_t actorGUID)
+void Component::SetActorGUID( int32_t actorGUID )
 {
-    mActorGUID=actorGUID;
+    mActorGUID = actorGUID;
 }
 
-void Component::SetId(int32_t id)
+void Component::SetId( int32_t id )
 {
     mId = id;
 }
@@ -29,12 +29,12 @@ int32_t Component::GetId() const
     return mId;
 }
 
-void Component::Save(Json::Value& component)
+void Component::Save( Json::Value& component )
 {
     std::string componentName;
-    if (IdStorage::Get().GetName(mId,componentName))
+    if ( IdStorage::Get().GetName( mId, componentName ) )
     {
-        component["name"]=Json::Value(componentName);
+        component["name"] = Json::Value( componentName );
     }
 }
 
@@ -43,7 +43,7 @@ void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
     ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
     if( i == mComponents.end() )
     {
-        int type=Comp->GetType();
+        int type = Comp->GetType();
         mComponents.insert( type, Comp );
     }
 }
@@ -80,4 +80,4 @@ DefaultComponent::DefaultComponent()
 }
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(DefaultComponent, DefaultComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( DefaultComponent, DefaultComponent );

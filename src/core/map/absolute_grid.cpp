@@ -2,22 +2,22 @@
 
 namespace map {
 
-AbsoluteGrid::AbsoluteGrid(int32_t Id)
-    : IGrid(Id)
+AbsoluteGrid::AbsoluteGrid( int32_t Id )
+    : IGrid( Id )
 {
 
 }
 
-    
-void AbsoluteGrid::Update(double DeltaTime)
+
+void AbsoluteGrid::Update( double DeltaTime )
 {
 
 }
 
-void AbsoluteGrid::SetMousePosition(double x, double y)
+void AbsoluteGrid::SetMousePosition( double x, double y )
 {
-    IGrid::SetMousePosition(x,y);
-    mProcessedPosition=mMousePosition;
+    IGrid::SetMousePosition( x, y );
+    mProcessedPosition = mMousePosition;
 }
 
 

@@ -2,14 +2,14 @@
 
 CloakBuff::CloakBuff()
     : Buff()
-    , mApplied(false)
+    , mApplied( false )
 {
-    mSecsToEnd=5.0;
+    mSecsToEnd = 5.0;
 }
 
-void CloakBuff::SetApplied(bool applied)
+void CloakBuff::SetApplied( bool applied )
 {
-    mApplied=applied;
+    mApplied = applied;
 }
 
 bool CloakBuff::IsApplied()const

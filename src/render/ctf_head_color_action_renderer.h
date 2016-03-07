@@ -14,8 +14,8 @@ class CtfHeadColorActionRenderer : public ActionRenderer
     int32_t mCtfHeadColorId;
 public:
     CtfHeadColorActionRenderer( int32_t Id );
-    virtual void Init(const Actor& actor);
-    virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);
+    virtual void Init( const Actor& actor );
+    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
 private:
 };
 

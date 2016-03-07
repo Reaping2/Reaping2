@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 BounceCollisionComponent::BounceCollisionComponent()
-    : mSpeedLossPercent(0.0)
+    : mSpeedLossPercent( 0.0 )
 {
 }
 
-void BounceCollisionComponent::SetSpeedLossPercent(double speedLossPercent)
+void BounceCollisionComponent::SetSpeedLossPercent( double speedLossPercent )
 {
-    mSpeedLossPercent=speedLossPercent;
+    mSpeedLossPercent = speedLossPercent;
 }
 
 double BounceCollisionComponent::GetSpeedLossPercent()const
@@ -21,7 +21,7 @@ double BounceCollisionComponent::GetSpeedLossPercent()const
 
 void BounceCollisionComponentLoader::BindValues()
 {
-    Bind("speed_loss_percent",func_double(&BounceCollisionComponent::SetSpeedLossPercent));
+    Bind( "speed_loss_percent", func_double( &BounceCollisionComponent::SetSpeedLossPercent ) );
 }
 
 BounceCollisionComponentLoader::BounceCollisionComponentLoader()
@@ -29,4 +29,4 @@ BounceCollisionComponentLoader::BounceCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(BounceCollisionComponent, BounceCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( BounceCollisionComponent, BounceCollisionComponent );

@@ -2,26 +2,26 @@
 
 namespace map {
 
-SoldierAutoReviveMapElement::SoldierAutoReviveMapElement(int32_t Id)
-    : MapElement(Id)
-    , mSecsToRevive(0.0)
+SoldierAutoReviveMapElement::SoldierAutoReviveMapElement( int32_t Id )
+    : MapElement( Id )
+    , mSecsToRevive( 0.0 )
 {
 }
 
-void SoldierAutoReviveMapElement::Load(Json::Value& setters)
+void SoldierAutoReviveMapElement::Load( Json::Value& setters )
 {
-    MapElement::Load(setters);
+    MapElement::Load( setters );
     double secsToRevive;
-    if (!Json::GetDouble(setters["secs_to_revive"],secsToRevive))
+    if ( !Json::GetDouble( setters["secs_to_revive"], secsToRevive ) )
     {
         return;
     }
-    SetSecsToRevive(secsToRevive);
+    SetSecsToRevive( secsToRevive );
 }
 
-void SoldierAutoReviveMapElement::SetSecsToRevive(double secsToRevive)
+void SoldierAutoReviveMapElement::SetSecsToRevive( double secsToRevive )
 {
-    mSecsToRevive=secsToRevive;
+    mSecsToRevive = secsToRevive;
 }
 
 double SoldierAutoReviveMapElement::GetSecsToRevive()const

@@ -16,22 +16,22 @@ void RemoveComponentsOnDeathSystem::Init()
 }
 
 
-void RemoveComponentsOnDeathSystem::Update(double DeltaTime)
+void RemoveComponentsOnDeathSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<IRemoveComponentsOnDeathComponent> removeComponentsOnDeathC=actor.Get<IRemoveComponentsOnDeathComponent>();
-        if (!removeComponentsOnDeathC.IsValid())
+        Opt<IRemoveComponentsOnDeathComponent> removeComponentsOnDeathC = actor.Get<IRemoveComponentsOnDeathComponent>();
+        if ( !removeComponentsOnDeathC.IsValid() )
         {
             continue;
         }
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-        if(!healthC.IsValid())
+        if( !healthC.IsValid() )
         {
             continue;
         }
-        if(healthC->IsAlive())
+        if( healthC->IsAlive() )
         {
             continue;
         }

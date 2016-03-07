@@ -26,7 +26,7 @@ Actor::Actor( int32_t Id )
 
 Actor::Actor()
     : ComponentHolder()
-    , mId(-1)
+    , mId( -1 )
 {
 
 }
@@ -34,7 +34,7 @@ Actor::Actor()
 
 Actor::~Actor()
 {
-    int h=7;
+    int h = 7;
 }
 
 int32_t Actor::GetId() const
@@ -42,20 +42,20 @@ int32_t Actor::GetId() const
     return mId;
 }
 
-void Actor::AddComponent(std::auto_ptr<Component> Comp)
+void Actor::AddComponent( std::auto_ptr<Component> Comp )
 {
-    Comp->SetActorGUID(mGUID);
-    ComponentHolder::AddComponent(Comp);
+    Comp->SetActorGUID( mGUID );
+    ComponentHolder::AddComponent( Comp );
 }
 
 void Actor::SetId( int32_t Id )
 {
-    mId=Id;
+    mId = Id;
 }
 
-void Actor::SetGUID(int32_t guid)
+void Actor::SetGUID( int32_t guid )
 {
-    mGUID=guid;
+    mGUID = guid;
 }
 
 int32_t Actor::GetGUID() const
@@ -63,4 +63,4 @@ int32_t Actor::GetGUID() const
     return mGUID;
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(Actor, Actor);
+REAPING2_CLASS_EXPORT_IMPLEMENT( Actor, Actor );

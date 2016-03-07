@@ -15,23 +15,23 @@ HealTakenMessageSenderSystem::HealTakenMessageSenderSystem()
 void HealTakenMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnHealTaken=EventServer<core::HealTakenEvent>::Get().Subscribe( boost::bind( &HealTakenMessageSenderSystem::OnHealTaken, this, _1 ) );
+    mOnHealTaken = EventServer<core::HealTakenEvent>::Get().Subscribe( boost::bind( &HealTakenMessageSenderSystem::OnHealTaken, this, _1 ) );
 }
 
 
-void HealTakenMessageSenderSystem::Update(double DeltaTime)
+void HealTakenMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void HealTakenMessageSenderSystem::OnHealTaken(core::HealTakenEvent const& Evt)
+void HealTakenMessageSenderSystem::OnHealTaken( core::HealTakenEvent const& Evt )
 {
-    std::auto_ptr<HealTakenMessage> healTakenMsg(new HealTakenMessage);
-    healTakenMsg->mX=std::floor(Evt.mX*PRECISION);
-    healTakenMsg->mY=std::floor(Evt.mY*PRECISION);
-    healTakenMsg->mHeal=Evt.mHeal;
-    healTakenMsg->mActorGUID=Evt.mActorGUID;
-    mMessageHolder.AddOutgoingMessage(healTakenMsg);
+    std::auto_ptr<HealTakenMessage> healTakenMsg( new HealTakenMessage );
+    healTakenMsg->mX = std::floor( Evt.mX * PRECISION );
+    healTakenMsg->mY = std::floor( Evt.mY * PRECISION );
+    healTakenMsg->mHeal = Evt.mHeal;
+    healTakenMsg->mActorGUID = Evt.mActorGUID;
+    mMessageHolder.AddOutgoingMessage( healTakenMsg );
 }
 
 HealTakenMessageHandlerSubSystem::HealTakenMessageHandlerSubSystem()
@@ -44,26 +44,26 @@ void HealTakenMessageHandlerSubSystem::Init()
 {
 }
 
-void HealTakenMessageHandlerSubSystem::Execute(Message const& message)
+void HealTakenMessageHandlerSubSystem::Execute( Message const& message )
 {
-    HealTakenMessage const& msg=static_cast<HealTakenMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
-    if (!actor.IsValid())
+    HealTakenMessage const& msg = static_cast<HealTakenMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID );
+    if ( !actor.IsValid() )
     {
-        L1("cannot find actor with GUID: (%s) %d \n",__FUNCTION__,msg.mActorGUID );
+        L1( "cannot find actor with GUID: (%s) %d \n", __FUNCTION__, msg.mActorGUID );
         return;
     }
     Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
-    if (!healthC.IsValid())
+    if ( !healthC.IsValid() )
     {
-        L1("heal taken on an actor withot heal component \n" );
+        L1( "heal taken on an actor withot heal component \n" );
         return;
     }
-    healthC->TakeHeal(msg.mHeal);
+    healthC->TakeHeal( msg.mHeal );
 }
 
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__HealTakenMessage, network::HealTakenMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__HealTakenMessage, network::HealTakenMessage );

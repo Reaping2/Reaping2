@@ -11,8 +11,8 @@ struct ShotEvent : public platform::Event
     int32_t mActorGUID;
     glm::vec2 mPosition;
     bool mIsAlt;
-    ShotEvent(int32_t actorGUID, glm::vec2 position, bool isAlt)
-        :mActorGUID(actorGUID),mPosition(position),mIsAlt(isAlt){}
+    ShotEvent( int32_t actorGUID, glm::vec2 position, bool isAlt )
+        : mActorGUID( actorGUID ), mPosition( position ), mIsAlt( isAlt ) {}
 };
 
 } // namespace core

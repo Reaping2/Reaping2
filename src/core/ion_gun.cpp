@@ -8,7 +8,7 @@ IonGun::IonGun( int32_t Id )
 }
 
 IonGun::IonGun()
-    : Weapon(-1)
+    : Weapon( -1 )
 {
 }
 
@@ -22,4 +22,4 @@ IonGunLoader::IonGunLoader()
     SetBase<WeaponLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(IonGun, IonGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT( IonGun, IonGun );

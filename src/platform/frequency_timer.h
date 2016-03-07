@@ -23,15 +23,15 @@ public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void platform::FrequencyTimer::serialize(Archive& ar, const unsigned int version)
+void platform::FrequencyTimer::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mElapsedTime;
-    ar & mFrequency;
-    ar & mElapsedTicks;
+    ar& mElapsedTime;
+    ar& mFrequency;
+    ar& mElapsedTicks;
 }
 
 } // namespace platform

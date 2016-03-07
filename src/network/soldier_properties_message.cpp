@@ -26,20 +26,20 @@ namespace network {
 SoldierPropertiesMessageSenderSystem::SoldierPropertiesMessageSenderSystem()
     : MessageSenderSystem()
 {
-    mOnSoldierCreatedEvent=EventServer<engine::SoldierCreatedEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent, this, _1 ) );
-    mOnSoldierPropertiesReady= EventServer<engine::SoldierPropertiesReadyEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady, this, _1 ) );
+    mOnSoldierCreatedEvent = EventServer<engine::SoldierCreatedEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent, this, _1 ) );
+    mOnSoldierPropertiesReady = EventServer<engine::SoldierPropertiesReadyEvent>::Get().Subscribe( boost::bind( &SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady, this, _1 ) );
 
 }
 
-void SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt)
+void SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent( engine::SoldierCreatedEvent const& Evt )
 {
-    if(mProgramState.mMode==ProgramState::Server)
+    if( mProgramState.mMode == ProgramState::Server )
     {
         Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();
-        if(buffHolderC.IsValid())
+        if( buffHolderC.IsValid() )
         {
-            mMessageHolder.AddOutgoingMessage(network::HealthMessageSenderSystem::GenerateHealthMessage(*Evt.mActor));
-            mMessageHolder.AddOutgoingMessage(network::AccuracyMessageSenderSystem::GenerateAccuracyMessage(*Evt.mActor));
+            mMessageHolder.AddOutgoingMessage( network::HealthMessageSenderSystem::GenerateHealthMessage( *Evt.mActor ) );
+            mMessageHolder.AddOutgoingMessage( network::AccuracyMessageSenderSystem::GenerateAccuracyMessage( *Evt.mActor ) );
         }
 
     }
@@ -51,18 +51,18 @@ void SoldierPropertiesMessageSenderSystem::Init()
 }
 
 
-void SoldierPropertiesMessageSenderSystem::Update(double DeltaTime)
+void SoldierPropertiesMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady(engine::SoldierPropertiesReadyEvent const& Evt)
+void SoldierPropertiesMessageSenderSystem::OnSoldierPropertiesReady( engine::SoldierPropertiesReadyEvent const& Evt )
 {
-    if (mProgramState.mMode!=ProgramState::Server)
+    if ( mProgramState.mMode != ProgramState::Server )
     {
-        std::auto_ptr<SoldierPropertiesMessage> soldierPorpertiesMessage(new SoldierPropertiesMessage);
-        soldierPorpertiesMessage->mSoldierProperties=mProgramState.mSoldierProperties;
-        mMessageHolder.AddOutgoingMessage(soldierPorpertiesMessage);
+        std::auto_ptr<SoldierPropertiesMessage> soldierPorpertiesMessage( new SoldierPropertiesMessage );
+        soldierPorpertiesMessage->mSoldierProperties = mProgramState.mSoldierProperties;
+        mMessageHolder.AddOutgoingMessage( soldierPorpertiesMessage );
     }
 }
 
@@ -76,66 +76,66 @@ void SoldierPropertiesMessageHandlerSubSystem::Init()
 {
 }
 
-void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
+void SoldierPropertiesMessageHandlerSubSystem::Execute( Message const& message )
 {
-    SoldierPropertiesMessage const& msg=static_cast<SoldierPropertiesMessage const&>(message);
-    L1("executing soldierProperties from id: %d \n",msg.mSenderId );
+    SoldierPropertiesMessage const& msg = static_cast<SoldierPropertiesMessage const&>( message );
+    L1( "executing soldierProperties from id: %d \n", msg.mSenderId );
 
-    Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(msg.mSenderId));
-    if (!clientData.IsValid())
+    Opt<core::ClientData> clientData( mProgramState.FindClientDataByClientId( msg.mSenderId ) );
+    if ( !clientData.IsValid() )
     {
-        L1("cannot find clientdata for for properties: senderId: %d\n",msg.mSenderId);
+        L1( "cannot find clientdata for for properties: senderId: %d\n", msg.mSenderId );
         return;
     }
 
-    clientData->mSoldierProperties=msg.mSoldierProperties;
-    clientData->mSoldierProperties.mArrived=true;
+    clientData->mSoldierProperties = msg.mSoldierProperties;
+    clientData->mSoldierProperties.mArrived = true;
     clientData->mReady = true;
-    L1("**** Client: %s properties arrived. Ready to fight!!! **** from id: %d \n", clientData->mClientName.c_str(),msg.mSenderId );
-    L1("   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", msg.mSoldierProperties.mMoveSpeed, msg.mSoldierProperties.mHealth, msg.mSoldierProperties.mAccuracy );
-	// put client name here into client_list
-    if (mProgramState.mMode==ProgramState::Server)
+    L1( "**** Client: %s properties arrived. Ready to fight!!! **** from id: %d \n", clientData->mClientName.c_str(), msg.mSenderId );
+    L1( "   MoveSpeed:%d\n   Health:%d\n   Accuracy:%d\n", msg.mSoldierProperties.mMoveSpeed, msg.mSoldierProperties.mHealth, msg.mSoldierProperties.mAccuracy );
+    // put client name here into client_list
+    if ( mProgramState.mMode == ProgramState::Server )
     {
         ClientReadyEvent event;
         event.mClientId = clientData->mClientId;
         event.mClientName = clientData->mClientName;
         // for ctf
-        EventServer<ClientReadyEvent>::Get().SendEvent(event);
+        EventServer<ClientReadyEvent>::Get().SendEvent( event );
         // for ffa
         std::auto_ptr<ClientDatasMessage> clientDatasMessage( new ClientDatasMessage );
         clientDatasMessage->mClientDatas = mProgramState.mClientDatas;
-        mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(clientDatasMessage.release()));
-                    
-        if (mProgramState.mGameState==core::ProgramState::Running)
-        {
-            std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-            lifecycleMsg->mState=LifecycleMessage::Start;
-            lifecycleMsg->mGameMode=mProgramState.mGameMode;
-            lifecycleMsg->mClientId=clientData->mClientId;
-            mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
+        mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( clientDatasMessage.release() ) );
 
-            std::auto_ptr<ActorListMessage> actorListMsg(new ActorListMessage);
-            actorListMsg->mClientId=clientData->mClientId;
-            actorListMsg->mActorList=&Scene::Get().GetActors();
-            mMessageHolder.AddOutgoingMessage(actorListMsg);
+        if ( mProgramState.mGameState == core::ProgramState::Running )
+        {
+            std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+            lifecycleMsg->mState = LifecycleMessage::Start;
+            lifecycleMsg->mGameMode = mProgramState.mGameMode;
+            lifecycleMsg->mClientId = clientData->mClientId;
+            mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+
+            std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage );
+            actorListMsg->mClientId = clientData->mClientId;
+            actorListMsg->mActorList = &Scene::Get().GetActors();
+            mMessageHolder.AddOutgoingMessage( actorListMsg );
         }
         else
         {
-			if (mProgramState.mGameMode.empty())
-			{
-				std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-				lifecycleMsg->mClientId = msg.mSenderId;
-				lifecycleMsg->mState = LifecycleMessage::WaitingForHost;
-				mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
-			}
-			else
-			{
-				std::auto_ptr<LifecycleMessage> lifecycleMsg(new LifecycleMessage);
-				lifecycleMsg->mState = LifecycleMessage::ClientList;
-				lifecycleMsg->mGameMode = mProgramState.mGameMode;
-				lifecycleMsg->mClientId = msg.mSenderId;
-				mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(lifecycleMsg.release()));
-			}
+            if ( mProgramState.mGameMode.empty() )
+            {
+                std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+                lifecycleMsg->mClientId = msg.mSenderId;
+                lifecycleMsg->mState = LifecycleMessage::WaitingForHost;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+            }
+            else
+            {
+                std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
+                lifecycleMsg->mState = LifecycleMessage::ClientList;
+                lifecycleMsg->mGameMode = mProgramState.mGameMode;
+                lifecycleMsg->mClientId = msg.mSenderId;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+            }
         }
     }
 }
@@ -144,4 +144,4 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__SoldierPropertiesMessage, network::SoldierPropertiesMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__SoldierPropertiesMessage, network::SoldierPropertiesMessage );

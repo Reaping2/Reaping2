@@ -48,16 +48,16 @@ public:
     }
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void Item::serialize(Archive& ar, const unsigned int version)
+void Item::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mId;
-    ar & mType;
-    ar & mState;
-    ar & mActorGUID;
+    ar& mId;
+    ar& mType;
+    ar& mState;
+    ar& mActorGUID;
 }
 
 class DefaultItem : public Item

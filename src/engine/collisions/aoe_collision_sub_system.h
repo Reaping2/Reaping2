@@ -8,13 +8,13 @@ namespace engine {
 class AoeCollisionSubSystem : public CollisionSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(AoeCollisionSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( AoeCollisionSubSystem )
     AoeCollisionSubSystem();
 protected:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene( Actor& actor );
-    virtual void Collide(Actor& actor, Actor& other);
+    virtual void Collide( Actor& actor, Actor& other );
 };
 
 } // namespace engine

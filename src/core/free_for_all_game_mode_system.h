@@ -12,7 +12,7 @@ namespace core {
 class FreeForAllGameModeSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(FreeForAllGameModeSystem)
+    DEFINE_SYSTEM_BASE( FreeForAllGameModeSystem )
     FreeForAllGameModeSystem();
 protected:
     virtual void Init();
@@ -21,9 +21,9 @@ private:
     Scene& mScene;
     AutoReg mOnStartGameMode;
     AutoReg mOnLevelSelected;
-	core::ProgramState& mProgramState;
-    void OnStartGameMode(core::StartGameModeEvent const& Evt);
-    void OnLevelSelected(core::LevelSelectedEvent const& Evt);
+    core::ProgramState& mProgramState;
+    void OnStartGameMode( core::StartGameModeEvent const& Evt );
+    void OnLevelSelected( core::LevelSelectedEvent const& Evt );
 };
 
 } // namespace core

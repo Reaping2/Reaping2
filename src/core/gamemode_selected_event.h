@@ -8,7 +8,7 @@ namespace core {
 struct GamemodeSelectedEvent : public platform::Event
 {
     std::string mGameMode;
-    GamemodeSelectedEvent(){}
+    GamemodeSelectedEvent() {}
 };
 
 } // namespace core

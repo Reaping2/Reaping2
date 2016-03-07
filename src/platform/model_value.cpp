@@ -102,10 +102,10 @@ ModelValue::~ModelValue()
     {
 #define USE_TYPES( fn, mt, t ) \
         case mt: delete ( fn* ) mValue; break;
-TYPES
+        TYPES
 #undef USE_TYPES
-        default:
-            break;
+    default:
+        break;
     }
 }
 
@@ -166,7 +166,7 @@ ModelValue::operator std::string() const
     switch( mType )
     {
     case Mt_String:
-        return ((get_string_t*)mValue)->operator ()();
+        return ( ( get_string_t* )mValue )->operator ()();
     case Mt_Int:
         return boost::lexical_cast<std::string>( operator int32_t() );
     case Mt_Double:

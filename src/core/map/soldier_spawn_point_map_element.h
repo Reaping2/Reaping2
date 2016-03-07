@@ -9,12 +9,12 @@ namespace map {
 class SoldierSpawnPointMapElement : public MapElement
 {
 public:
-    DEFINE_MAP_ELEMENT_BASE(SoldierSpawnPointMapElement)
-    SoldierSpawnPointMapElement(int32_t Id);
-    void Load(Json::Value& setters);
-    void SetX(int32_t x);
+    DEFINE_MAP_ELEMENT_BASE( SoldierSpawnPointMapElement )
+    SoldierSpawnPointMapElement( int32_t Id );
+    void Load( Json::Value& setters );
+    void SetX( int32_t x );
     int32_t GetX()const;
-    void SetY(int32_t y);
+    void SetY( int32_t y );
     int32_t GetY()const;
 private:
     int32_t mX;

@@ -10,9 +10,9 @@ namespace network {
 
 CtfClientListHandlingSystem::CtfClientListHandlingSystem()
 {
-    mOnTeamSwitchRequestEvent = 
+    mOnTeamSwitchRequestEvent =
         platform::EventServer<network::TeamSwitchRequestEvent>::Get().Subscribe( boost::bind( &CtfClientListHandlingSystem::OnTeamSwitchRequestEvent, this, _1 ) );
-    mClientReadyEvent = 
+    mClientReadyEvent =
         platform::EventServer<network::ClientReadyEvent>::Get().Subscribe( boost::bind( &CtfClientListHandlingSystem::OnClientReadyEvent, this, _1 ) );
 }
 
@@ -34,27 +34,27 @@ void CtfClientListHandlingSystem::OnTeamSwitchRequestEvent( TeamSwitchRequestEve
         // something went wrong if we end up here
         return;
     }
-    Team::Type team = (*it).mTeam;
+    Team::Type team = ( *it ).mTeam;
 
     // switch team
     if ( Team::Blue == team )
     {
-	    (*it).mTeam = Team::Red;
+        ( *it ).mTeam = Team::Red;
     }
     else
     {
-	    (*it).mTeam = Team::Blue;
+        ( *it ).mTeam = Team::Blue;
     }
     // send out the new team setup
     CtfClientDatasChangedEvent clientDatasChangedEvent;
     clientDatasChangedEvent.mCtfClientDatas = ctfClientDatas;
-    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(clientDatasChangedEvent);
+    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent( clientDatasChangedEvent );
 }
 
 void CtfClientListHandlingSystem::OnClientReadyEvent( ClientReadyEvent const& event )
 {
     ::ctf::ProgramState::ClientDatas_t& ctfClientDatas = ::ctf::ProgramState::Get().mClientDatas;
-    // if ready then add to 
+    // if ready then add to
     int reds = std::count_if( ctfClientDatas.begin(), ctfClientDatas.end(),
            []( ::ctf::ClientData const& d ){ return d.mTeam == Team::Red; } );
     int blues = std::count_if( ctfClientDatas.begin(), ctfClientDatas.end(),
@@ -75,7 +75,7 @@ void CtfClientListHandlingSystem::OnClientReadyEvent( ClientReadyEvent const& ev
     // send out the new team setup
     CtfClientDatasChangedEvent evt;
     evt.mCtfClientDatas = ctfClientDatas;
-    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent(evt);
+    EventServer<CtfClientDatasChangedEvent>::Get().SendEvent( evt );
 }
 
 }

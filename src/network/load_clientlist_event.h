@@ -8,7 +8,7 @@ namespace network {
 struct LoadClientlistEvent : public platform::Event
 {
     std::string mGameMode;
-    LoadClientlistEvent(){}
+    LoadClientlistEvent() {}
 };
 
 } // namespace engine

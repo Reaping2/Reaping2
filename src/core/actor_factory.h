@@ -16,12 +16,12 @@ class ActorCreator
 public:
     ActorCreator();
     typedef ComponentLoader<Component> ComponentLoader_t;
-    typedef boost::ptr_map<int32_t,ComponentLoader_t > ComponentLoaderMap_t;
+    typedef boost::ptr_map<int32_t, ComponentLoader_t > ComponentLoaderMap_t;
     ComponentLoaderMap_t mComponentLoaders;
-    void SetId(int32_t id);
+    void SetId( int32_t id );
     int32_t GetId();
-    void AddComponent(int32_t componentId, Json::Value& setters);
-    std::auto_ptr<Actor> Create()const; 
+    void AddComponent( int32_t componentId, Json::Value& setters );
+    std::auto_ptr<Actor> Create()const;
 private:
     ComponentFactory& mComponentFactory;
     ComponentLoaderFactory& mComponentLoaderFactory;
@@ -31,7 +31,7 @@ private:
 
 class ActorFactory : public platform::Factory<Actor>, public platform::Singleton<ActorFactory>
 {
-    typedef boost::ptr_map<int32_t,ActorCreator> ActorCreatorMap_t;
+    typedef boost::ptr_map<int32_t, ActorCreator> ActorCreatorMap_t;
     ActorCreatorMap_t mActorCreators;
     friend class platform::Singleton<ActorFactory>;
     ActorFactory();

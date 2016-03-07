@@ -16,15 +16,15 @@ using platform::EventServer;
 
 HealthComponent::HealthComponent()
     : mHP( 1 )
-    , mDamage( 0 ) 
-    , mHeal( 0 ) 
+    , mDamage( 0 )
+    , mHeal( 0 )
     , mAlive( true )
     , mTimeOfDeath( 0 )
     , mLastDamageOwnerGUID( -1 )
 {
-    mMaxHP.mBase.Init(100.0,0.0,10000.0);
-    mMaxHP.mFlat.Init(0.0,0.0,1000.0);
-    mMaxHP.mPercent.Init(0.0,0.0,100.0);
+    mMaxHP.mBase.Init( 100.0, 0.0, 10000.0 );
+    mMaxHP.mFlat.Init( 0.0, 0.0, 1000.0 );
+    mMaxHP.mPercent.Init( 0.0, 0.0, 100.0 );
 }
 
 void HealthComponent::Update( double Seconds )
@@ -46,7 +46,7 @@ bool HealthComponent::IsAlive() const
     return mAlive;
 }
 
-void HealthComponent::SetAlive(bool alive)
+void HealthComponent::SetAlive( bool alive )
 {
     mAlive = alive;
 }
@@ -56,19 +56,19 @@ double HealthComponent::GetTimeOfDeath() const
     return mTimeOfDeath;
 }
 
-void HealthComponent::SetTimeOfDeath(double timeOfDeath)
+void HealthComponent::SetTimeOfDeath( double timeOfDeath )
 {
-    mTimeOfDeath=timeOfDeath;
+    mTimeOfDeath = timeOfDeath;
 }
 
-void HealthComponent::TakeDamage(int32_t damage)
+void HealthComponent::TakeDamage( int32_t damage )
 {
-    mDamage+=damage;
+    mDamage += damage;
 }
 
 void HealthComponent::ResetDamage()
 {
-    mDamage=0;
+    mDamage = 0;
 }
 
 int32_t HealthComponent::GetDamage()
@@ -76,9 +76,9 @@ int32_t HealthComponent::GetDamage()
     return mDamage;
 }
 
-void HealthComponent::TakeHeal(int32_t heal)
+void HealthComponent::TakeHeal( int32_t heal )
 {
-    mHeal+=heal;
+    mHeal += heal;
 }
 
 int32_t HealthComponent::GetHeal()
@@ -88,7 +88,7 @@ int32_t HealthComponent::GetHeal()
 
 void HealthComponent::ResetHeal()
 {
-    mHeal=0;
+    mHeal = 0;
 }
 
 Buffable<int32_t>& HealthComponent::GetMaxHP()
@@ -96,15 +96,15 @@ Buffable<int32_t>& HealthComponent::GetMaxHP()
     return mMaxHP;
 }
 
-void HealthComponent::SetHPandMaxHP(int32_t Hp)
+void HealthComponent::SetHPandMaxHP( int32_t Hp )
 {
-    mMaxHP.mBase.Set(Hp);
-    SetHP(mMaxHP.Get());
+    mMaxHP.mBase.Set( Hp );
+    SetHP( mMaxHP.Get() );
 }
 
-void HealthComponent::SetLastDamageOwnerGUID(int32_t lastDamageOwnerGUID)
+void HealthComponent::SetLastDamageOwnerGUID( int32_t lastDamageOwnerGUID )
 {
-    mLastDamageOwnerGUID=lastDamageOwnerGUID;
+    mLastDamageOwnerGUID = lastDamageOwnerGUID;
 }
 
 int32_t HealthComponent::GetLastDamageOwnerGUID()const
@@ -115,11 +115,11 @@ int32_t HealthComponent::GetLastDamageOwnerGUID()const
 
 void HealthComponentLoader::BindValues()
 {
-    Bind("hp",func_int32_t(&HealthComponent::SetHPandMaxHP));
+    Bind( "hp", func_int32_t( &HealthComponent::SetHPandMaxHP ) );
 }
 
 HealthComponentLoader::HealthComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(HealthComponent, HealthComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( HealthComponent, HealthComponent );

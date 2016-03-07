@@ -91,7 +91,7 @@ bool OsFileImpl::SetPosition( size_t Pos )
 
 OsFile::OsFile( const boost::filesystem::path& Path, std::ios_base::openmode OpenMode )
 {
-     mImpl.reset( new detail::OsFileImpl( Path, OpenMode ) );
+    mImpl.reset( new detail::OsFileImpl( Path, OpenMode ) );
 }
 
 OsFile::~OsFile()

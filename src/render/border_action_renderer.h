@@ -23,8 +23,8 @@ class BorderActionRenderer : public ActionRenderer
     IBorderComponent::Borders_t mOuterBorders;
 public:
     BorderActionRenderer( int32_t Id );
-    virtual void Init(const Actor& actor);
-    virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);
+    virtual void Init( const Actor& actor );
+    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
 private:
 };
 

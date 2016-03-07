@@ -15,15 +15,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void FlashNormalItem::serialize(Archive& ar, const unsigned int version)
+void FlashNormalItem::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<NormalItem>(*this);
+    ar& boost::serialization::base_object<NormalItem>( *this );
 }
 
 
-REAPING2_CLASS_EXPORT_KEY2(FlashNormalItem, FlashNormalItem,"flash_normal_item");
+REAPING2_CLASS_EXPORT_KEY2( FlashNormalItem, FlashNormalItem, "flash_normal_item" );
 #endif//INCLUDED_CORE_FLASH_NORMAL_ITEM_H

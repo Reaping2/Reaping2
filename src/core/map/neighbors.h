@@ -8,7 +8,7 @@ namespace map {
 struct Neighbor
 {
     int32_t mActorGUID;
-    Neighbor(int32_t actorGUID);
+    Neighbor( int32_t actorGUID );
 };
 
 class Neighbors
@@ -16,14 +16,14 @@ class Neighbors
 public:
     enum Mapping
     {
-        Same=0, //neighbor is the same
+        Same = 0, //neighbor is the same
         Other,  //neighbor is something else
     };
-    typedef std::map<BorderType::Type,Mapping> NeighborMap_t;
+    typedef std::map<BorderType::Type, Mapping> NeighborMap_t;
     Neighbors();
     typedef std::vector<Neighbor> Neighbors_t;
     Neighbors_t mNeighbors;
-    bool IsMatching(NeighborMap_t const& neighborMap);
+    bool IsMatching( NeighborMap_t const& neighborMap );
 };
 
 } // namespace map

@@ -13,17 +13,17 @@ public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
     double GetRemainingTime() const;
     void SetRemainingTime( double rt );
 };
 
 template<class Archive>
-void RemoveOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+void RemoveOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IRemoveOnDeathComponent>(*this);
-    ar & mRemainingTime;
+    ar& boost::serialization::base_object<IRemoveOnDeathComponent>( *this );
+    ar& mRemainingTime;
 }
 
 class RemoveOnDeathComponentLoader: public ComponentLoader<RemoveOnDeathComponent>
@@ -34,5 +34,5 @@ public:
     friend class ComponentLoaderFactory;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(RemoveOnDeathComponent, RemoveOnDeathComponent,"remove_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2( RemoveOnDeathComponent, RemoveOnDeathComponent, "remove_on_death_component" );
 #endif//INCLUDED_CORE_REMOVE_ON_DEATH_COMPONENT_H

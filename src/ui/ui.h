@@ -20,7 +20,7 @@ class Ui : public Singleton<Ui>
     void OnMousePressEvent( UiMousePressEvent const& Evt );
     void OnMouseReleaseEvent( UiMouseReleaseEvent const& Evt );
     void OnMouseMoveEvent( UiMouseMoveEvent const& Evt );
-    void OnInputStateChangedEvent(const engine::InputStateChangedEvent& Event);
+    void OnInputStateChangedEvent( const engine::InputStateChangedEvent& Event );
 public:
     void Load( std::string const& Name );
     Root const& GetRoot() const;

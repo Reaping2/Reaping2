@@ -22,15 +22,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void AudibleComponent::serialize(Archive& ar, const unsigned int version)
+void AudibleComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IAudibleComponent>(*this);
-    ar & mEffects;
+    ar& boost::serialization::base_object<IAudibleComponent>( *this );
+    ar& mEffects;
 }
 
 class AudibleComponentLoader : public ComponentLoader<AudibleComponent>
@@ -43,7 +43,7 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(AudibleComponent, AudibleComponent,"audible_component");
+REAPING2_CLASS_EXPORT_KEY2( AudibleComponent, AudibleComponent, "audible_component" );
 #endif//INCLUDED_CORE_AUDIBLE_COMPONENT_H
 
 //command:  "../../build/tools/classgenerator/classgenerator" -g "component" -c "audible_component" -m "int32_t-id uint32_t-uid"

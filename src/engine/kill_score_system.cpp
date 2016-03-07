@@ -10,94 +10,94 @@ KillScoreSystem::KillScoreSystem()
     : mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
     , mScoreModel( "score", &RootModel::Get() )
-    , mKill(0)
-    , mDeath(0)
-    , mScore(0)
+    , mKill( 0 )
+    , mDeath( 0 )
+    , mScore( 0 )
 {
 }
 
 
 void KillScoreSystem::Init()
 {
-    mOnKillScore=EventServer<engine::KillScoreEvent>::Get().Subscribe( boost::bind( &KillScoreSystem::OnKillScore, this, _1 ) );
+    mOnKillScore = EventServer<engine::KillScoreEvent>::Get().Subscribe( boost::bind( &KillScoreSystem::OnKillScore, this, _1 ) );
     mScoreModels.clear();
-    mScoreModels.push_back(new ModelValue( GetIntFunc( this, &KillScoreSystem::GetKill ), "kill", &mScoreModel ));
-    mScoreModels.push_back(new ModelValue( GetIntFunc( this, &KillScoreSystem::GetDeath ), "death", &mScoreModel ));
-    mScoreModels.push_back(new ModelValue( GetIntFunc( this, &KillScoreSystem::GetScore ), "score", &mScoreModel ));
+    mScoreModels.push_back( new ModelValue( GetIntFunc( this, &KillScoreSystem::GetKill ), "kill", &mScoreModel ) );
+    mScoreModels.push_back( new ModelValue( GetIntFunc( this, &KillScoreSystem::GetDeath ), "death", &mScoreModel ) );
+    mScoreModels.push_back( new ModelValue( GetIntFunc( this, &KillScoreSystem::GetScore ), "score", &mScoreModel ) );
 
 }
 
 
-void KillScoreSystem::Update(double DeltaTime)
+void KillScoreSystem::Update( double DeltaTime )
 {
-    Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
-    if(clientData.IsValid())
+    Opt<core::ClientData> clientData( mProgramState.FindClientDataByClientId( mProgramState.mClientId ) );
+    if( clientData.IsValid() )
     {
-        mKill=clientData->mKill;
-        mDeath=clientData->mDeath;
-        mScore=clientData->mScore;
+        mKill = clientData->mKill;
+        mDeath = clientData->mDeath;
+        mScore = clientData->mScore;
     }
 }
 
-void KillScoreSystem::OnKillScore(engine::KillScoreEvent const& Evt)
+void KillScoreSystem::OnKillScore( engine::KillScoreEvent const& Evt )
 {
-    Opt<Actor> dead=mScene.GetActor(Evt.mDeadGUID);
-    if (!dead.IsValid())
+    Opt<Actor> dead = mScene.GetActor( Evt.mDeadGUID );
+    if ( !dead.IsValid() )
     {
-        L1("cannot find dead actor with GUID: (%s) %d \n",__FUNCTION__,Evt.mDeadGUID );
+        L1( "cannot find dead actor with GUID: (%s) %d \n", __FUNCTION__, Evt.mDeadGUID );
         return;
     }
-    Opt<PlayerControllerComponent> deadPCC=dead->Get<PlayerControllerComponent>();
+    Opt<PlayerControllerComponent> deadPCC = dead->Get<PlayerControllerComponent>();
     Opt<core::ClientData> deadClientData;
-    if (deadPCC.IsValid())
+    if ( deadPCC.IsValid() )
     {
-        deadClientData=mProgramState.FindClientDataByClientId(deadPCC->mControllerId);
+        deadClientData = mProgramState.FindClientDataByClientId( deadPCC->mControllerId );
     }
-    if (deadClientData.IsValid())
+    if ( deadClientData.IsValid() )
     {
         ++deadClientData->mDeath;   //he is dead that's for sure
     }
 
-    Opt<Actor> killer=mScene.GetActor(Evt.mKillerGUID);
-    if (!killer.IsValid())
+    Opt<Actor> killer = mScene.GetActor( Evt.mKillerGUID );
+    if ( !killer.IsValid() )
     {
-        L1("cannot find killer actor with GUID: (%s) %d \n",__FUNCTION__,Evt.mKillerGUID );
+        L1( "cannot find killer actor with GUID: (%s) %d \n", __FUNCTION__, Evt.mKillerGUID );
         return;
     }
-    Opt<PlayerControllerComponent> killerPCC=killer->Get<PlayerControllerComponent>();
+    Opt<PlayerControllerComponent> killerPCC = killer->Get<PlayerControllerComponent>();
     Opt<core::ClientData> killerClientData;
-    if (killerPCC.IsValid())
+    if ( killerPCC.IsValid() )
     {
-        killerClientData=mProgramState.FindClientDataByClientId(killerPCC->mControllerId);
+        killerClientData = mProgramState.FindClientDataByClientId( killerPCC->mControllerId );
     }
 
-    if (killerClientData.IsValid())
+    if ( killerClientData.IsValid() )
     {
-        Opt<TeamComponent> killerTeamC=killer->Get<TeamComponent>();
-        Opt<TeamComponent> deadTeamC=dead->Get<TeamComponent>();
-        if (killerTeamC.IsValid()&&deadTeamC.IsValid())
+        Opt<TeamComponent> killerTeamC = killer->Get<TeamComponent>();
+        Opt<TeamComponent> deadTeamC = dead->Get<TeamComponent>();
+        if ( killerTeamC.IsValid() && deadTeamC.IsValid() )
         {
-            if (killerTeamC->GetTeam()==deadTeamC->GetTeam())
+            if ( killerTeamC->GetTeam() == deadTeamC->GetTeam() )
             {
                 --killerClientData->mKill; //you got one less kill, that's a punishment for TK
                 --killerClientData->mScore; //your score is decreased too. naughty naughty!
             }
             else
             {
-                ++killerClientData->mKill; 
+                ++killerClientData->mKill;
                 ++killerClientData->mScore;
             }
         }
-        else if (deadPCC.IsValid())
+        else if ( deadPCC.IsValid() )
         {
             ++killerClientData->mKill;
             ++killerClientData->mScore;
         }
     }
 
-    if (killerClientData.IsValid()&&deadClientData.IsValid())
+    if ( killerClientData.IsValid() && deadClientData.IsValid() )
     {
-        EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(2.5,killerClientData->mClientName+" reaped "+deadClientData->mClientName+"!"));
+        EventServer<engine::ShowTextEvent>::Get().SendEvent( engine::ShowTextEvent( 2.5, killerClientData->mClientName + " reaped " + deadClientData->mClientName + "!" ) );
     }
 }
 

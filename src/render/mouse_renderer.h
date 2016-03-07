@@ -25,7 +25,7 @@ class MouseRenderer
 public:
     MouseRenderer();
     ~MouseRenderer();
-    void Draw(TextSceneRenderer& textSceneRenderer);
+    void Draw( TextSceneRenderer& textSceneRenderer );
 
 };
 

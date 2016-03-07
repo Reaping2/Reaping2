@@ -12,15 +12,15 @@ namespace map {
 class SpawnActorMapElement : public MapElement, public BaseInput
 {
 public:
-    DEFINE_MAP_ELEMENT_BASE(SpawnActorMapElement)
-    SpawnActorMapElement(int32_t Id);
-    void Load(Json::Value& setters);
-    void Save(Json::Value& Element);
-    static void LoadComponentLoaders(Json::Value& setters, ActorCreator::ComponentLoaderMap_t& mComponentLoaders);
-    void SetActorID(int32_t actorID);
+    DEFINE_MAP_ELEMENT_BASE( SpawnActorMapElement )
+    SpawnActorMapElement( int32_t Id );
+    void Load( Json::Value& setters );
+    void Save( Json::Value& Element );
+    static void LoadComponentLoaders( Json::Value& setters, ActorCreator::ComponentLoaderMap_t& mComponentLoaders );
+    void SetActorID( int32_t actorID );
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
-    void AddComponentLoader(int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader);
+    void AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader );
     static int32_t SpawnNodeId();
 private:
     int32_t mActorID;

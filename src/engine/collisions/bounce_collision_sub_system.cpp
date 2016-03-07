@@ -19,16 +19,16 @@ void BounceCollisionSubSystem::Init()
 }
 
 
-void BounceCollisionSubSystem::Update(Actor& actor, double DeltaTime)
+void BounceCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
 
 }
 
 
-void BounceCollisionSubSystem::ClipScene(Actor& actor)
+void BounceCollisionSubSystem::ClipScene( Actor& actor )
 {
-    Opt<BounceCollisionComponent> bounceCC=actor.Get<BounceCollisionComponent>();
-    Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
+    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     const double h = moveC->GetHeading();
@@ -41,40 +41,40 @@ void BounceCollisionSubSystem::ClipScene(Actor& actor)
     AllowedDimensions.y += Radius;
     AllowedDimensions.z -= Radius;
     AllowedDimensions.w -= Radius;
-    bool bounced=false;
+    bool bounced = false;
     if( positionC->GetX() < AllowedDimensions.x || positionC->GetX() > AllowedDimensions.z )
     {
-        c*=-1;
-        bounced=true;
+        c *= -1;
+        bounced = true;
     }
     if( positionC->GetY() < AllowedDimensions.y || positionC->GetY() > AllowedDimensions.w )
     {
-        s*=-1;
-        bounced=true;
+        s *= -1;
+        bounced = true;
     }
-    if (bounced)
+    if ( bounced )
     {
-        moveC->SetHeading(atan2(s,c));
-        moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
+        moveC->SetHeading( atan2( s, c ) );
+        moveC->GetSpeed().mBase.Set( moveC->GetSpeed().mBase.Get() * ( 1.0 - bounceCC->GetSpeedLossPercent() ) );
     }
-    CollisionSubSystem::ClipScene(actor);
+    CollisionSubSystem::ClipScene( actor );
 }
 
-void BounceCollisionSubSystem::Collide(Actor& actor, Actor& other)
+void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    //TODO: for now its wallcc should be a bouncableComponent or this should be a collision class 
+    //TODO: for now its wallcc should be a bouncableComponent or this should be a collision class
     Opt<WallCollisionComponent> wallCC = other.Get<WallCollisionComponent>();
-    if(!wallCC.IsValid())
+    if( !wallCC.IsValid() )
     {
         return;
     }
-    Opt<BounceCollisionComponent> bounceCC=actor.Get<BounceCollisionComponent>();
+    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
 
     Opt<IPositionComponent> otherPositionC = other.Get<IPositionComponent>();
     Opt<ICollisionComponent> otherCC = other.Get<ICollisionComponent>();
-    if (!otherPositionC.IsValid()||!otherCC.IsValid()||!positionC.IsValid())
+    if ( !otherPositionC.IsValid() || !otherCC.IsValid() || !positionC.IsValid() )
     {
         return;
     }
@@ -84,18 +84,18 @@ void BounceCollisionSubSystem::Collide(Actor& actor, Actor& other)
     const double h = moveC->GetHeading();
     double c = cos( h );
     double s = sin( h );
-    double at = atan2(s,c);
-    double at2 = atan2(c,s);
+    double at = atan2( s, c );
+    double at2 = atan2( c, s );
     if( std::abs( dx ) > std::abs( dy ) )
     {
-        c*=-1;
+        c *= -1;
     }
     else if( std::abs( dx ) < std::abs( dy ) )
     {
-        s*=-1;
+        s *= -1;
     }
-    moveC->SetHeading(atan2(s,c));
-    moveC->GetSpeed().mBase.Set(moveC->GetSpeed().mBase.Get()*(1.0-bounceCC->GetSpeedLossPercent()));
+    moveC->SetHeading( atan2( s, c ) );
+    moveC->GetSpeed().mBase.Set( moveC->GetSpeed().mBase.Get() * ( 1.0 - bounceCC->GetSpeedLossPercent() ) );
 
 }
 

@@ -2,4 +2,4 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(IStopOnDeathComponent, IStopOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( IStopOnDeathComponent, IStopOnDeathComponent );

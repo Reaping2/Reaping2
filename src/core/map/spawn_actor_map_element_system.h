@@ -9,7 +9,7 @@ namespace map {
 class SpawnActorMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(SpawnActorMapElementSystem)
+    DEFINE_SYSTEM_BASE( SpawnActorMapElementSystem )
     SpawnActorMapElementSystem();
 protected:
     virtual void Init();

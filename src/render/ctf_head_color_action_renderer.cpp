@@ -4,36 +4,36 @@
 
 namespace render {
 
-CtfHeadColorActionRenderer::CtfHeadColorActionRenderer(int32_t Id)
-    : ActionRenderer(Id)
+CtfHeadColorActionRenderer::CtfHeadColorActionRenderer( int32_t Id )
+    : ActionRenderer( Id )
 {
-    mCtfHeadColorId=AutoId("ctf_head_color");
+    mCtfHeadColorId = AutoId( "ctf_head_color" );
 }
 
 
-void CtfHeadColorActionRenderer::Init(Actor const& actor)
+void CtfHeadColorActionRenderer::Init( Actor const& actor )
 {
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCtfHeadColorId);
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    Sprite const& Spr = Sprites( mCtfHeadColorId );
     if( Spr.IsValid() )
     {
-        mSecsToEnd=Spr.GetSecsToEnd();
+        mSecsToEnd = Spr.GetSecsToEnd();
     }
 }
 
 
-void CtfHeadColorActionRenderer::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)
+void CtfHeadColorActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCtfHeadColorId);
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    Sprite const& Spr = Sprites( mCtfHeadColorId );
     if( Spr.IsValid() )
     {
-        Opt<ITeamComponent> teamC(actor.Get<ITeamComponent>());
-        if (teamC.IsValid())
+        Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+        if ( teamC.IsValid() )
         {
-            SpritePhase const& Phase = Spr( (int32_t)GetState() );
-            glm::vec4 col=ColorRepo::Get()(teamC->GetTeam());
-            col.a=GetCloakColor(actor).a;
+            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
+            glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
+            col.a = GetCloakColor( actor ).a;
             renderableSprites.push_back(
                 RenderableSprite( &actor, mCtfHeadColorId, &Spr, &Phase, col ) );
         }

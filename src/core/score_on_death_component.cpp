@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 ScoreOnDeathComponent::ScoreOnDeathComponent()
-    : mScored(false)
+    : mScored( false )
 {
 }
 
-void ScoreOnDeathComponent::SetScored(bool scored)
+void ScoreOnDeathComponent::SetScored( bool scored )
 {
-    mScored=scored;
+    mScored = scored;
 }
 
 bool ScoreOnDeathComponent::IsScored()const
@@ -27,4 +27,4 @@ ScoreOnDeathComponentLoader::ScoreOnDeathComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ScoreOnDeathComponent, ScoreOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ScoreOnDeathComponent, ScoreOnDeathComponent );

@@ -10,8 +10,8 @@ class Actor;
 class RenderableComponentModifier
 {
 public:
-    RenderableComponentModifier(RenderableLayer::Type Lay,int32_t ZOrder);
-    void operator()(Opt<Actor>& Obj);
+    RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder );
+    void operator()( Opt<Actor>& Obj );
 
 protected:
     RenderableLayer::Type mLayer;
@@ -33,16 +33,16 @@ protected:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void RenderableComponent::serialize(Archive& ar, const unsigned int version)
+void RenderableComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IRenderableComponent>(*this);
-    ar & mLayer;
-    ar & mZOrder;
+    ar& boost::serialization::base_object<IRenderableComponent>( *this );
+    ar& mLayer;
+    ar& mZOrder;
 }
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>
@@ -55,5 +55,5 @@ public:
     RenderableComponentLoader();
 };
 
-REAPING2_CLASS_EXPORT_KEY2(RenderableComponent, RenderableComponent,"renderable_component");
+REAPING2_CLASS_EXPORT_KEY2( RenderableComponent, RenderableComponent, "renderable_component" );
 #endif//INCLUDED_CORE_RENDERABLE_COMPONENT_H

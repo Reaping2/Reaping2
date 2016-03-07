@@ -15,19 +15,19 @@ HealthMessageSenderSystem::HealthMessageSenderSystem()
 void HealthMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnHealthChanged=EventServer<core::HealthChangedEvent>::Get().Subscribe( boost::bind( &HealthMessageSenderSystem::OnHealthChanged, this, _1 ) );
+    mOnHealthChanged = EventServer<core::HealthChangedEvent>::Get().Subscribe( boost::bind( &HealthMessageSenderSystem::OnHealthChanged, this, _1 ) );
 
 }
 
-void HealthMessageSenderSystem::OnHealthChanged(core::HealthChangedEvent const& Evt)
+void HealthMessageSenderSystem::OnHealthChanged( core::HealthChangedEvent const& Evt )
 {
-    mMessageHolder.AddOutgoingMessage(GenerateHealthMessage(Evt.mActor));
+    mMessageHolder.AddOutgoingMessage( GenerateHealthMessage( Evt.mActor ) );
 }
 
 
-void HealthMessageSenderSystem::Update(double DeltaTime)
+void HealthMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
 HealthMessageHandlerSubSystem::HealthMessageHandlerSubSystem()
@@ -40,48 +40,48 @@ void HealthMessageHandlerSubSystem::Init()
 {
 }
 
-void HealthMessageHandlerSubSystem::Update(double DeltaTime)
+void HealthMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    PendingMessageHandlerSubSystem::Update(DeltaTime);
+    PendingMessageHandlerSubSystem::Update( DeltaTime );
 }
 
-bool HealthMessageHandlerSubSystem::ProcessPending(Message const& message)
+bool HealthMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
-    HealthMessage msg=static_cast<HealthMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
+    HealthMessage msg = static_cast<HealthMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID );
     Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
-    if (!healthC.IsValid())
+    if ( !healthC.IsValid() )
     {
-        L1("no health_component found guid:%s\n",msg.mActorGUID);
+        L1( "no health_component found guid:%s\n", msg.mActorGUID );
         return true;
     }
-    L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
+    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
 
-    healthC->SetHP(msg.mHP);
-    healthC->GetMaxHP().mBase.Set(msg.mMaxHP);
-    healthC->GetMaxHP().mPercent.Set(msg.mMaxHPPercent/PRECISION);
-    healthC->GetMaxHP().mFlat.Set(msg.mMaxHPFlat);
+    healthC->SetHP( msg.mHP );
+    healthC->GetMaxHP().mBase.Set( msg.mMaxHP );
+    healthC->GetMaxHP().mPercent.Set( msg.mMaxHPPercent / PRECISION );
+    healthC->GetMaxHP().mFlat.Set( msg.mMaxHPFlat );
     return true;
 }
 
 
-std::auto_ptr<HealthMessage> HealthMessageSenderSystem::GenerateHealthMessage(Actor &actor)
+std::auto_ptr<HealthMessage> HealthMessageSenderSystem::GenerateHealthMessage( Actor& actor )
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if (!healthC.IsValid())
+    if ( !healthC.IsValid() )
     {
         return std::auto_ptr<HealthMessage>();
     }
-    std::auto_ptr<HealthMessage> healthMsg(new HealthMessage);
-    healthMsg->mActorGUID=actor.GetGUID();
-    healthMsg->mHP=healthC->GetHP();
-    healthMsg->mMaxHP=healthC->GetMaxHP().mBase.Get();
-    healthMsg->mMaxHPPercent=std::floor(healthC->GetMaxHP().mPercent.Get()*PRECISION);
-    healthMsg->mMaxHPFlat=healthC->GetMaxHP().mFlat.Get();
+    std::auto_ptr<HealthMessage> healthMsg( new HealthMessage );
+    healthMsg->mActorGUID = actor.GetGUID();
+    healthMsg->mHP = healthC->GetHP();
+    healthMsg->mMaxHP = healthC->GetMaxHP().mBase.Get();
+    healthMsg->mMaxHPPercent = std::floor( healthC->GetMaxHP().mPercent.Get() * PRECISION );
+    healthMsg->mMaxHPFlat = healthC->GetMaxHP().mFlat.Get();
     return healthMsg;
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__HealthMessage, network::HealthMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__HealthMessage, network::HealthMessage );

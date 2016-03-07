@@ -15,21 +15,21 @@ KillScoreMessageSenderSystem::KillScoreMessageSenderSystem()
 void KillScoreMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnKillScore=EventServer<engine::KillScoreEvent>::Get().Subscribe( boost::bind( &KillScoreMessageSenderSystem::OnKillScore, this, _1 ) );
+    mOnKillScore = EventServer<engine::KillScoreEvent>::Get().Subscribe( boost::bind( &KillScoreMessageSenderSystem::OnKillScore, this, _1 ) );
 }
 
 
-void KillScoreMessageSenderSystem::Update(double DeltaTime)
+void KillScoreMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void KillScoreMessageSenderSystem::OnKillScore(engine::KillScoreEvent const& Evt)
+void KillScoreMessageSenderSystem::OnKillScore( engine::KillScoreEvent const& Evt )
 {
-    std::auto_ptr<KillScoreMessage> killScoreMsg(new KillScoreMessage);
-    killScoreMsg->mKillerGUID=Evt.mKillerGUID;
-    killScoreMsg->mDeadGUID=Evt.mDeadGUID;
-    mMessageHolder.AddOutgoingMessage(killScoreMsg);
+    std::auto_ptr<KillScoreMessage> killScoreMsg( new KillScoreMessage );
+    killScoreMsg->mKillerGUID = Evt.mKillerGUID;
+    killScoreMsg->mDeadGUID = Evt.mDeadGUID;
+    mMessageHolder.AddOutgoingMessage( killScoreMsg );
 }
 
 KillScoreMessageHandlerSubSystem::KillScoreMessageHandlerSubSystem()
@@ -42,18 +42,18 @@ void KillScoreMessageHandlerSubSystem::Init()
 {
 }
 
-void KillScoreMessageHandlerSubSystem::Update(double DeltaTime)
+void KillScoreMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    MessageHandlerSubSystem::Update(DeltaTime);
+    MessageHandlerSubSystem::Update( DeltaTime );
 }
 
-void KillScoreMessageHandlerSubSystem::Execute(Message const& message)
+void KillScoreMessageHandlerSubSystem::Execute( Message const& message )
 {
-    KillScoreMessage const& msg=static_cast<KillScoreMessage const&>(message);
-    EventServer<engine::KillScoreEvent>::Get().SendEvent(engine::KillScoreEvent(msg.mKillerGUID,msg.mDeadGUID));
+    KillScoreMessage const& msg = static_cast<KillScoreMessage const&>( message );
+    EventServer<engine::KillScoreEvent>::Get().SendEvent( engine::KillScoreEvent( msg.mKillerGUID, msg.mDeadGUID ) );
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__KillScoreMessage, network::KillScoreMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__KillScoreMessage, network::KillScoreMessage );

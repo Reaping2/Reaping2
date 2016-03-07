@@ -14,55 +14,55 @@ class ItemChangedMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(ItemChangedMessage)
+    DEFINE_MESSAGE_BASE( ItemChangedMessage )
     int32_t mActorGUID;
     int32_t mNormalId;
     int32_t mWeaponId;
     ItemChangedMessage()
-        : mActorGUID(-1)
-        , mNormalId(0)
-        , mWeaponId(0)
+        : mActorGUID( -1 )
+        , mNormalId( 0 )
+        , mWeaponId( 0 )
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ItemChangedMessage::serialize(Archive& ar, const unsigned int version)
+void ItemChangedMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mActorGUID;
-    ar & mNormalId;
-    ar & mWeaponId;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mActorGUID;
+    ar& mNormalId;
+    ar& mWeaponId;
 }
 
 class ItemChangedMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<ItemChangedMessage>
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(ItemChangedMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( ItemChangedMessageHandlerSubSystem )
     ItemChangedMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
-    virtual bool ProcessPending(Message const& message);
+    virtual void Update( double DeltaTime );
+    virtual bool ProcessPending( Message const& message );
 };
 
 class ItemChangedMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnItemChanged;
-    void OnItemChanged(engine::ItemChangedEvent const& Evt);
+    void OnItemChanged( engine::ItemChangedEvent const& Evt );
     AutoReg mOnSoldierCreated;
-    void OnSoldierCreated(engine::SoldierCreatedEvent const& Evt);
+    void OnSoldierCreated( engine::SoldierCreatedEvent const& Evt );
 public:
-    DEFINE_SYSTEM_BASE(ItemChangedMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( ItemChangedMessageSenderSystem )
     ItemChangedMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_KEY2(network__ItemChangedMessage, network::ItemChangedMessage,"item_changed");
+REAPING2_CLASS_EXPORT_KEY2( network__ItemChangedMessage, network::ItemChangedMessage, "item_changed" );
 #endif//INCLUDED_NETWORK_ITEM_CHANGED_H
 
 //command:  "classgenerator.exe" -g "message" -c "item_changed" -e "engine-itemChanged" -m "int32_t-actorGUID int32_t-normalId int32_t-weaponId" -p "pending"

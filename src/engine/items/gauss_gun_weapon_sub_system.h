@@ -8,7 +8,7 @@ namespace engine {
 class GaussGunWeaponSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(GaussGunWeaponSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( GaussGunWeaponSubSystem )
 
     GaussGunWeaponSubSystem();
     virtual void Init();

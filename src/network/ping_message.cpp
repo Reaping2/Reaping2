@@ -7,70 +7,70 @@
 
 namespace network {
 
-    PingMessageSenderSystem::PingMessageSenderSystem()
-        : MessageSenderSystem()
-    {
+PingMessageSenderSystem::PingMessageSenderSystem()
+    : MessageSenderSystem()
+{
 
+}
+
+void PingMessageSenderSystem::Init()
+{
+    MessageSenderSystem::Init();
+    SetFrequency( 200 );
+}
+
+void PingMessageSenderSystem::Update( double DeltaTime )
+{
+    MessageSenderSystem::Update( DeltaTime );
+    if ( !IsTime() )
+    {
+        return;
     }
+    std::auto_ptr<PingMessage> pingMsg( new PingMessage );
+    pingMsg->mClientId = mProgramState.mClientId;
+    pingMsg->mCurrentTime = glfwGetTime();
+    mMessageHolder.AddOutgoingMessage( pingMsg );
+}
 
-    void PingMessageSenderSystem::Init()
+PingMessageHandlerSubSystem::PingMessageHandlerSubSystem()
+    : MessageHandlerSubSystem()
+    , mPing( 0.0 )
+    , mPingModel( platform::GetIntFunc( this, &PingMessageHandlerSubSystem::GetPing ), "ping", &RootModel::Get() )
+{
+    if( mProgramState.mMode != ProgramState::Client )
     {
-        MessageSenderSystem::Init();
-        SetFrequency(200);
     }
+}
 
-    void PingMessageSenderSystem::Update(double DeltaTime)
+void PingMessageHandlerSubSystem::Init()
+{
+
+}
+
+void PingMessageHandlerSubSystem::Execute( Message const& message )
+{
+    PingMessage const& msg = static_cast<PingMessage const&>( message );
+    if( mProgramState.mMode == ProgramState::Client )
     {
-        MessageSenderSystem::Update(DeltaTime);
-        if (!IsTime())
+        if ( msg.mClientId == mProgramState.mClientId )
         {
-            return;
-        }
-        std::auto_ptr<PingMessage> pingMsg(new PingMessage);
-        pingMsg->mClientId=mProgramState.mClientId;
-        pingMsg->mCurrentTime=glfwGetTime();
-        mMessageHolder.AddOutgoingMessage(pingMsg);
-    }
-
-    PingMessageHandlerSubSystem::PingMessageHandlerSubSystem()
-        : MessageHandlerSubSystem()
-        , mPing( 0.0 )
-        , mPingModel( platform::GetIntFunc( this, &PingMessageHandlerSubSystem::GetPing ), "ping", &RootModel::Get() )
-    {
-        if(mProgramState.mMode!=ProgramState::Client)
-        {
-        }
-    }
-
-    void PingMessageHandlerSubSystem::Init()
-    {
-
-    }
-
-    void PingMessageHandlerSubSystem::Execute(Message const& message)
-    {
-        PingMessage const& msg=static_cast<PingMessage const&>(message);
-        if(mProgramState.mMode==ProgramState::Client)
-        {
-            if (msg.mClientId==mProgramState.mClientId)
-            {
-                mPing=(glfwGetTime()-msg.mCurrentTime)*1000;
-                L2("current ping: %d\n",mPing);
-            }
-        }
-        else if (mProgramState.mMode==ProgramState::Server)
-        {
-            std::auto_ptr<PingMessage> pingMessage(new PingMessage(msg));
-            mMessageHolder.AddOutgoingMessage(pingMessage);
+            mPing = ( glfwGetTime() - msg.mCurrentTime ) * 1000;
+            L2( "current ping: %d\n", mPing );
         }
     }
-
-    int32_t PingMessageHandlerSubSystem::GetPing()
+    else if ( mProgramState.mMode == ProgramState::Server )
     {
-        return mPing;
+        std::auto_ptr<PingMessage> pingMessage( new PingMessage( msg ) );
+        mMessageHolder.AddOutgoingMessage( pingMessage );
     }
+}
+
+int32_t PingMessageHandlerSubSystem::GetPing()
+{
+    return mPing;
+}
 
 } // namespace engine
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__PingMessage, network::PingMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__PingMessage, network::PingMessage );

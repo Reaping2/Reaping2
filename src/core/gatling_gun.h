@@ -10,7 +10,7 @@ public:
     GatlingGun();
     enum DeployState
     {
-        Undeployed=0,
+        Undeployed = 0,
         Deploying,
         Deployed,
         Undeploying
@@ -18,15 +18,15 @@ public:
 
     virtual bool IsShooting() const;
     virtual bool IsShootingAlt() const;
-    void SetWindup(double windup);
+    void SetWindup( double windup );
     double GetWindup()const;
-    void SetWindupMax(double windupMax);
+    void SetWindupMax( double windupMax );
     double GetWindupMax()const;
-    void SetDeploy(double deploy);
+    void SetDeploy( double deploy );
     double GetDeploy()const;
-    void SetDeployMax(double deployMax);
+    void SetDeployMax( double deployMax );
     double GetDeployMax()const;
-    void SetDeployState(DeployState deployState);
+    void SetDeployState( DeployState deployState );
     DeployState GetDeployState()const;
 
     virtual bool CanReload() const;
@@ -45,18 +45,18 @@ protected:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void GatlingGun::serialize(Archive& ar, const unsigned int version)
+void GatlingGun::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Weapon>(*this);
-    ar & mWindup;
-    ar & mWindupMax;
-    ar & mDeploy;
-    ar & mDeployMax;
-    ar & mDeployState;
+    ar& boost::serialization::base_object<Weapon>( *this );
+    ar& mWindup;
+    ar& mWindupMax;
+    ar& mDeploy;
+    ar& mDeployMax;
+    ar& mDeployState;
 }
 
 class GatlingGunLoader: public ItemLoader<GatlingGun>
@@ -67,5 +67,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(GatlingGun, GatlingGun,"gatling_gun");
+REAPING2_CLASS_EXPORT_KEY2( GatlingGun, GatlingGun, "gatling_gun" );
 #endif//INCLUDED_CORE_GATLING_GUN_H

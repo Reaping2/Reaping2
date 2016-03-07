@@ -13,7 +13,7 @@ namespace engine {
 class LeaderboardSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(LeaderboardSystem)
+    DEFINE_SYSTEM_BASE( LeaderboardSystem )
     LeaderboardSystem();
 protected:
     virtual void Init();
@@ -25,18 +25,18 @@ private:
     ModelValue mLeaderBoardModel;
     boost::ptr_vector<ModelValue> mKDASModels;
     AutoReg mOnMapStart;
-    void OnMapStart(core::MapStartEvent const& Evt);
+    void OnMapStart( core::MapStartEvent const& Evt );
     AutoReg mOnClientDatasChanged;
-    void OnClientDatasChanged(engine::ClientDatasChangedEvent const& Evt);
+    void OnClientDatasChanged( engine::ClientDatasChangedEvent const& Evt );
     void SetModels();
-    static std::string const& GetClientName(core::ClientData const& clientData);
-    static int32_t const& GetKill(core::ClientData const& clientData);
-    static int32_t const& GetDeath(core::ClientData const& clientData);
-    static int32_t const& GetAssist(core::ClientData const& clientData);
-    static int32_t const& GetScore(core::ClientData const& clientData);
+    static std::string const& GetClientName( core::ClientData const& clientData );
+    static int32_t const& GetKill( core::ClientData const& clientData );
+    static int32_t const& GetDeath( core::ClientData const& clientData );
+    static int32_t const& GetAssist( core::ClientData const& clientData );
+    static int32_t const& GetScore( core::ClientData const& clientData );
     std::string mBlueColor;
     std::string mRedColor;
-    std::string const& GetColor(Team::Type team) const;
+    std::string const& GetColor( Team::Type team ) const;
 };
 
 } // namespace engine

@@ -8,9 +8,9 @@ BorderComponent::BorderComponent()
 {
 }
 
-void BorderComponent::SetBorders(Borders_t borders)
+void BorderComponent::SetBorders( Borders_t borders )
 {
-    mBorders=borders;
+    mBorders = borders;
 }
 
 IBorderComponent::Borders_t BorderComponent::GetBorders()const
@@ -18,47 +18,47 @@ IBorderComponent::Borders_t BorderComponent::GetBorders()const
     return mBorders;
 }
 
-void BorderComponent::Save(Json::Value& component)
+void BorderComponent::Save( Json::Value& component )
 {
-    Component::Save(component);
-    Json::Value SettersArr(Json::arrayValue);
-    Json::Value Setters(Json::objectValue);
-    IdStorage& idStorage=IdStorage::Get();
-    BorderType& borderType=BorderType::Get();
+    Component::Save( component );
+    Json::Value SettersArr( Json::arrayValue );
+    Json::Value Setters( Json::objectValue );
+    IdStorage& idStorage = IdStorage::Get();
+    BorderType& borderType = BorderType::Get();
     {
-        Json::Value BordersArr(Json::arrayValue);
-        for (IBorderComponent::Borders_t::iterator i=mBorders.begin(),e=mBorders.end();i!=e;++i)
+        Json::Value BordersArr( Json::arrayValue );
+        for ( IBorderComponent::Borders_t::iterator i = mBorders.begin(), e = mBorders.end(); i != e; ++i )
         {
             std::string borderName;
-            if (idStorage.GetName(borderType(*i),borderName))
+            if ( idStorage.GetName( borderType( *i ), borderName ) )
             {
-                Json::Value jName=Json::Value(borderName);
-                BordersArr.append(jName);
+                Json::Value jName = Json::Value( borderName );
+                BordersArr.append( jName );
             }
         }
-        Setters["borders"]=BordersArr;
+        Setters["borders"] = BordersArr;
     }
     {
-        Json::Value BordersArr(Json::arrayValue);
-        for (IBorderComponent::Borders_t::iterator i=mOuterBorders.begin(),e=mOuterBorders.end();i!=e;++i)
+        Json::Value BordersArr( Json::arrayValue );
+        for ( IBorderComponent::Borders_t::iterator i = mOuterBorders.begin(), e = mOuterBorders.end(); i != e; ++i )
         {
             std::string borderName;
-            if (idStorage.GetName(borderType(*i),borderName))
+            if ( idStorage.GetName( borderType( *i ), borderName ) )
             {
-                Json::Value jName=Json::Value(borderName);
-                BordersArr.append(jName);
+                Json::Value jName = Json::Value( borderName );
+                BordersArr.append( jName );
             }
         }
-        Setters["outer_borders"]=BordersArr;
+        Setters["outer_borders"] = BordersArr;
     }
-    SettersArr.append(Setters);
+    SettersArr.append( Setters );
 
-    component["set"]=SettersArr;
+    component["set"] = SettersArr;
 }
 
-void BorderComponent::SetOuterBorders(Borders_t borders)
+void BorderComponent::SetOuterBorders( Borders_t borders )
 {
-    mOuterBorders=borders;
+    mOuterBorders = borders;
 }
 
 IBorderComponent::Borders_t BorderComponent::GetOuterBorders() const
@@ -71,7 +71,7 @@ IBorderComponent::Borders_t BorderComponent::GetOuterBorders() const
 void BorderComponentLoader::BindValues()
 {
     {
-        Json::Value const& json = (*mSetters)["borders"];
+        Json::Value const& json = ( *mSetters )["borders"];
         if( json.isArray() )
         {
             IBorderComponent::Borders_t borders;
@@ -85,7 +85,7 @@ void BorderComponentLoader::BindValues()
         }
     }
     {
-        Json::Value const& json = (*mSetters)["outer_borders"];
+        Json::Value const& json = ( *mSetters )["outer_borders"];
         if( json.isArray() )
         {
             IBorderComponent::Borders_t borders;
@@ -104,4 +104,4 @@ BorderComponentLoader::BorderComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(BorderComponent, BorderComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( BorderComponent, BorderComponent );

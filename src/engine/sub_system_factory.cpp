@@ -40,45 +40,45 @@ namespace engine {
 
 SubSystemFactory::SubSystemFactory()
 {
-    Bind( AutoId("default_sub_system"), &CreateSubSystem<DefaultSubSystem> );
-    SetDefault( AutoId("default_sub_system") );
+    Bind( AutoId( "default_sub_system" ), &CreateSubSystem<DefaultSubSystem> );
+    SetDefault( AutoId( "default_sub_system" ) );
 
-    Bind( AutoId("player_controller_sub_system"), &CreateSubSystem<PlayerControllerSubSystem>);
-    Bind( AutoId("random_controller_sub_system"), &CreateSubSystem<RandomControllerSubSystem>);
-    Bind( AutoId("target_player_controller_sub_system"), &CreateSubSystem<TargetPlayerControllerSubSystem>);
-    Bind( AutoId("pointer_target_controller_sub_system"), &CreateSubSystem<PointerTargetControllerSubSystem>);
+    Bind( AutoId( "player_controller_sub_system" ), &CreateSubSystem<PlayerControllerSubSystem> );
+    Bind( AutoId( "random_controller_sub_system" ), &CreateSubSystem<RandomControllerSubSystem> );
+    Bind( AutoId( "target_player_controller_sub_system" ), &CreateSubSystem<TargetPlayerControllerSubSystem> );
+    Bind( AutoId( "pointer_target_controller_sub_system" ), &CreateSubSystem<PointerTargetControllerSubSystem> );
 
-    Bind( AutoId("normal_item_sub_system"), &CreateSubSystem<NormalItemSubSystem>);
-    Bind( AutoId("flash_normal_item_sub_system"), &CreateSubSystem<FlashNormalItemSubSystem>);
-    Bind( AutoId("grenade_normal_item_sub_system"), &CreateSubSystem<GrenadeNormalItemSubSystem>);
-    Bind( AutoId("cloak_normal_item_sub_system"), &CreateSubSystem<CloakNormalItemSubSystem>);
-    Bind( AutoId("blue_grenade_normal_item_sub_system"), &CreateSubSystem<BlueGrenadeNormalItemSubSystem>);
+    Bind( AutoId( "normal_item_sub_system" ), &CreateSubSystem<NormalItemSubSystem> );
+    Bind( AutoId( "flash_normal_item_sub_system" ), &CreateSubSystem<FlashNormalItemSubSystem> );
+    Bind( AutoId( "grenade_normal_item_sub_system" ), &CreateSubSystem<GrenadeNormalItemSubSystem> );
+    Bind( AutoId( "cloak_normal_item_sub_system" ), &CreateSubSystem<CloakNormalItemSubSystem> );
+    Bind( AutoId( "blue_grenade_normal_item_sub_system" ), &CreateSubSystem<BlueGrenadeNormalItemSubSystem> );
 
-    Bind( AutoId("weapon_item_sub_system"), &CreateSubSystem<WeaponItemSubSystem>);
-    Bind( AutoId("plasma_gun_weapon_sub_system"), &CreateSubSystem<PlasmaGunWeaponSubSystem>);
-    Bind( AutoId("pistol_weapon_sub_system"), &CreateSubSystem<PistolWeaponSubSystem>);
-    Bind( AutoId("shotgun_weapon_sub_system"), &CreateSubSystem<ShotgunWeaponSubSystem>);
-    Bind( AutoId("rocket_launcher_weapon_sub_system"), &CreateSubSystem<RocketLauncherWeaponSubSystem>);
-    Bind( AutoId("ion_gun_weapon_sub_system"), &CreateSubSystem<IonGunWeaponSubSystem>);
-    Bind( AutoId("gatling_gun_weapon_sub_system"), &CreateSubSystem<GatlingGunWeaponSubSystem>);
-    Bind( AutoId("gauss_gun_weapon_sub_system"), &CreateSubSystem<GaussGunWeaponSubSystem>);
-    Bind( AutoId("lucky_rocket_weapon_sub_system"), &CreateSubSystem<LuckyRocketWeaponSubSystem>);
+    Bind( AutoId( "weapon_item_sub_system" ), &CreateSubSystem<WeaponItemSubSystem> );
+    Bind( AutoId( "plasma_gun_weapon_sub_system" ), &CreateSubSystem<PlasmaGunWeaponSubSystem> );
+    Bind( AutoId( "pistol_weapon_sub_system" ), &CreateSubSystem<PistolWeaponSubSystem> );
+    Bind( AutoId( "shotgun_weapon_sub_system" ), &CreateSubSystem<ShotgunWeaponSubSystem> );
+    Bind( AutoId( "rocket_launcher_weapon_sub_system" ), &CreateSubSystem<RocketLauncherWeaponSubSystem> );
+    Bind( AutoId( "ion_gun_weapon_sub_system" ), &CreateSubSystem<IonGunWeaponSubSystem> );
+    Bind( AutoId( "gatling_gun_weapon_sub_system" ), &CreateSubSystem<GatlingGunWeaponSubSystem> );
+    Bind( AutoId( "gauss_gun_weapon_sub_system" ), &CreateSubSystem<GaussGunWeaponSubSystem> );
+    Bind( AutoId( "lucky_rocket_weapon_sub_system" ), &CreateSubSystem<LuckyRocketWeaponSubSystem> );
 
 
-    Bind( AutoId("pickup_collision_sub_system"), &CreateSubSystem<PickupCollisionSubSystem>);
-    Bind( AutoId("wall_collision_sub_system"), &CreateSubSystem<WallCollisionSubSystem>);
-    Bind( AutoId("shot_collision_sub_system"), &CreateSubSystem<ShotCollisionSubSystem>);
-    Bind( AutoId("normal_collision_sub_system"), &CreateSubSystem<NormalCollisionSubSystem>);
-    Bind( AutoId("aoe_collision_sub_system"), &CreateSubSystem<AoeCollisionSubSystem>);
-    Bind( AutoId("bounce_collision_sub_system"), &CreateSubSystem<BounceCollisionSubSystem>);
-    Bind( AutoId("flag_collision_sub_system"), &CreateSubSystem<ctf::FlagCollisionSubSystem>);
+    Bind( AutoId( "pickup_collision_sub_system" ), &CreateSubSystem<PickupCollisionSubSystem> );
+    Bind( AutoId( "wall_collision_sub_system" ), &CreateSubSystem<WallCollisionSubSystem> );
+    Bind( AutoId( "shot_collision_sub_system" ), &CreateSubSystem<ShotCollisionSubSystem> );
+    Bind( AutoId( "normal_collision_sub_system" ), &CreateSubSystem<NormalCollisionSubSystem> );
+    Bind( AutoId( "aoe_collision_sub_system" ), &CreateSubSystem<AoeCollisionSubSystem> );
+    Bind( AutoId( "bounce_collision_sub_system" ), &CreateSubSystem<BounceCollisionSubSystem> );
+    Bind( AutoId( "flag_collision_sub_system" ), &CreateSubSystem<ctf::FlagCollisionSubSystem> );
 
-    Bind( AutoId("heal_over_time_buff_sub_system"), &CreateSubSystem<HealOverTimeBuffSubSystem>);
-    Bind( AutoId("move_speed_buff_sub_system"), &CreateSubSystem<MoveSpeedBuffSubSystem>);
-    Bind( AutoId("max_health_buff_sub_system"), &CreateSubSystem<MaxHealthBuffSubSystem>);
-    Bind( AutoId("accuracy_buff_sub_system"), &CreateSubSystem<AccuracyBuffSubSystem>);
-    Bind( AutoId("armor_buff_sub_system"), &CreateSubSystem<ArmorBuffSubSystem>);
-    Bind( AutoId("cloak_buff_sub_system"), &CreateSubSystem<CloakBuffSubSystem>);
+    Bind( AutoId( "heal_over_time_buff_sub_system" ), &CreateSubSystem<HealOverTimeBuffSubSystem> );
+    Bind( AutoId( "move_speed_buff_sub_system" ), &CreateSubSystem<MoveSpeedBuffSubSystem> );
+    Bind( AutoId( "max_health_buff_sub_system" ), &CreateSubSystem<MaxHealthBuffSubSystem> );
+    Bind( AutoId( "accuracy_buff_sub_system" ), &CreateSubSystem<AccuracyBuffSubSystem> );
+    Bind( AutoId( "armor_buff_sub_system" ), &CreateSubSystem<ArmorBuffSubSystem> );
+    Bind( AutoId( "cloak_buff_sub_system" ), &CreateSubSystem<CloakBuffSubSystem> );
 }
 
 } // namespace engine

@@ -12,14 +12,14 @@ public:
     Shotgun();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void Shotgun::serialize(Archive& ar, const unsigned int version)
+void Shotgun::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Weapon>(*this);
-    ar & boost::serialization::base_object<IExplode>(*this);
+    ar& boost::serialization::base_object<Weapon>( *this );
+    ar& boost::serialization::base_object<IExplode>( *this );
 }
 
 class ShotgunLoader: public ItemLoader<Shotgun>
@@ -32,5 +32,5 @@ protected:
     ExplodeDistributionType& mExplodeDistributionType;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(Shotgun, Shotgun,"shotgun");
+REAPING2_CLASS_EXPORT_KEY2( Shotgun, Shotgun, "shotgun" );
 #endif//INCLUDED_CORE_SHOTGUN_H

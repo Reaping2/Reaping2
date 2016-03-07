@@ -14,21 +14,21 @@ SoldierSpawnPointMapElementSystem::SoldierSpawnPointMapElementSystem()
 void SoldierSpawnPointMapElementSystem::Init()
 {
     MapElementSystem::Init();
-    mOnMapStart=EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &SoldierSpawnPointMapElementSystem::OnMapStart, this, _1 ) );
+    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &SoldierSpawnPointMapElementSystem::OnMapStart, this, _1 ) );
 }
 
 
-void SoldierSpawnPointMapElementSystem::Update(double DeltaTime)
+void SoldierSpawnPointMapElementSystem::Update( double DeltaTime )
 {
-    MapElementSystem::Update(DeltaTime);
-//     MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),SoldierSpawnPointMapElement::GetType_static());
-//     for( MapElementListFilter<MapSystem::All>::const_iterator soldierSpawnPointMapElementIt = mapElementListFilter.begin(), soldierSpawnPointMapElementE = mapElementListFilter.end(); soldierSpawnPointMapElementIt != soldierSpawnPointMapElementE; ++soldierSpawnPointMapElementIt )
-//     {
-//         Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement(*soldierSpawnPointMapElementIt);
-//     }
+    MapElementSystem::Update( DeltaTime );
+    //     MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),SoldierSpawnPointMapElement::GetType_static());
+    //     for( MapElementListFilter<MapSystem::All>::const_iterator soldierSpawnPointMapElementIt = mapElementListFilter.begin(), soldierSpawnPointMapElementE = mapElementListFilter.end(); soldierSpawnPointMapElementIt != soldierSpawnPointMapElementE; ++soldierSpawnPointMapElementIt )
+    //     {
+    //         Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement(*soldierSpawnPointMapElementIt);
+    //     }
 }
 
-void SoldierSpawnPointMapElementSystem::OnMapStart(core::MapStartEvent const& Evt)
+void SoldierSpawnPointMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
 }
 
@@ -40,11 +40,11 @@ Opt<SoldierSpawnPointMapElementSystem> SoldierSpawnPointMapElementSystem::Get()
 SpawnPoints_t SoldierSpawnPointMapElementSystem::GetActiveSpawnPoints()
 {
     SpawnPoints_t r;
-    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),SoldierSpawnPointMapElement::GetType_static());
+    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), SoldierSpawnPointMapElement::GetType_static() );
     for( MapElementListFilter<MapSystem::All>::const_iterator soldierSpawnPointMapElementIt = mapElementListFilter.begin(), soldierSpawnPointMapElementE = mapElementListFilter.end(); soldierSpawnPointMapElementIt != soldierSpawnPointMapElementE; ++soldierSpawnPointMapElementIt )
     {
-        Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement(*soldierSpawnPointMapElementIt);
-        r.push_back(SpawnPoint(soldierSpawnPointMapElement->GetX(),soldierSpawnPointMapElement->GetY()));
+        Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement( *soldierSpawnPointMapElementIt );
+        r.push_back( SpawnPoint( soldierSpawnPointMapElement->GetX(), soldierSpawnPointMapElement->GetY() ) );
     }
     return r;
 }

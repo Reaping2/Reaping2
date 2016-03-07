@@ -4,37 +4,37 @@
 namespace render {
 namespace ctf {
 
-CtfFlagActionRenderer::CtfFlagActionRenderer(int32_t Id)
-    : ActionRenderer(Id)
-    , mColorRepo(ColorRepo::Get())
+CtfFlagActionRenderer::CtfFlagActionRenderer( int32_t Id )
+    : ActionRenderer( Id )
+    , mColorRepo( ColorRepo::Get() )
 {
-    mCtfFlagId=AutoId("body_idle");
+    mCtfFlagId = AutoId( "body_idle" );
 }
 
 
-void CtfFlagActionRenderer::Init(Actor const& actor)
+void CtfFlagActionRenderer::Init( Actor const& actor )
 {
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCtfFlagId);
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    Sprite const& Spr = Sprites( mCtfFlagId );
     if( Spr.IsValid() )
     {
-        mSecsToEnd=Spr.GetSecsToEnd();
+        mSecsToEnd = Spr.GetSecsToEnd();
     }
 }
 
 
-void CtfFlagActionRenderer::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)
+void CtfFlagActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCtfFlagId);
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    Sprite const& Spr = Sprites( mCtfFlagId );
     if( Spr.IsValid() )
     {
-        Opt<ITeamComponent> teamC(actor.Get<ITeamComponent>());
-        if (teamC.IsValid())
+        Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+        if ( teamC.IsValid() )
         {
-            SpritePhase const& Phase = Spr( (int32_t)GetState() );
+            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
             renderableSprites.push_back(
-                RenderableSprite( &actor, mCtfFlagId, &Spr, &Phase,  mColorRepo(teamC->GetTeam())) );
+                RenderableSprite( &actor, mCtfFlagId, &Spr, &Phase,  mColorRepo( teamC->GetTeam() ) ) );
         }
     }
 }

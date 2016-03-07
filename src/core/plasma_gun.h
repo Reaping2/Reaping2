@@ -11,13 +11,13 @@ public:
     PlasmaGun();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void PlasmaGun::serialize(Archive& ar, const unsigned int version)
+void PlasmaGun::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Weapon>(*this);
+    ar& boost::serialization::base_object<Weapon>( *this );
 }
 
 class PlasmaGunLoader: public ItemLoader<PlasmaGun>
@@ -28,5 +28,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(PlasmaGun, PlasmaGun,"plasma_gun");
+REAPING2_CLASS_EXPORT_KEY2( PlasmaGun, PlasmaGun, "plasma_gun" );
 #endif//INCLUDED_CORE_PLASMA_GUN_H

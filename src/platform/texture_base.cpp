@@ -28,7 +28,7 @@ size_t TextureBase::GetChannels() const
 uint8_t const* TextureBase::GetData() const
 {
     BOOST_ASSERT( IsValid() );
-    return &mImpl->mData.at(0);
+    return &mImpl->mData.at( 0 );
 }
 
 bool TextureBase::IsValid() const

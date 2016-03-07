@@ -17,17 +17,17 @@ void WallCollisionSubSystem::Init()
 {
 }
 
-void WallCollisionSubSystem::Update(Actor& actor, double DeltaTime)
+void WallCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
 }
 
-void WallCollisionSubSystem::Collide(Actor& actor, Actor& other)
+void WallCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
     Opt<IPositionComponent> otherPositionC = other.Get<IPositionComponent>();
     Opt<ICollisionComponent> otherCC = other.Get<ICollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
     Opt<ICollisionComponent> wallCC = actor.Get<ICollisionComponent>();
-    if (!otherPositionC.IsValid()||!otherCC.IsValid()||!positionC.IsValid()||!wallCC.IsValid())
+    if ( !otherPositionC.IsValid() || !otherCC.IsValid() || !positionC.IsValid() || !wallCC.IsValid() )
     {
         return;
     }

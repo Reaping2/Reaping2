@@ -18,18 +18,18 @@ void Logger::Log( int Level, char const* format, ... )
     }
     va_list arg;
     int done;
-    fprintf(mLogFile.mFile, "[%f]",glfwGetTime());
+    fprintf( mLogFile.mFile, "[%f]", glfwGetTime() );
     va_start ( arg, format );
     done = vfprintf ( mLogFile.mFile, format, arg );
     //Temporary it might cause crash still investigating
     //if(Level==1) done = vfprintf ( stderr, format, arg );
-    fflush(mLogFile.mFile);
+    fflush( mLogFile.mFile );
     va_end ( arg );
 }
 
 Logger::Logger()
     : mDisabledLevels( 0 )
-    , mLogFile("log.txt","w")
+    , mLogFile( "log.txt", "w" )
 {
     std::auto_ptr<File> f( new OsFile( "debug.json" ) );
     if( !f.get() || !f->IsValid() )
@@ -65,14 +65,14 @@ Logger::Logger()
 }
 
 
-AutoNormalFile::AutoNormalFile(const char* name, const char* mode)
+AutoNormalFile::AutoNormalFile( const char* name, const char* mode )
 {
-    mFile = fopen (name,mode);
+    mFile = fopen ( name, mode );
 }
 
 AutoNormalFile::~AutoNormalFile()
 {
-    fclose(mFile);
+    fclose( mFile );
 }
 
 } // namespace platform

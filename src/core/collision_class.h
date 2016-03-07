@@ -11,7 +11,7 @@ protected:
 public:
     enum Type
     {
-        No_Collision=0,
+        No_Collision = 0,
         Projectile,
         AoeDamage,
         Creep,
@@ -24,7 +24,7 @@ public:
     };
     CollisionClass::Type operator()( int32_t Id ) const;
 private:
-    typedef std::map<int32_t,CollisionClass::Type> IdToCollClassMap_t;
+    typedef std::map<int32_t, CollisionClass::Type> IdToCollClassMap_t;
     IdToCollClassMap_t mIdToCollClassMap;
 };
 

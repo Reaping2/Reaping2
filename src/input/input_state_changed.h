@@ -9,8 +9,8 @@ namespace engine {
 struct InputStateChangedEvent : public platform::Event
 {
     InputState const& mInputState;
-    InputStateChangedEvent(InputState const& inputState)
-        :mInputState(inputState){}
+    InputStateChangedEvent( InputState const& inputState )
+        : mInputState( inputState ) {}
 };
 
 } // namespace engine

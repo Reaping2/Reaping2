@@ -8,8 +8,8 @@ namespace core {
 struct MapLoadEvent : public platform::Event
 {
     std::string mMapName;
-    MapLoadEvent(std::string const& mapName)
-        :mMapName(mapName){}
+    MapLoadEvent( std::string const& mapName )
+        : mMapName( mapName ) {}
 };
 
 } // namespace core

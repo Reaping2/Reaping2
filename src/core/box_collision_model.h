@@ -7,7 +7,7 @@ class BoxCollisionModel : public CollisionModel
 {
     bool AreActorsColliding( Actor const& Obj1, Actor const& Obj2, double Dt )const;
 public:
-    static bool AreActorsColliding(Actor const &ObjA, Actor const &ObjB, double radiusA, double radiusB, double Dt);
+    static bool AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double radiusA, double radiusB, double Dt );
 
 };
 

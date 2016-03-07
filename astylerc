@@ -1,0 +1,12 @@
+--style=allman
+--indent=spaces=4
+--attach-namespaces
+--indent-col1-comments
+--min-conditional-indent=0
+--pad-oper
+--pad-paren-in
+--align-pointer=type
+--add-brackets
+--convert-tabs
+--lineend=linux
+

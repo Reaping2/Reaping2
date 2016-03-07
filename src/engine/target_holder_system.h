@@ -11,7 +11,7 @@ namespace engine {
 class TargetHolderSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(TargetHolderSystem)
+    DEFINE_SYSTEM_BASE( TargetHolderSystem )
     TargetHolderSystem();
 protected:
     Opt<RemovedActorsSystem> mRemovedActorsSystem;

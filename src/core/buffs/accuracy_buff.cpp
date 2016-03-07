@@ -2,15 +2,15 @@
 
 AccuracyBuff::AccuracyBuff()
     : Buff()
-    , mFlatBonus(40)
-    , mPercentBonus(0)
+    , mFlatBonus( 40 )
+    , mPercentBonus( 0 )
 {
-    mSecsToEnd=20.0;
+    mSecsToEnd = 20.0;
 }
 
-void AccuracyBuff::SetFlatBonus(int32_t flatBonus)
+void AccuracyBuff::SetFlatBonus( int32_t flatBonus )
 {
-    mFlatBonus=flatBonus;
+    mFlatBonus = flatBonus;
 }
 
 int32_t AccuracyBuff::GetFlatBonus()const
@@ -18,9 +18,9 @@ int32_t AccuracyBuff::GetFlatBonus()const
     return mFlatBonus;
 }
 
-void AccuracyBuff::SetPercentBonus(double percentBonus)
+void AccuracyBuff::SetPercentBonus( double percentBonus )
 {
-    mPercentBonus=percentBonus;
+    mPercentBonus = percentBonus;
 }
 
 double AccuracyBuff::GetPercentBonus()const

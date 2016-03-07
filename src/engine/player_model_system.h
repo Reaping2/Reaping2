@@ -11,7 +11,7 @@ namespace engine {
 class PlayerModelSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(PlayerModelSystem)
+    DEFINE_SYSTEM_BASE( PlayerModelSystem )
     PlayerModelSystem();
 protected:
     virtual void Init();

@@ -29,14 +29,14 @@ void Camera::Update()
     {
         return;
     }
-    ModelValue const& mx=PlayerModel["x"];
-    ModelValue const& my=PlayerModel["y"];
-    if (!mx.IsValid()||!my.IsValid())
+    ModelValue const& mx = PlayerModel["x"];
+    ModelValue const& my = PlayerModel["y"];
+    if ( !mx.IsValid() || !my.IsValid() )
     {
         return;
     }
-    double px = double(mx)*MAGIC_SIZE;
-    double py = double(my)*MAGIC_SIZE;
+    double px = double( mx ) * MAGIC_SIZE;
+    double py = double( my ) * MAGIC_SIZE;
     if( mCenter.x < px - mAllowedDistance.x )
     {
         mCenter.x = ( float )px - mAllowedDistance.x;
@@ -70,8 +70,8 @@ void Camera::Update()
     {
         mCenter.y = mAllowedCenterRegion.w;
     }
-    mCenter.x=glm::round(mCenter.x);
-    mCenter.y=glm::round(mCenter.y);
+    mCenter.x = glm::round( mCenter.x );
+    mCenter.y = glm::round( mCenter.y );
     UpdateMatrices();
 }
 

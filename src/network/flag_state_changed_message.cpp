@@ -16,30 +16,30 @@ FlagStateChangedMessageSenderSystem::FlagStateChangedMessageSenderSystem()
 void FlagStateChangedMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnFlagStateChanged=EventServer< ::ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &FlagStateChangedMessageSenderSystem::OnFlagStateChanged, this, _1 ) );
+    mOnFlagStateChanged = EventServer< ::ctf::FlagStateChangedEvent>::Get().Subscribe( boost::bind( &FlagStateChangedMessageSenderSystem::OnFlagStateChanged, this, _1 ) );
 }
 
 
-void FlagStateChangedMessageSenderSystem::Update(double DeltaTime)
+void FlagStateChangedMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void FlagStateChangedMessageSenderSystem::OnFlagStateChanged(::ctf::FlagStateChangedEvent const& Evt)
+void FlagStateChangedMessageSenderSystem::OnFlagStateChanged( ::ctf::FlagStateChangedEvent const& Evt )
 {
-    std::auto_ptr<FlagStateChangedMessage> flagStateChangedMsg(new FlagStateChangedMessage);
-    flagStateChangedMsg->mType=Evt.mType;
-    flagStateChangedMsg->mTeam=Evt.mTeam;
-    flagStateChangedMsg->mCarrierGUID=Evt.mCarrierGUID;
-    flagStateChangedMsg->mFlagGUID=Evt.mFlagGUID;
-    mMessageHolder.AddOutgoingMessage(flagStateChangedMsg);
-    if (Evt.mType==::ctf::FlagStateChangedEvent::Scored
-        ||Evt.mType==::ctf::FlagStateChangedEvent::Returned)
+    std::auto_ptr<FlagStateChangedMessage> flagStateChangedMsg( new FlagStateChangedMessage );
+    flagStateChangedMsg->mType = Evt.mType;
+    flagStateChangedMsg->mTeam = Evt.mTeam;
+    flagStateChangedMsg->mCarrierGUID = Evt.mCarrierGUID;
+    flagStateChangedMsg->mFlagGUID = Evt.mFlagGUID;
+    mMessageHolder.AddOutgoingMessage( flagStateChangedMsg );
+    if ( Evt.mType ==::ctf::FlagStateChangedEvent::Scored
+         || Evt.mType ==::ctf::FlagStateChangedEvent::Returned )
     {
-        Opt<Actor> actor(mScene.GetActor(Evt.mFlagGUID));
-        if (actor.IsValid())
+        Opt<Actor> actor( mScene.GetActor( Evt.mFlagGUID ) );
+        if ( actor.IsValid() )
         {
-            mMessageHolder.AddOutgoingMessage(PositionMessageSenderSystem::GeneratePositionMessage(*actor.Get()));
+            mMessageHolder.AddOutgoingMessage( PositionMessageSenderSystem::GeneratePositionMessage( *actor.Get() ) );
         }
     }
 }
@@ -54,38 +54,38 @@ void FlagStateChangedMessageHandlerSubSystem::Init()
 {
 }
 
-void FlagStateChangedMessageHandlerSubSystem::Update(double DeltaTime)
+void FlagStateChangedMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    MessageHandlerSubSystem::Update(DeltaTime);
+    MessageHandlerSubSystem::Update( DeltaTime );
 }
 
-void FlagStateChangedMessageHandlerSubSystem::Execute(Message const& message)
+void FlagStateChangedMessageHandlerSubSystem::Execute( Message const& message )
 {
-    FlagStateChangedMessage const& msg=static_cast<FlagStateChangedMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mFlagGUID);
-    if (!actor.IsValid())
+    FlagStateChangedMessage const& msg = static_cast<FlagStateChangedMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mFlagGUID );
+    if ( !actor.IsValid() )
     {
-        L1("cannot find actor with GUID: (%s) %d \n",__FUNCTION__,msg.mFlagGUID );
+        L1( "cannot find actor with GUID: (%s) %d \n", __FUNCTION__, msg.mFlagGUID );
         return;
     }
-    Opt<ctf::IAttachableComponent> actorAttachableC=actor->Get<ctf::IAttachableComponent>();
-    if (!actorAttachableC.IsValid())
+    Opt<ctf::IAttachableComponent> actorAttachableC = actor->Get<ctf::IAttachableComponent>();
+    if ( !actorAttachableC.IsValid() )
     {
         return;
     }
-    if (msg.mType==::ctf::FlagStateChangedEvent::Scored
-        ||msg.mType==::ctf::FlagStateChangedEvent::Returned
-        ||msg.mType==::ctf::FlagStateChangedEvent::Dropped)
+    if ( msg.mType ==::ctf::FlagStateChangedEvent::Scored
+         || msg.mType ==::ctf::FlagStateChangedEvent::Returned
+         || msg.mType ==::ctf::FlagStateChangedEvent::Dropped )
     {
-        actorAttachableC->SetAttachedGUID(-1);
+        actorAttachableC->SetAttachedGUID( -1 );
     }
     else
     {
-        actorAttachableC->SetAttachedGUID(msg.mCarrierGUID);
+        actorAttachableC->SetAttachedGUID( msg.mCarrierGUID );
     }
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__FlagStateChangedMessage, network::FlagStateChangedMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__FlagStateChangedMessage, network::FlagStateChangedMessage );

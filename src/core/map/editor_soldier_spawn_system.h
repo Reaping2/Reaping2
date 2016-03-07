@@ -12,9 +12,9 @@ namespace map {
 class EditorSoldierSpawnSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(EditorSoldierSpawnSystem)
+    DEFINE_SYSTEM_BASE( EditorSoldierSpawnSystem )
     EditorSoldierSpawnSystem();
-    static void Spawn(Opt<ctf::CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement);
+    static void Spawn( Opt<ctf::CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -22,7 +22,7 @@ private:
     Scene& mScene;
     ActorFactory& mActorFactory;
     AutoReg mOnMapStart;
-    void OnMapStart(core::MapStartEvent const& Evt);
+    void OnMapStart( core::MapStartEvent const& Evt );
 };
 
 } // namespace map

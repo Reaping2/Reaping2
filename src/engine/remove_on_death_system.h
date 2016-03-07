@@ -9,7 +9,7 @@ namespace engine {
 class RemoveOnDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(RemoveOnDeathSystem)
+    DEFINE_SYSTEM_BASE( RemoveOnDeathSystem )
     RemoveOnDeathSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

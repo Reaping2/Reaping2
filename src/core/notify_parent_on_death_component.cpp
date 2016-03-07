@@ -3,14 +3,14 @@
 #include <portable_oarchive.hpp>
 
 NotifyParentOnDeathComponent::NotifyParentOnDeathComponent()
-    : mParentGUID(-1)
-    , mKillerGUID(-1)
+    : mParentGUID( -1 )
+    , mKillerGUID( -1 )
 {
 }
 
-void NotifyParentOnDeathComponent::SetParentGUID(int32_t parentId)
+void NotifyParentOnDeathComponent::SetParentGUID( int32_t parentId )
 {
-    mParentGUID=parentId;
+    mParentGUID = parentId;
 }
 
 int32_t NotifyParentOnDeathComponent::GetParentGUID()const
@@ -18,9 +18,9 @@ int32_t NotifyParentOnDeathComponent::GetParentGUID()const
     return mParentGUID;
 }
 
-void NotifyParentOnDeathComponent::SetKillerGUID(int32_t killerId)
+void NotifyParentOnDeathComponent::SetKillerGUID( int32_t killerId )
 {
-    mKillerGUID=killerId;
+    mKillerGUID = killerId;
 }
 
 int32_t NotifyParentOnDeathComponent::GetKillerGUID()const
@@ -38,4 +38,4 @@ NotifyParentOnDeathComponentLoader::NotifyParentOnDeathComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(NotifyParentOnDeathComponent, NotifyParentOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( NotifyParentOnDeathComponent, NotifyParentOnDeathComponent );

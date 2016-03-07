@@ -11,12 +11,12 @@
 
 using platform::AutoId;
 
-void DropOnDeathComponent::Update(double Seconds)
+void DropOnDeathComponent::Update( double Seconds )
 {
 }
 
 DropOnDeathComponent::DropOnDeathComponent()
-    : mTriedDrop(false)
+    : mTriedDrop( false )
 {
 
 }
@@ -26,9 +26,9 @@ bool DropOnDeathComponent::IsTriedDrop()
     return mTriedDrop;
 }
 
-void DropOnDeathComponent::SetTriedDrop(bool triedDrop)
+void DropOnDeathComponent::SetTriedDrop( bool triedDrop )
 {
-    mTriedDrop=triedDrop;
+    mTriedDrop = triedDrop;
 }
 
 DropOnDeathComponentLoader::DropOnDeathComponentLoader()
@@ -41,4 +41,4 @@ void DropOnDeathComponentLoader::BindValues()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(DropOnDeathComponent, DropOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( DropOnDeathComponent, DropOnDeathComponent );

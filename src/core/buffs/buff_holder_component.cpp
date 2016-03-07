@@ -9,16 +9,16 @@ BuffList_t& BuffHolderComponent::GetBuffList()
     return mBuffList.mAllBuffs;
 }
 
-void BuffHolderComponent::AddBuff(std::auto_ptr<Buff> buff)
+void BuffHolderComponent::AddBuff( std::auto_ptr<Buff> buff )
 {
-    mBuffList.mAllBuffs.insert(Opt<Buff>(buff.release()));
+    mBuffList.mAllBuffs.insert( Opt<Buff>( buff.release() ) );
 }
 
 BuffHolderComponent::~BuffHolderComponent()
 {
-    for( BuffList_t::iterator it = mBuffList.mAllBuffs.begin(), e = mBuffList.mAllBuffs.end(); it!=e; ++it )
+    for( BuffList_t::iterator it = mBuffList.mAllBuffs.begin(), e = mBuffList.mAllBuffs.end(); it != e; ++it )
     {
-        delete (*it).Get();
+        delete ( *it ).Get();
     }
     mBuffList.mAllBuffs.clear();
 }
@@ -33,12 +33,12 @@ BuffHolderComponentLoader::BuffHolderComponentLoader()
 {
 }
 
-SecsToEndModifier::SecsToEndModifier(double secsToEnd) : mSecsToEnd(secsToEnd)
+SecsToEndModifier::SecsToEndModifier( double secsToEnd ) : mSecsToEnd( secsToEnd )
 {
 
 }
 
-void SecsToEndModifier::operator()(Opt<Buff> buff)
+void SecsToEndModifier::operator()( Opt<Buff> buff )
 {
-    buff->SetSecsToEnd(mSecsToEnd);
+    buff->SetSecsToEnd( mSecsToEnd );
 }

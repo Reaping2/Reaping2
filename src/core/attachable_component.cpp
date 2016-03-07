@@ -5,13 +5,13 @@
 namespace ctf {
 
 AttachableComponent::AttachableComponent()
-    : mAttachedGUID(-1)
+    : mAttachedGUID( -1 )
 {
 }
 
-void AttachableComponent::SetAttachedGUID(int32_t attachedGUID)
+void AttachableComponent::SetAttachedGUID( int32_t attachedGUID )
 {
-    mAttachedGUID=attachedGUID;
+    mAttachedGUID = attachedGUID;
 }
 
 int32_t AttachableComponent::GetAttachedGUID()const
@@ -30,4 +30,4 @@ AttachableComponentLoader::AttachableComponentLoader()
 }
 
 } // namespace ctf
-REAPING2_CLASS_EXPORT_IMPLEMENT(ctf__AttachableComponent, ctf::AttachableComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ctf__AttachableComponent, ctf::AttachableComponent );

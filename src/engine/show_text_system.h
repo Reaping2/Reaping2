@@ -11,14 +11,14 @@ struct TimedText
 {
     double mSeconds;
     std::string mText;
-    TimedText(double seconds, std::string text)
-        :mSeconds(seconds),mText(text){}
+    TimedText( double seconds, std::string text )
+        : mSeconds( seconds ), mText( text ) {}
 };
 
 class ShowTextSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(ShowTextSystem)
+    DEFINE_SYSTEM_BASE( ShowTextSystem )
     ShowTextSystem();
 protected:
     virtual void Init();
@@ -32,7 +32,7 @@ private:
     typedef std::list<TimedText> Timed_Texts_t;
     Timed_Texts_t mTimedTexts;
     AutoReg mOnShowText;
-    void OnShowText(engine::ShowTextEvent const& Evt);
+    void OnShowText( engine::ShowTextEvent const& Evt );
 };
 
 } // namespace engine

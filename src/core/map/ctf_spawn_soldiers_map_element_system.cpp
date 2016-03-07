@@ -9,8 +9,8 @@ namespace ctf {
 
 CtfSpawnSoldiersMapElementSystem::CtfSpawnSoldiersMapElementSystem()
     : MapElementSystem()
-    , mProgramState(::core::ProgramState::Get())
-    , mCtfProgramState(::ctf::ProgramState::Get())
+    , mProgramState( ::core::ProgramState::Get() )
+    , mCtfProgramState( ::ctf::ProgramState::Get() )
 {
 }
 
@@ -21,33 +21,33 @@ void CtfSpawnSoldiersMapElementSystem::Init()
 }
 
 
-void CtfSpawnSoldiersMapElementSystem::Update(double DeltaTime)
+void CtfSpawnSoldiersMapElementSystem::Update( double DeltaTime )
 {
-    MapElementSystem::Update(DeltaTime);
-    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfSpawnSoldiersMapElement::GetType_static());
+    MapElementSystem::Update( DeltaTime );
+    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), CtfSpawnSoldiersMapElement::GetType_static() );
     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSpawnSoldiersMapElementIt = mapElementListFilter.begin(), ctfSpawnSoldiersMapElementE = mapElementListFilter.end(); ctfSpawnSoldiersMapElementIt != ctfSpawnSoldiersMapElementE; ++ctfSpawnSoldiersMapElementIt )
     {
-        Opt<CtfSpawnSoldiersMapElement> ctfSpawnSoldiersMapElement(*ctfSpawnSoldiersMapElementIt);
-        if (ctfSpawnSoldiersMapElement->GetValueId(CtfSpawnSoldiersMapElement::SpawnNodeId())>0)
+        Opt<CtfSpawnSoldiersMapElement> ctfSpawnSoldiersMapElement( *ctfSpawnSoldiersMapElementIt );
+        if ( ctfSpawnSoldiersMapElement->GetValueId( CtfSpawnSoldiersMapElement::SpawnNodeId() ) > 0 )
         {
-            if (mProgramState.mMode==core::ProgramState::Server)
+            if ( mProgramState.mMode == core::ProgramState::Server )
             {
-                Opt<engine::ctf::CtfSoldierSpawnSystem> ctfSoldierSpawnS(engine::ctf::CtfSoldierSpawnSystem::Get());
-                for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
+                Opt<engine::ctf::CtfSoldierSpawnSystem> ctfSoldierSpawnS( engine::ctf::CtfSoldierSpawnSystem::Get() );
+                for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
                 {
-                    Opt< ::ctf::ClientData> ctfClientData(mCtfProgramState.FindClientDataByClientId(i->mClientId));
-                    if (ctfClientData.IsValid())
+                    Opt< ::ctf::ClientData> ctfClientData( mCtfProgramState.FindClientDataByClientId( i->mClientId ) );
+                    if ( ctfClientData.IsValid() )
                     {
-                        std::auto_ptr<Actor> player(ctfSoldierSpawnS->Spawn(*i, ctfClientData->mTeam));
-                        mScene.AddActor(player.release());
+                        std::auto_ptr<Actor> player( ctfSoldierSpawnS->Spawn( *i, ctfClientData->mTeam ) );
+                        mScene.AddActor( player.release() );
                     }
                 }
             }
-            else if (mProgramState.mMode==core::ProgramState::Local)
+            else if ( mProgramState.mMode == core::ProgramState::Local )
             {
                 // no local support for ctf
             }
-            L1("ctf_spawn soldiers!");
+            L1( "ctf_spawn soldiers!" );
         }
         ctfSpawnSoldiersMapElement->ResetValues();
     }

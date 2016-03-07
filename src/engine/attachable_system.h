@@ -10,7 +10,7 @@ namespace ctf {
 class AttachableSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(AttachableSystem)
+    DEFINE_SYSTEM_BASE( AttachableSystem )
     AttachableSystem();
 protected:
     virtual void Init();

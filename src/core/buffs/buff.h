@@ -17,17 +17,17 @@
     { \
         return BuffType::GetType_static(); \
     } \
-
-class Buff 
+ 
+class Buff
 {
 public:
-    virtual int GetType() const=0;
+    virtual int GetType() const = 0;
     virtual ~Buff();
-    virtual void SetSecsToEnd(double secsToEnd);
+    virtual void SetSecsToEnd( double secsToEnd );
     virtual double GetSecsToEnd()const;
-    virtual void SetAutoRemove(bool autoRemove);
+    virtual void SetAutoRemove( bool autoRemove );
     virtual bool IsAutoRemove()const;
-    virtual void SetUID(int32_t uID);
+    virtual void SetUID( int32_t uID );
     virtual int32_t GetUID()const;
 protected:
     double mSecsToEnd;
@@ -39,32 +39,32 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void Buff::serialize(Archive& ar, const unsigned int version)
+void Buff::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mSecsToEnd;
-    ar & mAutoRemove;
-    ar & mUID;
+    ar& mSecsToEnd;
+    ar& mAutoRemove;
+    ar& mUID;
 }
 
 
 class DefaultBuff : public Buff
 {
 public:
-    DEFINE_BUFF_BASE(DefaultBuff)
+    DEFINE_BUFF_BASE( DefaultBuff )
     DefaultBuff();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void DefaultBuff::serialize(Archive& ar, const unsigned int version)
+void DefaultBuff::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Buff>(*this);
+    ar& boost::serialization::base_object<Buff>( *this );
 }
 
 #endif//INCLUDED_CORE_BUFFS_BUFF_H

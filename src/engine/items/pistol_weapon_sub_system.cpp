@@ -5,8 +5,8 @@ namespace engine {
 PistolWeaponSubSystem::PistolWeaponSubSystem()
     : SubSystemHolder()
     , mScene( Scene::Get() )
-    , mWeaponItemSubSystem(WeaponItemSubSystem::Get())
-    , mActorFactory(ActorFactory::Get())
+    , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
+    , mActorFactory( ActorFactory::Get() )
     , mShotId( AutoId( "pistol_shot" ) )
 {
 }
@@ -16,31 +16,31 @@ void PistolWeaponSubSystem::Init()
     SubSystemHolder::Init();
 }
 
-void PistolWeaponSubSystem::Update(Actor& actor, double DeltaTime)
+void PistolWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
-    if (weapon->GetCooldown()>0)
+    if ( weapon->GetCooldown() > 0 )
     {
         return;
     }
-    if (weapon->IsShooting())
+    if ( weapon->IsShooting() )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        projectiles.push_back( Opt<Actor>(ps.release()) );
+        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        projectiles.push_back( Opt<Actor>( ps.release() ) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );
     }
-    else if (weapon->IsShootingAlt())
+    else if ( weapon->IsShootingAlt() )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        projectiles.push_back( Opt<Actor>(ps.release()) );
+        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        projectiles.push_back( Opt<Actor>( ps.release() ) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
     }
 }
 

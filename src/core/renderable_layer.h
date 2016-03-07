@@ -11,7 +11,7 @@ protected:
 public:
     enum Type
     {
-        Background=0,
+        Background = 0,
         Corpses,
         Creeps,
         Players,
@@ -20,7 +20,7 @@ public:
     };
     RenderableLayer::Type operator()( int32_t Id ) const;
 private:
-    typedef std::map<int32_t,RenderableLayer::Type> IdToRendLayerMap_t;
+    typedef std::map<int32_t, RenderableLayer::Type> IdToRendLayerMap_t;
     IdToRendLayerMap_t mIdToRendLayerMap;
 };
 

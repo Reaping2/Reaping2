@@ -2,9 +2,9 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-void ControllerComponent::SetEnabled(bool Enabled)
+void ControllerComponent::SetEnabled( bool Enabled )
 {
-    mEnabled=Enabled;
+    mEnabled = Enabled;
 }
 
 bool ControllerComponent::IsEnabled()
@@ -13,14 +13,14 @@ bool ControllerComponent::IsEnabled()
 }
 
 ControllerComponent::ControllerComponent()
-    : mEnabled(true)
+    : mEnabled( true )
 {
 
 }
 
-void ControllerComponent::Update(double Seconds)
+void ControllerComponent::Update( double Seconds )
 {
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ControllerComponent, ControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ControllerComponent, ControllerComponent );

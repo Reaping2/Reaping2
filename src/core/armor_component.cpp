@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 ArmorComponent::ArmorComponent()
-    : mCurrentArmor(0)
+    : mCurrentArmor( 0 )
 {
 }
 
-void ArmorComponent::SetCurrentArmor(int32_t currentArmor)
+void ArmorComponent::SetCurrentArmor( int32_t currentArmor )
 {
-    mCurrentArmor=currentArmor;
+    mCurrentArmor = currentArmor;
 }
 
 int32_t ArmorComponent::GetCurrentArmor()const
@@ -27,4 +27,4 @@ ArmorComponentLoader::ArmorComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ArmorComponent, ArmorComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ArmorComponent, ArmorComponent );

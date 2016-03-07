@@ -1,46 +1,46 @@
 #include "render/death_action_renderer.h"
 #include "platform/auto_id.h"
-namespace render{
+namespace render {
 
 
-    DeathActionRenderer::DeathActionRenderer(int32_t Id)
-        : ActionRenderer(Id)
+DeathActionRenderer::DeathActionRenderer( int32_t Id )
+    : ActionRenderer( Id )
+{
+
+}
+
+void DeathActionRenderer::Init( const Actor& actor )
+{
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    int32_t aid = AutoId( "death" );
+    Sprite const& Spr = Sprites( aid );
+    if( Spr.IsValid() )
     {
-
+        mSecsToEnd = Spr.GetSecsToEnd();
     }
+}
 
-    void DeathActionRenderer::Init(const Actor& actor)
+void DeathActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+{
+    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
+    int32_t aid = AutoId( "death" );
+    Sprite const& Spr = Sprites( aid );
+    if( Spr.IsValid() )
     {
-        SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-        int32_t aid=AutoId("death");
-        Sprite const& Spr=Sprites(aid);
-        if( Spr.IsValid() )
-        {
-            mSecsToEnd=Spr.GetSecsToEnd();
-        }
+        SpritePhase const& Phase = Spr( ( int32_t )GetState() );
+        renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase ) );
     }
+}
 
-    void DeathActionRenderer::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)
+void DeathActionRenderer::Update( double DeltaTime )
+{
+    double nextState = mSecsToEnd == 0 ? 100 : ( mState + 1. / mSecsToEnd * DeltaTime * 100. );
+
+    if( nextState >= 100 )
     {
-        SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-        int32_t aid=AutoId("death");
-        Sprite const& Spr=Sprites(aid);
-        if( Spr.IsValid() )
-        {
-            SpritePhase const& Phase = Spr( (int32_t)GetState() );
-            renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase ) );
-        }
+        nextState = 100.;
     }
-
-    void DeathActionRenderer::Update(double DeltaTime)
-    {
-        double nextState = mSecsToEnd==0?100:(mState + 1. / mSecsToEnd * DeltaTime * 100.);
-
-        if( nextState >= 100 )
-        {
-            nextState = 100.;
-        }
-        mState = nextState;
-    }
+    mState = nextState;
+}
 
 } // namespace render

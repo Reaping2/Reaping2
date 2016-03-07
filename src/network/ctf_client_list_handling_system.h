@@ -20,7 +20,7 @@ class CtfClientListHandlingSystem : public engine::System
     void OnTeamSwitchRequestEvent( TeamSwitchRequestEvent const& event );
     void OnClientReadyEvent( ClientReadyEvent const& event );
 public:
-    DEFINE_SYSTEM_BASE(CtfClientListHandlingSystem)
+    DEFINE_SYSTEM_BASE( CtfClientListHandlingSystem )
     CtfClientListHandlingSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 OwnerComponent::OwnerComponent()
-    : mOwnerGUID(-1)
+    : mOwnerGUID( -1 )
 {
 }
 
-void OwnerComponent::SetOwnerGUID(int32_t ownerGUID)
+void OwnerComponent::SetOwnerGUID( int32_t ownerGUID )
 {
-    mOwnerGUID=ownerGUID;
+    mOwnerGUID = ownerGUID;
 }
 
 int32_t OwnerComponent::GetOwnerGUID()const
@@ -27,4 +27,4 @@ OwnerComponentLoader::OwnerComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(OwnerComponent, OwnerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( OwnerComponent, OwnerComponent );

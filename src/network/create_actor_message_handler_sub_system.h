@@ -7,15 +7,15 @@
 
 namespace network {
 
-    class CreateActorMessageHandlerSubSystem: public MessageHandlerSubSystem
-    {
-        ActorFactory& mActorFactory;
-    public:
-        DEFINE_SUB_SYSTEM_BASE(CreateActorMessageHandlerSubSystem)
-        CreateActorMessageHandlerSubSystem();
-        virtual void Init();
-        virtual void Execute(Message const& message );
-    };
+class CreateActorMessageHandlerSubSystem: public MessageHandlerSubSystem
+{
+    ActorFactory& mActorFactory;
+public:
+    DEFINE_SUB_SYSTEM_BASE( CreateActorMessageHandlerSubSystem )
+    CreateActorMessageHandlerSubSystem();
+    virtual void Init();
+    virtual void Execute( Message const& message );
+};
 
 } // namespace network
 

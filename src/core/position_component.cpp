@@ -5,9 +5,9 @@
 
 
 PositionComponent::PositionComponent()
-    : mX(0.0)
-    , mY(0.0)
-    , mOrientation(0.0)
+    : mX( 0.0 )
+    , mY( 0.0 )
+    , mOrientation( 0.0 )
 {
 }
 
@@ -25,32 +25,32 @@ double const& PositionComponent::GetOrientation()const
 }
 void PositionComponent::SetX( double X )
 {
-    mX = std::floor(X*PRECISION)/PRECISION;
+    mX = std::floor( X * PRECISION ) / PRECISION;
 }
 void PositionComponent::SetY( double Y )
 {
-    mY = std::floor(Y*PRECISION)/PRECISION;
+    mY = std::floor( Y * PRECISION ) / PRECISION;
 }
 void PositionComponent::SetOrientation( double Orientation )
 {
-    mOrientation = std::floor(Orientation*PRECISION)/PRECISION;
+    mOrientation = std::floor( Orientation * PRECISION ) / PRECISION;
 }
 
-void PositionComponent::Save(Json::Value& component)
+void PositionComponent::Save( Json::Value& component )
 {
-    Component::Save(component);
-    Json::Value SettersArr(Json::arrayValue);
-    Json::Value Setters(Json::objectValue);
-    Setters["x"]=Json::Value(GetX());
-    Setters["y"]=Json::Value(GetY());
-    SettersArr.append(Setters);
-    component["set"]=SettersArr;
+    Component::Save( component );
+    Json::Value SettersArr( Json::arrayValue );
+    Json::Value Setters( Json::objectValue );
+    Setters["x"] = Json::Value( GetX() );
+    Setters["y"] = Json::Value( GetY() );
+    SettersArr.append( Setters );
+    component["set"] = SettersArr;
 }
 
 void PositionComponentLoader::BindValues()
 {
-    Bind("x",func_double(&PositionComponent::SetX));
-    Bind("y",func_double(&PositionComponent::SetY));
+    Bind( "x", func_double( &PositionComponent::SetX ) );
+    Bind( "y", func_double( &PositionComponent::SetY ) );
 }
 
 PositionComponentLoader::PositionComponentLoader()
@@ -58,4 +58,4 @@ PositionComponentLoader::PositionComponentLoader()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(PositionComponent, PositionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( PositionComponent, PositionComponent );

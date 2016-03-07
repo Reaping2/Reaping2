@@ -10,22 +10,22 @@ namespace map {
 DefaultGrid const GridRepo::mDefault = DefaultGrid();
 
 GridRepo::GridRepo()
-    : Repository<IGrid>(mDefault)
+    : Repository<IGrid>( mDefault )
 {
-    int32_t id=AutoId("absolute");
-    mElements.insert(id, new AbsoluteGrid(AutoId("absolute")));
-    id=AutoId("matrix");
-    mElements.insert(id, new MatrixGrid(AutoId("matrix")));
+    int32_t id = AutoId( "absolute" );
+    mElements.insert( id, new AbsoluteGrid( AutoId( "absolute" ) ) );
+    id = AutoId( "matrix" );
+    mElements.insert( id, new MatrixGrid( AutoId( "matrix" ) ) );
 }
 
 
-void DefaultGrid::Update(double DeltaTime)
+void DefaultGrid::Update( double DeltaTime )
 {
 
 }
 
 DefaultGrid::DefaultGrid()
-    : IGrid(-1)
+    : IGrid( -1 )
 {
 
 }

@@ -9,4 +9,4 @@ IExplodeOnHitComponent::IExplodeOnHitComponent()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(IExplodeOnHitComponent, IExplodeOnHitComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( IExplodeOnHitComponent, IExplodeOnHitComponent );

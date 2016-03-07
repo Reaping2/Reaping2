@@ -5,7 +5,7 @@
 
 namespace map {
 
-    typedef boost::function<void( int32_t )> int_function_t;
+typedef boost::function<void( int32_t )> int_function_t;
 
 } // namespace map
 

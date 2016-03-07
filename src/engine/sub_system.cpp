@@ -3,19 +3,19 @@
 namespace engine {
 
 
-    SubSystem::~SubSystem()
-    {
+SubSystem::~SubSystem()
+{
 
-    }
+}
 
-    void DefaultSubSystem::Init()
-    {
+void DefaultSubSystem::Init()
+{
 
-    }
+}
 
-    void DefaultSubSystem::Update(Actor& actor, double DeltaTime)
-    {
+void DefaultSubSystem::Update( Actor& actor, double DeltaTime )
+{
 
-    }
+}
 
 } // namespace engine

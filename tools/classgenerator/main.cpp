@@ -10,9 +10,9 @@
 class Generator
 {
 public:
-    typedef std::pair<std::string,std::string> Type_Member_Pair_t;
+    typedef std::pair<std::string, std::string> Type_Member_Pair_t;
     typedef std::vector<Type_Member_Pair_t> Type_Member_Pairs_t;
-    typedef std::pair<std::string,std::string> Namespace_Event_Pair_t;
+    typedef std::pair<std::string, std::string> Namespace_Event_Pair_t;
     typedef std::vector<Namespace_Event_Pair_t> Namespace_Event_Pairs_t;
     std::string classUnderscore;
     std::string parentUnderscore;
@@ -39,230 +39,230 @@ protected:
     Type_Member_Pairs_t typeMemberPairs;
     Namespace_Event_Pairs_t namespaceEventPairs;
 public:
-    void WriteCommand(AutoNormalFile& file)
+    void WriteCommand( AutoNormalFile& file )
     {
-        fprintf(file.mFile, "\n//command: %s\n",command.c_str());
+        fprintf( file.mFile, "\n//command: %s\n", command.c_str() );
     }
     virtual void Generate()
     {
-        L1("default generator implementation, do nothing\n");
+        L1( "default generator implementation, do nothing\n" );
     }
     virtual void Init()
     {
-        classCamelCase=UnderscoreToCamelCase(classUnderscore);
-        classVariable=classCamelCase;
-        classVariable[0]=tolower(classCamelCase[0]);
-        classUpperCaseUnderscore=boost::to_upper_copy(classUnderscore);
-        parentCamelCase=UnderscoreToCamelCase(parentUnderscore);
-        nameSpaceUpperCase=boost::to_upper_copy(namespaceLowerCase);
-        if (!targetUnderscore.empty())
+        classCamelCase = UnderscoreToCamelCase( classUnderscore );
+        classVariable = classCamelCase;
+        classVariable[0] = tolower( classCamelCase[0] );
+        classUpperCaseUnderscore = boost::to_upper_copy( classUnderscore );
+        parentCamelCase = UnderscoreToCamelCase( parentUnderscore );
+        nameSpaceUpperCase = boost::to_upper_copy( namespaceLowerCase );
+        if ( !targetUnderscore.empty() )
         {
-            targetCamelCase=UnderscoreToCamelCase(targetUnderscore);
-            targetVariableName=targetCamelCase;
-            targetVariableName[0]=tolower(targetVariableName[0]);
+            targetCamelCase = UnderscoreToCamelCase( targetUnderscore );
+            targetVariableName = targetCamelCase;
+            targetVariableName[0] = tolower( targetVariableName[0] );
         }
 
-        if (!targetItemTypeUnderscore.empty())
+        if ( !targetItemTypeUnderscore.empty() )
         {
-            targetItemTypeCamelCase=UnderscoreToCamelCase(targetItemTypeUnderscore);
-            targetItemTypeVariableName=targetItemTypeCamelCase;
-            targetItemTypeVariableName[0]=tolower(targetItemTypeVariableName[0]);
+            targetItemTypeCamelCase = UnderscoreToCamelCase( targetItemTypeUnderscore );
+            targetItemTypeVariableName = targetItemTypeCamelCase;
+            targetItemTypeVariableName[0] = tolower( targetItemTypeVariableName[0] );
         }
-        if (!targetItemNameUnderscore.empty())
+        if ( !targetItemNameUnderscore.empty() )
         {
-            targetItemNameCamelCase=UnderscoreToCamelCase(targetItemNameUnderscore);
-            targetItemNameVariableName=targetItemNameCamelCase;
-            targetItemNameVariableName[0]=tolower(targetItemNameVariableName[0]);
+            targetItemNameCamelCase = UnderscoreToCamelCase( targetItemNameUnderscore );
+            targetItemNameVariableName = targetItemNameCamelCase;
+            targetItemNameVariableName[0] = tolower( targetItemNameVariableName[0] );
         }
 
 
-        headerGuard="INCLUDED_"+nameSpaceUpperCase+"_"+classUpperCaseUnderscore+"_H";
-        typeMemberPairs=SplitMemberPairs(membersArg);
-        namespaceEventPairs=SplitEventPairs(eventsArg);
+        headerGuard = "INCLUDED_" + nameSpaceUpperCase + "_" + classUpperCaseUnderscore + "_H";
+        typeMemberPairs = SplitMemberPairs( membersArg );
+        namespaceEventPairs = SplitEventPairs( eventsArg );
     }
     virtual ~Generator() {}
-    std::string UnderscoreToCamelCase(std::string underscore)
+    std::string UnderscoreToCamelCase( std::string underscore )
     {
-        if (underscore.empty())
+        if ( underscore.empty() )
         {
             return std::string();
         }
-        boost::to_lower(underscore);
+        boost::to_lower( underscore );
         std::vector<std::string> parts;
-        boost::split(parts,underscore,boost::is_any_of("_"));
-        for(std::vector<std::string>::iterator i=parts.begin(),e=parts.end();i!=e;++i)
+        boost::split( parts, underscore, boost::is_any_of( "_" ) );
+        for( std::vector<std::string>::iterator i = parts.begin(), e = parts.end(); i != e; ++i )
         {
-            (*i)[0]=toupper((*i)[0]);
+            ( *i )[0] = toupper( ( *i )[0] );
         }
         std::string camelCase;
-        camelCase=boost::join(parts,camelCase);
+        camelCase = boost::join( parts, camelCase );
         return camelCase;
     }
 
-    Type_Member_Pairs_t SplitMemberPairs(std::string membersArg)
+    Type_Member_Pairs_t SplitMemberPairs( std::string membersArg )
     {
-        if (membersArg.empty())
+        if ( membersArg.empty() )
         {
             return Type_Member_Pairs_t();
         }
         std::vector<std::string> typeMemberSplit;
-        boost::split(typeMemberSplit,membersArg,boost::is_any_of(" "));
+        boost::split( typeMemberSplit, membersArg, boost::is_any_of( " " ) );
 
         Type_Member_Pairs_t typeMemberPairs;
-        for(std::vector<std::string>::iterator i=typeMemberSplit.begin(),e=typeMemberSplit.end();i!=e;++i)
+        for( std::vector<std::string>::iterator i = typeMemberSplit.begin(), e = typeMemberSplit.end(); i != e; ++i )
         {
             std::vector<std::string> parts;
-            boost::split(parts,*i,boost::is_any_of("-"));
-            if(parts.size()==2)
+            boost::split( parts, *i, boost::is_any_of( "-" ) );
+            if( parts.size() == 2 )
             {
-                typeMemberPairs.push_back(Type_Member_Pair_t(parts[0],parts[1]));
+                typeMemberPairs.push_back( Type_Member_Pair_t( parts[0], parts[1] ) );
             }
             else
             {
-                L1("members are not correctly separated: %s\n",i->c_str());
+                L1( "members are not correctly separated: %s\n", i->c_str() );
             }
         }
         return typeMemberPairs;
     }
 
-    Namespace_Event_Pairs_t SplitEventPairs(std::string eventsArg)
+    Namespace_Event_Pairs_t SplitEventPairs( std::string eventsArg )
     {
-        if (eventsArg.empty())
+        if ( eventsArg.empty() )
         {
             return Namespace_Event_Pairs_t();
         }
         std::vector<std::string> namespaceEventSplit;
-        boost::split(namespaceEventSplit,eventsArg,boost::is_any_of(" "));
+        boost::split( namespaceEventSplit, eventsArg, boost::is_any_of( " " ) );
 
         Type_Member_Pairs_t namespaceEventPairs;
-        for(std::vector<std::string>::iterator i=namespaceEventSplit.begin(),e=namespaceEventSplit.end();i!=e;++i)
+        for( std::vector<std::string>::iterator i = namespaceEventSplit.begin(), e = namespaceEventSplit.end(); i != e; ++i )
         {
             std::vector<std::string> parts;
-            boost::split(parts,*i,boost::is_any_of("-"));
-            if(parts.size()==2)
+            boost::split( parts, *i, boost::is_any_of( "-" ) );
+            if( parts.size() == 2 )
             {
-                namespaceEventPairs.push_back(Type_Member_Pair_t(parts[0],parts[1]));
+                namespaceEventPairs.push_back( Type_Member_Pair_t( parts[0], parts[1] ) );
             }
             else
             {
-                L1("events are not correctly separated: %s\n",i->c_str());
+                L1( "events are not correctly separated: %s\n", i->c_str() );
             }
         }
         return namespaceEventPairs;
     }
 
     // from targetActor -> mTargetActor
-    std::string CreateMemberName(std::string memberName)
+    std::string CreateMemberName( std::string memberName )
     {
-        memberName[0]=toupper(memberName[0]);
-        std::string r="m"+memberName;
+        memberName[0] = toupper( memberName[0] );
+        std::string r = "m" + memberName;
         return r;
     }
 
     // from damageTaken -> mOnDamageTaken
-    std::string VariableToCamelCase(std::string variableName)
+    std::string VariableToCamelCase( std::string variableName )
     {
-        variableName[0]=toupper(variableName[0]);
+        variableName[0] = toupper( variableName[0] );
         return variableName;
     }
 
     // from targetActor -> GetTargetActor
-    std::string CreateGetMember(std::string memberType, std::string memberName)
+    std::string CreateGetMember( std::string memberType, std::string memberName )
     {
-        memberName[0]=toupper(memberName[0]);
-        std::string r=(memberType=="bool"?"Is":"Get")+memberName;
+        memberName[0] = toupper( memberName[0] );
+        std::string r = ( memberType == "bool" ? "Is" : "Get" ) + memberName;
         return r;
     }
     // from targetActor -> SetTargetActor
-    std::string CreateSetMember(std::string memberName)
+    std::string CreateSetMember( std::string memberName )
     {
-        memberName[0]=toupper(memberName[0]);
-        std::string r="Set"+memberName;
+        memberName[0] = toupper( memberName[0] );
+        std::string r = "Set" + memberName;
         return r;
     }
     // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
-    std::string CreateGetMemberFull(std::string memberType, std::string memberName)
+    std::string CreateGetMemberFull( std::string memberType, std::string memberName )
     {
-        std::string r=memberType+" "+CreateGetMember(memberType,memberName)+"()const";
+        std::string r = memberType + " " + CreateGetMember( memberType, memberName ) + "()const";
         return r;
     }
     // from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)
-    std::string CreateSetMemberFull(std::string memberType, std::string memberName)
+    std::string CreateSetMemberFull( std::string memberType, std::string memberName )
     {
-        std::string r="void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")";
+        std::string r = "void " + CreateSetMember( memberName ) + "(" + memberType + " " + memberName + ")";
         return r;
     }
     // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
-    std::string CreateVirtualGetMemberFull(std::string memberType, std::string memberName)
+    std::string CreateVirtualGetMemberFull( std::string memberType, std::string memberName )
     {
-        std::string r="virtual "+CreateGetMemberFull(memberType,memberName);
+        std::string r = "virtual " + CreateGetMemberFull( memberType, memberName );
         return r;
     }
     // from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)
-    std::string CreateVirtualSetMemberFull(std::string memberType, std::string memberName)
+    std::string CreateVirtualSetMemberFull( std::string memberType, std::string memberName )
     {
-        std::string r="virtual "+CreateSetMemberFull(memberType,memberName);
+        std::string r = "virtual " + CreateSetMemberFull( memberType, memberName );
         return r;
     }
 
     /// from int32_t,targetActor -> virtual int32_t GetTargetActor()const=0
-    std::string CreateAbstractGetMember(std::string memberType, std::string memberName)
+    std::string CreateAbstractGetMember( std::string memberType, std::string memberName )
     {
-        std::string r="virtual "+memberType+" "+CreateGetMember(memberType,memberName)+"()const=0";
+        std::string r = "virtual " + memberType + " " + CreateGetMember( memberType, memberName ) + "()const=0";
         return r;
     }
 
     /// from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)=0
-    std::string CreateAbstractSetMember(std::string memberType, std::string memberName)
+    std::string CreateAbstractSetMember( std::string memberType, std::string memberName )
     {
-        std::string r="virtual void "+CreateSetMember(memberName)+"("+memberType+" "+memberName+")=0";
+        std::string r = "virtual void " + CreateSetMember( memberName ) + "(" + memberType + " " + memberName + ")=0";
         return r;
     }
 
     // from int32_t,targetActor -> int32_t mTargetActor
-    std::string CreateMemberWithType(std::string memberType, std::string memberName)
+    std::string CreateMemberWithType( std::string memberType, std::string memberName )
     {
-        std::string r=memberType+" "+CreateMemberName(memberName);
+        std::string r = memberType + " " + CreateMemberName( memberName );
         return r;
     }
 
     // from int32_t,targetActor -> int32_t targetActor
-    std::string CreateArgumentWithType(std::string memberType, std::string memberName)
+    std::string CreateArgumentWithType( std::string memberType, std::string memberName )
     {
-        std::string r=memberType+" "+memberName;
+        std::string r = memberType + " " + memberName;
         return r;
     }
 
-    // from int32_t,targetActor,TargetComponent -> 
+    // from int32_t,targetActor,TargetComponent ->
     // int32_t GetTargetActor() const
     // {
     //     return mTargetActor;
     // }
-    // 
-    std::string CreateGetMemberCppDefiniton(std::string memberType, std::string memberName,std::string ClassCamelCase)
+    //
+    std::string CreateGetMemberCppDefiniton( std::string memberType, std::string memberName, std::string ClassCamelCase )
     {
-        
-        std::string r=memberType+" "+ClassCamelCase+"::"+CreateGetMember(memberType,memberName)+"()const\n";
-        r=r+"{\n";
-        r=r+"    return "+CreateMemberName(memberName)+";\n";
-        r=r+"}\n";
-        r=r+"\n";
+
+        std::string r = memberType + " " + ClassCamelCase + "::" + CreateGetMember( memberType, memberName ) + "()const\n";
+        r = r + "{\n";
+        r = r + "    return " + CreateMemberName( memberName ) + ";\n";
+        r = r + "}\n";
+        r = r + "\n";
         return r;
     }
 
-    // from int32_t,targetActor,TargetComponent -> 
+    // from int32_t,targetActor,TargetComponent ->
     // virtual void SetTargetActor(int32_t targetActor)
     // {
     //     mTargetActor=targetActor;
     // }
-    // 
-    std::string CreateSetMemberCppDefiniton(std::string memberType, std::string memberName,std::string ClassCamelCase)
+    //
+    std::string CreateSetMemberCppDefiniton( std::string memberType, std::string memberName, std::string ClassCamelCase )
     {
-        std::string r="void "+ClassCamelCase+"::"+CreateSetMember(memberName)+"("+memberType+" "+memberName+")\n";
-        r=r+"{\n";
-        r=r+"    "+CreateMemberName(memberName)+"="+memberName+";\n";
-        r=r+"}\n";
-        r=r+"\n";
+        std::string r = "void " + ClassCamelCase + "::" + CreateSetMember( memberName ) + "(" + memberType + " " + memberName + ")\n";
+        r = r + "{\n";
+        r = r + "    " + CreateMemberName( memberName ) + "=" + memberName + ";\n";
+        r = r + "}\n";
+        r = r + "\n";
         return r;
     }
 };
@@ -271,40 +271,40 @@ class IComponentGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("IComponentGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "IComponentGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="component";
+            parentUnderscore = "component";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase = "core";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"component.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_COMPONENT_BASE(%s)\n",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"component.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_COMPONENT_BASE(%s)\n", classCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateAbstractSetMember(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateAbstractGetMember(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateAbstractSetMember( i->first, i->second ).c_str() );
+                fprintf( file.mFile, "    %s;\n", CreateAbstractGetMember( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            WriteCommand( file );
 
         }
-        L1("IComponentGenerator ended\n");
+        L1( "IComponentGenerator ended\n" );
     }
 };
 
@@ -312,97 +312,97 @@ class ComponentGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("ComponentGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "ComponentGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="i_"+classUnderscore;
+            parentUnderscore = "i_" + classUnderscore;
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase = "core";
         }
 
         Init();
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",parentUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/property_loader.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", parentUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/property_loader.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateVirtualSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateVirtualGetMemberFull(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateVirtualSetMemberFull( i->first, i->second ).c_str() );
+                fprintf( file.mFile, "    %s;\n", CreateVirtualGetMemberFull( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    friend class ComponentFactory;\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    friend class ComponentFactory;\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "class %sLoader : public ComponentLoader<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    virtual void BindValues();\n");
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    %sLoader();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    friend class ComponentLoaderFactory;\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "class %sLoader : public ComponentLoader<%s>\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    virtual void BindValues();\n" );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    %sLoader();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    friend class ComponentLoaderFactory;\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "//TODO: to component_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to component_loader_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "//TODO: to component_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateComponent<%s>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to component_loader_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateComponentLoader<%sLoader>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            WriteCommand( file );
         }
-        
+
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            bool isFirst=true;
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"core/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            bool isFirst = true;
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
-                    isFirst?":":",",CreateMemberName(i->second).c_str());
-                isFirst=false;
+                fprintf( file.mFile, "    %s %s(_fill_me_)\n",
+                         isFirst ? ":" : ",", CreateMemberName( i->second ).c_str() );
+                isFirst = false;
             }
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
-                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf( file.mFile, "%s", CreateSetMemberCppDefiniton( i->first, i->second, classCamelCase ).c_str() );
+                fprintf( file.mFile, "%s", CreateGetMemberCppDefiniton( i->first, i->second, classCamelCase ).c_str() );
             }
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %sLoader::BindValues()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%sLoader::%sLoader()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %sLoader::BindValues()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%sLoader::%sLoader()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
         }
 
-        L1("ComponentGenerator ended\n");
+        L1( "ComponentGenerator ended\n" );
     }
 };
 
@@ -410,88 +410,88 @@ class MapElementGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="map_element";
+            parentUnderscore = "map_element";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="map";
+            namespaceLowerCase = "map";
         }
 
         Init();
         {
-            AutoNormalFile file((classUnderscore+"_map_element.h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"core/map/%s.h\"\n",parentUnderscore.c_str());
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %sMapElement : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_MAP_ELEMENT_BASE(%sMapElement)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %sMapElement(int32_t Id);\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    void Load(Json::Value& setters);\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + "_map_element.h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"core/map/%s.h\"\n", parentUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %sMapElement : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_MAP_ELEMENT_BASE(%sMapElement)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %sMapElement(int32_t Id);\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    void Load(Json::Value& setters);\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateGetMemberFull(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateSetMemberFull( i->first, i->second ).c_str() );
+                fprintf( file.mFile, "    %s;\n", CreateGetMemberFull( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "private:\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "private:\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "//TODO: to map_element_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateMapElement<%sMapElement>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            WriteCommand(file);
-       }
+            fprintf( file.mFile, "//TODO: to map_element_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateMapElement<%sMapElement>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            WriteCommand( file );
+        }
 
 
         {
-            AutoNormalFile file((classUnderscore+"_map_element.cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/map/%s_map_element.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%sMapElement::%sMapElement(int32_t Id)\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : MapElement(Id)\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + "_map_element.cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"core/map/%s_map_element.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%sMapElement::%sMapElement(int32_t Id)\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : MapElement(Id)\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    , %s(_fill_me_)\n",
-                    CreateMemberName(i->second).c_str());
+                fprintf( file.mFile, "    , %s(_fill_me_)\n",
+                         CreateMemberName( i->second ).c_str() );
             }
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %sMapElement::Load(Json::Value& setters)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    MapElement::Load(setters);\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %sMapElement::Load(Json::Value& setters)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    MapElement::Load(setters);\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase+"MapElement").c_str());
-                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase+"MapElement").c_str());
+                fprintf( file.mFile, "%s", CreateSetMemberCppDefiniton( i->first, i->second, classCamelCase + "MapElement" ).c_str() );
+                fprintf( file.mFile, "%s", CreateGetMemberCppDefiniton( i->first, i->second, classCamelCase + "MapElement" ).c_str() );
             }
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -499,75 +499,75 @@ class NormalItemGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("NormalItemGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "NormalItemGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="normal_item";
+            parentUnderscore = "normal_item";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase = "core";
         }
 
         Init();
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"normal_item.h\"\n");
-            fprintf(file.mFile, "#include \"core/property_loader.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    %s( int32_t id );\n",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"normal_item.h\"\n" );
+            fprintf( file.mFile, "#include \"core/property_loader.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    %s( int32_t id );\n", classCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateVirtualSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateVirtualGetMemberFull(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateVirtualSetMemberFull( i->first, i->second ).c_str() );
+                fprintf( file.mFile, "    %s;\n", CreateVirtualGetMemberFull( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "protected:\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "protected:\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to item_factory.cpp:\n");
-            fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),classUnderscore.c_str());
-            WriteCommand(file);
-       }
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to item_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind<%s>(AutoId(\"%s\"));\n", classCamelCase.c_str(), classUnderscore.c_str() );
+            WriteCommand( file );
+        }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s( int32_t id )\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : NormalItem(id)\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"core/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s( int32_t id )\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : NormalItem(id)\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
-                    ",",CreateMemberName(i->second).c_str());
+                fprintf( file.mFile, "    %s %s(_fill_me_)\n",
+                         ",", CreateMemberName( i->second ).c_str() );
             }
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
-                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf( file.mFile, "%s", CreateSetMemberCppDefiniton( i->first, i->second, classCamelCase ).c_str() );
+                fprintf( file.mFile, "%s", CreateGetMemberCppDefiniton( i->first, i->second, classCamelCase ).c_str() );
             }
 
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("NormalItemGenerator ended\n");
+        L1( "NormalItemGenerator ended\n" );
     }
 };
 
@@ -576,119 +576,119 @@ class SystemGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("SystemGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "SystemGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="system";
+            parentUnderscore = "system";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="engine";
+            namespaceLowerCase = "engine";
         }
 
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            targetUnderscore="some_target";
+            targetUnderscore = "some_target";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"core/scene.h\"\n");
-            fprintf(file.mFile, "#include \"engine/%s.h\"\n",parentUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s%s\n"
-                ,classCamelCase.c_str(),namespaceLowerCase=="engine"?"":"engine::",parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update( double DeltaTime );\n");
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "    Scene& mScene;\n");
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"core/scene.h\"\n" );
+            fprintf( file.mFile, "#include \"engine/%s.h\"\n", parentUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s%s\n"
+                     , classCamelCase.c_str(), namespaceLowerCase == "engine" ? "" : "engine::", parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update( double DeltaTime );\n" );
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "    Scene& mScene;\n" );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
-                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf( file.mFile, "    AutoReg mOn%s;\n", VariableToCamelCase( i->second ).c_str() );
+                fprintf( file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
+                         , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n",classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n", classUnderscore.c_str(), namespaceLowerCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n", classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/i_%s_component.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : mScene( Scene::Get() )\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/i_%s_component.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : mScene( Scene::Get() )\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
-                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf( file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
+                         , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str(), classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Update(double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )\n");
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "       Actor& actor = **it;\n");
-            fprintf(file.mFile, "       Opt<I%sComponent> %sC=actor.Get<I%sComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "       if (!%sC.IsValid())\n",targetVariableName.c_str());
-            fprintf(file.mFile, "       {\n");
-            fprintf(file.mFile, "           continue;\n");
-            fprintf(file.mFile, "       }\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Update(double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )\n" );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "       Actor& actor = **it;\n" );
+            fprintf( file.mFile, "       Opt<I%sComponent> %sC=actor.Get<I%sComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "       if (!%sC.IsValid())\n", targetVariableName.c_str() );
+            fprintf( file.mFile, "       {\n" );
+            fprintf( file.mFile, "           continue;\n" );
+            fprintf( file.mFile, "       }\n" );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "void %s::On%s(%s::%sEvent const& Evt)\n"
-                    ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "{\n");
-                fprintf(file.mFile, "}\n");
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "void %s::On%s(%s::%sEvent const& Evt)\n"
+                         , classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str() );
+                fprintf( file.mFile, "{\n" );
+                fprintf( file.mFile, "}\n" );
+                fprintf( file.mFile, "\n" );
             }
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("SystemGenerator ended\n");
+        L1( "SystemGenerator ended\n" );
     }
 };
 
@@ -696,116 +696,116 @@ class MapElementSystemGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="map_element_system";
+            parentUnderscore = "map_element_system";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="map";
+            namespaceLowerCase = "map";
         }
 
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            targetUnderscore="some_target";
+            targetUnderscore = "some_target";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"core/map/%s.h\"\n",parentUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s%s\n"
-                ,classCamelCase.c_str(),namespaceLowerCase=="map"?"":"map::",parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update( double DeltaTime );\n");
-            fprintf(file.mFile, "private:\n");
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"core/map/%s.h\"\n", parentUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s%s\n"
+                     , classCamelCase.c_str(), namespaceLowerCase == "map" ? "" : "map::", parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SYSTEM_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update( double DeltaTime );\n" );
+            fprintf( file.mFile, "private:\n" );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
-                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf( file.mFile, "    AutoReg mOn%s;\n", VariableToCamelCase( i->second ).c_str() );
+                fprintf( file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
+                         , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n",classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateSystem<%s::%s>);\n", classUnderscore.c_str(), namespaceLowerCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "Eng.AddSystem(AutoId(\"%s\"));\n", classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/map/%s.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : %s()\n", parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/map/%s.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : %s()\n", parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    %s::Init();\n", parentCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    %s::Init();\n", parentCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
-                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf( file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
+                         , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str(), classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Update(double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    %s::Update(DeltaTime);\n", parentCamelCase.c_str());
-            fprintf(file.mFile, "    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),%s::GetType_static());\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "    for( MapElementListFilter<MapSystem::All>::const_iterator %sIt = mapElementListFilter.begin(), %sE = mapElementListFilter.end(); %sIt != %sE; ++%sIt )\n"
-                                        , targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(),targetVariableName.c_str());
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        Opt<%s> %s(*%sIt);\n", targetCamelCase.c_str() , targetVariableName.c_str(), targetVariableName.c_str());
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Update(double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    %s::Update(DeltaTime);\n", parentCamelCase.c_str() );
+            fprintf( file.mFile, "    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),%s::GetType_static());\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "    for( MapElementListFilter<MapSystem::All>::const_iterator %sIt = mapElementListFilter.begin(), %sE = mapElementListFilter.end(); %sIt != %sE; ++%sIt )\n"
+                     , targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str() );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        Opt<%s> %s(*%sIt);\n", targetCamelCase.c_str() , targetVariableName.c_str(), targetVariableName.c_str() );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "void %s::On%s(%s::%sEvent const& Evt)\n"
-                    ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "{\n");
-                fprintf(file.mFile, "}\n");
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "void %s::On%s(%s::%sEvent const& Evt)\n"
+                         , classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str() );
+                fprintf( file.mFile, "{\n" );
+                fprintf( file.mFile, "}\n" );
+                fprintf( file.mFile, "\n" );
             }
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -815,17 +815,17 @@ class SubSystemGenerator : public Generator
 protected:
     virtual void Init()
     {
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            targetUnderscore="some_target";
+            targetUnderscore = "some_target";
         }
         Generator::Init();
     }
 
     virtual void Generate()
     {
-        L1("SubSystemGenerator started\n");
-        L1("SubSystemGenerator ended\n");
+        L1( "SubSystemGenerator started\n" );
+        L1( "SubSystemGenerator ended\n" );
     }
 };
 
@@ -835,97 +835,97 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
 {
     virtual void Generate()
     {
-        L1("CollisionSubSystemGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "CollisionSubSystemGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="collision_sub_system";
+            parentUnderscore = "collision_sub_system";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="engine";
+            namespaceLowerCase = "engine";
         }
 
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"engine/collisions/collision_sub_system.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
-            fprintf(file.mFile, "    virtual void ClipScene( Actor& actor );\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"engine/collisions/collision_sub_system.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n" );
+            fprintf( file.mFile, "    virtual void ClipScene( Actor& actor );\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "collisionSS->AddSubSystem(AutoId(\"%s_collision_component\"),AutoId(\"%s\"));\n",targetUnderscore.c_str(),classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to sub_system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "collisionSS->AddSubSystem(AutoId(\"%s_collision_component\"),AutoId(\"%s\"));\n", targetUnderscore.c_str(), classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"engine/engine.h\"\n");
-            fprintf(file.mFile, "#include \"engine/collisions/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/%s_collision_component.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : CollisionSubSystem()\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"engine/engine.h\"\n" );
+            fprintf( file.mFile, "#include \"engine/collisions/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/%s_collision_component.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : CollisionSubSystem()\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    if (!mOther)\n");
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        return;\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    if (!mOther)\n" );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        return;\n" );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::ClipScene(Actor& actor)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    CollisionSubSystem::ClipScene(actor);\n");
-            fprintf(file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::ClipScene(Actor& actor)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    CollisionSubSystem::ClipScene(actor);\n" );
+            fprintf( file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("CollisionSubSystemGenerator ended\n");
+        L1( "CollisionSubSystemGenerator ended\n" );
     }
 };
 
@@ -933,95 +933,95 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
 {
     virtual void Generate()
     {
-        L1("ControllerSubSystemGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "ControllerSubSystemGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="sub_system";
+            parentUnderscore = "sub_system";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="engine";
+            namespaceLowerCase = "engine";
         }
 
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"engine/sub_system.h\"\n");
-            fprintf(file.mFile, "#include \"core/scene.h\"\n");
-            fprintf(file.mFile, "#include \"core/program_state.h\"\n");
-            fprintf(file.mFile, "using core::ProgramState;\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "    Scene& mScene;\n");
-            fprintf(file.mFile, "    ProgramState& mProgramState;\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"engine/sub_system.h\"\n" );
+            fprintf( file.mFile, "#include \"core/scene.h\"\n" );
+            fprintf( file.mFile, "#include \"core/program_state.h\"\n" );
+            fprintf( file.mFile, "using core::ProgramState;\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n" );
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "    Scene& mScene;\n" );
+            fprintf( file.mFile, "    ProgramState& mProgramState;\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "controllserSystem->AddSubSystem(AutoId(\"%s_controller_component\"),AutoId(\"%s\"));\n",targetUnderscore.c_str(),classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to sub_system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "controllserSystem->AddSubSystem(AutoId(\"%s_controller_component\"),AutoId(\"%s\"));\n", targetUnderscore.c_str(), classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"engine/engine.h\"\n");
-            fprintf(file.mFile, "#include \"engine/controllers/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/%s_controller_component.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : mScene(Scene::Get())\n");
-            fprintf(file.mFile, "    , mProgramState(core::ProgramState::Get())\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"engine/engine.h\"\n" );
+            fprintf( file.mFile, "#include \"engine/controllers/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/%s_controller_component.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : mScene(Scene::Get())\n" );
+            fprintf( file.mFile, "    , mProgramState(core::ProgramState::Get())\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    Opt<%sControllerComponent> %sCC=actor.Get<%sControllerComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "    if (!%sCC.IsValid()||!%sCC->IsEnabled())\n",targetVariableName.c_str(),targetVariableName.c_str());
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        return;\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    Opt<%sControllerComponent> %sCC=actor.Get<%sControllerComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "    if (!%sCC.IsValid()||!%sCC->IsEnabled())\n", targetVariableName.c_str(), targetVariableName.c_str() );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        return;\n" );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("ControllerSubSystemGenerator ended\n");
+        L1( "ControllerSubSystemGenerator ended\n" );
     }
 };
 
@@ -1029,103 +1029,103 @@ class NormalItemSubSystemGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("NormalItemSubSystemGenerator started\n");
-        if (parentUnderscore.empty())
+        L1( "NormalItemSubSystemGenerator started\n" );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="sub_system";
+            parentUnderscore = "sub_system";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="engine";
+            namespaceLowerCase = "engine";
         }
-        if (targetItemTypeUnderscore.empty())
+        if ( targetItemTypeUnderscore.empty() )
         {
-            targetItemTypeUnderscore="normal_item";
+            targetItemTypeUnderscore = "normal_item";
         }
-        if (targetItemNameUnderscore.empty())
+        if ( targetItemNameUnderscore.empty() )
         {
-            targetItemNameUnderscore="item_name";
+            targetItemNameUnderscore = "item_name";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"engine/items/common_sub_system_includes.h\"\n");
-            fprintf(file.mFile, "#include \"%s_sub_system.h\"\n",targetItemTypeUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "    Scene& mScene;\n");
-            fprintf(file.mFile, "    Opt<%sSubSystem> m%sSubSystem;\n",targetItemTypeCamelCase.c_str(),targetItemTypeCamelCase.c_str());
-            fprintf(file.mFile, "    ActorFactory& mActorFactory;\n");
-            fprintf(file.mFile, "    int32_t mProjectileId;\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"engine/items/common_sub_system_includes.h\"\n" );
+            fprintf( file.mFile, "#include \"%s_sub_system.h\"\n", targetItemTypeUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n" );
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "    Scene& mScene;\n" );
+            fprintf( file.mFile, "    Opt<%sSubSystem> m%sSubSystem;\n", targetItemTypeCamelCase.c_str(), targetItemTypeCamelCase.c_str() );
+            fprintf( file.mFile, "    ActorFactory& mActorFactory;\n" );
+            fprintf( file.mFile, "    int32_t mProjectileId;\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "%sSS->AddSubSystem(AutoId(\"%s_%s\"),AutoId(\"%s\"));\n",targetItemTypeVariableName.c_str(),targetItemNameUnderscore.c_str(),targetItemTypeUnderscore.c_str(),classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to sub_system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "%sSS->AddSubSystem(AutoId(\"%s_%s\"),AutoId(\"%s\"));\n", targetItemTypeVariableName.c_str(), targetItemNameUnderscore.c_str(), targetItemTypeUnderscore.c_str(), classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"engine/items/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"%s_sub_system.h\"\n",targetItemTypeUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : mScene(Scene::Get())\n");
-            fprintf(file.mFile, "    , m%sSubSystem(%sSubSystem::Get())\n",targetItemTypeCamelCase.c_str(),targetItemTypeCamelCase.c_str());
-            fprintf(file.mFile, "    , mActorFactory(ActorFactory::Get())\n");
-            fprintf(file.mFile, "    , mProjectileId(AutoId(\"_fill_me_\"))\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"engine/items/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"%s_sub_system.h\"\n", targetItemTypeUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : mScene(Scene::Get())\n" );
+            fprintf( file.mFile, "    , m%sSubSystem(%sSubSystem::Get())\n", targetItemTypeCamelCase.c_str(), targetItemTypeCamelCase.c_str() );
+            fprintf( file.mFile, "    , mActorFactory(ActorFactory::Get())\n" );
+            fprintf( file.mFile, "    , mProjectileId(AutoId(\"_fill_me_\"))\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();\n");
-            fprintf(file.mFile, "    Opt<%s> %s = inventoryC->GetSelected%s();\n",targetItemTypeCamelCase.c_str(),targetItemTypeVariableName.c_str(),targetItemTypeCamelCase.c_str());
-            fprintf(file.mFile, "    if (%s->IsUse())\n",targetItemTypeVariableName.c_str());
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        //TODO: do some stuff with it\n");
-            fprintf(file.mFile, "        %s->SetConsumed(true);\n",targetItemTypeVariableName.c_str());
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();\n" );
+            fprintf( file.mFile, "    Opt<%s> %s = inventoryC->GetSelected%s();\n", targetItemTypeCamelCase.c_str(), targetItemTypeVariableName.c_str(), targetItemTypeCamelCase.c_str() );
+            fprintf( file.mFile, "    if (%s->IsUse())\n", targetItemTypeVariableName.c_str() );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        //TODO: do some stuff with it\n" );
+            fprintf( file.mFile, "        %s->SetConsumed(true);\n", targetItemTypeVariableName.c_str() );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("NormalItemSubSystemGenerator ended\n");
+        L1( "NormalItemSubSystemGenerator ended\n" );
     }
 };
 
@@ -1133,75 +1133,75 @@ class EventGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="event";
+            parentUnderscore = "event";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="engine";
+            namespaceLowerCase = "engine";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"platform/event.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "struct %s : public platform::%s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"platform/event.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "struct %s : public platform::%s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
 
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
 
-            fprintf(file.mFile, "    %s(",classCamelCase.c_str());
-            if (typeMemberPairs.size()>0)
+            fprintf( file.mFile, "    %s(", classCamelCase.c_str() );
+            if ( typeMemberPairs.size() > 0 )
             {
-                for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+                for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
                 {
-                    if (e-1!=i)
+                    if ( e - 1 != i )
                     {
-                        fprintf(file.mFile, "%s, ",CreateArgumentWithType(i->first,i->second).c_str());
+                        fprintf( file.mFile, "%s, ", CreateArgumentWithType( i->first, i->second ).c_str() );
                     }
                     else
                     {
-                        fprintf(file.mFile, "%s)\n",CreateArgumentWithType(i->first,i->second).c_str());
+                        fprintf( file.mFile, "%s)\n", CreateArgumentWithType( i->first, i->second ).c_str() );
                     }
                 }
-                fprintf(file.mFile, "        :");
-                for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+                fprintf( file.mFile, "        :" );
+                for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
                 {
-                    if (e-1!=i)
+                    if ( e - 1 != i )
                     {
-                        fprintf(file.mFile, "%s(%s),",CreateMemberName(i->second).c_str(), i->second.c_str());
+                        fprintf( file.mFile, "%s(%s),", CreateMemberName( i->second ).c_str(), i->second.c_str() );
                     }
                     else
                     {
-                        fprintf(file.mFile, "%s(%s){}\n",CreateMemberName(i->second).c_str(), i->second.c_str());
+                        fprintf( file.mFile, "%s(%s){}\n", CreateMemberName( i->second ).c_str(), i->second.c_str() );
                     }
                 }
             }
             else
             {
-                fprintf(file.mFile, "){}\n");
+                fprintf( file.mFile, "){}\n" );
             }
 
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            WriteCommand( file );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1209,267 +1209,267 @@ class MessageGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (namespaceLowerCase.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="network";
+            namespaceLowerCase = "network";
         }
 
         Init();
-        bool pending=parentUnderscore=="pending";
+        bool pending = parentUnderscore == "pending";
         {
-            AutoNormalFile file((classUnderscore+"_message.h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"network/message.h\"\n");
-            fprintf(file.mFile, "#include \"network/message_handler_sub_system.h\"\n");
-            fprintf(file.mFile, "#include \"network/message_sender_system.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %sMessage : public Message\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    friend class ::boost::serialization::access;\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_MESSAGE_BASE(%sMessage)\n",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + "_message.h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"network/message.h\"\n" );
+            fprintf( file.mFile, "#include \"network/message_handler_sub_system.h\"\n" );
+            fprintf( file.mFile, "#include \"network/message_sender_system.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %sMessage : public Message\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    friend class ::boost::serialization::access;\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_MESSAGE_BASE(%sMessage)\n", classCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
 
-            fprintf(file.mFile, "    %sMessage()\n",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "    %sMessage()\n", classCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                if (i==typeMemberPairs.begin())
+                if ( i == typeMemberPairs.begin() )
                 {
-                    fprintf(file.mFile, "        : %s(_fill_me_)\n",CreateMemberName(i->second).c_str());
+                    fprintf( file.mFile, "        : %s(_fill_me_)\n", CreateMemberName( i->second ).c_str() );
                 }
                 else
                 {
-                    fprintf(file.mFile, "        , %s(_fill_me_)\n",CreateMemberName(i->second).c_str());
+                    fprintf( file.mFile, "        , %s(_fill_me_)\n", CreateMemberName( i->second ).c_str() );
                 }
             }
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "    template<class Archive>\n");
-            fprintf(file.mFile, "    void serialize(Archive& ar, const unsigned int version);\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "    template<class Archive>\n" );
+            fprintf( file.mFile, "    void serialize(Archive& ar, const unsigned int version);\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "template<class Archive>\n");
-            fprintf(file.mFile, "void %sMessage::serialize(Archive& ar, const unsigned int version)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    ar & boost::serialization::base_object<Message>(*this);\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "template<class Archive>\n" );
+            fprintf( file.mFile, "void %sMessage::serialize(Archive& ar, const unsigned int version)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    ar & boost::serialization::base_object<Message>(*this);\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    ar & %s;\n",CreateMemberName(i->second).c_str());
+                fprintf( file.mFile, "    ar & %s;\n", CreateMemberName( i->second ).c_str() );
             }
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            if (pending)
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            if ( pending )
             {
-                fprintf(file.mFile, "class %sMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<%sMessage>\n",classCamelCase.c_str(),classCamelCase.c_str());
+                fprintf( file.mFile, "class %sMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<%sMessage>\n", classCamelCase.c_str(), classCamelCase.c_str() );
             }
             else
             {
-                fprintf(file.mFile, "class %sMessageHandlerSubSystem : public MessageHandlerSubSystem\n",classCamelCase.c_str());
+                fprintf( file.mFile, "class %sMessageHandlerSubSystem : public MessageHandlerSubSystem\n", classCamelCase.c_str() );
             }
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%sMessageHandlerSubSystem)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %sMessageHandlerSubSystem();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    virtual void Init();\n");
-            if (!pending)
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%sMessageHandlerSubSystem)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %sMessageHandlerSubSystem();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            if ( !pending )
             {
-                fprintf(file.mFile, "    virtual void Execute(Message const& message );\n");
+                fprintf( file.mFile, "    virtual void Execute(Message const& message );\n" );
             }
-            fprintf(file.mFile, "    virtual void Update(double DeltaTime);\n");
-            if (pending)
+            fprintf( file.mFile, "    virtual void Update(double DeltaTime);\n" );
+            if ( pending )
             {
-                fprintf(file.mFile, "    virtual bool ProcessPending(Message const& message);\n");
+                fprintf( file.mFile, "    virtual bool ProcessPending(Message const& message);\n" );
             }
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "class %sMessageSenderSystem : public MessageSenderSystem\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            fprintf( file.mFile, "class %sMessageSenderSystem : public MessageSenderSystem\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    AutoReg mOn%s;\n",VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
-                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf( file.mFile, "    AutoReg mOn%s;\n", VariableToCamelCase( i->second ).c_str() );
+                fprintf( file.mFile, "    void On%s(%s::%sEvent const& Evt);\n"
+                         , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SYSTEM_BASE(%sMessageSenderSystem)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %sMessageSenderSystem();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update(double DeltaTime);\n");
-            if (!targetUnderscore.empty())
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SYSTEM_BASE(%sMessageSenderSystem)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %sMessageSenderSystem();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update(double DeltaTime);\n" );
+            if ( !targetUnderscore.empty() )
             {
-                fprintf(file.mFile, "    static std::auto_ptr<%sMessage> Generate%sMessage(Actor &actor);\n",classCamelCase.c_str(),classCamelCase.c_str());
+                fprintf( file.mFile, "    static std::auto_ptr<%sMessage> Generate%sMessage(Actor &actor);\n", classCamelCase.c_str(), classCamelCase.c_str() );
             }
-            fprintf(file.mFile, "};\n");
+            fprintf( file.mFile, "};\n" );
 
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "//TODO: to message_order.h\n");
-            fprintf(file.mFile, "BOOST_CLASS_EXPORT_GUID(%s::%sMessage, \"%s\")\n",namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
-            fprintf(file.mFile, "type=%s::%sMessage::GetType_static();\n",namespaceLowerCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to message_handler_sub_system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s_message_handler_sub_system\"), &CreateSubSystem<%sMessageHandlerSubSystem>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s_message_sender_system\"), &CreateSystem<%s::%sMessageSenderSystem>);\n",classUnderscore.c_str(),namespaceLowerCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "Eng.AddSystem(AutoId(\"%s_message_sender_system\"));\n",classUnderscore.c_str());
-            fprintf(file.mFile, "messageHandlerSSH->AddSubSystem(%s::%sMessage::GetType_static(),AutoId(\"%s_message_handler_sub_system\"));\n",
-                namespaceLowerCase.c_str(),classCamelCase.c_str(),classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "//TODO: to message_order.h\n" );
+            fprintf( file.mFile, "BOOST_CLASS_EXPORT_GUID(%s::%sMessage, \"%s\")\n", namespaceLowerCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str() );
+            fprintf( file.mFile, "type=%s::%sMessage::GetType_static();\n", namespaceLowerCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to message_handler_sub_system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s_message_handler_sub_system\"), &CreateSubSystem<%sMessageHandlerSubSystem>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s_message_sender_system\"), &CreateSystem<%s::%sMessageSenderSystem>);\n", classUnderscore.c_str(), namespaceLowerCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "Eng.AddSystem(AutoId(\"%s_message_sender_system\"));\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "messageHandlerSSH->AddSubSystem(%s::%sMessage::GetType_static(),AutoId(\"%s_message_handler_sub_system\"));\n",
+                     namespaceLowerCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+"_message.cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"network/%s_message.h\"\n",classUnderscore.c_str());
-            if (!targetUnderscore.empty())
+            AutoNormalFile file( ( classUnderscore + "_message.cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"network/%s_message.h\"\n", classUnderscore.c_str() );
+            if ( !targetUnderscore.empty() )
             {
-                fprintf(file.mFile, "#include \"core/i_%s_component.h\"\n",targetUnderscore.c_str());
+                fprintf( file.mFile, "#include \"core/i_%s_component.h\"\n", targetUnderscore.c_str() );
             }
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%sMessageSenderSystem::%sMessageSenderSystem()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : MessageSenderSystem()\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            L1("%s ended1\n",__FUNCTION__);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%sMessageSenderSystem::%sMessageSenderSystem()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : MessageSenderSystem()\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            L1( "%s ended1\n", __FUNCTION__ );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %sMessageSenderSystem::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    MessageSenderSystem::Init();\n");
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %sMessageSenderSystem::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    MessageSenderSystem::Init();\n" );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%sMessageSenderSystem::On%s, this, _1 ) );\n"
-                    ,VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str(),classCamelCase.c_str(),VariableToCamelCase(i->second).c_str());
+                fprintf( file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%sMessageSenderSystem::On%s, this, _1 ) );\n"
+                         , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str(), classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
-            L1("%s ended2\n",__FUNCTION__);
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %sMessageSenderSystem::Update(double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    MessageSenderSystem::Update(DeltaTime);\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            L1( "%s ended2\n", __FUNCTION__ );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %sMessageSenderSystem::Update(double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    MessageSenderSystem::Update(DeltaTime);\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            L1("%s ended3\n",__FUNCTION__);
-            for(Type_Member_Pairs_t::iterator i=namespaceEventPairs.begin(),e=namespaceEventPairs.end();i!=e;++i)
+            L1( "%s ended3\n", __FUNCTION__ );
+            for( Type_Member_Pairs_t::iterator i = namespaceEventPairs.begin(), e = namespaceEventPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "void %sMessageSenderSystem::On%s(%s::%sEvent const& Evt)\n"
-                    ,classCamelCase.c_str(),VariableToCamelCase(i->second).c_str(),i->first.c_str(),VariableToCamelCase(i->second).c_str());
-                fprintf(file.mFile, "{\n");
-                fprintf(file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n",classCamelCase.c_str(),classVariable.c_str(),classCamelCase.c_str());
-                for(Type_Member_Pairs_t::iterator itTypeMember=typeMemberPairs.begin(),eitTypeMember=typeMemberPairs.end();itTypeMember!=eitTypeMember;++itTypeMember)
+                fprintf( file.mFile, "void %sMessageSenderSystem::On%s(%s::%sEvent const& Evt)\n"
+                         , classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str() );
+                fprintf( file.mFile, "{\n" );
+                fprintf( file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n", classCamelCase.c_str(), classVariable.c_str(), classCamelCase.c_str() );
+                for( Type_Member_Pairs_t::iterator itTypeMember = typeMemberPairs.begin(), eitTypeMember = typeMemberPairs.end(); itTypeMember != eitTypeMember; ++itTypeMember )
                 {
-                    fprintf(file.mFile, "    %sMsg->%s=Evt.%s;\n",classVariable.c_str(),CreateMemberName(itTypeMember->second).c_str(),CreateMemberName(itTypeMember->second).c_str());
+                    fprintf( file.mFile, "    %sMsg->%s=Evt.%s;\n", classVariable.c_str(), CreateMemberName( itTypeMember->second ).c_str(), CreateMemberName( itTypeMember->second ).c_str() );
                 }
-                fprintf(file.mFile, "    mMessageHolder.AddOutgoingMessage(%sMsg);\n",classVariable.c_str());
-                fprintf(file.mFile, "}\n");
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "    mMessageHolder.AddOutgoingMessage(%sMsg);\n", classVariable.c_str() );
+                fprintf( file.mFile, "}\n" );
+                fprintf( file.mFile, "\n" );
             }
-            L1("%s ended4\n",__FUNCTION__);
+            L1( "%s ended4\n", __FUNCTION__ );
 
 
-            fprintf(file.mFile, "%sMessageHandlerSubSystem::%sMessageHandlerSubSystem()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            if (pending)
+            fprintf( file.mFile, "%sMessageHandlerSubSystem::%sMessageHandlerSubSystem()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            if ( pending )
             {
-                fprintf(file.mFile, "    : PendingMessageHandlerSubSystem()\n");
+                fprintf( file.mFile, "    : PendingMessageHandlerSubSystem()\n" );
             }
             else
             {
-                fprintf(file.mFile, "    : MessageHandlerSubSystem()\n");
+                fprintf( file.mFile, "    : MessageHandlerSubSystem()\n" );
             }
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %sMessageHandlerSubSystem::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %sMessageHandlerSubSystem::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "void %sMessageHandlerSubSystem::Update(double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            if (pending)
+            fprintf( file.mFile, "void %sMessageHandlerSubSystem::Update(double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            if ( pending )
             {
-                fprintf(file.mFile, "    PendingMessageHandlerSubSystem::Update(DeltaTime);\n");
+                fprintf( file.mFile, "    PendingMessageHandlerSubSystem::Update(DeltaTime);\n" );
             }
             else
             {
-                fprintf(file.mFile, "    MessageHandlerSubSystem::Update(DeltaTime);\n");
+                fprintf( file.mFile, "    MessageHandlerSubSystem::Update(DeltaTime);\n" );
             }
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            L1("%s ended5\n",__FUNCTION__);
-            if (pending)
+            L1( "%s ended5\n", __FUNCTION__ );
+            if ( pending )
             {
-                fprintf(file.mFile, "bool %sMessageHandlerSubSystem::ProcessPending(Message const& message)\n",classCamelCase.c_str());
-                fprintf(file.mFile, "{\n");
-                fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
-                fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed\n");
-                fprintf(file.mFile, "    L1(\"executing %%s: actorGUID %%d \\n\",__FUNCTION__,msg.mActorGUID );\n");
-                fprintf(file.mFile, "    \n");
-                fprintf(file.mFile, "    return true;\n");
-                fprintf(file.mFile, "}\n");
+                fprintf( file.mFile, "bool %sMessageHandlerSubSystem::ProcessPending(Message const& message)\n", classCamelCase.c_str() );
+                fprintf( file.mFile, "{\n" );
+                fprintf( file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n", classCamelCase.c_str(), classCamelCase.c_str() );
+                fprintf( file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed\n" );
+                fprintf( file.mFile, "    L1(\"executing %%s: actorGUID %%d \\n\",__FUNCTION__,msg.mActorGUID );\n" );
+                fprintf( file.mFile, "    \n" );
+                fprintf( file.mFile, "    return true;\n" );
+                fprintf( file.mFile, "}\n" );
             }
             else
             {
-                fprintf(file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n",classCamelCase.c_str());
-                fprintf(file.mFile, "{\n");
-                fprintf(file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n",classCamelCase.c_str(),classCamelCase.c_str());
-                fprintf(file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);\n");
-                fprintf(file.mFile, "    if (!actor.IsValid())\n");
-                fprintf(file.mFile, "    {\n");
-                fprintf(file.mFile, "        L1(\"cannot find actor with GUID: (%%s) %%d \\n\",__FUNCTION__,msg.mActorGUID );\n");
-                fprintf(file.mFile, "        return;\n");
-                fprintf(file.mFile, "    }\n");
-                fprintf(file.mFile, "    \n");
-                fprintf(file.mFile, "}\n");
+                fprintf( file.mFile, "void %sMessageHandlerSubSystem::Execute(Message const& message)\n", classCamelCase.c_str() );
+                fprintf( file.mFile, "{\n" );
+                fprintf( file.mFile, "    %sMessage const& msg=static_cast<%sMessage const&>(message);\n", classCamelCase.c_str(), classCamelCase.c_str() );
+                fprintf( file.mFile, "    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);\n" );
+                fprintf( file.mFile, "    if (!actor.IsValid())\n" );
+                fprintf( file.mFile, "    {\n" );
+                fprintf( file.mFile, "        L1(\"cannot find actor with GUID: (%%s) %%d \\n\",__FUNCTION__,msg.mActorGUID );\n" );
+                fprintf( file.mFile, "        return;\n" );
+                fprintf( file.mFile, "    }\n" );
+                fprintf( file.mFile, "    \n" );
+                fprintf( file.mFile, "}\n" );
             }
-            fprintf(file.mFile, "\n");
-            if (!targetUnderscore.empty())
+            fprintf( file.mFile, "\n" );
+            if ( !targetUnderscore.empty() )
             {
-                fprintf(file.mFile, "std::auto_ptr<%sMessage> %sMessageSenderSystem::Generate%sMessage(Actor &actor)\n",classCamelCase.c_str(),classCamelCase.c_str(),classCamelCase.c_str());
-                fprintf(file.mFile, "{\n");
-                fprintf(file.mFile, "    Opt<I%sComponent> %sC = actor.Get<I%sComponent>();\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetCamelCase.c_str());
-                fprintf(file.mFile, "    if (!%sC.IsValid())\n",targetVariableName.c_str());
-                fprintf(file.mFile, "    {\n");
-                fprintf(file.mFile, "        return std::auto_ptr<%sMessage>();\n",classCamelCase.c_str());
-                fprintf(file.mFile, "    }\n");
-                fprintf(file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n",classCamelCase.c_str(),classVariable.c_str(),classCamelCase.c_str());
-                for(Type_Member_Pairs_t::iterator itTypeMember=typeMemberPairs.begin(),eitTypeMember=typeMemberPairs.end();itTypeMember!=eitTypeMember;++itTypeMember)
+                fprintf( file.mFile, "std::auto_ptr<%sMessage> %sMessageSenderSystem::Generate%sMessage(Actor &actor)\n", classCamelCase.c_str(), classCamelCase.c_str(), classCamelCase.c_str() );
+                fprintf( file.mFile, "{\n" );
+                fprintf( file.mFile, "    Opt<I%sComponent> %sC = actor.Get<I%sComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+                fprintf( file.mFile, "    if (!%sC.IsValid())\n", targetVariableName.c_str() );
+                fprintf( file.mFile, "    {\n" );
+                fprintf( file.mFile, "        return std::auto_ptr<%sMessage>();\n", classCamelCase.c_str() );
+                fprintf( file.mFile, "    }\n" );
+                fprintf( file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n", classCamelCase.c_str(), classVariable.c_str(), classCamelCase.c_str() );
+                for( Type_Member_Pairs_t::iterator itTypeMember = typeMemberPairs.begin(), eitTypeMember = typeMemberPairs.end(); itTypeMember != eitTypeMember; ++itTypeMember )
                 {
-                    fprintf(file.mFile, "    %sMsg->%s=%sC->%s();\n",classVariable.c_str(),CreateMemberName(itTypeMember->second).c_str(),targetVariableName.c_str(),CreateGetMember(itTypeMember->first, itTypeMember->second).c_str());
+                    fprintf( file.mFile, "    %sMsg->%s=%sC->%s();\n", classVariable.c_str(), CreateMemberName( itTypeMember->second ).c_str(), targetVariableName.c_str(), CreateGetMember( itTypeMember->first, itTypeMember->second ).c_str() );
                 }
-                fprintf(file.mFile, "    return %sMsg;\n",classVariable.c_str());
-                fprintf(file.mFile, "}\n");
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "    return %sMsg;\n", classVariable.c_str() );
+                fprintf( file.mFile, "}\n" );
+                fprintf( file.mFile, "\n" );
             }
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1478,71 +1478,71 @@ class FactoryGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (namespaceLowerCase.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase = "core";
         }
 
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            targetUnderscore="some_target";
+            targetUnderscore = "some_target";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"platform/factory.h\"\n");
-            fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public platform::Factory<%s>, public platform::Singleton<%s>\n",classCamelCase.c_str(),targetCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    friend class platform::Singleton<%s>;\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    template<typename Elem_T>\n");
-            fprintf(file.mFile, "    static std::auto_ptr<%s> Create%s( int32_t Id );\n",targetCamelCase.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "template<typename Elem_T>\n");
-            fprintf(file.mFile, "std::auto_ptr<%s> %s::Create%s( int32_t Id )\n",targetCamelCase.c_str(),classCamelCase.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    return std::auto_ptr<%s>( new Elem_T() );\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            WriteCommand(file);
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"platform/factory.h\"\n" );
+            fprintf( file.mFile, "#include \"platform/singleton.h\"\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public platform::Factory<%s>, public platform::Singleton<%s>\n", classCamelCase.c_str(), targetCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    friend class platform::Singleton<%s>;\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    template<typename Elem_T>\n" );
+            fprintf( file.mFile, "    static std::auto_ptr<%s> Create%s( int32_t Id );\n", targetCamelCase.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "template<typename Elem_T>\n" );
+            fprintf( file.mFile, "std::auto_ptr<%s> %s::Create%s( int32_t Id )\n", targetCamelCase.c_str(), classCamelCase.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    return std::auto_ptr<%s>( new Elem_T() );\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "using platform::AutoId;\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    Bind( AutoId(\"default_%s\"), &Create%s<Default%s> );\n",targetUnderscore.c_str(),targetCamelCase.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "    SetDefault( AutoId(\"default_%s\") );\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "using platform::AutoId;\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    Bind( AutoId(\"default_%s\"), &Create%s<Default%s> );\n", targetUnderscore.c_str(), targetCamelCase.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "    SetDefault( AutoId(\"default_%s\") );\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1550,67 +1550,67 @@ class RepositoryGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (namespaceLowerCase.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase = "core";
         }
 
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            targetUnderscore="some_target";
+            targetUnderscore = "some_target";
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"platform/repository.h\"\n");
-            fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public platform::Repository<%s>, public platform::Singleton<%s>\n",classCamelCase.c_str(),targetCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    friend class platform::Singleton<%s>;\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    static %s const mDefault;\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "};\n");
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"platform/repository.h\"\n" );
+            fprintf( file.mFile, "#include \"platform/singleton.h\"\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public platform::Repository<%s>, public platform::Singleton<%s>\n", classCamelCase.c_str(), targetCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    friend class platform::Singleton<%s>;\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    static %s const mDefault;\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "};\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "using platform::AutoId;\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s const %s::mDefault = %s();\n",targetCamelCase.c_str(),classCamelCase.c_str(),targetCamelCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : Repository<%s>(mDefault)\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "   //mElements.insert(_identifier_, new _target_)\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "using platform::AutoId;\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s const %s::mDefault = %s();\n", targetCamelCase.c_str(), classCamelCase.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : Repository<%s>(mDefault)\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "   //mElements.insert(_identifier_, new _target_)\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1618,79 +1618,79 @@ class BuffGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="buff";
+            parentUnderscore = "buff";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="core";
+            namespaceLowerCase = "core";
         }
 
         Init();
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"buff.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_BUFF_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"buff.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_BUFF_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateVirtualSetMemberFull(i->first,i->second).c_str());
-                fprintf(file.mFile, "    %s;\n",CreateVirtualGetMemberFull(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateVirtualSetMemberFull( i->first, i->second ).c_str() );
+                fprintf( file.mFile, "    %s;\n", CreateVirtualGetMemberFull( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "protected:\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "protected:\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s;\n",CreateMemberWithType(i->first,i->second).c_str());
+                fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to buff_factory.cpp:\n");
-            fprintf(file.mFile, "Bind(AutoId(\"%s\"), &CreateBuff<%s> );\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to message_order.h:\n");
-            fprintf(file.mFile, "type=%s::GetType_static();\n",classCamelCase.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to buff_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind(AutoId(\"%s\"), &CreateBuff<%s> );\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to message_order.h:\n" );
+            fprintf( file.mFile, "type=%s::GetType_static();\n", classCamelCase.c_str() );
+            WriteCommand( file );
 
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/buffs/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : Buff()\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"core/buffs/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : Buff()\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    %s %s(_fill_me_)\n",
-                    ",",CreateMemberName(i->second).c_str());
+                fprintf( file.mFile, "    %s %s(_fill_me_)\n",
+                         ",", CreateMemberName( i->second ).c_str() );
             }
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    mSecsToEnd=0.0;\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    mSecsToEnd=0.0;\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "%s",CreateSetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
-                fprintf(file.mFile, "%s",CreateGetMemberCppDefiniton(i->first,i->second,classCamelCase).c_str());
+                fprintf( file.mFile, "%s", CreateSetMemberCppDefiniton( i->first, i->second, classCamelCase ).c_str() );
+                fprintf( file.mFile, "%s", CreateGetMemberCppDefiniton( i->first, i->second, classCamelCase ).c_str() );
             }
 
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1698,108 +1698,108 @@ class BuffSubSystemGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="sub_system";
+            parentUnderscore = "sub_system";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="engine";
+            namespaceLowerCase = "engine";
         }
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            size_t pos=classUnderscore.find("_sub_system");
-            if (pos!=std::string::npos)
+            size_t pos = classUnderscore.find( "_sub_system" );
+            if ( pos != std::string::npos )
             {
-                targetUnderscore=classUnderscore.substr(0,pos);
+                targetUnderscore = classUnderscore.substr( 0, pos );
             }
-            else 
+            else
             {
-                targetUnderscore="some_target";
+                targetUnderscore = "some_target";
             }
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"core/scene.h\"\n");
-            fprintf(file.mFile, "#include \"engine/sub_system.h\"\n");
-            fprintf(file.mFile, "#include \"core/program_state.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    virtual void Init();\n");
-            fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "    Scene& mScene;\n");
-            fprintf(file.mFile, "    core::ProgramState& mProgramState;\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"core/scene.h\"\n" );
+            fprintf( file.mFile, "#include \"engine/sub_system.h\"\n" );
+            fprintf( file.mFile, "#include \"core/program_state.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    virtual void Init();\n" );
+            fprintf( file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n" );
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "    Scene& mScene;\n" );
+            fprintf( file.mFile, "    core::ProgramState& mProgramState;\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
-            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n",classUnderscore.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "//TODO: to main.cpp:\n");
-            fprintf(file.mFile, "buffHolderS->AddSubSystem(%s::GetType_static(),AutoId(\"%s\"));\n",targetCamelCase.c_str(),classUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to sub_system_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "//TODO: to main.cpp:\n" );
+            fprintf( file.mFile, "buffHolderS->AddSubSystem(%s::GetType_static(),AutoId(\"%s\"));\n", targetCamelCase.c_str(), classUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"engine/buffs_engine/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/buffs/%s.h\"\n",targetUnderscore.c_str());
-            fprintf(file.mFile, "#include \"core/buffs/i_buff_holder_component.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : mScene(Scene::Get())\n");
-            fprintf(file.mFile, "    , mProgramState(core::ProgramState::Get())\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"engine/buffs_engine/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/buffs/%s.h\"\n", targetUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"core/buffs/i_buff_holder_component.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : mScene(Scene::Get())\n" );
+            fprintf( file.mFile, "    , mProgramState(core::ProgramState::Get())\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init()\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init()\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();\n");
-            fprintf(file.mFile, "    if (!buffHolderC.IsValid())\n");
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        return;\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "    BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),%s::GetType_static());\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "    for( BuffListFilter<IBuffHolderComponent::All>::const_iterator %sIt = buffListFilter.begin(), %sE = buffListFilter.end(); %sIt != %sE; ++%sIt )\n",targetVariableName.c_str(),targetVariableName.c_str(),targetVariableName.c_str(),targetVariableName.c_str(),targetVariableName.c_str());
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        Opt<%s> %s(*%sIt);\n",targetCamelCase.c_str(),targetVariableName.c_str(),targetVariableName.c_str());
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();\n" );
+            fprintf( file.mFile, "    if (!buffHolderC.IsValid())\n" );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        return;\n" );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "    BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),%s::GetType_static());\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "    for( BuffListFilter<IBuffHolderComponent::All>::const_iterator %sIt = buffListFilter.begin(), %sE = buffListFilter.end(); %sIt != %sE; ++%sIt )\n", targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str() );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        Opt<%s> %s(*%sIt);\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetVariableName.c_str() );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1807,106 +1807,106 @@ class ActionRendererGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="action_renderer";
+            parentUnderscore = "action_renderer";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="render";
+            namespaceLowerCase = "render";
         }
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            size_t pos=classUnderscore.find("_action_renderer");
-            if (pos!=std::string::npos)
+            size_t pos = classUnderscore.find( "_action_renderer" );
+            if ( pos != std::string::npos )
             {
-                targetUnderscore=classUnderscore.substr(0,pos);
+                targetUnderscore = classUnderscore.substr( 0, pos );
             }
-            else 
+            else
             {
-                targetUnderscore="some_target";
+                targetUnderscore = "some_target";
             }
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"render/action_renderer.h\"\n");
-            fprintf(file.mFile, "#include \"core/actor.h\"\n");
-            fprintf(file.mFile, "#include \"renderable_sprite.h\"\n");
-            fprintf(file.mFile, "#include \"renderable_repo.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    int32_t m%sId;\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    %s( int32_t Id );\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    virtual void Init(const Actor& actor);\n");
-            fprintf(file.mFile, "    virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);\n");
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"render/action_renderer.h\"\n" );
+            fprintf( file.mFile, "#include \"core/actor.h\"\n" );
+            fprintf( file.mFile, "#include \"renderable_sprite.h\"\n" );
+            fprintf( file.mFile, "#include \"renderable_repo.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    int32_t m%sId;\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    %s( int32_t Id );\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    virtual void Init(const Actor& actor);\n" );
+            fprintf( file.mFile, "    virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);\n" );
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to action_renderer_factory.cpp:\n");
-            fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),targetUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to action_renderer_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind<%s>(AutoId(\"%s\"));\n", classCamelCase.c_str(), targetUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"render/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s(int32_t Id)\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : ActionRenderer(Id)\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    m%sId=AutoId(\"%s\");\n",targetCamelCase.c_str(),targetUnderscore.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"render/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s(int32_t Id)\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : ActionRenderer(Id)\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    m%sId=AutoId(\"%s\");\n", targetCamelCase.c_str(), targetUnderscore.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::Init(Actor const& actor)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());\n");
-            fprintf(file.mFile, "    Sprite const& Spr=Sprites(m%sId);\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "    if( Spr.IsValid() )\n");
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        mSecsToEnd=Spr.GetSecsToEnd();\n");
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::Init(Actor const& actor)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());\n" );
+            fprintf( file.mFile, "    Sprite const& Spr=Sprites(m%sId);\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "    if( Spr.IsValid() )\n" );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        mSecsToEnd=Spr.GetSecsToEnd();\n" );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "void %s::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());\n");
-            fprintf(file.mFile, "    Sprite const& Spr=Sprites(m%sId);\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "    if( Spr.IsValid() )\n");
-            fprintf(file.mFile, "    {\n");
-            fprintf(file.mFile, "        SpritePhase const& Phase = Spr( (int32_t)GetState() );\n");
-            fprintf(file.mFile, "        renderableSprites.push_back(\n");
-            fprintf(file.mFile, "            RenderableSprite( &actor, m%sId, &Spr, &Phase/*, color*/) );\n",targetCamelCase.c_str());
-            fprintf(file.mFile, "    }\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "void %s::FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());\n" );
+            fprintf( file.mFile, "    Sprite const& Spr=Sprites(m%sId);\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "    if( Spr.IsValid() )\n" );
+            fprintf( file.mFile, "    {\n" );
+            fprintf( file.mFile, "        SpritePhase const& Phase = Spr( (int32_t)GetState() );\n" );
+            fprintf( file.mFile, "        renderableSprites.push_back(\n" );
+            fprintf( file.mFile, "            RenderableSprite( &actor, m%sId, &Spr, &Phase/*, color*/) );\n", targetCamelCase.c_str() );
+            fprintf( file.mFile, "    }\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1914,82 +1914,82 @@ class RecognizerGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
-        if (parentUnderscore.empty())
+        L1( "%s started\n", __FUNCTION__ );
+        if ( parentUnderscore.empty() )
         {
-            parentUnderscore="recognizer";
+            parentUnderscore = "recognizer";
         }
-        if (namespaceLowerCase.empty())
+        if ( namespaceLowerCase.empty() )
         {
-            namespaceLowerCase="render";
+            namespaceLowerCase = "render";
         }
-        if (targetUnderscore.empty())
+        if ( targetUnderscore.empty() )
         {
-            size_t pos=classUnderscore.find("_recognizerr");
-            if (pos!=std::string::npos)
+            size_t pos = classUnderscore.find( "_recognizerr" );
+            if ( pos != std::string::npos )
             {
-                targetUnderscore=classUnderscore.substr(0,pos);
+                targetUnderscore = classUnderscore.substr( 0, pos );
             }
-            else 
+            else
             {
-                targetUnderscore="some_target";
+                targetUnderscore = "some_target";
             }
         }
         Init();
 
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"platform/i_platform.h\"\n");
-            fprintf(file.mFile, "#include \"render/recognizer.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "class %s : public %s\n",classCamelCase.c_str(),parentCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    %s( int32_t Id );\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    virtual bool Recognize(Actor const&);\n");
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
+            fprintf( file.mFile, "#include \"render/recognizer.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    %s( int32_t Id );\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    virtual bool Recognize(Actor const&);\n" );
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "//TODO: to recognizer_factory.cpp:\n");
-            fprintf(file.mFile, "Bind<%s>(AutoId(\"%s\"));\n",classCamelCase.c_str(),targetUnderscore.c_str());
-            WriteCommand(file);
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "//TODO: to recognizer_factory.cpp:\n" );
+            fprintf( file.mFile, "Bind<%s>(AutoId(\"%s\"));\n", classCamelCase.c_str(), targetUnderscore.c_str() );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"render/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::%s(int32_t Id)\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    : Recognizer(Id)\n");
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"render/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::%s(int32_t Id)\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : Recognizer(Id)\n" );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "bool %s::Recognize(Actor const& actor)\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    return true;\n");
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "bool %s::Recognize(Actor const& actor)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    return true;\n" );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
 
-            fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -1997,103 +1997,103 @@ class EnumGenerator : public Generator
 {
     virtual void Generate()
     {
-        L1("%s started\n",__FUNCTION__);
+        L1( "%s started\n", __FUNCTION__ );
         Init();
         {
-            AutoNormalFile file((classUnderscore+".h").c_str(),"w" );
-            fprintf(file.mFile, "#ifndef %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "#define %s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "#include \"platform/singleton.h\"\n");
-            fprintf(file.mFile, "#include \"boost/bimap.hpp\"\n");
-            fprintf(file.mFile, "\n");
-            if (!namespaceLowerCase.empty())
+            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "#include \"platform/singleton.h\"\n" );
+            fprintf( file.mFile, "#include \"boost/bimap.hpp\"\n" );
+            fprintf( file.mFile, "\n" );
+            if ( !namespaceLowerCase.empty() )
             {
-                fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+                fprintf( file.mFile, "\n" );
             }
 
-            fprintf(file.mFile, "class %s : public platform::Singleton<%s>\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "protected:\n");
-            fprintf(file.mFile, "    friend class platform::Singleton<%s>;\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    %s();\n",classCamelCase.c_str());
-            fprintf(file.mFile, "public:\n");
-            fprintf(file.mFile, "    enum Type\n");
-            fprintf(file.mFile, "    {\n");
-            bool isFirst=true;
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "class %s : public platform::Singleton<%s>\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "protected:\n" );
+            fprintf( file.mFile, "    friend class platform::Singleton<%s>;\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    %s();\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "public:\n" );
+            fprintf( file.mFile, "    enum Type\n" );
+            fprintf( file.mFile, "    {\n" );
+            bool isFirst = true;
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "        %s%s,\n",i->first.c_str(),isFirst?"=0":"");
-                isFirst=false;
+                fprintf( file.mFile, "        %s%s,\n", i->first.c_str(), isFirst ? "=0" : "" );
+                isFirst = false;
             }
-            fprintf(file.mFile, "        Num_Classes\n");
-            fprintf(file.mFile, "    };\n");
-            fprintf(file.mFile, "    %s::Type operator()( int32_t Id ) const;\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    int32_t operator()( %s::Type type ) const;\n",classCamelCase.c_str());
+            fprintf( file.mFile, "        Num_Classes\n" );
+            fprintf( file.mFile, "    };\n" );
+            fprintf( file.mFile, "    %s::Type operator()( int32_t Id ) const;\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    int32_t operator()( %s::Type type ) const;\n", classCamelCase.c_str() );
 
-            fprintf(file.mFile, "private:\n");
-            fprintf(file.mFile, "    typedef boost::bimap<int32_t,%s::Type> IdTo%sMap_t;\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    IdTo%sMap_t mIdTo%sMap;\n",classCamelCase.c_str(),classCamelCase.c_str());
+            fprintf( file.mFile, "private:\n" );
+            fprintf( file.mFile, "    typedef boost::bimap<int32_t,%s::Type> IdTo%sMap_t;\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    IdTo%sMap_t mIdTo%sMap;\n", classCamelCase.c_str(), classCamelCase.c_str() );
 
-            fprintf(file.mFile, "};\n");
-            fprintf(file.mFile, "\n");
+            fprintf( file.mFile, "};\n" );
+            fprintf( file.mFile, "\n" );
 
-            if (!namespaceLowerCase.empty())
+            if ( !namespaceLowerCase.empty() )
             {
-                fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+                fprintf( file.mFile, "\n" );
             }
 
-            fprintf(file.mFile, "#endif//%s\n",headerGuard.c_str());
-            fprintf(file.mFile, "\n");
-            WriteCommand(file);
+            fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
+            fprintf( file.mFile, "\n" );
+            WriteCommand( file );
         }
 
 
         {
-            AutoNormalFile file((classUnderscore+".cpp").c_str(),"w" );
-            fprintf(file.mFile, "#include \"core/%s.h\"\n",classUnderscore.c_str());
-            fprintf(file.mFile, "#include \"platform/auto_id.h\"\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "using platform::AutoId;\n");
-            fprintf(file.mFile, "\n");
-            if (!namespaceLowerCase.empty())
+            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            fprintf( file.mFile, "#include \"core/%s.h\"\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "#include \"platform/auto_id.h\"\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "using platform::AutoId;\n" );
+            fprintf( file.mFile, "\n" );
+            if ( !namespaceLowerCase.empty() )
             {
-                fprintf(file.mFile, "namespace %s {\n",namespaceLowerCase.c_str());
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
+                fprintf( file.mFile, "\n" );
             }
-            fprintf(file.mFile, "%s::%s()\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            for(Type_Member_Pairs_t::iterator i=typeMemberPairs.begin(),e=typeMemberPairs.end();i!=e;++i)
+            fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf(file.mFile, "    mIdTo%sMap.insert(IdTo%sMap_t::value_type(AutoId(\"%s\"),%s::%s));\n",classCamelCase.c_str(),classCamelCase.c_str(),i->second.c_str(),classCamelCase.c_str(),i->first.c_str());
+                fprintf( file.mFile, "    mIdTo%sMap.insert(IdTo%sMap_t::value_type(AutoId(\"%s\"),%s::%s));\n", classCamelCase.c_str(), classCamelCase.c_str(), i->second.c_str(), classCamelCase.c_str(), i->first.c_str() );
             }
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "%s::Type %s::operator()( int32_t Id ) const\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    IdTo%sMap_t::left_const_iterator i=mIdTo%sMap.left.find(Id);\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.left.end());\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    return (i!=mIdTo%sMap.left.end())?i->second:%s::%s;\n",classCamelCase.c_str(),classCamelCase.c_str(),typeMemberPairs.begin()->first.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            fprintf(file.mFile, "int32_t %s::operator()( Type type ) const\n",classCamelCase.c_str());
-            fprintf(file.mFile, "{\n");
-            fprintf(file.mFile, "    IdTo%sMap_t::right_const_iterator i=mIdTo%sMap.right.find(type);\n",classCamelCase.c_str(),classCamelCase.c_str());
-            fprintf(file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.right.end());\n",classCamelCase.c_str());
-            fprintf(file.mFile, "    return (i!=mIdTo%sMap.right.end())?i->second:%s::%s;\n",classCamelCase.c_str(),classCamelCase.c_str(),typeMemberPairs.begin()->first.c_str());
-            fprintf(file.mFile, "}\n");
-            fprintf(file.mFile, "\n");
-            if (!namespaceLowerCase.empty())
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "%s::Type %s::operator()( int32_t Id ) const\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    IdTo%sMap_t::left_const_iterator i=mIdTo%sMap.left.find(Id);\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.left.end());\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    return (i!=mIdTo%sMap.left.end())?i->second:%s::%s;\n", classCamelCase.c_str(), classCamelCase.c_str(), typeMemberPairs.begin()->first.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "int32_t %s::operator()( Type type ) const\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            fprintf( file.mFile, "    IdTo%sMap_t::right_const_iterator i=mIdTo%sMap.right.find(type);\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    BOOST_ASSERT(i!=mIdTo%sMap.right.end());\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    return (i!=mIdTo%sMap.right.end())?i->second:%s::%s;\n", classCamelCase.c_str(), classCamelCase.c_str(), typeMemberPairs.begin()->first.c_str() );
+            fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n" );
+            if ( !namespaceLowerCase.empty() )
             {
-                fprintf(file.mFile, "} // namespace %s\n",namespaceLowerCase.c_str());
-                fprintf(file.mFile, "\n");
+                fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
+                fprintf( file.mFile, "\n" );
             }
 
         }
 
-        L1("%s ended\n",__FUNCTION__);
+        L1( "%s ended\n", __FUNCTION__ );
     }
 };
 
@@ -2139,14 +2139,14 @@ std::auto_ptr<Generator> GeneratorFactory::CreateGenerator( int32_t Id )
 
 
 
-int main(int argc, char* argv[])
+int main( int argc, char* argv[] )
 {
     platform::IdStorage::Get().Init();
-	namespace po=boost::program_options;
-	// Declare the supported options.
-	po::options_description desc("Allowed options");
-	std::string classUnderscore;
-	std::string generatorType;
+    namespace po = boost::program_options;
+    // Declare the supported options.
+    po::options_description desc( "Allowed options" );
+    std::string classUnderscore;
+    std::string generatorType;
     std::string parentUnderscore;
     std::string targetUnderscore;
     std::string targetItemTypeUnderscore;
@@ -2154,76 +2154,78 @@ int main(int argc, char* argv[])
     std::string namespaceLowerCase;
     std::string membersArg;
     std::string eventsArg;
-	desc.add_options()
-        ("help", "produce help message")
-		("-c", po::value<std::string>(&classUnderscore), "class_name_underscore")
-		("-g", po::value<std::string>(&generatorType), "type of generator")
-		("-p", po::value<std::string>(&parentUnderscore), "parent_name_underscore")
-        ("-t", po::value<std::string>(&targetUnderscore), "target_name_underscore")
-        ("target_item_type", po::value<std::string>(&targetItemTypeUnderscore), "target_item_type")
-        ("target_item_name", po::value<std::string>(&targetItemNameUnderscore), "target_item_name")
-        ("-n", po::value<std::string>(&namespaceLowerCase), "namespacelowercase")
-        ("-m", po::value<std::string>(&membersArg), "optional: members: \"double-radius int32_t-targetId\"")
-        ("-e", po::value<std::string>(&eventsArg), "optional: events to subscribe: \"core-damageTaken\" -> AutoReg mOnDamageTaken; void OnDamageTaken (core::DamageTakenEvent const& Evt);")
-		("generators:", 
-        "\n*** action_renderer ***\n class_name shall be in \"{the_name_underscore}_action_renderer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n" 
-        "\n*** buff ***\n class_name shall be in \"{the_name_underscore}_buff\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to buff if not set. uses -m members \n" 
-        "\n*** buff_sub_system ***\n class_name shall be in \"{the_name_underscore}_buff_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp. guesses the parent to buff if not set. \n" 
-        "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n" 
-        "\n*** component ***\n class_name shall be in \"{the_name_underscore}_component\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n" 
-        "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n" 
-        "\n*** default_generator ***\n does nothing\n" 
-        "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n" 
-        "\n*** enum ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_underscore.h with string to enum map.\n  uses: -m members (enum values paired with string values)\n" 
-        "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n" 
-        "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n" 
-        "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -p pending (for delayed process) -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n" 
-        "\n*** map_element ***\n class_name shall be in \"{the_name_underscore}\" format (without _map_element). generates a class_name_underscore_map_element.h and class_name_underscore_map_element.cpp with getters setters and member variables. guesses the parent to map_element if not set. uses -m members \n" 
-        "\n*** map_element_system ***\n class_name shall be in \"{the_name_underscore}_map_element_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_map_element_name\" uses -m members\n" 
-        "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n" 
-        "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n" 
-        "\n*** recognizer ***\n class_name shall be in \"{the_name_underscore}_recognizer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n" 
-        "\n*** repository ***\n class_name shall be in \"{the_name_underscore}_repo\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_class\" - base of the included classes by this repo) -n namespace\n" 
-        "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n" 
-        //"\n\n\n"
-           )
-        ;
+    desc.add_options()
+    ( "help", "produce help message" )
+    ( "-c", po::value<std::string>( &classUnderscore ), "class_name_underscore" )
+    ( "-g", po::value<std::string>( &generatorType ), "type of generator" )
+    ( "-p", po::value<std::string>( &parentUnderscore ), "parent_name_underscore" )
+    ( "-t", po::value<std::string>( &targetUnderscore ), "target_name_underscore" )
+    ( "target_item_type", po::value<std::string>( &targetItemTypeUnderscore ), "target_item_type" )
+    ( "target_item_name", po::value<std::string>( &targetItemNameUnderscore ), "target_item_name" )
+    ( "-n", po::value<std::string>( &namespaceLowerCase ), "namespacelowercase" )
+    ( "-m", po::value<std::string>( &membersArg ), "optional: members: \"double-radius int32_t-targetId\"" )
+    ( "-e", po::value<std::string>( &eventsArg ), "optional: events to subscribe: \"core-damageTaken\" -> AutoReg mOnDamageTaken; void OnDamageTaken (core::DamageTakenEvent const& Evt);" )
+    ( "generators:",
+      "\n*** action_renderer ***\n class_name shall be in \"{the_name_underscore}_action_renderer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n"
+      "\n*** buff ***\n class_name shall be in \"{the_name_underscore}_buff\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to buff if not set. uses -m members \n"
+      "\n*** buff_sub_system ***\n class_name shall be in \"{the_name_underscore}_buff_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp. guesses the parent to buff if not set. \n"
+      "\n*** collision_sub_system ***\n class_name shall be in \"{the_name_underscore}_collision_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_collision_component\" (e.g. for shot_collision_component \"shot\")\n"
+      "\n*** component ***\n class_name shall be in \"{the_name_underscore}_component\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to i_class_name_underscore if not set \n"
+      "\n*** controller_sub_system ***\n class_name shall be in \"{the_name_underscore}_controller_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_controller_component\" (e.g. for random_controller_component \"random\")\n"
+      "\n*** default_generator ***\n does nothing\n"
+      "\n*** event ***\n class_name shall be in \"{the_name_underscore}_event\" format. generates a class_name_underscore.h with constructor for memebers.\n  uses: -m members)\n"
+      "\n*** enum ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_underscore.h with string to enum map.\n  uses: -m members (enum values paired with string values)\n"
+      "\n*** factory ***\n class_name shall be in \"{the_name_underscore}_factory\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_generated_class\" - base of the genereted classes by this factory)\n"
+      "\n*** i_component ***\n class_name shall be in \"i_{the_name_underscore}_component\" format. generates a class_name_underscore.h with abstract member getters setters. guesses the parent to Component.\n"
+      "\n*** message ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_message_underscore.h class_name_message_underscore.cpp with message, messagehandler, messagesender.\n  uses: -m members -e events -p pending (for delayed process) -t target_component_without_component (e.g i_move_fast_component->move_fast) for GenerateMessage static method\n"
+      "\n*** map_element ***\n class_name shall be in \"{the_name_underscore}\" format (without _map_element). generates a class_name_underscore_map_element.h and class_name_underscore_map_element.cpp with getters setters and member variables. guesses the parent to map_element if not set. uses -m members \n"
+      "\n*** map_element_system ***\n class_name shall be in \"{the_name_underscore}_map_element_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_map_element_name\" uses -m members\n"
+      "\n*** normal_item ***\n class_name shall be in \"{the_name_underscore}_normal_item\" format. generates a class_name_underscore.h and class_name_underscore.cpp with getters setters and member variables. guesses the parent to normal_item if not set. uses -m members \n"
+      "\n*** normal_item_sub_system ***\n class_name shall be in \"{the_name_underscore}_normal_item_sub_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -target_item_type, -target_item_name (e.g. for grenade_normal_item -target_item_type \"narmal_item\" -target_item_name \"grenade\")\n"
+      "\n*** recognizer ***\n class_name shall be in \"{the_name_underscore}_recognizer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n"
+      "\n*** repository ***\n class_name shall be in \"{the_name_underscore}_repo\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_class\" - base of the included classes by this repo) -n namespace\n"
+      "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n"
+      //"\n\n\n"
+    )
+    ;
 
-	po::variables_map vm;
-	po::store(po::parse_command_line(argc, argv, desc), vm);
-	po::notify(vm);    
-    if (vm.count("help")) {
+    po::variables_map vm;
+    po::store( po::parse_command_line( argc, argv, desc ), vm );
+    po::notify( vm );
+    if ( vm.count( "help" ) )
+    {
         std::cout << desc << "\n";
         return 1;
     }
-    if (!vm.count("-g")) {
-        L1("need to specify a valid generator!");
+    if ( !vm.count( "-g" ) )
+    {
+        L1( "need to specify a valid generator!" );
         return 2;
     }
     std::string command;
-    for (int i=0; i<argc; ++i)
+    for ( int i = 0; i < argc; ++i )
     {
-        if (argv[i][0]=='-')
+        if ( argv[i][0] == '-' )
         {
-            command=command+" "+std::string(argv[i]);
+            command = command + " " + std::string( argv[i] );
         }
         else
         {
-            command=command+" \""+std::string(argv[i])+"\"";
+            command = command + " \"" + std::string( argv[i] ) + "\"";
         }
     }
-    L1("//command: %s\n", command.c_str());
+    L1( "//command: %s\n", command.c_str() );
 
-    std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId(generatorType)));
-    generator->command=command;
-    generator->classUnderscore=classUnderscore;
-    generator->parentUnderscore=parentUnderscore;
-    generator->namespaceLowerCase=namespaceLowerCase;
-    generator->membersArg=membersArg;
-    generator->eventsArg=eventsArg;
-    generator->targetUnderscore=targetUnderscore;
-    generator->targetItemTypeUnderscore=targetItemTypeUnderscore;
-    generator->targetItemNameUnderscore=targetItemNameUnderscore;
+    std::auto_ptr<Generator> generator( GeneratorFactory::Get()( AutoId( generatorType ) ) );
+    generator->command = command;
+    generator->classUnderscore = classUnderscore;
+    generator->parentUnderscore = parentUnderscore;
+    generator->namespaceLowerCase = namespaceLowerCase;
+    generator->membersArg = membersArg;
+    generator->eventsArg = eventsArg;
+    generator->targetUnderscore = targetUnderscore;
+    generator->targetItemTypeUnderscore = targetItemTypeUnderscore;
+    generator->targetItemNameUnderscore = targetItemNameUnderscore;
     generator->Generate();
-	return 0;
+    return 0;
 }

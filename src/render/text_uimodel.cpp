@@ -11,7 +11,7 @@ void scale( float& x, float& y, float ratio )
 {
     if( ratio >= 1.0f )
     {
-        x /=ratio;
+        x /= ratio;
     }
     else
     {
@@ -22,11 +22,11 @@ void scale( float& x, float& y, float ratio )
 
 bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio )
 {
-    Text text(Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(),GetColor( Wdg ),Wdg( Widget::PT_Text ),glm::vec2(0.0,0.0),false);
-    return CalcRequiredSize(text,OutReqSize,OutBuf,Ratio);
+    Text text( Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(), GetColor( Wdg ), Wdg( Widget::PT_Text ), glm::vec2( 0.0, 0.0 ), false );
+    return CalcRequiredSize( text, OutReqSize, OutBuf, Ratio );
 }
 
-bool TextUiModel::CalcRequiredSize(Text const& text, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio)
+bool TextUiModel::CalcRequiredSize( Text const& text, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio )
 {
     static Font& Fnt( Font::Get() );
     double FontSize = text.mFontSize;
@@ -73,11 +73,11 @@ bool TextUiModel::CalcRequiredSize(Text const& text, glm::vec2& OutReqSize, std:
 
 void TextUiModel::CollectVertices( Widget const& Wdg, UiVertexInserter_t& Inserter )const
 {
-    Text text(Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(),GetColor( Wdg ),Wdg( Widget::PT_Text ),glm::vec2(0.0,0.0),false);
-    CollectVertices(text,Inserter);
+    Text text( Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(), GetColor( Wdg ), Wdg( Widget::PT_Text ), glm::vec2( 0.0, 0.0 ), false );
+    CollectVertices( text, Inserter );
 }
 
-void TextUiModel::CollectVertices(Text const& text, UiVertexInserter_t& Inserter)
+void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserter )
 {
     int w, h;
     engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );

@@ -10,12 +10,12 @@ namespace network {
 
 class LifecycleSenderSystem: public engine::System
 {
-    DEFINE_SYSTEM_BASE(LifecycleSenderSystem)
+    DEFINE_SYSTEM_BASE( LifecycleSenderSystem )
     MessageHolder& mMessageHolder;
     ModelValue mLifecycleModel;
     ModelValue mHostModel;
     Scene& mScene;
-	core::ProgramState& mProgramState;
+    core::ProgramState& mProgramState;
 public:
     LifecycleSenderSystem();
     virtual void Init();

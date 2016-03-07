@@ -11,7 +11,7 @@ namespace engine {
 class NormalItemSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(NormalItemSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( NormalItemSubSystem )
     NormalItemSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );

@@ -30,17 +30,17 @@ class ActorRenderer
     struct FindActionRenderer
     {
         int32_t mActionRendererId;
-        FindActionRenderer(int32_t actionRendererId)
-            : mActionRendererId(actionRendererId)
+        FindActionRenderer( int32_t actionRendererId )
+            : mActionRendererId( actionRendererId )
         {
         }
-        bool operator()(const ActionRenderer& actionRenderer)
+        bool operator()( const ActionRenderer& actionRenderer )
         {
-            return actionRenderer.GetId()==mActionRendererId;
+            return actionRenderer.GetId() == mActionRendererId;
         }
     };
     typedef boost::ptr_set<ActionRenderer> ActionRenderers_t;
-    typedef std::map<int,ActionRenderers_t> ActionRenderersMap_t;
+    typedef std::map<int, ActionRenderers_t> ActionRenderersMap_t;
     ActionRenderersMap_t mActionRenderersMap;
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
     AutoReg mMouseMoveId;
@@ -49,7 +49,7 @@ class ActorRenderer
 public:
     ActorRenderer();
     ~ActorRenderer();
-    void Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> const& Layers, std::set<RenderableLayer::Type> const& ExludeLayers);
+    void Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> const& Layers, std::set<RenderableLayer::Type> const& ExludeLayers );
 
 };
 

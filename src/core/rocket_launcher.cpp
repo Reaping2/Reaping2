@@ -3,12 +3,12 @@
 #include <portable_oarchive.hpp>
 
 RocketLauncher::RocketLauncher( int32_t Id )
-	: Weapon( Id )
+    : Weapon( Id )
 {
 }
 
 RocketLauncher::RocketLauncher()
-    : Weapon(-1)
+    : Weapon( -1 )
 {
 }
 
@@ -21,4 +21,4 @@ RocketLauncherLoader::RocketLauncherLoader()
     SetBase<WeaponLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(RocketLauncher, RocketLauncher);
+REAPING2_CLASS_EXPORT_IMPLEMENT( RocketLauncher, RocketLauncher );

@@ -13,7 +13,7 @@ std::vector<int32_t> EmitterComponent::GetEmitTypes() const
     for( EmitDescs::const_iterator i = mEmitDescs.begin(), e = mEmitDescs.end(); i != e; ++i )
     {
         EmitDesc const& d = *i;
-        if (d.mIteration!=-1&&d.mIterationCurrent>=d.mIteration)
+        if ( d.mIteration != -1 && d.mIterationCurrent >= d.mIteration )
         {
             continue;
         }
@@ -44,25 +44,25 @@ void EmitterComponent::Update( double dt )
     }
 }
 
-void EmitterComponent::InitEmitDescs(EmitDescs emitDescs)
+void EmitterComponent::InitEmitDescs( EmitDescs emitDescs )
 {
-    mEmitDescs=emitDescs;
+    mEmitDescs = emitDescs;
     for( EmitDescs::iterator i = mEmitDescs.begin(), e = mEmitDescs.end(); i != e; ++i )
     {
         EmitDesc& d = *i;
-        if (d.mIteration!=-1)
+        if ( d.mIteration != -1 )
         {
-            d.mIteration=std::max(0,d.mIteration+2*d.mIterationVariance*( rand() % 100 ) / 100-d.mIterationVariance);
+            d.mIteration = std::max( 0, d.mIteration + 2 * d.mIterationVariance * ( rand() % 100 ) / 100 - d.mIterationVariance );
         }
     }
 }
 
-void EmitterComponent::Emitted(std::vector<int32_t> emitTypes)
+void EmitterComponent::Emitted( std::vector<int32_t> emitTypes )
 {
     for( EmitDescs::iterator i = mEmitDescs.begin(), e = mEmitDescs.end(); i != e; ++i )
     {
         EmitDesc& d = *i;
-        if (std::find(emitTypes.begin(),emitTypes.end(), d.mEmitType)!=emitTypes.end())
+        if ( std::find( emitTypes.begin(), emitTypes.end(), d.mEmitType ) != emitTypes.end() )
         {
             ++d.mIterationCurrent;
         }
@@ -84,7 +84,7 @@ EmitterComponent::EmitDesc::EmitDesc()
 void EmitterComponentLoader::BindValues()
 {
     EmitterComponent::EmitDescs descs;
-    Json::Value const& json = (*mSetters)["emit_descs"];
+    Json::Value const& json = ( *mSetters )["emit_descs"];
     if( !json.isArray() )
     {
         return;
@@ -103,7 +103,7 @@ void EmitterComponentLoader::BindValues()
         Json::GetInt( part["iteration_variance"], d.mIterationVariance );
         descs.push_back( d );
     }
-    Bind<EmitterComponent::EmitDescs>(&EmitterComponent::InitEmitDescs,descs);
+    Bind<EmitterComponent::EmitDescs>( &EmitterComponent::InitEmitDescs, descs );
     //Add( boost::lambda::_1 ->* &EmitterComponent::mEmitDescs = descs );
 }
 
@@ -111,4 +111,4 @@ EmitterComponentLoader::EmitterComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(EmitterComponent, EmitterComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( EmitterComponent, EmitterComponent );

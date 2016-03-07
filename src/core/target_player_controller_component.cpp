@@ -25,7 +25,7 @@ double TargetPlayerControllerComponent::GetHeadingModifier() const
     return mHeadingModifier;
 }
 
-void TargetPlayerControllerComponent::SetHeadingModifier(double headingModifier)
+void TargetPlayerControllerComponent::SetHeadingModifier( double headingModifier )
 {
     mHeadingModifier = headingModifier;
 }
@@ -35,7 +35,7 @@ double TargetPlayerControllerComponent::GetAttackCounter() const
     return mAttackCounter;
 }
 
-void TargetPlayerControllerComponent::SetAttackCounter(double counter)
+void TargetPlayerControllerComponent::SetAttackCounter( double counter )
 {
     mAttackCounter = counter;
 }
@@ -45,9 +45,9 @@ double TargetPlayerControllerComponent::GetHeadingModifierCounter() const
     return mHeadingModifierCounter;
 }
 
-void TargetPlayerControllerComponent::SetHeadingModifierCounter(double counter)
+void TargetPlayerControllerComponent::SetHeadingModifierCounter( double counter )
 {
-    mHeadingModifierCounter=counter;
+    mHeadingModifierCounter = counter;
 }
 
 double TargetPlayerControllerComponent::GetAttackFrequency() const
@@ -55,9 +55,9 @@ double TargetPlayerControllerComponent::GetAttackFrequency() const
     return mAttackFrequency;
 }
 
-void TargetPlayerControllerComponent::SetAttackFrequency(double frequency)
+void TargetPlayerControllerComponent::SetAttackFrequency( double frequency )
 {
-    mAttackFrequency=frequency;
+    mAttackFrequency = frequency;
 }
 
 double TargetPlayerControllerComponent::GetHeadingModifierFrequency() const
@@ -65,9 +65,9 @@ double TargetPlayerControllerComponent::GetHeadingModifierFrequency() const
     return mHeadingModifierFrequency;
 }
 
-void TargetPlayerControllerComponent::SetHeadingModifierFrequency(double frequency)
+void TargetPlayerControllerComponent::SetHeadingModifierFrequency( double frequency )
 {
-    mHeadingModifierFrequency=frequency;
+    mHeadingModifierFrequency = frequency;
 }
 
 bool TargetPlayerControllerComponent::IsNeedInit() const
@@ -75,17 +75,17 @@ bool TargetPlayerControllerComponent::IsNeedInit() const
     return mNeedInit;
 }
 
-void TargetPlayerControllerComponent::SetNeedInit(bool needInit)
+void TargetPlayerControllerComponent::SetNeedInit( bool needInit )
 {
-    mNeedInit=needInit;
+    mNeedInit = needInit;
 }
 
 
 
 void TargetPlayerControllerComponentLoader::BindValues()
 {
-    Bind("attack_frequency",func_double(&TargetPlayerControllerComponent::SetAttackFrequency));
-    Bind("heading_modifier_frequency",func_double(&TargetPlayerControllerComponent::SetHeadingModifierFrequency));
+    Bind( "attack_frequency", func_double( &TargetPlayerControllerComponent::SetAttackFrequency ) );
+    Bind( "heading_modifier_frequency", func_double( &TargetPlayerControllerComponent::SetHeadingModifierFrequency ) );
 }
 
 TargetPlayerControllerComponentLoader::TargetPlayerControllerComponentLoader()
@@ -93,4 +93,4 @@ TargetPlayerControllerComponentLoader::TargetPlayerControllerComponentLoader()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(TargetPlayerControllerComponent, TargetPlayerControllerComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( TargetPlayerControllerComponent, TargetPlayerControllerComponent );

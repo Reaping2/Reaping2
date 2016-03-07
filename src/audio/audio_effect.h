@@ -5,8 +5,7 @@
 #include "platform/rstdint.h"
 #include <boost/filesystem/path.hpp>
 
-namespace audio
-{
+namespace audio {
 enum PlayMode
 {
     PlayOnce = 0,

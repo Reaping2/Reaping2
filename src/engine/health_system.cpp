@@ -24,68 +24,68 @@ void HealthSystem::Init()
 {
 }
 
-void HealthSystem::Update(double DeltaTime)
+void HealthSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-        if (!healthC.IsValid())
+        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        if ( !healthC.IsValid() )
         {
             continue;
         }
-        if (!healthC->IsAlive())
+        if ( !healthC->IsAlive() )
         {
             continue;
         }
-        int32_t currHp=healthC->GetHP();
-        int32_t newHp=currHp;
+        int32_t currHp = healthC->GetHP();
+        int32_t newHp = currHp;
 
-        int32_t heal=healthC->GetHeal();
-        newHp+=heal;
+        int32_t heal = healthC->GetHeal();
+        newHp += heal;
 
-        newHp=std::min(healthC->GetMaxHP().Get(),newHp);
-        if (heal>0)
+        newHp = std::min( healthC->GetMaxHP().Get(), newHp );
+        if ( heal > 0 )
         {
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-            if(positionC.IsValid())
+            if( positionC.IsValid() )
             {
-                EventServer<core::HealTakenEvent>::Get().SendEvent( core::HealTakenEvent(positionC->GetX(), positionC->GetY(),healthC->GetHeal(),actor.GetGUID()) );
+                EventServer<core::HealTakenEvent>::Get().SendEvent( core::HealTakenEvent( positionC->GetX(), positionC->GetY(), healthC->GetHeal(), actor.GetGUID() ) );
             }
         }
         healthC->ResetHeal();
 
-        int32_t damage=healthC->GetDamage();
-        newHp-=damage;
-        if (damage>0)
+        int32_t damage = healthC->GetDamage();
+        newHp -= damage;
+        if ( damage > 0 )
         {
             //TODO: thats not enough. This way walls bleed too.
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-            if(positionC.IsValid())
+            if( positionC.IsValid() )
             {
                 core::DamageTakenEvent damageTakeEvent = core::DamageTakenEvent( positionC->GetX(), positionC->GetY() );
-                damageTakeEvent.ActorGUID=actor.GetGUID();
-                damageTakeEvent.Damage=healthC->GetDamage();
-                damageTakeEvent.type=core::DamageTakenEvent::Health;
+                damageTakeEvent.ActorGUID = actor.GetGUID();
+                damageTakeEvent.Damage = healthC->GetDamage();
+                damageTakeEvent.type = core::DamageTakenEvent::Health;
                 EventServer<core::DamageTakenEvent>::Get().SendEvent( damageTakeEvent );
             }
         }
         healthC->ResetDamage();
 
-        if (newHp<=0)
+        if ( newHp <= 0 )
         {
-            newHp=0;
-            healthC->SetAlive(false);
-            Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
-            if(collisionC.IsValid())
+            newHp = 0;
+            healthC->SetAlive( false );
+            Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+            if( collisionC.IsValid() )
             {
                 collisionC->SetCollisionClass( CollisionClass::No_Collision );
             }
-            healthC->SetTimeOfDeath(glfwGetTime());
-            Scene::Get().ModifyActor(&actor,RenderableComponentModifier(RenderableLayer::Corpses,healthC->GetTimeOfDeath()));
-            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Died ) );
+            healthC->SetTimeOfDeath( glfwGetTime() );
+            Scene::Get().ModifyActor( &actor, RenderableComponentModifier( RenderableLayer::Corpses, healthC->GetTimeOfDeath() ) );
+            EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Died ) );
         }
-        healthC->SetHP(newHp);
+        healthC->SetHP( newHp );
 
     }
 

@@ -7,8 +7,7 @@
 #include <string>
 #include <map>
 
-namespace platform
-{
+namespace platform {
 typedef std::function<void()> InitFunc_t;
 
 class Init : public Singleton<Init>

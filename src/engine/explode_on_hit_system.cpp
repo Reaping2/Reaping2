@@ -18,24 +18,24 @@ void ExplodeOnHitSystem::Init()
 }
 
 
-void ExplodeOnHitSystem::Update(double DeltaTime)
+void ExplodeOnHitSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<IExplodeOnHitComponent> explodeOnHitC=actor.Get<IExplodeOnHitComponent>();
-        if (!explodeOnHitC.IsValid()||!explodeOnHitC->IsExploded())
+        Opt<IExplodeOnHitComponent> explodeOnHitC = actor.Get<IExplodeOnHitComponent>();
+        if ( !explodeOnHitC.IsValid() || !explodeOnHitC->IsExploded() )
         {
             continue;
         }
         WeaponItemSubSystem::Projectiles_t projectiles;
-        ExplodeOnDeathSystem::FillExplosionProjectiles(*explodeOnHitC.Get(), actor, projectiles);
+        ExplodeOnDeathSystem::FillExplosionProjectiles( *explodeOnHitC.Get(), actor, projectiles );
         Scatter scatter;
-        WeaponItemSubSystem::Get()->AddProjectiles(actor,projectiles,scatter);
+        WeaponItemSubSystem::Get()->AddProjectiles( actor, projectiles, scatter );
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-        if(healthC.IsValid())
+        if( healthC.IsValid() )
         {
-            healthC->SetHP(0);
+            healthC->SetHP( 0 );
         }
     }
 }

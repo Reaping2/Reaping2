@@ -55,7 +55,7 @@ void Factory<Return_T>::Bind( int32_t Id )
     );
     mElements[Id] = boost::bind( &Create<Elem_T>, _1 );
 }
- 
+
 template<typename Return_T>
 void Factory<Return_T>::Bind( int32_t Id, Functor_t Functor )
 {

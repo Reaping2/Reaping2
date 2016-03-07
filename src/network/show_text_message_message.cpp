@@ -15,21 +15,21 @@ ShowTextMessageMessageSenderSystem::ShowTextMessageMessageSenderSystem()
 void ShowTextMessageMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnShowText=EventServer<engine::ShowTextEvent>::Get().Subscribe( boost::bind( &ShowTextMessageMessageSenderSystem::OnShowText, this, _1 ) );
+    mOnShowText = EventServer<engine::ShowTextEvent>::Get().Subscribe( boost::bind( &ShowTextMessageMessageSenderSystem::OnShowText, this, _1 ) );
 }
 
 
-void ShowTextMessageMessageSenderSystem::Update(double DeltaTime)
+void ShowTextMessageMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void ShowTextMessageMessageSenderSystem::OnShowText(engine::ShowTextEvent const& Evt)
+void ShowTextMessageMessageSenderSystem::OnShowText( engine::ShowTextEvent const& Evt )
 {
-    std::auto_ptr<ShowTextMessageMessage> showTextMessageMsg(new ShowTextMessageMessage);
-    showTextMessageMsg->mSeconds=Evt.mSeconds;
-    showTextMessageMsg->mText=Evt.mText;
-    mMessageHolder.AddOutgoingMessage(showTextMessageMsg);
+    std::auto_ptr<ShowTextMessageMessage> showTextMessageMsg( new ShowTextMessageMessage );
+    showTextMessageMsg->mSeconds = Evt.mSeconds;
+    showTextMessageMsg->mText = Evt.mText;
+    mMessageHolder.AddOutgoingMessage( showTextMessageMsg );
 }
 
 ShowTextMessageMessageHandlerSubSystem::ShowTextMessageMessageHandlerSubSystem()
@@ -42,18 +42,18 @@ void ShowTextMessageMessageHandlerSubSystem::Init()
 {
 }
 
-void ShowTextMessageMessageHandlerSubSystem::Update(double DeltaTime)
+void ShowTextMessageMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    MessageHandlerSubSystem::Update(DeltaTime);
+    MessageHandlerSubSystem::Update( DeltaTime );
 }
 
-void ShowTextMessageMessageHandlerSubSystem::Execute(Message const& message)
+void ShowTextMessageMessageHandlerSubSystem::Execute( Message const& message )
 {
-    ShowTextMessageMessage const& msg=static_cast<ShowTextMessageMessage const&>(message);
-    EventServer<engine::ShowTextEvent>::Get().SendEvent(engine::ShowTextEvent(msg.mSeconds,msg.mText));    
+    ShowTextMessageMessage const& msg = static_cast<ShowTextMessageMessage const&>( message );
+    EventServer<engine::ShowTextEvent>::Get().SendEvent( engine::ShowTextEvent( msg.mSeconds, msg.mText ) );
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__ShowTextMessageMessage, network::ShowTextMessageMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__ShowTextMessageMessage, network::ShowTextMessageMessage );

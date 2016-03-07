@@ -12,14 +12,14 @@ protected:
 public:
     enum Type
     {
-        Normal=0,
+        Normal = 0,
         Random,
         Num_Classes
     };
     ExplodeDistributionType::Type operator()( int32_t Id ) const;
     int32_t operator()( ExplodeDistributionType::Type type ) const;
 private:
-    typedef boost::bimap<int32_t,ExplodeDistributionType::Type> IdToExplodeDistributionTypeMap_t;
+    typedef boost::bimap<int32_t, ExplodeDistributionType::Type> IdToExplodeDistributionTypeMap_t;
     IdToExplodeDistributionTypeMap_t mIdToExplodeDistributionTypeMap;
 };
 

@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 TargetHolderComponent::TargetHolderComponent()
-    : mTargetGUID(-1)
+    : mTargetGUID( -1 )
 {
 }
 
-void TargetHolderComponent::SetTargetGUID(int32_t targetId)
+void TargetHolderComponent::SetTargetGUID( int32_t targetId )
 {
-    mTargetGUID=targetId;
+    mTargetGUID = targetId;
 }
 
 int32_t TargetHolderComponent::GetTargetGUID()const
@@ -27,4 +27,4 @@ TargetHolderComponentLoader::TargetHolderComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(TargetHolderComponent, TargetHolderComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( TargetHolderComponent, TargetHolderComponent );

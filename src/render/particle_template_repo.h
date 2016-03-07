@@ -24,14 +24,16 @@ struct ParticleTemplate
     float MinRotationSpeed;
     float MaxRotationSpeed;
     float RotationSpeedVariance;
-    enum RotationDirection {
+    enum RotationDirection
+    {
         Rot_P,
         Rot_N,
         Rot_Any,
     };
     RotationDirection RotDir;
     RotationDirection RotAccelerationDir;
-    enum SpeedDirection {
+    enum SpeedDirection
+    {
         Towards,
         Away,
         Any,
@@ -46,7 +48,8 @@ struct ParticleTemplate
     float RadiusVariance;
     int32_t Num;
     int32_t NumVariance;
-    enum HeadingType {
+    enum HeadingType
+    {
         H_Actor,
         H_Any,
     };

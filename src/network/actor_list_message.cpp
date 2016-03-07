@@ -17,9 +17,9 @@ void ActorListMessageSenderSystem::Init()
 }
 
 
-void ActorListMessageSenderSystem::Update(double DeltaTime)
+void ActorListMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
 ActorListMessageHandlerSubSystem::ActorListMessageHandlerSubSystem()
@@ -32,21 +32,21 @@ void ActorListMessageHandlerSubSystem::Init()
 {
 }
 
-void ActorListMessageHandlerSubSystem::Update(double DeltaTime)
+void ActorListMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    MessageHandlerSubSystem::Update(DeltaTime);
+    MessageHandlerSubSystem::Update( DeltaTime );
 }
 
-void ActorListMessageHandlerSubSystem::Execute(Message const& message)
+void ActorListMessageHandlerSubSystem::Execute( Message const& message )
 {
-    ActorListMessage const& msg=static_cast<ActorListMessage const&>(message);
-    if (msg.mClientId==mProgramState.mClientId)
+    ActorListMessage const& msg = static_cast<ActorListMessage const&>( message );
+    if ( msg.mClientId == mProgramState.mClientId )
     {
-        L1("actorlist arrived for me!");
-        Scene::Get().SetPlayerModels(Opt<Actor>());
+        L1( "actorlist arrived for me!" );
+        Scene::Get().SetPlayerModels( Opt<Actor>() );
         Scene::Get().ClearActors();
-        Scene::Get().SetActors(*msg.mActorList);
-        Scene::Get().SetPlayerModels(Scene::Get().GetActor(core::ProgramState::Get().mControlledActorGUID));
+        Scene::Get().SetActors( *msg.mActorList );
+        Scene::Get().SetPlayerModels( Scene::Get().GetActor( core::ProgramState::Get().mControlledActorGUID ) );
 
     }
 }
@@ -54,4 +54,4 @@ void ActorListMessageHandlerSubSystem::Execute(Message const& message)
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__ActorListMessage, network::ActorListMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__ActorListMessage, network::ActorListMessage );

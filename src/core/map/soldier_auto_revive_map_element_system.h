@@ -8,7 +8,7 @@ namespace map {
 class SoldierAutoReviveMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(SoldierAutoReviveMapElementSystem)
+    DEFINE_SYSTEM_BASE( SoldierAutoReviveMapElementSystem )
     SoldierAutoReviveMapElementSystem();
     static Opt<SoldierAutoReviveMapElementSystem> Get();
     double GetSecsToRevive();

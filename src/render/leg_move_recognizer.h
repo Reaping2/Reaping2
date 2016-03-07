@@ -4,12 +4,12 @@
 #include "render/recognizer.h"
 namespace render {
 
-    class LegMoveRecognizer: public Recognizer
-    {
-    public:
-        LegMoveRecognizer( int32_t Id );
-        virtual bool Recognize(Actor const&);
-    };
+class LegMoveRecognizer: public Recognizer
+{
+public:
+    LegMoveRecognizer( int32_t Id );
+    virtual bool Recognize( Actor const& );
+};
 
 } // namespace render
 

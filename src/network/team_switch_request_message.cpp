@@ -18,9 +18,9 @@ void TeamSwitchRequestMessageSenderSystem::Init()
 }
 
 
-void TeamSwitchRequestMessageSenderSystem::Update(double DeltaTime)
+void TeamSwitchRequestMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
 void TeamSwitchRequestMessageSenderSystem::OnTeamSwitchRequest( TeamSwitchRequestEvent const& event )
@@ -32,7 +32,7 @@ void TeamSwitchRequestMessageSenderSystem::OnTeamSwitchRequest( TeamSwitchReques
             // filtering: don't allow changing someone else's team
             return;
         }
-        std::auto_ptr<TeamSwitchRequestMessage> msg(new TeamSwitchRequestMessage);
+        std::auto_ptr<TeamSwitchRequestMessage> msg( new TeamSwitchRequestMessage );
         msg->mClientId = event.mClientId;
         mMessageHolder.AddOutgoingMessage( msg );
     }
@@ -48,14 +48,14 @@ void TeamSwitchRequestMessageHandlerSubSystem::Init()
 {
 }
 
-void TeamSwitchRequestMessageHandlerSubSystem::Update(double DeltaTime)
+void TeamSwitchRequestMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    MessageHandlerSubSystem::Update(DeltaTime);
+    MessageHandlerSubSystem::Update( DeltaTime );
 }
 
-void TeamSwitchRequestMessageHandlerSubSystem::Execute(Message const& message)
+void TeamSwitchRequestMessageHandlerSubSystem::Execute( Message const& message )
 {
-    TeamSwitchRequestMessage const& msg=static_cast<TeamSwitchRequestMessage const&>(message);
+    TeamSwitchRequestMessage const& msg = static_cast<TeamSwitchRequestMessage const&>( message );
     if ( mProgramState.mMode == ProgramState::Server )
     {
         TeamSwitchRequestEvent event;

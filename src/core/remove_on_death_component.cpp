@@ -19,7 +19,7 @@ RemoveOnDeathComponentLoader::RemoveOnDeathComponentLoader()
 
 void RemoveOnDeathComponentLoader::BindValues()
 {
-    Bind("delay",func_double(&RemoveOnDeathComponent::SetRemainingTime));
+    Bind( "delay", func_double( &RemoveOnDeathComponent::SetRemainingTime ) );
 }
 
 void RemoveOnDeathComponent::SetRemainingTime( double rt )
@@ -32,4 +32,4 @@ double RemoveOnDeathComponent::GetRemainingTime() const
     return mRemainingTime;
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(RemoveOnDeathComponent, RemoveOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( RemoveOnDeathComponent, RemoveOnDeathComponent );

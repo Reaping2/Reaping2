@@ -15,34 +15,34 @@ CtfSoldierSpawnPointMapElementSystem::CtfSoldierSpawnPointMapElementSystem()
 void CtfSoldierSpawnPointMapElementSystem::Init()
 {
     MapElementSystem::Init();
-    mOnMapStart=EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &CtfSoldierSpawnPointMapElementSystem::OnMapStart, this, _1 ) );
+    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &CtfSoldierSpawnPointMapElementSystem::OnMapStart, this, _1 ) );
 }
 
 
-void CtfSoldierSpawnPointMapElementSystem::Update(double DeltaTime)
+void CtfSoldierSpawnPointMapElementSystem::Update( double DeltaTime )
 {
-    MapElementSystem::Update(DeltaTime);
-//     MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfSoldierSpawnPointMapElement::GetType_static());
-//     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSoldierSpawnPointMapElementIt = mapElementListFilter.begin(), ctfSoldierSpawnPointMapElementE = mapElementListFilter.end(); ctfSoldierSpawnPointMapElementIt != ctfSoldierSpawnPointMapElementE; ++ctfSoldierSpawnPointMapElementIt )
-//     {
-//         Opt<CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement(*ctfSoldierSpawnPointMapElementIt);
-//     }
+    MapElementSystem::Update( DeltaTime );
+    //     MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfSoldierSpawnPointMapElement::GetType_static());
+    //     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSoldierSpawnPointMapElementIt = mapElementListFilter.begin(), ctfSoldierSpawnPointMapElementE = mapElementListFilter.end(); ctfSoldierSpawnPointMapElementIt != ctfSoldierSpawnPointMapElementE; ++ctfSoldierSpawnPointMapElementIt )
+    //     {
+    //         Opt<CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement(*ctfSoldierSpawnPointMapElementIt);
+    //     }
 }
 
-void CtfSoldierSpawnPointMapElementSystem::OnMapStart(core::MapStartEvent const& Evt)
+void CtfSoldierSpawnPointMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
 }
 
-SpawnPoints_t CtfSoldierSpawnPointMapElementSystem::GetActiveSpawnPoints(Team::Type team)
+SpawnPoints_t CtfSoldierSpawnPointMapElementSystem::GetActiveSpawnPoints( Team::Type team )
 {
     SpawnPoints_t r;
-    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfSoldierSpawnPointMapElement::GetType_static());
+    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), CtfSoldierSpawnPointMapElement::GetType_static() );
     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSoldierSpawnPointMapElementIt = mapElementListFilter.begin(), ctfSoldierSpawnPointMapElementE = mapElementListFilter.end(); ctfSoldierSpawnPointMapElementIt != ctfSoldierSpawnPointMapElementE; ++ctfSoldierSpawnPointMapElementIt )
     {
-        Opt<CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement(*ctfSoldierSpawnPointMapElementIt);
-        if (ctfSoldierSpawnPointMapElement->GetTeam()==team)
+        Opt<CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement( *ctfSoldierSpawnPointMapElementIt );
+        if ( ctfSoldierSpawnPointMapElement->GetTeam() == team )
         {
-            r.push_back(SpawnPoint(ctfSoldierSpawnPointMapElement->GetX(),ctfSoldierSpawnPointMapElement->GetY()));
+            r.push_back( SpawnPoint( ctfSoldierSpawnPointMapElement->GetX(), ctfSoldierSpawnPointMapElement->GetY() ) );
         }
     }
     return r;

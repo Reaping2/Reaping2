@@ -12,14 +12,14 @@ namespace engine {
 class ExplodeOnDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(ExplodeOnDeathSystem)
+    DEFINE_SYSTEM_BASE( ExplodeOnDeathSystem )
     ExplodeOnDeathSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
 
-    static void FillExplosionProjectiles(IExplode& explode, Actor &actor, WeaponItemSubSystem::Projectiles_t& projectiles);
+    static void FillExplosionProjectiles( IExplode& explode, Actor& actor, WeaponItemSubSystem::Projectiles_t& projectiles );
 
-    void SetProjectilePosition(Actor& projectile, Actor& actor);
+    void SetProjectilePosition( Actor& projectile, Actor& actor );
 
 private:
     Scene& mScene;

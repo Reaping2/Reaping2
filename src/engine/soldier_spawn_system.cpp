@@ -15,27 +15,27 @@ SoldierSpawnSystem::SoldierSpawnSystem()
     : mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mPlayerAutoId(AutoId("player"))
+    , mPlayerAutoId( AutoId( "player" ) )
 {
 }
 
 
 void SoldierSpawnSystem::Init()
 {
-    mOnRevive=EventServer<core::ReviveEvent>::Get().Subscribe( boost::bind( &SoldierSpawnSystem::OnRevive, this, _1 ) );
+    mOnRevive = EventServer<core::ReviveEvent>::Get().Subscribe( boost::bind( &SoldierSpawnSystem::OnRevive, this, _1 ) );
 }
 
 
-void SoldierSpawnSystem::Update(double DeltaTime)
+void SoldierSpawnSystem::Update( double DeltaTime )
 {
 }
 
-void SoldierSpawnSystem::OnRevive(core::ReviveEvent const& Evt)
+void SoldierSpawnSystem::OnRevive( core::ReviveEvent const& Evt )
 {
-    if (mEnabled)
+    if ( mEnabled )
     {
-        std::auto_ptr<Actor> player(Spawn(*Evt.mClientData));       
-        mScene.AddActor(player.release());
+        std::auto_ptr<Actor> player( Spawn( *Evt.mClientData ) );
+        mScene.AddActor( player.release() );
     }
 }
 
@@ -44,69 +44,69 @@ Opt<SoldierSpawnSystem> SoldierSpawnSystem::Get()
     return Engine::Get().GetSystem<SoldierSpawnSystem>();
 }
 
-std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData)
+std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData )
 {
-    map::SpawnPoints_t spawnPoints(map::SoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints());
-    map::SpawnPoint spawnPoint(spawnPoints[rand()%spawnPoints.size()]);
-    return Spawn(clientData,spawnPoint);
+    map::SpawnPoints_t spawnPoints( map::SoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints() );
+    map::SpawnPoint spawnPoint( spawnPoints[rand() % spawnPoints.size()] );
+    return Spawn( clientData, spawnPoint );
 }
 
-std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map::SpawnPoint spawnPoint)
+std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, map::SpawnPoint spawnPoint )
 {
-    std::auto_ptr<Actor> player(mActorFactory(mPlayerAutoId));
-    return Spawn(clientData, spawnPoint, player);
+    std::auto_ptr<Actor> player( mActorFactory( mPlayerAutoId ) );
+    return Spawn( clientData, spawnPoint, player );
 }
 
-std::auto_ptr<Actor> SoldierSpawnSystem::Spawn(core::ClientData& clientData, map::SpawnPoint spawnPoint, std::auto_ptr<Actor> player)
+std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, map::SpawnPoint spawnPoint, std::auto_ptr<Actor> player )
 {
-    Opt<Actor> clientActor(mScene.GetActor(clientData.mClientActorGUID));
-    if(clientActor.IsValid())
+    Opt<Actor> clientActor( mScene.GetActor( clientData.mClientActorGUID ) );
+    if( clientActor.IsValid() )
     {
         Opt<IHealthComponent> healthC = clientActor->Get<IHealthComponent>();
-        if (healthC.IsValid()&&healthC->IsAlive())
+        if ( healthC.IsValid() && healthC->IsAlive() )
         {
-            L1("Cannot spawn soldier for clientData (%s) current soldier still alive!\n",clientData.mClientName.c_str());
+            L1( "Cannot spawn soldier for clientData (%s) current soldier still alive!\n", clientData.mClientName.c_str() );
             return std::auto_ptr<Actor>();
         }
     }
     else
     {
-        L2("No actor for clientData(%s). (it might be an error on revive)\n",clientData.mClientName.c_str());
+        L2( "No actor for clientData(%s). (it might be an error on revive)\n", clientData.mClientName.c_str() );
     }
-    L2("player is valid %d",player.get());
+    L2( "player is valid %d", player.get() );
     Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
-    L2("positionC is valid %d",positionC.IsValid());
-    positionC->SetX(spawnPoint.mX);
-    positionC->SetY(spawnPoint.mY);
+    L2( "positionC is valid %d", positionC.IsValid() );
+    positionC->SetX( spawnPoint.mX );
+    positionC->SetY( spawnPoint.mY );
 
-    //TODO: temporary till normal inventory sync 
+    //TODO: temporary till normal inventory sync
     Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
-    if (inventoryC.IsValid())
+    if ( inventoryC.IsValid() )
     {
-        inventoryC->SetSelectedWeapon(AutoId( "pistol" ));
+        inventoryC->SetSelectedWeapon( AutoId( "pistol" ) );
     }
 
-    Opt<PlayerControllerComponent> playerControllerC(player->Get<PlayerControllerComponent>());
-    if (playerControllerC.IsValid())
+    Opt<PlayerControllerComponent> playerControllerC( player->Get<PlayerControllerComponent>() );
+    if ( playerControllerC.IsValid() )
     {
-        playerControllerC->mControllerId=clientData.mClientId;
-        if (mProgramState.mControlledActorGUID==clientData.mClientActorGUID
-            &&mProgramState.mMode!=core::ProgramState::Server)
+        playerControllerC->mControllerId = clientData.mClientId;
+        if ( mProgramState.mControlledActorGUID == clientData.mClientActorGUID
+             && mProgramState.mMode != core::ProgramState::Server )
         {
-            playerControllerC->SetEnabled(true);
-            playerControllerC->mActive=true;
-            mProgramState.mControlledActorGUID=player->GetGUID();
+            playerControllerC->SetEnabled( true );
+            playerControllerC->mActive = true;
+            mProgramState.mControlledActorGUID = player->GetGUID();
         }
     }
-    clientData.mClientActorGUID=player->GetGUID(); //TODO: might seek for a better place
-    L2("player created clientId:%d clientName:%s actorId:%d\n",clientData.mClientId,clientData.mClientName.c_str(),clientData.mClientActorGUID);
+    clientData.mClientActorGUID = player->GetGUID(); //TODO: might seek for a better place
+    L2( "player created clientId:%d clientName:%s actorId:%d\n", clientData.mClientId, clientData.mClientName.c_str(), clientData.mClientActorGUID );
 
     if ( mProgramState.mMode != core::ProgramState::Server &&
-        mProgramState.mClientDatas.begin()->mClientActorGUID==player->GetGUID() )
+         mProgramState.mClientDatas.begin()->mClientActorGUID == player->GetGUID() )
     {
-        Scene::Get().SetPlayerModels(Opt<Actor>(player.get()));
+        Scene::Get().SetPlayerModels( Opt<Actor>( player.get() ) );
     }
-    EventServer<SoldierCreatedEvent>::Get().SendEvent(SoldierCreatedEvent(clientData,Opt<Actor>(player.get())));
+    EventServer<SoldierCreatedEvent>::Get().SendEvent( SoldierCreatedEvent( clientData, Opt<Actor>( player.get() ) ) );
     return player;
 }
 

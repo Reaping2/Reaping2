@@ -10,16 +10,16 @@ struct SpawnPoint
 {
     int32_t mX;
     int32_t mY;
-    SpawnPoint(int32_t x, int32_t y) 
-        : mX(x), mY(y) {}
+    SpawnPoint( int32_t x, int32_t y )
+        : mX( x ), mY( y ) {}
 };
 
-typedef std::vector<SpawnPoint> SpawnPoints_t; 
+typedef std::vector<SpawnPoint> SpawnPoints_t;
 
 class SoldierSpawnPointMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(SoldierSpawnPointMapElementSystem)
+    DEFINE_SYSTEM_BASE( SoldierSpawnPointMapElementSystem )
     SoldierSpawnPointMapElementSystem();
     SpawnPoints_t GetActiveSpawnPoints();
     static Opt<SoldierSpawnPointMapElementSystem> Get();
@@ -28,7 +28,7 @@ protected:
     virtual void Update( double DeltaTime );
 private:
     AutoReg mOnMapStart;
-    void OnMapStart(core::MapStartEvent const& Evt);
+    void OnMapStart( core::MapStartEvent const& Evt );
 };
 
 } // namespace map

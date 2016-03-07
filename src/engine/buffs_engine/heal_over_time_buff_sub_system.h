@@ -10,7 +10,7 @@ namespace engine {
 class HealOverTimeBuffSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(HealOverTimeBuffSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( HealOverTimeBuffSubSystem )
     HealOverTimeBuffSubSystem();
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );

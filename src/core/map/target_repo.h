@@ -6,13 +6,13 @@
 #include "i_target.h"
 
 namespace map {
-    
+
 class DefaultTarget: public ITarget
 {
 public:
     DefaultTarget();
     virtual void Update( double DeltaTime );
-    virtual void PutTarget(glm::vec2 position);
+    virtual void PutTarget( glm::vec2 position );
 };
 
 

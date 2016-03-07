@@ -4,12 +4,12 @@
 #include "render/recognizer.h"
 namespace render {
 
-    class IdleRecognizer: public Recognizer
-    {
-    public:
-        IdleRecognizer( int32_t Id );
-        virtual bool Recognize(Actor const&);
-    };
+class IdleRecognizer: public Recognizer
+{
+public:
+    IdleRecognizer( int32_t Id );
+    virtual bool Recognize( Actor const& );
+};
 
 } // namespace render
 

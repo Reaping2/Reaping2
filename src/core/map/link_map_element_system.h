@@ -10,14 +10,14 @@ namespace map {
 class LinkMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(LinkMapElementSystem)
+    DEFINE_SYSTEM_BASE( LinkMapElementSystem )
     LinkMapElementSystem();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
     AutoReg mOnMapLoaded;
-    void OnMapLoaded(core::MapLoadedEvent const& Evt);
+    void OnMapLoaded( core::MapLoadedEvent const& Evt );
 };
 
 } // namespace map

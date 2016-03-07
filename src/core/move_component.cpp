@@ -4,18 +4,18 @@
 #include <portable_oarchive.hpp>
 
 MoveComponent::MoveComponent()
-    : mHeading(0.0)
-    , mHeadingCos(cos( mHeading ))
-    , mHeadingSin(sin( mHeading ))
-    , mHeadingModifier(0.0)
-    , mSpeedX(0.0)
-    , mSpeedY(0.0)
-    , mMoving(true)
-    , mRooted(false)
+    : mHeading( 0.0 )
+    , mHeadingCos( cos( mHeading ) )
+    , mHeadingSin( sin( mHeading ) )
+    , mHeadingModifier( 0.0 )
+    , mSpeedX( 0.0 )
+    , mSpeedY( 0.0 )
+    , mMoving( true )
+    , mRooted( false )
 {
-    mSpeed.mBase.Init(350.0,0.0,100000.0);
-    mSpeed.mFlat.Init(0.0,0.0,33.0);
-    mSpeed.mPercent.Init(0.0,0.0,30.0);
+    mSpeed.mBase.Init( 350.0, 0.0, 100000.0 );
+    mSpeed.mFlat.Init( 0.0, 0.0, 33.0 );
+    mSpeed.mPercent.Init( 0.0, 0.0, 30.0 );
 }
 
 double const& MoveComponent::GetHeading() const
@@ -25,17 +25,17 @@ double const& MoveComponent::GetHeading() const
 
 double MoveComponent::GetSpeedX() const
 {
-    return mHeadingCos*mSpeed.Get()*MAGIC_SPEED; //TODO: temporary for testing only
+    return mHeadingCos * mSpeed.Get() * MAGIC_SPEED; //TODO: temporary for testing only
 }
 double MoveComponent::GetSpeedY() const
 {
-    return mHeadingSin*mSpeed.Get()*MAGIC_SPEED; //TODO: temporary for testing only
+    return mHeadingSin * mSpeed.Get() * MAGIC_SPEED; //TODO: temporary for testing only
 }
 void MoveComponent::SetHeading( double Heading )
 {
-    mHeading = std::floor(Heading*PRECISION)/PRECISION;
-    mHeadingCos = glm::round(cos( mHeading )*PRECISION/10)/PRECISION*10;
-    mHeadingSin = glm::round(sin( mHeading )*PRECISION/10)/PRECISION*10;
+    mHeading = std::floor( Heading * PRECISION ) / PRECISION;
+    mHeadingCos = glm::round( cos( mHeading ) * PRECISION / 10 ) / PRECISION * 10;
+    mHeadingSin = glm::round( sin( mHeading ) * PRECISION / 10 ) / PRECISION * 10;
 }
 
 double const& MoveComponent::GetHeadingModifier() const
@@ -43,9 +43,9 @@ double const& MoveComponent::GetHeadingModifier() const
     return mHeadingModifier;
 }
 
-void MoveComponent::SetHeadingModifier(double HeadingModifier)
+void MoveComponent::SetHeadingModifier( double HeadingModifier )
 {
-    mHeadingModifier=std::floor(HeadingModifier*PRECISION)/PRECISION;
+    mHeadingModifier = std::floor( HeadingModifier * PRECISION ) / PRECISION;
 }
 
 Buffable<double>& MoveComponent::GetSpeed()
@@ -55,22 +55,22 @@ Buffable<double>& MoveComponent::GetSpeed()
 
 bool MoveComponent::IsMoving() const
 {
-    return mMoving&&!mRooted;
+    return mMoving && !mRooted;
 }
 
-void MoveComponent::SetMoving(bool moving)
+void MoveComponent::SetMoving( bool moving )
 {
-    mMoving=moving;
+    mMoving = moving;
 }
 
-void MoveComponent::SetSpeed(double Speed)
+void MoveComponent::SetSpeed( double Speed )
 {
-    mSpeed.mBase.Set(Speed);
+    mSpeed.mBase.Set( Speed );
 }
 
-void MoveComponent::SetRooted(bool rooted)
+void MoveComponent::SetRooted( bool rooted )
 {
-    mRooted=rooted;
+    mRooted = rooted;
 }
 
 bool MoveComponent::IsRooted()const
@@ -86,7 +86,7 @@ bool MoveComponent::GetMoving() const
 
 void MoveComponentLoader::BindValues()
 {
-    Bind("speed",func_double(&MoveComponent::SetSpeed));
+    Bind( "speed", func_double( &MoveComponent::SetSpeed ) );
 }
 
 MoveComponentLoader::MoveComponentLoader()
@@ -94,4 +94,4 @@ MoveComponentLoader::MoveComponentLoader()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(MoveComponent, MoveComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( MoveComponent, MoveComponent );

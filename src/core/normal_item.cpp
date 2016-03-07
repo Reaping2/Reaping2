@@ -2,25 +2,25 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-NormalItem::NormalItem(int32_t Id)
-    : Item(Id)
-    , mUse(false)
-    , mConsumed(false)
+NormalItem::NormalItem( int32_t Id )
+    : Item( Id )
+    , mUse( false )
+    , mConsumed( false )
 {
     mType = ItemType::Normal;
 }
 
 NormalItem::NormalItem()
     : Item()
-    , mUse(false)
-    , mConsumed(false)
+    , mUse( false )
+    , mConsumed( false )
 {
 
 }
 
-void NormalItem::SetUse(bool use)
+void NormalItem::SetUse( bool use )
 {
-    mUse=use;
+    mUse = use;
 }
 
 bool NormalItem::IsUse() const
@@ -28,9 +28,9 @@ bool NormalItem::IsUse() const
     return mUse;
 }
 
-void NormalItem::SetConsumed(bool consumed)
+void NormalItem::SetConsumed( bool consumed )
 {
-    mConsumed=consumed;
+    mConsumed = consumed;
 }
 
 bool NormalItem::IsConsumed() const
@@ -38,4 +38,4 @@ bool NormalItem::IsConsumed() const
     return mConsumed;
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(NormalItem, NormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT( NormalItem, NormalItem );

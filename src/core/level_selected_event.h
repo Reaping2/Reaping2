@@ -8,7 +8,7 @@ namespace core {
 struct LevelSelectedEvent : public Event
 {
     std::string mLevel;
-    LevelSelectedEvent( std::string const& level ) : mLevel(level){}
+    LevelSelectedEvent( std::string const& level ) : mLevel( level ) {}
 };
 
 }

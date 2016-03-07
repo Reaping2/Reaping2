@@ -6,8 +6,8 @@
 namespace engine {
 
 MaxHealthBuffSubSystem::MaxHealthBuffSubSystem()
-    : mScene(Scene::Get())
-    , mProgramState(core::ProgramState::Get())
+    : mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -17,31 +17,31 @@ void MaxHealthBuffSubSystem::Init()
 }
 
 
-void MaxHealthBuffSubSystem::Update(Actor& actor, double DeltaTime)
+void MaxHealthBuffSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    RecalculateBuffs(actor);
+    RecalculateBuffs( actor );
 }
 
-void MaxHealthBuffSubSystem::RecalculateBuffs(Actor &actor)
+void MaxHealthBuffSubSystem::RecalculateBuffs( Actor& actor )
 {
     Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
-    if (!buffHolderC.IsValid())
+    if ( !buffHolderC.IsValid() )
     {
         return;
     }
-    Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-    if(!healthC.IsValid())
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if( !healthC.IsValid() )
     {
         return;
     }
-    healthC->GetMaxHP().mFlat.Set(0.0);
-    healthC->GetMaxHP().mPercent.Set(0.0);
-    BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),MaxHealthBuff::GetType_static());
+    healthC->GetMaxHP().mFlat.Set( 0.0 );
+    healthC->GetMaxHP().mPercent.Set( 0.0 );
+    BuffListFilter<IBuffHolderComponent::All> buffListFilter( buffHolderC->GetBuffList(), MaxHealthBuff::GetType_static() );
     for( BuffListFilter<IBuffHolderComponent::All>::const_iterator maxHealthBuffIt = buffListFilter.begin(), maxHealthBuffE = buffListFilter.end(); maxHealthBuffIt != maxHealthBuffE; ++maxHealthBuffIt )
     {
-        Opt<MaxHealthBuff> maxHealthBuff(*maxHealthBuffIt);
-        healthC->GetMaxHP().mFlat.Set(healthC->GetMaxHP().mFlat.Get()+maxHealthBuff->GetFlatBonus());
-        healthC->GetMaxHP().mPercent.Set(healthC->GetMaxHP().mPercent.Get()+maxHealthBuff->GetPercentBonus());
+        Opt<MaxHealthBuff> maxHealthBuff( *maxHealthBuffIt );
+        healthC->GetMaxHP().mFlat.Set( healthC->GetMaxHP().mFlat.Get() + maxHealthBuff->GetFlatBonus() );
+        healthC->GetMaxHP().mPercent.Set( healthC->GetMaxHP().mPercent.Get() + maxHealthBuff->GetPercentBonus() );
     }
 }
 

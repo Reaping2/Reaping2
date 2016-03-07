@@ -13,7 +13,7 @@ namespace engine {
 class SoldierAutoReviveSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(SoldierAutoReviveSystem)
+    DEFINE_SYSTEM_BASE( SoldierAutoReviveSystem )
     SoldierAutoReviveSystem();
 protected:
     virtual void Init();
@@ -28,9 +28,9 @@ private:
     std::string mAutoReviveText;
     double mSecsToRevive;
     AutoReg mOnActorEvent;
-    void OnActorEvent(ActorEvent const& Evt);
+    void OnActorEvent( ActorEvent const& Evt );
     AutoReg mOnSecsToRevive;
-    void OnSecsToRevive(engine::SecsToReviveEvent const& Evt);
+    void OnSecsToRevive( engine::SecsToReviveEvent const& Evt );
 };
 
 } // namespace engine

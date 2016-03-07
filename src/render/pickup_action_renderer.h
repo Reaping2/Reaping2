@@ -8,14 +8,14 @@
 
 namespace render {
 
-    class PickupActionRenderer: public ActionRenderer
-    {
-        int32_t mActionId;
-    public:
-        PickupActionRenderer( int32_t Id );
-        virtual void Init(const Actor& actor);
-        virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);
-    };
+class PickupActionRenderer: public ActionRenderer
+{
+    int32_t mActionId;
+public:
+    PickupActionRenderer( int32_t Id );
+    virtual void Init( const Actor& actor );
+    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
+};
 
 
 } // namespace render

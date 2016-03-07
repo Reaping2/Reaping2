@@ -10,7 +10,7 @@ namespace engine {
 class FadeOutSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(FadeOutSystem)
+    DEFINE_SYSTEM_BASE( FadeOutSystem )
     FadeOutSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

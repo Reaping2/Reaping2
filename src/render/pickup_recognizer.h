@@ -4,12 +4,12 @@
 #include "render/recognizer.h"
 namespace render {
 
-    class PickupRecognizer: public Recognizer
-    {
-    public:
-        PickupRecognizer( int32_t Id );
-        virtual bool Recognize(Actor const&);
-    };
+class PickupRecognizer: public Recognizer
+{
+public:
+    PickupRecognizer( int32_t Id );
+    virtual bool Recognize( Actor const& );
+};
 
 } // namespace render
 

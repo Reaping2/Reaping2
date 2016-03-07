@@ -9,7 +9,7 @@ class TargetHolderComponent : public ITargetHolderComponent
 {
 public:
     TargetHolderComponent();
-    virtual void SetTargetGUID(int32_t targetId);
+    virtual void SetTargetGUID( int32_t targetId );
     virtual int32_t GetTargetGUID()const;
 protected:
     friend class ComponentFactory;
@@ -18,15 +18,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void TargetHolderComponent::serialize(Archive& ar, const unsigned int version)
+void TargetHolderComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<ITargetHolderComponent>(*this);
-    ar & mTargetGUID;
+    ar& boost::serialization::base_object<ITargetHolderComponent>( *this );
+    ar& mTargetGUID;
 }
 
 class TargetHolderComponentLoader : public ComponentLoader<TargetHolderComponent>
@@ -38,5 +38,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(TargetHolderComponent, TargetHolderComponent,"target_holder_component");
+REAPING2_CLASS_EXPORT_KEY2( TargetHolderComponent, TargetHolderComponent, "target_holder_component" );
 #endif//INCLUDED_CORE_TARGET_HOLDER_COMPONENT_H

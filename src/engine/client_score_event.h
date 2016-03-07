@@ -9,8 +9,8 @@ struct ClientScoreEvent : public platform::Event
 {
     int32_t mClientID;
     int32_t mScore;
-    ClientScoreEvent(int32_t clientID, int32_t score)
-        :mClientID(clientID),mScore(score){}
+    ClientScoreEvent( int32_t clientID, int32_t score )
+        : mClientID( clientID ), mScore( score ) {}
 };
 
 } // namespace engine

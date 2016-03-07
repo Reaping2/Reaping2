@@ -15,7 +15,7 @@ class TimerServerSystem : public System, public Registry
     virtual void UpdateOne( void* RegistrationData, void* UpdateData );
     virtual void DeleteData( void* Data );
 public:
-    DEFINE_SYSTEM_BASE(TimerServerSystem)
+    DEFINE_SYSTEM_BASE( TimerServerSystem )
     Registration AddTimer( TimerCallback Callback, double Interval );
     virtual void Init();
     virtual void Update( double DeltaTime );

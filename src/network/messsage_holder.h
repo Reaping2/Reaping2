@@ -12,9 +12,9 @@ class MessageList
 {
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version)
+    void serialize( Archive& ar, const unsigned int version )
     {
-        ar & mMessages;
+        ar& mMessages;
     }
 public:
     typedef ::boost::ptr_list<Message> Messages_t;
@@ -31,27 +31,27 @@ public:
     MessageList& GetOutgoingMessages();
     MessageList& GetIncomingMessages();
     template<typename MESSAGE>
-    void AddOutgoingMessage(std::auto_ptr<MESSAGE> message);
+    void AddOutgoingMessage( std::auto_ptr<MESSAGE> message );
 
-    void AddIncomingMessage(std::auto_ptr<Message> message);
+    void AddIncomingMessage( std::auto_ptr<Message> message );
     void ClearOutgoingMessages();
     void ClearIncomingMessages();
 
 };
 
 template<typename MESSAGE>
-void MessageHolder::AddOutgoingMessage(std::auto_ptr<MESSAGE> message)
+void MessageHolder::AddOutgoingMessage( std::auto_ptr<MESSAGE> message )
 {
     {
-        if (message.get()==NULL)
+        if ( message.get() == NULL )
         {
             return;
         }
         BOOST_STATIC_ASSERT_MSG(
             ( boost::is_base_of<Message, MESSAGE>::value ),
             "MESSAGE must be a descendant of Message!"
-            );
-        mOutgoingMessages.mMessages.push_back(std::auto_ptr<Message>(message.release()));
+        );
+        mOutgoingMessages.mMessages.push_back( std::auto_ptr<Message>( message.release() ) );
     }
 }
 

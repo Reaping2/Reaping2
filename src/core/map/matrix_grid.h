@@ -7,16 +7,16 @@
 
 namespace map {
 
-class MatrixGrid:public IGrid
+class MatrixGrid: public IGrid
 {
 protected:
-    glm::vec2 GetPositionOnMatrix(glm::vec2 position, bool withMagicSize);
+    glm::vec2 GetPositionOnMatrix( glm::vec2 position, bool withMagicSize );
 public:
-    MatrixGrid(int32_t Id);
+    MatrixGrid( int32_t Id );
     virtual void Update( double DeltaTime );
-    virtual void SetMousePosition(double x, double y);
+    virtual void SetMousePosition( double x, double y );
 
-    virtual Neighbors GetNeighbors(glm::vec2 position, int32_t actorID);
+    virtual Neighbors GetNeighbors( glm::vec2 position, int32_t actorID );
 private:
     Scene& mScene;
     BorderType& mBorderType;

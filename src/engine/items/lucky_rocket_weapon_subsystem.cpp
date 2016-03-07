@@ -2,16 +2,15 @@
 #include "engine/item_properties_changed_event.h"
 #include <boost/assign/list_of.hpp>
 
-namespace engine
-{
+namespace engine {
 
 LuckyRocketWeaponSubSystem::LuckyRocketWeaponSubSystem()
     : SubSystemHolder()
-      , mScene(Scene::Get())
-      , mWeaponItemSubSystem(WeaponItemSubSystem::Get())
-      , mActorFactory(ActorFactory::Get())
-      , mShotId(AutoId("lucky_rocket_projectile"))
-      , mAltShotId(AutoId("lucky_rocket_alt_projectile"))
+    , mScene( Scene::Get() )
+    , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
+    , mActorFactory( ActorFactory::Get() )
+    , mShotId( AutoId( "lucky_rocket_projectile" ) )
+    , mAltShotId( AutoId( "lucky_rocket_alt_projectile" ) )
 {
 }
 
@@ -23,30 +22,30 @@ void LuckyRocketWeaponSubSystem::Init()
 void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     static std::vector<int32_t> const weapons = boost::assign::list_of
-        ( (int32_t)AutoId("rocket_launcher") )
-        ( (int32_t)AutoId("gauss_gun") )
-        ( (int32_t)AutoId("gatling_gun") )
-        ( (int32_t)AutoId("pistol") )
-        ( (int32_t)AutoId("plasma_gun") )
-        ( (int32_t)AutoId("ion_gun") )
-        ( (int32_t)AutoId("shotgun") )
-        ( (int32_t)AutoId("lucky_rocket") )
-        ;
+            ( ( int32_t )AutoId( "rocket_launcher" ) )
+            ( ( int32_t )AutoId( "gauss_gun" ) )
+            ( ( int32_t )AutoId( "gatling_gun" ) )
+            ( ( int32_t )AutoId( "pistol" ) )
+            ( ( int32_t )AutoId( "plasma_gun" ) )
+            ( ( int32_t )AutoId( "ion_gun" ) )
+            ( ( int32_t )AutoId( "shotgun" ) )
+            ( ( int32_t )AutoId( "lucky_rocket" ) )
+            ;
     static std::vector<int32_t> const altweapons = boost::assign::list_of
-        ( (int32_t)AutoId("pistol") )
-        ( (int32_t)AutoId("plasma_gun") )
-        ( (int32_t)AutoId("ion_gun") )
-        ( (int32_t)AutoId("shotgun") )
-        ( (int32_t)AutoId("lucky_rocket") )
-        ;
+            ( ( int32_t )AutoId( "pistol" ) )
+            ( ( int32_t )AutoId( "plasma_gun" ) )
+            ( ( int32_t )AutoId( "ion_gun" ) )
+            ( ( int32_t )AutoId( "shotgun" ) )
+            ( ( int32_t )AutoId( "lucky_rocket" ) )
+            ;
 
     Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
-    if(!weapon->IsShooting() && !weapon->IsShootingAlt())
+    if( !weapon->IsShooting() && !weapon->IsShootingAlt() )
     {
         // not firing, nothing to do
         return;
     }
-    if( weapon->GetCooldown()>0 || weapon->GetReloadTime() > 0 )
+    if( weapon->GetCooldown() > 0 || weapon->GetReloadTime() > 0 )
     {
         return;
     }
@@ -88,7 +87,7 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         std::auto_ptr<Actor> rocket = mActorFactory( id );
         WeaponItemSubSystem::Projectiles_t projectiles;
         projectiles.push_back( rocket.release() );
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),alt);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), alt );
     }
     EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
 }

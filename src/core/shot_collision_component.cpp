@@ -13,15 +13,15 @@ ShotCollisionComponent::ShotCollisionComponent()
     : CollisionComponent()
     , mDamage( 0 )
     , mParentGUID( -1 )
-    , mHitClosest(true)
-    , mDamageOnce(true)
+    , mHitClosest( true )
+    , mDamageOnce( true )
 {
 
 }
 
-void ShotCollisionComponent::SetDamage(int32_t Damage)
+void ShotCollisionComponent::SetDamage( int32_t Damage )
 {
-    mDamage=Damage;
+    mDamage = Damage;
 }
 
 int32_t ShotCollisionComponent::GetDamage() const
@@ -54,9 +54,9 @@ bool ShotCollisionComponent::IsHitClosest()
     return mHitClosest;
 }
 
-void ShotCollisionComponent::SetHitClosest(bool hitClosest)
+void ShotCollisionComponent::SetHitClosest( bool hitClosest )
 {
-    mHitClosest=hitClosest;
+    mHitClosest = hitClosest;
 }
 
 bool ShotCollisionComponent::IsDamageOnce()
@@ -64,9 +64,9 @@ bool ShotCollisionComponent::IsDamageOnce()
     return mDamageOnce;
 }
 
-void ShotCollisionComponent::SetDamageOnce(bool damageOnce)
+void ShotCollisionComponent::SetDamageOnce( bool damageOnce )
 {
-    mDamageOnce=damageOnce;
+    mDamageOnce = damageOnce;
 }
 
 ShotCollisionComponent::ActorsCollided_t& ShotCollisionComponent::GetActorsCollided()
@@ -74,9 +74,9 @@ ShotCollisionComponent::ActorsCollided_t& ShotCollisionComponent::GetActorsColli
     return mActorsCollided;
 }
 
-void ShotCollisionComponent::AddDamagedActorId(int32_t damagedActorId)
+void ShotCollisionComponent::AddDamagedActorId( int32_t damagedActorId )
 {
-    mDamagedActorIds.insert(damagedActorId);
+    mDamagedActorIds.insert( damagedActorId );
 }
 
 ShotCollisionComponent::Damaged_Actor_Ids_t const& ShotCollisionComponent::GetDamagedActorIds() const
@@ -86,9 +86,9 @@ ShotCollisionComponent::Damaged_Actor_Ids_t const& ShotCollisionComponent::GetDa
 
 void ShotCollisionComponentLoader::BindValues()
 {
-    Bind("damage",func_int32_t(&ShotCollisionComponent::SetDamage));
+    Bind( "damage", func_int32_t( &ShotCollisionComponent::SetDamage ) );
     std::vector<CollisionClass::Type> PassThroughTypes;
-    Json::Value const& json = (*mSetters)["passthrough"];
+    Json::Value const& json = ( *mSetters )["passthrough"];
     if( !json.isArray() )
     {
         return;
@@ -100,8 +100,8 @@ void ShotCollisionComponentLoader::BindValues()
         PassThroughTypes.push_back( typ );
     }
     Bind<std::vector<CollisionClass::Type> >( &ShotCollisionComponent::SetPassThrough, PassThroughTypes );
-    Bind("damage_once",func_bool(&ShotCollisionComponent::SetDamageOnce));
-    Bind("hit_closest",func_bool(&ShotCollisionComponent::SetHitClosest));
+    Bind( "damage_once", func_bool( &ShotCollisionComponent::SetDamageOnce ) );
+    Bind( "hit_closest", func_bool( &ShotCollisionComponent::SetHitClosest ) );
 }
 
 ShotCollisionComponentLoader::ShotCollisionComponentLoader()
@@ -109,4 +109,4 @@ ShotCollisionComponentLoader::ShotCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ShotCollisionComponent, ShotCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ShotCollisionComponent, ShotCollisionComponent );

@@ -8,8 +8,8 @@ namespace core {
 struct ReviveEvent : public platform::Event
 {
     Opt<ClientData> mClientData;
-    ReviveEvent(Opt<ClientData> clientData)
-        :mClientData(clientData){}
+    ReviveEvent( Opt<ClientData> clientData )
+        : mClientData( clientData ) {}
 };
 
 } // namespace core

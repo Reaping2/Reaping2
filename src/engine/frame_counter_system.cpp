@@ -5,23 +5,23 @@
 namespace engine {
 
 FrameCounterSystem::FrameCounterSystem()
-        : mFrames( 0 )
-        , mStart( 0.0 )
-        , mPrev( 0.0 ) 
-        , mFps( 0 )
-        , mFpsModel( GetIntFunc( this, &FrameCounterSystem::GetFps ),"fps",&RootModel::Get())
+    : mFrames( 0 )
+    , mStart( 0.0 )
+    , mPrev( 0.0 )
+    , mFps( 0 )
+    , mFpsModel( GetIntFunc( this, &FrameCounterSystem::GetFps ), "fps", &RootModel::Get() )
 {
 }
 
 
 void FrameCounterSystem::Init()
 {
-    mStart=glfwGetTime();
-    mPrev=mStart;
+    mStart = glfwGetTime();
+    mPrev = mStart;
 
 }
 
-void FrameCounterSystem::Update(double DeltaTime)
+void FrameCounterSystem::Update( double DeltaTime )
 {
     ++mFrames;
     double const Now = glfwGetTime();
@@ -29,10 +29,10 @@ void FrameCounterSystem::Update(double DeltaTime)
     if( Diff >= 2.0 )
     {
         //L1( "FPS: %f\n", mFrames / Diff );
-        mFps=mFrames / Diff;
+        mFps = mFrames / Diff;
         mPrev = Now;
         mFrames = 0;
-        platform::EventServer<FrameCounterEvent>::Get().SendEvent(FrameCounterEvent(Diff));
+        platform::EventServer<FrameCounterEvent>::Get().SendEvent( FrameCounterEvent( Diff ) );
     }
 }
 

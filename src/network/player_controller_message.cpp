@@ -4,84 +4,84 @@
 #include <portable_oarchive.hpp>
 namespace network {
 
-    PlayerControllerMessageSenderSystem::PlayerControllerMessageSenderSystem()
-        : MessageSenderSystem()
-    {
+PlayerControllerMessageSenderSystem::PlayerControllerMessageSenderSystem()
+    : MessageSenderSystem()
+{
 
+}
+
+void PlayerControllerMessageSenderSystem::Init()
+{
+    MessageSenderSystem::Init();
+    SetFrequency( 10 );
+}
+
+void PlayerControllerMessageSenderSystem::Update( double DeltaTime )
+{
+    MessageSenderSystem::Update( DeltaTime );
+    if ( !IsTime() )
+    {
+        return;
     }
-
-    void PlayerControllerMessageSenderSystem::Init()
+    //TODO: might need optimization
+    Opt<Actor> actor = mScene.GetActor( mProgramState.mControlledActorGUID );
+    if ( actor.IsValid() )
     {
-        MessageSenderSystem::Init();
-        SetFrequency(10);
-    }
-
-    void PlayerControllerMessageSenderSystem::Update(double DeltaTime)
-    {
-        MessageSenderSystem::Update(DeltaTime);
-        if (!IsTime())
-        {
-            return;
-        }
-        //TODO: might need optimization
-        Opt<Actor> actor=mScene.GetActor(mProgramState.mControlledActorGUID);
-        if (actor.IsValid())
-        {
-            Opt<PlayerControllerComponent> playerControllerC = actor->Get<PlayerControllerComponent>();
-            if (playerControllerC.IsValid())
-            {
-                std::auto_ptr<PlayerControllerMessage> playerControllerMsg(new PlayerControllerMessage);
-                playerControllerMsg->mActorGUID=actor->GetGUID();
-                playerControllerMsg->mOrientation=std::floor(playerControllerC->mOrientation*PRECISION);
-                playerControllerMsg->mHeading=std::floor(playerControllerC->mHeading*PRECISION);
-                playerControllerMsg->mShoot=playerControllerC->mShoot;
-                playerControllerMsg->mShootAlt=playerControllerC->mShootAlt;
-                playerControllerMsg->mUseNormalItem=playerControllerC->mUseNormalItem;
-                playerControllerMsg->mUseReload=playerControllerC->mUseReload;
-                playerControllerMsg->mMoving=playerControllerC->mMoving;
-                mMessageHolder.AddOutgoingMessage(playerControllerMsg);
-            }
-        }
-    }
-
-    PlayerControllerMessageHandlerSubSystem::PlayerControllerMessageHandlerSubSystem()
-        : MessageHandlerSubSystem()
-    {
-
-    }
-
-    void PlayerControllerMessageHandlerSubSystem::Init()
-    {
-
-    }
-
-    void PlayerControllerMessageHandlerSubSystem::Execute(Message const& message)
-    {
-        PlayerControllerMessage const& msg=static_cast<PlayerControllerMessage const&>(message);
-        //        L1("executing PlayerController: %d \n",msg.mSenderId );
-        Opt<Actor> actor=mScene.GetActor(msg.mActorGUID);
-        if (!actor.IsValid())
-        {
-            L1("cannot find actor with GUID: (that is not possible) %d \n",msg.mActorGUID );
-            return;
-        }
-
         Opt<PlayerControllerComponent> playerControllerC = actor->Get<PlayerControllerComponent>();
-        if (!playerControllerC.IsValid())
+        if ( playerControllerC.IsValid() )
         {
-            L1("playercontroller is called on an actor that has no player_controller_component \n" );
-            return;
+            std::auto_ptr<PlayerControllerMessage> playerControllerMsg( new PlayerControllerMessage );
+            playerControllerMsg->mActorGUID = actor->GetGUID();
+            playerControllerMsg->mOrientation = std::floor( playerControllerC->mOrientation * PRECISION );
+            playerControllerMsg->mHeading = std::floor( playerControllerC->mHeading * PRECISION );
+            playerControllerMsg->mShoot = playerControllerC->mShoot;
+            playerControllerMsg->mShootAlt = playerControllerC->mShootAlt;
+            playerControllerMsg->mUseNormalItem = playerControllerC->mUseNormalItem;
+            playerControllerMsg->mUseReload = playerControllerC->mUseReload;
+            playerControllerMsg->mMoving = playerControllerC->mMoving;
+            mMessageHolder.AddOutgoingMessage( playerControllerMsg );
         }
-        playerControllerC->mOrientation=msg.mOrientation/PRECISION;
-        playerControllerC->mHeading=msg.mHeading/PRECISION;
-        playerControllerC->mShoot=msg.mShoot;
-        playerControllerC->mShootAlt=msg.mShootAlt;
-        playerControllerC->mUseNormalItem.SetActive(msg.mUseNormalItem.IsActive());
-        playerControllerC->mUseReload.SetActive(msg.mUseReload.IsActive());
-        playerControllerC->mMoving=msg.mMoving;
     }
+}
+
+PlayerControllerMessageHandlerSubSystem::PlayerControllerMessageHandlerSubSystem()
+    : MessageHandlerSubSystem()
+{
+
+}
+
+void PlayerControllerMessageHandlerSubSystem::Init()
+{
+
+}
+
+void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
+{
+    PlayerControllerMessage const& msg = static_cast<PlayerControllerMessage const&>( message );
+    //        L1("executing PlayerController: %d \n",msg.mSenderId );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID );
+    if ( !actor.IsValid() )
+    {
+        L1( "cannot find actor with GUID: (that is not possible) %d \n", msg.mActorGUID );
+        return;
+    }
+
+    Opt<PlayerControllerComponent> playerControllerC = actor->Get<PlayerControllerComponent>();
+    if ( !playerControllerC.IsValid() )
+    {
+        L1( "playercontroller is called on an actor that has no player_controller_component \n" );
+        return;
+    }
+    playerControllerC->mOrientation = msg.mOrientation / PRECISION;
+    playerControllerC->mHeading = msg.mHeading / PRECISION;
+    playerControllerC->mShoot = msg.mShoot;
+    playerControllerC->mShootAlt = msg.mShootAlt;
+    playerControllerC->mUseNormalItem.SetActive( msg.mUseNormalItem.IsActive() );
+    playerControllerC->mUseReload.SetActive( msg.mUseReload.IsActive() );
+    playerControllerC->mMoving = msg.mMoving;
+}
 
 } // namespace engine
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__PlayerControllerMessage, network::PlayerControllerMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__PlayerControllerMessage, network::PlayerControllerMessage );

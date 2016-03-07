@@ -8,7 +8,7 @@ namespace map {
 class SpawnSoldiersMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(SpawnSoldiersMapElementSystem)
+    DEFINE_SYSTEM_BASE( SpawnSoldiersMapElementSystem )
     SpawnSoldiersMapElementSystem();
 protected:
     virtual void Init();

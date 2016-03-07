@@ -10,12 +10,12 @@ namespace network {
 using platform::RootModel;
 
 CtfClientListDisplayingSystem::CtfClientListDisplayingSystem()
-    : mCTFModel("ctf_client_list", &RootModel::Get())
-    , mBlueNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListDisplayingSystem::BlueNames, this) , "bluenames", &mCTFModel)
-    , mRedNamesModel( (ModelValue::get_string_vec_t) boost::bind( &CtfClientListDisplayingSystem::RedNames, this) , "rednames", &mCTFModel)
+    : mCTFModel( "ctf_client_list", &RootModel::Get() )
+    , mBlueNamesModel( ( ModelValue::get_string_vec_t ) boost::bind( &CtfClientListDisplayingSystem::BlueNames, this ) , "bluenames", &mCTFModel )
+    , mRedNamesModel( ( ModelValue::get_string_vec_t ) boost::bind( &CtfClientListDisplayingSystem::RedNames, this ) , "rednames", &mCTFModel )
     , mSwitchModel( StringFunc( this, &CtfClientListDisplayingSystem::SwitchTeam ), "switch", &mCTFModel )
 {
-	mOnCtfClientDatasChanged = platform::EventServer<network::CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &CtfClientListDisplayingSystem::OnCtfClientDatasChanged, this, _1 ) );
+    mOnCtfClientDatasChanged = platform::EventServer<network::CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &CtfClientListDisplayingSystem::OnCtfClientDatasChanged, this, _1 ) );
 }
 
 void CtfClientListDisplayingSystem::Init()
@@ -55,15 +55,15 @@ void CtfClientListDisplayingSystem::OnCtfClientDatasChanged( CtfClientDatasChang
     mBlueNames.swap( tmpBlueNames );
 }
 
-void CtfClientListDisplayingSystem::SwitchTeam( std::string const & player )
+void CtfClientListDisplayingSystem::SwitchTeam( std::string const& player )
 {
     ::ctf::ProgramState::ClientDatas_t::iterator it = std::find_if( mCtfClientDatas.begin(), mCtfClientDatas.end(),
             boost::bind<bool>([]( ::ctf::ClientData const& d, std::string const& s ){ return d.mClientName == s; },_1, player ) );
     if ( mCtfClientDatas.end() != it )
     {
         TeamSwitchRequestEvent event;
-        event.mClientId = (*it).mClientId;
-        EventServer<TeamSwitchRequestEvent>::Get().SendEvent(event);
+        event.mClientId = ( *it ).mClientId;
+        EventServer<TeamSwitchRequestEvent>::Get().SendEvent( event );
     }
 }
 
