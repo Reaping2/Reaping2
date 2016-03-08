@@ -15,7 +15,7 @@ class ActorFrequencyTimer : public FrequencyTimer
 {
     int32_t mActorId;
 public:
-    ActorFrequencyTimer(double frequency, int32_t actorId);
+    ActorFrequencyTimer( double frequency, int32_t actorId );
     int32_t GetActorId() const;
 };
 
@@ -25,7 +25,7 @@ class ActorFrequencyTimerHolder
     ActorFrequencyTimers_t mActorFrequencyTimers;
     typedef std::set<int32_t> ActorIds_t;
 public:
-    void Add(ActorFrequencyTimer const& actorFrequencyTimer);
+    void Add( ActorFrequencyTimer const& actorFrequencyTimer );
     void Update( double DeltaTime );
     ActorIds_t GetActorIds();
 };

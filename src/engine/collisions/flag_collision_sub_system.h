@@ -10,15 +10,15 @@ namespace ctf {
 class FlagCollisionSubSystem : public CollisionSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(FlagCollisionSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( FlagCollisionSubSystem )
     FlagCollisionSubSystem();
 protected:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene( Actor& actor );
-    virtual void Collide(Actor& actor, Actor& other);
+    virtual void Collide( Actor& actor, Actor& other );
     AutoReg mOnAttachStateChanged;
-    void OnAttachStateChanged(engine::AttachStateChangedEvent const& Evt);
+    void OnAttachStateChanged( engine::AttachStateChangedEvent const& Evt );
 };
 
 } // namespace ctf

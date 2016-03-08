@@ -15,38 +15,38 @@ class MapElementHolder
 public:
 
     struct MapElementOrderer
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const Opt<MapElement>& mapElement)const
+        result_type operator()( const Opt<MapElement>& mapElement )const
         {
             return mapElement->GetType();
         }
     };
     struct UIDOrderer
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const Opt<MapElement>& mapElement)const
+        result_type operator()( const Opt<MapElement>& mapElement )const
         {
             return mapElement->GetUID();
         }
     };
-    typedef multi_index_container<
+    typedef multi_index_container <
+    Opt<MapElement>,
+        indexed_by <
+        ordered_non_unique <
+        composite_key <
         Opt<MapElement>,
-        indexed_by<
-            ordered_non_unique<
-                composite_key<
-                    Opt<MapElement>,
-                    MapElementHolder::MapElementOrderer
-                >
-            >,
-            ordered_non_unique<
-                composite_key<
-                    Opt<MapElement>,
-                    MapElementHolder::UIDOrderer
-                >
-            >
+        MapElementHolder::MapElementOrderer
         >
-    > MapElementList_t;
+        >,
+        ordered_non_unique <
+        composite_key <
+        Opt<MapElement>,
+        MapElementHolder::UIDOrderer
+        >
+        >
+        >
+        > MapElementList_t;
     MapElementList_t mAllMapElements;
 
 };
@@ -63,11 +63,11 @@ protected:
     MapElementList_t::const_iterator mE;
     size_t mSize;
 public:
-    MapElementListFilter(MapElementList_t const& mapElementlist)
+    MapElementListFilter( MapElementList_t const& mapElementlist )
     {
-        mI=mapElementlist.begin();
-        mE=mapElementlist.end();
-        mSize=mapElementlist.size();
+        mI = mapElementlist.begin();
+        mE = mapElementlist.end();
+        mSize = mapElementlist.size();
     }
     const_iterator begin()
     {
@@ -93,10 +93,10 @@ protected:
     const_iterator mE;
     size_t mSize;
 public:
-    MapElementListFilter(MapElementList_t const& mapElementlist, int32_t mapElementStaticType)
+    MapElementListFilter( MapElementList_t const& mapElementlist, int32_t mapElementStaticType )
     {
-        boost::tie(mI,mE)=mapElementlist.get<0>().equal_range(boost::make_tuple(mapElementStaticType));
-        mSize=std::distance(mI,mE);
+        boost::tie( mI, mE ) = mapElementlist.get<0>().equal_range( boost::make_tuple( mapElementStaticType ) );
+        mSize = std::distance( mI, mE );
     }
     const_iterator begin()
     {
@@ -121,10 +121,10 @@ protected:
     const_iterator mE;
     size_t mSize;
 public:
-    MapElementListFilter(MapElementList_t const& mapElementlist, int32_t mapElementUID)
+    MapElementListFilter( MapElementList_t const& mapElementlist, int32_t mapElementUID )
     {
-        boost::tie(mI,mE)=mapElementlist.get<1>().equal_range(boost::make_tuple(mapElementUID));
-        mSize=std::distance(mI,mE);
+        boost::tie( mI, mE ) = mapElementlist.get<1>().equal_range( boost::make_tuple( mapElementUID ) );
+        mSize = std::distance( mI, mE );
     }
     const_iterator begin()
     {
@@ -143,28 +143,28 @@ public:
 class MapSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(MapSystem)
+    DEFINE_SYSTEM_BASE( MapSystem )
     MapSystem();
     ~MapSystem();
     enum MapElementIndex
     {
-        All=0,
-        UID=1
+        All = 0,
+        UID = 1
     };
     static Opt<MapSystem> Get();
     MapElementList_t& GetMapElementList();
-    void RemoveMapElement(int32_t spawnedActorGUID);
+    void RemoveMapElement( int32_t spawnedActorGUID );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-    bool AddMapElementFromOneTextureDesc(Json::Value& mapElementDesc);
+    bool AddMapElementFromOneTextureDesc( Json::Value& mapElementDesc );
 private:
     void ClearMapElements();
     Scene& mScene;
     MapElementHolder mMapElementHolder;
     MapElementFactory& mMapElementFactory;
     AutoReg mOnMapLoad;
-    void OnMapLoad(core::MapLoadEvent const& Evt);
+    void OnMapLoad( core::MapLoadEvent const& Evt );
 
 };
 

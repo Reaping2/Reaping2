@@ -3,20 +3,20 @@
 #include "core/i_health_component.h"
 namespace render {
 
-    PickupRecognizer::PickupRecognizer(int32_t Id)
-        : Recognizer(Id)
-    {
+PickupRecognizer::PickupRecognizer( int32_t Id )
+    : Recognizer( Id )
+{
 
-    }
+}
 
-    bool PickupRecognizer::Recognize(Actor const& actor)
+bool PickupRecognizer::Recognize( Actor const& actor )
+{
+    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+    if ( healthC.IsValid() && !healthC->IsAlive() )
     {
-        Opt<IHealthComponent> healthC=actor.Get<IHealthComponent>();
-        if (healthC.IsValid()&&!healthC->IsAlive())
-        {
-            return false;
-        }
-        return actor.Get<PickupCollisionComponent>().IsValid();
+        return false;
     }
+    return actor.Get<PickupCollisionComponent>().IsValid();
+}
 
 } // namespace render

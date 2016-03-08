@@ -23,24 +23,24 @@
     { \
         return ComponentType::GetType_static(); \
     } \
-
+ 
 extern const double PRECISION;
 
 class Actor;
 
-class Component 
+class Component
 {
 public:
-    DEFINE_COMPONENT_BASE(Component)
+    DEFINE_COMPONENT_BASE( Component )
     virtual ~Component();
-    virtual void SetActorGUID(int32_t actorGUID);
-    void SetId(int32_t id);
+    virtual void SetActorGUID( int32_t actorGUID );
+    void SetId( int32_t id );
     int32_t GetId() const;
-    virtual void Save(Json::Value& component);
+    virtual void Save( Json::Value& component );
 
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
     Component();
 protected:
     int32_t mActorGUID;
@@ -48,10 +48,10 @@ protected:
 };
 
 template<class Archive>
-void Component::serialize(Archive& ar, const unsigned int version)
+void Component::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mActorGUID;
-    ar & mId;
+    ar& mActorGUID;
+    ar& mId;
 }
 
 class ComponentFactory;
@@ -75,21 +75,21 @@ public:
     virtual ~ComponentHolder();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ComponentHolder::serialize(Archive& ar, const unsigned int version)
+void ComponentHolder::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mComponents;
+    ar& mComponents;
 }
 
 template<typename Component_t>
 Opt<Component_t> ComponentHolder::Get() const
 {
     ComponentList_t::const_iterator i = mComponents.find( Component_t::GetType_static() );
-    return Opt<Component_t>(dynamic_cast<Component_t*>(const_cast<Component*>(
-        i == mComponents.end()?NULL:i->second))); 
+    return Opt<Component_t>( dynamic_cast<Component_t*>( const_cast<Component*>(
+                                 i == mComponents.end() ? NULL : i->second ) ) );
 }
 
 template<typename Component_t>
@@ -101,18 +101,18 @@ Opt<Component_t> ComponentHolder::Get()
 class DefaultComponent : public Component
 {
 public:
-    DEFINE_COMPONENT_BASE(DefaultComponent)
+    DEFINE_COMPONENT_BASE( DefaultComponent )
     DefaultComponent();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void DefaultComponent::serialize(Archive& ar, const unsigned int version)
+void DefaultComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<Component>(*this);
+    ar& boost::serialization::base_object<Component>( *this );
 }
 
 
@@ -120,30 +120,30 @@ template<typename COMPONENT>
 class ComponentLoader: public PropertyLoader<COMPONENT, Component>
 {
 public:
-    virtual void FillProperties(ComponentHolder& actor)const;
+    virtual void FillProperties( ComponentHolder& actor )const;
 };
 
 template<typename COMPONENT>
-void ComponentLoader<COMPONENT>::FillProperties(ComponentHolder& actor) const
+void ComponentLoader<COMPONENT>::FillProperties( ComponentHolder& actor ) const
 {
-    if ( this->mBase.get())
+    if ( this->mBase.get() )
     {
-        static_cast<const ComponentLoader<Component> *>( this->mBase.get())->FillProperties(actor);
+        static_cast<const ComponentLoader<Component> *>( this->mBase.get() )->FillProperties( actor );
     }
-    if ( this->mSetterFuncList.empty())
+    if ( this->mSetterFuncList.empty() )
     {
         return;
     }
-    Opt<COMPONENT> castedTarget=actor.Get<COMPONENT>();
-    if (!castedTarget.IsValid())
+    Opt<COMPONENT> castedTarget = actor.Get<COMPONENT>();
+    if ( !castedTarget.IsValid() )
     {
         return;
     }
     for( auto const& fun : this->mSetterFuncList )
     {
-        fun(castedTarget.Get());
+        fun( castedTarget.Get() );
     }
 }
 
-REAPING2_CLASS_EXPORT_KEY2(DefaultComponent, DefaultComponent,"default_component");
+REAPING2_CLASS_EXPORT_KEY2( DefaultComponent, DefaultComponent, "default_component" );
 #endif//INCLUDED_CORE_COMPONENT_H

@@ -15,42 +15,42 @@ class ClientDatasMessage: public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(::network::ctf::ClientDatasMessage)
-    ::ctf::ProgramState::ClientDatas_t mClientDatas; 
+    DEFINE_MESSAGE_BASE( ::network::ctf::ClientDatasMessage )
+    ::ctf::ProgramState::ClientDatas_t mClientDatas;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ClientDatasMessage::serialize(Archive& ar, const unsigned int version)
+void ClientDatasMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mClientDatas;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mClientDatas;
 }
 
 class ClientDatasMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(::network::ctf::ClientDatasMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( ::network::ctf::ClientDatasMessageHandlerSubSystem )
     ClientDatasMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
+    virtual void Execute( Message const& message );
 };
 
 class ClientDatasMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnCtfClientDatasChanged;
-    void OnCtfClientDatasChangedEvent( CtfClientDatasChangedEvent const & evt );
+    void OnCtfClientDatasChangedEvent( CtfClientDatasChangedEvent const& evt );
 public:
-    DEFINE_SYSTEM_BASE(::network::ctf::ClientDatasMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( ::network::ctf::ClientDatasMessageSenderSystem )
     ClientDatasMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace ctf
 } // namespace network
 
-REAPING2_CLASS_EXPORT_KEY2(network__ctf__ClientDatasMessage, network::ctf::ClientDatasMessage,"ctf_client_datas");
+REAPING2_CLASS_EXPORT_KEY2( network__ctf__ClientDatasMessage, network::ctf::ClientDatasMessage, "ctf_client_datas" );
 #endif//INCLUDED_NETWORK_CTF_CLIENT_DATAS_H
 
 // TODO: to main.cpp:

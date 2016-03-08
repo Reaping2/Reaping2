@@ -12,10 +12,10 @@ namespace ctf {
 
 CtfSpawnFlagsMapElementSystem::CtfSpawnFlagsMapElementSystem()
     : MapElementSystem()
-    , mProgramState(::core::ProgramState::Get())
+    , mProgramState( ::core::ProgramState::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mFlagAutoId(AutoId("flag"))
-    , mPlatformAutoId(AutoId("platform"))
+    , mFlagAutoId( AutoId( "flag" ) )
+    , mPlatformAutoId( AutoId( "platform" ) )
 {
 }
 
@@ -26,58 +26,58 @@ void CtfSpawnFlagsMapElementSystem::Init()
 }
 
 
-void CtfSpawnFlagsMapElementSystem::Update(double DeltaTime)
+void CtfSpawnFlagsMapElementSystem::Update( double DeltaTime )
 {
-    MapElementSystem::Update(DeltaTime);
-    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfSpawnFlagsMapElement::GetType_static());
+    MapElementSystem::Update( DeltaTime );
+    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), CtfSpawnFlagsMapElement::GetType_static() );
     for( MapElementListFilter<MapSystem::All>::const_iterator ctfSpawnFlagsMapElementIt = mapElementListFilter.begin(), ctfSpawnFlagsMapElementE = mapElementListFilter.end(); ctfSpawnFlagsMapElementIt != ctfSpawnFlagsMapElementE; ++ctfSpawnFlagsMapElementIt )
     {
-        Opt<CtfSpawnFlagsMapElement> ctfSpawnFlagsMapElement(*ctfSpawnFlagsMapElementIt);
-        if (ctfSpawnFlagsMapElement->GetValueId(CtfSpawnFlagsMapElement::SpawnNodeId())>0)
+        Opt<CtfSpawnFlagsMapElement> ctfSpawnFlagsMapElement( *ctfSpawnFlagsMapElementIt );
+        if ( ctfSpawnFlagsMapElement->GetValueId( CtfSpawnFlagsMapElement::SpawnNodeId() ) > 0 )
         {
-            if (mProgramState.mMode==core::ProgramState::Server||mProgramState.mMode==core::ProgramState::Local)
+            if ( mProgramState.mMode == core::ProgramState::Server || mProgramState.mMode == core::ProgramState::Local )
             {
-                MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),CtfFlagSpawnPointMapElement::GetType_static());
+                MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), CtfFlagSpawnPointMapElement::GetType_static() );
                 for( MapElementListFilter<MapSystem::All>::const_iterator ctfFlagSpawnPointMapElementIt = mapElementListFilter.begin(), ctfFlagSpawnPointMapElementE = mapElementListFilter.end(); ctfFlagSpawnPointMapElementIt != ctfFlagSpawnPointMapElementE; ++ctfFlagSpawnPointMapElementIt )
                 {
-                    Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement(*ctfFlagSpawnPointMapElementIt);
-                    Spawn(ctfFlagSpawnPointMapElement);
+                    Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement( *ctfFlagSpawnPointMapElementIt );
+                    Spawn( ctfFlagSpawnPointMapElement );
 
                 }
             }
-//             else if (mProgramState.mMode==core::ProgramState::Local)
-//             {
-//                 // no local support for ctf
-//             }
-            L1("spawn flags!");
+            //             else if (mProgramState.mMode==core::ProgramState::Local)
+            //             {
+            //                 // no local support for ctf
+            //             }
+            L1( "spawn flags!" );
         }
         ctfSpawnFlagsMapElement->ResetValues();
     }
 }
 
-void CtfSpawnFlagsMapElementSystem::Spawn(Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement)
+void CtfSpawnFlagsMapElementSystem::Spawn( Opt<CtfFlagSpawnPointMapElement> ctfFlagSpawnPointMapElement )
 {
-    std::auto_ptr<Actor> ctfPlatform(ActorFactory::Get()(AutoId("platform")));
-    Opt<ITeamComponent> teamC(ctfPlatform->Get<ITeamComponent>());
-    if (teamC.IsValid())
+    std::auto_ptr<Actor> ctfPlatform( ActorFactory::Get()( AutoId( "platform" ) ) );
+    Opt<ITeamComponent> teamC( ctfPlatform->Get<ITeamComponent>() );
+    if ( teamC.IsValid() )
     {
-        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam()/*==Team::Red?Team::Blue:Team::Red*/);
+        teamC->SetTeam( ctfFlagSpawnPointMapElement->GetTeam()/*==Team::Red?Team::Blue:Team::Red*/ );
     }
-    ctfFlagSpawnPointMapElement->SetSpawnedActorGUID(ctfPlatform->GetGUID());
-    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfPlatform.get());
-    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfPlatform.get())));
-    Scene::Get().AddActor(ctfPlatform.release()); 
+    ctfFlagSpawnPointMapElement->SetSpawnedActorGUID( ctfPlatform->GetGUID() );
+    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart( *ctfPlatform.get() );
+    EventServer<engine::FlagCreatedEvent>::Get().SendEvent( engine::FlagCreatedEvent( Opt<Actor>( ctfPlatform.get() ) ) );
+    Scene::Get().AddActor( ctfPlatform.release() );
 
-    std::auto_ptr<Actor> ctfFlag(ActorFactory::Get()(AutoId("flag")));
+    std::auto_ptr<Actor> ctfFlag( ActorFactory::Get()( AutoId( "flag" ) ) );
     teamC = ctfFlag->Get<ITeamComponent>();
-    if (teamC.IsValid())
+    if ( teamC.IsValid() )
     {
-        teamC->SetTeam(ctfFlagSpawnPointMapElement->GetTeam());
+        teamC->SetTeam( ctfFlagSpawnPointMapElement->GetTeam() );
     }
-    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart(*ctfFlag.get());
-    EventServer<engine::FlagCreatedEvent>::Get().SendEvent(engine::FlagCreatedEvent(Opt<Actor>(ctfFlag.get())));
+    engine::ctf::FlagSpawnSystem::Get()->SetFlagPositionToStart( *ctfFlag.get() );
+    EventServer<engine::FlagCreatedEvent>::Get().SendEvent( engine::FlagCreatedEvent( Opt<Actor>( ctfFlag.get() ) ) );
 
-    Scene::Get().AddActor(ctfFlag.release());
+    Scene::Get().AddActor( ctfFlag.release() );
 }
 
 } // namespace ctf

@@ -11,7 +11,7 @@ class AttachableComponent : public IAttachableComponent
 {
 public:
     AttachableComponent();
-    virtual void SetAttachedGUID(int32_t attachedGUID);
+    virtual void SetAttachedGUID( int32_t attachedGUID );
     virtual int32_t GetAttachedGUID()const;
 protected:
     friend class ComponentFactory;
@@ -20,15 +20,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void AttachableComponent::serialize(Archive& ar, const unsigned int version)
+void AttachableComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IAttachableComponent>(*this);
-    ar & mAttachedGUID;
+    ar& boost::serialization::base_object<IAttachableComponent>( *this );
+    ar& mAttachedGUID;
 }
 
 class AttachableComponentLoader : public ComponentLoader<AttachableComponent>
@@ -42,7 +42,7 @@ public:
 } // namespace ctf
 
 
-REAPING2_CLASS_EXPORT_KEY2(ctf__AttachableComponent, ctf::AttachableComponent,"attachable_component");
+REAPING2_CLASS_EXPORT_KEY2( ctf__AttachableComponent, ctf::AttachableComponent, "attachable_component" );
 #endif//INCLUDED_CORE_ATTACHABLE_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "attachable_component" -m "int32_t-attachedGUID"

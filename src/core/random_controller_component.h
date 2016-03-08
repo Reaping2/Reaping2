@@ -10,9 +10,9 @@ class RandomControllerComponent : public ControllerComponent
 {
 public:
     double GetCounter() const;
-    void SetCounter(double counter);
+    void SetCounter( double counter );
     double GetHeadingModifier() const;
-    void SetHeadingModifier(double headingModifier);
+    void SetHeadingModifier( double headingModifier );
 
     RandomControllerComponent();
 
@@ -22,16 +22,16 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void RandomControllerComponent::serialize(Archive& ar, const unsigned int version)
+void RandomControllerComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<ControllerComponent>(*this);
-    ar & mCounter;
-    ar & mHeadingModifier;
+    ar& boost::serialization::base_object<ControllerComponent>( *this );
+    ar& mCounter;
+    ar& mHeadingModifier;
 }
 
 class RandomControllerComponentLoader: public ComponentLoader<RandomControllerComponent>
@@ -43,5 +43,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(RandomControllerComponent, RandomControllerComponent,"random_controller_component");
+REAPING2_CLASS_EXPORT_KEY2( RandomControllerComponent, RandomControllerComponent, "random_controller_component" );
 #endif//INCLUDED_CORE_RANDOM_CONTROLLER_H

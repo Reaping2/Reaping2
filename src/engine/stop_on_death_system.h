@@ -9,7 +9,7 @@ namespace engine {
 class StopOnDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(StopOnDeathSystem)
+    DEFINE_SYSTEM_BASE( StopOnDeathSystem )
     StopOnDeathSystem();
 protected:
     virtual void Init();

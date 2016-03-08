@@ -8,7 +8,7 @@ namespace engine {
 class IonGunWeaponSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(IonGunWeaponSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( IonGunWeaponSubSystem )
 
     IonGunWeaponSubSystem();
     virtual void Init();

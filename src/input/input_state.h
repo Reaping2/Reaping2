@@ -16,8 +16,8 @@ struct InputState
     bool mPause;
     InputState();
     void Reset();
-    bool operator==(InputState const& other);
-    bool operator!=(InputState const& other);
+    bool operator==( InputState const& other );
+    bool operator!=( InputState const& other );
 };
 
 } // namespace engine

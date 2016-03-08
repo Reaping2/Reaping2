@@ -22,32 +22,32 @@ void AoeCollisionSubSystem::Init()
 }
 
 
-void AoeCollisionSubSystem::Update(Actor& actor, double DeltaTime)
+void AoeCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
 }
 
 
-void AoeCollisionSubSystem::ClipScene(Actor& actor)
+void AoeCollisionSubSystem::ClipScene( Actor& actor )
 {
 }
 
-void AoeCollisionSubSystem::Collide(Actor& actor, Actor& other)
+void AoeCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<AoeCollisionComponent> aoeCC=actor.Get<AoeCollisionComponent>();
-    Opt<IOwnerComponent> ownerC=actor.Get<IOwnerComponent>();
-    Opt<IHealthComponent> otherHealthC=other.Get<IHealthComponent>();
+    Opt<AoeCollisionComponent> aoeCC = actor.Get<AoeCollisionComponent>();
+    Opt<IOwnerComponent> ownerC = actor.Get<IOwnerComponent>();
+    Opt<IHealthComponent> otherHealthC = other.Get<IHealthComponent>();
 
-    if(otherHealthC.IsValid()&&otherHealthC->IsAlive())
+    if( otherHealthC.IsValid() && otherHealthC->IsAlive() )
     {
-        AoeCollisionComponent::Damaged_Actor_Ids_t const& actorIds=aoeCC->GetDamagedActorIds();
-        if (actorIds.find(other.GetGUID())==actorIds.end())
+        AoeCollisionComponent::Damaged_Actor_Ids_t const& actorIds = aoeCC->GetDamagedActorIds();
+        if ( actorIds.find( other.GetGUID() ) == actorIds.end() )
         {
-            otherHealthC->TakeDamage(aoeCC->GetDamage());
-            if (ownerC.IsValid())
+            otherHealthC->TakeDamage( aoeCC->GetDamage() );
+            if ( ownerC.IsValid() )
             {
-                otherHealthC->SetLastDamageOwnerGUID(ownerC->GetOwnerGUID());
+                otherHealthC->SetLastDamageOwnerGUID( ownerC->GetOwnerGUID() );
             }
-            aoeCC->AddDamagedActorId(other.GetGUID());
+            aoeCC->AddDamagedActorId( other.GetGUID() );
         }
     }
 }

@@ -12,7 +12,7 @@ protected:
 public:
     enum Type
     {
-        Top=0,
+        Top = 0,
         TopRight,
         Right,
         BottomRight,
@@ -29,7 +29,7 @@ public:
     NeighborDirs_t const& GetNeighborDirs() const;
 private:
     NeighborDirs_t mNeighborDirs;
-    typedef boost::bimap<int32_t,BorderType::Type> IdToBorderTypeMap_t;
+    typedef boost::bimap<int32_t, BorderType::Type> IdToBorderTypeMap_t;
     IdToBorderTypeMap_t mIdToBorderTypeMap;
 };
 

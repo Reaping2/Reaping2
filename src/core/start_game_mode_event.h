@@ -8,8 +8,8 @@ namespace core {
 struct StartGameModeEvent : public platform::Event
 {
     std::string mMode;
-    StartGameModeEvent(std::string mode)
-        :mMode(mode){}
+    StartGameModeEvent( std::string mode )
+        : mMode( mode ) {}
 };
 
 } // namespace core

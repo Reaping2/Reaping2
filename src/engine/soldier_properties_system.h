@@ -12,17 +12,17 @@ namespace engine {
 class SoldierPropertiesSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(SoldierPropertiesSystem)
+    DEFINE_SYSTEM_BASE( SoldierPropertiesSystem )
     SoldierPropertiesSystem();
     ~SoldierPropertiesSystem();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
-     ModelValue mSoldierModel;
-     ModelValue mHealthPressModel;
-     ModelValue mAccuracyPressModel;
-     ModelValue mSpeedPressModel;
+    ModelValue mSoldierModel;
+    ModelValue mHealthPressModel;
+    ModelValue mAccuracyPressModel;
+    ModelValue mSpeedPressModel;
 
     boost::ptr_vector<ModelValue> mPropertyModels;
 
@@ -34,7 +34,7 @@ private:
     bool ModifyPoints( int32_t& currentProperty, std::string modifier );
     void OnSoldierPropertiesReady();
     AutoReg mOnSoldierCreatedEvent;
-    void OnSoldierCreatedEvent(engine::SoldierCreatedEvent const& Evt);
+    void OnSoldierCreatedEvent( engine::SoldierCreatedEvent const& Evt );
 };
 
 } // namespace engine

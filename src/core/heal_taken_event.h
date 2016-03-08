@@ -11,8 +11,8 @@ struct HealTakenEvent : public platform::Event
     double mY;
     int32_t mHeal;
     int32_t mActorGUID;
-    HealTakenEvent(double x, double y, int32_t heal, int32_t actorGUID)
-        :mX(x),mY(y),mHeal(heal),mActorGUID(actorGUID){}
+    HealTakenEvent( double x, double y, int32_t heal, int32_t actorGUID )
+        : mX( x ), mY( y ), mHeal( heal ), mActorGUID( actorGUID ) {}
 };
 
 } // namespace core

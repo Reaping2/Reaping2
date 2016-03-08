@@ -22,4 +22,4 @@ WallCollisionComponentLoader::WallCollisionComponentLoader()
     SetBase<CollisionComponentLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(WallCollisionComponent, WallCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( WallCollisionComponent, WallCollisionComponent );

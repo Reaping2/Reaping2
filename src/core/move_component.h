@@ -8,8 +8,8 @@
 class MoveComponent : public IMoveComponent
 {
 public:
-    virtual double const& GetHeading() const; 
-    virtual double const& GetHeadingModifier() const; 
+    virtual double const& GetHeading() const;
+    virtual double const& GetHeadingModifier() const;
     virtual double GetSpeedX() const;
     virtual double GetSpeedY() const;
     virtual bool GetMoving() const;
@@ -19,7 +19,7 @@ public:
     virtual void SetHeadingModifier( double HeadingModifier );
     virtual void SetMoving( bool moving );
     virtual Buffable<double>& GetSpeed();
-    virtual void SetRooted(bool rooted);
+    virtual void SetRooted( bool rooted );
     virtual bool IsRooted()const;
 protected:
     MoveComponent();
@@ -37,23 +37,23 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void MoveComponent::serialize(Archive& ar, const unsigned int version)
+void MoveComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IMoveComponent>(*this);
-    ar & mHeading;
-    ar & mHeadingCos;
-    ar & mHeadingSin;
-    ar & mHeadingModifier;
-    ar & mSpeedX;
-    ar & mSpeedY;
-    ar & mMoving;
-    ar & mSpeed;
-    ar & mRooted;
+    ar& boost::serialization::base_object<IMoveComponent>( *this );
+    ar& mHeading;
+    ar& mHeadingCos;
+    ar& mHeadingSin;
+    ar& mHeadingModifier;
+    ar& mSpeedX;
+    ar& mSpeedY;
+    ar& mMoving;
+    ar& mSpeed;
+    ar& mRooted;
 }
 
 class MoveComponentLoader: public ComponentLoader<MoveComponent>
@@ -65,5 +65,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(MoveComponent, MoveComponent,"move_component");
+REAPING2_CLASS_EXPORT_KEY2( MoveComponent, MoveComponent, "move_component" );
 #endif//INCLUDED_CORE_MOVE_COMPONENT_H

@@ -39,7 +39,7 @@ namespace engine {
 class KeyboardSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(KeyboardSystem)
+    DEFINE_SYSTEM_BASE( KeyboardSystem )
     Key GetKey( int key ) const;
     void SetWindow( GLFWwindow* wnd );
     KeyboardSystem();

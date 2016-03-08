@@ -9,8 +9,8 @@ struct ShowTextEvent : public platform::Event
 {
     double mSeconds;
     std::string mText;
-    ShowTextEvent(double seconds, std::string text)
-        :mSeconds(seconds),mText(text){}
+    ShowTextEvent( double seconds, std::string text )
+        : mSeconds( seconds ), mText( text ) {}
 };
 
 } // namespace engine

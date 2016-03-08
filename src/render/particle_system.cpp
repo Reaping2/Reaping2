@@ -18,25 +18,25 @@ void ParticleSystem::Init()
 }
 
 
-void ParticleSystem::Update(double DeltaTime)
+void ParticleSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
-       Actor& actor = **it;
-       Opt<IEmitterComponent> emitterC=actor.Get<IEmitterComponent>();
-       Opt<IPositionComponent> pos=actor.Get<IPositionComponent>();
-       if (!emitterC.IsValid() || !pos.IsValid())
-       {
-           continue;
-       }
-       emitterC->Update( DeltaTime );
-       std::vector<int32_t> const& emitted = emitterC->GetEmitTypes();
-       for( std::vector<int32_t>::const_iterator ie = emitted.begin(), ee = emitted.end(); ie != ee; ++ie )
-       {
-           static ParticleEngine& pe( ParticleEngine::Get() );
-           pe.AddParticle( *ie, glm::vec2( pos->GetX(), pos->GetY() ), pos->GetOrientation() );
-       }
-       emitterC->Emitted(emitted);
+        Actor& actor = **it;
+        Opt<IEmitterComponent> emitterC = actor.Get<IEmitterComponent>();
+        Opt<IPositionComponent> pos = actor.Get<IPositionComponent>();
+        if ( !emitterC.IsValid() || !pos.IsValid() )
+        {
+            continue;
+        }
+        emitterC->Update( DeltaTime );
+        std::vector<int32_t> const& emitted = emitterC->GetEmitTypes();
+        for( std::vector<int32_t>::const_iterator ie = emitted.begin(), ee = emitted.end(); ie != ee; ++ie )
+        {
+            static ParticleEngine& pe( ParticleEngine::Get() );
+            pe.AddParticle( *ie, glm::vec2( pos->GetX(), pos->GetY() ), pos->GetOrientation() );
+        }
+        emitterC->Emitted( emitted );
     }
 }
 

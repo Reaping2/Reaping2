@@ -17,9 +17,9 @@ void SoldierAutoReviveMapElementSystem::Init()
 }
 
 
-void SoldierAutoReviveMapElementSystem::Update(double DeltaTime)
+void SoldierAutoReviveMapElementSystem::Update( double DeltaTime )
 {
-    MapElementSystem::Update(DeltaTime);
+    MapElementSystem::Update( DeltaTime );
 }
 
 Opt<SoldierAutoReviveMapElementSystem> SoldierAutoReviveMapElementSystem::Get()
@@ -29,10 +29,10 @@ Opt<SoldierAutoReviveMapElementSystem> SoldierAutoReviveMapElementSystem::Get()
 
 double SoldierAutoReviveMapElementSystem::GetSecsToRevive()
 {
-    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),SoldierAutoReviveMapElement::GetType_static());
+    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), SoldierAutoReviveMapElement::GetType_static() );
     for( MapElementListFilter<MapSystem::All>::const_iterator soldierAutoReviveMapElementIt = mapElementListFilter.begin(), soldierAutoReviveMapElementE = mapElementListFilter.end(); soldierAutoReviveMapElementIt != soldierAutoReviveMapElementE; ++soldierAutoReviveMapElementIt )
     {
-        Opt<SoldierAutoReviveMapElement> soldierAutoReviveMapElement(*soldierAutoReviveMapElementIt);
+        Opt<SoldierAutoReviveMapElement> soldierAutoReviveMapElement( *soldierAutoReviveMapElementIt );
         return soldierAutoReviveMapElement->GetSecsToRevive();
     }
     return 0.0;

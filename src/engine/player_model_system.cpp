@@ -9,14 +9,14 @@ PlayerModelSystem::PlayerModelSystem()
     , mProgramState( core::ProgramState::Get() )
 {
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe(
-            boost::bind( &PlayerModelSystem::OnActorEvent, this, _1 ) );
+                        boost::bind( &PlayerModelSystem::OnActorEvent, this, _1 ) );
 }
 
 void PlayerModelSystem::OnActorEvent( ActorEvent const& Evt )
 {
     Actor const& actor = *Evt.mActor;
     if ( Evt.mState == ActorEvent::Removed &&
-        mProgramState.mControlledActorGUID == actor.GetGUID() )
+         mProgramState.mControlledActorGUID == actor.GetGUID() )
     {
         mScene.SetPlayerModels( Opt<Actor>() );
     }
@@ -28,7 +28,7 @@ void PlayerModelSystem::Init()
 }
 
 
-void PlayerModelSystem::Update(double DeltaTime)
+void PlayerModelSystem::Update( double DeltaTime )
 {
 }
 

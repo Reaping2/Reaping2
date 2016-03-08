@@ -45,7 +45,7 @@ void AudioEffectRepo::Load()
         int32_t Mode = audio::PlayOnce;
         Json::GetInt( v["mode"], Mode );
         int32_t id = AutoId( Key );
-        mElements.insert( id, new AudioEffect( boost::filesystem::path( Value ), Interruptable, (audio::AudioType)Type, (audio::PlayMode) Mode ) );
+        mElements.insert( id, new AudioEffect( boost::filesystem::path( Value ), Interruptable, ( audio::AudioType )Type, ( audio::PlayMode ) Mode ) );
     }
 }
 

@@ -5,11 +5,11 @@
 namespace network {
 
 LifecycleSenderSystem::LifecycleSenderSystem()
-    : mMessageHolder(MessageHolder::Get())
+    : mMessageHolder( MessageHolder::Get() )
     , mLifecycleModel( "lifecycle", &RootModel::Get() )
     , mHostModel( VoidFunc( this, &LifecycleSenderSystem::Host ), "host", &mLifecycleModel )
-    , mScene(Scene::Get())
-	, mProgramState(core::ProgramState::Get())
+    , mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -17,23 +17,23 @@ void LifecycleSenderSystem::Init()
 {
 }
 
-void LifecycleSenderSystem::Update(double DeltaTime)
+void LifecycleSenderSystem::Update( double DeltaTime )
 {
-  
+
 }
 
 void LifecycleSenderSystem::Host()
 {
-    if(!core::ProgramState::Get().mClientConnected)
+    if( !core::ProgramState::Get().mClientConnected )
     {
-        L1("Need to connect first before hosting a game!\n");
+        L1( "Need to connect first before hosting a game!\n" );
         return;
     }
-    std::auto_ptr<LifecycleMessage> msg(new LifecycleMessage);
-    msg->mState=LifecycleMessage::Start;
-    msg->mGameMode= mProgramState.mGameMode;
-    msg->mSelectedLevel=mScene.GetSelectedLevel();
-    mMessageHolder.AddOutgoingMessage(std::auto_ptr<Message>(msg.release()));
+    std::auto_ptr<LifecycleMessage> msg( new LifecycleMessage );
+    msg->mState = LifecycleMessage::Start;
+    msg->mGameMode = mProgramState.mGameMode;
+    msg->mSelectedLevel = mScene.GetSelectedLevel();
+    mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( msg.release() ) );
 }
 
 

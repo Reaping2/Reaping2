@@ -3,15 +3,15 @@
 #include <portable_oarchive.hpp>
 
 CloakNormalItem::CloakNormalItem( int32_t id )
-    : NormalItem(id)
+    : NormalItem( id )
 {
 }
 
 CloakNormalItem::CloakNormalItem()
-    : NormalItem(-1)
+    : NormalItem( -1 )
 {
 }
 
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(CloakNormalItem, CloakNormalItem);
+REAPING2_CLASS_EXPORT_IMPLEMENT( CloakNormalItem, CloakNormalItem );

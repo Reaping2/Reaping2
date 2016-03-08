@@ -12,65 +12,65 @@ class ActorHolder
 public:
 
     struct ActorDefaultOrderer
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const Opt<Actor>& Obj)const;
+        result_type operator()( const Opt<Actor>& Obj )const;
     };
     struct IsRenderable
-    { 
+    {
         typedef bool result_type;
-        bool operator()(const Opt<Actor>& Obj)const;
+        bool operator()( const Opt<Actor>& Obj )const;
     };
     struct GetLayer
-    { 
+    {
         typedef int32_t result_type;
-        result_type  operator()(const Opt<Actor>& Obj)const;
+        result_type  operator()( const Opt<Actor>& Obj )const;
     };
     struct GetZOrder
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const Opt<Actor>& Obj)const;
+        result_type operator()( const Opt<Actor>& Obj )const;
     };
     struct GetCollisionClass
-    { 
+    {
         typedef int32_t result_type;
-        result_type operator()(const Opt<Actor>& Obj)const;
+        result_type operator()( const Opt<Actor>& Obj )const;
     };
 
-    typedef multi_index_container<
+    typedef multi_index_container <
+    Opt<Actor>,
+        indexed_by <
+        ordered_unique <
+        ActorHolder::ActorDefaultOrderer
+        >,
+        ordered_non_unique <
+        composite_key <
         Opt<Actor>,
-        indexed_by<
-            ordered_unique<
-                ActorHolder::ActorDefaultOrderer
-            >,
-            ordered_non_unique<
-                composite_key<
-                    Opt<Actor>,
-                    ActorHolder::IsRenderable,
-                    ActorHolder::GetLayer,
-                    ActorHolder::GetZOrder
-                >
-            >,
-            ordered_non_unique<
-                composite_key<
-                    Opt<Actor>,
-                    ActorHolder::GetCollisionClass
-                >
-            >
+        ActorHolder::IsRenderable,
+        ActorHolder::GetLayer,
+        ActorHolder::GetZOrder
         >
-    > ActorList_t;
+        >,
+        ordered_non_unique <
+        composite_key <
+        Opt<Actor>,
+        ActorHolder::GetCollisionClass
+        >
+        >
+        >
+        > ActorList_t;
     typedef ActorList_t::nth_index<1>::type  ActorListRenderableComponent_t;
     ActorList_t mAllActors;
 
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ActorHolder::serialize(Archive& ar, const unsigned int version)
+void ActorHolder::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mAllActors;
+    ar& mAllActors;
 }
 
 typedef ActorHolder::ActorList_t ActorList_t;
@@ -85,11 +85,11 @@ protected:
     ActorList_t::const_iterator mE;
     size_t mSize;
 public:
-    ActorListFilter(ActorList_t const& actorlist)
+    ActorListFilter( ActorList_t const& actorlist )
     {
-        mI=actorlist.begin();
-        mE=actorlist.end();
-        mSize=actorlist.size();
+        mI = actorlist.begin();
+        mE = actorlist.end();
+        mSize = actorlist.size();
     }
     const_iterator begin()
     {
@@ -115,10 +115,10 @@ protected:
     const_iterator mE;
     size_t mSize;
 public:
-    ActorListFilter(ActorList_t const& actorlist)
+    ActorListFilter( ActorList_t const& actorlist )
     {
-        boost::tie(mI,mE)=actorlist.get<1>().equal_range(boost::make_tuple(true));
-        mSize=std::distance(mI,mE);
+        boost::tie( mI, mE ) = actorlist.get<1>().equal_range( boost::make_tuple( true ) );
+        mSize = std::distance( mI, mE );
     }
     const_iterator begin()
     {
@@ -144,10 +144,10 @@ protected:
     const_iterator mE;
     size_t mSize;
 public:
-    ActorListFilter(ActorList_t const& actorlist, CollisionClass::Type collisionClass)
+    ActorListFilter( ActorList_t const& actorlist, CollisionClass::Type collisionClass )
     {
-        boost::tie(mI,mE)=actorlist.get<2>().equal_range(boost::make_tuple(int32_t(collisionClass)));
-        mSize=std::distance(mI,mE);
+        boost::tie( mI, mE ) = actorlist.get<2>().equal_range( boost::make_tuple( int32_t( collisionClass ) ) );
+        mSize = std::distance( mI, mE );
     }
     const_iterator begin()
     {
@@ -190,7 +190,7 @@ class Scene : public platform::Singleton<Scene>
 public:
     enum ActorIndex
     {
-        All=0,
+        All = 0,
         RenderableActors,
         CollisionClassActors
     };
@@ -205,26 +205,26 @@ public:
     void RemoveActor( int32_t guid );
     void RemoveActor( ActorList_t::iterator it );
     glm::vec4 const& GetDimensions();
-    Opt<Actor> GetActor(int32_t guid);
-    void SetPlayerModels(Opt<Actor> actor);
+    Opt<Actor> GetActor( int32_t guid );
+    void SetPlayerModels( Opt<Actor> actor );
     template<typename MODIFIER>
-    void ModifyActor(Actor* Obj, MODIFIER const& Modifier)
+    void ModifyActor( Actor* Obj, MODIFIER const& Modifier )
     {
-        ActorList_t::iterator it = mActorHolder.mAllActors.find(Obj->GetGUID());
-        mActorHolder.mAllActors.modify(it,Modifier);
+        ActorList_t::iterator it = mActorHolder.mAllActors.find( Obj->GetGUID() );
+        mActorHolder.mAllActors.modify( it, Modifier );
     }
     ActorList_t const& GetActors() const;
     ActorList_t& GetActors();
 
-    void SetActors(ActorList_t& actors, bool withAddActorEvents=true);
-    void ClearActors( bool withEvents=true );
+    void SetActors( ActorList_t& actors, bool withAddActorEvents = true );
+    void ClearActors( bool withEvents = true );
     //the template version works well with '=' i just dont know is it really needed, maybe this creating a wrapper is better
 
-//     template<int N>
-//     ActorListWrapper<N> GetActors() const
-//     {
-//         return ActorListWrapper<N>(mActorHolder.mAllActors);
-//     }
+    //     template<int N>
+    //     ActorListWrapper<N> GetActors() const
+    //     {
+    //         return ActorListWrapper<N>(mActorHolder.mAllActors);
+    //     }
     void Load( std::string const& Level );
 
     void SelectLevel( std::string const& Level );
@@ -233,7 +233,7 @@ public:
 
     void SelectGameMode( std::string const& GameMode );
 
-    void AddTestCreep(double X, double Y);
+    void AddTestCreep( double X, double Y );
 
     void Pause()
     {

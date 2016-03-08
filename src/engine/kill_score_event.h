@@ -9,8 +9,8 @@ struct KillScoreEvent : public platform::Event
 {
     int32_t mKillerGUID;
     int32_t mDeadGUID;
-    KillScoreEvent(int32_t killerGUID, int32_t deadGUID)
-        :mKillerGUID(killerGUID),mDeadGUID(deadGUID){}
+    KillScoreEvent( int32_t killerGUID, int32_t deadGUID )
+        : mKillerGUID( killerGUID ), mDeadGUID( deadGUID ) {}
 };
 
 } // namespace engine

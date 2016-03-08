@@ -10,9 +10,9 @@ CollisionSubSystem::CollisionSubSystem()
 {
 }
 
-void CollisionSubSystem::ClipScene(Actor& actor)
+void CollisionSubSystem::ClipScene( Actor& actor )
 {
-    Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
+    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
 
     glm::vec4 AllowedDimensions = mScene.GetDimensions();
@@ -39,7 +39,7 @@ void CollisionSubSystem::ClipScene(Actor& actor)
     }
 }
 
-void CollisionSubSystem::Collide(Actor& actor, Actor& other)
+void CollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
 
 }

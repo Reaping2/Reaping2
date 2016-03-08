@@ -2,15 +2,15 @@
 
 MaxHealthBuff::MaxHealthBuff()
     : Buff()
-    , mFlatBonus(20)
-    , mPercentBonus(0.0)
+    , mFlatBonus( 20 )
+    , mPercentBonus( 0.0 )
 {
-    mSecsToEnd=15.0;
+    mSecsToEnd = 15.0;
 }
 
-void MaxHealthBuff::SetFlatBonus(int32_t flatBonus)
+void MaxHealthBuff::SetFlatBonus( int32_t flatBonus )
 {
-    mFlatBonus=flatBonus;
+    mFlatBonus = flatBonus;
 }
 
 int32_t MaxHealthBuff::GetFlatBonus()const
@@ -18,9 +18,9 @@ int32_t MaxHealthBuff::GetFlatBonus()const
     return mFlatBonus;
 }
 
-void MaxHealthBuff::SetPercentBonus(double percentBonus)
+void MaxHealthBuff::SetPercentBonus( double percentBonus )
 {
-    mPercentBonus=percentBonus;
+    mPercentBonus = percentBonus;
 }
 
 double MaxHealthBuff::GetPercentBonus()const

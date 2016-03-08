@@ -9,13 +9,13 @@ class Limited
 {
 public:
     T GetMax() const;
-    Limited<T>& SetMax(T max);
+    Limited<T>& SetMax( T max );
     T GetMin() const;
-    Limited<T>& SetMin(T min);
+    Limited<T>& SetMin( T min );
     T Get() const;
-    Limited<T>& Set(T val);
+    Limited<T>& Set( T val );
     Limited();
-    Limited<T>& Init(T val, T min, T max);
+    Limited<T>& Init( T val, T min, T max );
 private:
     T mMax;
     T mMin;
@@ -23,18 +23,18 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version)
+    void serialize( Archive& ar, const unsigned int version )
     {
-        ar & mMax;
-        ar & mMin;
-        ar & mVal;
+        ar& mMax;
+        ar& mMin;
+        ar& mVal;
     }
 };
 
 template<typename T>
-Limited<T>& Limited<T>::Init(T val, T min, T max)
+Limited<T>& Limited<T>::Init( T val, T min, T max )
 {
-    SetMin(min).SetMax(max).Set(val);
+    SetMin( min ).SetMax( max ).Set( val );
     return *this;
 }
 
@@ -44,9 +44,9 @@ Limited<T>::Limited()
 }
 
 template<typename T>
-Limited<T>& Limited<T>::Set(T val)
+Limited<T>& Limited<T>::Set( T val )
 {
-    mVal=std::max(mMin,std::min(mMax,val));
+    mVal = std::max( mMin, std::min( mMax, val ) );
     return *this;
 }
 
@@ -57,9 +57,9 @@ T Limited<T>::Get() const
 }
 
 template<typename T>
-Limited<T>& Limited<T>::SetMin(T min)
+Limited<T>& Limited<T>::SetMin( T min )
 {
-    mMin=min;
+    mMin = min;
     return *this;
 }
 
@@ -70,9 +70,9 @@ T Limited<T>::GetMin() const
 }
 
 template<typename T>
-Limited<T>& Limited<T>::SetMax(T max)
+Limited<T>& Limited<T>::SetMax( T max )
 {
-    mMax=max;
+    mMax = max;
     return *this;
 }
 
@@ -92,11 +92,11 @@ public:
     Limited<T> mFlat;
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version)
+    void serialize( Archive& ar, const unsigned int version )
     {
-        ar & mBase;
-        ar & mPercent;
-        ar & mFlat;
+        ar& mBase;
+        ar& mPercent;
+        ar& mFlat;
     }
 };
 
@@ -104,8 +104,8 @@ template<typename T>
 T Buffable<T>::Get() const
 {
     return mBase.Get()
-        +(T)(mBase.Get()*(mPercent.Get()/100.0))
-        +mFlat.Get();
+           + ( T )( mBase.Get() * ( mPercent.Get() / 100.0 ) )
+           + mFlat.Get();
 }
 
 #endif//INCLUDED_CORE_BUFFABLE_H

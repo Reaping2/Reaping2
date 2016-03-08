@@ -12,16 +12,16 @@ namespace ctf {
 class CtfSoldierSpawnPointMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(CtfSoldierSpawnPointMapElementSystem)
+    DEFINE_SYSTEM_BASE( CtfSoldierSpawnPointMapElementSystem )
     CtfSoldierSpawnPointMapElementSystem();
-    SpawnPoints_t GetActiveSpawnPoints(Team::Type team);
+    SpawnPoints_t GetActiveSpawnPoints( Team::Type team );
     static Opt<CtfSoldierSpawnPointMapElementSystem> Get();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
     AutoReg mOnMapStart;
-    void OnMapStart(core::MapStartEvent const& Evt);
+    void OnMapStart( core::MapStartEvent const& Evt );
 };
 } // namespace ctf
 } // namespace map

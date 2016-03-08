@@ -8,13 +8,13 @@
 
 namespace render {
 
-    class IdleActionRenderer: public ActionRenderer
-    {
-    public:
-        IdleActionRenderer( int32_t Id );
-        virtual void Init(const Actor& actor);
-        virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);
-    };
+class IdleActionRenderer: public ActionRenderer
+{
+public:
+    IdleActionRenderer( int32_t Id );
+    virtual void Init( const Actor& actor );
+    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
+};
 
 
 } // namespace render

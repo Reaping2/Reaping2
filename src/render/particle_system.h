@@ -9,7 +9,7 @@ namespace render {
 class ParticleSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(ParticleSystem)
+    DEFINE_SYSTEM_BASE( ParticleSystem )
     ParticleSystem();
 protected:
     virtual void Init();

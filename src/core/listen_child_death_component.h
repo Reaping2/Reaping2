@@ -9,7 +9,7 @@ class ListenChildDeathComponent : public IListenChildDeathComponent
 {
 public:
     ListenChildDeathComponent();
-    virtual void SetKillerOfChildGUID(int32_t killerOfChildId);
+    virtual void SetKillerOfChildGUID( int32_t killerOfChildId );
     virtual int32_t GetKillerOfChildGUID()const;
 protected:
     friend class ComponentFactory;
@@ -18,15 +18,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ListenChildDeathComponent::serialize(Archive& ar, const unsigned int version)
+void ListenChildDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IListenChildDeathComponent>(*this);
-    ar & mKillerOfChildGUID;
+    ar& boost::serialization::base_object<IListenChildDeathComponent>( *this );
+    ar& mKillerOfChildGUID;
 }
 
 class ListenChildDeathComponentLoader : public ComponentLoader<ListenChildDeathComponent>
@@ -38,5 +38,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(ListenChildDeathComponent, ListenChildDeathComponent,"listen_child_death_component");
+REAPING2_CLASS_EXPORT_KEY2( ListenChildDeathComponent, ListenChildDeathComponent, "listen_child_death_component" );
 #endif//INCLUDED_CORE_LISTEN_CHILD_DEATH_COMPONENT_H

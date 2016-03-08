@@ -34,7 +34,7 @@ void Projection::Setup( float bottom, float top, ViewMode vm/*=VM_DynamicRatio*/
         mVisibleRegion.x = mVisibleRegion.y;
         mVisibleRegion.z = mVisibleRegion.w;
     }
-    mVisibleRegion=glm::round(mVisibleRegion);
+    mVisibleRegion = glm::round( mVisibleRegion );
     mNearVal = nearVal;
     mFarVal = farVal;
     SetupMatrices();

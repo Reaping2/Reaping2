@@ -14,7 +14,7 @@ class SyncItemMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(SyncItemMessage)
+    DEFINE_MESSAGE_BASE( SyncItemMessage )
     int32_t mActorGUID;
     int32_t mItemID;
     std::string mData;
@@ -26,39 +26,39 @@ public:
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void SyncItemMessage::serialize(Archive& ar, const unsigned int version)
+void SyncItemMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mActorGUID;
-    ar & mItemID;
-    ar & mData;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mActorGUID;
+    ar& mItemID;
+    ar& mData;
 }
 
 class SyncItemMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(SyncItemMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( SyncItemMessageHandlerSubSystem )
     virtual void Init();
-    virtual void Execute(Message const& message);
+    virtual void Execute( Message const& message );
 };
 
 class SyncItemMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnItemPropertiesChanged;
-    void OnItemPropertiesChanged(engine::ItemPropertiesChangedEvent const& Evt);
+    void OnItemPropertiesChanged( engine::ItemPropertiesChangedEvent const& Evt );
 public:
-    DEFINE_SYSTEM_BASE(SyncItemMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( SyncItemMessageSenderSystem )
     SyncItemMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_KEY2(network__SyncItemMessage, network::SyncItemMessage,"sync_item");
+REAPING2_CLASS_EXPORT_KEY2( network__SyncItemMessage, network::SyncItemMessage, "sync_item" );
 #endif//INCLUDED_NETWORK_SYNC_ITEM_H
 //command:  "../../../Reaping2_build/build/tools/classgenerator/classgenerator" -g "message" -c "sync_item" -p "pending" -m "int32_t-actorGUID int32_t-itemID std::string-data" -e "engine-itemPropertiesChanged"

@@ -7,7 +7,7 @@ namespace engine {
 
 struct SoldierPropertiesReadyEvent : public platform::Event
 {
-    SoldierPropertiesReadyEvent(){}
+    SoldierPropertiesReadyEvent() {}
 };
 
 } // namespace engine

@@ -10,11 +10,11 @@ namespace engine {
 class InputSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(InputSystem)
+    DEFINE_SYSTEM_BASE( InputSystem )
     InputSystem();
     static Opt<InputSystem> Get();
     InputState const& GetInputState() const;    //use this to modify or access InputState.
-    void SetInputState(InputState const& inputState);    //use this to modify InputState.
+    void SetInputState( InputState const& inputState );  //use this to modify InputState.
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

@@ -6,11 +6,11 @@
 class ArmorBuff : public Buff
 {
 public:
-    DEFINE_BUFF_BASE(ArmorBuff)
+    DEFINE_BUFF_BASE( ArmorBuff )
     ArmorBuff();
-    virtual void SetApplied(bool applied);
+    virtual void SetApplied( bool applied );
     virtual bool IsApplied()const;
-    virtual void SetArmorMax(int32_t armorMax);
+    virtual void SetArmorMax( int32_t armorMax );
     virtual int32_t GetArmorMax()const;
 protected:
     bool mApplied;
@@ -19,15 +19,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ArmorBuff::serialize(Archive& ar, const unsigned int version)
+void ArmorBuff::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Buff>(*this);
-    ar & mApplied;
-    ar & mArmorMax;
+    ar& boost::serialization::base_object<Buff>( *this );
+    ar& mApplied;
+    ar& mArmorMax;
 }
 
 #endif//INCLUDED_CORE_ARMOR_BUFF_H

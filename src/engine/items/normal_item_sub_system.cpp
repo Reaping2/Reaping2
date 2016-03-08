@@ -18,27 +18,27 @@ NormalItemSubSystem::NormalItemSubSystem()
 void NormalItemSubSystem::Init()
 {
     SubSystemHolder::Init();
-    L1("normal item sub system init");
+    L1( "normal item sub system init" );
 }
 
-void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
+void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     IInventoryComponent::ItemList_t& items = inventoryC->GetItems();
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
-    if (!normalItem.IsValid())
+    if ( !normalItem.IsValid() )
     {
         return;
     }
-    BindIds_t::iterator itemssIt=mSubSystems.get<SubSystemHolder::AllByBindId>().find(normalItem->GetId());
-    if (itemssIt!=mSubSystems.get<SubSystemHolder::AllByBindId>().end())
+    BindIds_t::iterator itemssIt = mSubSystems.get<SubSystemHolder::AllByBindId>().find( normalItem->GetId() );
+    if ( itemssIt != mSubSystems.get<SubSystemHolder::AllByBindId>().end() )
     {
-        itemssIt->mSystem->Update(actor,DeltaTime);
-        if (normalItem->IsConsumed())
+        itemssIt->mSystem->Update( actor, DeltaTime );
+        if ( normalItem->IsConsumed() )
         {
-            inventoryC->DropItemType(ItemType::Normal);
+            inventoryC->DropItemType( ItemType::Normal );
             Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
-            EventServer<ItemChangedEvent>::Get().SendEvent(ItemChangedEvent(actor.GetGUID(),0,weapon.IsValid() ? weapon->GetId() : 0));
+            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), 0, weapon.IsValid() ? weapon->GetId() : 0 ) );
         }
     }
 
@@ -64,7 +64,7 @@ void NormalItemSubSystem::Update(Actor& actor, double DeltaTime)
 Opt<NormalItemSubSystem> NormalItemSubSystem::Get()
 {
     return Opt<NormalItemSubSystem>(
-        Engine::Get().GetSystem<InventorySystem>()->GetSubSystem(ItemType::Normal));
+               Engine::Get().GetSystem<InventorySystem>()->GetSubSystem( ItemType::Normal ) );
 }
 
 } // namespace engine

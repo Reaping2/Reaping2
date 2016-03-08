@@ -6,11 +6,11 @@ namespace network {
 
 class LifecycleMessageHandlerSubSystem: public MessageHandlerSubSystem
 {
-    DEFINE_SUB_SYSTEM_BASE(LifecycleMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( LifecycleMessageHandlerSubSystem )
 public:
     LifecycleMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
+    virtual void Execute( Message const& message );
 };
 
 } // namespace network

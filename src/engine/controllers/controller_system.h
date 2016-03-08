@@ -10,7 +10,7 @@ namespace engine {
 class ControllerSystem : public System, public SubSystemHolder
 {
 public:
-    DEFINE_SYSTEM_BASE(ControllerSystem)
+    DEFINE_SYSTEM_BASE( ControllerSystem )
     ControllerSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

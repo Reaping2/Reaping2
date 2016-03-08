@@ -82,109 +82,119 @@ void OnPhaseChangedEvent( PhaseChangedEvent const& Evt )
 {
     if( Evt.CurrentPhase == ProgramPhase::InitiateShutDown )
     {
-        IsMainRunning=false;
+        IsMainRunning = false;
     }
 }
 #include "network/message_order.h"
 
 void ForceReceiveSendMessages()
 {
-    Engine& Eng=Engine::Get();
-    Opt<network::ServerSystem> serverSystem(Eng.GetSystem<network::ServerSystem>());
-    Opt<network::ClientSystem> clientSystem(Eng.GetSystem<network::ClientSystem>());
-    if (clientSystem.IsValid())
+    Engine& Eng = Engine::Get();
+    Opt<network::ServerSystem> serverSystem( Eng.GetSystem<network::ServerSystem>() );
+    Opt<network::ClientSystem> clientSystem( Eng.GetSystem<network::ClientSystem>() );
+    if ( clientSystem.IsValid() )
     {
-        clientSystem->Update(0.0);
+        clientSystem->Update( 0.0 );
     }
-    if (serverSystem.IsValid())
+    if ( serverSystem.IsValid() )
     {
-        serverSystem->Update(0.0);
-    }
-
-    Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
-    if (messageHandlerSSH.IsValid())
-    {
-        messageHandlerSSH->Update(0.0);
+        serverSystem->Update( 0.0 );
     }
 
-    if (clientSystem.IsValid())
+    Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH( Eng.GetSystem<network::MessageHandlerSubSystemHolder>() );
+    if ( messageHandlerSSH.IsValid() )
     {
-        clientSystem->Update(0.0);
+        messageHandlerSSH->Update( 0.0 );
     }
-    if (serverSystem.IsValid())
+
+    if ( clientSystem.IsValid() )
     {
-        serverSystem->Update(0.0);
+        clientSystem->Update( 0.0 );
+    }
+    if ( serverSystem.IsValid() )
+    {
+        serverSystem->Update( 0.0 );
     }
 }
 
-int main(int argc, char* argv[])
+int main( int argc, char* argv[] )
 {
     boost::posix_time::ptime t = boost::posix_time::microsec_clock::local_time();
 
     // convert to int64_t
-    boost::posix_time::ptime myEpoch(boost::gregorian::date(1970,boost::gregorian::Jan,1));
+    boost::posix_time::ptime myEpoch( boost::gregorian::date( 1970, boost::gregorian::Jan, 1 ) );
     boost::posix_time::time_duration myTimeFromEpoch = t - myEpoch;
-    srand (int32_t(myTimeFromEpoch.total_milliseconds()));
+    srand ( int32_t( myTimeFromEpoch.total_milliseconds() ) );
     using core::ProgramState;
-    ProgramState& programState=ProgramState::Get();
-    namespace po=boost::program_options;
-    po::options_description desc("Allowed options");
+    ProgramState& programState = ProgramState::Get();
+    namespace po = boost::program_options;
+    po::options_description desc( "Allowed options" );
     desc.add_options()
-        ("help", "produce help message")
-        ("-c", po::value<std::string>(&programState.mServerIp), "client")
-        ("-s", "server ip")
-        ("-n", po::value<std::string>(&programState.mClientName), "client name")
-        ("-v", "print version information" )
-		("-h", "connect as a client to localhost with Host privileges")
-		("-r", "connect as a random named soldier to localhost.")
-		;
+    ( "help", "produce help message" )
+    ( "-c", po::value<std::string>( &programState.mServerIp ), "client" )
+    ( "-s", "server ip" )
+    ( "-n", po::value<std::string>( &programState.mClientName ), "client name" )
+    ( "-v", "print version information" )
+    ( "-h", "connect as a client to localhost with Host privileges" )
+    ( "-r", "connect as a random named soldier to localhost." )
+    ;
 
     po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
-    if (vm.count("help")) {
+    po::store( po::parse_command_line( argc, argv, desc ), vm );
+    po::notify( vm );
+    if ( vm.count( "help" ) )
+    {
         std::cout << desc << "\n";
         return 1;
-    } else if( vm.count( "-v" ) )
+    }
+    else if( vm.count( "-v" ) )
     {
         std::cout << GIT_VERSION << "\n"
-            << GIT_DATE << "\n"
-            << GIT_BRANCH << "\n"
-            << GIT_REMOTE << "\n";
+                  << GIT_DATE << "\n"
+                  << GIT_BRANCH << "\n"
+                  << GIT_REMOTE << "\n";
         return 0;
     }
-    if (vm.count("-c")) {
-        L1("run as client");
-        programState.SetMode(ProgramState::Client);
-    } else if (vm.count("-s")) {
-        L1("run as server");
-        programState.SetMode(ProgramState::Server);
-    } else if (vm.count("-h")) {
-        L1("run as host");
-        programState.SetMode(ProgramState::Client);
+    if ( vm.count( "-c" ) )
+    {
+        L1( "run as client" );
+        programState.SetMode( ProgramState::Client );
+    }
+    else if ( vm.count( "-s" ) )
+    {
+        L1( "run as server" );
+        programState.SetMode( ProgramState::Server );
+    }
+    else if ( vm.count( "-h" ) )
+    {
+        L1( "run as host" );
+        programState.SetMode( ProgramState::Client );
         programState.mIsHost = 1;
         programState.mServerIp = "localhost";
-    } else {
-        L1("run local");
-        programState.SetMode(ProgramState::Local);
     }
-    if (vm.count("-r")) {
-        L1("run as a random named soldier. RanBro");
-        programState.SetMode(ProgramState::Client);
+    else
+    {
+        L1( "run local" );
+        programState.SetMode( ProgramState::Local );
+    }
+    if ( vm.count( "-r" ) )
+    {
+        L1( "run as a random named soldier. RanBro" );
+        programState.SetMode( ProgramState::Client );
         programState.mServerIp = "localhost";
-        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>(rand() % 1000);
+        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( rand() % 1000 );
     }
 
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
-    IsMainRunning=true;
+    IsMainRunning = true;
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
-    AutoReg PhaseChangeId(PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ));
+    AutoReg PhaseChangeId( PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ) );
 
     Engine& Eng = Engine::Get();
 
-    Eng.AddSystem(AutoId("window_system"));
+    Eng.AddSystem( AutoId( "window_system" ) );
     if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
     {
         PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
@@ -261,43 +271,43 @@ int main(int argc, char* argv[])
         Eng.AddSystem(AutoId("team_switch_request_message_sender_system"));
 
     }
-    if (programState.mMode==ProgramState::Local) 
+    if ( programState.mMode == ProgramState::Local )
     {
-        Eng.AddSystem(AutoId("local_system"));
-        Eng.AddSystem(AutoId("editor_system"));
-        
-        Eng.AddSystem(AutoId("editor_target_system"));
-        Eng.AddSystem(AutoId("editor_grid_system"));
-        Eng.AddSystem(AutoId("editor_brush_system"));
-        Eng.AddSystem(AutoId("editor_soldier_spawn_system"));
+        Eng.AddSystem( AutoId( "local_system" ) );
+        Eng.AddSystem( AutoId( "editor_system" ) );
+
+        Eng.AddSystem( AutoId( "editor_target_system" ) );
+        Eng.AddSystem( AutoId( "editor_grid_system" ) );
+        Eng.AddSystem( AutoId( "editor_brush_system" ) );
+        Eng.AddSystem( AutoId( "editor_soldier_spawn_system" ) );
     }
 
-    if (programState.mMode!=ProgramState::Client) 
+    if ( programState.mMode != ProgramState::Client )
     {
-        Eng.AddSystem(AutoId("map_system"));
-        Eng.AddSystem(AutoId("link_map_element_system"));
-        Eng.AddSystem(AutoId("map_start_map_element_system"));
-        Eng.AddSystem(AutoId("spawn_soldiers_map_element_system"));
-        Eng.AddSystem(AutoId("soldier_spawn_point_map_element_system"));
-        Eng.AddSystem(AutoId("spawn_actor_map_element_system"));
-        Eng.AddSystem(AutoId("ctf_soldier_spawn_point_map_element_system"));
-        Eng.AddSystem(AutoId("ctf_spawn_soldiers_map_element_system"));
-        Eng.AddSystem(AutoId("ctf_spawn_flags_map_element_system"));
-        Eng.AddSystem(AutoId("respawn_actor_map_element_system"));
-        Eng.AddSystem(AutoId("soldier_auto_revive_map_element_system"));
+        Eng.AddSystem( AutoId( "map_system" ) );
+        Eng.AddSystem( AutoId( "link_map_element_system" ) );
+        Eng.AddSystem( AutoId( "map_start_map_element_system" ) );
+        Eng.AddSystem( AutoId( "spawn_soldiers_map_element_system" ) );
+        Eng.AddSystem( AutoId( "soldier_spawn_point_map_element_system" ) );
+        Eng.AddSystem( AutoId( "spawn_actor_map_element_system" ) );
+        Eng.AddSystem( AutoId( "ctf_soldier_spawn_point_map_element_system" ) );
+        Eng.AddSystem( AutoId( "ctf_spawn_soldiers_map_element_system" ) );
+        Eng.AddSystem( AutoId( "ctf_spawn_flags_map_element_system" ) );
+        Eng.AddSystem( AutoId( "respawn_actor_map_element_system" ) );
+        Eng.AddSystem( AutoId( "soldier_auto_revive_map_element_system" ) );
     }
 
-    Eng.AddSystem(AutoId("attachable_system"));
-    Eng.AddSystem(AutoId("soldier_properties_system")); //must be before message_sender
-    Eng.AddSystem(AutoId("soldier_spawn_system"));
-    Eng.AddSystem(AutoId("flag_spawn_system"));
-    Eng.AddSystem(AutoId("ctf_soldier_spawn_system"));
-    if (programState.mMode!=ProgramState::Local)
+    Eng.AddSystem( AutoId( "attachable_system" ) );
+    Eng.AddSystem( AutoId( "soldier_properties_system" ) ); //must be before message_sender
+    Eng.AddSystem( AutoId( "soldier_spawn_system" ) );
+    Eng.AddSystem( AutoId( "flag_spawn_system" ) );
+    Eng.AddSystem( AutoId( "ctf_soldier_spawn_system" ) );
+    if ( programState.mMode != ProgramState::Local )
     {
-        Eng.AddSystem(AutoId("message_handler_sub_system_holder"));
-        Eng.AddSystem(AutoId("soldier_properties_message_sender_system"));
+        Eng.AddSystem( AutoId( "message_handler_sub_system_holder" ) );
+        Eng.AddSystem( AutoId( "soldier_properties_message_sender_system" ) );
 
-        Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH(Eng.GetSystem<network::MessageHandlerSubSystemHolder>());
+        Opt<network::MessageHandlerSubSystemHolder> messageHandlerSSH( Eng.GetSystem<network::MessageHandlerSubSystemHolder>() );
         messageHandlerSSH->InitHandlers();
     }
 
@@ -362,57 +372,57 @@ int main(int argc, char* argv[])
     if (programState.mMode!=ProgramState::Client) 
     {
         // these must be before health_system
-        Eng.AddSystem(AutoId("drop_on_death_system"));
-        Eng.AddSystem(AutoId("target_holder_system"));
-        Eng.AddSystem(AutoId("score_on_death_system"));
-        Eng.AddSystem(AutoId("kill_score_on_death_system"));
+        Eng.AddSystem( AutoId( "drop_on_death_system" ) );
+        Eng.AddSystem( AutoId( "target_holder_system" ) );
+        Eng.AddSystem( AutoId( "score_on_death_system" ) );
+        Eng.AddSystem( AutoId( "kill_score_on_death_system" ) );
     }
-    Eng.AddSystem(AutoId("armor_system")); //must be before health_system (lowers damage income)
-    Eng.AddSystem(AutoId("health_system"));
+    Eng.AddSystem( AutoId( "armor_system" ) ); //must be before health_system (lowers damage income)
+    Eng.AddSystem( AutoId( "health_system" ) );
 
-    if (programState.mMode!=ProgramState::Client)
+    if ( programState.mMode != ProgramState::Client )
     {
-        Eng.AddSystem(AutoId("notify_parent_on_death_system"));
-        Eng.AddSystem(AutoId("listen_child_death_system"));
-        Eng.AddSystem(AutoId("remove_on_death_system"));
-        Eng.AddSystem(AutoId("explode_on_death_system"));
+        Eng.AddSystem( AutoId( "notify_parent_on_death_system" ) );
+        Eng.AddSystem( AutoId( "listen_child_death_system" ) );
+        Eng.AddSystem( AutoId( "remove_on_death_system" ) );
+        Eng.AddSystem( AutoId( "explode_on_death_system" ) );
     }
-    Eng.AddSystem(AutoId("remove_components_on_death_system"));
-    Eng.AddSystem(AutoId("soldier_auto_revive_system"));
-    Eng.AddSystem(AutoId("explosion_system"));
-    Eng.AddSystem(AutoId("acceleration_system"));
-    Eng.AddSystem(AutoId("collision_system"));
-    Opt<engine::CollisionSystem> collisionSS(Eng.GetSystem<engine::CollisionSystem>());
-    collisionSS->AddSubSystem(AutoId("wall_collision_component"),AutoId("wall_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("water_collision_component"),AutoId("wall_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("collision_component"),AutoId("normal_collision_sub_system"));
-    collisionSS->AddSubSystem(AutoId("bounce_collision_component"),AutoId("bounce_collision_sub_system"));
-    if (programState.mMode!=ProgramState::Client) 
+    Eng.AddSystem( AutoId( "remove_components_on_death_system" ) );
+    Eng.AddSystem( AutoId( "soldier_auto_revive_system" ) );
+    Eng.AddSystem( AutoId( "explosion_system" ) );
+    Eng.AddSystem( AutoId( "acceleration_system" ) );
+    Eng.AddSystem( AutoId( "collision_system" ) );
+    Opt<engine::CollisionSystem> collisionSS( Eng.GetSystem<engine::CollisionSystem>() );
+    collisionSS->AddSubSystem( AutoId( "wall_collision_component" ), AutoId( "wall_collision_sub_system" ) );
+    collisionSS->AddSubSystem( AutoId( "water_collision_component" ), AutoId( "wall_collision_sub_system" ) );
+    collisionSS->AddSubSystem( AutoId( "collision_component" ), AutoId( "normal_collision_sub_system" ) );
+    collisionSS->AddSubSystem( AutoId( "bounce_collision_component" ), AutoId( "bounce_collision_sub_system" ) );
+    if ( programState.mMode != ProgramState::Client )
     {
-        collisionSS->AddSubSystem(AutoId("pickup_collision_component"),AutoId("pickup_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("shot_collision_component"),AutoId("shot_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("aoe_collision_component"),AutoId("aoe_collision_sub_system"));
-        collisionSS->AddSubSystem(AutoId("flag_collision_component"),AutoId("flag_collision_sub_system"));
+        collisionSS->AddSubSystem( AutoId( "pickup_collision_component" ), AutoId( "pickup_collision_sub_system" ) );
+        collisionSS->AddSubSystem( AutoId( "shot_collision_component" ), AutoId( "shot_collision_sub_system" ) );
+        collisionSS->AddSubSystem( AutoId( "aoe_collision_component" ), AutoId( "aoe_collision_sub_system" ) );
+        collisionSS->AddSubSystem( AutoId( "flag_collision_component" ), AutoId( "flag_collision_sub_system" ) );
     }
-    Eng.AddSystem(AutoId("ParticleSystem"));
-    Eng.AddSystem(AutoId("move_system"));
+    Eng.AddSystem( AutoId( "ParticleSystem" ) );
+    Eng.AddSystem( AutoId( "move_system" ) );
 
-    Eng.AddSystem(AutoId("kill_score_system"));
+    Eng.AddSystem( AutoId( "kill_score_system" ) );
 
-    Eng.AddSystem(AutoId("stop_on_death_system"));
+    Eng.AddSystem( AutoId( "stop_on_death_system" ) );
 
-    Eng.AddSystem(AutoId("frame_counter_system"));
-    Eng.AddSystem(AutoId("renderer_system"));
-    Eng.AddSystem(AutoId("show_text_system"));
+    Eng.AddSystem( AutoId( "frame_counter_system" ) );
+    Eng.AddSystem( AutoId( "renderer_system" ) );
+    Eng.AddSystem( AutoId( "show_text_system" ) );
 
-    Eng.AddSystem(AutoId("player_model_system"));
-    if (programState.mMode!=ProgramState::Client)
+    Eng.AddSystem( AutoId( "player_model_system" ) );
+    if ( programState.mMode != ProgramState::Client )
     {
-        Eng.AddSystem(AutoId("removed_actors_system"));
+        Eng.AddSystem( AutoId( "removed_actors_system" ) );
     }
     Eng.Init();
-    Eng.SetEnabled<engine::CollisionSystem>(true); //just for testing
-    Eng.SetEnabled<render::ParticleSystem>(true);
+    Eng.SetEnabled<engine::CollisionSystem>( true ); //just for testing
+    Eng.SetEnabled<render::ParticleSystem>( true );
 
     static const double MaxFrameRate = 60.;
     static const double MinFrameTime = 1. / MaxFrameRate;
@@ -421,22 +431,22 @@ int main(int argc, char* argv[])
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
 
-    L1("ctf_client_datas_message type: %d\n",network::ctf::ClientDatasMessage::GetType_static());
-    L1("client_datas_message type: %d\n",network::ClientDatasMessage::GetType_static());
-    L1("soldier_properties_message type: %d\n",network::SoldierPropertiesMessage::GetType_static());
+    L1( "ctf_client_datas_message type: %d\n", network::ctf::ClientDatasMessage::GetType_static() );
+    L1( "client_datas_message type: %d\n", network::ClientDatasMessage::GetType_static() );
+    L1( "soldier_properties_message type: %d\n", network::SoldierPropertiesMessage::GetType_static() );
 
 
-//     std::auto_ptr<Component> cloakC=ComponentFactory::Get()(AutoId("cloak_component"));
-//     static_cast<CloakComponent*>(cloakC.get())->SetActive(true);
-    std::auto_ptr<Actor> actor = ActorFactory::Get()(AutoId("player"));
+    //     std::auto_ptr<Component> cloakC=ComponentFactory::Get()(AutoId("cloak_component"));
+    //     static_cast<CloakComponent*>(cloakC.get())->SetActive(true);
+    std::auto_ptr<Actor> actor = ActorFactory::Get()( AutoId( "player" ) );
     std::ostringstream oss;
-    eos::portable_oarchive oa(oss);
-    oa & actor.get();
-    std::string astr(oss.str());
+    eos::portable_oarchive oa( oss );
+    oa& actor.get();
+    std::string astr( oss.str() );
 
-    std::istringstream iss(astr);
-    eos::portable_iarchive ia(iss);
-    Actor * retAct;
+    std::istringstream iss( astr );
+    eos::portable_iarchive ia( iss );
+    Actor* retAct;
     ia >> retAct;
 
     while( IsMainRunning )
@@ -445,24 +455,24 @@ int main(int argc, char* argv[])
         double Dt = Curtime - Prevtime;
         if( Dt < MinFrameTime )
         {
-            const double SleepTime = (MinFrameTime - Dt);
+            const double SleepTime = ( MinFrameTime - Dt );
             boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 500. ) ) );
             ForceReceiveSendMessages();
             double Curtime2 = glfwGetTime();
             double Dt2 = Curtime2 - Curtime;
-            const double SleepTime2 = (SleepTime - Dt2);
+            const double SleepTime2 = ( SleepTime - Dt2 );
             boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime2 * 1000. ) ) );
             ForceReceiveSendMessages();
             Dt = MinFrameTime;
             Curtime = glfwGetTime();
         }
-        PerfTimer.Log("Frame started");
+        PerfTimer.Log( "Frame started" );
         Eng.Update( Dt );
         Scen.Update( Dt );
         CycleEventServer.SendEvent( CycleEvent( Curtime ) );
 
         Prevtime = Curtime;
-        PerfTimer.Log("Frame ended");
+        PerfTimer.Log( "Frame ended" );
     }
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::CloseSignal ) );
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Shutdown ) );

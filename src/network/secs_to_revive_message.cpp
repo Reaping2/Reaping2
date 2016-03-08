@@ -14,21 +14,21 @@ SecsToReviveMessageSenderSystem::SecsToReviveMessageSenderSystem()
 void SecsToReviveMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnSecsToRevive=EventServer<engine::SecsToReviveEvent>::Get().Subscribe( boost::bind( &SecsToReviveMessageSenderSystem::OnSecsToRevive, this, _1 ) );
+    mOnSecsToRevive = EventServer<engine::SecsToReviveEvent>::Get().Subscribe( boost::bind( &SecsToReviveMessageSenderSystem::OnSecsToRevive, this, _1 ) );
 }
 
 
-void SecsToReviveMessageSenderSystem::Update(double DeltaTime)
+void SecsToReviveMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void SecsToReviveMessageSenderSystem::OnSecsToRevive(engine::SecsToReviveEvent const& Evt)
+void SecsToReviveMessageSenderSystem::OnSecsToRevive( engine::SecsToReviveEvent const& Evt )
 {
-    std::auto_ptr<SecsToReviveMessage> secsToReviveMsg(new SecsToReviveMessage);
-    secsToReviveMsg->mClientId=Evt.mClientId;
-    secsToReviveMsg->mSecsToRevive=Evt.mSecsToRevive;
-    mMessageHolder.AddOutgoingMessage(secsToReviveMsg);
+    std::auto_ptr<SecsToReviveMessage> secsToReviveMsg( new SecsToReviveMessage );
+    secsToReviveMsg->mClientId = Evt.mClientId;
+    secsToReviveMsg->mSecsToRevive = Evt.mSecsToRevive;
+    mMessageHolder.AddOutgoingMessage( secsToReviveMsg );
 }
 
 SecsToReviveMessageHandlerSubSystem::SecsToReviveMessageHandlerSubSystem()
@@ -41,18 +41,18 @@ void SecsToReviveMessageHandlerSubSystem::Init()
 {
 }
 
-void SecsToReviveMessageHandlerSubSystem::Update(double DeltaTime)
+void SecsToReviveMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    MessageHandlerSubSystem::Update(DeltaTime);
+    MessageHandlerSubSystem::Update( DeltaTime );
 }
 
-void SecsToReviveMessageHandlerSubSystem::Execute(Message const& message)
+void SecsToReviveMessageHandlerSubSystem::Execute( Message const& message )
 {
-    SecsToReviveMessage const& msg=static_cast<SecsToReviveMessage const&>(message);
-    EventServer<engine::SecsToReviveEvent>::Get().SendEvent( engine::SecsToReviveEvent(msg.mClientId,msg.mSecsToRevive ) );
+    SecsToReviveMessage const& msg = static_cast<SecsToReviveMessage const&>( message );
+    EventServer<engine::SecsToReviveEvent>::Get().SendEvent( engine::SecsToReviveEvent( msg.mClientId, msg.mSecsToRevive ) );
 }
 
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__SecsToReviveMessage, network::SecsToReviveMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__SecsToReviveMessage, network::SecsToReviveMessage );

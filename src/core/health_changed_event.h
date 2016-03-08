@@ -8,8 +8,8 @@ namespace core {
 struct HealthChangedEvent : public platform::Event
 {
     Actor& mActor;
-    HealthChangedEvent(Actor& actor)
-        :mActor(actor){}
+    HealthChangedEvent( Actor& actor )
+        : mActor( actor ) {}
 };
 
 } // namespace engine

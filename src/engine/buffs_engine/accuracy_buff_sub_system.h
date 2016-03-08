@@ -10,9 +10,9 @@ namespace engine {
 class AccuracyBuffSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(AccuracyBuffSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( AccuracyBuffSubSystem )
     AccuracyBuffSubSystem();
-    static void RecalculateBuffs(Actor &actor);
+    static void RecalculateBuffs( Actor& actor );
 protected:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );

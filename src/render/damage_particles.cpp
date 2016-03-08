@@ -31,7 +31,7 @@ void DamageDecals::Load()
             continue;
         }
         SpritePhase const& Phase = Spr( 0 );
-        mDecalDescs.emplace_back(DamageDecal{ Phase.TexId, glm::vec4{ Phase.Left, Phase.Right, Phase.Bottom, Phase.Top } });
+        mDecalDescs.emplace_back( DamageDecal { Phase.TexId, glm::vec4{ Phase.Left, Phase.Right, Phase.Bottom, Phase.Top } } );
     }
 }
 
@@ -42,7 +42,7 @@ void DamageDecals::OnDamageTaken( DamageTakenEvent const& Evt )
         return;
     }
 
-    if (Evt.type==DamageTakenEvent::Health)
+    if ( Evt.type == DamageTakenEvent::Health )
     {
         Decal Part;
         Part.mCenter = Evt.Pos + glm::vec2( ( rand() % 10 - 5.f ) / 200.f, ( rand() % 10 - 5.f ) / 200.f );

@@ -6,23 +6,23 @@
 class IRemoveOnDeathComponent : public Component
 {
 public:
-    DEFINE_COMPONENT_BASE(IRemoveOnDeathComponent)
+    DEFINE_COMPONENT_BASE( IRemoveOnDeathComponent )
 protected:
     friend class ComponentFactory;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
     virtual double GetRemainingTime() const = 0;
     virtual void SetRemainingTime( double rt ) = 0;
 };
 
 template<class Archive>
-void IRemoveOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+void IRemoveOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<Component>(*this);
+    ar& boost::serialization::base_object<Component>( *this );
 }
 
-REAPING2_CLASS_EXPORT_KEY2(IRemoveOnDeathComponent, IRemoveOnDeathComponent,"i_remove_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2( IRemoveOnDeathComponent, IRemoveOnDeathComponent, "i_remove_on_death_component" );
 #endif//INCLUDED_CORE_I_REMOVE_ON_DEATH_COMPONENT_H

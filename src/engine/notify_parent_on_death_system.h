@@ -10,7 +10,7 @@ namespace engine {
 class NotifyParentOnDeathSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(NotifyParentOnDeathSystem)
+    DEFINE_SYSTEM_BASE( NotifyParentOnDeathSystem )
     NotifyParentOnDeathSystem();
 protected:
     Opt<RemovedActorsSystem> mRemovedActorsSystem;

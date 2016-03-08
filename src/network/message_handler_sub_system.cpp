@@ -3,33 +3,33 @@
 namespace network {
 
 
-    MessageHandlerSubSystem::~MessageHandlerSubSystem()
-    {
+MessageHandlerSubSystem::~MessageHandlerSubSystem()
+{
 
-    }
+}
 
-    MessageHandlerSubSystem::MessageHandlerSubSystem()
-        : mMessageHolder(MessageHolder::Get())
-        , mScene(Scene::Get())
-        , mProgramState(ProgramState::Get())
-    {
+MessageHandlerSubSystem::MessageHandlerSubSystem()
+    : mMessageHolder( MessageHolder::Get() )
+    , mScene( Scene::Get() )
+    , mProgramState( ProgramState::Get() )
+{
 
-    }
+}
 
-    void MessageHandlerSubSystem::Update(double DeltaTime)
-    {
+void MessageHandlerSubSystem::Update( double DeltaTime )
+{
 
-    }
+}
 
-    void DefaultMessageHandlerSubSystem::Init()
-    {
+void DefaultMessageHandlerSubSystem::Init()
+{
 
-    }
+}
 
-    void DefaultMessageHandlerSubSystem::Execute(Message const& message)
-    {
+void DefaultMessageHandlerSubSystem::Execute( Message const& message )
+{
 
-    }
+}
 
 
 } // namespace engine

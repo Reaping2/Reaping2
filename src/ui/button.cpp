@@ -84,7 +84,7 @@ bool Button::Trigger()
             RootModel::Get()[Act.mAction]( Act.mArg.operator std::string() );
             break;
         default:
-            assert(false);
+            assert( false );
             break;
         }
     }

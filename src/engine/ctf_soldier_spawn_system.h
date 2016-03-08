@@ -14,10 +14,10 @@ namespace ctf {
 class CtfSoldierSpawnSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(CtfSoldierSpawnSystem)
+    DEFINE_SYSTEM_BASE( CtfSoldierSpawnSystem )
     CtfSoldierSpawnSystem();
     static Opt<CtfSoldierSpawnSystem> Get();
-    std::auto_ptr<Actor> Spawn(::core::ClientData& clientData, Team::Type team);
+    std::auto_ptr<Actor> Spawn( ::core::ClientData& clientData, Team::Type team );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -26,7 +26,7 @@ private:
     ActorFactory& mActorFactory;
     int32_t mPlayerAutoId;
     AutoReg mOnRevive;
-    void OnRevive(core::ReviveEvent const& Evt);
+    void OnRevive( core::ReviveEvent const& Evt );
 };
 } // namespace ctf
 } // namespace engine

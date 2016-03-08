@@ -12,7 +12,8 @@ class DamageDecals : public Singleton<DamageDecals>
     void Load();
     friend class Singleton<DamageDecals>;
     AutoReg mOnDamageTaken;
-    struct DamageDecal {
+    struct DamageDecal
+    {
         GLuint TexId;
         glm::vec4 TexCoords;
     };

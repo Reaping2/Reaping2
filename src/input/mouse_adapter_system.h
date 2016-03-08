@@ -12,7 +12,7 @@ namespace engine {
 class MouseAdapterSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(MouseAdapterSystem)
+    DEFINE_SYSTEM_BASE( MouseAdapterSystem )
     MouseAdapterSystem();
 protected:
     virtual void Init();

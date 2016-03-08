@@ -122,4 +122,4 @@ namespace network {
 } // namespace engine
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__OrientationMessage, network::OrientationMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__OrientationMessage, network::OrientationMessage );

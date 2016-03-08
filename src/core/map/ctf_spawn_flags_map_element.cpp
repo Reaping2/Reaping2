@@ -5,20 +5,20 @@ namespace ctf {
 
 int32_t CtfSpawnFlagsMapElement::SpawnNodeId()
 {
-    static int32_t id = AutoId("spawn");
+    static int32_t id = AutoId( "spawn" );
     return id;
 }
 
-CtfSpawnFlagsMapElement::CtfSpawnFlagsMapElement(int32_t Id)
-    : MapElement(Id)
+CtfSpawnFlagsMapElement::CtfSpawnFlagsMapElement( int32_t Id )
+    : MapElement( Id )
     , BaseInput()
 {
 }
 
-void CtfSpawnFlagsMapElement::Load(Json::Value& setters)
+void CtfSpawnFlagsMapElement::Load( Json::Value& setters )
 {
-    MapElement::Load(setters);
-    AddInputNodeId(SpawnNodeId());
+    MapElement::Load( setters );
+    AddInputNodeId( SpawnNodeId() );
 }
 
 } // namespace ctf

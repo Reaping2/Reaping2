@@ -21,13 +21,13 @@ PlayerControllerSubSystem::PlayerControllerSubSystem()
 
 void PlayerControllerSubSystem::Init()
 {
-    mInputSystem=InputSystem::Get();
+    mInputSystem = InputSystem::Get();
 }
 
-void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
+void PlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<PlayerControllerComponent> playerControllerC = actor.Get<PlayerControllerComponent>();
-    if (!playerControllerC.IsValid())
+    if ( !playerControllerC.IsValid() )
     {
         return;
     }
@@ -46,49 +46,49 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     }
 }
 
-void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+void PlayerControllerSubSystem::SetSpeedAndOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if (healthC.IsValid()&&!healthC->IsAlive())
+    if ( healthC.IsValid() && !healthC->IsAlive() )
     {
         return;
     }
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-    moveC->SetMoving(playerControllerC->mMoving);
+    moveC->SetMoving( playerControllerC->mMoving );
     actor.Get<IMoveComponent>()->SetHeading( playerControllerC->mHeading );
 }
 
-void PlayerControllerSubSystem::Shoot(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+void PlayerControllerSubSystem::Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if (healthC.IsValid()&&!healthC->IsAlive())
+    if ( healthC.IsValid() && !healthC->IsAlive() )
     {
         return;
     }
-    Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
-    BOOST_ASSERT(inventoryC.IsValid());
-    Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
-    if (weapon.IsValid())
+    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
+    BOOST_ASSERT( inventoryC.IsValid() );
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    if ( weapon.IsValid() )
     {
-        weapon->SetShoot(playerControllerC->mShoot);
-        weapon->SetShootAlt(playerControllerC->mShootAlt);
+        weapon->SetShoot( playerControllerC->mShoot );
+        weapon->SetShootAlt( playerControllerC->mShootAlt );
     }
 
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
-    if (normalItem.IsValid())
+    if ( normalItem.IsValid() )
     {
-        normalItem->SetUse(playerControllerC->mUseNormalItem.GetValue());
-        if (playerControllerC->mUseNormalItem.GetValue())
+        normalItem->SetUse( playerControllerC->mUseNormalItem.GetValue() );
+        if ( playerControllerC->mUseNormalItem.GetValue() )
         {
-            playerControllerC->mUseNormalItem.SetHandled(true);
+            playerControllerC->mUseNormalItem.SetHandled( true );
         }
-    }   
+    }
 }
 
-void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if (healthC.IsValid()&&!healthC->IsAlive())
+    if ( healthC.IsValid() && !healthC->IsAlive() )
     {
         return;
     }
@@ -96,37 +96,37 @@ void PlayerControllerSubSystem::SetOrientation(Actor &actor, Opt<PlayerControlle
     actorPositionC->SetOrientation( playerControllerC->mOrientation );
 }
 
-void PlayerControllerSubSystem::HandleInputs(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
+void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
-    playerControllerC->mOrientation=mInputSystem->GetInputState().mOrientation;
-    playerControllerC->mShoot=mInputSystem->GetInputState().mShoot;
-    playerControllerC->mShootAlt=mInputSystem->GetInputState().mShootAlt;
-    playerControllerC->mUseNormalItem.SetActive(mInputSystem->GetInputState().mUseNormalItem);
-    playerControllerC->mUseReload.SetActive(mInputSystem->GetInputState().mReload);
-    playerControllerC->mMoving=mInputSystem->GetInputState().mMoving;
-    playerControllerC->mHeading=mInputSystem->GetInputState().mHeading;
+    playerControllerC->mOrientation = mInputSystem->GetInputState().mOrientation;
+    playerControllerC->mShoot = mInputSystem->GetInputState().mShoot;
+    playerControllerC->mShootAlt = mInputSystem->GetInputState().mShootAlt;
+    playerControllerC->mUseNormalItem.SetActive( mInputSystem->GetInputState().mUseNormalItem );
+    playerControllerC->mUseReload.SetActive( mInputSystem->GetInputState().mReload );
+    playerControllerC->mMoving = mInputSystem->GetInputState().mMoving;
+    playerControllerC->mHeading = mInputSystem->GetInputState().mHeading;
 }
 
-void PlayerControllerSubSystem::HandleReload(Actor& actor, Opt<PlayerControllerComponent> playerControllerC)
+void PlayerControllerSubSystem::HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
-    if (!playerControllerC->mUseReload.GetValue())
+    if ( !playerControllerC->mUseReload.GetValue() )
     {
         return;
     }
-    Opt<IInventoryComponent> inventoryC=actor.Get<IInventoryComponent>();
-    BOOST_ASSERT(inventoryC.IsValid());
-    Opt<Weapon> weapon=inventoryC->GetSelectedWeapon();
-    if (weapon.IsValid())
+    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
+    BOOST_ASSERT( inventoryC.IsValid() );
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    if ( weapon.IsValid() )
     {
-        if (weapon->CanReload())
+        if ( weapon->CanReload() )
         {
-            weapon->SetBullets(0.0);
+            weapon->SetBullets( 0.0 );
             EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
         }
     }
-    if (mProgramState.mMode!=core::ProgramState::Client)
+    if ( mProgramState.mMode != core::ProgramState::Client )
     {
-        playerControllerC->mUseReload.SetHandled(true);
+        playerControllerC->mUseReload.SetHandled( true );
     }
 }
 

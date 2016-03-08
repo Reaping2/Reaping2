@@ -9,7 +9,7 @@ namespace network {
 struct CtfClientDatasChangedEvent : public platform::Event
 {
     ::ctf::ProgramState::ClientDatas_t mCtfClientDatas;
-    CtfClientDatasChangedEvent(){}
+    CtfClientDatasChangedEvent() {}
 };
 
 } // namespace engine

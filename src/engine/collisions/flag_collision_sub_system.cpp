@@ -29,105 +29,105 @@ FlagCollisionSubSystem::FlagCollisionSubSystem()
 
 void FlagCollisionSubSystem::Init()
 {
-    mOnAttachStateChanged=EventServer<engine::AttachStateChangedEvent>::Get().Subscribe( boost::bind( &FlagCollisionSubSystem::OnAttachStateChanged, this, _1 ) );
+    mOnAttachStateChanged = EventServer<engine::AttachStateChangedEvent>::Get().Subscribe( boost::bind( &FlagCollisionSubSystem::OnAttachStateChanged, this, _1 ) );
 }
 
 
-void FlagCollisionSubSystem::Update(Actor& actor, double DeltaTime)
+void FlagCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
 }
 
-void FlagCollisionSubSystem::OnAttachStateChanged(engine::AttachStateChangedEvent const& Evt)
+void FlagCollisionSubSystem::OnAttachStateChanged( engine::AttachStateChangedEvent const& Evt )
 {
-    if (Evt.mType==AttachStateChangedEvent::Detached)
+    if ( Evt.mType == AttachStateChangedEvent::Detached )
     {
-        Opt<Actor> actor(mScene.GetActor(Evt.mActorGUID));
-        if (!actor.IsValid())
+        Opt<Actor> actor( mScene.GetActor( Evt.mActorGUID ) );
+        if ( !actor.IsValid() )
         {
             return;
         }
-        if (!actor->Get<FlagCollisionComponent>().IsValid())
+        if ( !actor->Get<FlagCollisionComponent>().IsValid() )
         {
             return; //not the flag
         }
         Opt<ITeamComponent> actorTeamC;
-        actorTeamC=actor->Get<ITeamComponent>();
+        actorTeamC = actor->Get<ITeamComponent>();
         EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-            ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Dropped,actorTeamC.IsValid()?actorTeamC->GetTeam():Team::None,Evt.mAttachedGUID,Evt.mActorGUID));
+            ::ctf::FlagStateChangedEvent( ::ctf::FlagStateChangedEvent::Dropped, actorTeamC.IsValid() ? actorTeamC->GetTeam() : Team::None, Evt.mAttachedGUID, Evt.mActorGUID ) );
     }
 }
 
 
-void FlagCollisionSubSystem::ClipScene(Actor& actor)
+void FlagCollisionSubSystem::ClipScene( Actor& actor )
 {
-    CollisionSubSystem::ClipScene(actor);
-    Opt<FlagCollisionComponent> flagCC=actor.Get<FlagCollisionComponent>();
+    CollisionSubSystem::ClipScene( actor );
+    Opt<FlagCollisionComponent> flagCC = actor.Get<FlagCollisionComponent>();
 }
 
-void FlagCollisionSubSystem::Collide(Actor& actor, Actor& other)
+void FlagCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<IAttachableComponent> actorAttachableC=actor.Get<IAttachableComponent>();
-    if (!actorAttachableC.IsValid())
+    Opt<IAttachableComponent> actorAttachableC = actor.Get<IAttachableComponent>();
+    if ( !actorAttachableC.IsValid() )
     {
         return;
     }
 
-    Opt<IFlagCarrierComponent> otherFlagCarrierC(other.Get<IFlagCarrierComponent>());
+    Opt<IFlagCarrierComponent> otherFlagCarrierC( other.Get<IFlagCarrierComponent>() );
 
-    Opt<ITeamComponent> otherTeamC(other.Get<ITeamComponent>());
-    if (!otherTeamC.IsValid())
+    Opt<ITeamComponent> otherTeamC( other.Get<ITeamComponent>() );
+    if ( !otherTeamC.IsValid() )
     {
         return;
     }
-    Opt<ITeamComponent> actorTeamC(actor.Get<ITeamComponent>());
-    if (!actorTeamC.IsValid())
+    Opt<ITeamComponent> actorTeamC( actor.Get<ITeamComponent>() );
+    if ( !actorTeamC.IsValid() )
     {
         return;
     }
 
-    if (actorAttachableC->GetAttachedGUID()!=-1)
+    if ( actorAttachableC->GetAttachedGUID() != -1 )
     {
-        Opt<IFlagReceiverComponent> otherFlagReceiverC(other.Get<IFlagReceiverComponent>());
+        Opt<IFlagReceiverComponent> otherFlagReceiverC( other.Get<IFlagReceiverComponent>() );
 
-        if (otherFlagReceiverC.IsValid())
+        if ( otherFlagReceiverC.IsValid() )
         {
-            if (otherTeamC->GetTeam()!=actorTeamC->GetTeam())
+            if ( otherTeamC->GetTeam() != actorTeamC->GetTeam() )
             {
-                int32_t carrierGUID=actorAttachableC->GetAttachedGUID();
-                actorAttachableC->SetAttachedGUID(-1);
+                int32_t carrierGUID = actorAttachableC->GetAttachedGUID();
+                actorAttachableC->SetAttachedGUID( -1 );
                 //EventServer< AttachStateChangedEvent>::Get().SendEvent(AttachStateChangedEvent(AttachStateChangedEvent::Detached,-1,actor.GetGUID()));
-                FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
+                FlagSpawnSystem::Get()->SetFlagPositionToStart( actor );
                 EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-                    ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Scored,actorTeamC->GetTeam(),carrierGUID,actor.GetGUID()));
+                    ::ctf::FlagStateChangedEvent( ::ctf::FlagStateChangedEvent::Scored, actorTeamC->GetTeam(), carrierGUID, actor.GetGUID() ) );
             }
         }
         return;
     }
 
-    if (otherFlagCarrierC.IsValid())
+    if ( otherFlagCarrierC.IsValid() )
     {
-        if (otherTeamC->GetTeam()==actorTeamC->GetTeam())
+        if ( otherTeamC->GetTeam() == actorTeamC->GetTeam() )
         {
             Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-            if (!positionC.IsValid())
+            if ( !positionC.IsValid() )
             {
                 return;
             }
-            double x=positionC->GetX();
-            double y=positionC->GetY();
-            FlagSpawnSystem::Get()->SetFlagPositionToStart(actor);
-            if (positionC->GetX()!=x||positionC->GetY()!=y)
+            double x = positionC->GetX();
+            double y = positionC->GetY();
+            FlagSpawnSystem::Get()->SetFlagPositionToStart( actor );
+            if ( positionC->GetX() != x || positionC->GetY() != y )
             {
                 EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-                    ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Returned,actorTeamC->GetTeam(),other.GetGUID(),actor.GetGUID()));
+                    ::ctf::FlagStateChangedEvent( ::ctf::FlagStateChangedEvent::Returned, actorTeamC->GetTeam(), other.GetGUID(), actor.GetGUID() ) );
             }
         }
         else
         {
-            actorAttachableC->SetAttachedGUID(other.GetGUID());
+            actorAttachableC->SetAttachedGUID( other.GetGUID() );
             //EventServer< AttachStateChangedEvent>::Get().SendEvent(AttachStateChangedEvent(AttachStateChangedEvent::Attached,other.GetGUID(),actor.GetGUID()));
             EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
-                ::ctf::FlagStateChangedEvent(::ctf::FlagStateChangedEvent::Captured,actorTeamC->GetTeam(),other.GetGUID(),actor.GetGUID()));
+                ::ctf::FlagStateChangedEvent( ::ctf::FlagStateChangedEvent::Captured, actorTeamC->GetTeam(), other.GetGUID(), actor.GetGUID() ) );
         }
     }
 }

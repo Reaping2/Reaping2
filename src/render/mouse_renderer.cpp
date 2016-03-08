@@ -23,16 +23,16 @@ void MouseRenderer::Init()
 }
 
 MouseRenderer::MouseRenderer()
-    :mScene(Scene::Get())
-    ,mProgramState(core::ProgramState::Get())
+    : mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
 {
     Init();
 }
 
-void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
+void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
 {
     size_t CurSize = 3;
-    const float mouseSize=15;
+    const float mouseSize = 15;
     typedef std::vector<glm::vec2> Positions_t;
     Positions_t Positions;
     Positions.reserve( CurSize );
@@ -48,57 +48,57 @@ void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
     Colors_t Colors;
     Colors.reserve( CurSize );
 
-    Sprite const& Spr=RenderableRepo::Get()(AutoId("cross"))(AutoId("default_action"));
+    Sprite const& Spr = RenderableRepo::Get()( AutoId( "cross" ) )( AutoId( "default_action" ) );
     SpritePhase const& Phase = Spr( 0 );
     GLuint TexId = Phase.TexId;
-    Opt<Actor> actor=Scene::Get().GetActor(core::ProgramState::Get().mControlledActorGUID);
+    Opt<Actor> actor = Scene::Get().GetActor( core::ProgramState::Get().mControlledActorGUID );
     Opt<IInventoryComponent> inventoryC;
-    if (actor.IsValid())
+    if ( actor.IsValid() )
     {
         inventoryC = actor->Get<IInventoryComponent>();
     }
     Opt<Weapon> weapon;
-    glm::vec3 mouseColor(0.0,0.0,1.0);
-    if (inventoryC.IsValid())
+    glm::vec3 mouseColor( 0.0, 0.0, 1.0 );
+    if ( inventoryC.IsValid() )
     {
         weapon = inventoryC->GetSelectedWeapon();
     }
-    if (actor.IsValid()&&inventoryC.IsValid()&&weapon.IsValid())
+    if ( actor.IsValid() && inventoryC.IsValid() && weapon.IsValid() )
     {
 
-        mouseColor=weapon->GetMouseColor();
-        double siz=weapon->GetMouseSize();
-//         Opt<IAccuracyComponent> accuracyC=actor->Get<IAccuracyComponent>();
-//         if (accuracyC.IsValid()&&(weapon->IsMouseResizable()))
-//         {
-//             siz=siz;//*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
-//         }
-        siz+=mouseSize;
-        Sizes.push_back( ( GLfloat )(siz));
-        Sizes.push_back( ( GLfloat )(siz));
-        Text text(80.0,glm::vec4(0,0,500,500),glm::vec4(mouseColor,0.7),
-            weapon->GetMouseText()
-            ,glm::vec2(mX,mY-80),true);
-        textSceneRenderer.AddText(text);
+        mouseColor = weapon->GetMouseColor();
+        double siz = weapon->GetMouseSize();
+        //         Opt<IAccuracyComponent> accuracyC=actor->Get<IAccuracyComponent>();
+        //         if (accuracyC.IsValid()&&(weapon->IsMouseResizable()))
+        //         {
+        //             siz=siz;//*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
+        //         }
+        siz += mouseSize;
+        Sizes.push_back( ( GLfloat )( siz ) );
+        Sizes.push_back( ( GLfloat )( siz ) );
+        Text text( 80.0, glm::vec4( 0, 0, 500, 500 ), glm::vec4( mouseColor, 0.7 ),
+                   weapon->GetMouseText()
+                   , glm::vec2( mX, mY - 80 ), true );
+        textSceneRenderer.AddText( text );
     }
-    if (!actor.IsValid())
+    if ( !actor.IsValid() )
     {
-        Sizes.push_back( ( GLfloat )mouseSize ); 
+        Sizes.push_back( ( GLfloat )mouseSize );
     }
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
-    Colors.push_back( glm::vec4(mouseColor,0.5) );
+    Colors.push_back( glm::vec4( mouseColor, 0.5 ) );
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
-    Sizes.push_back( ( GLfloat )mouseSize ); 
+    Sizes.push_back( ( GLfloat )mouseSize );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
-    Colors.push_back( glm::vec4(mouseColor,1.0) );
+    Colors.push_back( glm::vec4( mouseColor, 1.0 ) );
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
-    Sizes.push_back( ( GLfloat )mouseSize ); 
+    Sizes.push_back( ( GLfloat )mouseSize );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
-    Colors.push_back( glm::vec4(mouseColor,1.0) );
+    Colors.push_back( glm::vec4( mouseColor, 1.0 ) );
 
     mVAO.Bind();
     size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + sizeof( glm::vec4 ) );
@@ -145,19 +145,19 @@ void MouseRenderer::Draw(TextSceneRenderer& textSceneRenderer)
     ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
     glActiveTexture( GL_TEXTURE0 + 1 );
     CurrentAttribIndex = 0;
-    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( TexIndex ));
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( TexIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
-    glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( PosIndex ));
+    glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( PosIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
-    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( HeadingIndex ));
+    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( HeadingIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
-    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( SizeIndex ));
+    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( SizeIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
-    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( ColorIndex ));
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( ColorIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     glBindTexture( GL_TEXTURE_2D, TexId );
     glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, CurSize );
@@ -170,7 +170,7 @@ MouseRenderer::~MouseRenderer()
 
 }
 
-void MouseRenderer::OnMouseMoveEvent(const WorldMouseMoveEvent& Event)
+void MouseRenderer::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 {
     mX = Event.Pos.x;
     mY = Event.Pos.y;

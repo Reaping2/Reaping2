@@ -7,20 +7,20 @@ Neighbors::Neighbors()
 {
 }
 
-bool Neighbors::IsMatching(NeighborMap_t const& neighborMap)
+bool Neighbors::IsMatching( NeighborMap_t const& neighborMap )
 {
-    if (mNeighbors.size()<BorderType::Num_Classes)
+    if ( mNeighbors.size() < BorderType::Num_Classes )
     {
         return false;
     }
-    for(NeighborMap_t::const_iterator i=neighborMap.begin(), e=neighborMap.end();i!=e;++i)
+    for( NeighborMap_t::const_iterator i = neighborMap.begin(), e = neighborMap.end(); i != e; ++i )
     {
-        Neighbor& neighbor=mNeighbors[(*i).first];
-        if (neighbor.mActorGUID==-1&&(*i).second!=Other)
+        Neighbor& neighbor = mNeighbors[( *i ).first];
+        if ( neighbor.mActorGUID == -1 && ( *i ).second != Other )
         {
             return false;
         }
-        if (neighbor.mActorGUID!=-1&&(*i).second!=Same)
+        if ( neighbor.mActorGUID != -1 && ( *i ).second != Same )
         {
             return false;
         }
@@ -29,8 +29,8 @@ bool Neighbors::IsMatching(NeighborMap_t const& neighborMap)
 }
 
 
-Neighbor::Neighbor(int32_t actorGUID)
-    : mActorGUID(actorGUID)
+Neighbor::Neighbor( int32_t actorGUID )
+    : mActorGUID( actorGUID )
 {
 }
 

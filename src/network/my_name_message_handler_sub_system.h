@@ -5,14 +5,14 @@
 
 namespace network {
 
-    class MyNameMessageHandlerSubSystem: public MessageHandlerSubSystem
-    {
-    public:
-        DEFINE_SUB_SYSTEM_BASE(MyNameMessageHandlerSubSystem)
-        MyNameMessageHandlerSubSystem();
-        virtual void Init();
-        virtual void Execute(Message const& message );
-    };
+class MyNameMessageHandlerSubSystem: public MessageHandlerSubSystem
+{
+public:
+    DEFINE_SUB_SYSTEM_BASE( MyNameMessageHandlerSubSystem )
+    MyNameMessageHandlerSubSystem();
+    virtual void Init();
+    virtual void Execute( Message const& message );
+};
 
 } // namespace network
 

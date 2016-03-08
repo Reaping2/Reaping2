@@ -3,13 +3,13 @@
 #include <portable_oarchive.hpp>
 
 ListenChildDeathComponent::ListenChildDeathComponent()
-    : mKillerOfChildGUID(-1)
+    : mKillerOfChildGUID( -1 )
 {
 }
 
-void ListenChildDeathComponent::SetKillerOfChildGUID(int32_t killerOfChildId)
+void ListenChildDeathComponent::SetKillerOfChildGUID( int32_t killerOfChildId )
 {
-    mKillerOfChildGUID=killerOfChildId;
+    mKillerOfChildGUID = killerOfChildId;
 }
 
 int32_t ListenChildDeathComponent::GetKillerOfChildGUID()const
@@ -27,4 +27,4 @@ ListenChildDeathComponentLoader::ListenChildDeathComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(ListenChildDeathComponent, ListenChildDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ListenChildDeathComponent, ListenChildDeathComponent );

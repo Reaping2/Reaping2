@@ -10,9 +10,9 @@ class Recognizer
 public:
     virtual ~Recognizer();
     Recognizer( int32_t Id );
-    virtual bool Recognize(Actor const& actor);
-    
-    void SetActionRenderer(int32_t actionRendererId);
+    virtual bool Recognize( Actor const& actor );
+
+    void SetActionRenderer( int32_t actionRendererId );
     int32_t GetActionRenderer() const;
 protected:
     int32_t mId;
@@ -27,9 +27,9 @@ public:
     {
         return mOrder;
     }
-    void SetOrder(int32_t order)
+    void SetOrder( int32_t order )
     {
-        mOrder=order;
+        mOrder = order;
     }
 };
 

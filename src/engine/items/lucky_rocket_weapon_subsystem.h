@@ -7,19 +7,19 @@ namespace engine {
 
 class LuckyRocketWeaponSubSystem : public SubSystem, public SubSystemHolder
 {
-    public:
-        DEFINE_SUB_SYSTEM_BASE(LuckyRocketWeaponSubSystem)
+public:
+    DEFINE_SUB_SYSTEM_BASE( LuckyRocketWeaponSubSystem )
 
-        LuckyRocketWeaponSubSystem();
-        virtual void Init();
-        virtual void Update( Actor& actor, double DeltaTime );
+    LuckyRocketWeaponSubSystem();
+    virtual void Init();
+    virtual void Update( Actor& actor, double DeltaTime );
 
-    private:
-        Scene &mScene;
-        Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
-        ActorFactory &mActorFactory;
-        int32_t mShotId;
-        int32_t mAltShotId;
+private:
+    Scene& mScene;
+    Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
+    ActorFactory& mActorFactory;
+    int32_t mShotId;
+    int32_t mAltShotId;
 };
 
 } // namespace engine

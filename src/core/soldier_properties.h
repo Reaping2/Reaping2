@@ -16,25 +16,25 @@ struct SoldierProperties
     int32_t mPoints;
     bool mArrived;  //has properties from client
     SoldierProperties()
-        :mMoveSpeed(0),mAccuracy(0),mHealth(0),mPoints(30),mArrived(false)
+        : mMoveSpeed( 0 ), mAccuracy( 0 ), mHealth( 0 ), mPoints( 30 ), mArrived( false )
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 
 };
 
 template<class Archive>
-void SoldierProperties::serialize(Archive& ar, const unsigned int version)
+void SoldierProperties::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mMoveSpeed;
-    ar & mAccuracy;
-    ar & mHealth;
-    ar & mPoints;
-    ar & mArrived;
+    ar& mMoveSpeed;
+    ar& mAccuracy;
+    ar& mHealth;
+    ar& mPoints;
+    ar& mArrived;
 }
 
 } // namespace core
 
-REAPING2_CLASS_EXPORT_KEY2(__core__SoldierProperties, ::core::SoldierProperties,"soldier_prop_base");
+REAPING2_CLASS_EXPORT_KEY2( __core__SoldierProperties, ::core::SoldierProperties, "soldier_prop_base" );
 #endif//INCLUDED_CORE_SOLDIER_PROPERTIES_H

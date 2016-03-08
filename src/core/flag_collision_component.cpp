@@ -20,4 +20,4 @@ FlagCollisionComponentLoader::FlagCollisionComponentLoader()
 }
 
 } // namespace ctf
-REAPING2_CLASS_EXPORT_IMPLEMENT(ctf__FlagCollisionComponent, ctf::FlagCollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( ctf__FlagCollisionComponent, ctf::FlagCollisionComponent );

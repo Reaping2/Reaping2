@@ -1,6 +1,6 @@
 // #include "platform/i_platform.h"
 // #include "ui/i_ui.h"
-// 
+//
 // #include "vao_base.h"
 // #include "shader.h"
 // #include "shader_repo.h"
@@ -24,7 +24,7 @@
 // #include "decal_engine.h"
 // #include "actor_renderer.h"
 // #include "renderer.h"
-// 
+//
 // // bind
 // #include "damage_particles.h"
 

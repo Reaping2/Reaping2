@@ -23,9 +23,9 @@ CollisionClass::Type CollisionComponent::GetCollisionClass() const
     return mCollisionClassType;
 }
 
-void CollisionComponent::SetCollisionClass(CollisionClass::Type CollisionClassType)
+void CollisionComponent::SetCollisionClass( CollisionClass::Type CollisionClassType )
 {
-    mCollisionClassType=CollisionClassType;
+    mCollisionClassType = CollisionClassType;
 }
 
 double CollisionComponent::GetRadius() const
@@ -33,25 +33,25 @@ double CollisionComponent::GetRadius() const
     return mRadius;
 }
 
-void CollisionComponent::SetRadius(double Radius)
+void CollisionComponent::SetRadius( double Radius )
 {
-    mRadius=Radius;
+    mRadius = Radius;
 }
 
 void CollisionComponentLoader::BindValues()
 {
-    Bind("radius",func_double(&CollisionComponent::SetRadius));
+    Bind( "radius", func_double( &CollisionComponent::SetRadius ) );
     std::string istr;
-    if( Json::GetStr( (*mSetters)["class"], istr))
+    if( Json::GetStr( ( *mSetters )["class"], istr ) )
     {
-        Bind<CollisionClass::Type>(&CollisionComponent::SetCollisionClass,mCollisionClass(AutoId(istr)));
+        Bind<CollisionClass::Type>( &CollisionComponent::SetCollisionClass, mCollisionClass( AutoId( istr ) ) );
     }
 
 }
 
 CollisionComponentLoader::CollisionComponentLoader()
-    : mCollisionClass(CollisionClass::Get())
+    : mCollisionClass( CollisionClass::Get() )
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(CollisionComponent, CollisionComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( CollisionComponent, CollisionComponent );

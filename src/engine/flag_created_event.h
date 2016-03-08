@@ -8,8 +8,8 @@ namespace engine {
 struct FlagCreatedEvent : public platform::Event
 {
     Opt<Actor> mActor;
-    FlagCreatedEvent(Opt<Actor> actor)
-        :mActor(actor){}
+    FlagCreatedEvent( Opt<Actor> actor )
+        : mActor( actor ) {}
 };
 
 } // namespace engine

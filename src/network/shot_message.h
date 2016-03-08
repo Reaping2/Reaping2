@@ -13,56 +13,56 @@ class ShotMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(ShotMessage)
+    DEFINE_MESSAGE_BASE( ShotMessage )
     int32_t mActorGUID;
     int32_t mX;
     int32_t mY;
     bool mIsAlt;
     ShotMessage()
-        : mActorGUID(0)
-        , mX(0)
-        , mY(0)
-        , mIsAlt(0)
+        : mActorGUID( 0 )
+        , mX( 0 )
+        , mY( 0 )
+        , mIsAlt( 0 )
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ShotMessage::serialize(Archive& ar, const unsigned int version)
+void ShotMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mActorGUID;
-    ar & mX;
-    ar & mY;
-    ar & mIsAlt;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mActorGUID;
+    ar& mX;
+    ar& mY;
+    ar& mIsAlt;
 }
 
 class ShotMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(ShotMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( ShotMessageHandlerSubSystem )
     ShotMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
-    virtual void Update(double DeltaTime);
+    virtual void Execute( Message const& message );
+    virtual void Update( double DeltaTime );
 };
 
 class ShotMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnShot;
-    void OnShot(core::ShotEvent const& Evt);
+    void OnShot( core::ShotEvent const& Evt );
 public:
-    DEFINE_SYSTEM_BASE(ShotMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( ShotMessageSenderSystem )
     ShotMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_KEY2(network__ShotMessage, network::ShotMessage,"shot");
+REAPING2_CLASS_EXPORT_KEY2( network__ShotMessage, network::ShotMessage, "shot" );
 #endif//INCLUDED_NETWORK_SHOT_H
 
 //command:  "classgenerator.exe" -g "message" -c "shot" -m "int32_t-actorGUID int32_t-x int32_t-y bool-isAlt" -e "core-shot"

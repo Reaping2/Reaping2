@@ -15,24 +15,24 @@ MapSystem::MapSystem()
 
 void MapSystem::Init()
 {
-    mOnMapLoad=EventServer<core::MapLoadEvent>::Get().Subscribe( boost::bind( &MapSystem::OnMapLoad, this, _1 ) );
+    mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( boost::bind( &MapSystem::OnMapLoad, this, _1 ) );
 }
 
 
-void MapSystem::Update(double DeltaTime)
+void MapSystem::Update( double DeltaTime )
 {
 }
 
-bool MapSystem::AddMapElementFromOneTextureDesc(Json::Value& mapElementDesc)
+bool MapSystem::AddMapElementFromOneTextureDesc( Json::Value& mapElementDesc )
 {
     std::string name;
-    if (!Json::GetStr(mapElementDesc["name"],name))
+    if ( !Json::GetStr( mapElementDesc["name"], name ) )
     {
         return false;
     }
-    std::auto_ptr<MapElement> mapElement(mMapElementFactory(AutoId(name)));
-    mapElement->Load(mapElementDesc);
-    mMapElementHolder.mAllMapElements.insert(Opt<MapElement>(mapElement.release()));
+    std::auto_ptr<MapElement> mapElement( mMapElementFactory( AutoId( name ) ) );
+    mapElement->Load( mapElementDesc );
+    mMapElementHolder.mAllMapElements.insert( Opt<MapElement>( mapElement.release() ) );
     return true;
 }
 
@@ -43,15 +43,15 @@ MapSystem::~MapSystem()
 
 void MapSystem::ClearMapElements()
 {
-    for( MapElementList_t::iterator it = mMapElementHolder.mAllMapElements.begin(), e = mMapElementHolder.mAllMapElements.end(); it!=e; ++it )
+    for( MapElementList_t::iterator it = mMapElementHolder.mAllMapElements.begin(), e = mMapElementHolder.mAllMapElements.end(); it != e; ++it )
     {
-        delete (*it).Get();
+        delete ( *it ).Get();
     }
     mMapElementHolder.mAllMapElements.clear();
 }
 
 
-void MapSystem::OnMapLoad(core::MapLoadEvent const& Evt)
+void MapSystem::OnMapLoad( core::MapLoadEvent const& Evt )
 {
     ClearMapElements();
     PathVect_t Paths;
@@ -61,7 +61,7 @@ void MapSystem::OnMapLoad(core::MapLoadEvent const& Evt)
     {
         boost::filesystem::path const& Path = *i;
         PathVect_t LevelPaths;
-        FSys.GetFileNames(LevelPaths, Path);
+        FSys.GetFileNames( LevelPaths, Path );
         if( Path.extension().string() != ".json" )
         {
             continue;
@@ -90,7 +90,7 @@ void MapSystem::OnMapLoad(core::MapLoadEvent const& Evt)
             }
         }
     }
-    EventServer<core::MapLoadedEvent>::Get().SendEvent(core::MapLoadedEvent());
+    EventServer<core::MapLoadedEvent>::Get().SendEvent( core::MapLoadedEvent() );
 
 }
 
@@ -104,14 +104,14 @@ MapElementList_t& MapSystem::GetMapElementList()
     return mMapElementHolder.mAllMapElements;
 }
 
-void MapSystem::RemoveMapElement(int32_t spawnedActorGUID)
+void MapSystem::RemoveMapElement( int32_t spawnedActorGUID )
 {
-    for( MapElementList_t::iterator it = mMapElementHolder.mAllMapElements.begin(), e = mMapElementHolder.mAllMapElements.end(); it!=e; ++it )
+    for( MapElementList_t::iterator it = mMapElementHolder.mAllMapElements.begin(), e = mMapElementHolder.mAllMapElements.end(); it != e; ++it )
     {
-        if ((*it)->GetSpawnedActorGUID()==spawnedActorGUID)
+        if ( ( *it )->GetSpawnedActorGUID() == spawnedActorGUID )
         {
-            delete (*it).Get();
-            mMapElementHolder.mAllMapElements.erase(it);
+            delete ( *it ).Get();
+            mMapElementHolder.mAllMapElements.erase( it );
             return;
         }
     }

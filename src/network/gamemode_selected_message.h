@@ -13,40 +13,40 @@ class GamemodeSelectedMessage: public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(GamemodeSelectedMessage)
+    DEFINE_MESSAGE_BASE( GamemodeSelectedMessage )
     std::string mGameMode;
     int32_t mOriginator;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void GamemodeSelectedMessage::serialize(Archive& ar, const unsigned int version)
+void GamemodeSelectedMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mGameMode;
-    ar & mOriginator;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mGameMode;
+    ar& mOriginator;
 }
 
 class GamemodeSelectedMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(GamemodeSelectedMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( GamemodeSelectedMessageHandlerSubSystem )
     GamemodeSelectedMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
-    virtual void Update(double DeltaTime);
+    virtual void Execute( Message const& message );
+    virtual void Update( double DeltaTime );
 };
 
 class GamemodeSelectedMessageSenderSystem : public MessageSenderSystem
 {
     AutoReg mOnGamemodeSelectedEvent;
-    void OnGamemodeSelectedEvent(core::GamemodeSelectedEvent const & evt);
+    void OnGamemodeSelectedEvent( core::GamemodeSelectedEvent const& evt );
 public:
-    DEFINE_SYSTEM_BASE(GamemodeSelectedMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( GamemodeSelectedMessageSenderSystem )
     GamemodeSelectedMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 };
 } // namespace network
 

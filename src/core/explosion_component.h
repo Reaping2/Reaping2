@@ -8,11 +8,11 @@
 class ExplosionComponent : public IExplosionComponent
 {
 public:
-    virtual void SetStartRadius(double startRadius);
+    virtual void SetStartRadius( double startRadius );
     virtual double GetStartRadius()const;
-    virtual void SetMaxRadius(double maxRadius);
+    virtual void SetMaxRadius( double maxRadius );
     virtual double GetMaxRadius()const;
-    virtual void SetScaleSpeed(double scaleSpeed);
+    virtual void SetScaleSpeed( double scaleSpeed );
     virtual double GetScaleSpeed()const;
 protected:
     ExplosionComponent();
@@ -24,17 +24,17 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ExplosionComponent::serialize(Archive& ar, const unsigned int version)
+void ExplosionComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IExplosionComponent>(*this);
-    ar & mStartRadius;
-    ar & mMaxRadius;
-    ar & mScaleSpeed;
+    ar& boost::serialization::base_object<IExplosionComponent>( *this );
+    ar& mStartRadius;
+    ar& mMaxRadius;
+    ar& mScaleSpeed;
 }
 
 class ExplosionComponentLoader : public ComponentLoader<ExplosionComponent>
@@ -46,6 +46,6 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(ExplosionComponent, ExplosionComponent,"explosion_component");
+REAPING2_CLASS_EXPORT_KEY2( ExplosionComponent, ExplosionComponent, "explosion_component" );
 #endif//INCLUDED_CORE_EXPLOSION_COMPONENT_H
 

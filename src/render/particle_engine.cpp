@@ -73,7 +73,7 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     {
         Speed = Acceleration = glm::vec2( 0, 0 );
     }
-    Pos=glm::vec2(Pos.x*MAGIC_SIZE,Pos.y*MAGIC_SIZE);
+    Pos = glm::vec2( Pos.x * MAGIC_SIZE, Pos.y * MAGIC_SIZE );
     if( pt.Heading == ParticleTemplate::H_Actor )
     {
         Heading = ori;
@@ -85,7 +85,7 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     INIT( Lifetime );
     InitialLifetime = Lifetime;
     INIT( Radius );
-    Radius*=MAGIC_SIZE;
+    Radius *= MAGIC_SIZE;
 #undef INIT
 #undef COLOR
 #undef ROLL_DIR
@@ -95,9 +95,9 @@ typedef std::vector<glm::vec2> Vec2s_t;
 typedef std::vector<glm::vec4> Vec4s_t;
 typedef std::vector<GLfloat> Floats_t;
 bool getNextTextId( Particles::const_iterator& i, Particles::const_iterator e,
-        Vec2s_t& Positions, Vec4s_t& Colors, Vec4s_t& TexCoords,
-        Floats_t& Headings, Floats_t& Radii, Floats_t& Lifetimes,
-        GLuint& TexId )
+                    Vec2s_t& Positions, Vec4s_t& Colors, Vec4s_t& TexCoords,
+                    Floats_t& Headings, Floats_t& Radii, Floats_t& Lifetimes,
+                    GLuint& TexId )
 {
     // skip dead particles
     while( i != e && i->Lifetime < 0.0f )
@@ -110,7 +110,7 @@ bool getNextTextId( Particles::const_iterator& i, Particles::const_iterator e,
     }
     Particle const& p = *i;
     Positions.push_back( p.Pos );
-    SpritePhase const& Phase = p.Template->Spr->operator()( 100* p.Lifetime / p.InitialLifetime );
+    SpritePhase const& Phase = p.Template->Spr->operator()( 100 * p.Lifetime / p.InitialLifetime );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
     Colors.push_back( p.Color );
     Headings.push_back( p.Heading );
@@ -202,7 +202,7 @@ void ParticleEngineImpl::Draw() const
 void ParticleEngineImpl::Draw( Particles const& particles ) const
 {
     size_t CurSize = particles.size();
-    if (CurSize==0)
+    if ( CurSize == 0 )
     {
         return;
     }
@@ -222,11 +222,11 @@ void ParticleEngineImpl::Draw( Particles const& particles ) const
 
     Particles::const_iterator i = particles.begin();
     render::Counts_t const& Counts = render::count(
-            boost::lambda::bind( &getNextTextId, boost::ref( i ), particles.end(),
-                boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
-                boost::ref( Headings ), boost::ref( Radii ), boost::ref( Lifetimes ),
-                boost::lambda::_1 )
-            );
+                                         boost::lambda::bind( &getNextTextId, boost::ref( i ), particles.end(),
+                                                 boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
+                                                 boost::ref( Headings ), boost::ref( Radii ), boost::ref( Lifetimes ),
+                                                 boost::lambda::_1 )
+                                     );
 
     CurSize = Positions.size();
     if( CurSize == 0 )

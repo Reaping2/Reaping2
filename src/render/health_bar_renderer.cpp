@@ -25,12 +25,12 @@ void HealthBarRenderer::Init()
     mVAO.Init();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( "health_bar" );
-    mWindow=engine::Engine::Get().GetSystem<engine::WindowSystem>();
+    mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
 }
 
 HealthBarRenderer::HealthBarRenderer()
-    : mProgramState(core::ProgramState::Get())
-    , mColorRepo(render::ColorRepo::Get())
+    : mProgramState( core::ProgramState::Get() )
+    , mColorRepo( render::ColorRepo::Get() )
 {
     Init();
 }
@@ -57,64 +57,64 @@ void HealthBarRenderer::Draw()
         size_t Start;
         size_t Count;
     };
-    int32_t lastVertexIndex=0;
+    int32_t lastVertexIndex = 0;
 
-    for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
+    for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
     {
-        Opt<Actor> player(Scene::Get().GetActor((*i).mClientActorGUID));
-        if (!player.IsValid())
+        Opt<Actor> player( Scene::Get().GetActor( ( *i ).mClientActorGUID ) );
+        if ( !player.IsValid() )
         {
             continue;
         }
-        engine::CloakSystem::CloakState cloakState=engine::CloakSystem::GetCloakState(*player.Get());
-        if (cloakState==engine::CloakSystem::Invisible)
+        engine::CloakSystem::CloakState cloakState = engine::CloakSystem::GetCloakState( *player.Get() );
+        if ( cloakState == engine::CloakSystem::Invisible )
         {
             continue;
         }
-        Opt<IPositionComponent> positionC=player->Get<IPositionComponent>();
+        Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
 
-        Opt<IHealthComponent> healthC(player->Get<IHealthComponent>());
-        Opt<ITeamComponent> teamC(player->Get<ITeamComponent>());
+        Opt<IHealthComponent> healthC( player->Get<IHealthComponent>() );
+        Opt<ITeamComponent> teamC( player->Get<ITeamComponent>() );
 
-        Opt<IArmorComponent> armorC=player->Get<IArmorComponent>();
-        int32_t armor=0;
-        if (armorC.IsValid())
+        Opt<IArmorComponent> armorC = player->Get<IArmorComponent>();
+        int32_t armor = 0;
+        if ( armorC.IsValid() )
         {
-            armor=armorC->GetCurrentArmor();
+            armor = armorC->GetCurrentArmor();
         }
 
-        double currPercent=healthC->GetHP()/double(healthC->GetMaxHP().Get());
-        double currArmorPercent=armor/double(healthC->GetMaxHP().Get()+armor);
+        double currPercent = healthC->GetHP() / double( healthC->GetMaxHP().Get() );
+        double currArmorPercent = armor / double( healthC->GetMaxHP().Get() + armor );
 
-        glm::vec2 size(150,14);
-        glm::vec2 position(-size.x/2,45);
-        bool isself=i->mClientActorGUID==mProgramState.mControlledActorGUID;
+        glm::vec2 size( 150, 14 );
+        glm::vec2 position( -size.x / 2, 45 );
+        bool isself = i->mClientActorGUID == mProgramState.mControlledActorGUID;
         {
-            glm::vec4 dim(int32_t(positionC->GetX()*MAGIC_SIZE)+position.x-2,int32_t(positionC->GetY()*MAGIC_SIZE)+position.y-2,size.x+3,size.y+3);
-            glm::vec4 col=isself?glm::vec4(0.0,0.0,0.0,0.7):glm::vec4(0.0,0.0,0.0,0.7);
-            ColoredBox( dim,col, Inserter );
+            glm::vec4 dim( int32_t( positionC->GetX()*MAGIC_SIZE ) + position.x - 2, int32_t( positionC->GetY()*MAGIC_SIZE ) + position.y - 2, size.x + 3, size.y + 3 );
+            glm::vec4 col = isself ? glm::vec4( 0.0, 0.0, 0.0, 0.7 ) : glm::vec4( 0.0, 0.0, 0.0, 0.7 );
+            ColoredBox( dim, col, Inserter );
         }
         {
-            glm::vec4 dim(int32_t(positionC->GetX()*MAGIC_SIZE)+position.x,int32_t(positionC->GetY()*MAGIC_SIZE)+position.y,currPercent*size.x,size.y);
-            glm::vec4 col=isself?glm::vec4(0.59,0.15,0.7,1.0):glm::vec4(0.0,0.8,0.0,0.7);
-            if (teamC.IsValid())
+            glm::vec4 dim( int32_t( positionC->GetX()*MAGIC_SIZE ) + position.x, int32_t( positionC->GetY()*MAGIC_SIZE ) + position.y, currPercent * size.x, size.y );
+            glm::vec4 col = isself ? glm::vec4( 0.59, 0.15, 0.7, 1.0 ) : glm::vec4( 0.0, 0.8, 0.0, 0.7 );
+            if ( teamC.IsValid() )
             {
-                col=mColorRepo(teamC->GetTeam());
+                col = mColorRepo( teamC->GetTeam() );
             }
-            ColoredBox( dim,col, Inserter );
+            ColoredBox( dim, col, Inserter );
         }
         {
-            double currCombinedPercent=currPercent+currArmorPercent>1.0?1-currArmorPercent:currPercent;
-            glm::vec4 dim(int32_t(positionC->GetX()*MAGIC_SIZE)+position.x+currCombinedPercent*size.x
-                ,int32_t(positionC->GetY()*MAGIC_SIZE)+position.y
-                ,currArmorPercent*size.x,size.y);
-            glm::vec4 col=glm::vec4(1.0,1.0,1.0,0.7);
-            ColoredBox( dim,col, Inserter );
+            double currCombinedPercent = currPercent + currArmorPercent > 1.0 ? 1 - currArmorPercent : currPercent;
+            glm::vec4 dim( int32_t( positionC->GetX()*MAGIC_SIZE ) + position.x + currCombinedPercent * size.x
+                           , int32_t( positionC->GetY()*MAGIC_SIZE ) + position.y
+                           , currArmorPercent * size.x, size.y );
+            glm::vec4 col = glm::vec4( 1.0, 1.0, 1.0, 0.7 );
+            ColoredBox( dim, col, Inserter );
         }
 
     }
     size_t const CurSize = Vertices.size();
-    if (CurSize==0)
+    if ( CurSize == 0 )
     {
         return;
     }
@@ -126,7 +126,7 @@ void HealthBarRenderer::Draw()
         SceneVertex const& Vert = *i;
         Positions.push_back( Vert.Pos );
         Colors.push_back( Vert.Color );
-        TextPosition.push_back(Vert.RealPos);
+        TextPosition.push_back( Vert.RealPos );
         //Dimensions.push_back(Vert.Dimensions);
     }
 
@@ -157,12 +157,12 @@ void HealthBarRenderer::Draw()
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &TextPosition[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )CurrentOffset );
-//     ++CurrentAttribIndex;
-//     CurrentOffset += CurrentSize;
-//     CurrentSize = CurSize * sizeof( glm::vec2 );
-//     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Dimensions[0] );
-//     glEnableVertexAttribArray( CurrentAttribIndex );
-//     glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )CurrentOffset );
+    //     ++CurrentAttribIndex;
+    //     CurrentOffset += CurrentSize;
+    //     CurrentSize = CurSize * sizeof( glm::vec2 );
+    //     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Dimensions[0] );
+    //     glEnableVertexAttribArray( CurrentAttribIndex );
+    //     glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )CurrentOffset );
 
 
 
@@ -179,9 +179,9 @@ void HealthBarRenderer::Draw()
     mTexts.clear();
 }
 
-void HealthBarRenderer::AddText(Text const& text)
+void HealthBarRenderer::AddText( Text const& text )
 {
-    mTexts.push_back(text);
+    mTexts.push_back( text );
 }
 
 void HealthBarRenderer::ColoredBox( glm::vec4 const& Dim, glm::vec4 const& Col, SceneVertexInserter_t& Inserter )

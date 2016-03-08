@@ -10,15 +10,15 @@ namespace map {
 class RespawnActorMapElementSystem : public MapElementSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(RespawnActorMapElementSystem)
+    DEFINE_SYSTEM_BASE( RespawnActorMapElementSystem )
     RespawnActorMapElementSystem();
     static Opt<RespawnActorMapElementSystem> Get();
-    void SetRespawnOnDeath(bool respawnOnDeath);
+    void SetRespawnOnDeath( bool respawnOnDeath );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 
-    void SpawnActor(Opt<RespawnActorMapElement> respawnActorMapElement);
+    void SpawnActor( Opt<RespawnActorMapElement> respawnActorMapElement );
 
 private:
     ActorFactory& mActorFactory;

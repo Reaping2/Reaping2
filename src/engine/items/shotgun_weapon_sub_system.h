@@ -8,7 +8,7 @@ namespace engine {
 class ShotgunWeaponSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(ShotgunWeaponSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( ShotgunWeaponSubSystem )
 
     ShotgunWeaponSubSystem();
     virtual void Init();

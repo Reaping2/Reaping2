@@ -10,9 +10,9 @@ namespace map {
 class MapStartMapElement : public MapElement, public BaseOutput
 {
 public:
-    DEFINE_MAP_ELEMENT_BASE(MapStartMapElement)
-    MapStartMapElement(int32_t Id);
-    void Load(Json::Value& setters);
+    DEFINE_MAP_ELEMENT_BASE( MapStartMapElement )
+    MapStartMapElement( int32_t Id );
+    void Load( Json::Value& setters );
     static int32_t StartNodeId();
 private:
 };

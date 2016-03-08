@@ -22,26 +22,26 @@ struct ClientData
     bool mConnected;
     ClientData();
 
-    ClientData(int32_t clientId, std::string const& clientName);
+    ClientData( int32_t clientId, std::string const& clientName );
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 
 };
 
 template<class Archive>
-void ClientData::serialize(Archive& ar, const unsigned int version)
+void ClientData::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mClientId;
-    ar & mClientName;
-    ar & mClientActorGUID;
-    ar & mSoldierProperties;
-    ar & mKill;
-    ar & mDeath;
-    ar & mAssist;
-    ar & mScore;
-    ar & mReady;
-    ar & mConnected;
+    ar& mClientId;
+    ar& mClientName;
+    ar& mClientActorGUID;
+    ar& mSoldierProperties;
+    ar& mKill;
+    ar& mDeath;
+    ar& mAssist;
+    ar& mScore;
+    ar& mReady;
+    ar& mConnected;
 }
 class ProgramState : public platform::Singleton<ProgramState>
 {
@@ -51,8 +51,8 @@ class ProgramState : public platform::Singleton<ProgramState>
 public:
     platform::ModelValue mProgramStateModel;
     platform::ModelValue mIsClientModel;
-	platform::ModelValue mIsHostModel;
-	int32_t mIsClient;
+    platform::ModelValue mIsHostModel;
+    int32_t mIsClient;
     ProgramState();
     enum Mode
     {
@@ -69,7 +69,7 @@ public:
     };
     // which mode is the game at currently. (running etc.)
     GameState mGameState;
-    void SetMode(ProgramState::Mode mode);
+    void SetMode( ProgramState::Mode mode );
     // is this client connected to server
     bool mClientConnected;
     // current client's name
@@ -87,13 +87,13 @@ public:
     typedef std::vector<ClientData> ClientDatas_t;
     // currently connected clients to server
     ClientDatas_t mClientDatas;
-	// this client is the host
-	int32_t mIsHost;
-    Opt<ClientData> FindClientDataByClientId(int32_t clientId); 
-    Opt<ClientData> FindClientDataByActorGUID(int32_t actorGUID); 
-    Opt<ClientData> FindClientDataByClientName(std::string clientName); 
+    // this client is the host
+    int32_t mIsHost;
+    Opt<ClientData> FindClientDataByClientId( int32_t clientId );
+    Opt<ClientData> FindClientDataByActorGUID( int32_t actorGUID );
+    Opt<ClientData> FindClientDataByClientName( std::string clientName );
 };
 } // namespace core
 
-REAPING2_CLASS_EXPORT_KEY2(__core__ClientData, ::core::ClientData,"client_data");
+REAPING2_CLASS_EXPORT_KEY2( __core__ClientData, ::core::ClientData, "client_data" );
 #endif//INCLUDED_CORE_PROGRAM_STATE_H

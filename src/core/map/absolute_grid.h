@@ -5,12 +5,12 @@
 
 namespace map {
 
-class AbsoluteGrid:public IGrid
+class AbsoluteGrid: public IGrid
 {
 public:
-    AbsoluteGrid(int32_t Id);
+    AbsoluteGrid( int32_t Id );
     virtual void Update( double DeltaTime );
-    virtual void SetMousePosition(double x, double y);
+    virtual void SetMousePosition( double x, double y );
 };
 
 

@@ -40,7 +40,7 @@ Root& Ui::GetRoot()
     return *mActiveRoot;
 }
 
-Root& Ui::GetRoot(std::string const& Name)
+Root& Ui::GetRoot( std::string const& Name )
 {
     Roots_t::iterator it = mRoots.find( Name );
     if( mRoots.end() != it )
@@ -106,7 +106,7 @@ void Ui::OnMouseMoveEvent( UiMouseMoveEvent const& Evt )
     mLastEnteredWidget->OnMouseEnter();
 }
 
-void Ui::OnInputStateChangedEvent(const engine::InputStateChangedEvent& Event)
+void Ui::OnInputStateChangedEvent( const engine::InputStateChangedEvent& Event )
 {
     if( Event.mInputState.mPause )
     {

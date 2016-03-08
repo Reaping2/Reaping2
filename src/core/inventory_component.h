@@ -20,7 +20,7 @@ public:
     virtual void Update( double Seconds );
     virtual Opt<Weapon> GetSelectedWeapon();
     virtual void SetSelectedWeapon( int32_t Id );
-    virtual void SetActorGUID(int32_t actorGUID);
+    virtual void SetActorGUID( int32_t actorGUID );
     virtual Opt<NormalItem> GetSelectedNormalItem();
     virtual void SetSelectedNormalItem( int32_t Id );
     virtual ~InventoryComponent();
@@ -35,17 +35,17 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void InventoryComponent::serialize(Archive& ar, const unsigned int version)
+void InventoryComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IInventoryComponent>(*this);
-    ar & mItems;
-    ar & mSelectedWeapon;
-    ar & mSelectedNormalItem;
+    ar& boost::serialization::base_object<IInventoryComponent>( *this );
+    ar& mItems;
+    ar& mSelectedWeapon;
+    ar& mSelectedNormalItem;
 }
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>
@@ -57,5 +57,5 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(InventoryComponent, InventoryComponent,"inventory_component");
+REAPING2_CLASS_EXPORT_KEY2( InventoryComponent, InventoryComponent, "inventory_component" );
 #endif//INCLUDED_CORE_INVENTORY_COMPONENT_H

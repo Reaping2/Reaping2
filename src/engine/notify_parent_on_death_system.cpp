@@ -15,43 +15,43 @@ NotifyParentOnDeathSystem::NotifyParentOnDeathSystem()
 
 void NotifyParentOnDeathSystem::Init()
 {
-    mRemovedActorsSystem=Engine::Get().GetSystem<RemovedActorsSystem>();
+    mRemovedActorsSystem = Engine::Get().GetSystem<RemovedActorsSystem>();
 }
 
 
-void NotifyParentOnDeathSystem::Update(double DeltaTime)
+void NotifyParentOnDeathSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<INotifyParentOnDeathComponent> notifyParentOnDeathC=actor.Get<INotifyParentOnDeathComponent>();
-        if (!notifyParentOnDeathC.IsValid())
+        Opt<INotifyParentOnDeathComponent> notifyParentOnDeathC = actor.Get<INotifyParentOnDeathComponent>();
+        if ( !notifyParentOnDeathC.IsValid() )
         {
             continue;
         }
-        Opt<Actor> parent(mScene.GetActor(notifyParentOnDeathC->GetParentGUID()));
-        Opt<Actor> killer(mScene.GetActor(notifyParentOnDeathC->GetKillerGUID()));
+        Opt<Actor> parent( mScene.GetActor( notifyParentOnDeathC->GetParentGUID() ) );
+        Opt<Actor> killer( mScene.GetActor( notifyParentOnDeathC->GetKillerGUID() ) );
 
-        if(!parent.IsValid())
+        if( !parent.IsValid() )
         {
             continue;
         }
 
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-        if(!healthC.IsValid()||healthC->IsAlive())
-        {
-            continue; 
-        }
-        if(!killer.IsValid())
+        if( !healthC.IsValid() || healthC->IsAlive() )
         {
             continue;
         }
-        Opt<IListenChildDeathComponent> listenChildDeathC=parent->Get<IListenChildDeathComponent>();
-        if (!listenChildDeathC.IsValid())
+        if( !killer.IsValid() )
         {
             continue;
         }
-        listenChildDeathC->SetKillerOfChildGUID(killer->GetGUID());
+        Opt<IListenChildDeathComponent> listenChildDeathC = parent->Get<IListenChildDeathComponent>();
+        if ( !listenChildDeathC.IsValid() )
+        {
+            continue;
+        }
+        listenChildDeathC->SetKillerOfChildGUID( killer->GetGUID() );
     }
 }
 

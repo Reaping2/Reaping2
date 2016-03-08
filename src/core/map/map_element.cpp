@@ -6,13 +6,13 @@ MapElement::~MapElement()
 {
 }
 
-MapElement::MapElement(int32_t Id)
-    : mUID(0)
-    , mId(Id)
-    , mSpawnedActorGUID(-1)
+MapElement::MapElement( int32_t Id )
+    : mUID( 0 )
+    , mId( Id )
+    , mSpawnedActorGUID( -1 )
 {
-//     static int32_t NextUID = 0;
-//     mUID = ++NextUID;
+    //     static int32_t NextUID = 0;
+    //     mUID = ++NextUID;
 }
 
 int32_t MapElement::GetUID()
@@ -20,37 +20,37 @@ int32_t MapElement::GetUID()
     return mUID;
 }
 
-void MapElement::Load(Json::Value& setters)
+void MapElement::Load( Json::Value& setters )
 {
     std::string identifier;
-    if (Json::GetStr(setters["identifier"],identifier))
+    if ( Json::GetStr( setters["identifier"], identifier ) )
     {
-        mUID=AutoId(identifier);
+        mUID = AutoId( identifier );
     }
 }
 
-void MapElement::Save(Json::Value& Element)
+void MapElement::Save( Json::Value& Element )
 {
     std::string elementName;
-    if (IdStorage::Get().GetName(mId,elementName))
+    if ( IdStorage::Get().GetName( mId, elementName ) )
     {
-        Element["name"]=Json::Value(elementName);
+        Element["name"] = Json::Value( elementName );
     }
     std::string identifierName;
-    if (IdStorage::Get().GetName(mUID,identifierName))
+    if ( IdStorage::Get().GetName( mUID, identifierName ) )
     {
-        Element["identifier"]=Json::Value(identifierName);
+        Element["identifier"] = Json::Value( identifierName );
     }
 }
 
-void MapElement::SetUID(int32_t uId)
+void MapElement::SetUID( int32_t uId )
 {
-    mUID=uId;
+    mUID = uId;
 }
 
-void MapElement::SetSpawnedActorGUID(int32_t spawnedActorGUID)
+void MapElement::SetSpawnedActorGUID( int32_t spawnedActorGUID )
 {
-    mSpawnedActorGUID=spawnedActorGUID;
+    mSpawnedActorGUID = spawnedActorGUID;
 }
 
 int32_t MapElement::GetSpawnedActorGUID() const
@@ -58,8 +58,8 @@ int32_t MapElement::GetSpawnedActorGUID() const
     return mSpawnedActorGUID;
 }
 
-DefaultMapElement::DefaultMapElement(int32_t Id)
-    : MapElement(Id)
+DefaultMapElement::DefaultMapElement( int32_t Id )
+    : MapElement( Id )
 {
 
 }

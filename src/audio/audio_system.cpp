@@ -29,7 +29,7 @@ void AudioSystem::Init()
 }
 
 
-void AudioSystem::Update(double DeltaTime)
+void AudioSystem::Update( double DeltaTime )
 {
     typedef std::vector<EffectInst> Effects_t;
     static AudioPlayer& ap( AudioPlayer::Get() );
@@ -40,8 +40,8 @@ void AudioSystem::Update(double DeltaTime)
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
         Actor& actor = **it;
-        Opt<IAudibleComponent> audibleC=actor.Get<IAudibleComponent>();
-        if (!audibleC.IsValid())
+        Opt<IAudibleComponent> audibleC = actor.Get<IAudibleComponent>();
+        if ( !audibleC.IsValid() )
         {
             continue;
         }
@@ -70,14 +70,14 @@ void AudioSystem::Update(double DeltaTime)
                     []( AudibleEffectDesc const& d ) { return d.TTL <= 0; } ), std::end( audibleC->GetEffects() ) );
     }
     Effects_t alleffects( effects );
-//    L1("prevEffects: ");std::for_each(std::begin(prevEffects),std::end(prevEffects), [&]( int32_t i ) { L1("%d ",i);});L1("\n");
+    //    L1("prevEffects: ");std::for_each(std::begin(prevEffects),std::end(prevEffects), [&]( int32_t i ) { L1("%d ",i);});L1("\n");
     std::vector<int32_t> removedEffects;
-    for(std::vector<int32_t>::iterator i=prevEffects.begin(); i!=prevEffects.end();)
+    for( std::vector<int32_t>::iterator i = prevEffects.begin(); i != prevEffects.end(); )
     {
         if(std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == *i; } ) == std::end( effects ))
         {
-            removedEffects.push_back(*i);
-            i=prevEffects.erase(i);
+            removedEffects.push_back( *i );
+            i = prevEffects.erase( i );
         }
         else
         {
@@ -85,12 +85,12 @@ void AudioSystem::Update(double DeltaTime)
         }
     }
 
-//     auto removedEffectsIt = std::remove_if( std::begin( prevEffects ), std::end( prevEffects ),
-//             [&]( int32_t i ) { return std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == i; } ) == std::end( effects ); } );
-//     std::vector<int32_t> removedEffects( removedEffectsIt, prevEffects.end() );
-//     L1("removedEffects: ");std::for_each(std::begin(removedEffects),std::end(removedEffects), [&]( int32_t i ) { L1("%d ",i);});L1("\n");
-//     L1("effects: ");std::for_each(std::begin(effects),std::end(effects), [&]( EffectInst const& i ) { L1("%d ",i.UID);});L1("\n");
-//    prevEffects.erase( removedEffectsIt, std::end( prevEffects ) );
+    //     auto removedEffectsIt = std::remove_if( std::begin( prevEffects ), std::end( prevEffects ),
+    //             [&]( int32_t i ) { return std::find_if( std::begin( effects ), std::end( effects ), [&]( EffectInst const& ei ) { return ei.UID == i; } ) == std::end( effects ); } );
+    //     std::vector<int32_t> removedEffects( removedEffectsIt, prevEffects.end() );
+    //     L1("removedEffects: ");std::for_each(std::begin(removedEffects),std::end(removedEffects), [&]( int32_t i ) { L1("%d ",i);});L1("\n");
+    //     L1("effects: ");std::for_each(std::begin(effects),std::end(effects), [&]( EffectInst const& i ) { L1("%d ",i.UID);});L1("\n");
+    //    prevEffects.erase( removedEffectsIt, std::end( prevEffects ) );
     std::for_each( std::begin( removedEffects ), std::end( removedEffects ),
             [&]( int32_t i ) {     L1("halt for_each: %d\n",i); ap.Halt( i ); } );
     std::for_each( std::begin( effects ), std::end( effects ),

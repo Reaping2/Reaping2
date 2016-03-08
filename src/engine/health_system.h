@@ -10,7 +10,7 @@ namespace engine {
 class HealthSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(HealthSystem)
+    DEFINE_SYSTEM_BASE( HealthSystem )
     HealthSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

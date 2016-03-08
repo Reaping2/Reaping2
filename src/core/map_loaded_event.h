@@ -7,7 +7,7 @@ namespace core {
 
 struct MapLoadedEvent : public platform::Event
 {
-    MapLoadedEvent(){}
+    MapLoadedEvent() {}
 };
 
 } // namespace core

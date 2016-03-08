@@ -50,12 +50,12 @@ class RendererSystem : public System
 
 public:
     RendererSystem();
-    DEFINE_SYSTEM_BASE(RendererSystem)
+    DEFINE_SYSTEM_BASE( RendererSystem )
     virtual void Init();
     virtual void Update( double DeltaTime );
 
     void SendWorldMouseMoveEvent();
-    Camera const& GetCamera() const; 
+    Camera const& GetCamera() const;
 };
 } // namespace engine
 

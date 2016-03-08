@@ -17,14 +17,14 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void FlagCarrierComponent::serialize(Archive& ar, const unsigned int version)
+void FlagCarrierComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IFlagCarrierComponent>(*this);
+    ar& boost::serialization::base_object<IFlagCarrierComponent>( *this );
 }
 
 class FlagCarrierComponentLoader : public ComponentLoader<FlagCarrierComponent>
@@ -38,7 +38,7 @@ public:
 } // namespace ctf
 
 
-REAPING2_CLASS_EXPORT_KEY2(ctf__FlagCarrierComponent, ctf::FlagCarrierComponent,"flag_carrier_component");
+REAPING2_CLASS_EXPORT_KEY2( ctf__FlagCarrierComponent, ctf::FlagCarrierComponent, "flag_carrier_component" );
 #endif//INCLUDED_CTF_FLAG_CARRIER_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "flag_carrier_component" -n "ctf"

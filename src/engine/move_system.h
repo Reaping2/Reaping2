@@ -9,7 +9,7 @@ namespace engine {
 class MoveSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(MoveSystem)
+    DEFINE_SYSTEM_BASE( MoveSystem )
     MoveSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

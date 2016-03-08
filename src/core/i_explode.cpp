@@ -3,20 +3,20 @@
 #include <portable_oarchive.hpp>
 
 IExplode::IExplode()
-    : mExplosionProjectile(-1)
-    , mCount(1)
-    , mExplosionScatter(0.0)
-    , mDistribution(ExplodeDistributionType::Normal)
-    , mSecsToEndVariance(0.0)
-    , mPositionVariance(0.0)
-    , mSpeedVariance(0.0)
-    , mAddActorRadius(true)
+    : mExplosionProjectile( -1 )
+    , mCount( 1 )
+    , mExplosionScatter( 0.0 )
+    , mDistribution( ExplodeDistributionType::Normal )
+    , mSecsToEndVariance( 0.0 )
+    , mPositionVariance( 0.0 )
+    , mSpeedVariance( 0.0 )
+    , mAddActorRadius( true )
 {
 }
 
-void IExplode::SetExplosionProjectile(int32_t explosionProjectile)
+void IExplode::SetExplosionProjectile( int32_t explosionProjectile )
 {
-    mExplosionProjectile=explosionProjectile;
+    mExplosionProjectile = explosionProjectile;
 }
 
 int32_t IExplode::GetExplosionProjectile()const
@@ -24,9 +24,9 @@ int32_t IExplode::GetExplosionProjectile()const
     return mExplosionProjectile;
 }
 
-void IExplode::SetCount(int32_t count)
+void IExplode::SetCount( int32_t count )
 {
-    mCount=count;
+    mCount = count;
 }
 
 int32_t IExplode::GetCount()const
@@ -34,9 +34,9 @@ int32_t IExplode::GetCount()const
     return mCount;
 }
 
-void IExplode::SetExplosionScatter(double scatter)
+void IExplode::SetExplosionScatter( double scatter )
 {
-    mExplosionScatter=scatter;
+    mExplosionScatter = scatter;
 }
 
 double IExplode::GetExplosionScatter()const
@@ -44,9 +44,9 @@ double IExplode::GetExplosionScatter()const
     return mExplosionScatter;
 }
 
-void IExplode::SetDistribution(ExplodeDistributionType::Type distribution)
+void IExplode::SetDistribution( ExplodeDistributionType::Type distribution )
 {
-    mDistribution=distribution;
+    mDistribution = distribution;
 }
 
 ExplodeDistributionType::Type IExplode::GetDistribution()const
@@ -54,9 +54,9 @@ ExplodeDistributionType::Type IExplode::GetDistribution()const
     return mDistribution;
 }
 
-void IExplode::SetSecsToEndVariance(double secsToEndVariance)
+void IExplode::SetSecsToEndVariance( double secsToEndVariance )
 {
-    mSecsToEndVariance=secsToEndVariance;
+    mSecsToEndVariance = secsToEndVariance;
 }
 
 double IExplode::GetSecsToEndVariance()const
@@ -64,9 +64,9 @@ double IExplode::GetSecsToEndVariance()const
     return mSecsToEndVariance;
 }
 
-void IExplode::SetPositionVariance(int32_t positionVariance)
+void IExplode::SetPositionVariance( int32_t positionVariance )
 {
-    mPositionVariance=positionVariance;
+    mPositionVariance = positionVariance;
 }
 
 int32_t IExplode::GetPositionVariance()const
@@ -74,9 +74,9 @@ int32_t IExplode::GetPositionVariance()const
     return mPositionVariance;
 }
 
-void IExplode::SetSpeedVariance(double speedVariance)
+void IExplode::SetSpeedVariance( double speedVariance )
 {
-    mSpeedVariance=speedVariance;
+    mSpeedVariance = speedVariance;
 }
 
 double IExplode::GetSpeedVariance()const
@@ -89,9 +89,9 @@ IExplode::~IExplode()
 
 }
 
-void IExplode::SetAddActorRadius(bool addRadius)
+void IExplode::SetAddActorRadius( bool addRadius )
 {
-    mAddActorRadius=addRadius;
+    mAddActorRadius = addRadius;
 }
 
 bool IExplode::IsAddActorRadius() const
@@ -99,4 +99,4 @@ bool IExplode::IsAddActorRadius() const
     return mAddActorRadius;
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(IExplode, IExplode);
+REAPING2_CLASS_EXPORT_IMPLEMENT( IExplode, IExplode );

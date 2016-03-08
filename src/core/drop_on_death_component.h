@@ -18,15 +18,15 @@ public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void DropOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+void DropOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IDropOnDeathComponent>(*this);
-    ar & mTriedDrop;
+    ar& boost::serialization::base_object<IDropOnDeathComponent>( *this );
+    ar& mTriedDrop;
 }
 
 class DropOnDeathComponentLoader: public ComponentLoader<DropOnDeathComponent>
@@ -38,5 +38,5 @@ public:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(DropOnDeathComponent, DropOnDeathComponent,"drop_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2( DropOnDeathComponent, DropOnDeathComponent, "drop_on_death_component" );
 #endif//INCLUDED_CORE_DROP_ON_DEATH_COMPONENT_H

@@ -10,9 +10,9 @@ namespace engine {
 class MoveSpeedBuffSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(MoveSpeedBuffSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( MoveSpeedBuffSubSystem )
     MoveSpeedBuffSubSystem();
-    static void RecalculateBuffs(Actor &actor);
+    static void RecalculateBuffs( Actor& actor );
 protected:
     virtual void Init();
     virtual void Update( Actor& actor, double DeltaTime );

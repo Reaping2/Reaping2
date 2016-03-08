@@ -19,7 +19,7 @@ template<typename Elem_T>
 std::auto_ptr<Component> ComponentFactory::CreateComponent( int32_t Id )
 {
     std::auto_ptr<Component> component( new Elem_T() );
-    component->SetId(Id);
+    component->SetId( Id );
     return component;
 }
 

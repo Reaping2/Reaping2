@@ -17,7 +17,7 @@ using platform::ModelValue;
 class CaptureTheFlagGameModeSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(CaptureTheFlagGameModeSystem)
+    DEFINE_SYSTEM_BASE( CaptureTheFlagGameModeSystem )
     CaptureTheFlagGameModeSystem();
 protected:
     virtual void Init();
@@ -32,12 +32,12 @@ private:
     bool mHudShown;
     ModelValue mCtfModel;
     boost::ptr_vector<ModelValue> mTeamModels;
-    void OnStartGameMode(core::StartGameModeEvent const& Evt);
-    void OnLevelSelected(core::LevelSelectedEvent const& Evt);
+    void OnStartGameMode( core::StartGameModeEvent const& Evt );
+    void OnLevelSelected( core::LevelSelectedEvent const& Evt );
     AutoReg mOnFlagStateChanged;
-    void OnFlagStateChanged(ctf::FlagStateChangedEvent const& Evt);
+    void OnFlagStateChanged( ctf::FlagStateChangedEvent const& Evt );
     AutoReg mOnScore;
-    void OnScore(engine::ScoreEvent const& Evt);
+    void OnScore( engine::ScoreEvent const& Evt );
 };
 
 } // namespace core

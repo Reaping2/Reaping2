@@ -11,59 +11,59 @@
 #include <portable_oarchive.hpp>
 namespace network {
 
-    ReviveMessageSenderSystem::ReviveMessageSenderSystem()
-        : MessageSenderSystem()
+ReviveMessageSenderSystem::ReviveMessageSenderSystem()
+    : MessageSenderSystem()
+{
+}
+
+void ReviveMessageSenderSystem::Init()
+{
+    MessageSenderSystem::Init();
+    SetFrequency( 10 );
+}
+
+void ReviveMessageSenderSystem::Update( double DeltaTime )
+{
+    MessageSenderSystem::Update( DeltaTime );
+    if ( !IsTime() )
     {
+        return;
+    }
+    //--not used: currently no revive request from client
+}
+
+
+ReviveMessageHandlerSubSystem::ReviveMessageHandlerSubSystem()
+    : MessageHandlerSubSystem()
+
+{
+
+}
+
+void ReviveMessageHandlerSubSystem::Init()
+{
+
+}
+
+void ReviveMessageHandlerSubSystem::Execute( Message const& message )
+{
+    //--not used: currently no revive request from client
+    ReviveMessage const& msg = static_cast<ReviveMessage const&>( message );
+    L2( "got revive message: senderId:%d\n", msg.mSenderId );
+
+    Opt<core::ClientData> clientData( mProgramState.FindClientDataByClientId( msg.mSenderId ) );
+    if ( !clientData.IsValid() )
+    {
+        L1( "cannot find clientdata for revive: senderId: %d\n", msg.mSenderId );
+        return;
     }
 
-    void ReviveMessageSenderSystem::Init()
-    {
-        MessageSenderSystem::Init();
-        SetFrequency(10);
-    }
-
-    void ReviveMessageSenderSystem::Update(double DeltaTime)
-    {
-        MessageSenderSystem::Update(DeltaTime);
-        if (!IsTime())
-        {
-            return;
-        }
-        //--not used: currently no revive request from client
-    }
-
-
-    ReviveMessageHandlerSubSystem::ReviveMessageHandlerSubSystem()
-        : MessageHandlerSubSystem()
-        
-    {
-
-    }
-
-    void ReviveMessageHandlerSubSystem::Init()
-    {
-
-    }
-
-    void ReviveMessageHandlerSubSystem::Execute(Message const& message)
-    {
-        //--not used: currently no revive request from client
-        ReviveMessage const& msg=static_cast<ReviveMessage const&>(message);
-        L2("got revive message: senderId:%d\n",msg.mSenderId);
-
-        Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(msg.mSenderId));
-        if (!clientData.IsValid())
-        {
-            L1("cannot find clientdata for revive: senderId: %d\n",msg.mSenderId);
-            return;
-        }
-
-        L2("found client for revive: senderId:%d\n",msg.mSenderId);
-        EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( clientData ) );
-        L2("end revive message: senderId:%d\n",msg.mSenderId);
-    }
+    L2( "found client for revive: senderId:%d\n", msg.mSenderId );
+    EventServer<core::ReviveEvent>::Get().SendEvent( core::ReviveEvent( clientData ) );
+    L2( "end revive message: senderId:%d\n", msg.mSenderId );
+}
 
 } // namespace engine
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__ReviveMessage, network::ReviveMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__ReviveMessage, network::ReviveMessage );

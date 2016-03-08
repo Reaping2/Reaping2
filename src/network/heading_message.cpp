@@ -125,4 +125,4 @@ namespace network {
 } // namespace engine
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__HeadingMessage, network::HeadingMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__HeadingMessage, network::HeadingMessage );

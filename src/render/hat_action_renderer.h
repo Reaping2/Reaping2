@@ -10,21 +10,21 @@
 
 namespace render {
 
-    class ColorRepo : public platform::Repository<glm::vec4>, public platform::Singleton<ColorRepo>
-    {
-        friend class Singleton<ColorRepo>;
-        static glm::vec4 const mDefaultColor;
-        ColorRepo();
-    };
+class ColorRepo : public platform::Repository<glm::vec4>, public platform::Singleton<ColorRepo>
+{
+    friend class Singleton<ColorRepo>;
+    static glm::vec4 const mDefaultColor;
+    ColorRepo();
+};
 
-    class HatActionRenderer: public ActionRenderer
-    {
-        int32_t mHatId;
-    public:
-        HatActionRenderer( int32_t Id );
-        virtual void Init(const Actor& actor);
-        virtual void FillRenderableSprites(const Actor& actor, RenderableSprites_t& renderableSprites);
-    };
+class HatActionRenderer: public ActionRenderer
+{
+    int32_t mHatId;
+public:
+    HatActionRenderer( int32_t Id );
+    virtual void Init( const Actor& actor );
+    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
+};
 
 
 } // namespace render

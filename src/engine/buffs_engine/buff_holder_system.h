@@ -10,7 +10,7 @@ namespace engine {
 class BuffHolderSystem : public System, public SubSystemHolder
 {
 public:
-    DEFINE_SYSTEM_BASE(BuffHolderSystem)
+    DEFINE_SYSTEM_BASE( BuffHolderSystem )
     BuffHolderSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );

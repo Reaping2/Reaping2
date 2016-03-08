@@ -13,22 +13,22 @@ ListenChildDeathSystem::ListenChildDeathSystem()
 
 void ListenChildDeathSystem::Init()
 {
-    mRemovedActorsSystem=Engine::Get().GetSystem<RemovedActorsSystem>();
+    mRemovedActorsSystem = Engine::Get().GetSystem<RemovedActorsSystem>();
 }
 
 
-void ListenChildDeathSystem::Update(double DeltaTime)
+void ListenChildDeathSystem::Update( double DeltaTime )
 {
-//     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-//     {
-//        Actor& actor = **it;
-//        Opt<IListenChildDeathComponent> listenChildDeathC=actor.Get<IListenChildDeathComponent>();
-//        Opt<Actor> killerOfChild(mScene.GetActor(listenChildDeathC->GetKillerOfChildId()));
-//        if (!listenChildDeathC.IsValid())
-//        {
-//            continue;
-//        }
-//     }
+    //     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    //     {
+    //        Actor& actor = **it;
+    //        Opt<IListenChildDeathComponent> listenChildDeathC=actor.Get<IListenChildDeathComponent>();
+    //        Opt<Actor> killerOfChild(mScene.GetActor(listenChildDeathC->GetKillerOfChildId()));
+    //        if (!listenChildDeathC.IsValid())
+    //        {
+    //            continue;
+    //        }
+    //     }
 }
 
 

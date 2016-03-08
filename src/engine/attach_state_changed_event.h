@@ -9,14 +9,14 @@ struct AttachStateChangedEvent : public platform::Event
 {
     enum Type
     {
-        Attached=0,
+        Attached = 0,
         Detached
     };
     Type mType;
-    int32_t mAttachedGUID;    
+    int32_t mAttachedGUID;
     int32_t mActorGUID;
-    AttachStateChangedEvent(Type type, int32_t attachedGUID, int32_t actorGUID)
-        :mType(type),mAttachedGUID(attachedGUID),mActorGUID(actorGUID){}
+    AttachStateChangedEvent( Type type, int32_t attachedGUID, int32_t actorGUID )
+        : mType( type ), mAttachedGUID( attachedGUID ), mActorGUID( actorGUID ) {}
 };
 
 } // namespace engine

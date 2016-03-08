@@ -4,15 +4,15 @@ namespace network {
 
 
 
-    Message::Message()
-    {
+Message::Message()
+{
 
-    }
+}
 
-    Message::~Message()
-    {
+Message::~Message()
+{
 
-    }
+}
 
 } // namespace network
-BOOST_CLASS_EXPORT_GUID(network::DefaultMessage, "default")
+BOOST_CLASS_EXPORT_GUID( network::DefaultMessage, "default" )

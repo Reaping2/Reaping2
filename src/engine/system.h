@@ -20,14 +20,14 @@
         mInitedSystem = true; \
         return mInitedSystem; \
     } \
-
+ 
 #define INSTANTIATE_SYSTEM( SystemType ) \
 namespace { \
 namespace ns##SystemType { \
 volatile bool inited = SystemType::initSystem(); \
 } \
 } \
-
+ 
 #define REGISTER_SYSTEM( SystemType ) \
 bool SystemType::mInitedSystem = true; \
 namespace { \
@@ -48,9 +48,9 @@ namespace engine {
 class System
 {
 public:
-    virtual int32_t GetType() const=0;
-    virtual void Init()=0;
-    virtual void Update( double DeltaTime )=0;
+    virtual int32_t GetType() const = 0;
+    virtual void Init() = 0;
+    virtual void Update( double DeltaTime ) = 0;
     virtual void SetEnabled ( bool enabled );
     virtual ~System();
 protected:
@@ -60,7 +60,7 @@ protected:
 class DefaultSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(DefaultSystem)
+    DEFINE_SYSTEM_BASE( DefaultSystem )
     virtual void Init();
     virtual void Update( double DeltaTime );
 };

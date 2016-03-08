@@ -3,9 +3,9 @@
 #include <portable_oarchive.hpp>
 
 AccelerationComponent::AccelerationComponent()
-    : mAcceleration(0.0)
-    , mMinSpeed(0.0)
-    , mMaxSpeed(0.0)
+    : mAcceleration( 0.0 )
+    , mMinSpeed( 0.0 )
+    , mMaxSpeed( 0.0 )
 {
 }
 
@@ -24,27 +24,27 @@ double const& AccelerationComponent::GetMaxSpeed() const
     return mMaxSpeed;
 }
 
-void AccelerationComponent::SetAcceleration(double acceleration)
+void AccelerationComponent::SetAcceleration( double acceleration )
 {
-    mAcceleration=std::floor(acceleration*PRECISION)/PRECISION;
+    mAcceleration = std::floor( acceleration * PRECISION ) / PRECISION;
 }
 
-void AccelerationComponent::SetMinSpeed(double minSpeed)
+void AccelerationComponent::SetMinSpeed( double minSpeed )
 {
-    mMinSpeed=minSpeed;
+    mMinSpeed = minSpeed;
 }
 
-void AccelerationComponent::SetMaxSpeed(double maxSpeed)
+void AccelerationComponent::SetMaxSpeed( double maxSpeed )
 {
-    mMaxSpeed=maxSpeed;
+    mMaxSpeed = maxSpeed;
 }
 
 
 void AccelerationComponentLoader::BindValues()
 {
-    Bind("acceleration",func_double(&AccelerationComponent::SetAcceleration));
-    Bind("min_speed",func_double(&AccelerationComponent::SetMinSpeed));
-    Bind("max_speed",func_double(&AccelerationComponent::SetMaxSpeed));
+    Bind( "acceleration", func_double( &AccelerationComponent::SetAcceleration ) );
+    Bind( "min_speed", func_double( &AccelerationComponent::SetMinSpeed ) );
+    Bind( "max_speed", func_double( &AccelerationComponent::SetMaxSpeed ) );
 }
 
 AccelerationComponentLoader::AccelerationComponentLoader()
@@ -52,4 +52,4 @@ AccelerationComponentLoader::AccelerationComponentLoader()
 
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(AccelerationComponent, AccelerationComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( AccelerationComponent, AccelerationComponent );

@@ -4,20 +4,20 @@ namespace map {
 
 int32_t SpawnSoldiersMapElement::SpawnNodeId()
 {
-    static int32_t id = AutoId("spawn");
+    static int32_t id = AutoId( "spawn" );
     return id;
 }
 
-SpawnSoldiersMapElement::SpawnSoldiersMapElement(int32_t Id)
-    : MapElement(Id)
+SpawnSoldiersMapElement::SpawnSoldiersMapElement( int32_t Id )
+    : MapElement( Id )
     , BaseInput()
 {
 }
 
-void SpawnSoldiersMapElement::Load(Json::Value& setters)
+void SpawnSoldiersMapElement::Load( Json::Value& setters )
 {
-    MapElement::Load(setters);
-    AddInputNodeId(SpawnNodeId());
+    MapElement::Load( setters );
+    AddInputNodeId( SpawnNodeId() );
 }
 
 } // namespace map

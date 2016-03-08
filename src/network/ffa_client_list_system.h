@@ -18,12 +18,12 @@ class FfaClientListSystem : public engine::System
     std::vector<std::string> mClientList;
 
     AutoReg mOnClientListChanged;
-    void OnClientListChanged( ClientListChangedEvent const & event );
+    void OnClientListChanged( ClientListChangedEvent const& event );
 public:
-    DEFINE_SYSTEM_BASE(FfaClientListSystem)
+    DEFINE_SYSTEM_BASE( FfaClientListSystem )
     FfaClientListSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
     std::vector<std::string> clients();
 };
 

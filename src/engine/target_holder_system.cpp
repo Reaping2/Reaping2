@@ -14,22 +14,22 @@ TargetHolderSystem::TargetHolderSystem()
 
 void TargetHolderSystem::Init()
 {
-    mRemovedActorsSystem=Engine::Get().GetSystem<RemovedActorsSystem>();
+    mRemovedActorsSystem = Engine::Get().GetSystem<RemovedActorsSystem>();
 }
 
 
-void TargetHolderSystem::Update(double DeltaTime)
+void TargetHolderSystem::Update( double DeltaTime )
 {
-//     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-//     {
-//        Actor& actor = **it;
-//        Opt<ITargetHolderComponent> targetHolderC=actor.Get<ITargetHolderComponent>();
-//        Opt<Actor> currentTarget(mScene.GetActor(targetHolderC->GetTargetId()));
-//        if (!targetHolderC.IsValid()||!currentTarget.IsValid())
-//        {
-//            continue;
-//        }
-//     }
+    //     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    //     {
+    //        Actor& actor = **it;
+    //        Opt<ITargetHolderComponent> targetHolderC=actor.Get<ITargetHolderComponent>();
+    //        Opt<Actor> currentTarget(mScene.GetActor(targetHolderC->GetTargetId()));
+    //        if (!targetHolderC.IsValid()||!currentTarget.IsValid())
+    //        {
+    //            continue;
+    //        }
+    //     }
 }
 
 

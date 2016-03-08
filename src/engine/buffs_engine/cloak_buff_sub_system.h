@@ -10,7 +10,7 @@ namespace engine {
 class CloakBuffSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(CloakBuffSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( CloakBuffSubSystem )
     CloakBuffSubSystem();
 protected:
     virtual void Init();

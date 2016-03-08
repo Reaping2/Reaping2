@@ -46,7 +46,7 @@ Texture& TextureRepo::operator()( int32_t Id )
     }
     if( std::find( mUnavailElements.begin(), mUnavailElements.end(), Id ) != mUnavailElements.end() )
     {
-        return const_cast<Texture&>(mDefaultElement);
+        return const_cast<Texture&>( mDefaultElement );
     }
     do
     {
@@ -83,6 +83,6 @@ Texture& TextureRepo::operator()( int32_t Id )
     }
     while( false );
     mUnavailElements.push_back( Id );
-    return const_cast<Texture&>(mDefaultElement);
+    return const_cast<Texture&>( mDefaultElement );
 }
 

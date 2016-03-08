@@ -14,14 +14,14 @@ protected:
 public:
     enum Type
     {
-        Any=0,
+        Any = 0,
         Target,
         Num_Classes
     };
     EditorLayer::Type operator()( int32_t Id ) const;
     int32_t operator()( EditorLayer::Type type ) const;
 private:
-    typedef boost::bimap<int32_t,EditorLayer::Type> IdToEditorLayerMap_t;
+    typedef boost::bimap<int32_t, EditorLayer::Type> IdToEditorLayerMap_t;
     IdToEditorLayerMap_t mIdToEditorLayerMap;
 };
 

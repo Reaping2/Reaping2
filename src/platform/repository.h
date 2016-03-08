@@ -28,7 +28,7 @@ bool Repository<Element_T>::HasElem( int32_t Id ) const
 template<typename Element_T>
 Element_T& Repository<Element_T>::operator()( int32_t Id )
 {
-    return const_cast<Element_T&>(( ( const RepoBase* )this )->operator ()( Id ));
+    return const_cast<Element_T&>( ( ( const RepoBase* )this )->operator ()( Id ) );
 }
 
 template<typename Element_T>

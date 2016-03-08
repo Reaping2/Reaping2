@@ -3,18 +3,18 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
-namespace network{
+namespace network {
 
-CreateActorMessage::CreateActorMessage(Opt<Actor> actor)
-    : mActorGUID(-1)
-    , mState(ActorEvent::Added)
+CreateActorMessage::CreateActorMessage( Opt<Actor> actor )
+    : mActorGUID( -1 )
+    , mState( ActorEvent::Added )
     , mActor()
 {
     std::ostringstream oss;
-    eos::portable_oarchive oa(oss);
-    oa & actor;
+    eos::portable_oarchive oa( oss );
+    oa& actor;
     mActor = oss.str();
 }
 } // namespace network
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__CreateActorMessage, network::CreateActorMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__CreateActorMessage, network::CreateActorMessage );

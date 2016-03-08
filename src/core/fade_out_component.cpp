@@ -6,12 +6,12 @@
 
 using platform::AutoId;
 
-void FadeOutComponent::Update(double Seconds)
+void FadeOutComponent::Update( double Seconds )
 {
 }
 
 FadeOutComponent::FadeOutComponent()
-    : mSecsToEnd(0.0)
+    : mSecsToEnd( 0.0 )
 {
 }
 
@@ -20,9 +20,9 @@ double FadeOutComponent::GetSecsToEnd()
     return mSecsToEnd;
 }
 
-void FadeOutComponent::SetSecsToEnd(double secsToEnd)
+void FadeOutComponent::SetSecsToEnd( double secsToEnd )
 {
-    mSecsToEnd=secsToEnd;
+    mSecsToEnd = secsToEnd;
 }
 
 FadeOutComponentLoader::FadeOutComponentLoader()
@@ -31,7 +31,7 @@ FadeOutComponentLoader::FadeOutComponentLoader()
 
 void FadeOutComponentLoader::BindValues()
 {
-    Bind("secs_to_end",func_double(&FadeOutComponent::SetSecsToEnd));
+    Bind( "secs_to_end", func_double( &FadeOutComponent::SetSecsToEnd ) );
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(FadeOutComponent, FadeOutComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( FadeOutComponent, FadeOutComponent );

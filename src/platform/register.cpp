@@ -147,12 +147,12 @@ Registry::~Registry()
 {
 }
 
-Registration Registry::Register( void * Data )
+Registration Registry::Register( void* Data )
 {
     return mImpl->Register( Data );
 }
 
-void Registry::Update( void * Data )
+void Registry::Update( void* Data )
 {
     mImpl->Update( Data );
 }
@@ -161,7 +161,7 @@ AutoReg::AutoReg()
 {
 }
 
-AutoReg::AutoReg(Registration const& o)
+AutoReg::AutoReg( Registration const& o )
 {
     mRegistration = o;
 }

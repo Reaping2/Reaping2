@@ -24,4 +24,4 @@ PistolLoader::PistolLoader()
     SetBase<WeaponLoader>();
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(Pistol, Pistol);
+REAPING2_CLASS_EXPORT_IMPLEMENT( Pistol, Pistol );

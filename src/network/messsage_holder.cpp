@@ -3,33 +3,33 @@ namespace network {
 
 
 
-    MessageHolder::MessageHolder()
-    {
-    }
+MessageHolder::MessageHolder()
+{
+}
 
-    MessageList& MessageHolder::GetOutgoingMessages()
-    {
-        return mOutgoingMessages;
-    }
+MessageList& MessageHolder::GetOutgoingMessages()
+{
+    return mOutgoingMessages;
+}
 
-    MessageList& MessageHolder::GetIncomingMessages()
-    {
-        return mIncomingMessages;
-    }
+MessageList& MessageHolder::GetIncomingMessages()
+{
+    return mIncomingMessages;
+}
 
-    void MessageHolder::AddIncomingMessage(std::auto_ptr<Message> message)
-    {
-        mIncomingMessages.mMessages.push_back(message);
-    }
+void MessageHolder::AddIncomingMessage( std::auto_ptr<Message> message )
+{
+    mIncomingMessages.mMessages.push_back( message );
+}
 
-    void MessageHolder::ClearOutgoingMessages()
-    {
-        mOutgoingMessages.mMessages.clear();
-    }
+void MessageHolder::ClearOutgoingMessages()
+{
+    mOutgoingMessages.mMessages.clear();
+}
 
-    void MessageHolder::ClearIncomingMessages()
-    {
-        mIncomingMessages.mMessages.clear();
-    }
+void MessageHolder::ClearIncomingMessages()
+{
+    mIncomingMessages.mMessages.clear();
+}
 
 } // namespace network

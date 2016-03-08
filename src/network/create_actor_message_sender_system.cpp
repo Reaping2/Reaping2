@@ -12,31 +12,31 @@
 namespace network {
 
 
-    CreateActorMessageSenderSystem::CreateActorMessageSenderSystem()
-        : MessageSenderSystem()
-    {
+CreateActorMessageSenderSystem::CreateActorMessageSenderSystem()
+    : MessageSenderSystem()
+{
 
-    }
+}
 
-    void CreateActorMessageSenderSystem::Init()
-    {
-        MessageSenderSystem::Init();
-        mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CreateActorMessageSenderSystem::OnActorEvent, this, _1 ) );
-    }
+void CreateActorMessageSenderSystem::Init()
+{
+    MessageSenderSystem::Init();
+    mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CreateActorMessageSenderSystem::OnActorEvent, this, _1 ) );
+}
 
-    void CreateActorMessageSenderSystem::Update(double DeltaTime)
-    {
-        MessageSenderSystem::Update(DeltaTime);
-    }
+void CreateActorMessageSenderSystem::Update( double DeltaTime )
+{
+    MessageSenderSystem::Update( DeltaTime );
+}
 
-    void CreateActorMessageSenderSystem::OnActorEvent(ActorEvent const& Evt)
-    {
-        std::auto_ptr<CreateActorMessage> createActorMsg(
-            new CreateActorMessage(Evt.mState==ActorEvent::Added?Evt.mActor:Opt<Actor>(NULL)));
-        createActorMsg->mActorGUID=Evt.mActor->GetGUID();
-        createActorMsg->mState=Evt.mState;
-        mMessageHolder.AddOutgoingMessage(createActorMsg);
-    }
+void CreateActorMessageSenderSystem::OnActorEvent( ActorEvent const& Evt )
+{
+    std::auto_ptr<CreateActorMessage> createActorMsg(
+        new CreateActorMessage( Evt.mState == ActorEvent::Added ? Evt.mActor : Opt<Actor>( NULL ) ) );
+    createActorMsg->mActorGUID = Evt.mActor->GetGUID();
+    createActorMsg->mState = Evt.mState;
+    mMessageHolder.AddOutgoingMessage( createActorMsg );
+}
 
 } // namespace engine
 

@@ -68,25 +68,25 @@ namespace network {
         }
 
 
-    }
+}
 
-    std::auto_ptr<MoveMessage> MoveMessageSenderSystem::GenerateMoveMessage(Actor &actor)
+std::auto_ptr<MoveMessage> MoveMessageSenderSystem::GenerateMoveMessage( Actor& actor )
+{
+    Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+    if ( !moveC.IsValid() )
     {
-        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-        if (!moveC.IsValid())
-        {
-            return std::auto_ptr<MoveMessage>();
-        }
-        std::auto_ptr<MoveMessage> moveMsg(new MoveMessage);
-        moveMsg->mHeadingModifier=std::floor(moveC->GetHeadingModifier()*PRECISION);
-        moveMsg->mSpeed=std::floor(moveC->GetSpeed().mBase.Get()*PRECISION);
-        moveMsg->mPercent=std::floor(moveC->GetSpeed().mPercent.Get()*PRECISION);
-        moveMsg->mFlat=std::floor(moveC->GetSpeed().mFlat.Get()*PRECISION);
-        moveMsg->mMoving=moveC->GetMoving();
-        moveMsg->mActorGUID=actor.GetGUID();
-        moveMsg->mRooted=moveC->IsRooted();
-        return moveMsg;
+        return std::auto_ptr<MoveMessage>();
     }
+    std::auto_ptr<MoveMessage> moveMsg( new MoveMessage );
+    moveMsg->mHeadingModifier = std::floor( moveC->GetHeadingModifier() * PRECISION );
+    moveMsg->mSpeed = std::floor( moveC->GetSpeed().mBase.Get() * PRECISION );
+    moveMsg->mPercent = std::floor( moveC->GetSpeed().mPercent.Get() * PRECISION );
+    moveMsg->mFlat = std::floor( moveC->GetSpeed().mFlat.Get() * PRECISION );
+    moveMsg->mMoving = moveC->GetMoving();
+    moveMsg->mActorGUID = actor.GetGUID();
+    moveMsg->mRooted = moveC->IsRooted();
+    return moveMsg;
+}
 
 } // namespace engine
 

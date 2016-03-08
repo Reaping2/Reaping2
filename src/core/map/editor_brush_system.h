@@ -11,7 +11,7 @@ namespace map {
 class EditorBrushSystem : public engine::System
 {
 public:
-    DEFINE_SYSTEM_BASE(EditorBrushSystem)
+    DEFINE_SYSTEM_BASE( EditorBrushSystem )
     EditorBrushSystem();
     ~EditorBrushSystem();
     static Opt<EditorBrushSystem> Get();
@@ -24,7 +24,7 @@ private:
     BrushRepo& mBrushRepo;
     int32_t mBrushId;
     boost::ptr_vector<ModelValue> mEditorModels;
-    void BrushChanged(std::string const& brush);
+    void BrushChanged( std::string const& brush );
 };
 
 } // namespace map

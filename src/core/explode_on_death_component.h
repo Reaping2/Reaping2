@@ -12,14 +12,14 @@ public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ExplodeOnDeathComponent::serialize(Archive& ar, const unsigned int version)
+void ExplodeOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IExplodeOnDeathComponent>(*this);
+    ar& boost::serialization::base_object<IExplodeOnDeathComponent>( *this );
 }
 
 class ExplodeOnDeathComponentLoader : public ComponentLoader<ExplodeOnDeathComponent>
@@ -32,7 +32,7 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(ExplodeOnDeathComponent, ExplodeOnDeathComponent,"explode_on_death_component");
+REAPING2_CLASS_EXPORT_KEY2( ExplodeOnDeathComponent, ExplodeOnDeathComponent, "explode_on_death_component" );
 #endif//INCLUDED_CORE_EXPLODE_ON_DEATH_COMPONENT_H
 
 //command:  "classgenerator.exe" -g "component" -c "explode_on_death_component" -m "int32_t-explosionProjectile int32_t-count double-scatter"

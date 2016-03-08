@@ -31,9 +31,10 @@ bool WindowSystem::Create( const uint32_t Width, const uint32_t Height, const st
             LOG( "glewInit failed!\n" );
             glfwTerminate();
             mWindow = NULL;
-        } else
+        }
+        else
         {
-            glfwSetInputMode(mWindow,GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
+            glfwSetInputMode( mWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN );
         }
     }
     else
@@ -99,7 +100,7 @@ void WindowSystem::Init()
 
 }
 
-void WindowSystem::Update(double DeltaTime)
+void WindowSystem::Update( double DeltaTime )
 {
     if( !mWindow || glfwWindowShouldClose( mWindow ) || mExit )
     {

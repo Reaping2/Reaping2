@@ -178,7 +178,7 @@ Widget* Widget::GetHit( const glm::vec2& Pos )
             return Wdg;
         }
     }
-    return mProperties( PT_Enabled ).Value.ToInt ? this : NULL;
+    return mProperties( PT_Enabled ).operator int32_t() ? this : NULL;
 }
 
 bool Widget::IsInside( const glm::vec2& Pos ) const
@@ -344,7 +344,7 @@ Widget::Prop::operator int32_t() const
     {
         if( IsAutoId() )
         {
-            return (int32_t)AutoId( Value.ToStr + 2 );
+            return ( int32_t )AutoId( Value.ToStr + 2 );
         }
         if( IsVectorModelValue() )
         {
@@ -451,7 +451,7 @@ bool Widget::Prop::IsAutoId() const
 
 bool Widget::Prop::IsModelValue() const
 {
-    return Type == T_Str && Value.ToStr && (( *Value.ToStr == '%' && Value.ToStr[1] != '%' ) || *Value.ToStr == '#');
+    return Type == T_Str && Value.ToStr && ( ( *Value.ToStr == '%' && Value.ToStr[1] != '%' ) || *Value.ToStr == '#' );
 }
 
 bool Widget::Prop::IsModelIndex() const
@@ -467,7 +467,7 @@ bool Widget::Prop::IsVectorModelValue() const
 ModelValue const& Widget::Prop::ResolveModel() const
 {
     assert( IsResolvable() );
-    std::string name = std::string( ( *Value.ToStr == '#' ) ?  "ui." : "" ) + std::string( Value.ToStr + 1);
+    std::string name = std::string( ( *Value.ToStr == '#' ) ?  "ui." : "" ) + std::string( Value.ToStr + 1 );
     typedef std::vector<std::string> Fields_t;
     Fields_t fields;
     boost::split( fields, name, boost::is_any_of( "#%" ) );

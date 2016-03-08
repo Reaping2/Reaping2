@@ -9,7 +9,7 @@ class ArmorComponent : public IArmorComponent
 {
 public:
     ArmorComponent();
-    virtual void SetCurrentArmor(int32_t currentArmor);
+    virtual void SetCurrentArmor( int32_t currentArmor );
     virtual int32_t GetCurrentArmor()const;
 protected:
     friend class ComponentFactory;
@@ -18,15 +18,15 @@ private:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ArmorComponent::serialize(Archive& ar, const unsigned int version)
+void ArmorComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<IArmorComponent>(*this);
-    ar & mCurrentArmor;
+    ar& boost::serialization::base_object<IArmorComponent>( *this );
+    ar& mCurrentArmor;
 }
 
 class ArmorComponentLoader : public ComponentLoader<ArmorComponent>
@@ -38,7 +38,7 @@ protected:
 };
 
 
-REAPING2_CLASS_EXPORT_KEY2(ArmorComponent, ArmorComponent,"armor_component");
+REAPING2_CLASS_EXPORT_KEY2( ArmorComponent, ArmorComponent, "armor_component" );
 #endif//INCLUDED_CORE_ARMOR_COMPONENT_H
 
 

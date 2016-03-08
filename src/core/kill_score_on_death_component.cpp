@@ -3,15 +3,15 @@
 #include <portable_oarchive.hpp>
 
 KillScoreOnDeathComponent::KillScoreOnDeathComponent()
-    : mKillerGUID(-1)
-    , mDeadGUID(-1)
-    , mScored(false)
+    : mKillerGUID( -1 )
+    , mDeadGUID( -1 )
+    , mScored( false )
 {
 }
 
-void KillScoreOnDeathComponent::SetKillerGUID(int32_t killerGUID)
+void KillScoreOnDeathComponent::SetKillerGUID( int32_t killerGUID )
 {
-    mKillerGUID=killerGUID;
+    mKillerGUID = killerGUID;
 }
 
 int32_t KillScoreOnDeathComponent::GetKillerGUID()const
@@ -19,9 +19,9 @@ int32_t KillScoreOnDeathComponent::GetKillerGUID()const
     return mKillerGUID;
 }
 
-void KillScoreOnDeathComponent::SetDeadGUID(int32_t deadGUID)
+void KillScoreOnDeathComponent::SetDeadGUID( int32_t deadGUID )
 {
-    mDeadGUID=deadGUID;
+    mDeadGUID = deadGUID;
 }
 
 int32_t KillScoreOnDeathComponent::GetDeadGUID()const
@@ -29,9 +29,9 @@ int32_t KillScoreOnDeathComponent::GetDeadGUID()const
     return mDeadGUID;
 }
 
-void KillScoreOnDeathComponent::SetScored(bool scored)
+void KillScoreOnDeathComponent::SetScored( bool scored )
 {
-    mScored=scored;
+    mScored = scored;
 }
 
 bool KillScoreOnDeathComponent::IsScored()const
@@ -49,4 +49,4 @@ KillScoreOnDeathComponentLoader::KillScoreOnDeathComponentLoader()
 {
 }
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(KillScoreOnDeathComponent, KillScoreOnDeathComponent);
+REAPING2_CLASS_EXPORT_IMPLEMENT( KillScoreOnDeathComponent, KillScoreOnDeathComponent );

@@ -16,13 +16,13 @@ protected:
 public:
     enum Type
     {
-        Red=0,
+        Red = 0,
         Blue,
         None
     };
     Team::Type operator()( int32_t Id ) const;
 private:
-    typedef std::map<int32_t,Team::Type> IdToTeamMap_t;
+    typedef std::map<int32_t, Team::Type> IdToTeamMap_t;
     IdToTeamMap_t mIdToTeamMap;
 };
 
@@ -35,22 +35,22 @@ struct ClientData
     Team::Type mTeam;
     std::string mClientName;
     ClientData()
-        :mClientId(0)
-        ,mTeam(Team::Blue)
-        ,mClientName("")
+        : mClientId( 0 )
+        , mTeam( Team::Blue )
+        , mClientName( "" )
     {
     }
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void ClientData::serialize(Archive& ar, const unsigned int version)
+void ClientData::serialize( Archive& ar, const unsigned int version )
 {
-    ar & mClientId;
-    ar & mTeam;
-    ar & mClientName;
+    ar& mClientId;
+    ar& mTeam;
+    ar& mClientName;
 }
 class ProgramState : public platform::Singleton<ctf::ProgramState>
 {
@@ -67,9 +67,9 @@ public:
     typedef std::vector<ClientData> ClientDatas_t;
     // currently connected clients to server
     ClientDatas_t mClientDatas;
-    Opt<ClientData> FindClientDataByClientId(int32_t clientId); 
+    Opt<ClientData> FindClientDataByClientId( int32_t clientId );
 };
 } // namespace ctf
 
-REAPING2_CLASS_EXPORT_KEY2(__ctf__ClientData, ::ctf::ClientData,"ctf_client_data");
+REAPING2_CLASS_EXPORT_KEY2( __ctf__ClientData, ::ctf::ClientData, "ctf_client_data" );
 #endif//INCLUDED_CTF_PROGRAM_STATE_H

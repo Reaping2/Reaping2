@@ -12,7 +12,7 @@ namespace engine {
 class LocalSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(LocalSystem)
+    DEFINE_SYSTEM_BASE( LocalSystem )
     LocalSystem();
 protected:
     virtual void Init();

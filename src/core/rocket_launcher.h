@@ -3,20 +3,20 @@
 #include "core/weapon.h"
 #include "platform/export.h"
 
-class RocketLauncher :	public Weapon
+class RocketLauncher :  public Weapon
 {
 public:
-	RocketLauncher(int32_t Id);
+    RocketLauncher( int32_t Id );
     RocketLauncher();
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void RocketLauncher::serialize(Archive& ar, const unsigned int version)
+void RocketLauncher::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Weapon>(*this);
+    ar& boost::serialization::base_object<Weapon>( *this );
 }
 
 
@@ -28,5 +28,5 @@ public:
     friend class ItemLoaderFactory;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(RocketLauncher, RocketLauncher,"rocket_launcher");
+REAPING2_CLASS_EXPORT_KEY2( RocketLauncher, RocketLauncher, "rocket_launcher" );
 #endif // INCLUDED_CORE_ROCKET_LAUNCHER_H

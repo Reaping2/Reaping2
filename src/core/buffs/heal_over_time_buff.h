@@ -7,9 +7,9 @@
 class HealOverTimeBuff : public Buff
 {
 public:
-    DEFINE_BUFF_BASE(HealOverTimeBuff)
+    DEFINE_BUFF_BASE( HealOverTimeBuff )
     HealOverTimeBuff();
-    void SetHealPerTick(int32_t healPerTick);
+    void SetHealPerTick( int32_t healPerTick );
     int32_t GetHealPerTick()const;
     platform::FrequencyTimer& GetFrequencyTimer();
 protected:
@@ -18,15 +18,15 @@ protected:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void HealOverTimeBuff::serialize(Archive& ar, const unsigned int version)
+void HealOverTimeBuff::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Buff>(*this);
-    ar & mHealPerTick;
-    ar & mFrequencyTimer;
+    ar& boost::serialization::base_object<Buff>( *this );
+    ar& mHealPerTick;
+    ar& mFrequencyTimer;
 }
 
 #endif//INCLUDED_CORE_BUFFS_HEAL_OVER_TIME_BUFF_H

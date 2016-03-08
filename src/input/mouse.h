@@ -5,7 +5,7 @@ namespace engine {
 class MouseSystem : public System
 {
 public:
-    DEFINE_SYSTEM_BASE(MouseSystem)
+    DEFINE_SYSTEM_BASE( MouseSystem )
     enum Button_t
     {
         Button_Left = 1,

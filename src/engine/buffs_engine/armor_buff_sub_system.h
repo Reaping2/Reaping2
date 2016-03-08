@@ -10,7 +10,7 @@ namespace engine {
 class ArmorBuffSubSystem : public SubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(ArmorBuffSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( ArmorBuffSubSystem )
     ArmorBuffSubSystem();
 protected:
     virtual void Init();

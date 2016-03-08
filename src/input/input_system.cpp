@@ -16,7 +16,7 @@ void InputSystem::Init()
 }
 
 
-void InputSystem::Update(double DeltaTime)
+void InputSystem::Update( double DeltaTime )
 {
     mInputState.Reset();
 }
@@ -31,12 +31,12 @@ engine::InputState const& InputSystem::GetInputState() const
     return mInputState;
 }
 
-void InputSystem::SetInputState(InputState const& inputState)
+void InputSystem::SetInputState( InputState const& inputState )
 {
-    if (mInputState!=inputState)
+    if ( mInputState != inputState )
     {
-        mInputState=inputState;
-        EventServer<InputStateChangedEvent>::Get().SendEvent(InputStateChangedEvent(mInputState));
+        mInputState = inputState;
+        EventServer<InputStateChangedEvent>::Get().SendEvent( InputStateChangedEvent( mInputState ) );
     }
 }
 

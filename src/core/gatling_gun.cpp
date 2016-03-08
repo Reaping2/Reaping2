@@ -7,38 +7,38 @@
 
 GatlingGun::GatlingGun( int32_t Id )
     : Weapon( Id )
-    , mWindup(0.0)
-    , mWindupMax(1.0)
-    , mDeploy(0.0)
-    , mDeployMax(1.0)
-    , mDeployState(Undeployed)
+    , mWindup( 0.0 )
+    , mWindupMax( 1.0 )
+    , mDeploy( 0.0 )
+    , mDeployMax( 1.0 )
+    , mDeployState( Undeployed )
 
 {
 }
 
 GatlingGun::GatlingGun()
-    : Weapon(-1)
-    , mWindup(0.0)
-    , mWindupMax(1.0)
-    , mDeploy(0.0)
-    , mDeployMax(1.0)
-    , mDeployState(Undeployed)
+    : Weapon( -1 )
+    , mWindup( 0.0 )
+    , mWindupMax( 1.0 )
+    , mDeploy( 0.0 )
+    , mDeployMax( 1.0 )
+    , mDeployState( Undeployed )
 {
 }
 
 bool GatlingGun::IsShooting() const
 {
-    return mWindup==mWindupMax&&Weapon::IsShooting()&&mDeployState==Undeployed;
+    return mWindup == mWindupMax && Weapon::IsShooting() && mDeployState == Undeployed;
 }
 
 bool GatlingGun::IsShootingAlt() const
 {
-    return mWindup==mWindupMax&&Weapon::IsShooting()&&mDeployState==Deployed;
+    return mWindup == mWindupMax && Weapon::IsShooting() && mDeployState == Deployed;
 }
 
-void GatlingGun::SetWindup(double windup)
+void GatlingGun::SetWindup( double windup )
 {
-    mWindup=windup;
+    mWindup = windup;
 }
 
 double GatlingGun::GetWindup()const
@@ -46,9 +46,9 @@ double GatlingGun::GetWindup()const
     return mWindup;
 }
 
-void GatlingGun::SetWindupMax(double windupMax)
+void GatlingGun::SetWindupMax( double windupMax )
 {
-    mWindupMax=windupMax;
+    mWindupMax = windupMax;
 }
 
 double GatlingGun::GetWindupMax()const
@@ -56,9 +56,9 @@ double GatlingGun::GetWindupMax()const
     return mWindupMax;
 }
 
-void GatlingGun::SetDeploy(double deploy)
+void GatlingGun::SetDeploy( double deploy )
 {
-    mDeploy=deploy;
+    mDeploy = deploy;
 }
 
 double GatlingGun::GetDeploy()const
@@ -66,9 +66,9 @@ double GatlingGun::GetDeploy()const
     return mDeploy;
 }
 
-void GatlingGun::SetDeployMax(double deployMax)
+void GatlingGun::SetDeployMax( double deployMax )
 {
-    mDeployMax=deployMax;
+    mDeployMax = deployMax;
 }
 
 double GatlingGun::GetDeployMax()const
@@ -76,9 +76,9 @@ double GatlingGun::GetDeployMax()const
     return mDeployMax;
 }
 
-void GatlingGun::SetDeployState(DeployState deployState)
+void GatlingGun::SetDeployState( DeployState deployState )
 {
-    mDeployState=deployState;
+    mDeployState = deployState;
 }
 
 GatlingGun::DeployState GatlingGun::GetDeployState()const
@@ -88,67 +88,67 @@ GatlingGun::DeployState GatlingGun::GetDeployState()const
 
 glm::vec3 GatlingGun::GetMouseColor() const
 {
-    if (mDeployState==Deploying||mDeployState==Undeploying)
+    if ( mDeployState == Deploying || mDeployState == Undeploying )
     {
-        return glm::vec3(0.5);
+        return glm::vec3( 0.5 );
     }
-    else if (mReloadTime<=0.0&&mDeployState==Deployed)
+    else if ( mReloadTime <= 0.0 && mDeployState == Deployed )
     {
-        return glm::vec3(1/255.0,120/255.0,196/255.0);
+        return glm::vec3( 1 / 255.0, 120 / 255.0, 196 / 255.0 );
     }
     return Weapon::GetMouseColor();
 }
 
 double GatlingGun::GetMouseSize() const
 {
-    if (mDeployState==Deploying)
+    if ( mDeployState == Deploying )
     {
-        return (mDeployMax-mDeploy)/mDeployMax*150.0;
+        return ( mDeployMax - mDeploy ) / mDeployMax * 150.0;
     }
-    else if (mDeployState==Undeploying)
+    else if ( mDeployState == Undeploying )
     {
-        return (mDeploy)/mDeployMax*150.0;
+        return ( mDeploy ) / mDeployMax * 150.0;
     }
     return Weapon::GetMouseSize();
 }
 
 std::string GatlingGun::GetMouseText() const
 {
-    if (mDeployState==Deploying)
+    if ( mDeployState == Deploying )
     {
         return "Deploy";
-//             "Deploy:"+boost::lexical_cast<std::string>(
-//             std::max(   //no negative deploy shown. 
-//             0.0,std::floor(mDeployMax-mDeploy)
-//             ))+"%";
+        //             "Deploy:"+boost::lexical_cast<std::string>(
+        //             std::max(   //no negative deploy shown.
+        //             0.0,std::floor(mDeployMax-mDeploy)
+        //             ))+"%";
     }
-    else if (mDeployState==Undeploying)
+    else if ( mDeployState == Undeploying )
     {
         return "Undeploy";
-//             "Undeploy:"+boost::lexical_cast<std::string>(
-//             std::max(   //no negative deploy shown. 
-//             0.0,std::floor(mDeploy)
-//             ))+"%";
+        //             "Undeploy:"+boost::lexical_cast<std::string>(
+        //             std::max(   //no negative deploy shown.
+        //             0.0,std::floor(mDeploy)
+        //             ))+"%";
     }
     return Weapon::GetMouseText();
 }
 
 bool GatlingGun::IsMouseResizable() const
 {
-    return (mDeployState==Deployed||mDeployState==Undeployed)
-        &&Weapon::IsMouseResizable();
+    return ( mDeployState == Deployed || mDeployState == Undeployed )
+           && Weapon::IsMouseResizable();
 }
 
 bool GatlingGun::CanReload() const
 {
-    return (mDeployState==Deployed||mDeployState==Undeployed)
-        &&Weapon::CanReload();
+    return ( mDeployState == Deployed || mDeployState == Undeployed )
+           && Weapon::CanReload();
 }
 
 void GatlingGunLoader::BindValues()
 {
-    Bind("windup_time",func_double(&GatlingGun::SetWindupMax));
-    Bind("deploy_time",func_double(&GatlingGun::SetDeployMax));
+    Bind( "windup_time", func_double( &GatlingGun::SetWindupMax ) );
+    Bind( "deploy_time", func_double( &GatlingGun::SetDeployMax ) );
 }
 
 GatlingGunLoader::GatlingGunLoader()
@@ -157,4 +157,4 @@ GatlingGunLoader::GatlingGunLoader()
 }
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(GatlingGun, GatlingGun);
+REAPING2_CLASS_EXPORT_IMPLEMENT( GatlingGun, GatlingGun );

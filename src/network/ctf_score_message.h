@@ -14,34 +14,34 @@ class CtfScoreMessage : public Message
 {
     friend class ::boost::serialization::access;
 public:
-    DEFINE_MESSAGE_BASE(CtfScoreMessage)
+    DEFINE_MESSAGE_BASE( CtfScoreMessage )
     int32_t mBlueScore;
     int32_t mRedScore;
     CtfScoreMessage()
-        : mBlueScore(0)
-        , mRedScore(0)
+        : mBlueScore( 0 )
+        , mRedScore( 0 )
     {
     }
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void CtfScoreMessage::serialize(Archive& ar, const unsigned int version)
+void CtfScoreMessage::serialize( Archive& ar, const unsigned int version )
 {
-    ar & boost::serialization::base_object<Message>(*this);
-    ar & mBlueScore;
-    ar & mRedScore;
+    ar& boost::serialization::base_object<Message>( *this );
+    ar& mBlueScore;
+    ar& mRedScore;
 }
 
 class CtfScoreMessageHandlerSubSystem : public MessageHandlerSubSystem
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(CtfScoreMessageHandlerSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( CtfScoreMessageHandlerSubSystem )
     CtfScoreMessageHandlerSubSystem();
     virtual void Init();
-    virtual void Execute(Message const& message );
-    virtual void Update(double DeltaTime);
+    virtual void Execute( Message const& message );
+    virtual void Update( double DeltaTime );
 private:
     ::ctf::ProgramState& mCtfProgramState;
 };
@@ -49,10 +49,10 @@ private:
 class CtfScoreMessageSenderSystem : public MessageSenderSystem
 {
 public:
-    DEFINE_SYSTEM_BASE(CtfScoreMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( CtfScoreMessageSenderSystem )
     CtfScoreMessageSenderSystem();
     virtual void Init();
-    virtual void Update(double DeltaTime);
+    virtual void Update( double DeltaTime );
 private:
     ::ctf::ProgramState& mCtfProgramState;
 };
@@ -61,7 +61,7 @@ private:
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_KEY2(network__ctf__CtfScoreMessage, network::ctf::CtfScoreMessage,"ctf_score");
+REAPING2_CLASS_EXPORT_KEY2( network__ctf__CtfScoreMessage, network::ctf::CtfScoreMessage, "ctf_score" );
 #endif//INCLUDED_NETWORK_CTF_SCORE_H
 
 //command:  "classgenerator.exe" -g "message" -c "ctf_score" -m "int32_t-blueScore int32_t-redScore"

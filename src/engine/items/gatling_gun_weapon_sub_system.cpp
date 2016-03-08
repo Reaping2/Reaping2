@@ -10,10 +10,10 @@ namespace engine {
 GatlingGunWeaponSubSystem::GatlingGunWeaponSubSystem()
     : SubSystemHolder()
     , mScene( Scene::Get() )
-    , mWeaponItemSubSystem(WeaponItemSubSystem::Get())
-    , mActorFactory(ActorFactory::Get())
+    , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
+    , mActorFactory( ActorFactory::Get() )
     , mShotId( AutoId( "gatling_gun_projectile" ) )
-    , mProgramState( core::ProgramState::Get())
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -22,20 +22,20 @@ void GatlingGunWeaponSubSystem::Init()
     SubSystemHolder::Init();
 }
 
-void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
+void GatlingGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<GatlingGun> weapon = inventoryC->GetSelectedWeapon();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
 
-    GatlingGun::DeployState deployState=weapon->GetDeployState();
+    GatlingGun::DeployState deployState = weapon->GetDeployState();
     auto windup = weapon->GetWindup();
-    if (weapon->GetReloadTime()<=0.0&&weapon->GetShoot()&&(deployState==GatlingGun::Deployed||deployState==GatlingGun::Undeployed))
+    if ( weapon->GetReloadTime() <= 0.0 && weapon->GetShoot() && ( deployState == GatlingGun::Deployed || deployState == GatlingGun::Undeployed ) )
     {
         // shooting has a windup time before actual shots come out. deployed or undelpoyed state is needed
         weapon->SetWindup(
-            std::min(windup+DeltaTime,weapon->GetWindupMax()));
+            std::min( windup + DeltaTime, weapon->GetWindupMax() ) );
         if( windup != weapon->GetWindup() && ac.IsValid() && windup >= weapon->GetWindupMax() * 0.35 )
         {
             static int32_t const loop = AutoId( "gatling_up" );
@@ -46,59 +46,59 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     {
         // not shooting raises back the windup time.
         weapon->SetWindup(
-            std::max(windup-DeltaTime,0.0));
+            std::max( windup - DeltaTime, 0.0 ) );
         if( windup != weapon->GetWindup() && ac.IsValid() )
         {
             static int32_t const loop = AutoId( "gatling_down" );
             ac->AddLoopingEffect( loop );
         }
     }
-    if (weapon->GetShootAlt()&&weapon->GetReloadTime()<=0)
+    if ( weapon->GetShootAlt() && weapon->GetReloadTime() <= 0 )
     {
-        if (deployState==GatlingGun::Deployed)
+        if ( deployState == GatlingGun::Deployed )
         {
-            deployState=GatlingGun::Undeploying;
+            deployState = GatlingGun::Undeploying;
         }
-        else if (deployState==GatlingGun::Undeployed)
+        else if ( deployState == GatlingGun::Undeployed )
         {
-            deployState=GatlingGun::Deploying;
+            deployState = GatlingGun::Deploying;
         }
     }
-    if (deployState==GatlingGun::Deploying)
-    {
-        weapon->SetDeploy(
-            std::min(weapon->GetDeploy()+DeltaTime,weapon->GetDeployMax()));
-        if (weapon->GetDeploy()==weapon->GetDeployMax())
-        {
-            deployState=GatlingGun::Deployed;
-        }
-    }
-    else if (deployState==GatlingGun::Undeploying)
+    if ( deployState == GatlingGun::Deploying )
     {
         weapon->SetDeploy(
-            std::max(weapon->GetDeploy()-DeltaTime,0.0));
-        if (weapon->GetDeploy()==0.0)
+            std::min( weapon->GetDeploy() + DeltaTime, weapon->GetDeployMax() ) );
+        if ( weapon->GetDeploy() == weapon->GetDeployMax() )
         {
-            deployState=GatlingGun::Undeployed;
+            deployState = GatlingGun::Deployed;
         }
     }
-    weapon->SetDeployState(deployState);
-    if (moveC.IsValid() && deployState != GatlingGun::Undeployed )
+    else if ( deployState == GatlingGun::Undeploying )
+    {
+        weapon->SetDeploy(
+            std::max( weapon->GetDeploy() - DeltaTime, 0.0 ) );
+        if ( weapon->GetDeploy() == 0.0 )
+        {
+            deployState = GatlingGun::Undeployed;
+        }
+    }
+    weapon->SetDeployState( deployState );
+    if ( moveC.IsValid() && deployState != GatlingGun::Undeployed )
     {
         Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
-        if(buffHolderC.IsValid())
+        if( buffHolderC.IsValid() )
         {
             bool needsNew = true;
-            BuffListFilter<IBuffHolderComponent::All> buffListFilter(buffHolderC->GetBuffList(),MoveSpeedBuff::GetType_static());
+            BuffListFilter<IBuffHolderComponent::All> buffListFilter( buffHolderC->GetBuffList(), MoveSpeedBuff::GetType_static() );
             for( BuffListFilter<IBuffHolderComponent::All>::const_iterator moveSpeedBuffIt = buffListFilter.begin(), moveSpeedBuffE = buffListFilter.end(); needsNew && moveSpeedBuffIt != moveSpeedBuffE; ++moveSpeedBuffIt )
             {
-                Opt<MoveSpeedBuff> moveSpeedBuff(*moveSpeedBuffIt);
+                Opt<MoveSpeedBuff> moveSpeedBuff( *moveSpeedBuffIt );
                 needsNew = !moveSpeedBuff->IsRooted() || ( moveSpeedBuff->GetSecsToEnd() < 0.1 && moveSpeedBuff->IsAutoRemove() );
             }
             if( needsNew )
             {
-                std::auto_ptr<Buff> buff(core::BuffFactory::Get()(MoveSpeedBuff::GetType_static()));
-                MoveSpeedBuff* moveSpeedBuff= (MoveSpeedBuff*)buff.get();
+                std::auto_ptr<Buff> buff( core::BuffFactory::Get()( MoveSpeedBuff::GetType_static() ) );
+                MoveSpeedBuff* moveSpeedBuff = ( MoveSpeedBuff* )buff.get();
                 moveSpeedBuff->SetRooted( true );
                 moveSpeedBuff->SetFlatBonus( 0 );
                 moveSpeedBuff->SetPercentBonus( 0.0 );
@@ -108,11 +108,11 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
             }
         }
     }
-    if (mProgramState.mMode==core::ProgramState::Client||weapon->GetCooldown()>0)
+    if ( mProgramState.mMode == core::ProgramState::Client || weapon->GetCooldown() > 0 )
     {
         return;
     }
-    if (weapon->IsShooting())
+    if ( weapon->IsShooting() )
     {
         if( ac.IsValid() )
         {
@@ -124,12 +124,12 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        projectiles.push_back( Opt<Actor>(ps.release()) );
+        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        projectiles.push_back( Opt<Actor>( ps.release() ) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),false);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );
     }
-    else if (weapon->IsShootingAlt())
+    else if ( weapon->IsShootingAlt() )
     {
         if( ac.IsValid() )
         {
@@ -142,10 +142,10 @@ void GatlingGunWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory(mShotId);
-        projectiles.push_back( Opt<Actor>(ps.release()) );
+        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        projectiles.push_back( Opt<Actor>( ps.release() ) );
 
-        mWeaponItemSubSystem->AddProjectiles(actor,projectiles,weapon->GetScatter(),true);
+        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
     }
 }
 

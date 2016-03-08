@@ -2,26 +2,26 @@
 
 namespace engine {
 
-    System::~System()
-    {
+System::~System()
+{
 
-    }
+}
 
-    // when enabled is changed on this system
-    void System::SetEnabled(bool enabled)
-    {
-        mEnabled=enabled;
-    }
+// when enabled is changed on this system
+void System::SetEnabled( bool enabled )
+{
+    mEnabled = enabled;
+}
 
 
-    void DefaultSystem::Init()
-    {
+void DefaultSystem::Init()
+{
 
-    }
+}
 
-    void DefaultSystem::Update(double DeltaTime)
-    {
+void DefaultSystem::Update( double DeltaTime )
+{
 
-    }
+}
 
 } // namespace engine

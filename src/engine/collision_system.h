@@ -13,12 +13,12 @@ namespace engine {
 class CollisionSystem : public System, public SubSystemHolder
 {
 public:
-    DEFINE_SYSTEM_BASE(CollisionSystem)
+    DEFINE_SYSTEM_BASE( CollisionSystem )
     CollisionSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
-    Opt<CollisionSubSystem> GetCollisionSubSystem(int32_t id);
+    Opt<CollisionSubSystem> GetCollisionSubSystem( int32_t id );
     Grid mCollisionGrid;
     CollisionStore& mCollisionStore;
     Scene& mScene;

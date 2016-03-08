@@ -8,7 +8,7 @@ namespace map {
 
 SpawnSoldiersMapElementSystem::SpawnSoldiersMapElementSystem()
     : MapElementSystem()
-    , mProgramState(core::ProgramState::Get())
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 
@@ -19,42 +19,42 @@ void SpawnSoldiersMapElementSystem::Init()
 }
 
 
-void SpawnSoldiersMapElementSystem::Update(double DeltaTime)
+void SpawnSoldiersMapElementSystem::Update( double DeltaTime )
 {
-    MapElementSystem::Update(DeltaTime);
-    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),SpawnSoldiersMapElement::GetType_static());
+    MapElementSystem::Update( DeltaTime );
+    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), SpawnSoldiersMapElement::GetType_static() );
     for( MapElementListFilter<MapSystem::All>::const_iterator spawnSoldiersMapElementIt = mapElementListFilter.begin(), spawnSoldiersMapElementE = mapElementListFilter.end(); spawnSoldiersMapElementIt != spawnSoldiersMapElementE; ++spawnSoldiersMapElementIt )
     {
-        Opt<SpawnSoldiersMapElement> spawnSoldiersMapElement(*spawnSoldiersMapElementIt);
-        if (spawnSoldiersMapElement->GetValueId(SpawnSoldiersMapElement::SpawnNodeId())>0)
+        Opt<SpawnSoldiersMapElement> spawnSoldiersMapElement( *spawnSoldiersMapElementIt );
+        if ( spawnSoldiersMapElement->GetValueId( SpawnSoldiersMapElement::SpawnNodeId() ) > 0 )
         {
-            if (mProgramState.mMode==core::ProgramState::Server)
+            if ( mProgramState.mMode == core::ProgramState::Server )
             {
-                Opt<engine::SoldierSpawnSystem> soldierSpawnS(engine::SoldierSpawnSystem::Get());
-                for (core::ProgramState::ClientDatas_t::iterator i=mProgramState.mClientDatas.begin(), e=mProgramState.mClientDatas.end();i!=e;++i)
+                Opt<engine::SoldierSpawnSystem> soldierSpawnS( engine::SoldierSpawnSystem::Get() );
+                for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
                 {
-                    std::auto_ptr<Actor> player(soldierSpawnS->Spawn(*i));
+                    std::auto_ptr<Actor> player( soldierSpawnS->Spawn( *i ) );
 
-                    mScene.AddActor(player.release());
+                    mScene.AddActor( player.release() );
                 }
             }
-            else if (mProgramState.mMode==core::ProgramState::Local)
+            else if ( mProgramState.mMode == core::ProgramState::Local )
             {
-                Opt<core::ClientData> clientData(mProgramState.FindClientDataByClientId(mProgramState.mClientId));
-                if (clientData.IsValid())
+                Opt<core::ClientData> clientData( mProgramState.FindClientDataByClientId( mProgramState.mClientId ) );
+                if ( clientData.IsValid() )
                 {
-                    L2("spawning local player");
-                    clientData->mClientActorGUID=-1;
-                    std::auto_ptr<Actor> Pl(engine::SoldierSpawnSystem::Get()->Spawn(*clientData));     
+                    L2( "spawning local player" );
+                    clientData->mClientActorGUID = -1;
+                    std::auto_ptr<Actor> Pl( engine::SoldierSpawnSystem::Get()->Spawn( *clientData ) );
 
-                    Pl->Get<PlayerControllerComponent>()->SetEnabled(true);
-                    Pl->Get<PlayerControllerComponent>()->mActive=true;
-                    mScene.SetPlayerModels(Opt<Actor>(Pl.get()));
-                    mProgramState.mControlledActorGUID=clientData->mClientActorGUID;
+                    Pl->Get<PlayerControllerComponent>()->SetEnabled( true );
+                    Pl->Get<PlayerControllerComponent>()->mActive = true;
+                    mScene.SetPlayerModels( Opt<Actor>( Pl.get() ) );
+                    mProgramState.mControlledActorGUID = clientData->mClientActorGUID;
                     mScene.AddActor( Pl.release() );
                 }
             }
-            L1("spawn soldiers!");
+            L1( "spawn soldiers!" );
         }
         spawnSoldiersMapElement->ResetValues();
     }

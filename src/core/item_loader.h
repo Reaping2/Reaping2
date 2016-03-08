@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_ITEM_LOADER_H
 #include "property_loader.h"
 
-template<typename T,typename BASE>
+template<typename T, typename BASE>
 class PropertyLoader;
 class Item;
 template<typename ITEM>

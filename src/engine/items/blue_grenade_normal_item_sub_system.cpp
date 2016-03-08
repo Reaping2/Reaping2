@@ -5,10 +5,10 @@
 namespace engine {
 
 BlueGrenadeNormalItemSubSystem::BlueGrenadeNormalItemSubSystem()
-    : mScene(Scene::Get())
-    , mNormalItemSubSystem(NormalItemSubSystem::Get())
-    , mActorFactory(ActorFactory::Get())
-    , mProjectileId(AutoId("blue_grenade_projectile"))
+    : mScene( Scene::Get() )
+    , mNormalItemSubSystem( NormalItemSubSystem::Get() )
+    , mActorFactory( ActorFactory::Get() )
+    , mProjectileId( AutoId( "blue_grenade_projectile" ) )
 {
 }
 
@@ -18,17 +18,17 @@ void BlueGrenadeNormalItemSubSystem::Init()
 }
 
 
-void BlueGrenadeNormalItemSubSystem::Update(Actor& actor, double DeltaTime)
+void BlueGrenadeNormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
-    if (normalItem->IsUse())
+    if ( normalItem->IsUse() )
     {
-        std::auto_ptr<Actor> Proj = mActorFactory(mProjectileId);
-        GrenadeNormalItemSubSystem::SetGrenadeProperties(*Proj.get(), actor);
+        std::auto_ptr<Actor> Proj = mActorFactory( mProjectileId );
+        GrenadeNormalItemSubSystem::SetGrenadeProperties( *Proj.get(), actor );
 
         mScene.AddActor( Proj.release() );
-        normalItem->SetConsumed(true);
+        normalItem->SetConsumed( true );
     }
 }
 

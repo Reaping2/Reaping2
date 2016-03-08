@@ -11,11 +11,11 @@ MapElementSystem::MapElementSystem()
 
 void MapElementSystem::Init()
 {
-    mMapSystem=MapSystem::Get();
+    mMapSystem = MapSystem::Get();
 }
 
 
-void MapElementSystem::Update(double DeltaTime)
+void MapElementSystem::Update( double DeltaTime )
 {
 }
 

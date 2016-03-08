@@ -8,7 +8,7 @@ namespace engine {
 class PlasmaGunWeaponSubSystem : public SubSystem, public SubSystemHolder
 {
 public:
-    DEFINE_SUB_SYSTEM_BASE(PlasmaGunWeaponSubSystem)
+    DEFINE_SUB_SYSTEM_BASE( PlasmaGunWeaponSubSystem )
 
     PlasmaGunWeaponSubSystem();
     virtual void Init();

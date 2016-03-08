@@ -15,24 +15,24 @@ ModifyAudibleComponentMessageSenderSystem::ModifyAudibleComponentMessageSenderSy
 void ModifyAudibleComponentMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    mOnAudible=EventServer<core::AudibleEvent>::Get().Subscribe( boost::bind( &ModifyAudibleComponentMessageSenderSystem::OnAudible, this, _1 ) );
+    mOnAudible = EventServer<core::AudibleEvent>::Get().Subscribe( boost::bind( &ModifyAudibleComponentMessageSenderSystem::OnAudible, this, _1 ) );
 }
 
 
-void ModifyAudibleComponentMessageSenderSystem::Update(double DeltaTime)
+void ModifyAudibleComponentMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update(DeltaTime);
+    MessageSenderSystem::Update( DeltaTime );
 }
 
-void ModifyAudibleComponentMessageSenderSystem::OnAudible(core::AudibleEvent const& Evt)
+void ModifyAudibleComponentMessageSenderSystem::OnAudible( core::AudibleEvent const& Evt )
 {
-    std::auto_ptr<ModifyAudibleComponentMessage> modifyAudibleComponentMsg(new ModifyAudibleComponentMessage);
-    modifyAudibleComponentMsg->mActorGUID=Evt.mActorGUID;
-    modifyAudibleComponentMsg->mId=Evt.mId;
-    modifyAudibleComponentMsg->mIsOneShot=Evt.mIsOneShot;
-    modifyAudibleComponentMsg->mIsAddition=Evt.mIsAddition;
-    mMessageHolder.AddOutgoingMessage(modifyAudibleComponentMsg);
-    L1("added %s %d %d ", __FUNCTION__,Evt.mActorGUID,Evt.mId);
+    std::auto_ptr<ModifyAudibleComponentMessage> modifyAudibleComponentMsg( new ModifyAudibleComponentMessage );
+    modifyAudibleComponentMsg->mActorGUID = Evt.mActorGUID;
+    modifyAudibleComponentMsg->mId = Evt.mId;
+    modifyAudibleComponentMsg->mIsOneShot = Evt.mIsOneShot;
+    modifyAudibleComponentMsg->mIsAddition = Evt.mIsAddition;
+    mMessageHolder.AddOutgoingMessage( modifyAudibleComponentMsg );
+    L1( "added %s %d %d ", __FUNCTION__, Evt.mActorGUID, Evt.mId );
 }
 
 ModifyAudibleComponentMessageHandlerSubSystem::ModifyAudibleComponentMessageHandlerSubSystem()
@@ -45,16 +45,16 @@ void ModifyAudibleComponentMessageHandlerSubSystem::Init()
 {
 }
 
-void ModifyAudibleComponentMessageHandlerSubSystem::Update(double DeltaTime)
+void ModifyAudibleComponentMessageHandlerSubSystem::Update( double DeltaTime )
 {
-    PendingMessageHandlerSubSystem::Update(DeltaTime);
+    PendingMessageHandlerSubSystem::Update( DeltaTime );
 }
 
-bool ModifyAudibleComponentMessageHandlerSubSystem::ProcessPending(Message const& message)
+bool ModifyAudibleComponentMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
-    ModifyAudibleComponentMessage const& msg=static_cast<ModifyAudibleComponentMessage const&>(message);
-    Opt<Actor> actor=mScene.GetActor(msg.mActorGUID); //guaranteed
-    L1("executing %s: actorGUID %d \n",__FUNCTION__,msg.mActorGUID );
+    ModifyAudibleComponentMessage const& msg = static_cast<ModifyAudibleComponentMessage const&>( message );
+    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
+    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IAudibleComponent> ac = actor->Get<IAudibleComponent>();
     if( !ac.IsValid() )
     {
@@ -84,4 +84,4 @@ bool ModifyAudibleComponentMessageHandlerSubSystem::ProcessPending(Message const
 } // namespace network
 
 
-REAPING2_CLASS_EXPORT_IMPLEMENT(network__ModifyAudibleComponentMessage, network::ModifyAudibleComponentMessage);
+REAPING2_CLASS_EXPORT_IMPLEMENT( network__ModifyAudibleComponentMessage, network::ModifyAudibleComponentMessage );

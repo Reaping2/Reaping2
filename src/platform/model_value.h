@@ -14,7 +14,7 @@
 namespace platform {
 
 /*
- * TODO: 
+ * TODO:
  * hide impl details
  * change semantics ( probably shared-ptr semantics would be better than auto-ptr sem )
  */

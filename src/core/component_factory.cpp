@@ -52,64 +52,64 @@ using platform::AutoId;
 
 ComponentFactory::ComponentFactory()
 {
-    Bind( AutoId("default_component"), &CreateComponent<DefaultComponent> );
-    SetDefault( AutoId("default_component") );
+    Bind( AutoId( "default_component" ), &CreateComponent<DefaultComponent> );
+    SetDefault( AutoId( "default_component" ) );
 
-    Bind( AutoId("position_component"), &CreateComponent<PositionComponent>);
-    Bind( AutoId("move_component"), &CreateComponent<MoveComponent>);
-    Bind( AutoId("acceleration_component"), &CreateComponent<AccelerationComponent>);
+    Bind( AutoId( "position_component" ), &CreateComponent<PositionComponent> );
+    Bind( AutoId( "move_component" ), &CreateComponent<MoveComponent> );
+    Bind( AutoId( "acceleration_component" ), &CreateComponent<AccelerationComponent> );
 
-    Bind( AutoId("player_controller_component"), &CreateComponent<PlayerControllerComponent>);
-    Bind( AutoId("target_player_controller_component"), &CreateComponent<TargetPlayerControllerComponent>);
-    Bind( AutoId("random_controller_component"), &CreateComponent<RandomControllerComponent>);
+    Bind( AutoId( "player_controller_component" ), &CreateComponent<PlayerControllerComponent> );
+    Bind( AutoId( "target_player_controller_component" ), &CreateComponent<TargetPlayerControllerComponent> );
+    Bind( AutoId( "random_controller_component" ), &CreateComponent<RandomControllerComponent> );
 
-    Bind( AutoId("inventory_component"), &CreateComponent<InventoryComponent>);
-    
-    Bind( AutoId("health_component"), &CreateComponent<HealthComponent>);
+    Bind( AutoId( "inventory_component" ), &CreateComponent<InventoryComponent> );
 
-    Bind( AutoId("collision_component"), &CreateComponent<CollisionComponent>);
-    Bind( AutoId("shot_collision_component"), &CreateComponent<ShotCollisionComponent>);
-    Bind( AutoId("wall_collision_component"), &CreateComponent<WallCollisionComponent>);
-    Bind( AutoId("water_collision_component"), &CreateComponent<WaterCollisionComponent>);
-    Bind( AutoId("pickup_collision_component"), &CreateComponent<PickupCollisionComponent>);
-    Bind( AutoId("aoe_collision_component"), &CreateComponent<AoeCollisionComponent>);
-    Bind( AutoId("bounce_collision_component"), &CreateComponent<BounceCollisionComponent>);
+    Bind( AutoId( "health_component" ), &CreateComponent<HealthComponent> );
 
-    Bind( AutoId("renderable_component"), &CreateComponent<RenderableComponent>);
-    Bind( AutoId("border_component"), &CreateComponent<BorderComponent>);
+    Bind( AutoId( "collision_component" ), &CreateComponent<CollisionComponent> );
+    Bind( AutoId( "shot_collision_component" ), &CreateComponent<ShotCollisionComponent> );
+    Bind( AutoId( "wall_collision_component" ), &CreateComponent<WallCollisionComponent> );
+    Bind( AutoId( "water_collision_component" ), &CreateComponent<WaterCollisionComponent> );
+    Bind( AutoId( "pickup_collision_component" ), &CreateComponent<PickupCollisionComponent> );
+    Bind( AutoId( "aoe_collision_component" ), &CreateComponent<AoeCollisionComponent> );
+    Bind( AutoId( "bounce_collision_component" ), &CreateComponent<BounceCollisionComponent> );
 
-    Bind( AutoId("remove_on_death_component"), &CreateComponent<RemoveOnDeathComponent>);
-    Bind( AutoId("explode_on_death_component"), &CreateComponent<ExplodeOnDeathComponent>);
-    Bind( AutoId("drop_on_death_component"), &CreateComponent<DropOnDeathComponent>);
-    Bind( AutoId("stop_on_death_component"), &CreateComponent<StopOnDeathComponent>);
-    Bind( AutoId("score_on_death_component"), &CreateComponent<ScoreOnDeathComponent>);
-    Bind( AutoId("owner_component"), &CreateComponent<OwnerComponent>);
-    Bind( AutoId("kill_score_on_death_component"), &CreateComponent<KillScoreOnDeathComponent>);
+    Bind( AutoId( "renderable_component" ), &CreateComponent<RenderableComponent> );
+    Bind( AutoId( "border_component" ), &CreateComponent<BorderComponent> );
 
-    Bind( AutoId("notify_parent_on_death_component"), &CreateComponent<NotifyParentOnDeathComponent>);
-    Bind( AutoId("listen_child_death_component"), &CreateComponent<ListenChildDeathComponent>);
-    Bind( AutoId("pointer_target_controller_component"), &CreateComponent<PointerTargetControllerComponent>);
-    Bind( AutoId("heat_source_component"), &CreateComponent<HeatSourceComponent>);
+    Bind( AutoId( "remove_on_death_component" ), &CreateComponent<RemoveOnDeathComponent> );
+    Bind( AutoId( "explode_on_death_component" ), &CreateComponent<ExplodeOnDeathComponent> );
+    Bind( AutoId( "drop_on_death_component" ), &CreateComponent<DropOnDeathComponent> );
+    Bind( AutoId( "stop_on_death_component" ), &CreateComponent<StopOnDeathComponent> );
+    Bind( AutoId( "score_on_death_component" ), &CreateComponent<ScoreOnDeathComponent> );
+    Bind( AutoId( "owner_component" ), &CreateComponent<OwnerComponent> );
+    Bind( AutoId( "kill_score_on_death_component" ), &CreateComponent<KillScoreOnDeathComponent> );
 
-    Bind( AutoId("fade_out_component"), &CreateComponent<FadeOutComponent>);
+    Bind( AutoId( "notify_parent_on_death_component" ), &CreateComponent<NotifyParentOnDeathComponent> );
+    Bind( AutoId( "listen_child_death_component" ), &CreateComponent<ListenChildDeathComponent> );
+    Bind( AutoId( "pointer_target_controller_component" ), &CreateComponent<PointerTargetControllerComponent> );
+    Bind( AutoId( "heat_source_component" ), &CreateComponent<HeatSourceComponent> );
 
-    Bind( AutoId("explosion_component"), &CreateComponent<ExplosionComponent>);
+    Bind( AutoId( "fade_out_component" ), &CreateComponent<FadeOutComponent> );
 
-    Bind( AutoId("target_holder_component"), &CreateComponent<TargetHolderComponent>);
-    Bind( AutoId("buff_holder_component"), &CreateComponent<BuffHolderComponent>);
-    Bind( AutoId("accuracy_component"), &CreateComponent<AccuracyComponent>);
-    Bind( AutoId("armor_component"), &CreateComponent<ArmorComponent>);
-    Bind( AutoId("cloak_component"), &CreateComponent<CloakComponent>);
+    Bind( AutoId( "explosion_component" ), &CreateComponent<ExplosionComponent> );
 
-    Bind( AutoId("team_component"), &CreateComponent<TeamComponent>);
-    Bind( AutoId("flag_collision_component"), &CreateComponent<ctf::FlagCollisionComponent>);
-    Bind( AutoId("attachable_component"), &CreateComponent<ctf::AttachableComponent>);
-    Bind( AutoId("flag_carrier_component"), &CreateComponent<ctf::FlagCarrierComponent>);
-    Bind( AutoId("flag_receiver_component"), &CreateComponent<ctf::FlagReceiverComponent>);
+    Bind( AutoId( "target_holder_component" ), &CreateComponent<TargetHolderComponent> );
+    Bind( AutoId( "buff_holder_component" ), &CreateComponent<BuffHolderComponent> );
+    Bind( AutoId( "accuracy_component" ), &CreateComponent<AccuracyComponent> );
+    Bind( AutoId( "armor_component" ), &CreateComponent<ArmorComponent> );
+    Bind( AutoId( "cloak_component" ), &CreateComponent<CloakComponent> );
 
-    Bind( AutoId("emitter_component"), &CreateComponent<EmitterComponent>);
-    Bind( AutoId("explode_on_hit_component"), &CreateComponent<ExplodeOnHitComponent>);
-    Bind( AutoId("detonate_on_hit_component"), &CreateComponent<DetonateOnHitComponent>);
-    Bind( AutoId("audible_component"), &CreateComponent<AudibleComponent>);
-    Bind( AutoId("remove_components_on_death_component"), &CreateComponent<RemoveComponentsOnDeathComponent>);
+    Bind( AutoId( "team_component" ), &CreateComponent<TeamComponent> );
+    Bind( AutoId( "flag_collision_component" ), &CreateComponent<ctf::FlagCollisionComponent> );
+    Bind( AutoId( "attachable_component" ), &CreateComponent<ctf::AttachableComponent> );
+    Bind( AutoId( "flag_carrier_component" ), &CreateComponent<ctf::FlagCarrierComponent> );
+    Bind( AutoId( "flag_receiver_component" ), &CreateComponent<ctf::FlagReceiverComponent> );
+
+    Bind( AutoId( "emitter_component" ), &CreateComponent<EmitterComponent> );
+    Bind( AutoId( "explode_on_hit_component" ), &CreateComponent<ExplodeOnHitComponent> );
+    Bind( AutoId( "detonate_on_hit_component" ), &CreateComponent<DetonateOnHitComponent> );
+    Bind( AutoId( "audible_component" ), &CreateComponent<AudibleComponent> );
+    Bind( AutoId( "remove_components_on_death_component" ), &CreateComponent<RemoveComponentsOnDeathComponent> );
 }

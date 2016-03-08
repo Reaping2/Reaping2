@@ -2,25 +2,25 @@
 #include "core/i_move_component.h"
 namespace render {
 
-    IdleRecognizer::IdleRecognizer(int32_t Id)
-        : Recognizer(Id)
-    {
+IdleRecognizer::IdleRecognizer( int32_t Id )
+    : Recognizer( Id )
+{
 
-    }
+}
 
-    bool IdleRecognizer::Recognize(Actor const& actor)
+bool IdleRecognizer::Recognize( Actor const& actor )
+{
+    Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+    if ( !moveC.IsValid() )
     {
-        Opt<IMoveComponent> moveC=actor.Get<IMoveComponent>();
-        if (!moveC.IsValid())
-        {
-            return true;
-        }
-        if (!moveC->IsMoving())
-        {
-            //L1( " Idle RECOGNIZED! \n" );
-            return true;
-        }
-        return false;
+        return true;
     }
+    if ( !moveC->IsMoving() )
+    {
+        //L1( " Idle RECOGNIZED! \n" );
+        return true;
+    }
+    return false;
+}
 
 } // namespace render

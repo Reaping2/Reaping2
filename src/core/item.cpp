@@ -25,8 +25,8 @@ Item::Item( int32_t Id )
 }
 
 Item::Item()
-    : mId(-1)
-    , mState(0)
+    : mId( -1 )
+    , mState( 0 )
 {
 
 }

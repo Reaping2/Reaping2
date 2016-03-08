@@ -36,9 +36,9 @@ typedef std::vector<glm::vec2> Vec2s_t;
 typedef std::vector<glm::vec4> Vec4s_t;
 typedef std::vector<GLfloat> Floats_t;
 bool getNextTextId( Decals_t::const_iterator& i, Decals_t::const_iterator e,
-        Vec2s_t& Positions, Floats_t& Alphas, Vec4s_t& TexCoords,
-        Floats_t& Headings, Floats_t& Radii,
-        GLuint& TexId )
+                    Vec2s_t& Positions, Floats_t& Alphas, Vec4s_t& TexCoords,
+                    Floats_t& Headings, Floats_t& Radii,
+                    GLuint& TexId )
 {
     if( i == e )
     {
@@ -77,11 +77,11 @@ void DecalEngine::UpdateBuffers()
 
     Decals_t::const_iterator i = mDecals.begin();
     mCounts = render::count(
-            boost::lambda::bind( &getNextTextId, boost::ref( i ), mDecals.end(),
-                boost::ref( Positions ), boost::ref( Alphas ), boost::ref( TexCoords ),
-                boost::ref( Headings ), boost::ref( Radii ),
-                boost::lambda::_1 )
-            );
+                  boost::lambda::bind( &getNextTextId, boost::ref( i ), mDecals.end(),
+                                       boost::ref( Positions ), boost::ref( Alphas ), boost::ref( TexCoords ),
+                                       boost::ref( Headings ), boost::ref( Radii ),
+                                       boost::lambda::_1 )
+              );
 
 
     mVAO.Bind();

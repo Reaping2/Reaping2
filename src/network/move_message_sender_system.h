@@ -8,7 +8,7 @@
 
 namespace network {
 
-    
+
 
 class MoveMessageSenderSystem: public MessageSenderSystem
 {
@@ -16,12 +16,12 @@ class MoveMessageSenderSystem: public MessageSenderSystem
     SendMovess_t mSendMoves;
     AutoActorGUIDSingleMessageSender<MoveMessage> mSingleMessageSender;
 public:
-    DEFINE_SYSTEM_BASE(MoveMessageSenderSystem)
+    DEFINE_SYSTEM_BASE( MoveMessageSenderSystem )
     MoveMessageSenderSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
 
-    static std::auto_ptr<MoveMessage> GenerateMoveMessage(Actor &actor);
+    static std::auto_ptr<MoveMessage> GenerateMoveMessage( Actor& actor );
 
 };
 

@@ -16,24 +16,24 @@ void ExplosionSystem::Init()
 }
 
 
-void ExplosionSystem::Update(double DeltaTime)
+void ExplosionSystem::Update( double DeltaTime )
 {
     for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
     {
-       Actor& actor = **it;
-       Opt<IExplosionComponent> explosionC=actor.Get<IExplosionComponent>();
-       if (!explosionC.IsValid())
-       {
-           continue;
-       }
-       Opt<ICollisionComponent> collisionC=actor.Get<ICollisionComponent>();
-       if (!collisionC.IsValid())
-       {
-           continue;
-       }
-       double radius=collisionC->GetRadius();
-       radius+=DeltaTime*explosionC->GetScaleSpeed();
-       collisionC->SetRadius(std::min(radius,explosionC->GetMaxRadius()));
+        Actor& actor = **it;
+        Opt<IExplosionComponent> explosionC = actor.Get<IExplosionComponent>();
+        if ( !explosionC.IsValid() )
+        {
+            continue;
+        }
+        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+        if ( !collisionC.IsValid() )
+        {
+            continue;
+        }
+        double radius = collisionC->GetRadius();
+        radius += DeltaTime * explosionC->GetScaleSpeed();
+        collisionC->SetRadius( std::min( radius, explosionC->GetMaxRadius() ) );
     }
 }
 

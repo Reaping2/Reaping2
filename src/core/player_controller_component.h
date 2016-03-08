@@ -24,23 +24,23 @@ public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version);
+    void serialize( Archive& ar, const unsigned int version );
 };
 
 template<class Archive>
-void PlayerControllerComponent::serialize(Archive& ar, const unsigned int version)
+void PlayerControllerComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar & boost::serialization::base_object<ControllerComponent>(*this);
-    ar & mOrientation;
-    ar & mHeading;
-    ar & mShoot;
-    ar & mShootAlt;
-    ar & mUseNormalItem;
-    ar & mActive;
-    ar & mControllerId;
-    ar & mUseReload;
-    ar & mMoving;
+    ar& boost::serialization::base_object<ControllerComponent>( *this );
+    ar& mOrientation;
+    ar& mHeading;
+    ar& mShoot;
+    ar& mShootAlt;
+    ar& mUseNormalItem;
+    ar& mActive;
+    ar& mControllerId;
+    ar& mUseReload;
+    ar& mMoving;
 }
 
 class PlayerControllerComponentLoader: public ComponentLoader<PlayerControllerComponent>
@@ -51,5 +51,5 @@ protected:
     friend class ComponentLoaderFactory;
 };
 
-REAPING2_CLASS_EXPORT_KEY2(PlayerControllerComponent, PlayerControllerComponent,"player_controller_component");
+REAPING2_CLASS_EXPORT_KEY2( PlayerControllerComponent, PlayerControllerComponent, "player_controller_component" );
 #endif//INCLUDED_CORE_PLAYER_CONTROLLER_H

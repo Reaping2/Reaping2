@@ -3,7 +3,7 @@
 namespace network {
 bool instantiateMessageOrder();
 namespace {
-    volatile bool forceInstantiate = instantiateMessageOrder();
+volatile bool forceInstantiate = instantiateMessageOrder();
 }
 }
 
