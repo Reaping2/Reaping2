@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 #        Print script usage and options.
 #
 macro(PRINT_HELP)
+    string(CONFIGURE ${BUILD_SCRIPT_OPTIONS_DOC} OPTIONS_DOC @ONLY )
     message(
 "Usage: cmake [CMAKE VARS].. -P ${BASENAME} [OPTION=VAL]...
 
@@ -24,7 +25,7 @@ Main features:
 
 OPTIONS
 
-${BUILD_SCRIPT_OPTIONS_DOC}
+${OPTIONS_DOC}
 
 EXAMPLES
 
@@ -95,12 +96,11 @@ macro(BUILD_PROJECT HomeDir BuildDir)
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-            -H${HomeDir}
-            -B${BuildDir}
-            ${CONFIG_ARGS}
-        WORKING_DIRECTORY ${ROOT_DIR})
-
-    execute_process(
+            -E make_directory ${BuildDir}
+        COMMAND ${CMAKE_COMMAND}
+            -E chdir ${CMAKE_COMMAND}
+                ${HomeDir}
+                ${CONFIG_ARGS}
         COMMAND ${CMAKE_COMMAND}
             --build ${BuildDir}
             --config ${CMAKE_BUILD_TYPE}
@@ -126,7 +126,7 @@ macro(ADD_SCRIPT_OPTION OptionName DefaultValue HelpDoc)
     string(LENGTH "${OptionName}" OPT_LEN)
     math(EXPR SPACING_LEN "${SPACING_MAX} - ${OPT_LEN}")
     string(SUBSTRING "${SPACING}" 0 ${SPACING_LEN} SPACING_1ST)
-    set(BUILD_SCRIPT_OPTIONS_DOC "${BUILD_SCRIPT_OPTIONS_DOC}  ${OptionName}${SPACING_1ST}${HelpDoc}  (${DefaultValue})")
+    set(BUILD_SCRIPT_OPTIONS_DOC "${BUILD_SCRIPT_OPTIONS_DOC}  ${OptionName}${SPACING_1ST}${HelpDoc}  (@BUILD_SCRIPT_OPTION_${OptionNameUpper}@)")
     foreach(DOCSTR ${ARGN})
         set(BUILD_SCRIPT_OPTIONS_DOC "${BUILD_SCRIPT_OPTIONS_DOC}\n    ${SPACING}${DOCSTR}")
     endforeach(DOCSTR)
@@ -149,6 +149,14 @@ add_script_option(r2 ON "build the Reaping2 project.")
 add_script_option(r2dir ${ROOT_DIR}/build "default build directory for Reaping2")
 
 # ------------------------------------------------------------------------------
+
+# Optional local config; for example it might contain lines like:
+#   set(REAPING2_DEPS_INSTALL_DIR local-vc140-x86-release)
+#   set(BUILD_SCRIPT_OPTION_R2DIR build/vc140-x86/release)
+#   set(BUILD_SCRIPT_OPTION_DEPSDIR build/deps/vc140-x86/release)
+if(EXISTS .buildrc.cmake)
+    include(.buildrc.cmake)
+endif(EXISTS .buildrc.cmake)
 
 process_args(CONFIG_ARGS)
 
