@@ -4,46 +4,68 @@
 namespace network {
 
 
-MoveMessageSenderSystem::MoveMessageSenderSystem()
-    : MessageSenderSystem()
-{
-
-}
-
-void MoveMessageSenderSystem::Init()
-{
-    MessageSenderSystem::Init();
-    SetFrequency( 10 );
-    mSendMoves.insert( platform::AutoId( "player" ) );
-    mSendMoves.insert( platform::AutoId( "ctf_player" ) );
-    mSendMoves.insert( platform::AutoId( "spider1" ) );
-    mSendMoves.insert( platform::AutoId( "spider2" ) ); //tutucskaa :)
-    mSendMoves.insert( platform::AutoId( "spider1target" ) );
-    mSendMoves.insert( platform::AutoId( "spider2target" ) );
-    mSendMoves.insert( platform::AutoId( "rocket_launcher_target_projectile" ) );
-
-}
-
-void MoveMessageSenderSystem::Update( double DeltaTime )
-{
-    MessageSenderSystem::Update( DeltaTime );
-    if ( !IsTime() )
+    MoveMessageSenderSystem::MoveMessageSenderSystem()
+        : MessageSenderSystem()
     {
-        return;
+
     }
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+
+    void MoveMessageSenderSystem::Init()
     {
-        Actor& actor = **it;
-        if ( mSendMoves.find( actor.GetId() ) == mSendMoves.end() )
+        MessageSenderSystem::Init();
+        SetFrequency(10);
+        if (mProgramState.mMode == ProgramState::Server)
         {
-            continue;
+            mSendMoves.insert(platform::AutoId("player"));
+            mSendMoves.insert(platform::AutoId("ctf_player"));
+            mSendMoves.insert(platform::AutoId("spider1"));
+            mSendMoves.insert(platform::AutoId("spider2")); //tutucskaa :)
+            mSendMoves.insert(platform::AutoId("spider1target"));
+            mSendMoves.insert(platform::AutoId("spider2target"));
+            mSendMoves.insert(platform::AutoId("rocket_launcher_target_projectile"));
         }
-        std::auto_ptr<MoveMessage> moveMessage( GenerateMoveMessage( actor ) );
-        if ( moveMessage.get() != NULL )
+        else if (mProgramState.mMode == ProgramState::Client)
         {
-            mSingleMessageSender.Add( actor.GetGUID(), moveMessage );
+            mSendMoves.insert(platform::AutoId("player"));
+            mSendMoves.insert(platform::AutoId("ctf_player"));
         }
     }
+
+    void MoveMessageSenderSystem::Update(double DeltaTime)
+    {
+        MessageSenderSystem::Update(DeltaTime);
+        if (!IsTime())
+        {
+            return;
+        }
+        if (mProgramState.mMode == ProgramState::Server)
+        {
+            for (ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it)
+            {
+                Actor& actor = **it;
+                if (mSendMoves.find(actor.GetId()) == mSendMoves.end())
+                {
+                    continue;
+                }
+                std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(actor));
+                if (moveMessage.get() != NULL)
+                {
+                    mSingleMessageSender.Add(actor.GetGUID(), moveMessage);
+                }
+            }
+        }
+        else if (mProgramState.mMode == ProgramState::Client)
+        {
+            Opt<Actor> player(mScene.GetActor(mProgramState.mControlledActorGUID));
+            if (player.IsValid())
+            {
+                std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(*player));
+                if (moveMessage.get() != NULL)
+                {
+                    mSingleMessageSender.Add(player->GetGUID(), moveMessage);
+                }
+            }
+        }
 
 
 }

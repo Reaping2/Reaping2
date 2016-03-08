@@ -41,6 +41,29 @@ void GaussGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     {
         weapon->EndCharge();
     }
+    Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
+    if ( buffHolderC.IsValid() && weapon->IsCharging() )
+    {
+        bool needsNew = true;
+        BuffListFilter<IBuffHolderComponent::All> buffListFilter( buffHolderC->GetBuffList(), MoveSpeedBuff::GetType_static() );
+        for ( BuffListFilter<IBuffHolderComponent::All>::const_iterator moveSpeedBuffIt = buffListFilter.begin(), moveSpeedBuffE = buffListFilter.end(); needsNew && moveSpeedBuffIt != moveSpeedBuffE; ++moveSpeedBuffIt )
+        {
+            Opt<MoveSpeedBuff> moveSpeedBuff( *moveSpeedBuffIt );
+            needsNew = !moveSpeedBuff->IsRooted() || ( moveSpeedBuff->GetSecsToEnd() < 0.03 && moveSpeedBuff->IsAutoRemove() );
+        }
+
+        if ( needsNew )
+        {
+            std::auto_ptr<Buff> buff( core::BuffFactory::Get()( MoveSpeedBuff::GetType_static() ) );
+            MoveSpeedBuff* moveSpeedBuff = ( MoveSpeedBuff* )buff.get();
+            moveSpeedBuff->SetRooted( true );
+            moveSpeedBuff->SetFlatBonus( 0 );
+            moveSpeedBuff->SetPercentBonus( 0.0 );
+            moveSpeedBuff->SetAutoRemove( true );
+            moveSpeedBuff->SetSecsToEnd( weapon->ChargeTime() / 8.9 );
+            buffHolderC->AddBuff( buff );
+        }
+    }
     if ( mProgramState.mMode == core::ProgramState::Client )
     {
         return;
@@ -56,21 +79,6 @@ void GaussGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         }
     }
 
-    if ( moveC.IsValid() && !moveC->IsRooted() && weapon->IsCharging() )
-    {
-        Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
-        if( buffHolderC.IsValid() )
-        {
-            std::auto_ptr<Buff> buff( core::BuffFactory::Get()( MoveSpeedBuff::GetType_static() ) );
-            MoveSpeedBuff* moveSpeedBuff = ( MoveSpeedBuff* )buff.get();
-            moveSpeedBuff->SetRooted( true );
-            moveSpeedBuff->SetFlatBonus( 0 );
-            moveSpeedBuff->SetPercentBonus( 0.0 );
-            moveSpeedBuff->SetAutoRemove( true );
-            moveSpeedBuff->SetSecsToEnd( weapon->ChargeTime() * 1.1 );
-            buffHolderC->AddBuff( buff );
-        }
-    }
     if ( weapon->GetCooldown() > 0 )
     {
         return;

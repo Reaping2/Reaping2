@@ -15,16 +15,23 @@ void HeadingMessageSenderSystem::Init()
     MessageSenderSystem::Init();
     SetFrequency( 10 );
     //        mSendHeadings.insert(platform::AutoId("player"));
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1target" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2target" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "grenade_projectile" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "blue_grenade_projectile" ) ) );
-    mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
-
+    if ( mProgramState.mMode == ProgramState::Server )
+    {
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1target" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2target" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "grenade_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "blue_grenade_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
+    }
+    else if ( mProgramState.mMode == ProgramState::Client )
+    {
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
+    }
 }
 
 void HeadingMessageSenderSystem::Update( double DeltaTime )
@@ -35,19 +42,34 @@ void HeadingMessageSenderSystem::Update( double DeltaTime )
     {
         return;
     }
-    mSendHeadings = mActorFrequencyTimerHolder.GetActorIds();
-    //TODO: might need optimization
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    if ( mProgramState.mMode == ProgramState::Server )
     {
-        Actor& actor = **it;
-        if ( mSendHeadings.find( actor.GetId() ) == mSendHeadings.end() )
+        mSendHeadings = mActorFrequencyTimerHolder.GetActorIds();
+        //TODO: might need optimization
+        for ( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
         {
-            continue;
+            Actor& actor = **it;
+            if ( mSendHeadings.find( actor.GetId() ) == mSendHeadings.end() )
+            {
+                continue;
+            }
+            std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( actor ) );
+            if ( HeadingMessage.get() != NULL )
+            {
+                mSingleMessageSender.Add( actor.GetGUID(), HeadingMessage );
+            }
         }
-        std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( actor ) );
-        if ( HeadingMessage.get() != NULL )
+    }
+    else if ( mProgramState.mMode == ProgramState::Client )
+    {
+        Opt<Actor> player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
+        if ( player.IsValid() )
         {
-            mSingleMessageSender.Add( actor.GetGUID(), HeadingMessage );
+            std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( *player ) );
+            if ( HeadingMessage.get() != NULL )
+            {
+                mSingleMessageSender.Add( player->GetGUID(), HeadingMessage );
+            }
         }
     }
 }
@@ -80,20 +102,24 @@ void HeadingMessageHandlerSubSystem::Execute( Message const& message )
 {
     HeadingMessage const& msg = static_cast<HeadingMessage const&>( message );
 
-    Opt<Actor> actor = mScene.GetActor( msg.mActorGUID );
-    if ( !actor.IsValid() )
+    if ( mProgramState.mMode == ProgramState::Server
+         || ( mProgramState.mMode == ProgramState::Client && msg.mActorGUID != mProgramState.mControlledActorGUID ) )
     {
-        L1( "cannot find actor with GUID: (that is not possible) %d \n", msg.mActorGUID );
-        return;
-    }
+        Opt<Actor> actor = mScene.GetActor( msg.mActorGUID );
+        if ( !actor.IsValid() )
+        {
+            L1( "cannot find actor with GUID: (that is not possible) %d \n", msg.mActorGUID );
+            return;
+        }
 
-    Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
-    if ( !moveC.IsValid() )
-    {
-        L1( "heading is called on an actor that has no heading_component \n" );
-        return;
+        Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
+        if ( !moveC.IsValid() )
+        {
+            L1( "heading is called on an actor that has no heading_component \n" );
+            return;
+        }
+        moveC->SetHeading( msg.mHeading / PRECISION );
     }
-    moveC->SetHeading( msg.mHeading / PRECISION );
 }
 
 } // namespace engine

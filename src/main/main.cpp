@@ -219,16 +219,19 @@ int main( int argc, char* argv[] )
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
 
+    if ( programState.mMode != ProgramState::Local )
+    {
+        Eng.AddSystem( AutoId( "position_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "move_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "orientation_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "heading_message_sender_system" ) );
+    }
     if ( programState.mMode == ProgramState::Server )
     {
         Eng.AddSystem( AutoId( "server_system" ) );
-        Eng.AddSystem( AutoId( "position_message_sender_system" ) );
-        Eng.AddSystem( AutoId( "move_message_sender_system" ) );
         Eng.AddSystem( AutoId( "create_actor_message_sender_system" ) );
         Eng.AddSystem( AutoId( "heal_taken_message_sender_system" ) );
         Eng.AddSystem( AutoId( "damage_taken_message_sender_system" ) );
-        Eng.AddSystem( AutoId( "orientation_message_sender_system" ) );
-        Eng.AddSystem( AutoId( "heading_message_sender_system" ) );
         Eng.AddSystem( AutoId( "pickup_message_sender_system" ) );
         Eng.AddSystem( AutoId( "flash_message_sender_system" ) );
         Eng.AddSystem( AutoId( "set_ownership_message_sender_system" ) );
@@ -320,13 +323,13 @@ int main( int argc, char* argv[] )
     }
     Eng.AddSystem( AutoId( "buff_holder_system" ) );
     Opt<engine::BuffHolderSystem> buffHolderS( Eng.GetSystem<engine::BuffHolderSystem>() );
+    buffHolderS->AddSubSystem( MoveSpeedBuff::GetType_static(), AutoId( "move_speed_buff_sub_system" ) );
     if ( programState.mMode != ProgramState::Client )
     {
         Eng.AddSystem( AutoId( "detonate_on_hit_system" ) );
         Eng.AddSystem( AutoId( "explode_on_hit_system" ) );
 
         buffHolderS->AddSubSystem( HealOverTimeBuff::GetType_static(), AutoId( "heal_over_time_buff_sub_system" ) );
-        buffHolderS->AddSubSystem( MoveSpeedBuff::GetType_static(), AutoId( "move_speed_buff_sub_system" ) );
         buffHolderS->AddSubSystem( MaxHealthBuff::GetType_static(), AutoId( "max_health_buff_sub_system" ) );
         buffHolderS->AddSubSystem( AccuracyBuff::GetType_static(), AutoId( "accuracy_buff_sub_system" ) );
         buffHolderS->AddSubSystem( CloakBuff::GetType_static(), AutoId( "cloak_buff_sub_system" ) );
