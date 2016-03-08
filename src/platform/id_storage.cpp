@@ -16,16 +16,14 @@ void InitAutoIDs()
     }
     std::string data;
     f->ReadAll( data );
+    std::istringstream istrm( data );
     IdStorage& ids( IdStorage::Get() );
-    size_t linestart = 0, lineend = std::string::npos;
-    do
+    while( istrm.good() )
     {
-        lineend = data.find( '\n', linestart );
-        auto const& l = data.substr( linestart, ( lineend == std::string::npos ? lineend : ( lineend - linestart ) ) );
-        ids.GetId( l );
-        linestart = lineend + 1;
+        std::string line;
+        std::getline( istrm, line );
+        ids.GetId( line );
     }
-    while( lineend != std::string::npos );
 }
 REGISTER_INIT_PRIO( aaa, InitAutoIDs, &InitAutoIDs )
 }
