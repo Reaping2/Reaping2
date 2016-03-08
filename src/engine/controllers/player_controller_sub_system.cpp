@@ -31,19 +31,19 @@ void PlayerControllerSubSystem::Update(Actor& actor, double DeltaTime)
     {
         return;
     }
-    if(playerControllerC->mActive)
+    if (mProgramState.mMode == core::ProgramState::Server)
     {
-        HandleInputs(actor,playerControllerC);
+        Shoot(actor, playerControllerC);
+        HandleReload(actor, playerControllerC);
     }
-
-    Shoot(actor,playerControllerC);
-    if (mProgramState.mMode==core::ProgramState::Client)
+    else if(playerControllerC->mActive)
     {
-        return;
+        HandleInputs(actor, playerControllerC);
+        Shoot(actor, playerControllerC);
+        HandleReload(actor, playerControllerC);
+        SetSpeedAndOrientation(actor, playerControllerC);
+        SetOrientation(actor, playerControllerC);
     }
-    HandleReload(actor,playerControllerC);
-    SetSpeedAndOrientation(actor,playerControllerC);
-    SetOrientation(actor,playerControllerC);
 }
 
 void PlayerControllerSubSystem::SetSpeedAndOrientation(Actor &actor, Opt<PlayerControllerComponent> playerControllerC)
