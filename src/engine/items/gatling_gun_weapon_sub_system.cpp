@@ -104,7 +104,7 @@ void GatlingGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
                 moveSpeedBuff->SetPercentBonus( 0.0 );
                 moveSpeedBuff->SetAutoRemove( true );
                 moveSpeedBuff->SetSecsToEnd( weapon->GetDeployMax() / 3.9 );
-                buffHolderC->AddBuff(buff);
+                buffHolderC->AddBuff( buff );
             }
         }
     }

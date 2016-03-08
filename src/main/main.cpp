@@ -213,62 +213,62 @@ int main( int argc, char* argv[] )
     PerfTimer.Log( "scene" );
     render::RecognizerRepo::Get();
 
-    Eng.AddSystem(AutoId("free_for_all_game_mode_system"));
-    Eng.AddSystem(AutoId("capture_the_flag_game_mode_system"));
-    Eng.AddSystem(AutoId("leaderboard_system"));
-    ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>(false);
-    ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>(false);
+    Eng.AddSystem( AutoId( "free_for_all_game_mode_system" ) );
+    Eng.AddSystem( AutoId( "capture_the_flag_game_mode_system" ) );
+    Eng.AddSystem( AutoId( "leaderboard_system" ) );
+    ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
+    ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
 
-    if (programState.mMode != ProgramState::Local)
+    if ( programState.mMode != ProgramState::Local )
     {
-        Eng.AddSystem(AutoId("position_message_sender_system"));
-        Eng.AddSystem(AutoId("move_message_sender_system"));
-        Eng.AddSystem(AutoId("orientation_message_sender_system"));
-        Eng.AddSystem(AutoId("heading_message_sender_system"));
+        Eng.AddSystem( AutoId( "position_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "move_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "orientation_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "heading_message_sender_system" ) );
     }
-    if (programState.mMode==ProgramState::Server)
+    if ( programState.mMode == ProgramState::Server )
     {
-        Eng.AddSystem(AutoId("server_system"));
-        Eng.AddSystem(AutoId("create_actor_message_sender_system"));
-        Eng.AddSystem(AutoId("heal_taken_message_sender_system"));
-        Eng.AddSystem(AutoId("damage_taken_message_sender_system"));
-        Eng.AddSystem(AutoId("pickup_message_sender_system"));
-        Eng.AddSystem(AutoId("flash_message_sender_system"));
-        Eng.AddSystem(AutoId("set_ownership_message_sender_system"));
-        Eng.AddSystem(AutoId("set_team_message_sender_system"));
-        Eng.AddSystem(AutoId("ctf_score_message_sender_system"));
-        Eng.AddSystem(AutoId("kill_score_message_sender_system"));
-        Eng.AddSystem(AutoId("show_text_message_message_sender_system"));
-        Eng.AddSystem(AutoId("collision_message_sender_system"));
-        Eng.AddSystem(AutoId("health_message_sender_system"));
-        Eng.AddSystem(AutoId("shot_message_sender_system"));
-        Eng.AddSystem(AutoId("client_datas_message_sender_system"));
-        Eng.AddSystem(AutoId("client_score_message_sender_system"));
-        Eng.AddSystem(AutoId("item_changed_message_sender_system"));
-        Eng.AddSystem(AutoId("cloak_changed_message_sender_system"));
-        Eng.AddSystem(AutoId("border_message_sender_system"));
-        Eng.AddSystem(AutoId("sync_item_message_sender_system"));
-        Eng.AddSystem(AutoId("secs_to_revive_message_sender_system"));
-        Eng.AddSystem(AutoId("modify_audible_component_message_sender_system"));
-        Eng.AddSystem(AutoId("flag_state_changed_message_sender_system"));
-        Eng.AddSystem(AutoId("fade_out_message_sender_system"));
-        Eng.AddSystem(AutoId("ctf_client_datas_message_sender_system"));
-        Eng.AddSystem(AutoId("ctf_client_list_handling_system"));
+        Eng.AddSystem( AutoId( "server_system" ) );
+        Eng.AddSystem( AutoId( "create_actor_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "heal_taken_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "damage_taken_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "pickup_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "flash_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "set_ownership_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "set_team_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "ctf_score_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "kill_score_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "show_text_message_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "collision_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "health_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "shot_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "client_datas_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "client_score_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "item_changed_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "cloak_changed_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "border_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "sync_item_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "secs_to_revive_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "modify_audible_component_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "flag_state_changed_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "fade_out_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "ctf_client_datas_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
 
-        Eng.AddSystem(AutoId("actor_list_message_sender_system"));
+        Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
     }
-    if (programState.mMode==ProgramState::Client) 
+    if ( programState.mMode == ProgramState::Client )
     {
-        Eng.AddSystem(AutoId("client_system"));
-        Eng.AddSystem(AutoId("lifecycle_sender_system"));
-        Eng.AddSystem(AutoId("player_controller_message_sender_system"));
-        Eng.AddSystem(AutoId("ping_message_sender_system"));
-        Eng.AddSystem(AutoId("revive_message_sender_system"));
-        Eng.AddSystem(AutoId("ctf_client_list_displaying_system"));
-        Eng.AddSystem(AutoId("ffa_client_list_system"));
-        Eng.AddSystem(AutoId("gamemode_selected_message_sender_system"));
-        Eng.AddSystem(AutoId("waiting_system"));
-        Eng.AddSystem(AutoId("team_switch_request_message_sender_system"));
+        Eng.AddSystem( AutoId( "client_system" ) );
+        Eng.AddSystem( AutoId( "lifecycle_sender_system" ) );
+        Eng.AddSystem( AutoId( "player_controller_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "ping_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "revive_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "ctf_client_list_displaying_system" ) );
+        Eng.AddSystem( AutoId( "ffa_client_list_system" ) );
+        Eng.AddSystem( AutoId( "gamemode_selected_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "waiting_system" ) );
+        Eng.AddSystem( AutoId( "team_switch_request_message_sender_system" ) );
 
     }
     if ( programState.mMode == ProgramState::Local )
@@ -311,65 +311,65 @@ int main( int argc, char* argv[] )
         messageHandlerSSH->InitHandlers();
     }
 
-    Eng.AddSystem(AutoId("timer_server_system"));
-    if (programState.mMode!=ProgramState::Server) 
+    Eng.AddSystem( AutoId( "timer_server_system" ) );
+    if ( programState.mMode != ProgramState::Server )
     {
-        Eng.AddSystem(AutoId("keyboard_system"));
-        Eng.AddSystem(AutoId("mouse_system"));
-        Eng.AddSystem(AutoId("input_system"));
+        Eng.AddSystem( AutoId( "keyboard_system" ) );
+        Eng.AddSystem( AutoId( "mouse_system" ) );
+        Eng.AddSystem( AutoId( "input_system" ) );
         //adapter systems should be here. after input system before controller systems.
-        Eng.AddSystem(AutoId("keyboard_adapter_system"));
-        Eng.AddSystem(AutoId("mouse_adapter_system"));
+        Eng.AddSystem( AutoId( "keyboard_adapter_system" ) );
+        Eng.AddSystem( AutoId( "mouse_adapter_system" ) );
     }
-    Eng.AddSystem(AutoId("buff_holder_system"));
-    Opt<engine::BuffHolderSystem> buffHolderS(Eng.GetSystem<engine::BuffHolderSystem>());
-    buffHolderS->AddSubSystem(MoveSpeedBuff::GetType_static(), AutoId("move_speed_buff_sub_system"));
-    if (programState.mMode!=ProgramState::Client)
+    Eng.AddSystem( AutoId( "buff_holder_system" ) );
+    Opt<engine::BuffHolderSystem> buffHolderS( Eng.GetSystem<engine::BuffHolderSystem>() );
+    buffHolderS->AddSubSystem( MoveSpeedBuff::GetType_static(), AutoId( "move_speed_buff_sub_system" ) );
+    if ( programState.mMode != ProgramState::Client )
     {
-        Eng.AddSystem(AutoId("detonate_on_hit_system"));
-        Eng.AddSystem(AutoId("explode_on_hit_system"));
+        Eng.AddSystem( AutoId( "detonate_on_hit_system" ) );
+        Eng.AddSystem( AutoId( "explode_on_hit_system" ) );
 
-        buffHolderS->AddSubSystem(HealOverTimeBuff::GetType_static(),AutoId("heal_over_time_buff_sub_system"));
-        buffHolderS->AddSubSystem(MaxHealthBuff::GetType_static(),AutoId("max_health_buff_sub_system"));
-        buffHolderS->AddSubSystem(AccuracyBuff::GetType_static(),AutoId("accuracy_buff_sub_system"));
-        buffHolderS->AddSubSystem(CloakBuff::GetType_static(),AutoId("cloak_buff_sub_system"));
+        buffHolderS->AddSubSystem( HealOverTimeBuff::GetType_static(), AutoId( "heal_over_time_buff_sub_system" ) );
+        buffHolderS->AddSubSystem( MaxHealthBuff::GetType_static(), AutoId( "max_health_buff_sub_system" ) );
+        buffHolderS->AddSubSystem( AccuracyBuff::GetType_static(), AutoId( "accuracy_buff_sub_system" ) );
+        buffHolderS->AddSubSystem( CloakBuff::GetType_static(), AutoId( "cloak_buff_sub_system" ) );
     }
-    buffHolderS->AddSubSystem(ArmorBuff::GetType_static(),AutoId("armor_buff_sub_system"));
+    buffHolderS->AddSubSystem( ArmorBuff::GetType_static(), AutoId( "armor_buff_sub_system" ) );
 
-    Eng.AddSystem(AutoId("controller_system"));
-    Opt<engine::ControllerSystem> controllserSystem(Eng.GetSystem<engine::ControllerSystem>());
-    controllserSystem->AddSubSystem(AutoId("player_controller_component"), AutoId("player_controller_sub_system"));
-    controllserSystem->AddSubSystem(AutoId("random_controller_component"), AutoId("random_controller_sub_system"));
-    controllserSystem->AddSubSystem(AutoId("target_player_controller_component"), AutoId("target_player_controller_sub_system"));
-    controllserSystem->AddSubSystem(AutoId("pointer_target_controller_component"),AutoId("pointer_target_controller_sub_system"));
+    Eng.AddSystem( AutoId( "controller_system" ) );
+    Opt<engine::ControllerSystem> controllserSystem( Eng.GetSystem<engine::ControllerSystem>() );
+    controllserSystem->AddSubSystem( AutoId( "player_controller_component" ), AutoId( "player_controller_sub_system" ) );
+    controllserSystem->AddSubSystem( AutoId( "random_controller_component" ), AutoId( "random_controller_sub_system" ) );
+    controllserSystem->AddSubSystem( AutoId( "target_player_controller_component" ), AutoId( "target_player_controller_sub_system" ) );
+    controllserSystem->AddSubSystem( AutoId( "pointer_target_controller_component" ), AutoId( "pointer_target_controller_sub_system" ) );
 
-    Eng.AddSystem(AutoId("cloak_system"));
+    Eng.AddSystem( AutoId( "cloak_system" ) );
 
-    Eng.AddSystem(AutoId("inventory_system"));
-    Opt<engine::InventorySystem> inventorySystem(Eng.GetSystem<engine::InventorySystem>());
-    inventorySystem->AddSubSystem(ItemType::Weapon,AutoId("weapon_item_sub_system"));
-    Opt<engine::WeaponItemSubSystem> weaponItemSS=engine::WeaponItemSubSystem::Get();
-    if (programState.mMode!=ProgramState::Client) 
+    Eng.AddSystem( AutoId( "inventory_system" ) );
+    Opt<engine::InventorySystem> inventorySystem( Eng.GetSystem<engine::InventorySystem>() );
+    inventorySystem->AddSubSystem( ItemType::Weapon, AutoId( "weapon_item_sub_system" ) );
+    Opt<engine::WeaponItemSubSystem> weaponItemSS = engine::WeaponItemSubSystem::Get();
+    if ( programState.mMode != ProgramState::Client )
     {
-        weaponItemSS->AddSubSystem(AutoId("plasma_gun"),AutoId("plasma_gun_weapon_sub_system"));
-        weaponItemSS->AddSubSystem(AutoId("pistol"),AutoId("pistol_weapon_sub_system"));
-        weaponItemSS->AddSubSystem(AutoId("shotgun"),AutoId("shotgun_weapon_sub_system"));
-        weaponItemSS->AddSubSystem(AutoId("rocket_launcher"),AutoId("rocket_launcher_weapon_sub_system"));
-        weaponItemSS->AddSubSystem(AutoId("ion_gun"),AutoId("ion_gun_weapon_sub_system"));
-        weaponItemSS->AddSubSystem(AutoId("lucky_rocket"),AutoId("lucky_rocket_weapon_sub_system"));
+        weaponItemSS->AddSubSystem( AutoId( "plasma_gun" ), AutoId( "plasma_gun_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "pistol" ), AutoId( "pistol_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "shotgun" ), AutoId( "shotgun_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "rocket_launcher" ), AutoId( "rocket_launcher_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "ion_gun" ), AutoId( "ion_gun_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "lucky_rocket" ), AutoId( "lucky_rocket_weapon_sub_system" ) );
 
-        inventorySystem->AddSubSystem(ItemType::Normal,AutoId("normal_item_sub_system"));
-        Opt<engine::NormalItemSubSystem> normalItemSS=engine::NormalItemSubSystem::Get();
-        normalItemSS->AddSubSystem(AutoId("grenade_normal_item"),AutoId("grenade_normal_item_sub_system"));
-        normalItemSS->AddSubSystem(AutoId("blue_grenade_normal_item"),AutoId("blue_grenade_normal_item_sub_system"));
-        normalItemSS->AddSubSystem(AutoId("flash_normal_item"),AutoId("flash_normal_item_sub_system"));
-        normalItemSS->AddSubSystem(AutoId("cloak_normal_item"),AutoId("cloak_normal_item_sub_system"));
+        inventorySystem->AddSubSystem( ItemType::Normal, AutoId( "normal_item_sub_system" ) );
+        Opt<engine::NormalItemSubSystem> normalItemSS = engine::NormalItemSubSystem::Get();
+        normalItemSS->AddSubSystem( AutoId( "grenade_normal_item" ), AutoId( "grenade_normal_item_sub_system" ) );
+        normalItemSS->AddSubSystem( AutoId( "blue_grenade_normal_item" ), AutoId( "blue_grenade_normal_item_sub_system" ) );
+        normalItemSS->AddSubSystem( AutoId( "flash_normal_item" ), AutoId( "flash_normal_item_sub_system" ) );
+        normalItemSS->AddSubSystem( AutoId( "cloak_normal_item" ), AutoId( "cloak_normal_item_sub_system" ) );
     }
-    weaponItemSS->AddSubSystem(AutoId("gauss_gun"),AutoId("gauss_gun_weapon_sub_system"));
-    weaponItemSS->AddSubSystem(AutoId("gatling_gun"),AutoId("gatling_gun_weapon_sub_system")); //handles client specific stuff like windup and deploy states.
-    Eng.AddSystem(AutoId("audio_system"));
-    Eng.AddSystem(AutoId("fade_out_system"));
-    if (programState.mMode!=ProgramState::Client) 
+    weaponItemSS->AddSubSystem( AutoId( "gauss_gun" ), AutoId( "gauss_gun_weapon_sub_system" ) );
+    weaponItemSS->AddSubSystem( AutoId( "gatling_gun" ), AutoId( "gatling_gun_weapon_sub_system" ) ); //handles client specific stuff like windup and deploy states.
+    Eng.AddSystem( AutoId( "audio_system" ) );
+    Eng.AddSystem( AutoId( "fade_out_system" ) );
+    if ( programState.mMode != ProgramState::Client )
     {
         // these must be before health_system
         Eng.AddSystem( AutoId( "drop_on_death_system" ) );
