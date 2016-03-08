@@ -96,12 +96,11 @@ macro(BUILD_PROJECT HomeDir BuildDir)
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-            -H${HomeDir}
-            -B${BuildDir}
-            ${CONFIG_ARGS}
-        WORKING_DIRECTORY ${ROOT_DIR})
-
-    execute_process(
+            -E make_directory ${BuildDir}
+        COMMAND ${CMAKE_COMMAND}
+            -E chdir ${CMAKE_COMMAND}
+                ${HomeDir}
+                ${CONFIG_ARGS}
         COMMAND ${CMAKE_COMMAND}
             --build ${BuildDir}
             --config ${CMAKE_BUILD_TYPE}
