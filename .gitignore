@@ -6,3 +6,5 @@
 **.pdb
 **.idb
 CMakeLists.txt.user
+.buildrc.cmake
+
