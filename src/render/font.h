@@ -4,6 +4,12 @@
 #include "sprite_phase.h"
 #include "texture.h"
 
+struct Character
+{
+    SpritePhase Phase;
+    glm::vec2 Size;
+};
+
 class Font : public Singleton<Font>
 {
     friend class Singleton<Font>;
@@ -13,13 +19,13 @@ class Font : public Singleton<Font>
     char mLastChar;
     GLuint mTexId;
     GLfloat mMaxHeight;
-    SpritePhase mDefaultSprite;
-    typedef std::vector<SpritePhase> Characters_t;
+    Character mDefaultChar;
+    typedef std::vector<Character> Characters_t;
     Characters_t mChars;
     struct CharDesc
     {
         char Code;
-        SpritePhase Phase;
+        Character Phase;
     };
     static bool LoadChar( CharDesc& Character, Texture const& Tex, Json::Value& CharValue );
     void Load( std::string const& Path );
@@ -27,7 +33,7 @@ public:
     glm::vec2 GetDim( std::string const& Text )const;
     GLfloat GetFontSize()const;
     //  void Draw(std::string const& Text)const;
-    SpritePhase const& GetChar( char C ) const;
+    Character const& GetChar( char C ) const;
     GLuint GetTexId()const
     {
         return mTexId;

@@ -63,7 +63,7 @@ void Font::Load( std::string const& Path )
             return;
         }
         assert( Desc.Code >= FirstChar.Code && Desc.Code <= LastChar.Code );
-        GLfloat const Height = Desc.Phase.Bottom - Desc.Phase.Top;
+        GLfloat const Height = Desc.Phase.Size.y;
         if( Height > mMaxHeight )
         {
             mMaxHeight = Height;
@@ -104,15 +104,16 @@ bool Font::LoadChar( CharDesc& Character, Texture const& Tex, Json::Value& CharV
     }
 
     Character.Code = UiVal;
-    Character.Phase = SpritePhase( Tex.TexId(), Y * TH, X * TW, ( Y + H ) * TH, ( X + W ) * TW );
+    Character.Phase.Phase = SpritePhase( Tex.TexId(), Y * TH, X * TW, ( Y + H ) * TH, ( X + W ) * TW );
+    Character.Phase.Size = glm::vec2( W, H );
     return true;
 }
 
-SpritePhase const& Font::GetChar( char C )const
+Character const& Font::GetChar( char C )const
 {
     if( C < mFirstChar || C > mLastChar )
     {
-        return mDefaultSprite;
+        return mDefaultChar;
     }
     return mChars[C - mFirstChar];
 }
@@ -122,9 +123,9 @@ glm::vec2 Font::GetDim( std::string const& Text ) const
     glm::vec2 Dim;
     for( std::string::const_iterator i = Text.begin(), e = Text.end(); i != e; ++i )
     {
-        SpritePhase const& Spr = GetChar( *i );
-        Dim.x += Spr.Right - Spr.Left;
-        Dim.y = std::max<float>( Dim.y, std::abs( Spr.Top - Spr.Bottom ) );
+        Character const& Spr = GetChar( *i );
+        Dim.x += Spr.Size.x;
+        Dim.y = std::max<float>( Dim.y, Spr.Size.y );
     }
     return Dim;
 }

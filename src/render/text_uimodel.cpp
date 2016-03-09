@@ -81,7 +81,7 @@ void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserte
 {
     int w, h;
     engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
-    float Ratio = ( h != 0 ) ? ( 0.75f * w / h ) : 0.75f;
+    float Ratio = ( h != 0 ) ? ( w / h ) : 1.0f;
     glm::vec2 RequiredSize;
     std::string Buf;
     if( !CalcRequiredSize( text, RequiredSize, Buf, Ratio ) )
@@ -93,9 +93,10 @@ void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserte
     static Font& Fnt( Font::Get() );
     for( std::string::const_iterator i = Buf.begin(), e = Buf.end(); i != e; ++i )
     {
-        SpritePhase const& Phase = Fnt.GetChar( *i );
-        Dim.z = RequiredSize.x * ( Phase.Right - Phase.Left );
-        Dim.w = RequiredSize.x * Ratio * ( Phase.Bottom - Phase.Top );
+        Character const& Char = Fnt.GetChar( *i );
+        SpritePhase const& Phase = Char.Phase;
+        Dim.z = RequiredSize.x * Char.Size.x;
+        Dim.w = RequiredSize.x * Ratio * Char.Size.y;
         TexturedBox( Dim, Phase, Col, Inserter );
         Dim.x += Dim.z;
     }
