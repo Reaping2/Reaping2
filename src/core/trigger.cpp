@@ -1,36 +1,43 @@
 #include "core/trigger.h"
 
-Trigger::Trigger( bool active/*=false*/ )
-    : mActive( active )
-    , mHandled( false )
+Trigger::Trigger()
+    : mActive( false )
+    , mHandled( true )
+    , mTriggered( false )
 {
 }
 
-void Trigger::SetActive( bool active )
+void Trigger::Activate()
 {
-    mActive = active;
-    if ( !active )
+    mActive = true;
+    if (mHandled)
     {
-        SetHandled( false );
+        mHandled = false;
+        mTriggered = true;
     }
 }
 
-bool Trigger::IsActive()const
+void Trigger::Deactivate()
 {
-    return mActive;
+    mActive = false;
 }
 
-void Trigger::SetHandled( bool consumed )
+void Trigger::Handled()
 {
-    mHandled = consumed;
-}
-
-bool Trigger::IsHandled()const
-{
-    return mHandled;
+    mHandled = true;
+    if (!mActive)
+    {
+        mTriggered = false;
+    }
 }
 
 bool Trigger::GetValue() const
 {
-    return !mHandled && mActive;
+    return !mHandled && mTriggered;
 }
+
+bool Trigger::IsActive() const
+{
+    return mActive;
+}
+

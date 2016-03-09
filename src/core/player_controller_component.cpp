@@ -14,10 +14,10 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mHeading( 0.0 )
     , mShoot( false )
     , mShootAlt( false )
-    , mUseNormalItem( false )
+    , mUseNormalItem()
     , mActive( false )
     , mControllerId( 0 )
-    , mUseReload( false )
+    , mUseReload()
     , mMoving( false )
 {
 }
