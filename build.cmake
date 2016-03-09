@@ -59,12 +59,12 @@ macro(PROCESS_ARGS ConfigArgsOut)
         list(APPEND ARGLIST ${CMAKE_ARGV${ARG_INDEX}})
     endforeach()
 
-    string(FIND "${ARGLIST}" "-P;${BASENAME};" SEP_POS)
+    string(FIND "${ARGLIST}" "-P;${BASENAME}" SEP_POS)
 
     string(SUBSTRING "${ARGLIST}" 0 ${SEP_POS} ${ConfigArgsOut})
 
     if(NOT ${SEP_POS} EQUAL -1)
-        math(EXPR SEP_END_POS "${SEP_POS} + 15")
+        math(EXPR SEP_END_POS "${SEP_POS} + 14")
         string(SUBSTRING "${ARGLIST}" ${SEP_END_POS} "-1" BUILD_SCRIPT_ARGS)
 
         foreach(SARG ${BUILD_SCRIPT_ARGS})
