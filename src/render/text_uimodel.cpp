@@ -81,7 +81,7 @@ void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserte
 {
     int w, h;
     engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
-    float Ratio = ( h != 0 ) ? ( w / h ) : 1.0f;
+    float Ratio = ( h != 0 ) ? ( 1.0f * w / h ) : 1.0f;
     glm::vec2 RequiredSize;
     std::string Buf;
     if( !CalcRequiredSize( text, RequiredSize, Buf, Ratio ) )
