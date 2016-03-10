@@ -859,7 +859,6 @@
                             "buff_holder_component",
                             "heat_source_component",
                             "audible_component",
-                            "player_controller_component",
                             "remove_components_on_death_component"
                         ]
                     }
@@ -915,7 +914,6 @@
                             "buff_holder_component",
                             "heat_source_component",
                             "audible_component",
-                            "player_controller_component",
                             "remove_components_on_death_component"
                         ]
                     }
