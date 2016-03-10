@@ -930,7 +930,7 @@
                 "set":[{"layer":"buildings"}]
             },
             {"name":"flag_collision_component",
-                "set":[{"class":"projectile", "radius":20}]
+                "set":[{"class":"flag", "radius":40}]
             },
             {"name":"team_component"},
             {"name":"attachable_component"}
@@ -945,7 +945,7 @@
                 "set":[{"layer":"corpses"}]
             },
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":50}]
+                "set":[{"class":"flag", "radius":50}]
             },
             {"name":"team_component"},
             {"name":"flag_receiver_component"}

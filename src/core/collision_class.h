@@ -20,6 +20,7 @@ public:
         Wall,
         Water,
         Pickup,
+        Flag,
         Num_Classes,
     };
     CollisionClass::Type operator()( int32_t Id ) const;
