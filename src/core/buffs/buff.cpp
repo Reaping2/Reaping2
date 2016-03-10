@@ -49,3 +49,13 @@ DefaultBuff::DefaultBuff()
 {
 }
 
+Buff::SecsToEndModifier::SecsToEndModifier( double secsToEnd )
+    : mSecsToEnd( secsToEnd )
+{
+
+}
+
+void Buff::SecsToEndModifier::operator()( Opt<Buff>& Obj )
+{
+    Obj->SetSecsToEnd(mSecsToEnd);
+}
