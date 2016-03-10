@@ -28,8 +28,8 @@ public:
         , mHeading( 0 )
         , mShoot( false )
         , mShootAlt( false )
-        , mUseNormalItem( false )
-        , mUseReload( false )
+        , mUseNormalItem()
+        , mUseReload()
         , mMoving( false )
     {
     }

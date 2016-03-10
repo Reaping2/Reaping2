@@ -76,8 +76,22 @@ void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
     playerControllerC->mHeading = msg.mHeading / PRECISION;
     playerControllerC->mShoot = msg.mShoot;
     playerControllerC->mShootAlt = msg.mShootAlt;
-    playerControllerC->mUseNormalItem.SetActive( msg.mUseNormalItem.IsActive() );
-    playerControllerC->mUseReload.SetActive( msg.mUseReload.IsActive() );
+    if (msg.mUseNormalItem.IsActive())
+    {
+        playerControllerC->mUseNormalItem.Activate();
+    }
+    else
+    {
+        playerControllerC->mUseNormalItem.Deactivate();
+    }
+    if (msg.mUseReload.IsActive())
+    {
+        playerControllerC->mUseReload.Activate();
+    }
+    else
+    {
+        playerControllerC->mUseReload.Deactivate();
+    }
     playerControllerC->mMoving = msg.mMoving;
 }
 
