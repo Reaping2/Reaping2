@@ -62,6 +62,7 @@ void Mixer::Mix( AudioBuffer& Dest, AudioFiles_t& Files, size_t const Size )
             l = left( dif.x );
             r = right( dif.x );
         }
+        Weight *= f.GetVolume();
         size_t CommonChannels = std::min<size_t>( Buf.GetChannels(), DestChannels );
         for( size_t Ch = 0; Ch < CommonChannels; ++Ch )
         {

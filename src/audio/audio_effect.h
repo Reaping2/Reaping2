@@ -24,8 +24,9 @@ struct AudioEffect
     bool Interruptable;
     AudioType Type;
     PlayMode Mode;
-    AudioEffect( boost::filesystem::path const& p, bool i, AudioType t, PlayMode m )
-        : Path( p ), Interruptable( i ), Type( t ), Mode( m ) {}
+    double Volume;
+    AudioEffect( boost::filesystem::path const& p, bool i, AudioType t, PlayMode m, double v )
+        : Path( p ), Interruptable( i ), Type( t ), Mode( m ), Volume( v ) {}
 };
 }
 
