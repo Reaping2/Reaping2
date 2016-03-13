@@ -23,6 +23,7 @@ public:
     AudioBuffer& GetBuffer();
     audio::AudioType GetType() const;
     audio::PlayMode GetMode() const;
+    double GetVolume() const;
     int32_t GetUID() const;
     bool IsInterruptable() const;
     bool IsFinishedPlaying() const;

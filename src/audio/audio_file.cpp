@@ -90,3 +90,8 @@ void AudioFile::SetPosition( glm::vec2 const& pos )
     mPos = pos;
 }
 
+double AudioFile::GetVolume() const
+{
+    return mEffect.Volume;
+}
+
