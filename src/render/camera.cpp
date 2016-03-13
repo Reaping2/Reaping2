@@ -52,23 +52,24 @@ void Camera::Update()
     {
         mCenter.y = ( float )py + mAllowedDistance.y;
     }
-    UpdateAllowedCenterRegion();
-    if( mCenter.x < mAllowedCenterRegion.x )
-    {
-        mCenter.x = mAllowedCenterRegion.x;
-    }
-    if( mCenter.x > mAllowedCenterRegion.z )
-    {
-        mCenter.x = mAllowedCenterRegion.z;
-    }
-    if( mCenter.y < mAllowedCenterRegion.y )
-    {
-        mCenter.y = mAllowedCenterRegion.y;
-    }
-    if( mCenter.y > mAllowedCenterRegion.w )
-    {
-        mCenter.y = mAllowedCenterRegion.w;
-    }
+// TODO: there might be a switch for this functionality later
+//     UpdateAllowedCenterRegion();
+//     if( mCenter.x < mAllowedCenterRegion.x )
+//     {
+//         mCenter.x = mAllowedCenterRegion.x;
+//     }
+//     if( mCenter.x > mAllowedCenterRegion.z )
+//     {
+//         mCenter.x = mAllowedCenterRegion.z;
+//     }
+//     if( mCenter.y < mAllowedCenterRegion.y )
+//     {
+//         mCenter.y = mAllowedCenterRegion.y;
+//     }
+//     if( mCenter.y > mAllowedCenterRegion.w )
+//     {
+//         mCenter.y = mAllowedCenterRegion.w;
+//     }
     mCenter.x = glm::round( mCenter.x );
     mCenter.y = glm::round( mCenter.y );
     UpdateMatrices();

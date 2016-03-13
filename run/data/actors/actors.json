@@ -48,7 +48,7 @@
                 "set":[{"layer":"corpses"}]
             },
             {"name":"water_collision_component",
-                "set":[{"class":"water", "radius":50}]
+                "set":[{"class":"water", "radius":50, "clip_scene":0}]
             },
             {"name":"border_component"}
         ]
@@ -820,7 +820,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":500}]
+                "set":[{"speed":1500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
