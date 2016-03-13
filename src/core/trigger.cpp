@@ -10,7 +10,7 @@ Trigger::Trigger()
 void Trigger::Activate()
 {
     mActive = true;
-    if (mHandled)
+    if (mHandled&&!mTriggered)
     {
         mHandled = false;
         mTriggered = true;
@@ -20,6 +20,10 @@ void Trigger::Activate()
 void Trigger::Deactivate()
 {
     mActive = false;
+    if (mHandled)
+    {
+        mTriggered = false;
+    }
 }
 
 void Trigger::Handled()

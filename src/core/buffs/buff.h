@@ -21,6 +21,15 @@
 class Buff
 {
 public:
+    class SecsToEndModifier
+    {
+    public:
+        SecsToEndModifier( double secsToEnd );
+        void operator()(Opt<Buff>& Obj);
+    protected:
+        double mSecsToEnd;
+    };
+
     virtual int GetType() const = 0;
     virtual ~Buff();
     virtual void SetSecsToEnd( double secsToEnd );
@@ -49,7 +58,6 @@ void Buff::serialize( Archive& ar, const unsigned int version )
     ar& mAutoRemove;
     ar& mUID;
 }
-
 
 class DefaultBuff : public Buff
 {

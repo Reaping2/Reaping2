@@ -1,5 +1,4 @@
 #include "move_component.h"
-#include "magic_consts.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 
@@ -25,11 +24,11 @@ double const& MoveComponent::GetHeading() const
 
 double MoveComponent::GetSpeedX() const
 {
-    return mHeadingCos * mSpeed.Get() * MAGIC_SPEED; //TODO: temporary for testing only
+    return mHeadingCos * mSpeed.Get(); //TODO: temporary for testing only
 }
 double MoveComponent::GetSpeedY() const
 {
-    return mHeadingSin * mSpeed.Get() * MAGIC_SPEED; //TODO: temporary for testing only
+    return mHeadingSin * mSpeed.Get(); //TODO: temporary for testing only
 }
 void MoveComponent::SetHeading( double Heading )
 {

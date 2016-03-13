@@ -111,7 +111,6 @@ void RendererSystem::Update( double DeltaTime )
     // render world
     SetupRenderer( mUiProjector );
     Scene& Scen( Scene::Get() );
-    mSceneRenderer.Draw( Scen );
     static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
     static std::set<RenderableLayer::Type> const fglayers;
     mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers );

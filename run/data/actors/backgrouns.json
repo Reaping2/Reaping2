@@ -26,5 +26,18 @@
             },
             {"name":"border_component"}
         ]
+    },
+    {
+        "name":"big_background",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"background"}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"no_collision", "radius":3000, "clip_scene":0}]
+            }
+        ]
     }   
 ]

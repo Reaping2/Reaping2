@@ -6,7 +6,6 @@
 #include "text_scene_renderer.h"
 #include "camera.h"
 #include "projection.h"
-#include "scene_renderer.h"
 #include "actor_renderer.h"
 #include "decal_engine.h"
 #include "shader_manager.h"
@@ -22,7 +21,6 @@ class RendererSystem : public System
     Projection mUiProjector;
     Camera mCamera;
     Ui& mUi;
-    SceneRenderer mSceneRenderer;
     ActorRenderer mActorRenderer;
     UiRenderer mUiRenderer;
     NameRenderer mNameRenderer;

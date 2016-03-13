@@ -1,5 +1,69 @@
 [
     {
+      "actor" : "big_background",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1500.0,
+                  "y" : 1500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+    },
+    {
+      "actor" : "big_background",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 1500.0,
+                  "y" : -1500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+    },
+    {
+      "actor" : "big_background",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1500.0,
+                  "y" : 1500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+    },
+    {
+      "actor" : "big_background",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1500.0,
+                  "y" : -1500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+    },
+    {
         "name":"map_start",
         "identifier":"map_start"
     },
