@@ -95,7 +95,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3500}]
+                "set":[{"speed":4500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -206,7 +206,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3500}]
+                "set":[{"speed":4500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -241,7 +241,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3500}]
+                "set":[{"speed":4500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -276,7 +276,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3000}]
+                "set":[{"speed":4000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -306,7 +306,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3000}]
+                "set":[{"speed":4000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -346,7 +346,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":3000}]
+                "set":[{"speed":4000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -376,14 +376,14 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1300}]
+                "set":[{"speed":1700}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":15, "damage":25 }]
+                "set":[{"class":"projectile", "radius":15, "damage":20 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -439,7 +439,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":800}]
+                "set":[{"speed":1000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
@@ -503,7 +503,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":300}]
+                "set":[{"speed":400}]
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":2000,"max_speed":2600}]
@@ -565,7 +565,7 @@
             {"name":"target_holder_component"},
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":300}]
+                "set":[{"speed":400}]
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":1200,"max_speed":1500}]
@@ -639,7 +639,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":800}]
+                "set":[{"speed":1100}]
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":-600,"min_speed":0}]
@@ -819,7 +819,9 @@
         "components":
         [
             {"name":"position_component"},
-            {"name":"move_component"},
+            {"name":"move_component",
+                "set":[{"speed":500}]
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
             },
@@ -871,7 +873,9 @@
         "components":
         [
             {"name":"position_component"},
-            {"name":"move_component"},
+            {"name":"move_component",
+                "set":[{"speed":500}]
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
             },

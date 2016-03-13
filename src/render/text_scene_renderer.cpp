@@ -13,7 +13,6 @@
 #include "text_uimodel.h"
 #include "shader_manager.h"
 #include "font.h"
-#include "core/magic_consts.h"
 
 void TextSceneRenderer::Init()
 {

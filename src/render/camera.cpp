@@ -1,6 +1,5 @@
 #include "i_render.h"
 #include "camera.h"
-#include "core/magic_consts.h"
 
 Camera::Camera( Projection const& Proj )
     : mScene( Scene::Get() )
@@ -35,8 +34,8 @@ void Camera::Update()
     {
         return;
     }
-    double px = double( mx ) * MAGIC_SIZE;
-    double py = double( my ) * MAGIC_SIZE;
+    double px = double( mx );
+    double py = double( my );
     if( mCenter.x < px - mAllowedDistance.x )
     {
         mCenter.x = ( float )px - mAllowedDistance.x;

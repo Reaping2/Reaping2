@@ -4,7 +4,6 @@
 #include "core/actor.h"
 #include "engine/engine.h"
 #include "mouse.h"
-#include "core/magic_consts.h"
 
 namespace engine {
 
@@ -35,7 +34,7 @@ void MouseAdapterSystem::Update( double DeltaTime )
     InputState inputState = mInputSystem->GetInputState();
 
     Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
-    inputState.mOrientation = atan2( mY - actorPositionC->GetY() * MAGIC_SIZE, mX - actorPositionC->GetX() * MAGIC_SIZE );
+    inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
 
     if ( mMouse->IsButtonPressed( MouseSystem::Button_Left ) )
     {
