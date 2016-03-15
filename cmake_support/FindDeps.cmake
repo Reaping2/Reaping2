@@ -65,6 +65,10 @@ else()
     set( glm_include_dir "" )
 endif()
 
+if(WIN32)
+    find_package( Dbg )
+endif()
+
 my_find_package( LIBOGG ogg/ogg.h ogg libogg libogg_static )
 
 my_find_package( LIBVORBIS vorbis/vorbisfile.h vorbis ${VORBISFILE_LIBRARY_NAMES} )
