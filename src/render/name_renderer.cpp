@@ -16,12 +16,18 @@
 
 void NameRenderer::Init()
 {
+    mSize = mSettings.GetInt("soldier_name.size", 76);
+    mY = mSettings.GetInt("soldier_name.y", 50);
 }
 
 NameRenderer::NameRenderer()
     : mProgramState( core::ProgramState::Get() )
     , mColorRepo( render::ColorRepo::Get() )
+    , mSettings( Settings::Get() )
+    , mSize(76)
+    , mY(50)
 {
+    Init();
 }
 
 void NameRenderer::Draw( TextSceneRenderer& textSceneRenderer )
@@ -40,9 +46,9 @@ void NameRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         }
         Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
         Opt<ITeamComponent> teamC( player->Get<ITeamComponent>() );
-        Text text( 76.0, glm::vec4( 0, 0, 500, 500 ),
+        Text text( mSize, glm::vec4( 0, 0, 500, 500 ),
                    teamC.IsValid() ? mColorRepo( teamC->GetTeam() ) : glm::vec4( 1.0, 1.0, 1.0, 1.0 )
-                   , ( *i ).mClientName, glm::vec2( positionC->GetX(), ( positionC->GetY() + 50 ) ), true );
+                   , ( *i ).mClientName, glm::vec2( positionC->GetX(), ( positionC->GetY() + mY ) ), true );
         textSceneRenderer.AddText( text );
     }
 }

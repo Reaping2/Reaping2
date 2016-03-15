@@ -820,7 +820,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":1500}]
+                "set":[{"speed":500}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]

@@ -25,11 +25,20 @@ void HealthBarRenderer::Init()
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( "health_bar" );
     mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
+    mSize = glm::vec2(mSettings.GetInt("health_bar.size.width", 150)
+        , mSettings.GetInt("health_bar.size.height", 14));
+    mPosition = glm::vec2(-mSize.x / 2
+        , mSettings.GetInt("health_bar.y", 45) - mSize.y / 2);
+    mBorderSize = glm::vec2(mSettings.GetInt("health_bar.border_size.width", 150)
+        , mSettings.GetInt("health_bar.border_size.height", 14));
+    mBorderPosition = glm::vec2(-mBorderSize.x / 2
+        , mSettings.GetInt("health_bar.y", 45) - mBorderSize.y / 2);
 }
 
 HealthBarRenderer::HealthBarRenderer()
     : mProgramState( core::ProgramState::Get() )
     , mColorRepo( render::ColorRepo::Get() )
+    , mSettings( Settings::Get() )
 {
     Init();
 }
@@ -85,16 +94,14 @@ void HealthBarRenderer::Draw()
         double currPercent = healthC->GetHP() / double( healthC->GetMaxHP().Get() );
         double currArmorPercent = armor / double( healthC->GetMaxHP().Get() + armor );
 
-        glm::vec2 size( 150, 14 );
-        glm::vec2 position( -size.x / 2, 45 );
         bool isself = i->mClientActorGUID == mProgramState.mControlledActorGUID;
         {
-            glm::vec4 dim( int32_t( positionC->GetX() ) + position.x - 2, int32_t( positionC->GetY() ) + position.y - 2, size.x + 3, size.y + 3 );
+            glm::vec4 dim( int32_t( positionC->GetX() ) + mBorderPosition.x, int32_t( positionC->GetY() ) + mBorderPosition.y, mBorderSize.x, mBorderSize.y );
             glm::vec4 col = isself ? glm::vec4( 0.0, 0.0, 0.0, 0.7 ) : glm::vec4( 0.0, 0.0, 0.0, 0.7 );
             ColoredBox( dim, col, Inserter );
         }
         {
-            glm::vec4 dim( int32_t( positionC->GetX() ) + position.x, int32_t( positionC->GetY() ) + position.y, currPercent * size.x, size.y );
+            glm::vec4 dim( int32_t( positionC->GetX() ) + mPosition.x, int32_t( positionC->GetY() ) + mPosition.y, currPercent * mSize.x, mSize.y );
             glm::vec4 col = isself ? glm::vec4( 0.59, 0.15, 0.7, 1.0 ) : glm::vec4( 0.0, 0.8, 0.0, 0.7 );
             if ( teamC.IsValid() )
             {
@@ -104,9 +111,9 @@ void HealthBarRenderer::Draw()
         }
         {
             double currCombinedPercent = currPercent + currArmorPercent > 1.0 ? 1 - currArmorPercent : currPercent;
-            glm::vec4 dim( int32_t( positionC->GetX() ) + position.x + currCombinedPercent * size.x
-                           , int32_t( positionC->GetY() ) + position.y
-                           , currArmorPercent * size.x, size.y );
+            glm::vec4 dim( int32_t( positionC->GetX() ) + mPosition.x + currCombinedPercent * mSize.x
+                           , int32_t( positionC->GetY() ) + mPosition.y
+                           , currArmorPercent * mSize.x, mSize.y );
             glm::vec4 col = glm::vec4( 1.0, 1.0, 1.0, 0.7 );
             ColoredBox( dim, col, Inserter );
         }
