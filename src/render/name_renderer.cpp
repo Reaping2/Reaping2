@@ -41,9 +41,9 @@ void NameRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         }
         Opt<IPositionComponent> positionC = player->Get<IPositionComponent>();
         Opt<ITeamComponent> teamC( player->Get<ITeamComponent>() );
-        Text text( 76.0, glm::vec4( 0, 0, 500, 500 ),
+        Text text( 76.0, glm::vec4( positionC->GetX() * MAGIC_SIZE, ( positionC->GetY() + 50 ) * MAGIC_SIZE, 500, 500 ),
                    teamC.IsValid() ? mColorRepo( teamC->GetTeam() ) : glm::vec4( 1.0, 1.0, 1.0, 1.0 )
-                   , ( *i ).mClientName, glm::vec2( positionC->GetX()*MAGIC_SIZE, ( positionC->GetY() + 50 )*MAGIC_SIZE ), true );
+                   , ( *i ).mClientName, true );
         textSceneRenderer.AddText( text );
     }
 }

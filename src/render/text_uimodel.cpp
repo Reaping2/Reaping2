@@ -22,7 +22,7 @@ void scale( float& x, float& y, float ratio )
 
 bool TextUiModel::CalcRequiredSize( Widget const& Wdg, glm::vec2& OutReqSize, std::string& OutBuf, float Ratio )
 {
-    Text text( Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(), GetColor( Wdg ), Wdg( Widget::PT_Text ), glm::vec2( 0.0, 0.0 ), false );
+    Text text( Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(), GetColor( Wdg ), Wdg( Widget::PT_Text ), false );
     return CalcRequiredSize( text, OutReqSize, OutBuf, Ratio );
 }
 
@@ -65,6 +65,7 @@ bool TextUiModel::CalcRequiredSize( Text const& text, glm::vec2& OutReqSize, std
         Buf += "...";
     }
     while( true );
+    RequiredSize.y = RequiredSize.x;
     RequiredSize.x /= TexDim.x;
     OutReqSize = RequiredSize;
     OutBuf = Buf;
@@ -73,15 +74,15 @@ bool TextUiModel::CalcRequiredSize( Text const& text, glm::vec2& OutReqSize, std
 
 void TextUiModel::CollectVertices( Widget const& Wdg, UiVertexInserter_t& Inserter )const
 {
-    Text text( Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(), GetColor( Wdg ), Wdg( Widget::PT_Text ), glm::vec2( 0.0, 0.0 ), false );
-    CollectVertices( text, Inserter );
+    Text text( Wdg( Widget::PT_FontSize ), Wdg.GetDimensions(), GetColor( Wdg ), Wdg( Widget::PT_Text ), false );
+    CollectVertices( text, Inserter, true );
 }
 
-void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserter )
+void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserter, bool ScaleWithRatio )
 {
     int w, h;
     engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindowSize( w, h );
-    float Ratio = ( h != 0 ) ? ( 1.0f * w / h ) : 1.0f;
+    float Ratio = ( ScaleWithRatio && h != 0 ) ? ( 1.0f * w / h ) : 1.0f;
     glm::vec2 RequiredSize;
     std::string Buf;
     if( !CalcRequiredSize( text, RequiredSize, Buf, Ratio ) )
@@ -90,6 +91,10 @@ void TextUiModel::CollectVertices( Text const& text, UiVertexInserter_t& Inserte
     }
     glm::vec4 const& Col = text.mColor;
     glm::vec4 Dim = text.mDimensions;
+    if( text.mAlignMiddle )
+    {
+        Dim.x -= RequiredSize.y / 2.0;
+    }
     static Font& Fnt( Font::Get() );
     for( std::string::const_iterator i = Buf.begin(), e = Buf.end(); i != e; ++i )
     {
