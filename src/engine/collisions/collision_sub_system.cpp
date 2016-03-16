@@ -14,6 +14,10 @@ void CollisionSubSystem::ClipScene( Actor& actor )
 {
     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+    if (!collisionC->IsClipScene())
+    {
+        return;
+    }
 
     glm::vec4 AllowedDimensions = mScene.GetDimensions();
     float Radius = ( float )collisionC->GetRadius();

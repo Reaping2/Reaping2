@@ -10,7 +10,6 @@
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
-#include "core/magic_consts.h"
 
 namespace render {
 namespace {
@@ -73,7 +72,7 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     {
         Speed = Acceleration = glm::vec2( 0, 0 );
     }
-    Pos = glm::vec2( Pos.x * MAGIC_SIZE, Pos.y * MAGIC_SIZE );
+    Pos = glm::vec2( Pos.x, Pos.y );
     if( pt.Heading == ParticleTemplate::H_Actor )
     {
         Heading = ori;
@@ -85,7 +84,6 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     INIT( Lifetime );
     InitialLifetime = Lifetime;
     INIT( Radius );
-    Radius *= MAGIC_SIZE;
 #undef INIT
 #undef COLOR
 #undef ROLL_DIR

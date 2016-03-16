@@ -12,8 +12,9 @@ using platform::EventServer;
 
 
 CollisionComponent::CollisionComponent()
-    : mCollisionClassType( CollisionClass::No_Collision )
-    , mRadius( 0.0 )
+    : mCollisionClassType(CollisionClass::No_Collision)
+    , mRadius(0.0)
+    , mClipScene(true)
 {
 
 }
@@ -38,6 +39,16 @@ void CollisionComponent::SetRadius( double Radius )
     mRadius = Radius;
 }
 
+bool CollisionComponent::IsClipScene() const
+{
+    return mClipScene;
+}
+
+void CollisionComponent::SetClipScene(bool clipScene)
+{
+    mClipScene = clipScene;
+}
+
 void CollisionComponentLoader::BindValues()
 {
     Bind( "radius", func_double( &CollisionComponent::SetRadius ) );
@@ -46,6 +57,7 @@ void CollisionComponentLoader::BindValues()
     {
         Bind<CollisionClass::Type>( &CollisionComponent::SetCollisionClass, mCollisionClass( AutoId( istr ) ) );
     }
+    Bind("clip_scene", func_bool(&CollisionComponent::SetClipScene));
 
 }
 

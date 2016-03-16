@@ -16,7 +16,6 @@
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
-#include "core/magic_consts.h"
 
 void ActorRenderer::Init()
 {
@@ -60,12 +59,12 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     }
     TexId = i->Spr->TexId;
     Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
-    Positions.push_back( glm::vec2( positionC->GetX()*MAGIC_SIZE, positionC->GetY()*MAGIC_SIZE ) + i->RelativePosition );
+    Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) + i->RelativePosition );
     Headings.push_back( ( GLfloat )positionC->GetOrientation() );
 
     Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
     //TODO: this one should not depend on collision radius
-    Sizes.push_back( ( GLfloat )( ( collisionC.IsValid() ? collisionC->GetRadius()*MAGIC_SIZE : 50 )*i->Anim->GetScale() ) );
+    Sizes.push_back( ( GLfloat )( ( collisionC.IsValid() ? collisionC->GetRadius() : 50 )*i->Anim->GetScale() ) );
     TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
     Colors.push_back( i->Color );
     ++i;

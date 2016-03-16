@@ -34,6 +34,7 @@ audio_system
 AudioSystem
 background
 bar
+big_background
 blood_particle0
 blood_particle1
 blood_particle10

@@ -4,7 +4,6 @@
 #include "editor_grid_system.h"
 #include "editor_target_system.h"
 #include "editor_system.h"
-#include "../magic_consts.h"
 
 namespace map {
 
@@ -32,8 +31,8 @@ std::vector<int32_t> IBrush::GetActorsToRemove()
             continue;
         }
         if ( curGUID != actor.GetGUID()
-             && std::abs( positionC->GetX() - mousePos.x / MAGIC_SIZE ) < collisionC->GetRadius()
-             && std::abs( positionC->GetY() - mousePos.y / MAGIC_SIZE ) < collisionC->GetRadius() )
+             && std::abs( positionC->GetX() - mousePos.x ) < collisionC->GetRadius()
+             && std::abs( positionC->GetY() - mousePos.y ) < collisionC->GetRadius() )
         {
             Opt<IRenderableComponent> renderableC( actor.Get<IRenderableComponent>() );
             if ( editorLayer == EditorLayer::Any

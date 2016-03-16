@@ -5,7 +5,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":180}]
+                "set":[{"speed":250}]
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":1500,"max_speed":2300}]
@@ -45,7 +45,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":380}]
+                "set":[{"speed":520}]
             },
             {"name":"acceleration_component",
                 "set":[{"acceleration":1500,"max_speed":2300}]

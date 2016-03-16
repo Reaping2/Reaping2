@@ -15,6 +15,7 @@ CollisionClass::CollisionClass()
     mIdToCollClassMap[AutoId( "wall" )] = CollisionClass::Wall;
     mIdToCollClassMap[AutoId( "water" )] = CollisionClass::Water;
     mIdToCollClassMap[AutoId( "pickup" )] = CollisionClass::Pickup;
+    mIdToCollClassMap[AutoId( "flag" )] = CollisionClass::Flag;
 }
 
 CollisionClass::Type CollisionClass::operator()( int32_t Id ) const

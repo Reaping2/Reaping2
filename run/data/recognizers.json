@@ -369,6 +369,14 @@
 		]
 	},
 	{
+		"name":"big_background",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"concrete",
 		"recognizers":
 		[

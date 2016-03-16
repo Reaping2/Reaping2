@@ -50,27 +50,24 @@ void BuffHolderSystem::Update( double DeltaTime )
         }
 
         BuffList_t& buffList = buffHolderC->GetBuffList();
+        std::list<Opt<Buff> > newBuffList;
         for( BuffList_t::iterator buffIt = buffList.begin(), buffE = buffList.end(); buffIt != buffE; ++buffIt )
         {
             Buff& buff = **buffIt;
             double currSecsToEnd = buff.GetSecsToEnd();
             double newSecsToEnd = currSecsToEnd - DeltaTime;
-            if ( /*currSecsToEnd>0 &&*/ newSecsToEnd <= 0 )
+            if ( newSecsToEnd > 0 )
             {
-                newSecsToEnd = 0;
+                buff.SetSecsToEnd(newSecsToEnd); //updates all secs to end so order wont be broken.
+                newBuffList.push_back(*buffIt);
             }
-            buff.SetSecsToEnd( newSecsToEnd ); //updates all secs to end so order wont be broken.
-        }
-
-        BuffListFilter<IBuffHolderComponent::SecsToEnd> buffListFilter( buffList, 0 );
-        if( buffListFilter.size() > 0 )
-        {
-            for( BuffListFilter<IBuffHolderComponent::SecsToEnd>::const_iterator deleteBuffIt = buffListFilter.begin(); deleteBuffIt != buffListFilter.end(); ++deleteBuffIt )
+            else
             {
-                delete deleteBuffIt->Get();
+                delete buffIt->Get();
             }
-            buffList.get<IBuffHolderComponent::SecsToEnd>().erase( buffListFilter.begin(), buffListFilter.end() );
         }
+        buffList.clear();
+        buffList.insert(newBuffList.begin(), newBuffList.end());
     }
 }
 
