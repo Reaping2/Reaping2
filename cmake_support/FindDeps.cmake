@@ -17,53 +17,61 @@ find_package( OpenGL REQUIRED )
 # add possible lib names at the end of the arg list
 macro( my_find_package pkg_name header default_lib_name )
 
-    find_package( ${pkg_name} QUIET MODULE )
+    find_package( ${pkg_name} QUIET CONFIG )
 
-    if(NOT ${${pkg_name}_FOUND})
-        message(STATUS "Package ${pkg_name} not found! Trying to find paths manually ...")
+    string(TOUPPER ${pkg_name} pkg_name_upper)
+
+    if(${${pkg_name}_FOUND})
+        if(DEFINED ${pkg_name_upper}_LIBRARY AND NOT DEFINED ${pkg_name_upper}_LIBRARIES)
+            set(${pkg_name_upper}_LIBRARIES ${${pkg_name_upper}_LIBRARY})
+        endif(DEFINED ${pkg_name_upper}_LIBRARY AND NOT DEFINED ${pkg_name_upper}_LIBRARIES)
+        message( STATUS "${pkg_name_upper} found!" )
+    else(${${pkg_name}_FOUND})
+        message(STATUS "Package ${pkg_name_upper} not found! Trying to find paths manually ...")
 
 	    if( NOT "${header}" STREQUAL "" )
-            find_path(${pkg_name}_INCLUDE_DIR ${header}
+            find_path(${pkg_name_upper}_INCLUDE_DIR ${header}
                 PATHS
                     ${REAPING2_DEPS_INSTALL_DIR}/include
-                    $ENV{${pkg_name}_INCLUDEDIR})
-            if(NOT ${pkg_name}_INCLUDE_DIR)
-                message(FATAL_ERROR "${pkg_name} include dir not found! Searched for: ${header}" )
-	        endif(NOT ${pkg_name}_INCLUDE_DIR)
+                    $ENV{${pkg_name_upper}_INCLUDEDIR})
+            if(NOT ${pkg_name_upper}_INCLUDE_DIR)
+                message(FATAL_ERROR "${pkg_name_upper} include dir not found! Searched for: ${header}" )
+	        endif(NOT ${pkg_name_upper}_INCLUDE_DIR)
 	    endif( NOT "${header}" STREQUAL "" )
 
 	    if( NOT "${default_lib_name}" STREQUAL "" )
             set(lib_names ${ARGN})
-            find_library(${pkg_name}_LIBRARY
+            find_library(${pkg_name_upper}_LIBRARY
                 NAMES ${default_lib_name} ${lib_names}
                 PATHS
                     ${REAPING2_DEPS_INSTALL_DIR}/lib
-                    $ENV{${pkg_name}_LIBRARYDIR})
+                    $ENV{${pkg_name_upper}_LIBRARYDIR})
             if(NOT ${pkg_name}_LIBRARY)
-                message(FATAL_ERROR "${pkg_name} library not found! Searched for: ${default_lib_name};${lib_names}")
+                message(FATAL_ERROR "${pkg_name_upper} library not found! Searched for: ${default_lib_name};${lib_names}")
             endif()
 	    endif( NOT "${default_lib_name}" STREQUAL "" )
 
-        set( ${pkg_name}_INCLUDE_DIRS ${${pkg_name}_INCLUDE_DIR} CACHE PATH "" FORCE )
-        set( ${pkg_name}_LIBRARIES ${${pkg_name}_LIBRARY} CACHE PATH "" FORCE )
+        set( ${pkg_name_upper}_INCLUDE_DIRS ${${pkg_name_upper}_INCLUDE_DIR} CACHE PATH "" FORCE )
+        set( ${pkg_name_upper}_LIBRARIES ${${pkg_name_upper}_LIBRARY} CACHE PATH "" FORCE )
 
-        message( STATUS "${pkg_name} include dir: \"${${pkg_name}_INCLUDE_DIR}\" library: \"${${pkg_name}_LIBRARY}\"" )
-    else()
-        message( STATUS "${pkg_name} found!" )
-    endif()
-
+        message( STATUS "${pkg_name_upper} include dir: \"${${pkg_name_upper}_INCLUDE_DIR}\" library: \"${${pkg_name_upper}_LIBRARY}\"" )
+    endif(${${pkg_name}_FOUND})
 
 endmacro( my_find_package )
 
-my_find_package( GLEW GL/glew.h GLEW glew32s glew32sd )
+set(GLEW_USE_STATIC_LIBS ON)
+find_package(glew QUIET CONFIG)
+if(glew_FOUND)
+    message(STATUS "GLEW found!")
+    # Name of imported target
+    set(GLEW_LIBRARIES GLEW::GLEW)
+else(glew_FOUND)
+    my_find_package( GLEW GL/glew.h GLEW glew32s glew32sd )
+endif(glew_FOUND)
 
-my_find_package( GLFW GLFW/glfw3.h glfw glfw3 glfw3dll )
+my_find_package( glfw GLFW/glfw3.h glfw glfw3 glfw3dll )
 
-if(WIN32)
-    my_find_package( GLM glm/glm.hpp "" )
-else()
-    set( glm_include_dir "" )
-endif()
+my_find_package( glm glm/glm.hpp "" )
 
 my_find_package( LIBOGG ogg/ogg.h ogg libogg libogg_static )
 
