@@ -14,7 +14,9 @@
             "scatter_chill":20,
             "scatter_magic_number":100,
             "windup_time":1.0,
-            "deploy_time":1.0
+            "deploy_time":1.0,
+            "position_x":110.0,
+            "position_y":16.0
         }]
     }
 ]

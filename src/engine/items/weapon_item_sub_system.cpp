@@ -20,6 +20,7 @@ WeaponItemSubSystem::WeaponItemSubSystem()
     : SubSystemHolder()
     , mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
+    , mActorFactory( ActorFactory::Get() )
 {
 
 }
@@ -89,20 +90,37 @@ void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
     {
         itemssIt->mSystem->Update( actor, DeltaTime );
     }
-    if ( mProgramState.mMode != core::ProgramState::Client )
+
+    if (mProgramState.mMode != core::ProgramState::Client)
     {
-        if ( weapon->GetCooldown() <= 0.0 ) //not synced to client
+        if (weapon->GetCooldown() <= 0.0) //not synced to client
         {
             Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-            if ( actorPositionC.IsValid() )
+            if (actorPositionC.IsValid())
             {
-                if ( weapon->IsShooting() && weapon->GetBullets() >= weapon->GetShotCost() )
+                if (weapon->IsShooting() && weapon->GetBullets() >= weapon->GetShotCost())
                 {
-                    EventServer<core::ShotEvent>::Get().SendEvent( core::ShotEvent( actor.GetGUID(), glm::vec2( actorPositionC->GetX(), actorPositionC->GetY() ), false ) );
+                    if (weapon->GetMuzzleId() != -1)
+                    {
+                        std::auto_ptr<Actor> muzzle(mActorFactory(weapon->GetMuzzleId()));
+                        SetProjectilePosition(*muzzle, actor);
+                        BOOST_ASSERT(muzzle->Get<IPositionComponent>().IsValid());
+                        muzzle->Get<IPositionComponent>()->SetOrientation(actorPositionC->GetOrientation());
+                        mScene.AddActor(muzzle.release());
+                    }
+                    EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(), glm::vec2(actorPositionC->GetX(), actorPositionC->GetY()), false));
                 }
-                else if ( weapon->IsShootingAlt() && weapon->GetBullets() >= weapon->GetShotCostAlt() )
+                else if (weapon->IsShootingAlt() && weapon->GetBullets() >= weapon->GetShotCostAlt())
                 {
-                    EventServer<core::ShotEvent>::Get().SendEvent( core::ShotEvent( actor.GetGUID(), glm::vec2( actorPositionC->GetX(), actorPositionC->GetY() ), true ) );
+                    if (weapon->GetMuzzleAltId() != -1)
+                    {
+                        std::auto_ptr<Actor> muzzle(mActorFactory(weapon->GetMuzzleAltId()));
+                        SetProjectilePosition(*muzzle, actor);
+                        BOOST_ASSERT(muzzle->Get<IPositionComponent>().IsValid());
+                        muzzle->Get<IPositionComponent>()->SetOrientation(actorPositionC->GetOrientation());
+                        mScene.AddActor(muzzle.release());
+                    }
+                    EventServer<core::ShotEvent>::Get().SendEvent(core::ShotEvent(actor.GetGUID(), glm::vec2(actorPositionC->GetX(), actorPositionC->GetY()), true));
                 }
             }
         }
@@ -140,15 +158,10 @@ void WeaponItemSubSystem::OnShot( core::ShotEvent const& Evt )
 }
 
 
-void WeaponItemSubSystem::AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt/*=false*/, bool addRadius/*=true*/ )
+void WeaponItemSubSystem::AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt/*=false*/ )
 {
     double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
     int scat = int( scatter.GetCalculated() * 1000 );
-    //    Opt<IAccuracyComponent> accuracyC=actor.Get<IAccuracyComponent>();
-    //     if(accuracyC.IsValid())
-    //     {
-    //         scat=scat;//*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
-    //     }
     if( scat )
     {
         double realScatter = ( rand() % ( scat + 1 ) - scat / 2. );
@@ -161,7 +174,7 @@ void WeaponItemSubSystem::AddProjectiles( Actor& actor, Projectiles_t& projectil
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )
     {
         Actor& Proj = **i;
-        SetProjectilePosition( Proj, actor, addRadius );
+        SetProjectilePosition( Proj, actor );
         Opt<ShotCollisionComponent> shotCC = Proj.Get<ShotCollisionComponent>();
         if ( shotCC.IsValid() )
         {
@@ -189,18 +202,24 @@ Opt<WeaponItemSubSystem> WeaponItemSubSystem::Get()
     return Opt<WeaponItemSubSystem>(
                Engine::Get().GetSystem<InventorySystem>()->GetSubSystem( ItemType::Weapon ) );
 }
-void WeaponItemSubSystem::SetProjectilePosition( Actor& projectile, Actor& actor, bool addRadius/*=true*/ )
+void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
 {
     Opt<IPositionComponent> projPositionC = projectile.Get<IPositionComponent>();
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-    Opt<IMoveComponent> actorMoveC = actor.Get<IMoveComponent>();
-    const double h = actorPositionC->GetOrientation() + projPositionC->GetOrientation();
-    const double c = cos( h );
-    const double s = sin( h );
-    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-    double radius = addRadius && collisionC.IsValid() ? collisionC->GetRadius() : 0.0;
-    projPositionC->SetX( projPositionC->GetX() + actorPositionC->GetX() + c * radius );
-    projPositionC->SetY( projPositionC->GetY() + actorPositionC->GetY() + s * radius );
+    glm::vec2 rvec(0.0, 0.0);
+    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
+    if (inventoryC.IsValid())
+    {
+        Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+        if (weapon.IsValid())
+        {
+            rvec.x += weapon->GetPositionX();
+            rvec.y -= weapon->GetPositionY();
+        }
+    }
+    rvec=glm::rotate(rvec, float(actorPositionC->GetOrientation()));
+    projPositionC->SetX( projPositionC->GetX() + actorPositionC->GetX() + rvec.x );
+    projPositionC->SetY( projPositionC->GetY() + actorPositionC->GetY() + rvec.y );
 }
 } // namespace engine
 

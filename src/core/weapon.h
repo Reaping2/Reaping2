@@ -61,6 +61,14 @@ public:
     double GetReloadTimeMax()const;
     void SetStaticReload( double staticReload );
     double GetStaticReload()const;
+    void SetMuzzleId( int32_t muzzleId);
+    double GetMuzzleId()const;
+    void SetMuzzleAltId(int32_t muzzleAltId);
+    double GetMuzzleAltId()const;
+    void SetPositionX(double x);
+    double GetPositionX()const;
+    void SetPositionY(double y);
+    double GetPositionY()const;
 
     virtual bool CanReload() const;
     virtual glm::vec3 GetMouseColor() const;
@@ -87,6 +95,10 @@ protected:
     double mReloadTime;
     double mReloadTimeMax;
     double mStaticReload;
+    int32_t mMuzzleId;
+    int32_t mMuzzleAltId;
+    double mPositionX;
+    double mPositionY;
     friend class ItemFactory;
 };
 

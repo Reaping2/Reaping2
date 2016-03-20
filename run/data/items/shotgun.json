@@ -20,7 +20,11 @@
             "position_variance":50,
             "speed_variance":0.2,
             "scatter":0.35,
-            "add_actor_radius":0
+            "add_actor_radius":0,
+            "muzzle":"shotgun_muzzle",
+            "muzzle_alt":"shotgun_muzzle_alt",
+            "position_x":80.0,
+            "position_y":20.0
         }]
     }
 ]
