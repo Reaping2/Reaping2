@@ -47,7 +47,7 @@ file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 
 add_executable(${dirnam} ${${dirnam}_source_files} )
 add_dependencies( main audio input platform core render version)
-target_link_libraries( main audio input platform core render engine network ${GLFW_LIBRARIES} ${GLEW_LIBRARIES} ${WIN32_ENET_INCLUDE_WS2_32} ${WIN32_ENET_INCLUDE_WINMM} ${ENET_LIBRARIES} )
+target_link_libraries( main audio input platform core engine render network ${GLFW_LIBRARIES} ${GLEW_LIBRARIES} ${WIN32_ENET_INCLUDE_WS2_32} ${WIN32_ENET_INCLUDE_WINMM} ${ENET_LIBRARIES} )
 add_precompiled_header(${dirnam} pch.h)
 
 INSTALL(TARGETS ${dirnam}
