@@ -8,6 +8,7 @@
 #include "core/weapon.h"
 #include "core/program_state.h"
 #include "core/shot_event.h"
+#include "core/actor_factory.h"
 
 namespace engine {
 
@@ -21,12 +22,13 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
     typedef std::list<Opt<Actor> > Projectiles_t;
 
-    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt = false, bool addRadius = true );
+    void AddProjectiles( Actor& actor, Projectiles_t& projectiles, Scatter& scatter, bool alt = false );
     static Opt<WeaponItemSubSystem> Get();
-    static void SetProjectilePosition( Actor& projectile, Actor& actoraddRadius, bool addRadius = true );
+    static void SetProjectilePosition( Actor& projectile, Actor& actoraddRadius );
 private:
     Scene& mScene;
     core::ProgramState& mProgramState;
+    ActorFactory& mActorFactory;
     AutoReg mOnShot;
     void OnShot( core::ShotEvent const& Evt );
 };
