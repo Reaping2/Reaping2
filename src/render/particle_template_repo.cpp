@@ -72,9 +72,15 @@ ParticleTemplate::ParticleTemplate( Json::Value const& json )
     GET( Float, LifetimeVariance, 0 );
     GET( Float, Radius, 0 );
     GET( Float, RadiusVariance, 0 );
+    GET( Float, MinRadius, Radius );
+    GET( Float, MaxRadius, Radius );
+    GET( Float, ScaleSpeed, 0 );
     GET( Int, Num, 1 );
     GET( Int, NumVariance, 0 );
     GET( Int, ParticleLayer, 0 );
+    int32_t Interpolate_i=0;
+    Json::GetInt( json["Interpolate"], Interpolate_i );
+    Interpolate = Interpolate_i != 0;
 #undef GET
     SpeedDir = AccelerationDir = Any;
     RotDir = RotAccelerationDir = Rot_Any;

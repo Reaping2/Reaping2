@@ -15,7 +15,7 @@ public:
     ~ParticleEngine();
     void Update( float dt );
     void Draw() const;
-    void AddParticle( int32_t type, glm::vec2 const& pos, double orientation );
+    void AddParticle( int32_t type, glm::vec2 const& pos, glm::vec2 const& speed, double orientation );
 };
 
 } // namespace render
