@@ -73,6 +73,10 @@ my_find_package( glfw GLFW/glfw3.h glfw glfw3 glfw3dll )
 
 my_find_package( glm glm/glm.hpp "" )
 
+if(WIN32)
+    find_package( Dbg )
+endif()
+
 my_find_package( LIBOGG ogg/ogg.h ogg libogg libogg_static )
 
 my_find_package( LIBVORBIS vorbis/vorbisfile.h vorbis ${VORBISFILE_LIBRARY_NAMES} )

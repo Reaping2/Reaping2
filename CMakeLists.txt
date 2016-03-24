@@ -29,6 +29,8 @@ find_path(REAPING2_DEPS_INSTALL_DIR ${REAPING2_DEPS_INSTALL_DIR}
 list(APPEND CMAKE_FIND_ROOT_PATH ${REAPING2_DEPS_INSTALL_DIR})
 set(CMAKE_PREFIX_PATH ${REAPING2_DEPS_INSTALL_DIR})
 
+list( APPEND CMAKE_MODULE_PATH ${REAPING2_DEPS_INSTALL_DIR}/lib/cmake )
+
 include( FindDeps )
 include( CMakeHelper )
 
@@ -52,7 +54,7 @@ if(WIN32)
     if(MINGW)
         set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj" )
     elseif(MSVC)
-        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj" )
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /Oy-" )
         option(ENABLE_MSVC_MP "Enable multi-processor compilation" ON)
         if(ENABLE_MSVC_MP)
             set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP" )
