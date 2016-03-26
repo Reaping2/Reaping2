@@ -5,6 +5,7 @@
 #include "input/i_input.h"
 #include "audio/i_audio.h"
 #include "core/scene.h"
+#include "platform/backtrace.h"
 
 #include <boost/timer.hpp>
 #include "engine/engine.h"
