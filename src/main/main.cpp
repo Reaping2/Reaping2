@@ -256,6 +256,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
 
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
     }
     if ( programState.mMode == ProgramState::Client )
     {

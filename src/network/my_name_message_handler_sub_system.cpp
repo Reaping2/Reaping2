@@ -128,6 +128,9 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
         lifecycleMsg->mState = LifecycleMessage::SoldierProperties;
         lifecycleMsg->mClientId = msg.mSenderId;
         mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+
+        // TODO: here should come the checksum sending
+        // how do we address the sender
         EventServer<engine::ConnectionEvent>::Get().SendEvent( engine::ConnectionEvent( msg.mSenderId, engine::ConnectionEvent::Connected ) );
     }
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );
