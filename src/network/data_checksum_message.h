@@ -4,6 +4,7 @@
 #include "network/message.h"
 #include "network/message_handler_sub_system.h"
 #include "network/message_sender_system.h"
+#include <boost/cstdint.hpp>
 
 namespace network {
 
@@ -13,10 +14,12 @@ class DataChecksumMessage : public Message
 public:
     DEFINE_MESSAGE_BASE(DataChecksumMessage)
     std::string mDatasource;
-    int32_t mChecksum;
+    boost::uint32_t mChecksum;
+    int32_t mClientId;
     DataChecksumMessage()
         : mDatasource("")
         , mChecksum(0)
+        , mClientId(0)
     {
     }
     template<class Archive>
@@ -29,6 +32,7 @@ void DataChecksumMessage::serialize(Archive& ar, const unsigned int version)
     ar & boost::serialization::base_object<Message>(*this);
     ar & mDatasource;
     ar & mChecksum;
+    ar & mClientId;
 }
 
 class DataChecksumMessageHandlerSubSystem : public MessageHandlerSubSystem

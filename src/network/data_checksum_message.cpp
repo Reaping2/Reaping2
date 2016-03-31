@@ -38,6 +38,10 @@ void DataChecksumMessageHandlerSubSystem::Update(double DeltaTime)
 void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
 {
     DataChecksumMessage const& msg=static_cast<DataChecksumMessage const&>(message);
+    if ( msg.mClientId == mProgramState.mClientId )
+    {
+        std::cerr << "source " << msg.mDatasource << " chksum " << msg.mChecksum << std::endl;
+    }
 }
 
 } // namespace network

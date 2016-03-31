@@ -13,12 +13,16 @@
 #include "portable_oarchive.hpp"
 #include "core/scene.h"
 #include "set_ownership_message.h"
-#include "core/player_controller_component.h"
 #include "client_id_changed.h"
 #include "ctf_client_datas_message.h"
 #include "core/ctf_program_state.h"
 #include "client_list_changed_event.h"
 #include "engine/connection_event.h"
+#include "data_checksum_message.h"
+#include "platform/checksum.h"
+#include <boost/crc.hpp>
+
+
 namespace network {
 
 MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
@@ -123,6 +127,22 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
         mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( newmsg.release() ) );
 
         mProgramState.mClientDatas.push_back( core::ClientData( msg.mSenderId, msg.mName ) );
+
+        {
+            static boost::uint32_t datapkgChecksum = fileChecksum("data.pkg");
+            static boost::uint32_t autoidChecksum = fileChecksum("autoids");
+            std::auto_ptr<DataChecksumMessage> autoidChecksumMsg( new DataChecksumMessage );
+            autoidChecksumMsg->mDatasource = "autoids";
+            autoidChecksumMsg->mChecksum = autoidChecksum;
+            autoidChecksumMsg->mClientId = msg.mSenderId;
+            mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(autoidChecksumMsg.release() ) );
+
+            std::auto_ptr<DataChecksumMessage> datapkgChecksumMsg( new DataChecksumMessage );
+            datapkgChecksumMsg->mDatasource = "data.pkg";
+            datapkgChecksumMsg->mChecksum = datapkgChecksum;
+            datapkgChecksumMsg->mClientId = msg.mSenderId;
+            mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(datapkgChecksumMsg.release() ) );
+        }
 
         std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
         lifecycleMsg->mState = LifecycleMessage::SoldierProperties;
