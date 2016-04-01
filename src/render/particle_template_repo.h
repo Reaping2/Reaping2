@@ -46,6 +46,9 @@ struct ParticleTemplate
     float LifetimeVariance;
     float Radius;
     float RadiusVariance;
+    float MinRadius;
+    float MaxRadius;
+    float ScaleSpeed;
     int32_t Num;
     int32_t NumVariance;
     enum HeadingType
@@ -55,6 +58,7 @@ struct ParticleTemplate
     };
     HeadingType Heading;
     int32_t ParticleLayer;
+    bool Interpolate;
 };
 
 
