@@ -1,5 +1,8 @@
 #include "world_renderer.h"
 #include "shader_manager.h"
+#include "core/opt.h"
+#include "main/window.h"
+#include "engine/engine.h"
 #include <boost/assign/list_of.hpp>
 
 namespace render {
@@ -36,11 +39,15 @@ WorldRenderer::~WorldRenderer()
 {
 }
 
-void WorldRenderer::Draw( double dt, GLuint texture )
+void WorldRenderer::Draw( double dt, GLuint texture, std::string const& shader )
 {
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "world_solid_objects" );
+    ShaderMgr.ActivateShader( shader );
     ShaderMgr.UploadData( "texture", GLuint( 1 ) );
+    int w, h;
+    static Opt<engine::WindowSystem> window( engine::Engine::Get().GetSystem<engine::WindowSystem>() );
+    window->GetWindowSize( w, h );
+    ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
     glActiveTexture( GL_TEXTURE0 + 1 );
     mVAO.Bind();
     glBindTexture( GL_TEXTURE_2D, texture );

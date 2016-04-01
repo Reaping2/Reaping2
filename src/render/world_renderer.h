@@ -13,7 +13,7 @@ class WorldRenderer
     size_t mPosIndex;
     size_t mColorIndex;
 public:
-    void Draw( double dt, GLuint texture );
+    void Draw( double dt, GLuint texture, std::string const& shader );
     WorldRenderer();
     ~WorldRenderer();
 };
