@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "platform/checksum.h"
 #include "network/data_checksum_message.h"
 
 namespace network {
@@ -40,7 +41,12 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
     DataChecksumMessage const& msg=static_cast<DataChecksumMessage const&>(message);
     if ( msg.mClientId == mProgramState.mClientId )
     {
-        std::cerr << "source " << msg.mDatasource << " chksum " << msg.mChecksum << std::endl;
+        boost::uint32_t checksum = fileChecksum( msg.mDatasource );
+        if ( checksum != msg.mChecksum )
+        {
+            L1("checksum mismatch for %s: server(%d) != client(%d)\n", msg.mDatasource.c_str(), msg.mChecksum, checksum );
+            exit(1);
+        }
     }
 }
 

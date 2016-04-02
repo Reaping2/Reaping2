@@ -93,8 +93,6 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
                 setOwnershipMsg->mActorGUID = clientData->mClientActorGUID;
                 setOwnershipMsg->mClientId = clientData->mClientId;
                 mMessageHolder.AddOutgoingMessage( setOwnershipMsg );
-
-
             }
             else
             {
@@ -128,31 +126,31 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
 
         mProgramState.mClientDatas.push_back( core::ClientData( msg.mSenderId, msg.mName ) );
 
-        {
-            static boost::uint32_t datapkgChecksum = fileChecksum("data.pkg");
-            static boost::uint32_t autoidChecksum = fileChecksum("autoids");
-            std::auto_ptr<DataChecksumMessage> autoidChecksumMsg( new DataChecksumMessage );
-            autoidChecksumMsg->mDatasource = "autoids";
-            autoidChecksumMsg->mChecksum = autoidChecksum;
-            autoidChecksumMsg->mClientId = msg.mSenderId;
-            mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(autoidChecksumMsg.release() ) );
-
-            std::auto_ptr<DataChecksumMessage> datapkgChecksumMsg( new DataChecksumMessage );
-            datapkgChecksumMsg->mDatasource = "data.pkg";
-            datapkgChecksumMsg->mChecksum = datapkgChecksum;
-            datapkgChecksumMsg->mClientId = msg.mSenderId;
-            mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(datapkgChecksumMsg.release() ) );
-        }
-
         std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
         lifecycleMsg->mState = LifecycleMessage::SoldierProperties;
         lifecycleMsg->mClientId = msg.mSenderId;
         mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
 
-        // TODO: here should come the checksum sending
-        // how do we address the sender
         EventServer<engine::ConnectionEvent>::Get().SendEvent( engine::ConnectionEvent( msg.mSenderId, engine::ConnectionEvent::Connected ) );
     }
+            // calculate checksums and sitribute it to the clients
+            {
+                static boost::uint32_t datapkgChecksum = fileChecksum("data.pkg");
+                static boost::uint32_t autoidChecksum = fileChecksum("autoids");
+                int32_t clientId = clientData.IsValid() ? clientData->mClientId : msg.mSenderId;
+
+                std::auto_ptr<DataChecksumMessage> autoidChecksumMsg( new DataChecksumMessage );
+                autoidChecksumMsg->mDatasource = "autoids";
+                autoidChecksumMsg->mChecksum = autoidChecksum;
+                autoidChecksumMsg->mClientId = clientId;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(autoidChecksumMsg.release() ) );
+
+                std::auto_ptr<DataChecksumMessage> datapkgChecksumMsg( new DataChecksumMessage );
+                datapkgChecksumMsg->mDatasource = "data.pkg";
+                datapkgChecksumMsg->mChecksum = datapkgChecksum;
+                datapkgChecksumMsg->mClientId = clientId;
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(datapkgChecksumMsg.release() ) );
+            }
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );
 }
 
