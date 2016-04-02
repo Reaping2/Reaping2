@@ -10,6 +10,7 @@
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
+#include <boost/algorithm/clamp.hpp>
 
 namespace render {
 namespace {
@@ -132,7 +133,7 @@ struct ParticleEngineImpl
     void Update( float dt );
     void Draw() const;
     void Draw( Particles const& particles ) const;
-    void AddParticle( int32_t type, glm::vec2 const& pos, double ori );
+    void AddParticle( int32_t type, glm::vec2 const& pos, glm::vec2 const& distance, double ori );
 };
 
 ParticleEngineImpl::ParticleEngineImpl()
@@ -163,6 +164,11 @@ void ParticleEngineImpl::Update( float dt )
             p.Speed += dt * p.Acceleration;
             p.Heading += dt * p.RotationSpeed;
             p.RotationSpeed += dt * p.RotationAcceleration;
+            p.Radius = boost::algorithm::clamp(
+                p.Radius + dt * p.Template->ScaleSpeed,
+                p.Template->MinRadius,
+                p.Template->MaxRadius);
+            
         }
         if( mCycle >= 10.f )
         {
@@ -320,7 +326,7 @@ void ParticleEngineImpl::Draw( Particles const& particles ) const
     mVAO.Unbind();
 }
 
-void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, double ori )
+void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, glm::vec2 const& distance, double ori )
 {
     static ParticleTemplateRepo& ptr( ParticleTemplateRepo::Get() );
     ParticleTemplate const& pt = ptr( type );
@@ -335,6 +341,11 @@ void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, double
         if( p.Lifetime <= 0.0 )
         {
             continue;
+        }
+        if (pt.Interpolate)
+        {
+            p.Pos.x -= distance.x*i / e;
+            p.Pos.y -= distance.y*i / e;
         }
         particles.push_back( p );
     }
@@ -359,9 +370,9 @@ void ParticleEngine::Draw() const
     mImpl->Draw();
 }
 
-void ParticleEngine::AddParticle( int32_t type, glm::vec2 const& pos, double ori )
+void ParticleEngine::AddParticle( int32_t type, glm::vec2 const& pos, glm::vec2 const& distance, double ori )
 {
-    mImpl->AddParticle( type, pos, ori );
+    mImpl->AddParticle( type, pos, distance, ori );
 }
 
 } // namespace render
