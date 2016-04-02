@@ -27,10 +27,10 @@ void ParticleSystem::Update( double DeltaTime )
         Opt<IEmitterComponent> emitterC = actor.Get<IEmitterComponent>();
         Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
         Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-        glm::vec2 speed(0);
+        glm::vec2 distance(0);
         if (moveC.IsValid()&&moveC->IsMoving()&&!moveC->IsRooted())
         {
-            speed = glm::vec2(moveC->GetSpeedX()*DeltaTime, moveC->GetSpeedY()*DeltaTime);
+            distance = glm::vec2(moveC->GetSpeedX()*DeltaTime, moveC->GetSpeedY()*DeltaTime);
         }
         if ( !emitterC.IsValid() || !positionC.IsValid() )
         {
@@ -41,7 +41,7 @@ void ParticleSystem::Update( double DeltaTime )
         for( std::vector<int32_t>::const_iterator ie = emitted.begin(), ee = emitted.end(); ie != ee; ++ie )
         {
             static ParticleEngine& pe( ParticleEngine::Get() );
-            pe.AddParticle( *ie, glm::vec2( positionC->GetX(), positionC->GetY() ), speed, positionC->GetOrientation() );
+            pe.AddParticle( *ie, glm::vec2( positionC->GetX(), positionC->GetY() ), distance, positionC->GetOrientation() );
         }
         emitterC->Emitted( emitted );
     }
