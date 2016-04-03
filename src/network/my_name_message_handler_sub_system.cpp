@@ -20,7 +20,6 @@
 #include "engine/connection_event.h"
 #include "data_checksum_message.h"
 #include "platform/checksum.h"
-#include <boost/crc.hpp>
 
 
 namespace network {
