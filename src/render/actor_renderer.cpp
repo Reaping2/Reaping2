@@ -264,7 +264,7 @@ bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const&
     return Rs1RenderableC->GetLayer() < Rs2RenderableC->GetLayer() ||
            ( Rs1RenderableC->GetLayer() == Rs2RenderableC->GetLayer() &&
              ( Rs1RenderableC->GetZOrder() < Rs2RenderableC->GetZOrder() ||
-               ( Rs1RenderableC->GetZOrder() < Rs2RenderableC->GetZOrder() &&
+               ( Rs1RenderableC->GetZOrder() == Rs2RenderableC->GetZOrder() &&
                  ( Rs1.ActId < Rs2.ActId ||
                    ( Rs1.ActId == Rs2.ActId &&
                      Rs1.Spr->TexId < Rs2.Spr->TexId ) ) ) ) );

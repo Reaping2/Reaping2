@@ -93,7 +93,7 @@ detail::TextureImpl* Load( File& F )
         Succ = F.Read( Buf, InSize );
         if( Succ )
         {
-            detail::TextureImpl::ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), ImgSize, &impl->mData.at( 0 ) );
+            detail::TextureImpl::ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), Buf.size() / 3, &impl->mData.at( 0 ) );
         }
     }
     if( !Succ )
@@ -103,7 +103,7 @@ detail::TextureImpl* Load( File& F )
     }
     else
     {
-        Reorder( &impl->mData.at( 0 ), ImgSize );
+        Reorder( &impl->mData.at( 0 ), impl->mData.size() / 4 );
     }
     return impl.release();
 }

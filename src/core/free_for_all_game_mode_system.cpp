@@ -104,6 +104,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
     {
         return;
     }
+#if 0
     static const size_t BenchmarkCreeps = 0;
     glm::vec4 const& dimensions = mScene.GetDimensions();
     for( size_t i = 0; i < BenchmarkCreeps; ++i )
@@ -112,6 +113,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
                              , dimensions.y + ( rand() % ( int )( ( dimensions.w - dimensions.y ) ) ) );
 
     }
+#endif
     std::auto_ptr<Actor> Pl;
     for( int i = 0; i < 11; ++i )
     {
