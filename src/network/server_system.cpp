@@ -13,6 +13,8 @@ ServerSystem::ServerSystem()
     : mClientId( 0 )
     , mMessageHolder( MessageHolder::Get() )
     , mSentMessagesSize( 0 )
+    , mServer( NULL )
+    , mAddress()
 {
 }
 

@@ -113,6 +113,10 @@ AudioPlayer::AudioPlayer()
     , mClosing( false )
     , mNumChannels( 2 )
     , mBuffer( mNumChannels )
+    , mOutputParameters()
+    , mStream( NULL )
+    , mPlaybackBuffer( NULL )
+    , mPlaybackBufferLength( 0 )
 {
     mSupportedSampleRates.push_back( mPreferredSampleRate ); // cd qual only, sry :(
     mPhaseChangeId = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &AudioPlayer::OnPhaseChangedEvent, this, _1 ) );

@@ -16,6 +16,7 @@ namespace platform {
 
 ModelValue::ModelValue( std::string const& Name )
     : mType( Mt_None )
+    , mValue( NULL )
     , mParent( NULL )
 {
 
