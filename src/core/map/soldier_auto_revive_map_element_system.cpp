@@ -30,9 +30,10 @@ Opt<SoldierAutoReviveMapElementSystem> SoldierAutoReviveMapElementSystem::Get()
 double SoldierAutoReviveMapElementSystem::GetSecsToRevive()
 {
     MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), SoldierAutoReviveMapElement::GetType_static() );
-    for( MapElementListFilter<MapSystem::All>::const_iterator soldierAutoReviveMapElementIt = mapElementListFilter.begin(), soldierAutoReviveMapElementE = mapElementListFilter.end(); soldierAutoReviveMapElementIt != soldierAutoReviveMapElementE; ++soldierAutoReviveMapElementIt )
+    auto it = mapElementListFilter.begin();
+    if( it != mapElementListFilter.end() )
     {
-        Opt<SoldierAutoReviveMapElement> soldierAutoReviveMapElement( *soldierAutoReviveMapElementIt );
+        Opt<SoldierAutoReviveMapElement> soldierAutoReviveMapElement( *it );
         return soldierAutoReviveMapElement->GetSecsToRevive();
     }
     return 0.0;
