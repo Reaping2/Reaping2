@@ -71,7 +71,7 @@ detail::TextureImpl* Load( File& F )
         return NULL;
     }
     static uint16_t const MaxSupportedImageSize = 1 << 15;
-    assert( Head.Width() <= MaxSupportedImageSize && Head.Height() < MaxSupportedImageSize );
+    assert( Head.Width() <= MaxSupportedImageSize && Head.Height() <= MaxSupportedImageSize );
     impl->mWidth = Head.Width();
     impl->mHeight = Head.Height();
     assert( Head.PixelDepth() == 24 || Head.PixelDepth() == 32 );
