@@ -70,6 +70,8 @@ detail::TextureImpl* Load( File& F )
     {
         return NULL;
     }
+    static uint16_t const MaxSupportedImageSize = 1 << 15;
+    assert( Head.Width() <= MaxSupportedImageSize && Head.Height() < MaxSupportedImageSize );
     impl->mWidth = Head.Width();
     impl->mHeight = Head.Height();
     assert( Head.PixelDepth() == 24 || Head.PixelDepth() == 32 );
@@ -93,7 +95,7 @@ detail::TextureImpl* Load( File& F )
         Succ = F.Read( Buf, InSize );
         if( Succ )
         {
-            detail::TextureImpl::ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), Buf.size() / 3, &impl->mData.at( 0 ) );
+            detail::TextureImpl::ConvertRGBtoRGBA( ( uint8_t* )( void* )Buf.c_str(), ImgSize, &impl->mData.at( 0 ) );
         }
     }
     if( !Succ )
@@ -103,7 +105,7 @@ detail::TextureImpl* Load( File& F )
     }
     else
     {
-        Reorder( &impl->mData.at( 0 ), impl->mData.size() / 4 );
+        Reorder( &impl->mData.at( 0 ), ImgSize );
     }
     return impl.release();
 }
