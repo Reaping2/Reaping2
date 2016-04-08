@@ -39,7 +39,7 @@ ExternalProject_Add(ext_portaudio
                     ${EXTERNALS_WORK_DIR}/src/portaudio/src/os/unix/pa_unix_hostapis.c
             COMMAND ${CMAKE_COMMAND} -E copy
                     ${CMAKE_CURRENT_SOURCE_DIR}/winioctl.h
-                    ${EXTERNALS_WORK_DIR}/src/portaudio/src/os/mingw-crosscompile/winioctl.h
+                    ${EXTERNALS_WORK_DIR}/src/portaudio/src/os/mingw/winioctl.h
         CMAKE_ARGS
             ${PLATFORM_CMAKE_ARGS}
             ${TOOLCHAIN_CMAKE_ARGS}
