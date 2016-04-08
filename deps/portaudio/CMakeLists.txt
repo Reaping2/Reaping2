@@ -9,7 +9,12 @@ set(PORTAUDIO_REV
         CACHE STRING "Portaudio svn revision to check out")
 
 add_custom_target(ext_portaudio_patch
-        SOURCES portaudio_cmakelists.txt.in)
+        SOURCES portaudio_cmakelists.txt.in
+                options_cmake.h.in
+                pa_unix_hostapis.c
+                template_portaudio.def.in
+                winioctl.h)
+
 
 ExternalProject_Add(ext_portaudio
         PREFIX "${EXTERNALS_WORK_DIR}"
