@@ -99,9 +99,9 @@ void FlagCollisionSubSystem::Collide( Actor& actor, Actor& other )
                 FlagSpawnSystem::Get()->SetFlagPositionToStart( actor );
                 EventServer< ::ctf::FlagStateChangedEvent>::Get().SendEvent(
                     ::ctf::FlagStateChangedEvent( ::ctf::FlagStateChangedEvent::Scored, actorTeamC->GetTeam(), carrierGUID, actor.GetGUID() ) );
+                return;
             }
         }
-        return;
     }
 
     if ( otherFlagCarrierC.IsValid() )

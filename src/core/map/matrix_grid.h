@@ -10,7 +10,7 @@ namespace map {
 class MatrixGrid: public IGrid
 {
 protected:
-    glm::vec2 GetPositionOnMatrix( glm::vec2 position, bool withMagicSize );
+    glm::vec2 GetPositionOnMatrix( glm::vec2 position );
 public:
     MatrixGrid( int32_t Id );
     virtual void Update( double DeltaTime );

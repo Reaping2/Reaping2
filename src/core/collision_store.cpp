@@ -32,6 +32,8 @@ CollisionStore::CollisionStore()
     SetCollisionModel( CollisionClass::Player, CollisionClass::Pickup, Box );
     SetCollisionModel( CollisionClass::Creep, CollisionClass::AoeDamage, Box );
     SetCollisionModel( CollisionClass::Player, CollisionClass::AoeDamage, Box );
+    SetCollisionModel( CollisionClass::Player, CollisionClass::Flag, Box );
+    SetCollisionModel( CollisionClass::Flag, CollisionClass::Flag, Box );
 }
 
 size_t CollisionStore::MapTypes( CollisionClass::Type T1, CollisionClass::Type T2 )

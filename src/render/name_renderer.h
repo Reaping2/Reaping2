@@ -10,12 +10,16 @@
 #include "text_scene_renderer.h"
 #include "core/program_state.h"
 #include "hat_action_renderer.h"
+#include "core/settings.h"
 
 class NameRenderer
 {
     void Init();
     core::ProgramState& mProgramState;
     render::ColorRepo& mColorRepo;
+    Settings& mSettings;
+    int32_t mSize;
+    int32_t mY;
 public:
     NameRenderer();
     void Draw( TextSceneRenderer& textSceneRenderer );

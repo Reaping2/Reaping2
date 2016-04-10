@@ -73,6 +73,9 @@ endif(CCACHE_FOUND)
 
 include_directories(
     "${PROJECT_SOURCE_DIR}/src"
+    )
+
+include_directories( SYSTEM
     "${PROJECT_SOURCE_DIR}/deps/json-cpp-0.6.0-rc2"
     "${PROJECT_SOURCE_DIR}/deps/eos_portable_archive/eos"
     ${Boost_INCLUDE_DIR}

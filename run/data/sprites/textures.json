@@ -49,7 +49,7 @@
                         "name":"body_idle",
                         "w":512,
                         "h":512,
-                        "scale":2.5,
+                        "scale":1.25,
                         "phases":[{"x":0,"y":0}]
                     }
                 ]

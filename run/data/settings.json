@@ -1,0 +1,21 @@
+{
+    "health_bar":
+    {
+        "size":
+        {
+            "width":180,
+            "height":20
+        },
+        "border_size":
+        {
+            "width":186,
+            "height":26
+        },
+        "y":60
+    },
+    "soldier_name":
+    {
+        "size":76,
+        "y":70
+    }
+}

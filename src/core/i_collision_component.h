@@ -12,6 +12,8 @@ public:
     virtual void SetCollisionClass( CollisionClass::Type CollisionClassType ) = 0;
     virtual double GetRadius()const = 0;
     virtual void SetRadius( double Radius ) = 0;
+    virtual bool IsClipScene()const = 0;
+    virtual void SetClipScene( bool clipScene ) = 0;
 protected:
     friend class ComponentFactory;
 public:

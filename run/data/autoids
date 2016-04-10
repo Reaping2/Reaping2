@@ -34,6 +34,7 @@ audio_system
 AudioSystem
 background
 bar
+big_background
 blood_particle0
 blood_particle1
 blood_particle10
@@ -539,6 +540,9 @@ PingMessageHandlerSubSystem
 ping_message_sender_system
 PingMessageSenderSystem
 pistol
+pistol_muzzle
+pistol_muzzle_particle
+pistol_muzzle_spr
 pistol_shot
 pistol_single
 pistol_weapon_sub_system
@@ -645,6 +649,10 @@ shotgun_alt2_particle
 shotgun_alt2_projectile
 shotgun_alt_particle
 shotgun_alt_projectile
+shotgun_muzzle
+shotgun_muzzle_alt
+shotgun_muzzle_alt_particle
+shotgun_muzzle_particle
 shotgun_particle
 shotgun_projectile
 shotgun_weapon_sub_system

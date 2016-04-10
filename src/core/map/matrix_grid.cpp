@@ -4,7 +4,6 @@
 #include "../actor.h"
 #include "editor_target_system.h"
 #include "../i_position_component.h"
-#include "../magic_consts.h"
 
 namespace map {
 
@@ -25,13 +24,13 @@ void MatrixGrid::SetMousePosition( double x, double y )
 {
     IGrid::SetMousePosition( x, y );
     mProcessedPosition = mMousePosition;
-    mProcessedPosition = GetPositionOnMatrix( mProcessedPosition, true );
+    mProcessedPosition = GetPositionOnMatrix( mProcessedPosition );
 }
 
 Neighbors MatrixGrid::GetNeighbors( glm::vec2 position, int32_t actorID )
 {
     Neighbors r;
-    glm::vec2 posOnMatrix = GetPositionOnMatrix( position, false );
+    glm::vec2 posOnMatrix = GetPositionOnMatrix( position );
     double radius = EditorTargetSystem::Get()->GetCursorRadius();
     for ( BorderType::NeighborDirs_t::const_iterator i = mBorderType.GetNeighborDirs().begin(), e = mBorderType.GetNeighborDirs().end(); i != e; ++i )
     {
@@ -67,10 +66,10 @@ Neighbors MatrixGrid::GetNeighbors( glm::vec2 position, int32_t actorID )
     return r;
 }
 
-glm::vec2 MatrixGrid::GetPositionOnMatrix( glm::vec2 position, bool withMagicSize )
+glm::vec2 MatrixGrid::GetPositionOnMatrix( glm::vec2 position )
 {
     glm::vec2 r = position;
-    double radius = EditorTargetSystem::Get()->GetCursorRadius() * ( withMagicSize ? MAGIC_SIZE : 1.0 );
+    double radius = EditorTargetSystem::Get()->GetCursorRadius();
     r.x = std::floor( position.x / ( radius * 2 ) ) * ( radius * 2 ) + std::floor( radius );
     r.y = std::floor( position.y / ( radius * 2 ) ) * ( radius * 2 ) + std::floor( radius );
     return r;

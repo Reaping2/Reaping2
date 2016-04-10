@@ -22,6 +22,10 @@ Weapon::Weapon( int32_t Id )
     , mReloadTime( 0.0 )
     , mReloadTimeMax( 2.0 )
     , mStaticReload( 0.0 )
+    , mMuzzleId( -1 )
+    , mMuzzleAltId( -1 )
+    , mPositionX( 0 )
+    , mPositionY( 0 )
 {
     mType = ItemType::Weapon;
 }
@@ -42,6 +46,10 @@ Weapon::Weapon()
     , mReloadTime( 0.0 )
     , mReloadTimeMax( 2.0 )
     , mStaticReload( 0.0 )
+    , mMuzzleId( -1 )
+    , mMuzzleAltId( -1 )
+    , mPositionX( 0 )
+    , mPositionY( 0 )
 {
 
 }
@@ -171,6 +179,50 @@ double Weapon::GetStaticReload()const
     return mStaticReload;
 }
 
+void Weapon::SetMuzzleId(int32_t muzzleId)
+{
+    mMuzzleId = muzzleId;
+}
+
+double Weapon::GetMuzzleId() const
+{
+    return mMuzzleId;
+}
+
+void Weapon::SetMuzzleAltId(int32_t muzzleAltId)
+{
+    mMuzzleAltId = muzzleAltId;
+}
+
+double Weapon::GetMuzzleAltId() const
+{
+    return mMuzzleId;
+}
+
+
+void Weapon::SetPositionX(double x)
+{
+    mPositionX = x;
+}
+
+
+double Weapon::GetPositionX() const
+{
+    return mPositionX;
+}
+
+
+void Weapon::SetPositionY(double y)
+{
+    mPositionY = y;
+}
+
+
+double Weapon::GetPositionY() const
+{
+    return mPositionY;
+}
+
 bool Weapon::GetShoot()
 {
     return mShoot;
@@ -267,6 +319,17 @@ void WeaponLoader::BindValues()
     Bind( "shot_cost_alt", func_int32_t( &Weapon::SetShotCostAlt ) );
     Bind( "reload_time", func_double( &Weapon::SetReloadTimeMax ) );
     Bind( "static_reload", func_double( &Weapon::SetStaticReload ) );
+    Bind( "position_x", func_double(&Weapon::SetPositionX));
+    Bind( "position_y", func_double(&Weapon::SetPositionY));
+    std::string istr;
+    if (Json::GetStr((*mSetters)["muzzle"], istr))
+    {
+        Bind<int32_t>(&Weapon::SetMuzzleId, AutoId(istr));
+    }
+    if (Json::GetStr((*mSetters)["muzzle_alt"], istr))
+    {
+        Bind<int32_t>(&Weapon::SetMuzzleAltId, AutoId(istr));
+    }
 
     Scatter scatter;
     Json::GetDouble( ( *mSetters )["scatter_increase"], scatter.mIncrease );

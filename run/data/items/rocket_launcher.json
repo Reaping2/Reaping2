@@ -12,7 +12,9 @@
             "scatter_increase":22,
             "scatter_alt_increase":5,
             "scatter_chill":31,
-            "scatter_magic_number":100
+            "scatter_magic_number":100,
+            "position_x":70.0,
+            "position_y":15.0
         }]
     }
 ]

@@ -10,6 +10,7 @@
 #include "text.h"
 #include "core/program_state.h"
 #include "hat_action_renderer.h"
+#include "core/settings.h"
 
 struct SceneVertex
 {
@@ -34,6 +35,11 @@ class HealthBarRenderer
     Texts_t mTexts;
     core::ProgramState& mProgramState;
     render::ColorRepo& mColorRepo;
+    Settings& mSettings;
+    glm::vec2 mSize;
+    glm::vec2 mBorderSize;
+    glm::vec2 mPosition;
+    glm::vec2 mBorderPosition;
     void Init();
 public:
     HealthBarRenderer();

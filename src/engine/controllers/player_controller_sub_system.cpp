@@ -78,11 +78,8 @@ void PlayerControllerSubSystem::Shoot( Actor& actor, Opt<PlayerControllerCompone
     if ( normalItem.IsValid() )
     {
         normalItem->SetUse( playerControllerC->mUseNormalItem.GetValue() );
-        if ( playerControllerC->mUseNormalItem.GetValue() )
-        {
-            playerControllerC->mUseNormalItem.Handled();
-        }
     }
+    playerControllerC->mUseNormalItem.Handled();
 }
 
 void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
