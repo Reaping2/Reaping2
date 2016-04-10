@@ -56,8 +56,8 @@ void ClientSystem::Update( double DeltaTime )
 
     if ( !mProgramState.mClientConnected )
     {
+        PerfTimer.Log( "client not connected, client update ended" );
         return;
-        PerfTimer.Log( "client not connected client update ended" );
     }
     ENetEvent event;
     while( enet_host_service ( mClient, & event, 0 ) > 0 )

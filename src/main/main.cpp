@@ -436,20 +436,6 @@ int main( int argc, char* argv[] )
     L1( "client_datas_message type: %d\n", network::ClientDatasMessage::GetType_static() );
     L1( "soldier_properties_message type: %d\n", network::SoldierPropertiesMessage::GetType_static() );
 
-
-    //     std::auto_ptr<Component> cloakC=ComponentFactory::Get()(AutoId("cloak_component"));
-    //     static_cast<CloakComponent*>(cloakC.get())->SetActive(true);
-    std::auto_ptr<Actor> actor = ActorFactory::Get()( AutoId( "player" ) );
-    std::ostringstream oss;
-    eos::portable_oarchive oa( oss );
-    oa& actor.get();
-    std::string astr( oss.str() );
-
-    std::istringstream iss( astr );
-    eos::portable_iarchive ia( iss );
-    Actor* retAct;
-    ia >> retAct;
-
     while( IsMainRunning )
     {
         Curtime = glfwGetTime();

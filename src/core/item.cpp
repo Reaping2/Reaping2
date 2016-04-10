@@ -20,6 +20,8 @@ int32_t Item::GetActorGUID() const
 Item::Item( int32_t Id )
     : mId( Id )
     , mState( 0 )
+    , mActorGUID( 0 )
+    , mType( ItemType::Normal )
 {
     LOG( "!Item: id: %d\n", mId );
 }
@@ -27,6 +29,8 @@ Item::Item( int32_t Id )
 Item::Item()
     : mId( -1 )
     , mState( 0 )
+    , mActorGUID( 0 )
+    , mType( ItemType::Normal )
 {
 
 }

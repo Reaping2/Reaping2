@@ -4,6 +4,8 @@
 
 Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
     : RepoBase( mDefaultSpritePhase )
+    , mScale( 1.0 )
+    , mSecsToEnd( 1 )
 {
     Texture const& Tex = TextureRepo::Get()( TexId );
     mTexId = Tex.TexId();

@@ -36,7 +36,8 @@ public:
 
 template<typename T>
 Cache<T>::Cache( int CleanupInterval )
-    : mCleanupInterval( CleanupInterval )
+    : mLastCleanupTime( 0.0 )
+    , mCleanupInterval( CleanupInterval )
 {
 
 }
