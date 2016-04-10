@@ -44,6 +44,16 @@ void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 
+void RenderTarget::SelectTargetTexture( uint32_t id ) const
+{
+    TargetTexture const& tgt = mTargets.at( id );
+    glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
+    GLenum drawBuffers[1] = { tgt.Attachment };
+    glDrawBuffers(1, drawBuffers);
+    bool succ = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+    BOOST_ASSERT( succ );
+}
+
 void RenderTarget::SetTargetScreen()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

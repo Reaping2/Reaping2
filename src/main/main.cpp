@@ -413,7 +413,10 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "stop_on_death_system" ) );
 
     Eng.AddSystem( AutoId( "frame_counter_system" ) );
-    Eng.AddSystem( AutoId( "renderer_system" ) );
+    if ( programState.mMode != ProgramState::Server )
+    {
+        Eng.AddSystem( AutoId( "renderer_system" ) );
+    }
     Eng.AddSystem( AutoId( "show_text_system" ) );
 
     Eng.AddSystem( AutoId( "player_model_system" ) );

@@ -5,7 +5,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings"}]
+                "set":[{"layer":"buildings", "cast_shadow":1}]
             },
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":100}]
@@ -18,7 +18,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings"}]
+                "set":[{"layer":"buildings", "cast_shadow":1}]
             },
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":50}]
@@ -31,7 +31,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings"}]
+                "set":[{"layer":"buildings", "cast_shadow":1}]
             },
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":100}]
@@ -45,7 +45,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"corpses"}]
+                "set":[{"layer":"corpses", "receive_shadow":1}]
             },
             {"name":"water_collision_component",
                 "set":[{"class":"water", "radius":50}]
@@ -509,7 +509,7 @@
                 "set":[{"acceleration":2000,"max_speed":2600}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
 
             {"name":"shot_collision_component",
@@ -571,7 +571,7 @@
                 "set":[{"acceleration":1200,"max_speed":1500}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
 
             {"name":"shot_collision_component",
@@ -734,7 +734,7 @@
             {"name":"position_component"},
             {"name":"move_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":50}]
@@ -755,7 +755,7 @@
             {"name":"position_component"},
             {"name":"move_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":50}]
@@ -777,7 +777,7 @@
             {"name":"position_component"},
             {"name":"move_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
 
             {"name":"collision_component",
@@ -799,7 +799,7 @@
             {"name":"position_component"},
             {"name":"move_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":50}]
@@ -821,7 +821,7 @@
             {"name":"position_component"},
             {"name":"move_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"players"}]
+                "set":[{"layer":"players", "cast_shadow":1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"player", "radius":30}]
@@ -873,7 +873,7 @@
             {"name":"position_component"},
             {"name":"move_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"players"}]
+                "set":[{"layer":"players", "cast_shadow":1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"player", "radius":30}]

@@ -20,6 +20,7 @@ class RenderTarget : public platform::Singleton<RenderTarget>
     TargetMap_t mTargets;
 public:
     void SetTargetTexture( uint32_t id, glm::vec2 const& size );
+    void SelectTargetTexture( uint32_t id ) const;
     void SetTargetScreen();
     GLuint GetTextureId( uint32_t id );
 };

@@ -82,7 +82,7 @@ void HealthSystem::Update( double DeltaTime )
                 collisionC->SetCollisionClass( CollisionClass::No_Collision );
             }
             healthC->SetTimeOfDeath( glfwGetTime() );
-            Scene::Get().ModifyActor( &actor, RenderableComponentModifier( RenderableLayer::Corpses, healthC->GetTimeOfDeath() ) );
+            Scene::Get().ModifyActor( &actor, RenderableComponentModifier( RenderableLayer::Corpses, healthC->GetTimeOfDeath(), 0, -1, 1 ) );
             EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Died ) );
         }
         healthC->SetHP( newHp );

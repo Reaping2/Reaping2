@@ -5,7 +5,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"background"}]
+                "set":[{"layer":"background", "receive_blood": 1, "receive_shadow": 1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"no_collision", "radius":200}]
@@ -19,7 +19,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"background"}]
+                "set":[{"layer":"background", "receive_blood": 1, "receive_shadow": 1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"no_collision", "radius":200}]

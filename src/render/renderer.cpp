@@ -99,6 +99,36 @@ void RendererSystem::Init()
     glEnable( GL_BLEND );
 }
 
+namespace {
+std::set<int32_t> getShadowLevels( Scene const& scene )
+{
+    std::set<int32_t> rv;
+    auto const& Lst = scene.GetActors();
+    ActorListFilter<Scene::RenderableActors> wrp( Lst );
+    for( auto i = wrp.begin(), e = wrp.end(); i != e; ++i )
+    {
+        const Actor& Object = **i;
+        Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
+        rv.insert( renderableC->GetCastShadow() );
+        rv.insert( renderableC->GetReceiveShadow() );
+    }
+    rv.erase( 0 );
+    return rv;
+}
+bool selectBloodReceivers( IRenderableComponent const& renderableC )
+{
+    return renderableC.GetReceiveBlood() != 0;
+}
+bool selectShadowReceivers( IRenderableComponent const& renderableC, int32_t shadowLevel )
+{
+    return renderableC.GetReceiveBlood() == 0 && renderableC.GetReceiveShadow() == shadowLevel;
+}
+bool selectShadowCasters( IRenderableComponent const& renderableC, int32_t shadowLevel )
+{
+    return renderableC.GetReceiveBlood() == 0 && renderableC.GetCastShadow() == shadowLevel;
+}
+}
+
 void RendererSystem::Update( double DeltaTime )
 {
     render::ParticleEngine::Get().Update( DeltaTime );
@@ -113,55 +143,58 @@ void RendererSystem::Update( double DeltaTime )
 
     // paint solid objects to texture target 1
     // !---- rt 1
-    rt.SetTargetTexture( 1, mWorldProjector.GetViewport().Size() );
-
+    uint32_t world = 1;
+    rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size() );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
     mSceneRenderer.Draw( Scen );
-    static std::set<RenderableLayer::Type> const bglayers = boost::assign::list_of( RenderableLayer::Background ).to_container( bglayers );
-    static std::set<RenderableLayer::Type> const shadowlayers = boost::assign::list_of( RenderableLayer::Creeps )( RenderableLayer::Players )( RenderableLayer::Buildings ).to_container( bglayers );
-    static std::set<RenderableLayer::Type> const fglayers;
-    mActorRenderer.Draw( Scen, DeltaTime, bglayers, fglayers);
+    mActorRenderer.Prepare( Scen, DeltaTime );
+    mActorRenderer.Draw( &selectBloodReceivers );
     mDecalEngine.Draw();
 
+    uint32_t shadowOutline = 2, shadow_1=4, shadow_2=5;
 
-    // !---- rt - shadows outline
-    rt.SetTargetTexture( 2, mWorldProjector.GetViewport().Size() );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    mActorRenderer.Draw( Scen, DeltaTime, shadowlayers, fglayers );
+    auto const shadowLevels = getShadowLevels( Scen );
+    for( auto shadowLevel : shadowLevels )
+    {
+        // !---- rt - shadows outline
+        rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() );
+        SetupRenderer( mWorldProjector );
+        mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
 
-    mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-    mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+        mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+        mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
 
 
-    // !---- rt4 - shadows - with depth
-    rt.SetTargetTexture( 4, mWorldProjector.GetViewport().Size() );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 2 ), "shadows" );
-    // !---- rt5 - shadows - vblurred
-    rt.SetTargetTexture( 5, mWorldProjector.GetViewport().Size() );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 4 ), "vblur" );
-    // mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 4 ), "vblur" );
-    // !---- rt3
-    rt.SetTargetTexture( 3, mWorldProjector.GetViewport().Size() );
-    glBlendFunc( GL_ONE, GL_ONE );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 1 ), "world_solid_objects" );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 5 ), "hblur" );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 5 ), "hblur" );
+        // !---- rt4 - shadows - with depth
+        rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows" );
+        // !---- rt5 - shadows - vblurred
+        rt.SetTargetTexture( shadow_2, mWorldProjector.GetViewport().Size() );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "vblur" );
 
-    SetupRenderer( mWorldProjector );
-    mActorRenderer.Draw( Scen, DeltaTime, fglayers, bglayers);
+        rt.SelectTargetTexture( world );
+        SetupRenderer( mWorldProjector );
+        mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
+
+        mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+        mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
+    }
 
     // !---- rt16
     // particle blending happens with different blending modes
     // so we can't simply render the particles to their own FBO
     // we render the background with effects, render the particles to a new FBO
     // and at last render the results onto the screen with another layer of effects
-    rt.SetTargetTexture( 16, mWorldProjector.GetViewport().Size() );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    uint32_t worldEffects = 16;
+    rt.SetTargetTexture( worldEffects, mWorldProjector.GetViewport().Size() );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
-
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 16 ), "world_solid_objects" );
+    glBlendFunc( GL_ONE, GL_ONE );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), "world_solid_objects" );
     SetupRenderer( mWorldProjector );
 
     // set painting to screen
@@ -173,7 +206,7 @@ void RendererSystem::Update( double DeltaTime )
     glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     // paint the previous textures to screen with custom additional effects
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( 3 ), "world_solid_objects" );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), "world_solid_objects" );
     SetupRenderer( mWorldProjector );
     render::ParticleEngine::Get().Draw();
 
