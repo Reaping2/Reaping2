@@ -28,8 +28,26 @@ namespace platform {
         {
             f->ReadAll( data );
         }
+        std::string dataNoEol("");
+        size_t eolPos = 0;
+        // convert EOL \r\n (win) to \r (UNIX-like including Mac OS) to make checksum checking cross platform
+        while( true )
+        {
+            size_t last = eolPos;
+            eolPos = data.find("\r\n", last );
+            if ( std::string::npos != eolPos )
+            {
+                dataNoEol += (data.substr( last, eolPos-last )+'\n');
+                eolPos++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
         boost::crc_32_type result;
-        result.process_bytes( data.data(), data.length() );
+        result.process_bytes( dataNoEol.data(), dataNoEol.length() );
         checksum = result.checksum();
         return checksum;
     }
