@@ -37,6 +37,10 @@ option(USE_BUNDLED_DEFAULT
         "Set default option value for bundled dependencies"
         ${DEFAULT_ENABLED_BUNDLED_DEPS})
 
+option(USE_BUNDLED_LIBWHEREAMI
+    "Use bundled libwhereami"
+    ON)
+
 # Shorthand for declaring an option and adding a subdirectory if option is on
 macro(ADD_BUNDLED_DEPENDENCY NAME)
     string(TOUPPER ${NAME} NAME_UPPER)
@@ -63,6 +67,9 @@ add_bundled_dependency(zlib)
 add_bundled_dependency(libpng)
 add_bundled_dependency(portaudio)
 add_bundled_dependency(enet)
+add_bundled_dependency(libssh2)
+add_bundled_dependency(libcurl)
+add_bundled_dependency(libwhereami)
 if(WIN32)
     add_bundled_dependency(dbg)
 else(WIN32)

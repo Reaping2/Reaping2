@@ -1,4 +1,6 @@
 #include "process.h"
+#include <stdlib.h>
+#include <algorithm>
 #include <boost/predef.h>
 #include <boost/filesystem.hpp>
 #include <boost/assert.hpp>
@@ -16,16 +18,26 @@ namespace buffers {
 size_t const CommandLineMax = 1024;
 wchar_t CommandLine[ CommandLineMax ] = { 0 };
 }
+namespace {
+std::wstring wcstr( std::string const& str )
+{
+    size_t len = mbstowcs( NULL, str.c_str(), 0 );
+    std::wstring wstr( len + 1, '\0' );
+    mbstowcs( &wstr[0], str.c_str(), wstr.size() );
+    return wstr;
+}
+}
 bool Start( std::string const& command, std::vector<std::string> const& arguments )
 {
-    BOOST_ASSERT( false );
-    return false;
+    std::vector<std::wstring> args;
+    std::transform( arguments.begin(), arguments.end(), std::back_inserter( args ), &wcstr );
+    return Start( wcstr( command ), args );
 }
 bool Start( std::wstring const& command, std::vector<std::wstring> const& arguments )
 {
     wchar_t* pt = buffers::CommandLine;
     size_t s = command.size();
-    memcpy( pt, arg.c_str(), s * sizeof( wchar_t ) );
+    memcpy( pt, command.c_str(), s * sizeof( wchar_t ) );
     pt += s;
     *( pt++ ) = L' ';
     for( auto const& arg : arguments )
@@ -96,10 +108,20 @@ bool Start( std::string const& command, std::vector<std::string> const& argument
     }
     return true;
 }
+namespace {
+std::string mbstr( std::wstring const& wstr )
+{
+    size_t len = wcstombs( NULL, wstr.c_str(), 0 );
+    std::string str( len + 1, '\0' );
+    wcstombs( &str[0], wstr.c_str(), str.size() );
+    return str;
+}
+}
 bool Start( std::wstring const& command, std::vector<std::wstring> const& arguments )
 {
-    BOOST_ASSERT( false );
-    return false;
+    std::vector<std::string> args;
+    std::transform( arguments.begin(), arguments.end(), std::back_inserter( args ), &mbstr );
+    return Start( mbstr( command ), args );
 }
 #endif
 }

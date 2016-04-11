@@ -20,15 +20,7 @@ int main(int argc, char *argv[])
     post1 = NULL;
     postend = NULL;
     curl_formadd(&post1, &postend,
-            CURLFORM_COPYNAME, "ProductName",
-            CURLFORM_COPYCONTENTS, "Reaping2",
-            CURLFORM_END);
-    curl_formadd(&post1, &postend,
-            CURLFORM_COPYNAME, "Version",
-            CURLFORM_COPYCONTENTS, "\"" GIT_VERSION "-" GIT_DATE "-" GIT_REMOTE "-" GIT_BRANCH "\"",
-            CURLFORM_END);
-    curl_formadd(&post1, &postend,
-            CURLFORM_COPYNAME, "upload_file_minidump",
+            CURLFORM_COPYNAME, "crashlog",
             CURLFORM_FILE, argv[1],
             CURLFORM_CONTENTTYPE, "application/octet-stream",
             CURLFORM_END);
@@ -47,25 +39,6 @@ int main(int argc, char *argv[])
     curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 0L);
     curl_easy_setopt(hnd, CURLOPT_VERBOSE, 0L);
     curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
-
-    /* Here is a list of options the curl code used that cannot get generated
-       as source easily. You may select to either not use them or implement
-       them yourself.
-
-       CURLOPT_WRITEDATA set to a objectpointer
-       CURLOPT_WRITEFUNCTION set to a functionpointer
-       CURLOPT_READDATA set to a objectpointer
-       CURLOPT_READFUNCTION set to a functionpointer
-       CURLOPT_SEEKDATA set to a objectpointer
-       CURLOPT_SEEKFUNCTION set to a functionpointer
-       CURLOPT_ERRORBUFFER set to a objectpointer
-       CURLOPT_STDERR set to a objectpointer
-       CURLOPT_DEBUGFUNCTION set to a functionpointer
-       CURLOPT_DEBUGDATA set to a objectpointer
-       CURLOPT_HEADERFUNCTION set to a functionpointer
-       CURLOPT_HEADERDATA set to a objectpointer
-
-*/
 
     ret = curl_easy_perform(hnd);
 

@@ -1,4 +1,6 @@
 #include "backtrace.h"
+#include "version.h"
+#include "process.h"
 #include <iostream>
 #include <boost/predef.h>
 #include <csignal>
@@ -6,6 +8,7 @@
 #include <stdlib.h>
 #include <boost/filesystem.hpp>
 #include <fstream>
+#include <whereami.h>
 
 #if BOOST_OS_WINDOWS
 #include <dbg/debugger.hpp>
@@ -21,6 +24,27 @@
 #endif
 
 namespace {
+boost::filesystem::path exeDir()
+{
+    int length = 0, dirname_length = 0;
+    length = wai_getExecutablePath(NULL, 0, &dirname_length);
+    if (length > 0)
+    {
+        std::string path( length + 1, '\0' );
+        wai_getExecutablePath( &path[0], length, &dirname_length);
+
+        path = path.substr( 0, dirname_length );
+        return boost::filesystem::path( path );
+    }
+    return boost::filesystem::path();
+}
+
+#if BOOST_OS_WINDOWS
+static std::string const exeName = "r2uploader.exe";
+#else
+static std::string const exeName = "r2uploader";
+#endif
+
 #if BOOST_OS_WINDOWS
 void bt_impl( std::ostream& strm )
 {
@@ -66,31 +90,48 @@ void bt_impl( std::ostream& strm )
 }
 #endif
 
-void saveBacktrace()
+boost::filesystem::path saveBacktrace()
 {
     // kind of ugly, prevent additional bts generated after incorrect termination ( registered_id asserts, etc )
     static bool handled = false;
     if( handled )
     {
-        return;
+        return boost::filesystem::path();
     }
     handled = true;
     std::string const& tempmodel = boost::filesystem::temp_directory_path().string();
     boost::filesystem::path temp = boost::filesystem::unique_path( tempmodel + "/reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt" );
     std::string tempstr = temp.string();
     std::ofstream ofs( tempstr.c_str() );
+    ofs << GIT_VERSION << "\n";
+    ofs << GIT_DATE << "\n";
+    ofs << GIT_BRANCH << "\n";
+    ofs << GIT_REMOTE << "\n";
     bt_impl( ofs );
+    return temp;
 }
 
 void handle( int signal )
 {
-    saveBacktrace();
+    boost::filesystem::path const& fname = saveBacktrace();
+    if( !fname.empty() )
+    {
+        std::vector<std::string> args;
+        args.push_back( fname.string() );
+        platform::process::Start( ( exeDir() / exeName ).string(), args );
+    }
     abort();
 }
 
 void handle_exc()
 {
-    saveBacktrace();
+    boost::filesystem::path const& fname = saveBacktrace();
+    if( !fname.empty() )
+    {
+        std::vector<std::string> args;
+        args.push_back( fname.string() );
+        platform::process::Start( ( exeDir() / exeName ).string(), args );
+    }
     abort();
 }
 
