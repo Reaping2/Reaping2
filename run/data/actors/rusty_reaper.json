@@ -1,0 +1,40 @@
+[
+    {
+        "name":"rusty_reaper_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":2000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"bounce_collision_component",
+                "set":[{"class":"projectile", "radius":25, "damage":10, "speed_loss_percent":0.0 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"}
+        ]
+    },
+    {
+        "name":"rusty_reaper_alt_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":2000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":25, "damage":10 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"}
+        ]
+    }
+]

@@ -57,7 +57,7 @@ void ShotCollisionComponent::serialize( Archive& ar, const unsigned int version 
 class ShotCollisionComponentLoader: public ComponentLoader<ShotCollisionComponent>
 {
     virtual void BindValues();
-protected:
+public:
     ShotCollisionComponentLoader();
     friend class ComponentLoaderFactory;
 };

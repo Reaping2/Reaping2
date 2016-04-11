@@ -1,0 +1,20 @@
+[
+    {
+        "name":"rusty_reaper",
+        "set":[{
+            "shoot_cooldown":0.1,
+            "shoot_alt_cooldown":0.1,
+            "bullets":20,
+            "shot_cost":1,
+            "shot_cost_alt":1,
+            "reload_time":1.0,
+            "static_reload":0,
+            "scatter_increase":0.1,
+            "scatter_alt_increase":0.1,
+            "scatter_chill":0.1,
+            "scatter_magic_number":0.1,
+            "position_x":0.1,
+            "position_y":0.1
+        }]
+    }
+]

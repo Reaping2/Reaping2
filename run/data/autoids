@@ -883,3 +883,8 @@ WeaponItemSubSystem
 widget
 window_system
 WindowSystem
+rusty_reaper
+rusty_reaper_projectile
+rusty_reaper_alt_projectile
+rusty_reaper_weapon_sub_system
+RustyReaperWeaponSubSystem

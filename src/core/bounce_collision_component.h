@@ -4,8 +4,9 @@
 #include "collision_component.h"
 #include "core/property_loader.h"
 #include "platform/export.h"
+#include "shot_collision_component.h"
 
-class BounceCollisionComponent : public CollisionComponent
+class BounceCollisionComponent : public ShotCollisionComponent
 {
 public:
     BounceCollisionComponent();
@@ -25,7 +26,7 @@ template<class Archive>
 void BounceCollisionComponent::serialize( Archive& ar, const unsigned int version )
 {
     //NOTE: generated archive for this class
-    ar& boost::serialization::base_object<CollisionComponent>( *this );
+    ar& boost::serialization::base_object<ShotCollisionComponent>( *this );
     ar& mSpeedLossPercent;
 }
 

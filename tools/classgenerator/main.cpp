@@ -98,7 +98,28 @@ public:
         camelCase = boost::join( parts, camelCase );
         return camelCase;
     }
-
+    std::string CamelCaseToUnderscore(std::string camelCase)
+    {
+        if (camelCase.empty())
+        {
+            return std::string();
+        }
+        std::string underscore;
+        bool first = true;
+        for (auto c : camelCase)
+        {
+            if (!first&&isupper(c))
+            {
+                underscore = underscore + "_" + char(tolower(c));
+            }
+            else
+            {
+                underscore = underscore + char(tolower(c));
+            }
+            first = false;
+        }
+        return underscore;
+    }
     Type_Member_Pairs_t SplitMemberPairs( std::string membersArg )
     {
         if ( membersArg.empty() )
@@ -2097,6 +2118,404 @@ class EnumGenerator : public Generator
     }
 };
 
+class WeaponGenerator : public Generator
+{
+    virtual void Generate()
+    {
+        L1("%s started\n", __FUNCTION__);
+        if (parentUnderscore.empty())
+        {
+            parentUnderscore = "weapon";
+        }
+
+        Init();
+        boost::filesystem::path dir(classUnderscore);
+        boost::filesystem::create_directory(dir);
+        dir = boost::filesystem::path(classUnderscore + "/data");
+        boost::filesystem::create_directory(dir);
+        dir = boost::filesystem::path(classUnderscore + "/data/items");
+        boost::filesystem::create_directory(dir);
+        dir = boost::filesystem::path(classUnderscore + "/data/sprites");
+        boost::filesystem::create_directory(dir);
+        dir = boost::filesystem::path(classUnderscore + "/data/actors");
+        boost::filesystem::create_directory(dir);
+        {
+            AutoNormalFile file((classUnderscore+"/"+classUnderscore + ".h").c_str(), "w");
+            fprintf(file.mFile, "#ifndef %s\n", headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n", headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"core/weapon.h\"\n");
+            fprintf(file.mFile, "#include \"platform/export.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    %s( int32_t Id );\n", classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n", classCamelCase.c_str());
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "    %s;\n", CreateSetMemberFull(i->first, i->second).c_str());
+                fprintf(file.mFile, "    %s;\n", CreateGetMemberFull(i->first, i->second).c_str());
+            }
+            fprintf(file.mFile, "private:\n");
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "    %s;\n", CreateMemberWithType(i->first, i->second).c_str());
+            }
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    friend class ::boost::serialization::access;\n");
+            fprintf(file.mFile, "    template<class Archive>\n");
+            fprintf(file.mFile, "    void serialize( Archive& ar, const unsigned int version );\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "template<class Archive>\n");
+            fprintf(file.mFile, "void %s::serialize(Archive& ar, const unsigned int version)\n", classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    ar& boost::serialization::base_object<Weapon>(*this);\n");
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "    ar& %s;\n", CreateMemberName(i->second).c_str());
+            }
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "class %sLoader : public ItemLoader<%s>\n", classCamelCase.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    virtual void BindValues();\n");
+            fprintf(file.mFile, "    %sLoader();\n", classCamelCase.c_str());
+            fprintf(file.mFile, "    friend class ItemLoaderFactory;\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "REAPING2_CLASS_EXPORT_KEY2( %s, %s, \"%s\" );\n",classCamelCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "#endif//%s\n", headerGuard.c_str());
+
+            fprintf(file.mFile, "//TODO: to item_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId( \"%s\" ), &CreateItem<%s> );\n", classUnderscore.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to item_loader_factory.cpp:\n");
+            fprintf(file.mFile, "id = AutoId( \"%s\" ); mElements.insert( id, new %sLoader() );\n", classUnderscore.c_str(), classCamelCase.c_str());
+            WriteCommand(file);
+        }
+
+
+        {
+            AutoNormalFile file((classUnderscore + "/" + classUnderscore + ".cpp").c_str(), "w");
+            fprintf(file.mFile, "#include \"core/%s.h\"\n", classUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s( int32_t Id )\n", classCamelCase.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "    : Weapon( Id )\n");
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "    , %s(_fill_me_)\n", CreateMemberName(i->second).c_str());
+            }
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "    : Weapon( -1 )\n");
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "    , %s(_fill_me_)\n", CreateMemberName(i->second).c_str());
+            }
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "%s", CreateSetMemberCppDefiniton(i->first, i->second, classCamelCase).c_str());
+                fprintf(file.mFile, "%s", CreateGetMemberCppDefiniton(i->first, i->second, classCamelCase).c_str());
+            }
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %sLoader::BindValues()\n", classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%sLoader::%sLoader()\n", classCamelCase.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    SetBase<WeaponLoader>();\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "REAPING2_CLASS_EXPORT_IMPLEMENT( %s, %s );\n", classCamelCase.c_str(), classCamelCase.c_str());
+        }
+        {
+            AutoNormalFile file((classUnderscore + "/data/items/" + classUnderscore + ".json").c_str(), "w");
+            fprintf(file.mFile, "[\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"name\":\"%s\",\n",classUnderscore.c_str());
+            fprintf(file.mFile, "        \"set\":[{\n");
+            fprintf(file.mFile, "            \"shoot_cooldown\":0.1,\n");
+            fprintf(file.mFile, "            \"shoot_alt_cooldown\":0.1,\n");
+            fprintf(file.mFile, "            \"bullets\":20,\n");
+            fprintf(file.mFile, "            \"shot_cost\":1,\n");
+            fprintf(file.mFile, "            \"shot_cost_alt\":1,\n");
+            fprintf(file.mFile, "            \"reload_time\":1.0,\n");
+            fprintf(file.mFile, "            \"static_reload\":0,\n");
+            fprintf(file.mFile, "            \"scatter_increase\":0.1,\n");
+            fprintf(file.mFile, "            \"scatter_alt_increase\":0.1,\n");
+            fprintf(file.mFile, "            \"scatter_chill\":0.1,\n");
+            fprintf(file.mFile, "            \"scatter_magic_number\":0.1,\n");
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf(file.mFile, "            \"%s\":0.0,\n", CamelCaseToUnderscore(i->second).c_str());
+            }
+            fprintf(file.mFile, "            \"position_x\":0.1,\n");
+            fprintf(file.mFile, "            \"position_y\":0.1\n");
+            fprintf(file.mFile, "        }]\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "]\n");
+        }
+        {
+            AutoNormalFile file((classUnderscore + "/data/actors/" + classUnderscore + ".json").c_str(), "w");
+            fprintf(file.mFile, "[\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"name\":\"%s_projectile\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"components\":\n");
+            fprintf(file.mFile, "        [\n");
+            fprintf(file.mFile, "            {\"name\":\"position_component\"},\n");
+            fprintf(file.mFile, "            {\"name\":\"move_component\",\n");
+            fprintf(file.mFile, "                \"set\":[{\"speed\":2000}]\n");
+            fprintf(file.mFile, "            },\n");
+            fprintf(file.mFile, "            {\"name\":\"renderable_component\",\n");
+            fprintf(file.mFile, "                \"set\":[{\"layer\":\"creeps\"}]\n");
+            fprintf(file.mFile, "            },\n");
+            fprintf(file.mFile, "            {\"name\":\"shot_collision_component\",\n");
+            fprintf(file.mFile, "                \"set\":[{\"class\":\"projectile\", \"radius\":10, \"damage\":10 }]\n");
+            fprintf(file.mFile, "            },\n");
+            fprintf(file.mFile, "            {\"name\":\"health_component\"},\n");
+            fprintf(file.mFile, "            {\"name\":\"owner_component\"},\n");
+            fprintf(file.mFile, "            {\"name\":\"remove_on_death_component\"}\n");
+            fprintf(file.mFile, "        ]\n");
+            fprintf(file.mFile, "    },\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"name\":\"%s_alt_projectile\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"components\":\n");
+            fprintf(file.mFile, "        [\n");
+            fprintf(file.mFile, "            {\"name\":\"position_component\"},\n");
+            fprintf(file.mFile, "            {\"name\":\"move_component\",\n");
+            fprintf(file.mFile, "                \"set\":[{\"speed\":2000}]\n");
+            fprintf(file.mFile, "            },\n");
+            fprintf(file.mFile, "            {\"name\":\"renderable_component\",\n");
+            fprintf(file.mFile, "                \"set\":[{\"layer\":\"creeps\"}]\n");
+            fprintf(file.mFile, "            },\n");
+            fprintf(file.mFile, "            {\"name\":\"shot_collision_component\",\n");
+            fprintf(file.mFile, "                \"set\":[{\"class\":\"projectile\", \"radius\":10, \"damage\":10 }]\n");
+            fprintf(file.mFile, "            },\n");
+            fprintf(file.mFile, "            {\"name\":\"health_component\"},\n");
+            fprintf(file.mFile, "            {\"name\":\"owner_component\"},\n");
+            fprintf(file.mFile, "            {\"name\":\"remove_on_death_component\"}\n");
+            fprintf(file.mFile, "        ]\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "]\n");
+        }
+        {
+            AutoNormalFile file((classUnderscore + "/data/sprites/" + classUnderscore + ".json").c_str(), "w");
+            fprintf(file.mFile, "[\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"texture_path\":\"textures/%s_weapon.png\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"actor_visuals\":\n");
+            fprintf(file.mFile, "        [{\n");
+            fprintf(file.mFile, "            \"name\":\"player\",\n");
+            fprintf(file.mFile, "            \"animations\":\n");
+            fprintf(file.mFile, "            [\n");
+            fprintf(file.mFile, "                {\n");
+            fprintf(file.mFile, "                    \"name\":\"%s\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "                    \"w\":100,\n");
+            fprintf(file.mFile, "                    \"h\":100,\n");
+            fprintf(file.mFile, "                    \"scale\":1,\n");
+            fprintf(file.mFile, "                    \"phases\":[{\"x\":0,\"y\":0}]\n");
+            fprintf(file.mFile, "                }\n");
+            fprintf(file.mFile, "            ]\n");
+            fprintf(file.mFile, "        }]\n");
+            fprintf(file.mFile, "    },\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"texture_path\":\"textures/%s_weapon.png\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"actor_visuals\":\n");
+            fprintf(file.mFile, "        [{\n");
+            fprintf(file.mFile, "            \"name\":\"ctf_player\",\n");
+            fprintf(file.mFile, "            \"animations\":\n");
+            fprintf(file.mFile, "            [\n");
+            fprintf(file.mFile, "                {\n");
+            fprintf(file.mFile, "                    \"name\":\"%s\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "                    \"w\":100,\n");
+            fprintf(file.mFile, "                    \"h\":100,\n");
+            fprintf(file.mFile, "                    \"scale\":1,\n");
+            fprintf(file.mFile, "                    \"phases\":[{\"x\":0,\"y\":0}]\n");
+            fprintf(file.mFile, "                }\n");
+            fprintf(file.mFile, "            ]\n");
+            fprintf(file.mFile, "        }]\n");
+            fprintf(file.mFile, "    },\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"texture_path\":\"textures/%s_pickup.png\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"actor_visuals\":\n");
+            fprintf(file.mFile, "        [{\n");
+            fprintf(file.mFile, "            \"name\":\"%s\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "            \"animations\":\n");
+            fprintf(file.mFile, "            [\n");
+            fprintf(file.mFile, "                {\n");
+            fprintf(file.mFile, "                    \"name\":\"body_idle\",\n");
+            fprintf(file.mFile, "                    \"w\":32,\n");
+            fprintf(file.mFile, "                    \"h\":32,\n");
+            fprintf(file.mFile, "                    \"scale\":1,\n");
+            fprintf(file.mFile, "                    \"phases\":[{\"x\":0,\"y\":0}]\n");
+            fprintf(file.mFile, "                }\n");
+            fprintf(file.mFile, "            ]\n");
+            fprintf(file.mFile, "        }]\n");
+            fprintf(file.mFile, "    },\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"texture_path\":\"textures/%s_projectile.png\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"actor_visuals\":\n");
+            fprintf(file.mFile, "        [{\n");
+            fprintf(file.mFile, "            \"name\":\"%s_projectile\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "            \"animations\":\n");
+            fprintf(file.mFile, "            [\n");
+            fprintf(file.mFile, "                {\n");
+            fprintf(file.mFile, "                    \"name\":\"move\",\n");
+            fprintf(file.mFile, "                    \"w\":10,\n");
+            fprintf(file.mFile, "                    \"h\":10,\n");
+            fprintf(file.mFile, "                    \"scale\":1,\n");
+            fprintf(file.mFile, "                    \"phases\":[{\"x\":0,\"y\":0}]\n");
+            fprintf(file.mFile, "                }\n");
+            fprintf(file.mFile, "            ]\n");
+            fprintf(file.mFile, "        }]\n");
+            fprintf(file.mFile, "    },\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        \"texture_path\":\"textures/%s_alt_projectile.png\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "        \"actor_visuals\":\n");
+            fprintf(file.mFile, "        [{\n");
+            fprintf(file.mFile, "            \"name\":\"%s_alt_projectile\",\n", classUnderscore.c_str());
+            fprintf(file.mFile, "            \"animations\":\n");
+            fprintf(file.mFile, "            [\n");
+            fprintf(file.mFile, "                {\n");
+            fprintf(file.mFile, "                    \"name\":\"move\",\n");
+            fprintf(file.mFile, "                    \"w\":10,\n");
+            fprintf(file.mFile, "                    \"h\":10,\n");
+            fprintf(file.mFile, "                    \"scale\":1,\n");
+            fprintf(file.mFile, "                    \"phases\":[{\"x\":0,\"y\":0}]\n");
+            fprintf(file.mFile, "                }\n");
+            fprintf(file.mFile, "            ]\n");
+            fprintf(file.mFile, "        }]\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "]\n");
+        }
+        parentUnderscore = "sub_system";
+        namespaceLowerCase = "engine";
+        std::string originalClassUnderscore = classUnderscore;
+        std::string originalClassCamelCase = classCamelCase;
+        classUnderscore = classUnderscore + "_weapon_sub_system";
+        Init();
+        
+        {
+            AutoNormalFile file((originalClassUnderscore + "/" + classUnderscore + ".h").c_str(), "w");
+            fprintf(file.mFile, "#ifndef %s\n", headerGuard.c_str());
+            fprintf(file.mFile, "#define %s\n", headerGuard.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#include \"engine/items/common_sub_system_includes.h\"\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n", namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "public:\n");
+            fprintf(file.mFile, "    DEFINE_SUB_SYSTEM_BASE(%s)\n", classCamelCase.c_str());
+            fprintf(file.mFile, "    %s();\n", classCamelCase.c_str());
+            fprintf(file.mFile, "    virtual void Init();\n");
+            fprintf(file.mFile, "    virtual void Update( Actor& actor, double DeltaTime );\n");
+            fprintf(file.mFile, "private:\n");
+            fprintf(file.mFile, "    Scene& mScene;\n");
+            fprintf(file.mFile, "    core::ProgramState& mProgramState;\n");
+            fprintf(file.mFile, "    Opt<WeaponItemSubSystem> mWeaponItemSubSystem;\n");
+            fprintf(file.mFile, "    ActorFactory& mActorFactory;\n");
+            fprintf(file.mFile, "    int32_t mProjectileId;\n");
+            fprintf(file.mFile, "    int32_t mProjectileAltId;\n");
+            fprintf(file.mFile, "};\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "#endif//%s\n", headerGuard.c_str());
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "//TODO: to sub_system_factory.cpp:\n");
+            fprintf(file.mFile, "Bind( AutoId(\"%s\"), &CreateSubSystem<%s>);\n", classUnderscore.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "//TODO: to main.cpp:\n");
+            fprintf(file.mFile, "weaponItemSS->AddSubSystem(AutoId(\"%s\"),AutoId(\"%s\"));\n", originalClassUnderscore.c_str(), classUnderscore.c_str());
+            WriteCommand(file);
+        }
+
+
+        {
+            AutoNormalFile file((originalClassUnderscore + "/" + classUnderscore + ".cpp").c_str(), "w");
+            fprintf(file.mFile, "#include \"engine/items/%s.h\"\n", classUnderscore.c_str());
+            fprintf(file.mFile, "#include \"core/%s.h\"\n", originalClassUnderscore.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "namespace %s {\n", namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str());
+            fprintf(file.mFile, "    : mScene(Scene::Get())\n");
+            fprintf(file.mFile, "    , mProgramState(core::ProgramState::Get())\n");
+            fprintf(file.mFile, "    , mWeaponItemSubSystem(WeaponItemSubSystem::Get())\n");
+            fprintf(file.mFile, "    , mActorFactory(ActorFactory::Get())\n");
+            fprintf(file.mFile, "    , mProjectileId(AutoId(\"%s_projectile\"))\n",originalClassUnderscore.c_str());
+            fprintf(file.mFile, "    , mProjectileAltId(AutoId(\"%s_alt_projectile\"))\n", originalClassUnderscore.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Init()\n", classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "\n");
+            fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str());
+            fprintf(file.mFile, "{\n");
+            fprintf(file.mFile, "    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();\n");
+            fprintf(file.mFile, "    Opt<%s> weapon = inventoryC->GetSelectedWeapon();\n", originalClassCamelCase.c_str());
+            fprintf(file.mFile, "    if (weapon->GetCooldown() > 0)\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        return;\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "    if ( weapon->IsShooting() )\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        WeaponItemSubSystem::Projectiles_t projectiles;\n");
+            fprintf(file.mFile, "        std::auto_ptr<Actor> ps = mActorFactory( mProjectileId );\n");
+            fprintf(file.mFile, "        projectiles.push_back( Opt<Actor>( ps.release() ) );\n");
+            fprintf(file.mFile, "        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "    else if ( weapon->IsShootingAlt() )\n");
+            fprintf(file.mFile, "    {\n");
+            fprintf(file.mFile, "        WeaponItemSubSystem::Projectiles_t projectiles;\n");
+            fprintf(file.mFile, "        std::auto_ptr<Actor> ps = mActorFactory( mProjectileAltId );\n");
+            fprintf(file.mFile, "        projectiles.push_back( Opt<Actor>( ps.release() ) );\n");
+            fprintf(file.mFile, "        mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );\n");
+            fprintf(file.mFile, "    }\n");
+            fprintf(file.mFile, "}\n");
+            fprintf(file.mFile, "\n");
+
+            fprintf(file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str());
+            fprintf(file.mFile, "\n");
+        }
+        {
+            AutoNormalFile file((originalClassUnderscore + "/autoids").c_str(), "w");
+            fprintf(file.mFile, "%s\n",originalClassUnderscore.c_str());
+            fprintf(file.mFile, "%s_projectile\n", originalClassUnderscore.c_str());
+            fprintf(file.mFile, "%s_alt_projectile\n", originalClassUnderscore.c_str());
+            fprintf(file.mFile, "%s_weapon_sub_system\n", originalClassUnderscore.c_str());
+            fprintf(file.mFile, "%sWeaponSubSystem\n", originalClassCamelCase.c_str());
+        }
+
+        L1("%s ended\n", __FUNCTION__);
+    }
+};
+
+
+
 
 class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
 {
@@ -2126,6 +2545,7 @@ class GeneratorFactory : public platform::Factory<Generator>, public platform::S
         Bind( AutoId( "action_renderer" ), &CreateGenerator<ActionRendererGenerator> );
         Bind( AutoId( "enum" ), &CreateGenerator<EnumGenerator> );
         Bind( AutoId( "repository" ), &CreateGenerator<RepositoryGenerator> );
+        Bind( AutoId( "weapon" ), &CreateGenerator<WeaponGenerator> );
     }
 };
 
@@ -2185,7 +2605,8 @@ int main( int argc, char* argv[] )
       "\n*** recognizer ***\n class_name shall be in \"{the_name_underscore}_recognizer\" format. generates a class_name_underscore.h with constructor, base functions.\n )\n"
       "\n*** repository ***\n class_name shall be in \"{the_name_underscore}_repo\" format. generates a class_name_underscore.h class_name_underscore.cpp.\n  uses: -t \"target_class\" - base of the included classes by this repo) -n namespace\n"
       "\n*** system ***\n class_name shall be in \"{the_name_underscore}_system\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods.\n  uses: -t \"target_component_name_without_component\" (e.g. for drop_on_death_component: \"drop_on_death\")\n"
-      //"\n\n\n"
+      "\n*** weapon ***\n class_name shall be in \"{the_name_underscore}\" format. generates a class_name_underscore.h and class_name_underscore.cpp with overridden methods and a class_name_underscore.json.\n  uses: -m for members.\n"
+        //"\n\n\n"
     )
     ;
 

@@ -3,7 +3,8 @@
 #include <portable_oarchive.hpp>
 
 BounceCollisionComponent::BounceCollisionComponent()
-    : mSpeedLossPercent( 0.0 )
+    : ShotCollisionComponent()
+    , mSpeedLossPercent( 0.0 )
 {
 }
 
@@ -26,7 +27,7 @@ void BounceCollisionComponentLoader::BindValues()
 
 BounceCollisionComponentLoader::BounceCollisionComponentLoader()
 {
-    SetBase<CollisionComponentLoader>();
+    SetBase<ShotCollisionComponentLoader>();
 }
 
 REAPING2_CLASS_EXPORT_IMPLEMENT( BounceCollisionComponent, BounceCollisionComponent );
