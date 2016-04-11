@@ -20,6 +20,8 @@ void GridWidget::Init( Json::Value& Descriptor )
     GridJson["children"] = Template;
     int32_t cols = operator()( PT_Columns );
     int32_t rows = operator()( PT_Rows );
+    cols = std::max( 1, cols );
+    rows = std::max( 1, rows );
     GridJson["w"] = 1.0 / cols;
     GridJson["h"] = 1.0 / rows;
     GridJson["visible"] = 1;

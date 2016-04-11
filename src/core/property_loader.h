@@ -139,6 +139,7 @@ void PropertyLoader<T, BASE>::Load( Json::Value& setters )
         mBase->Load( setters );
     }
     BindValues();
+    mSetters = NULL;
 }
 
 
@@ -151,6 +152,7 @@ PropertyLoader<T, BASE>::~PropertyLoader()
 
 template<typename T, typename BASE>
 PropertyLoader<T, BASE>::PropertyLoader()
+    : mSetters( NULL )
 {
 }
 
