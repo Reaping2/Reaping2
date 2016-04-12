@@ -1,55 +1,30 @@
 #include "checksum.h"
-#include "filesystem.h"
-#include "ifile.h"
+#include <boost/algorithm/string.hpp>
 #include <fstream>
+#include <sstream>
 
 namespace platform {
+    // calculates checksum on the given file, to make it multiplatform EOL characters are ripped before checksum
     boost::uint32_t fileChecksum( std::string const& filename )
     {
-        boost::uint32_t checksum(0);
-        std::string data;
-        // case 1: is it in data.pkg?
-        Filesys& fs( Filesys::Get() );
-        std::auto_ptr<File> f( fs.Open( filename ) );
-        if ( NULL == f.get() )
+        boost::uint32_t cs(0);
+        std::ifstream ifs( filename );
+        if ( !ifs.good() )
         {
-            // case 2: is it a regular file?
-            std::ifstream ifs( filename );
-            if ( !ifs.good() )
-            {
-                return checksum;
-            }
-            std::stringstream ss;
-            ss << ifs.rdbuf();
-            data = ss.str();
-            ifs.close();
+            return cs;
         }
-        else
-        {
-            f->ReadAll( data );
-        }
-        std::string dataNoEol("");
-        size_t eolPos = 0;
-        // convert EOL \r\n (win) to \r (UNIX-like including Mac OS) to make checksum checking cross platform
-        while( true )
-        {
-            size_t last = eolPos;
-            eolPos = data.find("\r\n", last );
-            if ( std::string::npos != eolPos )
-            {
-                dataNoEol += (data.substr( last, eolPos-last )+'\n');
-                eolPos++;
-            }
-            else
-            {
-                break;
-            }
-        }
+        std::stringstream ss;
+        ss << ifs.rdbuf();
+        std::string data = ss.str();
+        ifs.close();
+
+        // remove EOL (\r\n, \n, \r)
+        boost::erase_all( data,"\n" );
+        boost::erase_all( data,"\r" );
 
         boost::crc_32_type result;
-        result.process_bytes( dataNoEol.data(), dataNoEol.length() );
-        checksum = result.checksum();
-        return checksum;
+        result.process_bytes( data.data(), data.length() );
+        cs = result.checksum();
+        return cs;
     }
-
 }
