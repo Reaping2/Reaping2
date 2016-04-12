@@ -41,12 +41,27 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
     DataChecksumMessage const& msg=static_cast<DataChecksumMessage const&>(message);
     if ( msg.mClientId == mProgramState.mClientId )
     {
-        boost::uint32_t checksum = fileChecksum( msg.mDatasource );
-        if ( checksum != msg.mChecksum )
+        std::string data;
+        boost::uint32_t cs(0);
+        // case 1: it is data.pkg?
+        if ( "data.pkg" == msg.mDatasource )
         {
-            L1("checksum mismatch for %s: server(%d) != client(%d)\n", msg.mDatasource.c_str(), msg.mChecksum, checksum );
+            Package pkg( AutoFile( new OsFile("data.pkg") ) );
+            cs = pkg.Checksum();
+        }
+        else
+        {
+            // case 2: is it a regular file?
+            cs = fileChecksum( msg.mDatasource );
+        }
+        std::cerr << msg.mDatasource << " SERVER SIDE checksum (msg) " << msg.mChecksum << std::endl
+                    << " CLIENT SIDE checksum " << cs << std::endl;
+        if ( cs != msg.mChecksum )
+        {
+            L1("checksum mismatch for %s: server(%d) != client(%d)\n", msg.mDatasource.c_str(), msg.mChecksum, cs );
             exit(1);
         }
+
     }
 }
 

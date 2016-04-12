@@ -132,9 +132,13 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
 
         EventServer<engine::ConnectionEvent>::Get().SendEvent( engine::ConnectionEvent( msg.mSenderId, engine::ConnectionEvent::Connected ) );
     }
-    // calculate checksums and sitribute it to the clients
+    // calculate checksums and distribute it to the clients
     {
-        static boost::uint32_t datapkgChecksum = fileChecksum("data.pkg");
+        // TODO: not cached, NOT COOL!
+        // case 1: it is data.pkg
+        Package pkg( AutoFile( new OsFile("data.pkg") ) );
+
+        static boost::uint32_t datapkgChecksum = pkg.Checksum();
         static boost::uint32_t autoidChecksum = fileChecksum("autoids");
         int32_t clientId = clientData.IsValid() ? clientData->mClientId : msg.mSenderId;
 
