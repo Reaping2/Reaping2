@@ -21,7 +21,7 @@ class PackageImpl
     {
         uint32_t Magic;
         uint32_t Version;
-        uint32_t Checksum;
+        boost::uint32_t Checksum;
         uint32_t NumFiles;
         Header(): Magic( 0x5a474b50 ), Version( 1 ), Checksum( 0 ), NumFiles() {}
     };
@@ -42,10 +42,12 @@ public:
     void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
     void Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive );
     bool Save();
+    boost::uint32_t Checksum() const;
 };
 
 bool PackageImpl::LoadHeader()
 {
+    // TODO: verify checksum
     if( !mFile.get() || !mFile->IsValid() )
     {
         return false;
@@ -228,6 +230,7 @@ bool PackageImpl::Save()
     MemoryFile DataParts;
     uint32_t Offset = 0;
     Compression& Comp( Compression::Get() );
+    // TODO: calculate checksum around here
     for( PathMap::const_iterator i = mPaths.begin(), e = mPaths.end(); i != e; ++i )
     {
         OsFile In( boost::filesystem::absolute( i->first ) );
@@ -264,6 +267,11 @@ PackageImpl::PackageImpl( std::auto_ptr<File> F )
 
 }
 
+boost::uint32_t PackageImpl::Checksum() const
+{
+    return mHeader.Checksum;
+}
+
 } // namespace detail
 
 Package::Package( std::auto_ptr<File> Source )
@@ -279,6 +287,11 @@ Package::~Package()
 std::auto_ptr<File> Package::Open( boost::filesystem::path const& path )
 {
     return mImpl->Open( path );
+}
+
+boost::uint32_t Package::Checksum() const
+{
+    mImpl->Checksum();
 }
 
 void Package::GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir )
