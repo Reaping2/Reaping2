@@ -111,16 +111,10 @@ boost::filesystem::path saveBacktrace()
     return temp;
 }
 
+void handle_exc();
 void handle( int signal )
 {
-    boost::filesystem::path const& fname = saveBacktrace();
-    if( !fname.empty() )
-    {
-        std::vector<std::string> args;
-        args.push_back( fname.string() );
-        platform::process::Start( ( exeDir() / exeName ).string(), args );
-    }
-    abort();
+    handle_exc();
 }
 
 void handle_exc()
