@@ -7,6 +7,7 @@
 
 namespace platform {
     boost::uint32_t FileChecksum( std::string const& filename );
+    boost::uint32_t PackageChecksum( std::string const& packagename );
     void RemoveEol( std::string& data );
 }
 

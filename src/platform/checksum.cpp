@@ -1,4 +1,6 @@
 #include "checksum.h"
+#include "package.h"
+#include "i_platform.h"
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <sstream>
@@ -31,5 +33,11 @@ namespace platform {
         // remove EOL (\r\n, \n, \r)
         boost::erase_all( data,"\n" );
         boost::erase_all( data,"\r" );
+    }
+
+    boost::uint32_t PackageChecksum( std::string const& packagename )
+    {
+        Package pkg( AutoFile( new OsFile("data.pkg") ) );
+        return pkg.Checksum();
     }
 }
