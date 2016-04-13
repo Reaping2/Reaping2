@@ -6,7 +6,8 @@
 #include <boost/crc.hpp>
 
 namespace platform {
-    boost::uint32_t fileChecksum( std::string const& filename );
+    boost::uint32_t FileChecksum( std::string const& filename );
+    void RemoveEol( std::string& data );
 }
 
 #endif

@@ -52,7 +52,7 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
         else
         {
             // case 2: is it a regular file?
-            cs = fileChecksum( msg.mDatasource );
+            cs = FileChecksum( msg.mDatasource );
         }
         std::cerr << msg.mDatasource << " SERVER SIDE checksum (msg) " << msg.mChecksum << std::endl
                     << " CLIENT SIDE checksum " << cs << std::endl;

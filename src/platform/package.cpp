@@ -8,6 +8,7 @@
 #include <map>
 #include "rstdint.h"
 #include <boost/filesystem.hpp>
+#include "checksum.h"
 
 namespace platform {
 namespace detail {
@@ -47,7 +48,6 @@ public:
 
 bool PackageImpl::LoadHeader()
 {
-    // TODO: verify checksum
     if( !mFile.get() || !mFile->IsValid() )
     {
         return false;
@@ -116,6 +116,24 @@ bool PackageImpl::LoadHeader()
     for( FilesMap::iterator i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
     {
         i->second.Offset += BaseOffset;
+    }
+    // verify data integrity
+    boost::crc_32_type result;
+    for ( auto i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
+    {
+        // probably it's not needed because the position must be correct
+        mFile->SetPosition( i->second.Offset );
+        mFile->Read( Buffer, i->second.Filesize );
+        Compression::Get().Inflate( Buffer, Buffer );
+        // now calculate the no EOL checksum
+        RemoveEol( Buffer );
+        // Buffer.data is in bytes? length is the number of bytes or items?
+        result.process_bytes( Buffer.data(), Buffer.length() );
+    }
+    if ( result.checksum() != mHeader.Checksum )
+    {
+        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.checksum(), result.checksum() );
+        exit(1);
     }
     return true;
 }
@@ -230,7 +248,7 @@ bool PackageImpl::Save()
     MemoryFile DataParts;
     uint32_t Offset = 0;
     Compression& Comp( Compression::Get() );
-    // TODO: calculate checksum around here
+    boost::crc_32_type result;
     for( PathMap::const_iterator i = mPaths.begin(), e = mPaths.end(); i != e; ++i )
     {
         OsFile In( boost::filesystem::absolute( i->first ) );
@@ -244,12 +262,14 @@ bool PackageImpl::Save()
         {
             continue;
         }
+        result.process_bytes( Buffer.data(), Buffer.length() );
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();
         Desc.Offset = Offset;
         Offset += Desc.FileSize;
         DataParts.Write( Buffer );
     }
+    mHeader.mChecksum = result.checksum();
     WriteHeader();
     DataParts.CopyTo( *mFile );
     mFile.reset();

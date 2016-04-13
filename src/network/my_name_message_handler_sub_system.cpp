@@ -139,7 +139,7 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
         Package pkg( AutoFile( new OsFile("data.pkg") ) );
 
         static boost::uint32_t datapkgChecksum = pkg.Checksum();
-        static boost::uint32_t autoidChecksum = fileChecksum("autoids");
+        static boost::uint32_t autoidChecksum = FileChecksum("autoids");
         int32_t clientId = clientData.IsValid() ? clientData->mClientId : msg.mSenderId;
 
         std::auto_ptr<DataChecksumMessage> autoidChecksumMsg( new DataChecksumMessage );
