@@ -134,11 +134,7 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
     }
     // calculate checksums and distribute it to the clients
     {
-        // TODO: not cached, NOT COOL!
-        // case 1: it is data.pkg
-        Package pkg( AutoFile( new OsFile("data.pkg") ) );
-
-        static boost::uint32_t datapkgChecksum = pkg.Checksum();
+        static boost::uint32_t datapkgChecksum = PackageChecksum("data.pkg");
         static boost::uint32_t autoidChecksum = FileChecksum("autoids");
         int32_t clientId = clientData.IsValid() ? clientData->mClientId : msg.mSenderId;
 

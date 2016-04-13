@@ -43,11 +43,10 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
     {
         std::string data;
         boost::uint32_t cs(0);
-        // case 1: it is data.pkg?
         if ( "data.pkg" == msg.mDatasource )
         {
-            Package pkg( AutoFile( new OsFile("data.pkg") ) );
-            cs = pkg.Checksum();
+            // case 1: is it data.pkg?
+            cs = PackageChecksum( msg.mDatasource );
         }
         else
         {
