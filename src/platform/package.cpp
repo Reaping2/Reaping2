@@ -5,10 +5,11 @@
 #include "ifile.h"
 #include "serialize.h"
 #include "osfile.h"
-#include <map>
 #include "rstdint.h"
-#include <boost/filesystem.hpp>
 #include "checksum.h"
+#include "log.h"
+#include <map>
+#include <boost/filesystem.hpp>
 
 namespace platform {
 namespace detail {
@@ -123,7 +124,7 @@ bool PackageImpl::LoadHeader()
     {
         // probably it's not needed because the position must be correct
         mFile->SetPosition( i->second.Offset );
-        mFile->Read( Buffer, i->second.Filesize );
+        mFile->Read( Buffer, i->second.FileSize );
         Compression::Get().Inflate( Buffer, Buffer );
         // now calculate the no EOL checksum
         RemoveEol( Buffer );
@@ -132,7 +133,7 @@ bool PackageImpl::LoadHeader()
     }
     if ( result.checksum() != mHeader.Checksum )
     {
-        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.checksum(), result.checksum() );
+        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, result.checksum() );
         exit(1);
     }
     return true;
@@ -258,18 +259,20 @@ bool PackageImpl::Save()
         }
         std::string Buffer;
         In.ReadAll( Buffer ); // ez sokszaz megas filenal akar meg fajhat is
+        std::string BufferForChecksum = Buffer;
         if( !Comp.Deflate( Buffer, Buffer ) )
         {
             continue;
         }
-        result.process_bytes( Buffer.data(), Buffer.length() );
+        RemoveEol(BufferForChecksum);
+        result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();
         Desc.Offset = Offset;
         Offset += Desc.FileSize;
         DataParts.Write( Buffer );
     }
-    mHeader.mChecksum = result.checksum();
+    mHeader.Checksum = result.checksum();
     WriteHeader();
     DataParts.CopyTo( *mFile );
     mFile.reset();
