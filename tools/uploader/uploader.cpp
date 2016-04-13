@@ -25,10 +25,10 @@ int main(int argc, char *argv[])
             CURLFORM_CONTENTTYPE, "application/octet-stream",
             CURLFORM_END);
     slist1 = NULL;
-    slist1 = curl_slist_append(slist1, "Host: crash-reports");
+    slist1 = curl_slist_append(slist1, "Host: reaping2.dynu.net");
 
     hnd = curl_easy_init();
-    curl_easy_setopt(hnd, CURLOPT_URL, "https://reaping2.dynu.net/crash-reports/submit");
+    curl_easy_setopt(hnd, CURLOPT_URL, "https://reaping2.dynu.net/crash-reports/api/upload");
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_HTTPPOST, post1);
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.47.0");

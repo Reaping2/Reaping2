@@ -38,7 +38,7 @@ bool Start( std::wstring const& command, std::vector<std::wstring> const& argume
     wchar_t* pt = buffers::CommandLine;
     size_t s = command.size();
     memcpy( pt, command.c_str(), s * sizeof( wchar_t ) );
-    pt += s;
+    pt += s - 1;
     *( pt++ ) = L' ';
     for( auto const& arg : arguments )
     {
