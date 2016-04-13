@@ -53,8 +53,6 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
             // case 2: is it a regular file?
             cs = FileChecksum( msg.mDatasource );
         }
-        std::cerr << msg.mDatasource << " SERVER SIDE checksum (msg) " << msg.mChecksum << std::endl
-                    << " CLIENT SIDE checksum " << cs << std::endl;
         if ( cs != msg.mChecksum )
         {
             L1("checksum mismatch for %s: server(%d) != client(%d)\n", msg.mDatasource.c_str(), msg.mChecksum, cs );
