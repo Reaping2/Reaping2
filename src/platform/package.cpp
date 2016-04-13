@@ -122,13 +122,10 @@ bool PackageImpl::LoadHeader()
     boost::crc_32_type result;
     for ( auto i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
     {
-        // probably it's not needed because the position must be correct
-        mFile->SetPosition( i->second.Offset );
         mFile->Read( Buffer, i->second.FileSize );
         Compression::Get().Inflate( Buffer, Buffer );
         // now calculate the no EOL checksum
         RemoveEol( Buffer );
-        // Buffer.data is in bytes? length is the number of bytes or items?
         result.process_bytes( Buffer.data(), Buffer.length() );
     }
     if ( result.checksum() != mHeader.Checksum )
@@ -314,7 +311,7 @@ std::auto_ptr<File> Package::Open( boost::filesystem::path const& path )
 
 boost::uint32_t Package::Checksum() const
 {
-    mImpl->Checksum();
+    return mImpl->Checksum();
 }
 
 void Package::GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir )
