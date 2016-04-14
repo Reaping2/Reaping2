@@ -322,6 +322,7 @@ int main( int argc, char* argv[] )
         //adapter systems should be here. after input system before controller systems.
         Eng.AddSystem( AutoId( "keyboard_adapter_system" ) );
         Eng.AddSystem( AutoId( "mouse_adapter_system" ) );
+        Eng.AddSystem( AutoId( "controller_adapter_system" ) );
     }
     Eng.AddSystem( AutoId( "buff_holder_system" ) );
     Opt<engine::BuffHolderSystem> buffHolderS( Eng.GetSystem<engine::BuffHolderSystem>() );

@@ -95,10 +95,12 @@ void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControll
 
 void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
-    playerControllerC->mOrientation = mInputSystem->GetInputState().mOrientation;
-    playerControllerC->mShoot = mInputSystem->GetInputState().mShoot;
-    playerControllerC->mShootAlt = mInputSystem->GetInputState().mShootAlt;
-    if (mInputSystem->GetInputState().mUseNormalItem)
+    // get id from playerControllerC ( player num 1..4 ) and get inputstate for that
+    InputState const& inputState = mInputSystem->GetInputState();
+    playerControllerC->mOrientation = inputState.mOrientation;
+    playerControllerC->mShoot = inputState.mShoot;
+    playerControllerC->mShootAlt = inputState.mShootAlt;
+    if (inputState.mUseNormalItem)
     {
         playerControllerC->mUseNormalItem.Activate();
     }
@@ -106,7 +108,7 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     {
         playerControllerC->mUseNormalItem.Deactivate();
     }
-    if (mInputSystem->GetInputState().mReload)
+    if (inputState.mReload)
     {
         playerControllerC->mUseReload.Activate();
     }
@@ -114,8 +116,8 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     {
         playerControllerC->mUseReload.Deactivate();
     }
-    playerControllerC->mMoving = mInputSystem->GetInputState().mMoving;
-    playerControllerC->mHeading = mInputSystem->GetInputState().mHeading;
+    playerControllerC->mMoving = inputState.mMoving;
+    playerControllerC->mHeading = inputState.mHeading;
 }
 
 void PlayerControllerSubSystem::HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
