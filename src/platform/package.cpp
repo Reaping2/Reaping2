@@ -2,14 +2,11 @@
 
 #include "compression.h"
 #include "memoryfile.h"
-#include "ifile.h"
 #include "serialize.h"
 #include "osfile.h"
-#include "rstdint.h"
-#include "checksum.h"
 #include "log.h"
-#include <map>
-#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/crc.hpp>
 
 namespace platform {
 namespace detail {
@@ -93,7 +90,7 @@ bool PackageImpl::LoadHeader()
         return false;
     }
     size_t pos = f.GetPosition();
-    uin32_t checksum = f.Checksum();
+    uint32_t checksum = f.Checksum();
     if ( checksum != mHeader.Checksum )
     {
         L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, checksum );
@@ -256,8 +253,8 @@ bool PackageImpl::Save()
         {
             continue;
         }
-        erase_all(BufferForChecksum,"\r");
-        erase_all(BufferForChecksum,"\n");
+        boost::erase_all(BufferForChecksum,"\r");
+        boost::erase_all(BufferForChecksum,"\n");
         result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();

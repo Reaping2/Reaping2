@@ -19,10 +19,19 @@
 #include "client_list_changed_event.h"
 #include "engine/connection_event.h"
 #include "data_checksum_message.h"
-#include "platform/checksum.h"
 
 
 namespace network {
+
+namespace detail {
+    // wrapping package checksumming in order to make it chacheable (with static variable)
+    boost::uint32_t PackageChecksum( std::string const& packagename )
+    {
+        Package pkg( AutoFile( new OsFile("data.pkg") ) );
+        return pkg.Checksum();
+    }
+}
+
 
 MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
     : MessageHandlerSubSystem()
@@ -134,15 +143,8 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
     }
     // calculate checksums and distribute it to the clients
     {
-        static boost::uint32_t datapkgChecksum = PackageChecksum("data.pkg");
-        static boost::uint32_t autoidChecksum = FileChecksum("autoids");
+        static uint32_t datapkgChecksum = detail::PackageChecksum("data.pkg");
         int32_t clientId = clientData.IsValid() ? clientData->mClientId : msg.mSenderId;
-
-        std::auto_ptr<DataChecksumMessage> autoidChecksumMsg( new DataChecksumMessage );
-        autoidChecksumMsg->mDatasource = "autoids";
-        autoidChecksumMsg->mChecksum = autoidChecksum;
-        autoidChecksumMsg->mClientId = clientId;
-        mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(autoidChecksumMsg.release() ) );
 
         std::auto_ptr<DataChecksumMessage> datapkgChecksumMsg( new DataChecksumMessage );
         datapkgChecksumMsg->mDatasource = "data.pkg";

@@ -42,7 +42,7 @@ bool File::Write( const std::string& Data )
     return Write( static_cast< void const* >( Data.data() ), Data.size() );
 }
 
-uint32_t File::Checksum() const
+uint32_t File::Checksum()
 {
     using namespace boost;
     crc_32_type result;

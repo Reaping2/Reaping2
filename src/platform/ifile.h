@@ -19,7 +19,7 @@ public:
     virtual bool SetPosition( size_t Pos ) = 0;
     virtual bool IsValid()const = 0;
     // calculates checksum from current file position(!) till file end
-    virtual uint32_t Checksum() const;
+    virtual uint32_t Checksum();
 };
 
 } // namespace platform

@@ -1,5 +1,4 @@
 #include "platform/i_platform.h"
-#include "platform/checksum.h"
 #include "network/data_checksum_message.h"
 
 namespace network {
@@ -45,20 +44,14 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
         boost::uint32_t cs(0);
         if ( "data.pkg" == msg.mDatasource )
         {
-            // case 1: is it data.pkg?
-            cs = PackageChecksum( msg.mDatasource );
-        }
-        else
-        {
-            // case 2: is it a regular file?
-            cs = FileChecksum( msg.mDatasource );
+            Package pkg( AutoFile( new OsFile("data.pkg") ) );
+            cs = pkg.Checksum();
         }
         if ( cs != msg.mChecksum )
         {
             L1("checksum mismatch for %s: server(%d) != client(%d)\n", msg.mDatasource.c_str(), msg.mChecksum, cs );
             exit(1);
         }
-
     }
 }
 
