@@ -23,7 +23,7 @@ class PackageImpl
     {
         uint32_t Magic;
         uint32_t Version;
-        boost::uint32_t Checksum;
+        uint32_t Checksum;
         uint32_t NumFiles;
         Header(): Magic( 0x5a474b50 ), Version( 1 ), Checksum( 0 ), NumFiles() {}
     };
@@ -92,6 +92,15 @@ bool PackageImpl::LoadHeader()
     {
         return false;
     }
+    size_t pos = f.GetPosition();
+    uin32_t checksum = f.Checksum();
+    if ( checksum != mHeader.Checksum )
+    {
+        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, checksum );
+        exit(1);
+    }
+    // now rewind for reading
+    f.SetPosition(pos);
     for( size_t i = 0; i < mHeader.NumFiles; ++i )
     {
         uint32_t FileNameSize = 0;
@@ -117,21 +126,6 @@ bool PackageImpl::LoadHeader()
     for( FilesMap::iterator i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
     {
         i->second.Offset += BaseOffset;
-    }
-    // verify data integrity
-    boost::crc_32_type result;
-    for ( auto i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
-    {
-        mFile->Read( Buffer, i->second.FileSize );
-        Compression::Get().Inflate( Buffer, Buffer );
-        // now calculate the no EOL checksum
-        RemoveEol( Buffer );
-        result.process_bytes( Buffer.data(), Buffer.length() );
-    }
-    if ( result.checksum() != mHeader.Checksum )
-    {
-        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, result.checksum() );
-        exit(1);
     }
     return true;
 }
@@ -246,6 +240,7 @@ bool PackageImpl::Save()
     MemoryFile DataParts;
     uint32_t Offset = 0;
     Compression& Comp( Compression::Get() );
+    // we don't have all the files in the memory so we need to calculate the checksum file by file
     boost::crc_32_type result;
     for( PathMap::const_iterator i = mPaths.begin(), e = mPaths.end(); i != e; ++i )
     {
@@ -261,7 +256,8 @@ bool PackageImpl::Save()
         {
             continue;
         }
-        RemoveEol(BufferForChecksum);
+        erase_all(BufferForChecksum,"\r");
+        erase_all(BufferForChecksum,"\n");
         result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();
