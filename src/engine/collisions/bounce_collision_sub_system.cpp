@@ -5,6 +5,8 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/wall_collision_component.h"
+#include "shot_collision_sub_system.h"
+#include "../collision_system.h"
 
 namespace engine {
 
@@ -16,12 +18,17 @@ BounceCollisionSubSystem::BounceCollisionSubSystem()
 
 void BounceCollisionSubSystem::Init()
 {
+    mShotCollisionSubSystem = Engine::Get().GetSystem<CollisionSystem>()->GetSubSystem(AutoId("shot_collision_component"));
 }
 
 
 void BounceCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
-
+    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+    if (bounceCC->IsUseShotCollision())
+    {
+        mShotCollisionSubSystem->Update(actor, DeltaTime);
+    }
 }
 
 
@@ -56,19 +63,27 @@ void BounceCollisionSubSystem::ClipScene( Actor& actor )
     {
         moveC->SetHeading( atan2( s, c ) );
         moveC->GetSpeed().mBase.Set( moveC->GetSpeed().mBase.Get() * ( 1.0 - bounceCC->GetSpeedLossPercent() ) );
+        if (bounceCC->IsResetActorsCollidedOnBounce())
+        {
+            bounceCC->ResetDamagedActorIds();
+        }
     }
     CollisionSubSystem::ClipScene( actor );
 }
 
 void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
+    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+    if (bounceCC->IsUseShotCollision())
+    {
+        mShotCollisionSubSystem->Collide(actor, other);
+    }
     //TODO: for now its wallcc should be a bouncableComponent or this should be a collision class
     Opt<WallCollisionComponent> wallCC = other.Get<WallCollisionComponent>();
     if( !wallCC.IsValid() )
     {
         return;
     }
-    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
 
@@ -96,7 +111,14 @@ void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
     }
     moveC->SetHeading( atan2( s, c ) );
     moveC->GetSpeed().mBase.Set( moveC->GetSpeed().mBase.Get() * ( 1.0 - bounceCC->GetSpeedLossPercent() ) );
-
+    if (bounceCC->GetHitCountToKill() > 0)
+    {
+        bounceCC->SetHitCountToKill(bounceCC->GetHitCountToKill() - 1);
+    }
+    if (bounceCC->IsResetActorsCollidedOnBounce())
+    {
+        bounceCC->ResetDamagedActorIds();
+    }
 }
 
 

@@ -5,6 +5,8 @@
 BounceCollisionComponent::BounceCollisionComponent()
     : ShotCollisionComponent()
     , mSpeedLossPercent( 0.0 )
+    , mUseShotCollision( false )
+    , mResetActorsCollidedOnBounce(false)
 {
 }
 
@@ -18,11 +20,31 @@ double BounceCollisionComponent::GetSpeedLossPercent()const
     return mSpeedLossPercent;
 }
 
+void BounceCollisionComponent::SetUseShotCollision(bool useShotCollision)
+{
+    mUseShotCollision = useShotCollision;
+}
 
+bool BounceCollisionComponent::IsUseShotCollision()const
+{
+    return mUseShotCollision;
+}
+
+void BounceCollisionComponent::SetResetActorsCollidedOnBounce(bool resetActorsCollidedOnBounce)
+{
+    mResetActorsCollidedOnBounce = resetActorsCollidedOnBounce;
+}
+
+bool BounceCollisionComponent::IsResetActorsCollidedOnBounce()const
+{
+    return mResetActorsCollidedOnBounce;
+}
 
 void BounceCollisionComponentLoader::BindValues()
 {
     Bind( "speed_loss_percent", func_double( &BounceCollisionComponent::SetSpeedLossPercent ) );
+    Bind( "use_shot", func_bool( &BounceCollisionComponent::SetUseShotCollision ) );
+    Bind( "reset_actors_collided_on_bounce", func_bool(&BounceCollisionComponent::SetResetActorsCollidedOnBounce));
 }
 
 BounceCollisionComponentLoader::BounceCollisionComponentLoader()

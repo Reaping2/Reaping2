@@ -11,7 +11,9 @@
                 "set":[{"layer":"creeps"}]
             },
             {"name":"bounce_collision_component",
-                "set":[{"class":"projectile", "radius":25, "damage":10, "speed_loss_percent":0.0 }]
+                "set":[{"class":"projectile", "radius":25, "damage":10, "speed_loss_percent":0.0,
+                    "use_shot":1, "hit_closest":0, "passthrough": [ "creep", "player", "wall" ], "hit_count_to_kill": 10,
+                    "reset_actors_collided_on_bounce":1 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},

@@ -12,9 +12,15 @@ public:
     BounceCollisionComponent();
     virtual void SetSpeedLossPercent( double speedLossPercent );
     virtual double GetSpeedLossPercent()const;
+    virtual void SetUseShotCollision( bool useShotCollision );
+    virtual bool IsUseShotCollision()const;
+    virtual void SetResetActorsCollidedOnBounce(bool resetActorsCollidedOnBounce);
+    virtual bool IsResetActorsCollidedOnBounce()const;
 protected:
     friend class ComponentFactory;
     double mSpeedLossPercent;
+    bool mUseShotCollision;
+    bool mResetActorsCollidedOnBounce;
 private:
 public:
     friend class ::boost::serialization::access;
@@ -28,6 +34,7 @@ void BounceCollisionComponent::serialize( Archive& ar, const unsigned int versio
     //NOTE: generated archive for this class
     ar& boost::serialization::base_object<ShotCollisionComponent>( *this );
     ar& mSpeedLossPercent;
+    ar& mUseShotCollision;
 }
 
 class BounceCollisionComponentLoader : public ComponentLoader<BounceCollisionComponent>
