@@ -216,7 +216,6 @@ bool PackageImpl::WriteHeader()
     {
         return false;
     }
-    fprintf(stderr, "compressed header size %d\n", Buffer.size());
     return mFile->Write( conv::serialize( ( uint32_t )Buffer.size() ) ) && mFile->Write( Buffer );
 }
 
