@@ -14,10 +14,6 @@
 namespace platform {
 namespace process {
 #if( BOOST_OS_WINDOWS )
-namespace buffers {
-size_t const CommandLineMax = 1024;
-wchar_t CommandLine[ CommandLineMax ] = { 0 };
-}
 namespace {
 std::wstring wcstr( std::string const& str )
 {
@@ -35,19 +31,7 @@ bool Start( std::string const& command, std::vector<std::string> const& argument
 }
 bool Start( std::wstring const& command, std::vector<std::wstring> const& arguments )
 {
-    wchar_t* pt = buffers::CommandLine;
-    size_t s = command.size();
-    memcpy( pt, command.c_str(), s * sizeof( wchar_t ) );
-    pt += s - 1;
-    *( pt++ ) = L' ';
-    for( auto const& arg : arguments )
-    {
-        size_t s = arg.size();
-        memcpy( pt, arg.c_str(), s * sizeof( wchar_t ) );
-        pt += s;
-        *( pt++ ) = L' ';
-    }
-    *( pt ) = *( pt - 1 ) = 0;
+    std::wstring commandline = std::accumulate( arguments.begin(), arguments.end(), command, []( std::wstring const& accu, std::wstring const& elem ){ return accu + " " + elem; } );
 
     PROCESS_INFORMATION     pi;
     STARTUPINFOW            si;
@@ -59,7 +43,7 @@ bool Start( std::wstring const& command, std::vector<std::wstring> const& argume
     wchar_t dir[1024];
     GetCurrentDirectoryW(sizeof(dir), dir);
 
-    if (!CreateProcessW(NULL, buffers::CommandLine, NULL, NULL, FALSE, 0, NULL, dir, &si, &pi))
+    if (!CreateProcessW(NULL, commandline.c_str(), NULL, NULL, FALSE, 0, NULL, dir, &si, &pi))
     {
         return false;
     }
@@ -69,8 +53,6 @@ bool Start( std::wstring const& command, std::vector<std::wstring> const& argume
 }
 #else
 namespace buffers {
-size_t const MaxArgs = 32;
-char* Args[MaxArgs] = { 0 };
 char* GetPath()
 {
     static std::string pathstr;
@@ -88,12 +70,9 @@ char* Env[] = { GetPath(), NULL };
 bool Start( std::string const& command, std::vector<std::string> const& arguments )
 {
     size_t ctr = 0;
-    buffers::Args[ ctr++ ] = const_cast<char*>( command.c_str() );
-    for( auto const& arg : arguments )
-    {
-        buffers::Args[ ctr++ ] = const_cast<char*>( arg.c_str() );
-    }
-    buffers::Args[ ctr ] = NULL;
+    std::vector<char*> args( 1, const_cast<char*>( command.c_str() ) );
+    std::transform( arguments.begin(), arguments.end(), std::back_inserter( args ), []( std::string const& a ){ return const_cast<char*>( a.c_str() ); } );
+    args.push_back( NULL );
 
     pid_t pid = fork();
 
@@ -103,7 +82,7 @@ bool Start( std::string const& command, std::vector<std::string> const& argument
     }
     else if (pid == 0) {
         (void) execvpe( command.c_str(),
-                buffers::Args, buffers::Env );
+                &args[0], buffers::Env );
         exit(1);
     }
     return true;
