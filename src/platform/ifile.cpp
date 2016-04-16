@@ -42,18 +42,4 @@ bool File::Write( const std::string& Data )
     return Write( static_cast< void const* >( Data.data() ), Data.size() );
 }
 
-uint32_t File::Checksum()
-{
-    using namespace boost;
-    crc_32_type result;
-    std::string Data;
-    ReadAll(Data);
-    //remove EOL
-    erase_all(Data,"\n"); 
-    erase_all(Data,"\r"); 
-    result.process_bytes( Data.data(), Data.length());
-    
-    return result.checksum();
-}
-
 } // namespace platform

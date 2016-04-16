@@ -56,6 +56,7 @@ bool PackageImpl::LoadHeader()
     {
         return false;
     }
+    L1("buffer size %d\n", BufferSize );
     if( !mFile->Read( Buffer, BufferSize ) )
     {
         return false;
@@ -89,15 +90,6 @@ bool PackageImpl::LoadHeader()
     {
         return false;
     }
-    size_t pos = f.GetPosition();
-    uint32_t checksum = f.Checksum();
-    if ( checksum != mHeader.Checksum )
-    {
-        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, checksum );
-        exit(1);
-    }
-    // now rewind for reading
-    f.SetPosition(pos);
     for( size_t i = 0; i < mHeader.NumFiles; ++i )
     {
         uint32_t FileNameSize = 0;
@@ -120,9 +112,37 @@ bool PackageImpl::LoadHeader()
         }
     }
     const size_t BaseOffset = mFile->GetPosition();
+    std::map<size_t,size_t> OffsetAndSize;
     for( FilesMap::iterator i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
     {
+        OffsetAndSize[ i->second.Offset ] = i->second.FileSize;
         i->second.Offset += BaseOffset;
+    }
+    // read the rest of the data in ordr to verify checksum
+    mFile->ReadAll(Buffer);
+    std::string RawData;
+    for ( auto it = OffsetAndSize.begin(), e = OffsetAndSize.end(); it != e; ++it )
+    {
+        size_t Size = it->second;
+        size_t Offset = it->first;
+        std::string CurrentFile = Buffer.substr( Offset, Size );
+        if( !Compression::Get().Inflate( CurrentFile, CurrentFile ) )
+        {
+            L1("Could not inflate\n");
+            exit(1);
+        }
+        RawData += CurrentFile;
+
+    }
+    boost::crc_32_type result;
+    boost::erase_all(RawData, "\r");
+    boost::erase_all(RawData, "\n");
+    result.process_bytes( RawData.data(), RawData.length());
+    uint32_t checksum = result.checksum();
+    if ( checksum != mHeader.Checksum )
+    {
+        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, checksum );
+        exit(1);
     }
     return true;
 }
@@ -225,6 +245,7 @@ bool PackageImpl::WriteHeader()
     {
         return false;
     }
+    fprintf(stderr, "compressed header size %d\n", Buffer.size());
     return mFile->Write( conv::serialize( ( uint32_t )Buffer.size() ) ) && mFile->Write( Buffer );
 }
 
@@ -238,7 +259,7 @@ bool PackageImpl::Save()
     uint32_t Offset = 0;
     Compression& Comp( Compression::Get() );
     // we don't have all the files in the memory so we need to calculate the checksum file by file
-    boost::crc_32_type result;
+    std::string BufferForChecksum;
     for( PathMap::const_iterator i = mPaths.begin(), e = mPaths.end(); i != e; ++i )
     {
         OsFile In( boost::filesystem::absolute( i->first ) );
@@ -247,21 +268,23 @@ bool PackageImpl::Save()
             continue;
         }
         std::string Buffer;
-        In.ReadAll( Buffer ); // ez sokszaz megas filenal akar meg fajhat is
-        std::string BufferForChecksum = Buffer;
-        if( !Comp.Deflate( Buffer, Buffer ) )
+        std::string RawData;
+        In.ReadAll( RawData ); // ez sokszaz megas filenal akar meg fajhat is
+        if( !Comp.Deflate( Buffer, RawData ) )
         {
             continue;
         }
-        boost::erase_all(BufferForChecksum,"\r");
-        boost::erase_all(BufferForChecksum,"\n");
-        result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
+        BufferForChecksum += RawData;
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();
         Desc.Offset = Offset;
         Offset += Desc.FileSize;
         DataParts.Write( Buffer );
     }
+    boost::erase_all(BufferForChecksum,"\r");
+    boost::erase_all(BufferForChecksum,"\n");
+    boost::crc_32_type result;
+    result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
     mHeader.Checksum = result.checksum();
     WriteHeader();
     DataParts.CopyTo( *mFile );
