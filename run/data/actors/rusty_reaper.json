@@ -7,6 +7,9 @@
             {"name":"move_component",
                 "set":[{"speed":2000}]
             },
+            {"name":"rotate_component",
+                "set":[{"speed":30.0}]
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },

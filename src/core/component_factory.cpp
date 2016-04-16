@@ -47,6 +47,7 @@
 #include "water_collision_component.h"
 #include "audible_component.h"
 #include "remove_components_on_death_component.h"
+#include "rotate_component.h"
 
 using platform::AutoId;
 
@@ -56,6 +57,7 @@ ComponentFactory::ComponentFactory()
     SetDefault( AutoId( "default_component" ) );
 
     Bind( AutoId( "position_component" ), &CreateComponent<PositionComponent> );
+    Bind( AutoId( "rotate_component" ), &CreateComponent<RotateComponent> );
     Bind( AutoId( "move_component" ), &CreateComponent<MoveComponent> );
     Bind( AutoId( "acceleration_component" ), &CreateComponent<AccelerationComponent> );
 

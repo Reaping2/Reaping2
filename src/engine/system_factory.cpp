@@ -113,6 +113,7 @@
 #include "network/actor_list_message.h"
 #include "remove_components_on_death_system.h"
 #include "player_model_system.h"
+#include "rotate_component_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -158,6 +159,7 @@ void SystemFactory::Init()
     Bind( AutoId( "health_system" ), &CreateSystem<HealthSystem> );
     Bind( AutoId( "fade_out_system" ), &CreateSystem<FadeOutSystem> );
     Bind( AutoId( "move_system" ), &CreateSystem<MoveSystem> );
+    Bind( AutoId( "rotate_component_system" ), &CreateSystem<RotateComponentSystem> );
     Bind( AutoId( "acceleration_system" ), &CreateSystem<AccelerationSystem> );
     Bind( AutoId( "explosion_system" ), &CreateSystem<ExplosionSystem> );
 

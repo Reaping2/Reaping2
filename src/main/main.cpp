@@ -408,6 +408,7 @@ int main( int argc, char* argv[] )
     }
     Eng.AddSystem( AutoId( "ParticleSystem" ) );
     Eng.AddSystem( AutoId( "move_system" ) );
+    Eng.AddSystem( AutoId( "rotate_component_system" ) );
 
     Eng.AddSystem( AutoId( "kill_score_system" ) );
 
