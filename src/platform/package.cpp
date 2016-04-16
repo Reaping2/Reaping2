@@ -56,7 +56,6 @@ bool PackageImpl::LoadHeader()
     {
         return false;
     }
-    L1("buffer size %d\n", BufferSize );
     if( !mFile->Read( Buffer, BufferSize ) )
     {
         return false;
@@ -112,37 +111,9 @@ bool PackageImpl::LoadHeader()
         }
     }
     const size_t BaseOffset = mFile->GetPosition();
-    std::map<size_t,size_t> OffsetAndSize;
     for( FilesMap::iterator i = mFiles.begin(), e = mFiles.end(); i != e; ++i )
     {
-        OffsetAndSize[ i->second.Offset ] = i->second.FileSize;
         i->second.Offset += BaseOffset;
-    }
-    // read the rest of the data in ordr to verify checksum
-    mFile->ReadAll(Buffer);
-    std::string RawData;
-    for ( auto it = OffsetAndSize.begin(), e = OffsetAndSize.end(); it != e; ++it )
-    {
-        size_t Size = it->second;
-        size_t Offset = it->first;
-        std::string CurrentFile = Buffer.substr( Offset, Size );
-        if( !Compression::Get().Inflate( CurrentFile, CurrentFile ) )
-        {
-            L1("Could not inflate\n");
-            exit(1);
-        }
-        RawData += CurrentFile;
-
-    }
-    boost::crc_32_type result;
-    boost::erase_all(RawData, "\r");
-    boost::erase_all(RawData, "\n");
-    result.process_bytes( RawData.data(), RawData.length());
-    uint32_t checksum = result.checksum();
-    if ( checksum != mHeader.Checksum )
-    {
-        L1("Data integrity issue detected: stored checksum(%d) != calculated checksum(%d)", mHeader.Checksum, checksum );
-        exit(1);
     }
     return true;
 }
