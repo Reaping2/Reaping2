@@ -2,6 +2,7 @@
 #define INCLUDED_PLATFORM_PACKAGE_H
 
 #include <boost/filesystem/path.hpp>
+#include <memory>
 
 namespace platform {
 class File;
