@@ -40,6 +40,7 @@
 #include "gamemode_selected_message.h"
 #include "team_switch_request_message.h"
 #include "actor_list_message.h"
+#include "data_checksum_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -88,6 +89,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId( "gamemode_selected_message_handler_sub_system" ), &CreateSubSystem<GamemodeSelectedMessageHandlerSubSystem> );
     Bind( AutoId( "team_switch_request_message_handler_sub_system" ), &CreateSubSystem<TeamSwitchRequestMessageHandlerSubSystem> );
     Bind( AutoId( "actor_list_message_handler_sub_system" ), &CreateSubSystem<ActorListMessageHandlerSubSystem> );
+    Bind( AutoId( "data_checksum_message_handler_sub_system" ), &CreateSubSystem<DataChecksumMessageHandlerSubSystem>);
 
 }
 

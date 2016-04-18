@@ -2,12 +2,11 @@
 
 #include "compression.h"
 #include "memoryfile.h"
-#include "ifile.h"
 #include "serialize.h"
 #include "osfile.h"
-#include <map>
-#include "rstdint.h"
-#include <boost/filesystem.hpp>
+#include "log.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/crc.hpp>
 
 namespace platform {
 namespace detail {
@@ -42,6 +41,7 @@ public:
     void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
     void Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive );
     bool Save();
+    boost::uint32_t Checksum() const;
 };
 
 bool PackageImpl::LoadHeader()
@@ -228,6 +228,8 @@ bool PackageImpl::Save()
     MemoryFile DataParts;
     uint32_t Offset = 0;
     Compression& Comp( Compression::Get() );
+    // we don't have all the files in the memory so we need to calculate the checksum file by file
+    std::string BufferForChecksum;
     for( PathMap::const_iterator i = mPaths.begin(), e = mPaths.end(); i != e; ++i )
     {
         OsFile In( boost::filesystem::absolute( i->first ) );
@@ -236,17 +238,24 @@ bool PackageImpl::Save()
             continue;
         }
         std::string Buffer;
-        In.ReadAll( Buffer ); // ez sokszaz megas filenal akar meg fajhat is
-        if( !Comp.Deflate( Buffer, Buffer ) )
+        std::string RawData;
+        In.ReadAll( RawData ); // ez sokszaz megas filenal akar meg fajhat is
+        if( !Comp.Deflate( Buffer, RawData ) )
         {
             continue;
         }
+        BufferForChecksum += RawData;
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();
         Desc.Offset = Offset;
         Offset += Desc.FileSize;
         DataParts.Write( Buffer );
     }
+    boost::erase_all(BufferForChecksum,"\r");
+    boost::erase_all(BufferForChecksum,"\n");
+    boost::crc_32_type result;
+    result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
+    mHeader.Checksum = result.checksum();
     WriteHeader();
     DataParts.CopyTo( *mFile );
     mFile.reset();
@@ -264,6 +273,11 @@ PackageImpl::PackageImpl( std::auto_ptr<File> F )
 
 }
 
+boost::uint32_t PackageImpl::Checksum() const
+{
+    return mHeader.Checksum;
+}
+
 } // namespace detail
 
 Package::Package( std::auto_ptr<File> Source )
@@ -279,6 +293,11 @@ Package::~Package()
 std::auto_ptr<File> Package::Open( boost::filesystem::path const& path )
 {
     return mImpl->Open( path );
+}
+
+boost::uint32_t Package::Checksum() const
+{
+    return mImpl->Checksum();
 }
 
 void Package::GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir )

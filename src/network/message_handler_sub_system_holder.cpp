@@ -42,8 +42,9 @@
 #include "network/heading_message.h"
 #include "network/pickup_message.h"
 #include "network/revive_message.h"
-#include "team_switch_request_message.h"
-#include "gamemode_selected_message.h"
+#include "network/team_switch_request_message.h"
+#include "network/gamemode_selected_message.h"
+#include "network/data_checksum_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -166,6 +167,7 @@ void MessageHandlerSubSystemHolder::InitHandlers()
     AddSubSystem( network::GamemodeSelectedMessage::GetType_static(), AutoId( "gamemode_selected_message_handler_sub_system" ) );
     AddSubSystem( network::TeamSwitchRequestMessage::GetType_static(), AutoId( "team_switch_request_message_handler_sub_system" ) );
     AddSubSystem( network::ActorListMessage::GetType_static(), AutoId( "actor_list_message_handler_sub_system" ) );
+    AddSubSystem( network::DataChecksumMessage::GetType_static(), AutoId( "data_checksum_message_handler_sub_system" ));
 }
 
 MessageHandlerSubSystemHolder::~MessageHandlerSubSystemHolder()
