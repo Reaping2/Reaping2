@@ -55,12 +55,12 @@ void CaptureTheFlagGameModeSystem::Update( double DeltaTime )
     }
     if ( mInputSystem.IsValid() )
     {
-        if ( mHudShown && mInputSystem->GetInputState().mShowLeaderboard )
+        if ( mHudShown && mInputSystem->GetInputState( 1 ).mShowLeaderboard )
         {
             mHudShown = false;
             Ui::Get().Load( "leaderboard" );
         }
-        else if ( !mHudShown && !mInputSystem->GetInputState().mShowLeaderboard )
+        else if ( !mHudShown && !mInputSystem->GetInputState( 1 ).mShowLeaderboard )
         {
             mHudShown = true;
             Ui::Get().Load( "ctf_hud" );

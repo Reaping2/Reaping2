@@ -10,7 +10,7 @@
 #include "text.h"
 #include "core/program_state.h"
 #include "hat_action_renderer.h"
-#include "core/settings.h"
+#include "platform/settings.h"
 
 struct SceneVertex
 {

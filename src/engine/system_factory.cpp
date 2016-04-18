@@ -141,7 +141,7 @@ void SystemFactory::Init()
     Bind( AutoId( "input_system" ), &CreateSystem<engine::InputSystem> );
     Bind( AutoId( "keyboard_adapter_system" ), &CreateSystem<engine::KeyboardAdapterSystem> );
     Bind( AutoId( "mouse_adapter_system" ), &CreateSystem<engine::MouseAdapterSystem> );
-    Bind( AutoId("controller_adapter_system"), &CreateSystem<engine::ControllerAdapterSystem>);
+    Bind( AutoId( "controller_adapter_system" ), &CreateSystem<engine::ControllerAdapterSystem> );
 
     Bind( AutoId( "controller_system" ), &CreateSystem<ControllerSystem> );
     Bind( AutoId( "inventory_system" ), &CreateSystem<InventorySystem> );

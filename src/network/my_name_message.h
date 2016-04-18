@@ -11,6 +11,7 @@ class MyNameMessage: public Message
 public:
     DEFINE_MESSAGE_BASE( MyNameMessage )
     std::string mName;
+    int32_t mControlledLocalPlayerId;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 };
@@ -20,6 +21,7 @@ void MyNameMessage::serialize( Archive& ar, const unsigned int version )
 {
     ar& boost::serialization::base_object<Message>( *this );
     ar& mName;
+    ar& mControlledLocalPlayerId;
 }
 
 } // namespace network

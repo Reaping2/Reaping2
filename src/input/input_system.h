@@ -4,6 +4,7 @@
 #include "core/scene.h"
 #include "engine/system.h"
 #include "input_state.h"
+#include <map>
 
 namespace engine {
 
@@ -13,14 +14,15 @@ public:
     DEFINE_SYSTEM_BASE( InputSystem )
     InputSystem();
     static Opt<InputSystem> Get();
-    InputState const& GetInputState() const;    //use this to modify or access InputState.
-    void SetInputState( InputState const& inputState );  //use this to modify InputState.
+    InputState const& GetInputState( int32_t playerId );    //use this to access InputState.
+    void SetInputState( int32_t playerId, InputState const& inputState );  //use this to modify InputState.
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
     Scene& mScene;
-    InputState mInputState;
+    typedef std::map<int32_t, InputState> InputStates;
+    InputStates mInputStates;
 };
 
 } // namespace engine
