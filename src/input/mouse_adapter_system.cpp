@@ -26,12 +26,14 @@ void MouseAdapterSystem::Init()
 
 void MouseAdapterSystem::Update( double DeltaTime )
 {
+    return;
     Opt<Actor> actor( mScene.GetActor( mProgramState.mControlledActorGUID ) );
     if ( !actor.IsValid() )
     {
         return;
     }
-    InputState inputState = mInputSystem->GetInputState();
+    int32_t playerId = 1;
+    InputState inputState = mInputSystem->GetInputState( playerId );
 
     Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
     inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
@@ -44,7 +46,7 @@ void MouseAdapterSystem::Update( double DeltaTime )
     {
         inputState.mShootAlt = true;
     }
-    mInputSystem->SetInputState( inputState );
+    mInputSystem->SetInputState( playerId, inputState );
 }
 
 void MouseAdapterSystem::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )

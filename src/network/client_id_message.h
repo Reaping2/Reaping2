@@ -12,6 +12,7 @@ public:
     DEFINE_MESSAGE_BASE( ClientIdMessage )
     std::string mName;
     int32_t mClientId;
+    int32_t mControlledLocalPlayerId;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 };
@@ -22,6 +23,7 @@ void ClientIdMessage::serialize( Archive& ar, const unsigned int version )
     ar& boost::serialization::base_object<Message>( *this );
     ar& mName;
     ar& mClientId;
+    ar& mControlledLocalPlayerId;
 }
 
 } // namespace network

@@ -95,8 +95,13 @@ void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControll
 
 void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    Opt<core::ClientData> clientData( mProgramState.FindClientDataByActorGUID( actor.GetGUID() ) );
+    if( !clientData.IsValid() )
+    {
+        return;
+    }
     // get id from playerControllerC ( player num 1..4 ) and get inputstate for that
-    InputState const& inputState = mInputSystem->GetInputState();
+    auto const& inputState = mInputSystem->GetInputState( clientData->mControlledLocalPlayerId );
     playerControllerC->mOrientation = inputState.mOrientation;
     playerControllerC->mShoot = inputState.mShoot;
     playerControllerC->mShootAlt = inputState.mShootAlt;

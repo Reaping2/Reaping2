@@ -1,6 +1,7 @@
 #ifndef INCLUDED_CORE_SETTINGS_H
 #define INCLUDED_CORE_SETTINGS_H
 #include "platform/i_platform.h"
+#include <vector>
 
 class Settings : public platform::Singleton<Settings>
 {
@@ -17,6 +18,6 @@ private:
     friend class platform::Singleton<Settings>;
     Settings();
     void Init();
-    Json::Value mRoot;
+    std::vector< Json::Value > mRoots;
 };
 #endif//INCLUDED_CORE_SETTINGS_H

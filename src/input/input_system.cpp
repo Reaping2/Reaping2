@@ -18,7 +18,7 @@ void InputSystem::Init()
 
 void InputSystem::Update( double DeltaTime )
 {
-    mInputState.Reset();
+    std::for_each( mInputStates.begin(), mInputStates.end(), []( InputStates::value_type& v ) { v.second.Reset(); } );
 }
 
 Opt<InputSystem> InputSystem::Get()
@@ -26,17 +26,18 @@ Opt<InputSystem> InputSystem::Get()
     return engine::Engine::Get().GetSystem<InputSystem>();
 }
 
-engine::InputState const& InputSystem::GetInputState() const
+engine::InputState const& InputSystem::GetInputState( int32_t playerId )
 {
-    return mInputState;
+    return mInputStates[ playerId ];
 }
 
-void InputSystem::SetInputState( InputState const& inputState )
+void InputSystem::SetInputState( int32_t playerId, InputState const& inputState )
 {
-    if ( mInputState != inputState )
+    auto& storedState = mInputStates[ playerId ];
+    if ( storedState != inputState )
     {
-        mInputState = inputState;
-        EventServer<InputStateChangedEvent>::Get().SendEvent( InputStateChangedEvent( mInputState ) );
+        storedState = inputState;
+        EventServer<InputStateChangedEvent>::Get().SendEvent( InputStateChangedEvent( playerId, storedState ) );
     }
 }
 

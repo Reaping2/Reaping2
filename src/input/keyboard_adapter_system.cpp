@@ -21,6 +21,7 @@ void KeyboardAdapterSystem::Init()
 
 void KeyboardAdapterSystem::Update( double DeltaTime )
 {
+    return;
     uint32_t currentMovement = 0;
     if( mKeyboard->GetKey( GLFW_KEY_W ).State == KeyState::Down )
     {
@@ -39,7 +40,8 @@ void KeyboardAdapterSystem::Update( double DeltaTime )
         currentMovement |= MF_Right;
     }
 
-    InputState inputState = mInputSystem->GetInputState();
+    int32_t playerId = 1;
+    InputState inputState = mInputSystem->GetInputState( playerId );
     if( mKeyboard->GetKey( GLFW_KEY_Q ).State == KeyState::Typed /*obsolete enabled for one iteration*/
         || mKeyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Down )
     {
@@ -83,7 +85,7 @@ void KeyboardAdapterSystem::Update( double DeltaTime )
     {
         inputState.mPause = true;
     }
-    mInputSystem->SetInputState( inputState );
+    mInputSystem->SetInputState( playerId, inputState );
 }
 
 
