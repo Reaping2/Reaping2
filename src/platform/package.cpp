@@ -229,7 +229,7 @@ bool PackageImpl::Save()
     uint32_t Offset = 0;
     Compression& Comp( Compression::Get() );
     // we don't have all the files in the memory so we need to calculate the checksum file by file
-    std::string BufferForChecksum;
+    uint32_t Checksum = 0;
     for( PathMap::const_iterator i = mPaths.begin(), e = mPaths.end(); i != e; ++i )
     {
         OsFile In( boost::filesystem::absolute( i->first ) );
@@ -237,25 +237,20 @@ bool PackageImpl::Save()
         {
             continue;
         }
+        Checksum ^= In.Checksum();
         std::string Buffer;
-        std::string RawData;
-        In.ReadAll( RawData ); // ez sokszaz megas filenal akar meg fajhat is
-        if( !Comp.Deflate( Buffer, RawData ) )
+        In.ReadAll( Buffer ); // ez sokszaz megas filenal akar meg fajhat is
+        if( !Comp.Deflate( Buffer, Buffer ) )
         {
             continue;
         }
-        BufferForChecksum += RawData;
         FileDesc& Desc = mFiles[i->second];
         Desc.FileSize = Buffer.size();
         Desc.Offset = Offset;
         Offset += Desc.FileSize;
         DataParts.Write( Buffer );
     }
-    boost::erase_all(BufferForChecksum,"\r");
-    boost::erase_all(BufferForChecksum,"\n");
-    boost::crc_32_type result;
-    result.process_bytes( BufferForChecksum.data(), BufferForChecksum.length() );
-    mHeader.Checksum = result.checksum();
+    mHeader.Checksum = Checksum;
     WriteHeader();
     DataParts.CopyTo( *mFile );
     mFile.reset();

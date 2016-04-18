@@ -18,6 +18,7 @@ public:
     virtual size_t GetPosition()const = 0;
     virtual bool SetPosition( size_t Pos ) = 0;
     virtual bool IsValid()const = 0;
+    virtual uint32_t Checksum();
 };
 
 } // namespace platform
