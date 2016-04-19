@@ -4,6 +4,7 @@
 #include "core/actor.h"
 #include "engine/engine.h"
 #include "mouse.h"
+#include "player_control_device.h"
 
 namespace engine {
 
@@ -26,13 +27,17 @@ void MouseAdapterSystem::Init()
 
 void MouseAdapterSystem::Update( double DeltaTime )
 {
-    return;
     Opt<Actor> actor( mScene.GetActor( mProgramState.mControlledActorGUID ) );
     if ( !actor.IsValid() )
     {
         return;
     }
     int32_t playerId = 1;
+    static input::PlayerControlDevice& pcd( input::PlayerControlDevice::Get() );
+    if( pcd.GetControlDevice( playerId ) != input::PlayerControlDevice::KeyboardAndMouse )
+    {
+        return;
+    }
     InputState inputState = mInputSystem->GetInputState( playerId );
 
     Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();

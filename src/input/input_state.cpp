@@ -3,13 +3,13 @@
 namespace engine {
 InputState::InputState()
 {
+    mOrientation = 0.0;
+    mHeading = 0.0;
     Reset();
 }
 
 void InputState::Reset()
 {
-    mOrientation = 0.0;
-    mHeading = 0.0;
     mShoot = false;
     mShootAlt = false;
     mUseNormalItem = false;
