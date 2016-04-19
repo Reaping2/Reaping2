@@ -2,6 +2,7 @@
 #include "keyboard_adapter_system.h"
 #include "engine/engine.h"
 #include "core/i_position_component.h"
+#include "player_control_device.h"
 
 namespace engine {
 
@@ -21,7 +22,6 @@ void KeyboardAdapterSystem::Init()
 
 void KeyboardAdapterSystem::Update( double DeltaTime )
 {
-    return;
     uint32_t currentMovement = 0;
     if( mKeyboard->GetKey( GLFW_KEY_W ).State == KeyState::Down )
     {
@@ -41,6 +41,11 @@ void KeyboardAdapterSystem::Update( double DeltaTime )
     }
 
     int32_t playerId = 1;
+    static input::PlayerControlDevice& pcd( input::PlayerControlDevice::Get() );
+    if( pcd.GetControlDevice( playerId ) != input::PlayerControlDevice::KeyboardAndMouse )
+    {
+        return;
+    }
     InputState inputState = mInputSystem->GetInputState( playerId );
     if( mKeyboard->GetKey( GLFW_KEY_Q ).State == KeyState::Typed /*obsolete enabled for one iteration*/
         || mKeyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Down )

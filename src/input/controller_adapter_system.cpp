@@ -2,6 +2,7 @@
 #include "controller_adapter_system.h"
 #include "input_system.h"
 #include "mapping.h"
+#include "player_control_device.h"
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -128,12 +129,14 @@ void ControllerAdapterSystem::Update(double DeltaTime)
 
     for( auto joy : getJoysticks() )
     {
-        if( joy != 2 )
+        // get controlled player for joy
+        int32_t controlledLocalPlayerId = 1;
+        static input::PlayerControlDevice& pcd( input::PlayerControlDevice::Get() );
+        if( pcd.GetControlDevice( controlledLocalPlayerId ) != input::PlayerControlDevice::Controller ||
+            pcd.GetControllerIndex( controlledLocalPlayerId ) != joy )
         {
             continue;
         }
-        // get controlled player for joy
-        int32_t controlledLocalPlayerId = 1;
 
         // get InputState for player
         InputState is = inputsys->GetInputState( controlledLocalPlayerId );
@@ -152,7 +155,7 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         is.mShowLeaderboard = cs.getBool( "show_leaderboard" );
         is.mPause = cs.getBool( "pause" );
         double vh = cs.getDouble( "view_horizontal" ), vv = cs.getDouble( "view_vertical" );
-        if( std::abs( vv ) >= 0.2 || std::abs( vh ) >= 0.2 )
+        if( std::abs( vv ) >= 0.4 || std::abs( vh ) >= 0.4 )
         {
             is.mOrientation = atan2( vv, vh );
         }
@@ -160,17 +163,7 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         is.mHeading = atan2( mv, mh );
         is.mMoving = std::abs( mv ) >= 0.2 || std::abs( mh ) >= 0.2;
         inputsys->SetInputState( controlledLocalPlayerId, is );
-        // fill generic input state ( ui )
-
-        std::cout << "joy " << joy << " " << cs.name << "\n";
-        for( auto a : cs.axes )
-        {
-            std::cout << "\ta " << a << "\n";
-        }
-        for( auto b : cs.buttons )
-        {
-            std::cout << "\tb " << b << "\n";
-        }
+        // TODO fill generic input state ( ui )
     }
 }
 

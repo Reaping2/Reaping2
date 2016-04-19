@@ -55,6 +55,7 @@
 #include "network/client_datas_message.h"
 #include "network/ctf_client_datas_message.h"
 #include "network/soldier_properties_message.h"
+#include "input/player_control_device.h"
 
 using engine::Engine;
 namespace {
@@ -130,6 +131,7 @@ int main( int argc, char* argv[] )
     ProgramState& programState = ProgramState::Get();
     namespace po = boost::program_options;
     po::options_description desc( "Allowed options" );
+    std::string deviceConfig;
     desc.add_options()
     ( "help", "produce help message" )
     ( "-c", po::value<std::string>( &programState.mServerIp ), "client" )
@@ -138,6 +140,7 @@ int main( int argc, char* argv[] )
     ( "-v", "print version information" )
     ( "-h", "connect as a client to localhost with Host privileges" )
     ( "-r", "connect as a random named soldier to localhost." )
+    ( "-d", po::value<std::string>( &deviceConfig ), "set device configuration, format: player1:controller:1,player2:keyboard_and_mouse" )
     ;
 
     po::variables_map vm;
@@ -185,11 +188,11 @@ int main( int argc, char* argv[] )
         programState.mServerIp = "localhost";
         programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( rand() % 1000 );
     }
-
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
     IsMainRunning = true;
+    input::PlayerControlDevice::Get().SetControlDeviceConfiguration( deviceConfig );
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
     AutoReg PhaseChangeId( PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ) );
 
