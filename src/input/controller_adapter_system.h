@@ -11,11 +11,13 @@ class ControllerAdapterSystem : public System
 public:
     DEFINE_SYSTEM_BASE(ControllerAdapterSystem)
     ControllerAdapterSystem();
+    void SetCalibrate( bool set );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
     Scene& mScene;
+    bool mCalibrate;
 };
 
 } // namespace engine
