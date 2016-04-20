@@ -20,6 +20,7 @@ public:
     ~Package();
     std::auto_ptr<File> Open( boost::filesystem::path const& path );
     void GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir = boost::filesystem::path() );
+    uint32_t Checksum() const;
 private:
     std::auto_ptr<detail::PackageImpl> mImpl;
 };

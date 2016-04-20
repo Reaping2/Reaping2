@@ -260,6 +260,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
 
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
     }
     if ( programState.mMode == ProgramState::Client )
     {
@@ -417,7 +418,10 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "stop_on_death_system" ) );
 
     Eng.AddSystem( AutoId( "frame_counter_system" ) );
-    Eng.AddSystem( AutoId( "renderer_system" ) );
+    if ( programState.mMode != ProgramState::Server )
+    {
+        Eng.AddSystem( AutoId( "renderer_system" ) );
+    }
     Eng.AddSystem( AutoId( "show_text_system" ) );
 
     Eng.AddSystem( AutoId( "player_model_system" ) );

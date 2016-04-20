@@ -1,4 +1,6 @@
 #include "ifile.h"
+#include <boost/crc.hpp>
+#include <boost/algorithm/string.hpp>
 
 namespace platform {
 

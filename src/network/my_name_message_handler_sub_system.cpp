@@ -13,13 +13,25 @@
 #include "portable_oarchive.hpp"
 #include "core/scene.h"
 #include "set_ownership_message.h"
-#include "core/player_controller_component.h"
 #include "client_id_changed.h"
 #include "ctf_client_datas_message.h"
 #include "core/ctf_program_state.h"
 #include "client_list_changed_event.h"
 #include "engine/connection_event.h"
+#include "data_checksum_message.h"
+
+
 namespace network {
+
+namespace detail {
+    // wrapping package checksumming in order to make it chacheable (with static variable)
+    boost::uint32_t PackageChecksum( std::string const& packagename )
+    {
+        Package pkg( AutoFile( new OsFile("data.pkg") ) );
+        return pkg.Checksum();
+    }
+}
+
 
 MyNameMessageHandlerSubSystem::MyNameMessageHandlerSubSystem()
     : MessageHandlerSubSystem()
@@ -89,8 +101,6 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
                 setOwnershipMsg->mActorGUID = clientData->mClientActorGUID;
                 setOwnershipMsg->mClientId = clientData->mClientId;
                 mMessageHolder.AddOutgoingMessage( setOwnershipMsg );
-
-
             }
             else
             {
@@ -129,7 +139,19 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
         lifecycleMsg->mState = LifecycleMessage::SoldierProperties;
         lifecycleMsg->mClientId = msg.mSenderId;
         mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
+
         EventServer<engine::ConnectionEvent>::Get().SendEvent( engine::ConnectionEvent( msg.mSenderId, engine::ConnectionEvent::Connected ) );
+    }
+    // calculate checksums and distribute it to the clients
+    {
+        static uint32_t datapkgChecksum = detail::PackageChecksum("data.pkg");
+        int32_t clientId = clientData.IsValid() ? clientData->mClientId : msg.mSenderId;
+
+        std::auto_ptr<DataChecksumMessage> datapkgChecksumMsg( new DataChecksumMessage );
+        datapkgChecksumMsg->mDatasource = "data.pkg";
+        datapkgChecksumMsg->mChecksum = datapkgChecksum;
+        datapkgChecksumMsg->mClientId = clientId;
+        mMessageHolder.AddOutgoingMessage( std::auto_ptr<DataChecksumMessage>(datapkgChecksumMsg.release() ) );
     }
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );
 }

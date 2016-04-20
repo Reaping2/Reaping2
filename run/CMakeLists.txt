@@ -23,9 +23,12 @@ if(R2PKG_VAR)
 
     if(WIN32 AND NOT CMAKE_CROSSCOMPILING)
         # Ensure that r2pkg can find its dependent DLLs
+        if(MINGW)
+            get_filename_component(MINGW_BINDIR ${CMAKE_CXX_COMPILER} DIRECTORY)
+        endif(MINGW)
         set(SETENV_FOR_UPDATE_DATA
             ${CMAKE_COMMAND} -E env
-            "PATH=${REAPING2_DEPS_INSTALL_DIR}/bin$<SEMICOLON>$<TARGET_FILE_DIR:r2pkg>")
+            "PATH=${MINGW_BINDIR}$<SEMICOLON>${REAPING2_DEPS_INSTALL_DIR}/bin$<SEMICOLON>$<TARGET_FILE_DIR:r2pkg>")
     endif(WIN32 AND NOT CMAKE_CROSSCOMPILING)
 
     add_custom_command(OUTPUT data.pkg

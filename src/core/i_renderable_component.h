@@ -12,6 +12,12 @@ public:
     virtual void SetLayer( RenderableLayer::Type Lay ) = 0;
     virtual int32_t const& GetZOrder()const = 0;
     virtual void SetZOrder( int32_t ZOrder ) = 0;
+    virtual int32_t GetCastShadow() const = 0;
+    virtual void SetCastShadow( int32_t set ) = 0;
+    virtual int32_t GetReceiveShadow() const = 0;
+    virtual void SetReceiveShadow( int32_t set ) = 0;
+    virtual int32_t GetReceiveBlood() const = 0;
+    virtual void SetReceiveBlood( int32_t set ) = 0;
 protected:
     friend class ComponentFactory;
 public:
