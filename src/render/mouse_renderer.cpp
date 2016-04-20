@@ -15,6 +15,7 @@
 #include "core/i_accuracy_component.h"
 #include "text.h"
 #include "core/weapon.h"
+#include "input/input_system.h"
 
 void MouseRenderer::Init()
 {
@@ -31,6 +32,14 @@ MouseRenderer::MouseRenderer()
 
 void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
 {
+    if( !mScene.IsPaused() )
+    {
+        Opt<engine::InputSystem> insys( engine::InputSystem::Get() );
+        int32_t controlledLocalPlayerId = 1;
+        engine::InputState const& is = insys->GetInputState( controlledLocalPlayerId );
+        mX = is.mCursorX;
+        mY = is.mCursorY;
+    }
     size_t CurSize = 3;
     const float mouseSize = 15;
     typedef std::vector<glm::vec2> Positions_t;
@@ -171,6 +180,10 @@ MouseRenderer::~MouseRenderer()
 
 void MouseRenderer::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 {
+    if( !mScene.IsPaused() )
+    {
+        return;
+    }
     mX = Event.Pos.x;
     mY = Event.Pos.y;
 }

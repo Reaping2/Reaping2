@@ -22,6 +22,45 @@
     {
         "controller":
         {
+            "Xbox 360 Wireless Receiver":
+            {
+                "linux":
+                {
+                    "shoot": "a5",
+                    "shoot_alt": "a2",
+                    "move_horizontal": "a0",
+                    "move_vertical": "-a1",
+                    "view_horizontal": "a3",
+                    "view_vertical": "-a4",
+                    "use_normal": "b5",
+                    "reload": "b4",
+                    "show_leaderboard": "b2",
+                    "pause": "b7"
+                },
+                "windows":
+                {
+                    "shoot": "a5",
+                    "shoot_alt": "a2",
+                    "move_horizontal": "a0",
+                    "move_vertical": "-a1",
+                    "view_horizontal": "a3",
+                    "view_vertical": "-a4",
+                    "use_normal": "b5",
+                    "reload": "b4",
+                    "show_leaderboard": "b2",
+                    "pause": "b7"
+                },
+                "shoot": "a5",
+                "shoot_alt": "a2",
+                "move_horizontal": "a0",
+                "move_vertical": "-a1",
+                "view_horizontal": "a3",
+                "view_vertical": "-a4",
+                "use_normal": "b5",
+                "reload": "b4",
+                "show_leaderboard": "b2",
+                "pause": "b7"
+            },
             "shoot": "a5",
             "shoot_alt": "a2",
             "move_horizontal": "a0",

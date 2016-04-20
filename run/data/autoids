@@ -129,6 +129,8 @@ concrete_bottom_outer
 concrete_left_outer
 concrete_right_outer
 concrete_top_outer
+controller_adapter_system
+ControllerAdapterSystem
 controller_system
 ControllerSystem
 corpse

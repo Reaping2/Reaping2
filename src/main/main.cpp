@@ -56,6 +56,7 @@
 #include "network/ctf_client_datas_message.h"
 #include "network/soldier_properties_message.h"
 #include "input/player_control_device.h"
+#include "input/controller_adapter_system.h"
 
 using engine::Engine;
 namespace {
@@ -141,6 +142,7 @@ int main( int argc, char* argv[] )
     ( "-h", "connect as a client to localhost with Host privileges" )
     ( "-r", "connect as a random named soldier to localhost." )
     ( "-d", po::value<std::string>( &deviceConfig ), "set device configuration, format: player1:controller:1,player2:keyboard_and_mouse" )
+    ( "calibrate", "print values read from detected controllers" )
     ;
 
     po::variables_map vm;
@@ -188,6 +190,7 @@ int main( int argc, char* argv[] )
         programState.mServerIp = "localhost";
         programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( rand() % 1000 );
     }
+    bool calibrateController = vm.count( "calibrate" );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
@@ -326,6 +329,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "keyboard_adapter_system" ) );
         Eng.AddSystem( AutoId( "mouse_adapter_system" ) );
         Eng.AddSystem( AutoId( "controller_adapter_system" ) );
+        Opt<engine::ControllerAdapterSystem> cntrlAdapter( Eng.GetSystem<engine::ControllerAdapterSystem>() );
+        cntrlAdapter->SetCalibrate( calibrateController );
     }
     Eng.AddSystem( AutoId( "buff_holder_system" ) );
     Opt<engine::BuffHolderSystem> buffHolderS( Eng.GetSystem<engine::BuffHolderSystem>() );

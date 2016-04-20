@@ -100,7 +100,6 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     {
         return;
     }
-    // get id from playerControllerC ( player num 1..4 ) and get inputstate for that
     auto const& inputState = mInputSystem->GetInputState( clientData->mControlledLocalPlayerId );
     playerControllerC->mOrientation = inputState.mOrientation;
     playerControllerC->mShoot = inputState.mShoot;

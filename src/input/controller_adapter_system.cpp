@@ -3,14 +3,27 @@
 #include "input_system.h"
 #include "mapping.h"
 #include "player_control_device.h"
+#include "core/player_controller_component.h"
+#include "core/actor.h"
+#include "core/i_position_component.h"
 #include <vector>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <GLFW/glfw3.h>
+#include <boost/predef.h>
 
 namespace engine {
 namespace {
+#if BOOST_OS_WINDOWS
+static std::string const platform = ".windows";
+#elif BOOST_OS_LINUX
+static std::string const platform = ".linux";
+#elif BOOST_OS_MACOS
+static std::string const platform = ".mac";
+#else
+static std::string const platform = ".unknown";
+#endif
 std::vector<int> getJoysticks()
 {
     std::vector<int> rv;
@@ -51,7 +64,7 @@ struct ControllerState
         : name( getName( joy ) )
         , axes( getAxes( joy ) )
         , buttons( getButtons( joy ) )
-        , scheme( input::Mapping::Get().getMapping( "controller." + name ) )
+        , scheme( input::Mapping::Get().getMapping( "controller." + name + platform ) )
     {
     }
     bool isValid()
@@ -110,6 +123,7 @@ struct ControllerState
 
 ControllerAdapterSystem::ControllerAdapterSystem()
     : mScene( Scene::Get() )
+    , mCalibrate( false )
 {
 }
 
@@ -127,8 +141,43 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         return;
     }
 
+    // collect controlled players by controller id
+    std::map<int32_t, Opt<Actor> > controlledPlayers;
+    static core::ProgramState& ps =  core::ProgramState::Get();
+    Opt<Actor> actor( mScene.GetActor( ps.mControlledActorGUID ) );
+    Opt<core::ClientData> clientData( ps.FindClientDataByActorGUID( ps.mControlledActorGUID ) );
+    if( clientData.IsValid() && actor.IsValid() )
+    {
+        controlledPlayers[ clientData->mControlledLocalPlayerId ] = actor;
+    }
+
     for( auto joy : getJoysticks() )
     {
+        // get keymapping for joy name @ joy pos ( if custom, support per-slot mapping )
+        ControllerState cs( joy );
+        if( !cs.isValid() )
+        {
+            continue;
+        }
+
+        if( mCalibrate )
+        {
+            std::cout << "Joy " << joy << "\n";
+            std::cout << "\tname: '" << cs.name << "'\n";
+            std::cout << "\taxes: \n";
+            int cnt = 0;
+            for( auto const& a : cs.axes )
+            {
+                std::cout << "\t\ta" << cnt++ << " " << a << "\n";
+            }
+            std::cout << "\tbuttons: \n";
+            cnt = 0;
+            for( auto const& b : cs.buttons )
+            {
+                std::cout << "\t\tb" << cnt++ << " " << b << "\n";
+            }
+        }
+
         // get controlled player for joy
         int32_t controlledLocalPlayerId = 1;
         static input::PlayerControlDevice& pcd( input::PlayerControlDevice::Get() );
@@ -141,12 +190,6 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         // get InputState for player
         InputState is = inputsys->GetInputState( controlledLocalPlayerId );
 
-        // get keymapping for joy name @ joy pos ( if custom, support per-slot mapping )
-        ControllerState cs( joy );
-        if( !cs.isValid() )
-        {
-            continue;
-        }
         // fill inputstate for player
         is.mShoot = cs.getBool( "shoot" );
         is.mShootAlt = cs.getBool( "shoot_alt" );
@@ -159,12 +202,25 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         {
             is.mOrientation = atan2( vv, vh );
         }
+        Opt<Actor> actor = controlledPlayers[ controlledLocalPlayerId ];
+        if( actor.IsValid() )
+        {
+            Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
+            static double const radius = 400;
+            is.mCursorX = actorPositionC->GetX() + radius * cos( is.mOrientation );
+            is.mCursorY = actorPositionC->GetY() + radius * sin( is.mOrientation );
+        }
         double mh = cs.getDouble( "move_horizontal" ), mv = cs.getDouble( "move_vertical" );
         is.mHeading = atan2( mv, mh );
         is.mMoving = std::abs( mv ) >= 0.2 || std::abs( mh ) >= 0.2;
         inputsys->SetInputState( controlledLocalPlayerId, is );
         // TODO fill generic input state ( ui )
     }
+}
+
+void ControllerAdapterSystem::SetCalibrate( bool set )
+{
+    mCalibrate = set;
 }
 
 

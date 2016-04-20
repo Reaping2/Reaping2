@@ -14,10 +14,12 @@ struct InputState
     bool mMoving;
     bool mShowLeaderboard;
     bool mPause;
+    double mCursorX;
+    double mCursorY;
     InputState();
     void Reset();
-    bool operator==( InputState const& other );
-    bool operator!=( InputState const& other );
+    bool operator==( InputState const& other ) const;
+    bool operator!=( InputState const& other ) const;
 };
 
 } // namespace engine

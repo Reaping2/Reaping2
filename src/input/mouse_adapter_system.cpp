@@ -43,6 +43,9 @@ void MouseAdapterSystem::Update( double DeltaTime )
     Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
     inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
 
+    inputState.mCursorX = mX;
+    inputState.mCursorY = mY;
+
     if ( mMouse->IsButtonPressed( MouseSystem::Button_Left ) )
     {
         inputState.mShoot = true;
