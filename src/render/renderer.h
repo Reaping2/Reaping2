@@ -11,6 +11,7 @@
 #include "shader_manager.h"
 #include "health_bar_renderer.h"
 #include "mouse_renderer.h"
+#include "world_renderer.h"
 
 namespace engine {
 class RendererSystem : public System
@@ -27,6 +28,7 @@ class RendererSystem : public System
     TextSceneRenderer mTextSceneRenderer;
     HealthBarRenderer mHealthBarRenderer;
     MouseRenderer mMouseRenderer;
+    render::WorldRenderer mWorldRenderer;
     DecalEngine& mDecalEngine;
     ShaderManager& mShaderManager;
     AutoReg mMouseMoveId;
@@ -58,3 +60,4 @@ public:
 } // namespace engine
 
 #endif//INCLUDED_RENDER_RENDERER_H
+
