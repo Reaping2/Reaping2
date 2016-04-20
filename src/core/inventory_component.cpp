@@ -1,6 +1,7 @@
 #include "inventory_component.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "item_dropped_event.h"
 
 InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
@@ -54,6 +55,7 @@ void InventoryComponent::DropItem( int32_t Id )
     {
         if( ( *i )->GetId() == Id )
         {
+            EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent(*(*i)) );
             delete ( *i ).Get();
             mItems.erase( i );
         }
@@ -74,6 +76,7 @@ void InventoryComponent::DropItemType( ItemType::Type Type )
     {
         if( ( *i )->GetType() == Type )
         {
+            EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent( *(*i) ) );
             delete ( *i ).Get();
             mItems.erase( i );
         }

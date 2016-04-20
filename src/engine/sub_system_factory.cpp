@@ -33,6 +33,7 @@
 #include "items/gauss_gun_weapon_sub_system.h"
 #include "items/lucky_rocket_weapon_subsystem.h"
 #include "items/blue_grenade_normal_item_sub_system.h"
+#include "items/rusty_reaper_weapon_sub_system.h"
 
 
 using platform::AutoId;
@@ -63,6 +64,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId( "gatling_gun_weapon_sub_system" ), &CreateSubSystem<GatlingGunWeaponSubSystem> );
     Bind( AutoId( "gauss_gun_weapon_sub_system" ), &CreateSubSystem<GaussGunWeaponSubSystem> );
     Bind( AutoId( "lucky_rocket_weapon_sub_system" ), &CreateSubSystem<LuckyRocketWeaponSubSystem> );
+    Bind( AutoId( "rusty_reaper_weapon_sub_system" ), &CreateSubSystem<RustyReaperWeaponSubSystem>);
 
 
     Bind( AutoId( "pickup_collision_sub_system" ), &CreateSubSystem<PickupCollisionSubSystem> );

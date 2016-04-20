@@ -15,6 +15,8 @@ ShotCollisionComponent::ShotCollisionComponent()
     , mParentGUID( -1 )
     , mHitClosest( true )
     , mDamageOnce( true )
+    , mHitCountToKill( 1 )
+    , mDoDamage( true )
 {
 
 }
@@ -69,6 +71,16 @@ void ShotCollisionComponent::SetDamageOnce( bool damageOnce )
     mDamageOnce = damageOnce;
 }
 
+void ShotCollisionComponent::SetHitCountToKill(int32_t hitCountToKill)
+{
+    mHitCountToKill = hitCountToKill;
+}
+
+int32_t ShotCollisionComponent::GetHitCountToKill()const
+{
+    return mHitCountToKill;
+}
+
 ShotCollisionComponent::ActorsCollided_t& ShotCollisionComponent::GetActorsCollided()
 {
     return mActorsCollided;
@@ -82,6 +94,21 @@ void ShotCollisionComponent::AddDamagedActorId( int32_t damagedActorId )
 ShotCollisionComponent::Damaged_Actor_Ids_t const& ShotCollisionComponent::GetDamagedActorIds() const
 {
     return mDamagedActorIds;
+}
+
+void ShotCollisionComponent::ResetDamagedActorIds()
+{
+    mDamagedActorIds.clear();
+}
+
+void ShotCollisionComponent::SetDoDamage( bool doDamage )
+{
+    mDoDamage = doDamage;
+}
+
+bool ShotCollisionComponent::IsDoDamage()const
+{
+    return mDoDamage;
 }
 
 void ShotCollisionComponentLoader::BindValues()
@@ -102,6 +129,7 @@ void ShotCollisionComponentLoader::BindValues()
     Bind<std::vector<CollisionClass::Type> >( &ShotCollisionComponent::SetPassThrough, PassThroughTypes );
     Bind( "damage_once", func_bool( &ShotCollisionComponent::SetDamageOnce ) );
     Bind( "hit_closest", func_bool( &ShotCollisionComponent::SetHitClosest ) );
+    Bind( "hit_count_to_kill", func_int32_t(&ShotCollisionComponent::SetHitCountToKill ) );
 }
 
 ShotCollisionComponentLoader::ShotCollisionComponentLoader()
