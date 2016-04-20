@@ -95,15 +95,15 @@ void ShotCollisionSubSystem::TakeDamage( Actor& actor, Actor& target, Opt<ShotCo
     Opt<IOwnerComponent> ownerC = actor.Get<IOwnerComponent>();
 
     if( ( !shotCC->IsDamageOnce() || shotCC->GetDamagedActorIds().find( target.GetGUID() ) == shotCC->GetDamagedActorIds().end() )
-        && otherHealthC.IsValid() && otherHealthC->IsAlive() )
+        && otherHealthC.IsValid() && otherHealthC->IsAlive() && shotCC->IsDoDamage())
     {
         otherHealthC->TakeDamage( shotCC->GetDamage() );
         shotCC->AddDamagedActorId( target.GetGUID() );
         if (shotCC->GetHitCountToKill() > 0)
         {
-            shotCC->SetHitCountToKill(shotCC->GetHitCountToKill() - 1);
+            shotCC->SetHitCountToKill( shotCC->GetHitCountToKill() - 1 );
         }
-        if ( ownerC.IsValid() )
+        if (ownerC.IsValid())
         {
             otherHealthC->SetLastDamageOwnerGUID( ownerC->GetOwnerGUID() );
         }
@@ -116,8 +116,10 @@ void ShotCollisionSubSystem::KillShot( Actor& actor, Actor& target, Opt<ShotColl
     if ( healthC.IsValid() )
     {
         Opt<ICollisionComponent> otherCollC = target.Get<ICollisionComponent>();
-        if ( otherCollC.IsValid() && !shotCC->CanPassThrough( otherCollC->GetCollisionClass() )
-             || shotCC->GetHitCountToKill() == 0 )
+        if ( otherCollC.IsValid() 
+             && !shotCC->CanPassThrough( otherCollC->GetCollisionClass() )
+             && shotCC->IsDoDamage()
+                || shotCC->GetHitCountToKill() == 0 )
         {
             healthC->SetHP( 0 );
             L1( "killshot: self: %d target: %d", actor.GetGUID(), target.GetGUID() );

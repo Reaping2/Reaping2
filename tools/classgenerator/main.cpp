@@ -6,6 +6,68 @@
 #include <ctype.h>
 #include "boost/algorithm/string/find.hpp"
 #include "boost/range/iterator_range_core.hpp"
+#include <algorithm>
+
+
+class Generator;
+class IComponentGenerator;
+class ComponentGenerator;
+class NormalItemGenerator;
+class SystemGenerator;
+class CollisionSubSystemGenerator;
+class ControllerSubSystemGenerator;
+class NormalItemSubSystemGenerator;
+class EventGenerator;
+class MessageGenerator;
+class FactoryGenerator;
+class BuffGenerator;
+class BuffSubSystemGenerator;
+class MapElementGenerator;
+class MapElementSystemGenerator;
+class RecognizerGenerator;
+class ActionRendererGenerator;
+class EnumGenerator;
+class RepositoryGenerator;
+class WeaponGenerator;
+
+class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
+{
+    friend class platform::Singleton<GeneratorFactory>;
+    template<typename Elem_T>
+    static std::auto_ptr<Generator> CreateGenerator(int32_t Id);
+
+    GeneratorFactory()
+    {
+        Bind(AutoId("default_generator"), &CreateGenerator<Generator>);
+        SetDefault(AutoId("default_generator"));
+        Bind(AutoId("i_component"), &CreateGenerator<IComponentGenerator>);
+        Bind(AutoId("component"), &CreateGenerator<ComponentGenerator>);
+        Bind(AutoId("normal_item"), &CreateGenerator<NormalItemGenerator>);
+        Bind(AutoId("system"), &CreateGenerator<SystemGenerator>);
+        Bind(AutoId("collision_sub_system"), &CreateGenerator<CollisionSubSystemGenerator>);
+        Bind(AutoId("controller_sub_system"), &CreateGenerator<ControllerSubSystemGenerator>);
+        Bind(AutoId("normal_item_sub_system"), &CreateGenerator<NormalItemSubSystemGenerator>);
+        Bind(AutoId("event"), &CreateGenerator<EventGenerator>);
+        Bind(AutoId("message"), &CreateGenerator<MessageGenerator>);
+        Bind(AutoId("factory"), &CreateGenerator<FactoryGenerator>);
+        Bind(AutoId("buff"), &CreateGenerator<BuffGenerator>);
+        Bind(AutoId("buff_sub_system"), &CreateGenerator<BuffSubSystemGenerator>);
+        Bind(AutoId("map_element"), &CreateGenerator<MapElementGenerator>);
+        Bind(AutoId("map_element_system"), &CreateGenerator<MapElementSystemGenerator>);
+        Bind(AutoId("recognizer"), &CreateGenerator<RecognizerGenerator>);
+        Bind(AutoId("action_renderer"), &CreateGenerator<ActionRendererGenerator>);
+        Bind(AutoId("enum"), &CreateGenerator<EnumGenerator>);
+        Bind(AutoId("repository"), &CreateGenerator<RepositoryGenerator>);
+        Bind(AutoId("weapon"), &CreateGenerator<WeaponGenerator>);
+    }
+};
+
+template<typename Elem_T>
+std::auto_ptr<Generator> GeneratorFactory::CreateGenerator(int32_t Id)
+{
+    std::auto_ptr<Generator> generator(new Elem_T());
+    return generator;
+}
 
 class Generator
 {
@@ -22,6 +84,7 @@ public:
     std::string targetUnderscore;
     std::string targetItemTypeUnderscore;
     std::string targetItemNameUnderscore;
+    std::string directoryName;
     std::string command;
 protected:
     std::string classCamelCase;
@@ -288,6 +351,8 @@ public:
     }
 };
 
+
+
 class IComponentGenerator : public Generator
 {
     virtual void Generate()
@@ -302,9 +367,10 @@ class IComponentGenerator : public Generator
             namespaceLowerCase = "core";
         }
         Init();
-
+        boost::filesystem::path dir( directoryName );
+        boost::filesystem::create_directory( dir );
         {
-            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + ".h").c_str(), "w" );
             fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "\n" );
@@ -319,8 +385,19 @@ class IComponentGenerator : public Generator
                 fprintf( file.mFile, "    %s;\n", CreateAbstractSetMember( i->first, i->second ).c_str() );
                 fprintf( file.mFile, "    %s;\n", CreateAbstractGetMember( i->first, i->second ).c_str() );
             }
-            fprintf( file.mFile, "};\n" );
-            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "public:\n");
+            fprintf( file.mFile, "    friend class ::boost::serialization::access;\n");
+            fprintf( file.mFile, "    template<class Archive>\n");
+            fprintf( file.mFile, "    void serialize( Archive& ar, const unsigned int version );\n");
+            fprintf( file.mFile, "};\n");
+            fprintf( file.mFile, "\n");
+
+            fprintf( file.mFile, "template<class Archive>\n");
+            fprintf( file.mFile, "void %s::serialize(Archive& ar, const unsigned int version)\n", classCamelCase.c_str());
+            fprintf( file.mFile, "{\n");
+            fprintf( file.mFile, "    ar& boost::serialization::base_object<Component>(*this);\n" );
+            fprintf( file.mFile, "}\n");
+            fprintf( file.mFile, "\n");
             fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
             WriteCommand( file );
 
@@ -344,13 +421,16 @@ class ComponentGenerator : public Generator
         }
 
         Init();
+        boost::filesystem::path dir( directoryName );
+        boost::filesystem::create_directory( dir );
         {
-            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + ".h" ).c_str(), "w" );
             fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "#include \"%s.h\"\n", parentUnderscore.c_str() );
             fprintf( file.mFile, "#include \"core/property_loader.h\"\n" );
+            fprintf( file.mFile, "#include \"platform/export.h\"\n");
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "class %s : public %s\n", classCamelCase.c_str(), parentCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
@@ -367,9 +447,23 @@ class ComponentGenerator : public Generator
             {
                 fprintf( file.mFile, "    %s;\n", CreateMemberWithType( i->first, i->second ).c_str() );
             }
-            fprintf( file.mFile, "private:\n" );
-            fprintf( file.mFile, "};\n" );
-            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "public:\n");
+            fprintf( file.mFile, "    friend class ::boost::serialization::access;\n");
+            fprintf( file.mFile, "    template<class Archive>\n");
+            fprintf( file.mFile, "    void serialize( Archive& ar, const unsigned int version );\n");
+            fprintf( file.mFile, "};\n");
+            fprintf( file.mFile, "\n");
+
+            fprintf( file.mFile, "template<class Archive>\n");
+            fprintf( file.mFile, "void %s::serialize(Archive& ar, const unsigned int version)\n", classCamelCase.c_str());
+            fprintf( file.mFile, "{\n");
+            fprintf( file.mFile, "    ar& boost::serialization::base_object<%s>(*this);\n", parentCamelCase.c_str());
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                fprintf( file.mFile, "    ar& %s;\n", CreateMemberName(i->second).c_str());
+            }
+            fprintf( file.mFile, "}\n");
+            fprintf( file.mFile, "\n");
 
             fprintf( file.mFile, "class %sLoader : public ComponentLoader<%s>\n", classCamelCase.c_str(), classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
@@ -379,6 +473,8 @@ class ComponentGenerator : public Generator
             fprintf( file.mFile, "    friend class ComponentLoaderFactory;\n" );
             fprintf( file.mFile, "};\n" );
             fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "REAPING2_CLASS_EXPORT_KEY2( %s, %s, \"%s\" );\n", classCamelCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str());
+            fprintf( file.mFile, "\n");
 
             fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
@@ -391,7 +487,7 @@ class ComponentGenerator : public Generator
 
 
         {
-            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            AutoNormalFile file( ( directoryName + "/" + classUnderscore + ".cpp" ).c_str(), "w" );
             fprintf( file.mFile, "#include \"core/%s.h\"\n", classUnderscore.c_str() );
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "%s::%s()\n", classCamelCase.c_str(), classCamelCase.c_str() );
@@ -421,9 +517,48 @@ class ComponentGenerator : public Generator
             fprintf( file.mFile, "%sLoader::%sLoader()\n", classCamelCase.c_str(), classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
             fprintf( file.mFile, "}\n" );
+            fprintf( file.mFile, "\n");
+            fprintf( file.mFile, "\n");
+            fprintf( file.mFile, "REAPING2_CLASS_EXPORT_IMPLEMENT( %s, %s );\n", classCamelCase.c_str(), classCamelCase.c_str());
         }
-
-        L1( "ComponentGenerator ended\n" );
+        {
+            std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId("i_component")));
+            generator->command = command;
+            generator->classUnderscore = parentUnderscore;
+            generator->parentUnderscore = "component";
+            generator->namespaceLowerCase = namespaceLowerCase;
+            generator->membersArg = membersArg;
+            generator->eventsArg = eventsArg;
+            generator->targetUnderscore = targetUnderscore;
+            generator->targetItemTypeUnderscore = targetItemTypeUnderscore;
+            generator->targetItemNameUnderscore = targetItemNameUnderscore;
+            generator->directoryName = directoryName;
+            generator->Generate();
+        }
+        {
+            std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId("system")));
+            generator->command = command;
+            generator->classUnderscore = classUnderscore+"_system";
+            generator->parentUnderscore = "";
+            generator->namespaceLowerCase = "engine";
+            generator->membersArg = membersArg;
+            generator->eventsArg = eventsArg;
+            generator->targetUnderscore = classUnderscore.substr(0,classUnderscore.find("_component"));
+            generator->targetItemTypeUnderscore = targetItemTypeUnderscore;
+            generator->targetItemNameUnderscore = targetItemNameUnderscore;
+            generator->directoryName = directoryName;
+            generator->Generate();
+        }
+        {
+            AutoNormalFile file( (directoryName + "/autoids").c_str(), "w" );
+            fprintf( file.mFile, "%s\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "%s\n", parentUnderscore.c_str() );
+            fprintf( file.mFile, "%s_system\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "%s\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "%s\n", parentCamelCase.c_str() );
+            fprintf( file.mFile, "%sSystem\n", classCamelCase.c_str() );
+        }
+        L1("ComponentGenerator ended\n");
     }
 };
 
@@ -612,9 +747,10 @@ class SystemGenerator : public Generator
             targetUnderscore = "some_target";
         }
         Init();
-
+        boost::filesystem::path dir( directoryName );
+        boost::filesystem::create_directory( dir );
         {
-            AutoNormalFile file( ( classUnderscore + ".h" ).c_str(), "w" );
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + ".h" ).c_str(), "w" );
             fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "\n" );
@@ -656,7 +792,7 @@ class SystemGenerator : public Generator
 
 
         {
-            AutoNormalFile file( ( classUnderscore + ".cpp" ).c_str(), "w" );
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + ".cpp" ).c_str(), "w" );
             fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
             fprintf( file.mFile, "#include \"%s.h\"\n", classUnderscore.c_str() );
             fprintf( file.mFile, "#include \"core/i_%s_component.h\"\n", targetUnderscore.c_str() );
@@ -1237,15 +1373,19 @@ class MessageGenerator : public Generator
         }
 
         Init();
+        directoryName = directoryName + "_message";
+        boost::filesystem::path dir( directoryName );
+        boost::filesystem::create_directory( dir );
         bool pending = parentUnderscore == "pending";
         {
-            AutoNormalFile file( ( classUnderscore + "_message.h" ).c_str(), "w" );
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + "_message.h" ).c_str(), "w" );
             fprintf( file.mFile, "#ifndef %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "#define %s\n", headerGuard.c_str() );
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "#include \"network/message.h\"\n" );
             fprintf( file.mFile, "#include \"network/message_handler_sub_system.h\"\n" );
             fprintf( file.mFile, "#include \"network/message_sender_system.h\"\n" );
+            fprintf( file.mFile, "#include \"platform/export.h\"\n" );
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
             fprintf( file.mFile, "\n" );
@@ -1275,16 +1415,18 @@ class MessageGenerator : public Generator
             fprintf( file.mFile, "    }\n" );
             fprintf( file.mFile, "    template<class Archive>\n" );
             fprintf( file.mFile, "    void serialize(Archive& ar, const unsigned int version);\n" );
+            fprintf( file.mFile, "    bool operator==( %sMessage const& other );\n", classCamelCase.c_str() );
+
             fprintf( file.mFile, "};\n" );
             fprintf( file.mFile, "\n" );
 
             fprintf( file.mFile, "template<class Archive>\n" );
             fprintf( file.mFile, "void %sMessage::serialize(Archive& ar, const unsigned int version)\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
-            fprintf( file.mFile, "    ar & boost::serialization::base_object<Message>(*this);\n" );
+            fprintf( file.mFile, "    ar& boost::serialization::base_object<Message>(*this);\n" );
             for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf( file.mFile, "    ar & %s;\n", CreateMemberName( i->second ).c_str() );
+                fprintf( file.mFile, "    ar& %s;\n", CreateMemberName( i->second ).c_str() );
             }
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
@@ -1337,16 +1479,17 @@ class MessageGenerator : public Generator
             fprintf( file.mFile, "#endif//%s\n", headerGuard.c_str() );
 
             fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "REAPING2_CLASS_EXPORT_KEY2( %s__%sMessage, %s::%sMessage, \"%s\" );\n"
+                ,namespaceLowerCase.c_str(), classCamelCase.c_str(), namespaceLowerCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str() );
+            fprintf( file.mFile, "\n" );
 
-            fprintf( file.mFile, "//TODO: to message_order.h\n" );
-            fprintf( file.mFile, "BOOST_CLASS_EXPORT_GUID(%s::%sMessage, \"%s\")\n", namespaceLowerCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str() );
-            fprintf( file.mFile, "type=%s::%sMessage::GetType_static();\n", namespaceLowerCase.c_str(), classCamelCase.c_str() );
             fprintf( file.mFile, "//TODO: to message_handler_sub_system_factory.cpp:\n" );
             fprintf( file.mFile, "Bind( AutoId(\"%s_message_handler_sub_system\"), &CreateSubSystem<%sMessageHandlerSubSystem>);\n", classUnderscore.c_str(), classCamelCase.c_str() );
             fprintf( file.mFile, "//TODO: to system_factory.cpp:\n" );
             fprintf( file.mFile, "Bind( AutoId(\"%s_message_sender_system\"), &CreateSystem<%s::%sMessageSenderSystem>);\n", classUnderscore.c_str(), namespaceLowerCase.c_str(), classCamelCase.c_str() );
             fprintf( file.mFile, "//TODO: to main.cpp:\n" );
             fprintf( file.mFile, "Eng.AddSystem(AutoId(\"%s_message_sender_system\"));\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "//TODO: to message_handler_sub_system_holder.cpp:\n" );
             fprintf( file.mFile, "messageHandlerSSH->AddSubSystem(%s::%sMessage::GetType_static(),AutoId(\"%s_message_handler_sub_system\"));\n",
                      namespaceLowerCase.c_str(), classCamelCase.c_str(), classUnderscore.c_str() );
             WriteCommand( file );
@@ -1354,7 +1497,7 @@ class MessageGenerator : public Generator
 
 
         {
-            AutoNormalFile file( ( classUnderscore + "_message.cpp" ).c_str(), "w" );
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + "_message.cpp" ).c_str(), "w" );
             fprintf( file.mFile, "#include \"platform/i_platform.h\"\n" );
             fprintf( file.mFile, "#include \"network/%s_message.h\"\n", classUnderscore.c_str() );
             if ( !targetUnderscore.empty() )
@@ -1365,6 +1508,22 @@ class MessageGenerator : public Generator
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
             fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "bool %sMessage::operator==( %sMessage const& other )\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "{\n" );
+            for (Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i)
+            {
+                if ( i == typeMemberPairs.begin() )
+                {
+                    fprintf( file.mFile, "    return %s == other.%s\n", CreateMemberName( i->second ).c_str(), CreateMemberName( i->second ).c_str() );
+                }
+                else
+                {
+                    fprintf( file.mFile, "        && %s == other.%s%s\n"
+                        , CreateMemberName( i->second ).c_str(), CreateMemberName( i->second ).c_str()
+                        , i == --typeMemberPairs.end() ? ";":"" );
+                }
+            }
+            fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "%sMessageSenderSystem::%sMessageSenderSystem()\n", classCamelCase.c_str(), classCamelCase.c_str() );
             fprintf( file.mFile, "    : MessageSenderSystem()\n" );
             fprintf( file.mFile, "{\n" );
@@ -1480,7 +1639,14 @@ class MessageGenerator : public Generator
                 fprintf( file.mFile, "    std::auto_ptr<%sMessage> %sMsg(new %sMessage);\n", classCamelCase.c_str(), classVariable.c_str(), classCamelCase.c_str() );
                 for( Type_Member_Pairs_t::iterator itTypeMember = typeMemberPairs.begin(), eitTypeMember = typeMemberPairs.end(); itTypeMember != eitTypeMember; ++itTypeMember )
                 {
-                    fprintf( file.mFile, "    %sMsg->%s=%sC->%s();\n", classVariable.c_str(), CreateMemberName( itTypeMember->second ).c_str(), targetVariableName.c_str(), CreateGetMember( itTypeMember->first, itTypeMember->second ).c_str() );
+                    if (itTypeMember->second == "actorGUID")
+                    {
+                        fprintf( file.mFile, "    %sMsg->%s=actor.GetGUID();\n", classVariable.c_str(), CreateMemberName( itTypeMember->second ).c_str() );
+                    }
+                    else
+                    {
+                        fprintf( file.mFile, "    %sMsg->%s=%sC->%s();\n", classVariable.c_str(), CreateMemberName( itTypeMember->second ).c_str(), targetVariableName.c_str(), CreateGetMember( itTypeMember->first, itTypeMember->second ).c_str() );
+                    }
                 }
                 fprintf( file.mFile, "    return %sMsg;\n", classVariable.c_str() );
                 fprintf( file.mFile, "}\n" );
@@ -1488,8 +1654,18 @@ class MessageGenerator : public Generator
             }
             fprintf( file.mFile, "} // namespace %s\n", namespaceLowerCase.c_str() );
             fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "REAPING2_CLASS_EXPORT_IMPLEMENT( %s__%sMessage, %s::%sMessage );\n", namespaceLowerCase.c_str(), classCamelCase.c_str(), namespaceLowerCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "\n" );
         }
-
+        {
+            AutoNormalFile file( (directoryName + "/autoids").c_str(), "w" );
+            fprintf( file.mFile, "%s_message\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "%s_message_sender_system\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "%s_message_handler_system\n", classUnderscore.c_str() );
+            fprintf( file.mFile, "%sMessage\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "%sMessageSenderSystem\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "%sMessageHandlerSystem\n", classCamelCase.c_str() );
+        }
         L1( "%s ended\n", __FUNCTION__ );
     }
 };
@@ -2129,18 +2305,18 @@ class WeaponGenerator : public Generator
         }
 
         Init();
-        boost::filesystem::path dir(classUnderscore);
+        boost::filesystem::path dir( directoryName );
         boost::filesystem::create_directory(dir);
-        dir = boost::filesystem::path(classUnderscore + "/data");
+        dir = boost::filesystem::path( directoryName + "/data");
         boost::filesystem::create_directory(dir);
-        dir = boost::filesystem::path(classUnderscore + "/data/items");
+        dir = boost::filesystem::path( directoryName + "/data/items");
         boost::filesystem::create_directory(dir);
-        dir = boost::filesystem::path(classUnderscore + "/data/sprites");
+        dir = boost::filesystem::path( directoryName + "/data/sprites");
         boost::filesystem::create_directory(dir);
-        dir = boost::filesystem::path(classUnderscore + "/data/actors");
+        dir = boost::filesystem::path( directoryName + "/data/actors");
         boost::filesystem::create_directory(dir);
         {
-            AutoNormalFile file((classUnderscore+"/"+classUnderscore + ".h").c_str(), "w");
+            AutoNormalFile file( (directoryName + "/" + classUnderscore + ".h").c_str(), "w" );
             fprintf(file.mFile, "#ifndef %s\n", headerGuard.c_str());
             fprintf(file.mFile, "#define %s\n", headerGuard.c_str());
             fprintf(file.mFile, "\n");
@@ -2202,7 +2378,7 @@ class WeaponGenerator : public Generator
 
 
         {
-            AutoNormalFile file((classUnderscore + "/" + classUnderscore + ".cpp").c_str(), "w");
+            AutoNormalFile file((directoryName + "/" + classUnderscore + ".cpp").c_str(), "w");
             fprintf(file.mFile, "#include \"core/%s.h\"\n", classUnderscore.c_str());
             fprintf(file.mFile, "\n");
             fprintf(file.mFile, "%s::%s( int32_t Id )\n", classCamelCase.c_str(), classCamelCase.c_str());
@@ -2245,7 +2421,7 @@ class WeaponGenerator : public Generator
             fprintf(file.mFile, "REAPING2_CLASS_EXPORT_IMPLEMENT( %s, %s );\n", classCamelCase.c_str(), classCamelCase.c_str());
         }
         {
-            AutoNormalFile file((classUnderscore + "/data/items/" + classUnderscore + ".json").c_str(), "w");
+            AutoNormalFile file((directoryName + "/data/items/" + classUnderscore + ".json").c_str(), "w");
             fprintf(file.mFile, "[\n");
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "        \"name\":\"%s\",\n",classUnderscore.c_str());
@@ -2272,7 +2448,7 @@ class WeaponGenerator : public Generator
             fprintf(file.mFile, "]\n");
         }
         {
-            AutoNormalFile file((classUnderscore + "/data/actors/" + classUnderscore + ".json").c_str(), "w");
+            AutoNormalFile file((directoryName + "/data/actors/" + classUnderscore + ".json").c_str(), "w");
             fprintf(file.mFile, "[\n");
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "        \"name\":\"%s_projectile\",\n", classUnderscore.c_str());
@@ -2315,7 +2491,7 @@ class WeaponGenerator : public Generator
             fprintf(file.mFile, "]\n");
         }
         {
-            AutoNormalFile file((classUnderscore + "/data/sprites/" + classUnderscore + ".json").c_str(), "w");
+            AutoNormalFile file((directoryName + "/data/sprites/" + classUnderscore + ".json").c_str(), "w");
             fprintf(file.mFile, "[\n");
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "        \"texture_path\":\"textures/%s_weapon.png\",\n", classUnderscore.c_str());
@@ -2412,7 +2588,7 @@ class WeaponGenerator : public Generator
         Init();
         
         {
-            AutoNormalFile file((originalClassUnderscore + "/" + classUnderscore + ".h").c_str(), "w");
+            AutoNormalFile file((directoryName + "/" + classUnderscore + ".h").c_str(), "w");
             fprintf(file.mFile, "#ifndef %s\n", headerGuard.c_str());
             fprintf(file.mFile, "#define %s\n", headerGuard.c_str());
             fprintf(file.mFile, "\n");
@@ -2450,7 +2626,7 @@ class WeaponGenerator : public Generator
 
 
         {
-            AutoNormalFile file((originalClassUnderscore + "/" + classUnderscore + ".cpp").c_str(), "w");
+            AutoNormalFile file((directoryName + "/" + classUnderscore + ".cpp").c_str(), "w");
             fprintf(file.mFile, "#include \"engine/items/%s.h\"\n", classUnderscore.c_str());
             fprintf(file.mFile, "#include \"core/%s.h\"\n", originalClassUnderscore.c_str());
             fprintf(file.mFile, "\n");
@@ -2502,7 +2678,7 @@ class WeaponGenerator : public Generator
             fprintf(file.mFile, "\n");
         }
         {
-            AutoNormalFile file((originalClassUnderscore + "/autoids").c_str(), "w");
+            AutoNormalFile file((directoryName + "/autoids").c_str(), "w");
             fprintf(file.mFile, "%s\n",originalClassUnderscore.c_str());
             fprintf(file.mFile, "%s_projectile\n", originalClassUnderscore.c_str());
             fprintf(file.mFile, "%s_alt_projectile\n", originalClassUnderscore.c_str());
@@ -2513,50 +2689,6 @@ class WeaponGenerator : public Generator
         L1("%s ended\n", __FUNCTION__);
     }
 };
-
-
-
-
-class GeneratorFactory : public platform::Factory<Generator>, public platform::Singleton<GeneratorFactory>
-{
-    friend class platform::Singleton<GeneratorFactory>;
-    template<typename Elem_T>
-    static std::auto_ptr<Generator> CreateGenerator( int32_t Id );
-
-    GeneratorFactory()
-    {
-        Bind( AutoId( "default_generator" ), &CreateGenerator<Generator> );
-        SetDefault( AutoId( "default_generator" ) );
-        Bind( AutoId( "i_component" ), &CreateGenerator<IComponentGenerator> );
-        Bind( AutoId( "component" ), &CreateGenerator<ComponentGenerator> );
-        Bind( AutoId( "normal_item" ), &CreateGenerator<NormalItemGenerator> );
-        Bind( AutoId( "system" ), &CreateGenerator<SystemGenerator> );
-        Bind( AutoId( "collision_sub_system" ), &CreateGenerator<CollisionSubSystemGenerator> );
-        Bind( AutoId( "controller_sub_system" ), &CreateGenerator<ControllerSubSystemGenerator> );
-        Bind( AutoId( "normal_item_sub_system" ), &CreateGenerator<NormalItemSubSystemGenerator> );
-        Bind( AutoId( "event" ), &CreateGenerator<EventGenerator> );
-        Bind( AutoId( "message" ), &CreateGenerator<MessageGenerator> );
-        Bind( AutoId( "factory" ), &CreateGenerator<FactoryGenerator> );
-        Bind( AutoId( "buff" ), &CreateGenerator<BuffGenerator> );
-        Bind( AutoId( "buff_sub_system" ), &CreateGenerator<BuffSubSystemGenerator> );
-        Bind( AutoId( "map_element" ), &CreateGenerator<MapElementGenerator> );
-        Bind( AutoId( "map_element_system" ), &CreateGenerator<MapElementSystemGenerator> );
-        Bind( AutoId( "recognizer" ), &CreateGenerator<RecognizerGenerator> );
-        Bind( AutoId( "action_renderer" ), &CreateGenerator<ActionRendererGenerator> );
-        Bind( AutoId( "enum" ), &CreateGenerator<EnumGenerator> );
-        Bind( AutoId( "repository" ), &CreateGenerator<RepositoryGenerator> );
-        Bind( AutoId( "weapon" ), &CreateGenerator<WeaponGenerator> );
-    }
-};
-
-template<typename Elem_T>
-std::auto_ptr<Generator> GeneratorFactory::CreateGenerator( int32_t Id )
-{
-    std::auto_ptr<Generator> generator( new Elem_T() );
-    return generator;
-}
-
-
 
 
 int main( int argc, char* argv[] )
@@ -2647,6 +2779,7 @@ int main( int argc, char* argv[] )
     generator->targetUnderscore = targetUnderscore;
     generator->targetItemTypeUnderscore = targetItemTypeUnderscore;
     generator->targetItemNameUnderscore = targetItemNameUnderscore;
+    generator->directoryName = classUnderscore;
     generator->Generate();
     return 0;
 }

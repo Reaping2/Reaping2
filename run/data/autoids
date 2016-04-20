@@ -888,3 +888,15 @@ rusty_reaper_projectile
 rusty_reaper_alt_projectile
 rusty_reaper_weapon_sub_system
 RustyReaperWeaponSubSystem
+rotate_component
+i_rotate_component
+rotate_component_system
+RotateComponent
+IRotateComponent
+RotateComponentSystem
+rotate_message
+rotate_message_sender_system
+rotate_message_handler_system
+RotateMessage
+RotateMessageSenderSystem
+RotateMessageHandlerSystem

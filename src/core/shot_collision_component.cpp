@@ -16,6 +16,7 @@ ShotCollisionComponent::ShotCollisionComponent()
     , mHitClosest( true )
     , mDamageOnce( true )
     , mHitCountToKill( 1 )
+    , mDoDamage( true )
 {
 
 }
@@ -98,6 +99,16 @@ ShotCollisionComponent::Damaged_Actor_Ids_t const& ShotCollisionComponent::GetDa
 void ShotCollisionComponent::ResetDamagedActorIds()
 {
     mDamagedActorIds.clear();
+}
+
+void ShotCollisionComponent::SetDoDamage( bool doDamage )
+{
+    mDoDamage = doDamage;
+}
+
+bool ShotCollisionComponent::IsDoDamage()const
+{
+    return mDoDamage;
 }
 
 void ShotCollisionComponentLoader::BindValues()

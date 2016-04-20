@@ -30,16 +30,7 @@ public:
     }
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
-    bool operator==( MoveMessage const& other )
-    {
-        return mActorGUID == other.mActorGUID
-               && mHeadingModifier == other.mHeadingModifier
-               && mSpeed == other.mSpeed
-               && mPercent == other.mPercent
-               && mFlat == other.mFlat
-               && mMoving == other.mMoving
-               && mRooted == other.mRooted;
-    }
+    bool operator==( MoveMessage const& other );
 };
 
 template<class Archive>

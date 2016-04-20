@@ -9,7 +9,13 @@ class RustyReaper : public Weapon
 public:
     RustyReaper( int32_t Id );
     RustyReaper();
+    void SetSawGUID( int32_t sawGUID );
+    int32_t GetSawGUID()const;
+    void SetSawActive( bool sawActive );
+    bool IsSawActive()const;
 private:
+    int32_t mSawGUID;
+    bool mSawActive;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -20,6 +26,8 @@ template<class Archive>
 void RustyReaper::serialize(Archive& ar, const unsigned int version)
 {
     ar& boost::serialization::base_object<Weapon>(*this);
+    ar& mSawGUID;
+    ar& mSawActive;
 }
 
 class RustyReaperLoader : public ItemLoader<RustyReaper>

@@ -937,7 +937,8 @@
                 "set":[{"class":"flag", "radius":40}]
             },
             {"name":"team_component"},
-            {"name":"attachable_component"}
+            {"name":"attachable_component",
+                "set":[{"position_x":10,"position_y":10}]}
         ]
     },
     {

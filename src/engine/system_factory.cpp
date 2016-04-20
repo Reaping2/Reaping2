@@ -114,6 +114,7 @@
 #include "remove_components_on_death_system.h"
 #include "player_model_system.h"
 #include "rotate_component_system.h"
+#include "network/rotate_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -175,6 +176,7 @@ void SystemFactory::Init()
     Bind( AutoId( "message_handler_sub_system_holder" ), &CreateSystem<network::MessageHandlerSubSystemHolder> );
     Bind( AutoId( "position_message_sender_system" ), &CreateSystem<network::PositionMessageSenderSystem> );
     Bind( AutoId( "move_message_sender_system" ), &CreateSystem<network::MoveMessageSenderSystem> );
+    Bind( AutoId( "rotate_message_sender_system" ), &CreateSystem<network::RotateMessageSenderSystem> );
     Bind( AutoId( "player_controller_message_sender_system" ), &CreateSystem<network::PlayerControllerMessageSenderSystem> );
     Bind( AutoId( "create_actor_message_sender_system" ), &CreateSystem<network::CreateActorMessageSenderSystem> );
     Bind( AutoId( "damage_taken_message_sender_system" ), &CreateSystem<network::DamageTakenMessageSenderSystem> );

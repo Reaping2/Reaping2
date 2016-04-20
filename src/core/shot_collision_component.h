@@ -21,6 +21,8 @@ public:
     virtual bool IsDamageOnce();
     virtual void SetDamageOnce( bool damageOnce );
     virtual void SetHitCountToKill(int32_t hitCountToKill);
+    virtual void SetDoDamage( bool doDamage );
+    virtual bool IsDoDamage()const;
     virtual int32_t GetHitCountToKill()const;
     typedef std::vector<Opt<Actor> > ActorsCollided_t;
     virtual ActorsCollided_t& GetActorsCollided();
@@ -39,6 +41,7 @@ protected:
     bool mDamageOnce;
     int32_t mHitCountToKill;
     ActorsCollided_t mActorsCollided;
+    bool mDoDamage;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

@@ -2,6 +2,7 @@
 #define INCLUDED_ENGINE_RUSTY_REAPER_WEAPON_SUB_SYSTEM_H
 
 #include "engine/items/common_sub_system_includes.h"
+#include "core/item_dropped_event.h"
 
 namespace engine {
 
@@ -19,6 +20,10 @@ private:
     ActorFactory& mActorFactory;
     int32_t mProjectileId;
     int32_t mProjectileAltId;
+    int32_t mWeaponId;
+    AutoReg mOnItemDropped;
+    void OnItemDropped( core::ItemDroppedEvent const& Evt );
+
 };
 
 } // namespace engine

@@ -25,7 +25,7 @@ void BounceCollisionSubSystem::Init()
 void BounceCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
-    if (bounceCC->IsUseShotCollision())
+    if (mShotCollisionSubSystem.IsValid()&&bounceCC->IsUseShotCollision())
     {
         mShotCollisionSubSystem->Update(actor, DeltaTime);
     }
@@ -34,47 +34,55 @@ void BounceCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 
 void BounceCollisionSubSystem::ClipScene( Actor& actor )
 {
-    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
-    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
-    Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-    Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-    const double h = moveC->GetHeading();
-    double c = cos( h );
-    double s = sin( h );
 
-    glm::vec4 AllowedDimensions = mScene.GetDimensions();
-    float Radius = ( float )collisionC->GetRadius();
-    AllowedDimensions.x += Radius;
-    AllowedDimensions.y += Radius;
-    AllowedDimensions.z -= Radius;
-    AllowedDimensions.w -= Radius;
-    bool bounced = false;
-    if( positionC->GetX() < AllowedDimensions.x || positionC->GetX() > AllowedDimensions.z )
-    {
-        c *= -1;
-        bounced = true;
-    }
-    if( positionC->GetY() < AllowedDimensions.y || positionC->GetY() > AllowedDimensions.w )
-    {
-        s *= -1;
-        bounced = true;
-    }
-    if ( bounced )
-    {
-        moveC->SetHeading( atan2( s, c ) );
-        moveC->GetSpeed().mBase.Set( moveC->GetSpeed().mBase.Get() * ( 1.0 - bounceCC->GetSpeedLossPercent() ) );
-        if (bounceCC->IsResetActorsCollidedOnBounce())
-        {
-            bounceCC->ResetDamagedActorIds();
-        }
-    }
-    CollisionSubSystem::ClipScene( actor );
+//      There might be a switch to turn this functionality on.
+//      Bouncing back from the edge of the stage.
+
+//     Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+//     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+//     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+//     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+//     const double h = moveC->GetHeading();
+//     double c = cos( h );
+//     double s = sin( h );
+// 
+//     glm::vec4 AllowedDimensions = mScene.GetDimensions();
+//     float Radius = ( float )collisionC->GetRadius();
+//     AllowedDimensions.x += Radius;
+//     AllowedDimensions.y += Radius;
+//     AllowedDimensions.z -= Radius;
+//     AllowedDimensions.w -= Radius;
+//     bool bounced = false;
+//     if( positionC->GetX() < AllowedDimensions.x || positionC->GetX() > AllowedDimensions.z )
+//     {
+//         c *= -1;
+//         bounced = true;
+//     }
+//     if( positionC->GetY() < AllowedDimensions.y || positionC->GetY() > AllowedDimensions.w )
+//     {
+//         s *= -1;
+//         bounced = true;
+//     }
+//     if ( bounced )
+//     {
+//         moveC->SetHeading( atan2( s, c ) );
+//         moveC->GetSpeed().mBase.Set( moveC->GetSpeed().mBase.Get() * ( 1.0 - bounceCC->GetSpeedLossPercent() ) );
+//         if (bounceCC->GetHitCountToKill() > 0)
+//         {
+//             bounceCC->SetHitCountToKill( bounceCC->GetHitCountToKill() - 1 );
+//         }
+//         if (bounceCC->IsResetActorsCollidedOnBounce())
+//         {
+//             bounceCC->ResetDamagedActorIds();
+//         }
+//     }
+    mShotCollisionSubSystem->ClipScene( actor );
 }
 
 void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
     Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
-    if (bounceCC->IsUseShotCollision())
+    if (mShotCollisionSubSystem.IsValid() && bounceCC->IsUseShotCollision())
     {
         mShotCollisionSubSystem->Collide(actor, other);
     }
