@@ -3,7 +3,6 @@
 #include "core/i_kill_score_on_death_component.h"
 #include "core/i_health_component.h"
 #include "kill_score_event.h"
-#include "kill_score_event.h"
 
 namespace engine {
 
