@@ -1,5 +1,8 @@
 #include "platform/i_platform.h"
 #include "leaderboard_system.h"
+#include "score_event.h"
+#include "kill_score_event.h"
+#include "client_score_event.h"
 
 namespace engine {
 
@@ -16,8 +19,12 @@ LeaderboardSystem::LeaderboardSystem()
 
 void LeaderboardSystem::Init()
 {
+    // TODO: do we need onmapstart
     mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::OnMapStart, this, _1 ) );
-    mOnClientDatasChanged = EventServer<engine::ClientDatasChangedEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::OnClientDatasChanged, this, _1 ) );
+    mOnClientDatasChanged = EventServer<engine::ClientDatasChangedEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::UpdateBoard, this ) );
+    mOnScore = EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::UpdateBoard, this ) );
+    mOnKillScore = EventServer<engine::KillScoreEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::UpdateBoard, this ) );
+    mOnClientScore = EventServer<engine::ClientScoreEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::UpdateBoard, this ) );
 
     mKDASModels.push_back( new ModelValue( ModelValue::get_string_t( boost::lambda::bind( &LeaderboardSystem::GetColor, this, Team::Blue ) ), "team_blue_color", &mLeaderBoardModel ) );
     mKDASModels.push_back( new ModelValue( ModelValue::get_string_t( boost::lambda::bind( &LeaderboardSystem::GetColor, this, Team::Red ) ), "team_red_color", &mLeaderBoardModel ) );
@@ -39,15 +46,10 @@ void LeaderboardSystem::Update( double DeltaTime )
 
 void LeaderboardSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
-    SetModels();
+    UpdateBoard();
 }
 
-void LeaderboardSystem::OnClientDatasChanged( engine::ClientDatasChangedEvent const& Evt )
-{
-    SetModels();
-}
-
-void LeaderboardSystem::SetModels()
+void LeaderboardSystem::UpdateBoard()
 {
     mBlueNames.clear();
     mBlueKills.clear();

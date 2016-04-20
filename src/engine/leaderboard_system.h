@@ -43,8 +43,10 @@ private:
     AutoReg mOnMapStart;
     void OnMapStart( core::MapStartEvent const& Evt );
     AutoReg mOnClientDatasChanged;
-    void OnClientDatasChanged( engine::ClientDatasChangedEvent const& Evt );
-    void SetModels();
+    AutoReg mOnScore;
+    AutoReg mOnClientScore;
+    AutoReg mOnKillScore;
+    void UpdateBoard();
     std::string mBlueColor;
     std::string mRedColor;
     std::string const& GetColor( Team::Type team ) const;
