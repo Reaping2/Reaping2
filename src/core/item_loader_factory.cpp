@@ -10,6 +10,7 @@
 #include "gatling_gun.h"
 #include "gauss_gun.h"
 #include "lucky_rocket.h"
+#include "rusty_reaper.h"
 
 using platform::AutoId;
 
@@ -33,6 +34,8 @@ ItemLoaderRepo::ItemLoaderRepo()
     mElements.insert( id, new GaussGunLoader() );
     id = AutoId( "lucky_rocket" );
     mElements.insert( id, new LuckyRocketLoader() );
+    id = AutoId("rusty_reaper"); 
+    mElements.insert(id, new RustyReaperLoader());
     Init();
 }
 

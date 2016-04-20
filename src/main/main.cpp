@@ -258,6 +258,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "fade_out_message_sender_system" ) );
         Eng.AddSystem( AutoId( "ctf_client_datas_message_sender_system" ) );
         Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
+        Eng.AddSystem( AutoId( "rotate_message_sender_system" ) );
 
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
         Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
@@ -302,7 +303,6 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "soldier_auto_revive_map_element_system" ) );
     }
 
-    Eng.AddSystem( AutoId( "attachable_system" ) );
     Eng.AddSystem( AutoId( "soldier_properties_system" ) ); //must be before message_sender
     Eng.AddSystem( AutoId( "soldier_spawn_system" ) );
     Eng.AddSystem( AutoId( "flag_spawn_system" ) );
@@ -363,6 +363,7 @@ int main( int argc, char* argv[] )
         weaponItemSS->AddSubSystem( AutoId( "rocket_launcher" ), AutoId( "rocket_launcher_weapon_sub_system" ) );
         weaponItemSS->AddSubSystem( AutoId( "ion_gun" ), AutoId( "ion_gun_weapon_sub_system" ) );
         weaponItemSS->AddSubSystem( AutoId( "lucky_rocket" ), AutoId( "lucky_rocket_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "rusty_reaper" ), AutoId( "rusty_reaper_weapon_sub_system" ) );
 
         inventorySystem->AddSubSystem( ItemType::Normal, AutoId( "normal_item_sub_system" ) );
         Opt<engine::NormalItemSubSystem> normalItemSS = engine::NormalItemSubSystem::Get();
@@ -412,6 +413,8 @@ int main( int argc, char* argv[] )
     }
     Eng.AddSystem( AutoId( "ParticleSystem" ) );
     Eng.AddSystem( AutoId( "move_system" ) );
+    Eng.AddSystem( AutoId( "rotate_component_system" ) );
+    Eng.AddSystem( AutoId( "attachable_system" ) );
 
     Eng.AddSystem( AutoId( "kill_score_system" ) );
 

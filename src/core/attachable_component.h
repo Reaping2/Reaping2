@@ -13,9 +13,21 @@ public:
     AttachableComponent();
     virtual void SetAttachedGUID( int32_t attachedGUID );
     virtual int32_t GetAttachedGUID()const;
+    virtual void SetPositionX( double positionX );
+    virtual double GetPositionX()const;
+    virtual void SetPositionY( double positionY );
+    virtual double GetPositionY()const;
+    virtual void SetInheritOrientation( bool inheritOrientation );
+    virtual bool IsInheritOrientation()const;
+    virtual void SetRemoveOnAttachedDeath( bool removeOnAttachedDeath );
+    virtual bool IsRemoveOnAttachedDeath()const;
 protected:
     friend class ComponentFactory;
     int32_t mAttachedGUID;
+    double mPositionX;
+    double mPositionY;
+    bool mInheritOrientation;
+    bool mRemoveOnAttachedDeath;
 private:
 public:
     friend class ::boost::serialization::access;
@@ -29,6 +41,10 @@ void AttachableComponent::serialize( Archive& ar, const unsigned int version )
     //NOTE: generated archive for this class
     ar& boost::serialization::base_object<IAttachableComponent>( *this );
     ar& mAttachedGUID;
+    ar& mPositionX;
+    ar& mPositionY;
+    ar& mInheritOrientation;
+    ar& mRemoveOnAttachedDeath;
 }
 
 class AttachableComponentLoader : public ComponentLoader<AttachableComponent>
