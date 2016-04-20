@@ -11,9 +11,8 @@
 
 class TextSceneRenderer
 {
-    UiVertices_t mPrevVertices;
+    size_t mPrevVerticesSize;
     VaoBase mVAO;
-    Opt<engine::WindowSystem> mWindow;
     typedef std::vector<Text> Texts_t;
     Texts_t mTexts;
     void Init();
