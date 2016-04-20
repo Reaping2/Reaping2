@@ -12,6 +12,7 @@
 #include "gauss_gun.h"
 #include "lucky_rocket.h"
 #include "blue_grenade_normal_item.h"
+#include "rusty_reaper.h"
 
 ItemFactory::ItemFactory()
 {
@@ -25,6 +26,7 @@ ItemFactory::ItemFactory()
     Bind( AutoId( "gatling_gun" ), &CreateItem<GatlingGun> );
     Bind( AutoId( "gauss_gun" ), &CreateItem<GaussGun> );
     Bind( AutoId( "lucky_rocket" ), &CreateItem<LuckyRocket> );
+    Bind( AutoId( "rusty_reaper" ), &CreateItem<RustyReaper>);
 
     Bind<GrenadeNormalItem>( AutoId( "grenade_normal_item" ) );
     Bind<FlashNormalItem>( AutoId( "flash_normal_item" ) );

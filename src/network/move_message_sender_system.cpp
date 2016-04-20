@@ -23,6 +23,7 @@ namespace network {
             mSendMoves.insert(platform::AutoId("spider1target"));
             mSendMoves.insert(platform::AutoId("spider2target"));
             mSendMoves.insert(platform::AutoId("rocket_launcher_target_projectile"));
+            mSendMoves.insert(platform::AutoId("rusty_reaper_projectile"));
         }
         else if (mProgramState.mMode == ProgramState::Client)
         {
