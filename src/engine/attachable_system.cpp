@@ -33,13 +33,12 @@ void AttachableSystem::Update( double DeltaTime )
         {
             continue;
         }
+        Opt<Actor> attachedActor( mScene.GetActor( attachableC->GetAttachedGUID() ) );
         if ( attachableC->GetAttachedGUID() == -1 )
         {
             continue;
         }
 
-        Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
-        Opt<Actor> attachedActor( mScene.GetActor( attachableC->GetAttachedGUID() ) );
         if ( !attachedActor.IsValid() )
         {
             attachableC->SetAttachedGUID( -1 );
@@ -52,6 +51,14 @@ void AttachableSystem::Update( double DeltaTime )
         {
             if ( !attachedHealthC->IsAlive() )
             {
+                if (attachableC->IsRemoveOnAttachedDeath())
+                {
+                    Opt<IHealthComponent> healthC( actor.Get<IHealthComponent>() );
+                    if (healthC.IsValid())
+                    {
+                        healthC->SetHP( 0 );
+                    }
+                }
                 attachableC->SetAttachedGUID( -1 );
                 EventServer<AttachStateChangedEvent>::Get().SendEvent( AttachStateChangedEvent( AttachStateChangedEvent::Detached, attachedActor->GetGUID(), actor.GetGUID() ) );
                 continue;
@@ -68,10 +75,13 @@ void AttachableSystem::Update( double DeltaTime )
         {
             continue;
         }
-
-        positionC->SetX( attachedPositionC->GetX() );
-        positionC->SetY( attachedPositionC->GetY() );
-        positionC->SetOrientation( attachedPositionC->GetOrientation() + boost::math::double_constants::pi );
+        glm::vec2 rvec = glm::rotate(glm::vec2(attachableC->GetPositionX(), attachableC->GetPositionY()), float( attachedPositionC->GetOrientation() ) );
+        positionC->SetX( attachedPositionC->GetX() + rvec.x );
+        positionC->SetY( attachedPositionC->GetY() + rvec.y );
+        if (attachableC->IsInheritOrientation())
+        {
+            positionC->SetOrientation( attachedPositionC->GetOrientation() + boost::math::double_constants::pi );
+        }
     }
 }
 
