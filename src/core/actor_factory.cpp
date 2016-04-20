@@ -84,9 +84,16 @@ void ActorFactory::Init()
         for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
         {
             Json::Value& ActorsDesc = *i;
-            if( !AddActorCreatorFromOneDesc( ActorsDesc, mActorCreators ) )
+            try
             {
-                return;
+                if( !AddActorCreatorFromOneDesc( ActorsDesc, mActorCreators ) )
+                {
+                    return;
+                }
+            }
+            catch( std::exception const& err )
+            {
+                L1( "Exception caught while parsing %s : %s", Path.generic_string().c_str(), err.what() );
             }
         }
     }

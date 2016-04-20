@@ -4,24 +4,29 @@
 
 Widget::WidgetIterator& Widget::WidgetIterator::operator++()
 {
+    // go to the bottom of the hierarchy
     if( mThis->mFirstChild )
     {
         mThis = mThis->mFirstChild;
         ++mLevel;
     }
+    // visit the bottom-most level
     else if( mThis->mNext )
     {
         mThis = mThis->mNext;
     }
+    // go up
     else
     {
         Widget const* Next = mThis;
+        // find the first parent with siblings
         while( Next && !Next->mNext && mLevel )
         {
             Next = Next->mParent;
             --mLevel;
         }
-        mThis = Next->mNext;
+        // if found, visit siblings
+        mThis = NULL == Next ? NULL : Next->mNext;
     }
     return *this;
 }

@@ -258,6 +258,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "rotate_message_sender_system" ) );
 
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
     }
     if ( programState.mMode == ProgramState::Client )
     {
@@ -416,7 +417,10 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "stop_on_death_system" ) );
 
     Eng.AddSystem( AutoId( "frame_counter_system" ) );
-    Eng.AddSystem( AutoId( "renderer_system" ) );
+    if ( programState.mMode != ProgramState::Server )
+    {
+        Eng.AddSystem( AutoId( "renderer_system" ) );
+    }
     Eng.AddSystem( AutoId( "show_text_system" ) );
 
     Eng.AddSystem( AutoId( "player_model_system" ) );
@@ -438,20 +442,6 @@ int main( int argc, char* argv[] )
     L1( "ctf_client_datas_message type: %d\n", network::ctf::ClientDatasMessage::GetType_static() );
     L1( "client_datas_message type: %d\n", network::ClientDatasMessage::GetType_static() );
     L1( "soldier_properties_message type: %d\n", network::SoldierPropertiesMessage::GetType_static() );
-
-
-    //     std::auto_ptr<Component> cloakC=ComponentFactory::Get()(AutoId("cloak_component"));
-    //     static_cast<CloakComponent*>(cloakC.get())->SetActive(true);
-    std::auto_ptr<Actor> actor = ActorFactory::Get()( AutoId( "player" ) );
-    std::ostringstream oss;
-    eos::portable_oarchive oa( oss );
-    oa& actor.get();
-    std::string astr( oss.str() );
-
-    std::istringstream iss( astr );
-    eos::portable_iarchive ia( iss );
-    Actor* retAct;
-    ia >> retAct;
 
     while( IsMainRunning )
     {

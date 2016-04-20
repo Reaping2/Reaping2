@@ -45,6 +45,9 @@
 #include "team_switch_request_message.h"
 #include "gamemode_selected_message.h"
 #include "rotate_message.h"
+#include "network/team_switch_request_message.h"
+#include "network/gamemode_selected_message.h"
+#include "network/data_checksum_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -168,6 +171,7 @@ void MessageHandlerSubSystemHolder::InitHandlers()
     AddSubSystem( network::TeamSwitchRequestMessage::GetType_static(), AutoId( "team_switch_request_message_handler_sub_system" ) );
     AddSubSystem( network::ActorListMessage::GetType_static(), AutoId( "actor_list_message_handler_sub_system" ) );
     AddSubSystem( network::RotateMessage::GetType_static(), AutoId( "rotate_message_handler_sub_system" ) );
+    AddSubSystem( network::DataChecksumMessage::GetType_static(), AutoId( "data_checksum_message_handler_sub_system" ));
 }
 
 MessageHandlerSubSystemHolder::~MessageHandlerSubSystemHolder()

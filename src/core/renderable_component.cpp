@@ -3,10 +3,14 @@
 #include "platform/i_platform.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include <limits>
 
 RenderableComponent::RenderableComponent()
     : mLayer( RenderableLayer::Background )
     , mZOrder( 0 )
+    , mCastShadow( 0 )
+    , mReceiveBlood( 0 )
+    , mReceiveShadow( 0 )
 {
 }
 
@@ -30,16 +34,62 @@ void RenderableComponent::SetZOrder( int32_t ZOrder )
     mZOrder = ZOrder;
 }
 
-RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder )
+int32_t RenderableComponent::GetReceiveShadow() const
+{
+    return mReceiveShadow;
+}
+
+void RenderableComponent::SetReceiveShadow( int32_t ReceiveShadow )
+{
+    mReceiveShadow = ReceiveShadow;
+}
+
+int32_t RenderableComponent::GetReceiveBlood() const
+{
+    return mReceiveBlood;
+}
+
+void RenderableComponent::SetReceiveBlood( int32_t ReceiveBlood )
+{
+    mReceiveBlood = ReceiveBlood;
+}
+
+int32_t RenderableComponent::GetCastShadow() const
+{
+    return mCastShadow;
+}
+
+void RenderableComponent::SetCastShadow( int32_t CastShadow )
+{
+    mCastShadow = CastShadow;
+}
+
+RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow )
     : mLayer( Lay )
     , mZOrder( ZOrder )
+    , mCastShadow( CastShadow )
+    , mReceiveBlood( ReceiveBlood )
+    , mReceiveShadow( ReceiveShadow )
 {
 }
 
 void RenderableComponentModifier::operator()( Opt<Actor>& Obj )
 {
-    Obj->Get<IRenderableComponent>()->SetLayer( mLayer );
-    Obj->Get<IRenderableComponent>()->SetZOrder( mZOrder );
+    IRenderableComponent& rend = *Obj->Get<IRenderableComponent>();
+    rend.SetLayer( mLayer );
+    rend.SetZOrder( mZOrder );
+    if( mCastShadow != -1 )
+    {
+        rend.SetCastShadow( mCastShadow );
+    }
+    if( mReceiveBlood != -1 )
+    {
+        rend.SetReceiveBlood( mReceiveBlood );
+    }
+    if( mReceiveShadow != -1 )
+    {
+        rend.SetReceiveShadow( mReceiveShadow );
+    }
 }
 
 void RenderableComponentLoader::BindValues()
@@ -50,6 +100,14 @@ void RenderableComponentLoader::BindValues()
     {
         Bind<RenderableLayer::Type>( &RenderableComponent::SetLayer, mRenderableLayer( AutoId( istr ) ) );
     }
+    Bind( "cast_shadow", func_int32_t( &RenderableComponent::SetCastShadow ) );
+    Bind( "receive_blood", func_int32_t( &RenderableComponent::SetReceiveBlood ) );
+    int32_t iv;
+    if( !Json::GetInt( ( *mSetters )[ "receive_shadow" ], iv ) )
+    {
+        iv = std::numeric_limits<int32_t>::max();
+    }
+    Bind<int32_t>( func_int32_t( &RenderableComponent::SetReceiveShadow ), iv );
 }
 
 RenderableComponentLoader::RenderableComponentLoader()

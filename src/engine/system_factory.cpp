@@ -115,6 +115,7 @@
 #include "player_model_system.h"
 #include "rotate_component_system.h"
 #include "network/rotate_message.h"
+#include "network/data_checksum_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -209,6 +210,7 @@ void SystemFactory::Init()
     Bind( AutoId( "fade_out_message_sender_system" ), &CreateSystem<network::FadeOutMessageSenderSystem> );
     Bind( AutoId( "team_switch_request_message_sender_system" ), &CreateSystem<network::TeamSwitchRequestMessageSenderSystem> );
     Bind( AutoId( "actor_list_message_sender_system" ), &CreateSystem<network::ActorListMessageSenderSystem> );
+    Bind( AutoId( "data_checksum_message_sender_system" ), &CreateSystem<network::DataChecksumMessageSenderSystem>);
 
     Bind( AutoId( "ctf_client_list_displaying_system" ), &CreateSystem<network::CtfClientListDisplayingSystem> );
     Bind( AutoId( "ctf_client_list_handling_system" ), &CreateSystem<network::CtfClientListHandlingSystem> );

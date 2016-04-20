@@ -9,7 +9,12 @@ set(PORTAUDIO_REV
         CACHE STRING "Portaudio svn revision to check out")
 
 add_custom_target(ext_portaudio_patch
-        SOURCES portaudio_cmakelists.txt.in)
+        SOURCES portaudio_cmakelists.txt.in
+                options_cmake.h.in
+                pa_unix_hostapis.c
+                template_portaudio.def.in
+                winioctl.h)
+
 
 ExternalProject_Add(ext_portaudio
         PREFIX "${EXTERNALS_WORK_DIR}"
@@ -34,7 +39,7 @@ ExternalProject_Add(ext_portaudio
                     ${EXTERNALS_WORK_DIR}/src/portaudio/src/os/unix/pa_unix_hostapis.c
             COMMAND ${CMAKE_COMMAND} -E copy
                     ${CMAKE_CURRENT_SOURCE_DIR}/winioctl.h
-                    ${EXTERNALS_WORK_DIR}/src/portaudio/src/os/mingw-crosscompile/winioctl.h
+                    ${EXTERNALS_WORK_DIR}/src/portaudio/src/os/mingw/winioctl.h
         CMAKE_ARGS
             ${PLATFORM_CMAKE_ARGS}
             ${TOOLCHAIN_CMAKE_ARGS}

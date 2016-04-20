@@ -16,6 +16,7 @@ public:
     int32_t mClientId;
     DEFINE_MESSAGE_BASE( TeamSwitchRequestMessage )
     TeamSwitchRequestMessage()
+        : mClientId( 0 )
     {
     }
     template<class Archive>

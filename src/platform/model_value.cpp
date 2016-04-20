@@ -16,6 +16,7 @@ namespace platform {
 
 ModelValue::ModelValue( std::string const& Name )
     : mType( Mt_None )
+    , mValue( NULL )
     , mParent( NULL )
 {
 
@@ -151,7 +152,7 @@ ModelValue::operator t() const \
     if( mType != mt ) \
     { \
         OBSERVABLE_ASSERT( false ); \
-        t t_inst; \
+        t t_inst{}; \
         return t_inst; \
     } \
     return ((fn*)mValue)->operator()(); \
