@@ -53,420 +53,133 @@
             ]
         },
         {
-            "type":"fixed_ratio_container",
+            "type":"grid",
+            "startid":"#blue_idx",
+            "source":"%leaderboard.team_blue_name",
+            "direction":"horizontal",
+            "color":"0xffffff",
             "x":0.0,
-            "y":0.0,
-            "w":1.0,
-            "h":1.0,
-            "align_h":"center",
-            "align_v":"center",
-            "visible":0,
+            "y":0.15,
+            "w":0.5,
+            "h":0.75,
+            "visible":1,
             "enabled":0,
-            "children":[
+            "cols":1,
+            "rows":10,
+            "template": [
                 {
-                    "type":"background",
-                    "x":-0.05,
-                    "y":0.95,
-                    "w":1.08,
-                    "h":-0.3,
+                    "type":"text_widget",
+                    "color":"0xffffff",
                     "visible":1,
-                    "enabled":1,
-                    "color":"0x22222255",
-                    "highlight_color":"0xaaaaaa77",
-                    "action":[["local.start"]]
-                },
-                {
-                    "type":"text_widget","x":0.0,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,	"enabled":0,
-                    "text":"Name","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
-                    "text":"Kill","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
-                    "text":"Death","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
-                    "text":"Score","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,	"enabled":0,
-                    "text":"Name","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
-                    "text":"Kill","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
-                    "text":"Death","fontsize":2
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.91,
-                    "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
-                    "text":"Score","fontsize":2
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_1_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_1_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_1_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_1_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_1_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_1_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_1_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.88,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_1_score","fontsize":3
-                },
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_2_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_2_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_2_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_2_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_2_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_2_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_2_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.85,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_2_score","fontsize":3
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_3_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_3_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_3_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_3_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_3_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_3_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_3_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.82,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_3_score","fontsize":3
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_4_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_4_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_4_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_4_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_4_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_4_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_4_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.79,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_4_score","fontsize":3
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_5_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_5_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_5_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_5_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_5_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_5_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_5_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.76,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_5_score","fontsize":3
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_6_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_6_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_6_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_6_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_6_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_6_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_6_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.73,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_6_score","fontsize":3
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_7_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_7_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_7_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_7_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_7_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_7_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_7_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.70,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_7_score","fontsize":3
-                },
-
-
-
-
-                {
-                    "type":"text_widget","x":0.0,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_blue_8_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.25,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_8_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.3,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_8_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.35,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_blue_8_score","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.6,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,	"enabled":0,
-                    "text":"%leaderboard.team_red_8_name","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.85,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_8_kill","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.9,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_8_death","fontsize":3
-                },
-                {
-                    "type":"text_widget","x":0.95,"y":0.67,
-                    "w":1.0,"h":0.1,"color":"0xffffff","visible":1,"enabled":0,
-                    "text":"%leaderboard.team_red_8_score","fontsize":3
+                    "x":0.0,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_blue_name#blue_idx"
+                },
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.25,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_blue_kill#blue_idx"
+                },
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.5,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_blue_death#blue_idx"
+                },
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.75,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_blue_score#blue_idx"
                 }
-
+            ]
+        },
+        {
+            "type":"grid",
+            "startid":"#red_idx",
+            "source":"%leaderboard.team_red_name",
+            "direction":"horizontal",
+            "color":"0xffffff",
+            "x":0.5,
+            "y":0.15,
+            "w":0.5,
+            "h":0.75,
+            "visible":1,
+            "enabled":0,
+            "cols":1,
+            "rows":10,
+            "template": [
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.0,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_red_name#red_idx"
+                },
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.25,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_red_kill#red_idx"
+                },
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.5,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_red_death#red_idx"
+                },
+                {
+                    "type":"text_widget",
+                    "color":"0xffffff",
+                    "visible":1,
+                    "x":0.75,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
+                    "enabled":0,
+                    "fontsize":3,
+                    "text":"%leaderboard.team_red_score#red_idx"
+                }
             ]
         },
         {
@@ -555,4 +268,4 @@
             ]
         }
     ]
-},
+}
