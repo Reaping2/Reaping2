@@ -53,6 +53,8 @@ void ClientScoreMessageHandlerSubSystem::Execute( Message const& message )
     if ( clientData.IsValid() )
     {
         clientData->mScore = msg.mScore;
+        engine::ClientScoreEvent evt( msg.mClientID, msg.mScore );
+        EventServer<engine::ClientScoreEvent>::Get().SendEvent( evt );
     }
 }
 
