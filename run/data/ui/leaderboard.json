@@ -48,137 +48,204 @@
                     "text":"%ctf.red",
                     "fontsize":5
                 }
-
-
             ]
         },
         {
-            "type":"grid",
-            "startid":"#blue_idx",
-            "source":"%leaderboard.team_blue_name",
-            "direction":"horizontal",
-            "color":"0xffffff",
+            "type":"fixed_ratio_container",
             "x":0.0,
-            "y":0.15,
-            "w":0.5,
-            "h":0.75,
-            "visible":1,
+            "y":0.0,
+            "w":1.0,
+            "h":1.0,
+            "align_h":"center",
+            "align_v":"center",
+            "visible":0,
             "enabled":0,
-            "cols":1,
-            "rows":10,
-            "template": [
+            "children":[
                 {
-                    "type":"text_widget",
-                    "color":"0xffffff",
+                    "type":"background",
+                    "x":-0.05,
+                    "y":0.98,
+                    "w":1.08,
+                    "h":-0.3,
                     "visible":1,
+                    "enabled":1,
+                    "color":"0x22222255",
+                    "highlight_color":"0xaaaaaa77",
+                    "action":[["local.start"]]
+                },
+                {
+                    "type":"grid",
+                    "startid":"#blue_idx",
+                    "source":"%leaderboard.team_blue_name",
+                    "direction":"horizontal",
+                    "color":"0xffffff",
                     "x":0.0,
                     "y":0.0,
-                    "w":1.0,
+                    "w":0.5,
                     "h":1.0,
+                    "visible":1,
                     "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_blue_name#blue_idx"
+                    "cols":1,
+                    "rows":10,
+                    "children":[
+                        {
+                            "type":"text_widget","x":0.0,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,    "enabled":0,
+                            "text":"Name","fontsize":3
+                        },
+                        {
+                            "type":"text_widget","x":0.25,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
+                            "text":"Kill","fontsize":3
+                        },
+                        {
+                            "type":"text_widget","x":0.5,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
+                            "text":"Death","fontsize":3
+                        },
+                        {
+                            "type":"text_widget","x":0.75,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
+                            "text":"Score","fontsize":3
+                        }
+                    ],
+                    "template": [
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.0,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_blue_name#blue_idx"
+                        },
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.25,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_blue_kill#blue_idx"
+                        },
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.5,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_blue_death#blue_idx"
+                        },
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.75,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_blue_score#blue_idx"
+                        }
+                    ]
                 },
                 {
-                    "type":"text_widget",
+                    "type":"grid",
+                    "startid":"#red_idx",
+                    "source":"%leaderboard.team_red_name",
+                    "direction":"horizontal",
                     "color":"0xffffff",
-                    "visible":1,
-                    "x":0.25,
-                    "y":0.0,
-                    "w":1.0,
-                    "h":1.0,
-                    "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_blue_kill#blue_idx"
-                },
-                {
-                    "type":"text_widget",
-                    "color":"0xffffff",
-                    "visible":1,
                     "x":0.5,
                     "y":0.0,
-                    "w":1.0,
+                    "w":0.5,
                     "h":1.0,
-                    "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_blue_death#blue_idx"
-                },
-                {
-                    "type":"text_widget",
-                    "color":"0xffffff",
                     "visible":1,
-                    "x":0.75,
-                    "y":0.0,
-                    "w":1.0,
-                    "h":1.0,
                     "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_blue_score#blue_idx"
-                }
-            ]
-        },
-        {
-            "type":"grid",
-            "startid":"#red_idx",
-            "source":"%leaderboard.team_red_name",
-            "direction":"horizontal",
-            "color":"0xffffff",
-            "x":0.5,
-            "y":0.15,
-            "w":0.5,
-            "h":0.75,
-            "visible":1,
-            "enabled":0,
-            "cols":1,
-            "rows":10,
-            "template": [
-                {
-                    "type":"text_widget",
-                    "color":"0xffffff",
-                    "visible":1,
-                    "x":0.0,
-                    "y":0.0,
-                    "w":1.0,
-                    "h":1.0,
-                    "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_red_name#red_idx"
-                },
-                {
-                    "type":"text_widget",
-                    "color":"0xffffff",
-                    "visible":1,
-                    "x":0.25,
-                    "y":0.0,
-                    "w":1.0,
-                    "h":1.0,
-                    "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_red_kill#red_idx"
-                },
-                {
-                    "type":"text_widget",
-                    "color":"0xffffff",
-                    "visible":1,
-                    "x":0.5,
-                    "y":0.0,
-                    "w":1.0,
-                    "h":1.0,
-                    "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_red_death#red_idx"
-                },
-                {
-                    "type":"text_widget",
-                    "color":"0xffffff",
-                    "visible":1,
-                    "x":0.75,
-                    "y":0.0,
-                    "w":1.0,
-                    "h":1.0,
-                    "enabled":0,
-                    "fontsize":3,
-                    "text":"%leaderboard.team_red_score#red_idx"
+                    "cols":1,
+                    "rows":10,
+                    "children":[
+                        {
+                            "type":"text_widget","x":0.0,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,    "enabled":0,
+                            "text":"Name","fontsize":3
+                        },
+                        {
+                            "type":"text_widget","x":0.25,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
+                            "text":"Kill","fontsize":3
+                        },
+                        {
+                            "type":"text_widget","x":0.5,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
+                            "text":"Death","fontsize":3
+                        },
+                        {
+                            "type":"text_widget","x":0.75,"y":0.93,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
+                            "text":"Score","fontsize":3
+                        }
+                    ],
+                    "template": [
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.0,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_red_name#red_idx"
+                        },
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.25,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_red_kill#red_idx"
+                        },
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.5,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_red_death#red_idx"
+                        },
+                        {
+                            "type":"text_widget",
+                            "color":"0xffffff",
+                            "visible":1,
+                            "x":0.75,
+                            "y":0.0,
+                            "w":1.0,
+                            "h":1.0,
+                            "enabled":0,
+                            "fontsize":3,
+                            "text":"%leaderboard.team_red_score#red_idx"
+                        }
+                    ]
                 }
             ]
         },
