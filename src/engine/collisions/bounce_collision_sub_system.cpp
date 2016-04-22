@@ -76,7 +76,10 @@ void BounceCollisionSubSystem::ClipScene( Actor& actor )
 //             bounceCC->ResetDamagedActorIds();
 //         }
 //     }
-    mShotCollisionSubSystem->ClipScene( actor );
+    if (mShotCollisionSubSystem.IsValid())
+    {
+        mShotCollisionSubSystem->ClipScene( actor );
+    }
 }
 
 void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
