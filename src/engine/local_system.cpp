@@ -55,7 +55,8 @@ void LocalSystem::OnLocalStart()
     mProgramState.mClientId = 0;
     mProgramState.mClientName = "kvakmama";
     mProgramState.mClientDatas.clear();
-    core::ClientData clientData = core::ClientData( mProgramState.mClientId, mProgramState.mClientName );
+    int32_t controlledLocalPlayerId = 1;    // TODO: change when local multiplayer is possible
+    core::ClientData clientData = core::ClientData( mProgramState.mClientId, mProgramState.mClientName, controlledLocalPlayerId );
     clientData.mConnected = true;
     mProgramState.mClientDatas.push_back( clientData );
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );

@@ -1,24 +1,51 @@
-#include "core/settings.h"
+#include "settings.h"
 
 Settings::Settings()
 {
     Init();
 }
 
-void Settings::Init()
+namespace {
+Json::Value parseFile( AutoFile& F )
 {
-    Filesys& Fsys(Filesys::Get());
-    AutoFile F = Fsys.Open(boost::filesystem::path("settings.json"));
     if (!F.get() || !F->IsValid())
     {
-        return;
+        return Json::Value();
     }
     JsonReader Reader(*F);
     if (!Reader.IsValid())
     {
-        return;
+        return Json::Value();
     }
-    mRoot = Reader.GetRoot();
+    return Reader.GetRoot();
+}
+Json::Value getMountedSettings()
+{
+    Filesys& Fsys(Filesys::Get());
+    AutoFile F = Fsys.Open(boost::filesystem::path("settings.json"));
+    return parseFile( F );
+}
+Json::Value getUserSettings()
+{
+    AutoFile userSettings( new OsFile( "settings.json" ) );
+    return parseFile( userSettings );
+}
+}
+
+void Settings::Init()
+{
+    Json::Value settings;
+    // user settings first, defaults later
+    settings = getUserSettings();
+    if( !!settings )
+    {
+        mRoots.push_back( settings );
+    }
+    settings = getMountedSettings();
+    if( !!settings )
+    {
+        mRoots.push_back( settings );
+    }
 }
 
 std::string Settings::GetStr(std::string const& key, std::string const& Default/*=""*/) const
@@ -64,15 +91,24 @@ glm::vec4 Settings::GetColor(std::string const& key, glm::vec4 Default /*= glm::
     return Default;
 }
 
-// TODO: multiple settings hierarchy file handling should be here
 Json::Value Settings::Resolve(std::string const& key) const
 {
     std::vector<std::string> keySplit;
     boost::split(keySplit, key, boost::is_any_of("."));
-    Json::Value r = mRoot;
-    for (auto const& i : keySplit)
+    Json::Value r;
+    for( auto& root : mRoots )
     {
-        r = r[i];
+        r = root;
+        for (auto const& i : keySplit)
+        {
+            r = r[i];
+        }
+        // return the first valid found setting
+        // note: not type-sensitive
+        if( !!r )
+        {
+            break;
+        }
     }
     return r;
 }

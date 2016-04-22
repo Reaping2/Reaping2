@@ -157,6 +157,7 @@ void ClientSystem::Connect()
         mProgramState.mClientConnected = true;
         std::auto_ptr<MyNameMessage> msg( new MyNameMessage );
         msg->mName = core::ProgramState::Get().mClientName;
+        msg->mControlledLocalPlayerId = 1; // TODO: change when multiple local players are allowed
         mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( msg.release() ) );
     }
 }

@@ -3,13 +3,15 @@
 namespace engine {
 InputState::InputState()
 {
+    mOrientation = 0.0;
+    mHeading = 0.0;
+    mCursorX = 0.0;
+    mCursorY = 0.0;
     Reset();
 }
 
 void InputState::Reset()
 {
-    mOrientation = 0.0;
-    mHeading = 0.0;
     mShoot = false;
     mShootAlt = false;
     mUseNormalItem = false;
@@ -19,7 +21,7 @@ void InputState::Reset()
     mPause = false;
 }
 
-bool InputState::operator==( InputState const& other )
+bool InputState::operator==( InputState const& other ) const
 {
     return mOrientation == other.mOrientation
            && mHeading == other.mHeading
@@ -29,10 +31,12 @@ bool InputState::operator==( InputState const& other )
            && mReload == other.mReload
            && mMoving == other.mMoving
            && mShowLeaderboard == other.mShowLeaderboard
-           && mPause == other.mPause;
+           && mPause == other.mPause
+           && mCursorX == other.mCursorX
+           && mCursorY == other.mCursorY;
 }
 
-bool InputState::operator!=( InputState const& other )
+bool InputState::operator!=( InputState const& other ) const
 {
     return !( *this == other );
 }

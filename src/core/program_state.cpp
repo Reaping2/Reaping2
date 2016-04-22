@@ -66,6 +66,7 @@ Opt<ClientData> ProgramState::FindClientDataByClientName( std::string clientName
 
 ClientData::ClientData()
     : mClientId( -1 )
+    , mControlledLocalPlayerId( -1 )
     , mClientActorGUID( -1 )
     , mKill( 0 )
     , mDeath( 0 )
@@ -77,9 +78,10 @@ ClientData::ClientData()
 
 }
 
-ClientData::ClientData( int32_t clientId, std::string const& clientName )
+ClientData::ClientData( int32_t clientId, std::string const& clientName, int32_t controlledLocalPlayerId )
     : mClientId( clientId )
     , mClientName( clientName )
+    , mControlledLocalPlayerId( controlledLocalPlayerId )
     , mClientActorGUID( -1 )
     , mKill( 0 )
     , mDeath( 0 )

@@ -126,13 +126,14 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
     }
     else
     {
-        L1( "absolutely new client is connected! name %s clientId: %d \n", msg.mName.c_str(), msg.mSenderId );
+        L1( "absolutely new client is connected! name %s clientId: %d clpid: %d\n", msg.mName.c_str(), msg.mSenderId, msg.mControlledLocalPlayerId );
         std::auto_ptr<ClientIdMessage> newmsg( new ClientIdMessage );
         newmsg->mName = msg.mName;
         newmsg->mClientId = msg.mSenderId;
+        newmsg->mControlledLocalPlayerId = msg.mControlledLocalPlayerId;
         mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( newmsg.release() ) );
 
-        mProgramState.mClientDatas.push_back( core::ClientData( msg.mSenderId, msg.mName ) );
+        mProgramState.mClientDatas.push_back( core::ClientData( msg.mSenderId, msg.mName, msg.mControlledLocalPlayerId ) );
 
         std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
         lifecycleMsg->mState = LifecycleMessage::SoldierProperties;

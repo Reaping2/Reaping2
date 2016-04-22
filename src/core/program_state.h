@@ -12,6 +12,7 @@ struct ClientData
 {
     int32_t mClientId;
     std::string mClientName;
+    int32_t mControlledLocalPlayerId;
     int32_t mClientActorGUID;
     SoldierProperties mSoldierProperties;
     int32_t mKill;
@@ -22,7 +23,7 @@ struct ClientData
     bool mConnected;
     ClientData();
 
-    ClientData( int32_t clientId, std::string const& clientName );
+    ClientData( int32_t clientId, std::string const& clientName, int32_t controlledLocalPlayerId );
 
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
@@ -34,6 +35,7 @@ void ClientData::serialize( Archive& ar, const unsigned int version )
 {
     ar& mClientId;
     ar& mClientName;
+    ar& mControlledLocalPlayerId;
     ar& mClientActorGUID;
     ar& mSoldierProperties;
     ar& mKill;

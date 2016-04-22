@@ -4,6 +4,7 @@
 #include "core/actor.h"
 #include "engine/engine.h"
 #include "mouse.h"
+#include "player_control_device.h"
 
 namespace engine {
 
@@ -31,10 +32,19 @@ void MouseAdapterSystem::Update( double DeltaTime )
     {
         return;
     }
-    InputState inputState = mInputSystem->GetInputState();
+    int32_t playerId = 1;
+    static input::PlayerControlDevice& pcd( input::PlayerControlDevice::Get() );
+    if( pcd.GetControlDevice( playerId ) != input::PlayerControlDevice::KeyboardAndMouse )
+    {
+        return;
+    }
+    InputState inputState = mInputSystem->GetInputState( playerId );
 
     Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
     inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
+
+    inputState.mCursorX = mX;
+    inputState.mCursorY = mY;
 
     if ( mMouse->IsButtonPressed( MouseSystem::Button_Left ) )
     {
@@ -44,7 +54,7 @@ void MouseAdapterSystem::Update( double DeltaTime )
     {
         inputState.mShootAlt = true;
     }
-    mInputSystem->SetInputState( inputState );
+    mInputSystem->SetInputState( playerId, inputState );
 }
 
 void MouseAdapterSystem::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
