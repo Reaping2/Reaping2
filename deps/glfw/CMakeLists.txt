@@ -15,8 +15,8 @@ ExternalProject_Add(ext_glfw
         SOURCE_DIR "${EXTERNALS_WORK_DIR}/src/glfw"
         BINARY_DIR "${EXTERNALS_WORK_DIR}/build/glfw"
         INSTALL_DIR "${EXTERNALS_INSTALL_DIR}"
-        URL "${GLFW_URL}"
-        URL_MD5 "1e82fdefb1b0df2727cce116d21cd8af"
+        GIT_REPOSITORY "https://github.com/glfw/glfw.git"
+        GIT_TAG "d97044d9acc0c76433edda5a75b3196957906ca5"
         CMAKE_ARGS
             ${PLATFORM_CMAKE_ARGS}
             ${TOOLCHAIN_CMAKE_ARGS}
