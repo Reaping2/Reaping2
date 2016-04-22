@@ -19,7 +19,6 @@ LeaderboardSystem::LeaderboardSystem()
 
 void LeaderboardSystem::Init()
 {
-    // TODO: do we need onmapstart
     mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::OnMapStart, this, _1 ) );
     mOnClientDatasChanged = EventServer<engine::ClientDatasChangedEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::UpdateBoard, this ) );
     mOnScore = EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &LeaderboardSystem::UpdateBoard, this ) );
