@@ -11,7 +11,7 @@
                 "set":[{"speed":40.0}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
             {"name":"bounce_collision_component",
                 "set":[{"class":"projectile", "radius":25, "damage":40, "speed_loss_percent":0.0,
@@ -35,7 +35,7 @@
                 "set":[{"speed":40.0}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps", "cast_shadow":1}]
             },
             {"name":"shot_collision_component",
                 "set":[{"class":"aoe", "radius":25, "damage":55, "passthrough": [ "creep", "player" ], "hit_count_to_kill": -1,"damage_once":1 }]
