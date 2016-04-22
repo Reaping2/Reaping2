@@ -1,4 +1,5 @@
 #include "platform/i_platform.h"
+#include "platform/settings.h"
 #include "controller_adapter_system.h"
 #include "input_system.h"
 #include "mapping.h"
@@ -198,7 +199,9 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         is.mShowLeaderboard = cs.getBool( "show_leaderboard" );
         is.mPause = cs.getBool( "pause" );
         double vh = cs.getDouble( "view_horizontal" ), vv = cs.getDouble( "view_vertical" );
-        if( std::abs( vv ) >= 0.4 || std::abs( vh ) >= 0.4 )
+        static Settings& settings( Settings::Get() );
+        static double const viewNullZone = settings.GetDouble( "controllers.view_null_zone", 0.4 );
+        if( std::abs( vv ) >= viewNullZone || std::abs( vh ) >= viewNullZone )
         {
             is.mOrientation = atan2( vv, vh );
         }
@@ -206,13 +209,14 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         if( actor.IsValid() )
         {
             Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
-            static double const radius = 400;
+            static double const radius = settings.GetDouble( "controllers.cursor_radius", 400 );
             is.mCursorX = actorPositionC->GetX() + radius * cos( is.mOrientation );
             is.mCursorY = actorPositionC->GetY() + radius * sin( is.mOrientation );
         }
         double mh = cs.getDouble( "move_horizontal" ), mv = cs.getDouble( "move_vertical" );
         is.mHeading = atan2( mv, mh );
-        is.mMoving = std::abs( mv ) >= 0.2 || std::abs( mh ) >= 0.2;
+        static double const moveNullZone = settings.GetDouble( "controllers.move_null_zone", 0.2 );
+        is.mMoving = std::abs( mv ) >= moveNullZone || std::abs( mh ) >= moveNullZone;
         inputsys->SetInputState( controlledLocalPlayerId, is );
         // TODO fill generic input state ( ui )
     }
