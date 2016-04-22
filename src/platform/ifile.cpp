@@ -42,4 +42,23 @@ bool File::Write( const std::string& Data )
     return Write( static_cast< void const* >( Data.data() ), Data.size() );
 }
 
+uint32_t File::Checksum()
+{
+    // save pos and go to start
+    size_t pos = GetPosition();
+    SetPosition( 0 );
+    using namespace boost;
+    crc_32_type result;
+    std::string Data;
+    ReadAll(Data);
+    // restore pos
+    SetPosition( pos );
+    //remove EOL
+    erase_all(Data,"\n");
+    erase_all(Data,"\r");
+    result.process_bytes( Data.data(), Data.length());
+
+    return result.checksum();
+}
+
 } // namespace platform
