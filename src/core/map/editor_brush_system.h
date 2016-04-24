@@ -24,6 +24,8 @@ private:
     BrushRepo& mBrushRepo;
     int32_t mBrushId;
     boost::ptr_vector<ModelValue> mEditorModels;
+    std::vector<std::string> mBrushStyles;
+    std::vector<std::string> BrushStyles();
     void BrushChanged( std::string const& brush );
 };
 
