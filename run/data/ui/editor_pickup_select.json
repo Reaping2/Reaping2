@@ -49,7 +49,7 @@
                                     "color":"0xaa0000",
                                     "visible":1,
                                     "enabled":0,
-                                    "text":"%editor.target.guns#gunsidx",
+                                    "text":"%editor.target.gunnames#gunsidx",
                                     "fontsize":4
                                 }
                             ]
@@ -93,7 +93,7 @@
                                     "color":"0xaa0000",
                                     "visible":1,
                                     "enabled":0,
-                                    "text":"%editor.target.buffs#buffsidx",
+                                    "text":"%editor.target.buffnames#buffsidx",
                                     "fontsize":4
                                 }
                             ]
@@ -137,7 +137,7 @@
                                     "color":"0xaa0000",
                                     "visible":1,
                                     "enabled":0,
-                                    "text":"%editor.target.items#itemsidx",
+                                    "text":"%editor.target.itemnames#itemsidx",
                                     "fontsize":4
                                 }
                             ]
