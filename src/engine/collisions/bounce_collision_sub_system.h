@@ -2,6 +2,7 @@
 #define INCLUDED_ENGINE_BOUNCE_COLLISION_SUB_SYSTEM_H
 
 #include "engine/collisions/collision_sub_system.h"
+#include "shot_collision_sub_system.h"
 
 namespace engine {
 
@@ -15,6 +16,7 @@ protected:
     virtual void Update( Actor& actor, double DeltaTime );
     virtual void ClipScene( Actor& actor );
     virtual void Collide( Actor& actor, Actor& other );
+    Opt<ShotCollisionSubSystem> mShotCollisionSubSystem;
 };
 
 } // namespace engine

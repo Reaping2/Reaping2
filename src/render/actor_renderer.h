@@ -9,12 +9,17 @@
 #include "core/actor_event.h"
 #include "vao_base.h"
 #include "input/mouse.h"
+#include "counter.h"
 using render::RenderableSprite;
 using render::RecognizerRepo;
 using render::ActionRenderer;
 using render::ActionRendererFactory;
 class ActorRenderer
 {
+public:
+    typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
+    typedef boost::function<bool( IRenderableComponent const& )> RenderFilter;
+private:
     struct RenderableSpriteCompare
     {
         bool operator()( RenderableSprite const& Rs1, RenderableSprite const& Rs2 );
@@ -44,12 +49,21 @@ class ActorRenderer
     ActionRenderersMap_t mActionRenderersMap;
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
     AutoReg mMouseMoveId;
+    size_t mPrevSize;
     double mX;
     double mY;
+    size_t mTexIndex;
+    size_t mPosIndex;
+    size_t mHeadingIndex;
+    size_t mSizeIndex;
+    size_t mColorIndex;
+    render::Counts_t mCounts;
+    RenderableSprites_t mRenderableSprites;
 public:
     ActorRenderer();
     ~ActorRenderer();
-    void Draw( Scene const& Object, double DeltaTime, std::set<RenderableLayer::Type> const& Layers, std::set<RenderableLayer::Type> const& ExludeLayers );
+    void Prepare( Scene const& scene, double deltaTime );
+    void Draw( RenderFilter filter );
 
 };
 

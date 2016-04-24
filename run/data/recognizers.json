@@ -199,6 +199,22 @@
 		]
 	},
 	{
+		"name":"rusty_reaper_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
+		"name":"rusty_reaper_alt_projectile",
+		"recognizers":
+		[
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
+	},
+	{
 		"name":"ion_gun_projectile",
 		"recognizers":
 		[

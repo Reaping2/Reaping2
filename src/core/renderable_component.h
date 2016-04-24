@@ -10,12 +10,15 @@ class Actor;
 class RenderableComponentModifier
 {
 public:
-    RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder );
+    RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow );
     void operator()( Opt<Actor>& Obj );
 
 protected:
     RenderableLayer::Type mLayer;
     int32_t mZOrder;
+    int32_t mCastShadow;
+    int32_t mReceiveBlood;
+    int32_t mReceiveShadow;
 };
 
 class RenderableComponent : public IRenderableComponent
@@ -25,11 +28,20 @@ public:
     virtual void SetLayer( RenderableLayer::Type Lay );
     virtual int32_t const& GetZOrder()const;
     virtual void SetZOrder( int32_t ZOrder );
+    virtual int32_t GetCastShadow() const;
+    virtual void SetCastShadow( int32_t set );
+    virtual int32_t GetReceiveShadow() const;
+    virtual void SetReceiveShadow( int32_t set );
+    virtual int32_t GetReceiveBlood() const;
+    virtual void SetReceiveBlood( int32_t set );
 protected:
     RenderableComponent();
     friend class ComponentFactory;
     RenderableLayer::Type mLayer;
     int32_t mZOrder;
+    int32_t mCastShadow;
+    int32_t mReceiveBlood;
+    int32_t mReceiveShadow;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -43,6 +55,9 @@ void RenderableComponent::serialize( Archive& ar, const unsigned int version )
     ar& boost::serialization::base_object<IRenderableComponent>( *this );
     ar& mLayer;
     ar& mZOrder;
+    ar& mCastShadow;
+    ar& mReceiveBlood;
+    ar& mReceiveShadow;
 }
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>
