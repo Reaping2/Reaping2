@@ -4,6 +4,7 @@
 #include "../i_position_component.h"
 #include "ui/ui.h"
 #include "../i_collision_component.h"
+#include <boost/assign/std/vector.hpp>
 
 namespace map {
 
@@ -21,6 +22,16 @@ void EditorTargetSystem::Init()
 {
     ModelValue& editorModel = const_cast<ModelValue&>( RootModel::Get()["editor"] );
     mEditorModels.push_back( new ModelValue( StringFunc( this, &EditorTargetSystem::TargetChanged ), "target", &editorModel ) );
+    ModelValue& targetModel = mEditorModels.back();
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &targetModel) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &targetModel) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &targetModel) );
+
+    using namespace boost::assign;
+    mGuns += "pistol", "plasma_gun", "rocket_launcher", "shotgun","ion_gun", "gatling_gun", "gauss_gun";
+    mBuffs += "HealOverTimeBuff","MoveSpeedBuff","AccuracyBuff","ArmorBuff","CloakBuff";
+    // TODO: these names may be to techical for the user -> cut name and append "_normal_item" later?
+    mItems += "flash_normal_item","grenade_normal_item","cloak_normal_item","blue_grenade_normal_item";
 }
 
 void EditorTargetSystem::Update( double DeltaTime )
@@ -102,6 +113,21 @@ double EditorTargetSystem::GetCursorRadius() const
         return r;
     }
     return collisionC->GetRadius();
+}
+
+std::vector<std::string> EditorTargetSystem::Guns()
+{
+    return mGuns;
+}
+
+std::vector<std::string> EditorTargetSystem::Buffs()
+{
+    return mBuffs;
+}
+
+std::vector<std::string> EditorTargetSystem::Items()
+{
+    return mItems;
 }
 
 

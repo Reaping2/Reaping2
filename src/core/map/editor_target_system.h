@@ -30,6 +30,12 @@ private:
     int32_t mTargetId;
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;
+    std::vector<std::string> mGuns;
+    std::vector<std::string> mBuffs;
+    std::vector<std::string> mItems;
+    std::vector<std::string> Guns();
+    std::vector<std::string> Buffs();
+    std::vector<std::string> Items();
     boost::ptr_vector<ModelValue> mEditorModels;
     void TargetChanged( std::string const& target );
 };
