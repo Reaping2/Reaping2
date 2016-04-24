@@ -2,10 +2,10 @@
     {
         "name":"rusty_reaper",
         "set":[{
-            "shoot_cooldown":0.1,
+            "shoot_cooldown":0.3,
             "shoot_alt_cooldown":0.2,
             "bullets":20,
-            "shot_cost":1,
+            "shot_cost":2,
             "shot_cost_alt":1,
             "reload_time":1.0,
             "static_reload":0,
