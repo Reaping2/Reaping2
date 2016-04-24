@@ -21,22 +21,16 @@ EditorTargetSystem::EditorTargetSystem()
 void EditorTargetSystem::Init()
 {
     ModelValue& editorModel = const_cast<ModelValue&>( RootModel::Get()["editor"] );
-    mEditorModels.push_back( new ModelValue( StringFunc( this, &EditorTargetSystem::TargetChanged ), "target", &editorModel ) );
+    mEditorModels.push_back( new ModelValue( IntFunc( this, &EditorTargetSystem::TargetChanged ), "target", &editorModel ) );
     ModelValue& targetModel = mEditorModels.back();
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::GunNames, this ), "gunnames", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::BuffNames, this ), "buffnames", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorTargetSystem::ItemNames, this ), "itemnames", &targetModel) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &targetModel) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &targetModel) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &targetModel) );
 
     using namespace boost::assign;
-    mGuns += "pistol", "plasma_gun", "rocket_launcher", "shotgun","ion_gun", "gatling_gun", "gauss_gun";
-    mGunNames+= "Pistol", "Plasma gun", "Rocket launcher", "Shotgun","Ion gun", "Gatling gun", "Gauss gun";
-    mBuffs += "HealOverTimeBuff","MoveSpeedBuff","AccuracyBuff","ArmorBuff","CloakBuff";
-    mBuffNames += "Heal over time","Move speed","Accuracy","Armor","Cloak";
-    mItems += "flash_normal_item","grenade_normal_item","cloak_normal_item","blue_grenade_normal_item";
-    mItemNames += "Flash","Grenade","Cloak","Blue grenade";
+    mGuns += AutoId("pistol"), AutoId("plasma_gun"), AutoId("rocket_launcher"), AutoId("shotgun"),AutoId("ion_gun"), AutoId("gatling_gun"), AutoId("gauss_gun");
+    mBuffs += AutoId("HealOverTimeBuff"),AutoId("MoveSpeedBuff"),AutoId("AccuracyBuff"),AutoId("ArmorBuff"),AutoId("CloakBuff");
+    mItems += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
 }
 
 void EditorTargetSystem::Update( double DeltaTime )
@@ -53,13 +47,13 @@ void EditorTargetSystem::Update( double DeltaTime )
     }
 }
 
-void EditorTargetSystem::TargetChanged( std::string const& target )
+void EditorTargetSystem::TargetChanged( int32_t target )
 {
     if ( mCursor.IsValid() )
     {
         mScene.RemoveActor( mCursor->GetGUID() );
     }
-    mTargetId = AutoId( target );
+    mTargetId = target;
     std::auto_ptr<Actor> cursor( GetTarget().GetCursor() );
     Opt<IPositionComponent> positionC( cursor->Get<IPositionComponent>() );
     if ( positionC.IsValid() )
@@ -120,34 +114,19 @@ double EditorTargetSystem::GetCursorRadius() const
     return collisionC->GetRadius();
 }
 
-std::vector<std::string> EditorTargetSystem::Guns()
+std::vector<int32_t> EditorTargetSystem::Guns()
 {
     return mGuns;
 }
 
-std::vector<std::string> EditorTargetSystem::GunNames()
-{
-    return mGunNames;
-}
-
-std::vector<std::string> EditorTargetSystem::Buffs()
+std::vector<int32_t> EditorTargetSystem::Buffs()
 {
     return mBuffs;
 }
 
-std::vector<std::string> EditorTargetSystem::BuffNames()
-{
-    return mBuffNames;
-}
-
-std::vector<std::string> EditorTargetSystem::Items()
+std::vector<int32_t> EditorTargetSystem::Items()
 {
     return mItems;
-}
-
-std::vector<std::string> EditorTargetSystem::ItemNames()
-{
-    return mItemNames;
 }
 
 } // namespace map

@@ -30,20 +30,14 @@ private:
     int32_t mTargetId;
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;
-    std::vector<std::string> mGuns;
-    std::vector<std::string> mGunNames;
-    std::vector<std::string> mBuffs;
-    std::vector<std::string> mBuffNames;
-    std::vector<std::string> mItems;
-    std::vector<std::string> mItemNames;
-    std::vector<std::string> Guns();
-    std::vector<std::string> GunNames();
-    std::vector<std::string> Buffs();
-    std::vector<std::string> BuffNames();
-    std::vector<std::string> Items();
-    std::vector<std::string> ItemNames();
+    std::vector<int32_t> mGuns;
+    std::vector<int32_t> mBuffs;
+    std::vector<int32_t> mItems;
+    std::vector<int32_t> Guns();
+    std::vector<int32_t> Buffs();
+    std::vector<int32_t> Items();
     boost::ptr_vector<ModelValue> mEditorModels;
-    void TargetChanged( std::string const& target );
+    void TargetChanged( int32_t target );
 };
 
 } // namespace map
