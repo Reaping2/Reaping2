@@ -23,14 +23,21 @@ void EditorTargetSystem::Init()
     ModelValue& editorModel = const_cast<ModelValue&>( RootModel::Get()["editor"] );
     mEditorModels.push_back( new ModelValue( IntFunc( this, &EditorTargetSystem::TargetChanged ), "target", &editorModel ) );
     ModelValue& targetModel = mEditorModels.back();
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &targetModel) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &targetModel) );
+    mEditorModels.push_back( new ModelValue( "pickups", &targetModel) );
+    ModelValue& pickupModel = mEditorModels.back();
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &pickupModel ) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &pickupModel ) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &pickupModel ) );
+
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::MapItems, this ), "mapitems", &targetModel ) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Referencepoints, this ), "referencepoints", &targetModel ) );
 
     using namespace boost::assign;
     mGuns += AutoId("pistol"), AutoId("plasma_gun"), AutoId("rocket_launcher"), AutoId("shotgun"),AutoId("ion_gun"), AutoId("gatling_gun"), AutoId("gauss_gun");
     mBuffs += AutoId("HealOverTimeBuff"),AutoId("MoveSpeedBuff"),AutoId("AccuracyBuff"),AutoId("ArmorBuff"),AutoId("CloakBuff");
     mItems += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
+    mMapitems += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete");
+    mReferencepoints += AutoId("ctf_flag_spawn_blue"), AutoId("ctf_flag_spawn_blue"), AutoId("ctf_soldier_spawn_blue"), AutoId("ctf_soldier_spawn_red");
 }
 
 void EditorTargetSystem::Update( double DeltaTime )
@@ -127,6 +134,16 @@ std::vector<int32_t> EditorTargetSystem::Buffs()
 std::vector<int32_t> EditorTargetSystem::Items()
 {
     return mItems;
+}
+
+std::vector<int32_t> EditorTargetSystem::MapItems()
+{
+    return mMapitems;
+}
+
+std::vector<int32_t> EditorTargetSystem::Referencepoints()
+{
+    return mReferencepoints;
 }
 
 } // namespace map

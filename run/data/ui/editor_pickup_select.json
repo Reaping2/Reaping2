@@ -14,7 +14,7 @@
             "children":[
                 {
                     "type":"grid",
-                    "source":"%editor.target.guns",
+                    "source":"%editor.target.pickups.guns",
                     "startid":"#gunsidx",
                     "direction":"horizontal",
                     "color":"0xffffff",
@@ -38,7 +38,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.target","%editor.target.guns#gunsidx"]],
+                            "action":[["editor.target","%editor.target.pickups.guns#gunsidx"]],
                             "children":[
                                 {
                                     "type":"image",
@@ -49,7 +49,7 @@
                                     "color":"0xffffff",
                                     "visible":1,
                                     "enabled":0,
-                                    "actor_visual":"%editor.target.guns#gunsidx",
+                                    "actor_visual":"%editor.target.pickups.guns#gunsidx",
                                     "fontsize":4
                                 }
                             ]
@@ -58,7 +58,7 @@
                 },
                 {
                     "type":"grid",
-                    "source":"%editor.target.buffs",
+                    "source":"%editor.target.pickups.buffs",
                     "startid":"#buffsidx",
                     "direction":"horizontal",
                     "color":"0xffffff",
@@ -82,7 +82,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.target","%editor.target.buffs#buffsidx"]],
+                            "action":[["editor.target","%editor.target.pickups.buffs#buffsidx"]],
                             "children":[
                                 {
                                     "type":"image",
@@ -93,7 +93,7 @@
                                     "color":"0xffffff",
                                     "visible":1,
                                     "enabled":0,
-                                    "actor_visual":"%editor.target.buffs#buffsidx",
+                                    "actor_visual":"%editor.target.pickups.buffs#buffsidx",
                                     "fontsize":4
                                 }
                             ]
@@ -102,7 +102,7 @@
                 },
                 {
                     "type":"grid",
-                    "source":"%editor.target.items",
+                    "source":"%editor.target.pickups.items",
                     "startid":"#itemsidx",
                     "direction":"horizontal",
                     "color":"0xffffff",
@@ -126,7 +126,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.target","%editor.target.items#itemsidx"]],
+                            "action":[["editor.target","%editor.target.pickups.items#itemsidx"]],
                             "children":[
                                 {
                                     "type":"image",
@@ -137,7 +137,7 @@
                                     "color":"0xffffff",
                                     "visible":1,
                                     "enabled":0,
-                                    "actor_visual":"%editor.target.items#itemsidx",
+                                    "actor_visual":"%editor.target.pickups.items#itemsidx",
                                     "fontsize":4
                                 }
                             ]

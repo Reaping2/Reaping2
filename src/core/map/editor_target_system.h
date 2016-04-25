@@ -33,9 +33,13 @@ private:
     std::vector<int32_t> mGuns;
     std::vector<int32_t> mBuffs;
     std::vector<int32_t> mItems;
+    std::vector<int32_t> mMapitems;
+    std::vector<int32_t> mReferencepoints;
     std::vector<int32_t> Guns();
     std::vector<int32_t> Buffs();
     std::vector<int32_t> Items();
+    std::vector<int32_t> MapItems();
+    std::vector<int32_t> Referencepoints();
     boost::ptr_vector<ModelValue> mEditorModels;
     void TargetChanged( int32_t target );
 };
