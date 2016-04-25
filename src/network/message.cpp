@@ -5,6 +5,7 @@ namespace network {
 
 
 Message::Message()
+    : mSenderId( -1 )
 {
 
 }

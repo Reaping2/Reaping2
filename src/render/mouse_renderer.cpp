@@ -24,7 +24,9 @@ void MouseRenderer::Init()
 }
 
 MouseRenderer::MouseRenderer()
-    : mScene( Scene::Get() )
+    : mX( 0.0 )
+    , mY( 0.0 )
+    , mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
 {
     Init();

@@ -35,18 +35,29 @@ bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
         std::string recognizerName;
         if ( !Json::GetStr( recognizerJValue["recognizer"], recognizerName ) )
         {
-            return false;
+            continue;
         }
         std::auto_ptr<Recognizer> recognizer( mRecognizerFactory( AutoId( recognizerName ) ) );
+        if( recognizer.get() == nullptr )
+        {
+            continue;
+        }
 
         std::string rendererName;
         if ( !Json::GetStr( recognizerJValue["renderer"], rendererName ) )
         {
-            return false;
+            continue;
         }
         recognizer->SetActionRenderer( AutoId( rendererName ) );
         recognizer->SetOrder( orderindex++ );
-        recognizers.push_back( recognizer.release() );
+        try
+        {
+            recognizers.push_back( recognizer.release() );
+        }
+        catch( boost::bad_pointer const& )
+        {
+            continue;
+        }
     }
     return true;
 }

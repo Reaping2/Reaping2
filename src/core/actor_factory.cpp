@@ -141,6 +141,7 @@ std::auto_ptr<Actor> ActorCreator::Create()const
 ActorCreator::ActorCreator()
     : mComponentFactory( ComponentFactory::Get() )
     , mComponentLoaderFactory( ComponentLoaderFactory::Get() )
+    , mId( -1 )
 {
 
 }

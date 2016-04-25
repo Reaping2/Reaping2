@@ -8,6 +8,7 @@ const double PRECISION = 1000.0;
 
 Component::Component()
     : mActorGUID( -1 )
+    , mId( -1 )
 {
 }
 Component::~Component()
