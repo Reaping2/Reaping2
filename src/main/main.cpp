@@ -268,10 +268,12 @@ int main( int argc, char* argv[] )
     if (programState.mMode != ProgramState::Client)
     {
         Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
+    }
+    if (programState.mMode != ProgramState::Server)
+    {
         Eng.AddSystem( AutoId( "ctf_client_list_displaying_system" ) );
         Eng.AddSystem( AutoId( "ffa_client_list_system" ) );
     }
-
     if ( programState.mMode == ProgramState::Client )
     {
         Eng.AddSystem( AutoId( "client_system" ) );
