@@ -16,6 +16,7 @@
 #include "ctf_flag_spawn_point_map_element.h"
 #include "../i_renderable_component.h"
 #include "input/keyboard_adapter_system.h"
+#include <boost/assign/std/vector.hpp>
 
 namespace map {
 
@@ -26,6 +27,7 @@ EditorSystem::EditorSystem()
     , mLoadModel( StringFunc( this, &EditorSystem::Load ), "load", &mEditorModel )
     , mSaveModel( VoidFunc( this, &EditorSystem::Save ), "save", &mEditorModel )
     , mLayerModel( StringFunc( this, &EditorSystem::LayerSelect ), "layer", &mEditorModel )
+    , mLayerNamesModel( (ModelValue::get_string_vec_t) boost::bind( &EditorSystem::LayerNames, this ), "names", &mLayerModel )
     , mX( 0 )
     , mY( 0 )
     , mCurrentMovement( 0 )
@@ -47,6 +49,8 @@ void EditorSystem::Init()
     mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
     mRenderer = engine::Engine::Get().GetSystem<engine::RendererSystem>();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &EditorSystem::OnKeyEvent, this, _1 ) );
+    using namespace boost::assign;
+    mLayerNames += "any", "target";
 }
 
 void EditorSystem::Start()
@@ -293,6 +297,11 @@ Opt<EditorSystem> EditorSystem::Get()
 EditorLayer::Type EditorSystem::GetEditorLayerType()
 {
     return mEditorLayerType;
+}
+
+std::vector<std::string> EditorSystem::LayerNames()
+{
+    return mLayerNames;
 }
 
 } // namespace map

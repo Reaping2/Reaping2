@@ -33,6 +33,7 @@ private:
     ModelValue mLoadModel;
     ModelValue mSaveModel;
     ModelValue mLayerModel;
+    ModelValue mLayerNamesModel;
     double mX;
     double mY;
     double const& GetX() const;
@@ -41,6 +42,8 @@ private:
     std::string mLevelName;
     EditorLayer::Type mEditorLayerType;
     EditorLayer mEditorLayer;
+    std::vector<std::string> mLayerNames;
+    std::vector<std::string> LayerNames();
 
     Opt<engine::KeyboardSystem> mKeyboard;
     void Start();
