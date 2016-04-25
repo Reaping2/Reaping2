@@ -260,12 +260,18 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "flag_state_changed_message_sender_system" ) );
         Eng.AddSystem( AutoId( "fade_out_message_sender_system" ) );
         Eng.AddSystem( AutoId( "ctf_client_datas_message_sender_system" ) );
-        Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
         Eng.AddSystem( AutoId( "rotate_message_sender_system" ) );
 
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
         Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
     }
+    if (programState.mMode != ProgramState::Client)
+    {
+        Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );
+        Eng.AddSystem( AutoId( "ctf_client_list_displaying_system" ) );
+        Eng.AddSystem( AutoId( "ffa_client_list_system" ) );
+    }
+
     if ( programState.mMode == ProgramState::Client )
     {
         Eng.AddSystem( AutoId( "client_system" ) );
@@ -273,8 +279,6 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "player_controller_message_sender_system" ) );
         Eng.AddSystem( AutoId( "ping_message_sender_system" ) );
         Eng.AddSystem( AutoId( "revive_message_sender_system" ) );
-        Eng.AddSystem( AutoId( "ctf_client_list_displaying_system" ) );
-        Eng.AddSystem( AutoId( "ffa_client_list_system" ) );
         Eng.AddSystem( AutoId( "gamemode_selected_message_sender_system" ) );
         Eng.AddSystem( AutoId( "waiting_system" ) );
         Eng.AddSystem( AutoId( "team_switch_request_message_sender_system" ) );
