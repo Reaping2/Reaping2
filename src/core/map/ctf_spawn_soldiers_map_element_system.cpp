@@ -30,7 +30,7 @@ void CtfSpawnSoldiersMapElementSystem::Update( double DeltaTime )
         Opt<CtfSpawnSoldiersMapElement> ctfSpawnSoldiersMapElement( *ctfSpawnSoldiersMapElementIt );
         if ( ctfSpawnSoldiersMapElement->GetValueId( CtfSpawnSoldiersMapElement::SpawnNodeId() ) > 0 )
         {
-            if ( mProgramState.mMode == core::ProgramState::Server )
+            if ( mProgramState.mMode != core::ProgramState::Client )
             {
                 Opt<engine::ctf::CtfSoldierSpawnSystem> ctfSoldierSpawnS( engine::ctf::CtfSoldierSpawnSystem::Get() );
                 for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
@@ -42,10 +42,6 @@ void CtfSpawnSoldiersMapElementSystem::Update( double DeltaTime )
                         mScene.AddActor( player.release() );
                     }
                 }
-            }
-            else if ( mProgramState.mMode == core::ProgramState::Local )
-            {
-                // no local support for ctf
             }
             L1( "ctf_spawn soldiers!" );
         }
