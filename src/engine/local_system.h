@@ -25,6 +25,9 @@ private:
     AutoReg mOnSoldierPropertiesReady;
     void OnSoldierPropertiesReady( SoldierPropertiesReadyEvent const& Evt );
     Opt<engine::KeyboardSystem> mKeyboard;
+    ModelValue mLifecycleModel;
+    ModelValue mHostModel;
+    void Host();
 };
 
 } // namespace engine

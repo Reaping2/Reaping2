@@ -8,6 +8,9 @@
 #include <portable_oarchive.hpp>
 #include "core/actor_factory.h"
 #include "core/program_state.h"
+#include "core/ctf_program_state.h"
+#include "network/client_ready_event.h"
+#include "network/client_list_changed_event.h"
 
 namespace engine {
 
@@ -15,6 +18,8 @@ LocalSystem::LocalSystem()
     : mScene( Scene::Get() )
     , mProgramState( core::ProgramState::Get() )
     , mLocalStartModel( VoidFunc( this, &LocalSystem::OnLocalStart ), "local.start", &RootModel::Get() )
+    , mLifecycleModel( "lifecycle", &RootModel::Get() )
+    , mHostModel( VoidFunc( this, &LocalSystem::Host ), "host", &mLifecycleModel )
 {
     mOnSoldierPropertiesReady = EventServer<SoldierPropertiesReadyEvent>::Get().Subscribe( boost::bind( &LocalSystem::OnSoldierPropertiesReady, this, _1 ) );
 }
@@ -55,23 +60,33 @@ void LocalSystem::OnLocalStart()
     mProgramState.mClientId = 0;
     mProgramState.mClientName = "kvakmama";
     mProgramState.mClientDatas.clear();
+    mProgramState.mIsHost = true;
     int32_t controlledLocalPlayerId = 1;    // TODO: change when local multiplayer is possible
     core::ClientData clientData = core::ClientData( mProgramState.mClientId, mProgramState.mClientName, controlledLocalPlayerId );
     clientData.mConnected = true;
     mProgramState.mClientDatas.push_back( clientData );
+    EventServer<network::ClientListChangedEvent>::Get().SendEvent( mProgramState.mClientDatas );
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );
     Ui::Get().Load( "soldier_properties" );
 }
 
 void LocalSystem::OnSoldierPropertiesReady( SoldierPropertiesReadyEvent const& Evt )
 {
-    mScene.SelectLevel( "level1" ); // TODO: temporary level selection should be implemented in local too
     Opt<core::ClientData> clientData( mProgramState.FindClientDataByClientId( mProgramState.mClientId ) );
     clientData->mSoldierProperties = mProgramState.mSoldierProperties;
-    mProgramState.mGameState = core::ProgramState::Running;
-    EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( "ffa" ) );
+    network::ClientReadyEvent event;
+    event.mClientId = clientData->mClientId;
+    event.mClientName = clientData->mClientName;
+    EventServer<network::ClientReadyEvent>::Get().SendEvent( event );
+    Ui::Get().Load( "select_game_mode" );
 }
 
+
+void LocalSystem::Host()
+{
+    EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( mProgramState.mGameMode ) );
+    core::ProgramState::Get().mGameState = core::ProgramState::Running;
+}
 
 } // namespace engine
 
