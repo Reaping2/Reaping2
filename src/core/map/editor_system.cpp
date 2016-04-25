@@ -28,6 +28,7 @@ EditorSystem::EditorSystem()
     , mSaveModel( VoidFunc( this, &EditorSystem::Save ), "save", &mEditorModel )
     , mLayerModel( StringFunc( this, &EditorSystem::LayerSelect ), "layer", &mEditorModel )
     , mLayerNamesModel( (ModelValue::get_string_vec_t) boost::bind( &EditorSystem::LayerNames, this ), "names", &mLayerModel )
+    , mLevelModel( (ModelValue::get_string_vec_t) boost::bind(&EditorSystem::LevelNames, this),"levels", &mEditorModel )
     , mX( 0 )
     , mY( 0 )
     , mCurrentMovement( 0 )
@@ -51,6 +52,7 @@ void EditorSystem::Init()
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &EditorSystem::OnKeyEvent, this, _1 ) );
     using namespace boost::assign;
     mLayerNames += "any", "target";
+    mLevelNames += "level1", "level2", "level3", "level4", "level5";
 }
 
 void EditorSystem::Start()
@@ -302,6 +304,11 @@ EditorLayer::Type EditorSystem::GetEditorLayerType()
 std::vector<std::string> EditorSystem::LayerNames()
 {
     return mLayerNames;
+}
+
+std::vector<std::string> EditorSystem::LevelNames()
+{
+    return mLevelNames;
 }
 
 } // namespace map

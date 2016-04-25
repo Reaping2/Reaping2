@@ -29,6 +29,7 @@ protected:
 private:
     Scene& mScene;
     ModelValue mEditorModel;
+    ModelValue mLevelModel;
     ModelValue mStartModel;
     ModelValue mLoadModel;
     ModelValue mSaveModel;
@@ -40,6 +41,8 @@ private:
     double const& GetY() const;
     boost::ptr_vector<ModelValue> mPlayerModels;
     std::string mLevelName;
+    std::vector<std::string> mLevelNames;
+    std::vector<std::string> LevelNames();
     EditorLayer::Type mEditorLayerType;
     EditorLayer mEditorLayer;
     std::vector<std::string> mLayerNames;
