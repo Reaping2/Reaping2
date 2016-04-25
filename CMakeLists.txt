@@ -96,6 +96,9 @@ include_directories( SYSTEM
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
 
+include( VersionHeader )
+
 add_subdirectory( src )
 add_subdirectory( tools )
 add_subdirectory( run )
+
