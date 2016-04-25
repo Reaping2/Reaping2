@@ -8,7 +8,7 @@ WeaponRecognizer::WeaponRecognizer( int32_t Id )
 
 }
 
-bool WeaponRecognizer::Recognize( Actor const& actor )
+bool WeaponRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     if ( !inventoryC.IsValid() )

@@ -9,12 +9,10 @@ class RecognizerRepo : public platform::Singleton<RecognizerRepo>
 {
 public:
     typedef boost::ptr_list<Recognizer> Recognizers_t;
-    bool HasRecognizers( int32_t actorId );
-    Recognizers_t& GetRecognizers( int32_t actorId );
+    Recognizers_t const* GetRecognizers( int32_t actorId ) const;
 
     typedef std::set<int32_t> ExcludedRecognizers_t;
-    bool HasExcludedRecognizers( int32_t recognizerId );
-    ExcludedRecognizers_t& GetExcludedRecognizers( int32_t recognizerId );
+    ExcludedRecognizers_t const* GetExcludedRecognizers( int32_t recognizerId ) const;
 private:
     friend class platform::Singleton<RecognizerRepo>;
     RecognizerRepo();

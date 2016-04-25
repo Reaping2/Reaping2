@@ -8,7 +8,7 @@ BodyMoveRecognizer::BodyMoveRecognizer( int32_t Id )
 
 }
 
-bool BodyMoveRecognizer::Recognize( Actor const& actor )
+bool BodyMoveRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     if ( !moveC.IsValid() )

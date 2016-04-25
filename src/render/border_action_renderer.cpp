@@ -57,28 +57,28 @@ void BorderActionRenderer::Init( Actor const& actor )
 }
 
 
-void BorderActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    for ( BorderIds_t::iterator i = mBorderIds.begin(), e = mBorderIds.end(); i != e; ++i )
+    for ( BorderIds_t::const_iterator i = mBorderIds.begin(), e = mBorderIds.end(); i != e; ++i )
     {
         SpriteCollection const& Sprites = mRenderableRepo( *i );
         Sprite const& Spr = Sprites( mActionId );
         if( Spr.IsValid() )
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            RenderableSprite renderableSprite = RenderableSprite( &actor, mActionId, &Spr, &Phase/*, color*/ );
+            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase/*, color*/ );
             renderableSprites.push_back( renderableSprite );
         }
     }
-    IBorderComponent::Borders_t::iterator outer_i = mOuterBorders.begin();
-    for ( BorderIds_t::iterator i = mOuterBorderIds.begin(), e = mOuterBorderIds.end(); i != e; ++i, ++outer_i )
+    IBorderComponent::Borders_t::const_iterator outer_i = mOuterBorders.begin();
+    for ( BorderIds_t::const_iterator i = mOuterBorderIds.begin(), e = mOuterBorderIds.end(); i != e; ++i, ++outer_i )
     {
         SpriteCollection const& Sprites = mRenderableRepo( *i );
         Sprite const& Spr = Sprites( mActionId );
         if( Spr.IsValid() )
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            RenderableSprite renderableSprite = RenderableSprite( &actor, mActionId, &Spr, &Phase/*, color*/ );
+            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase/*, color*/ );
             glm::vec2 pos = mBorderType.GetNeighborDirs()[*outer_i];
             renderableSprite.RelativePosition = glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize );
             renderableSprites.push_back( renderableSprite );

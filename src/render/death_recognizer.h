@@ -8,7 +8,7 @@ class DeathRecognizer: public Recognizer
 {
 public:
     DeathRecognizer( int32_t Id );
-    virtual bool Recognize( Actor const& );
+    virtual bool Recognize( Actor const& ) const;
 };
 
 } // namespace render

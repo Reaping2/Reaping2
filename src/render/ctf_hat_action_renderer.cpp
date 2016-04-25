@@ -25,7 +25,7 @@ void CtfHatActionRenderer::Init( Actor const& actor )
 }
 
 
-void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mCtfHatId );
@@ -44,7 +44,7 @@ void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, Renderable
             glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
             col.a = GetCloakColor( actor ).a;
             renderableSprites.push_back(
-                RenderableSprite( &actor, mCtfHatId, &Spr, &Phase, col ) );
+                RenderableSprite( &actor, &renderableC, mCtfHatId, &Spr, &Phase, col ) );
         }
         //             }
         //

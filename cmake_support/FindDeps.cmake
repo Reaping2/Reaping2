@@ -69,7 +69,7 @@ else(glew_FOUND)
     my_find_package( GLEW GL/glew.h GLEW glew32s glew32sd )
 endif(glew_FOUND)
 
-my_find_package( glfw GLFW/glfw3.h glfw glfw3 glfw3dll )
+my_find_package( GLFW GLFW/glfw3.h glfw glfw3 glfw3dll )
 
 my_find_package( glm glm/glm.hpp "" )
 

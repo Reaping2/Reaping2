@@ -22,7 +22,7 @@ void HeadColorActionRenderer::Init( Actor const& actor )
 }
 
 
-void HeadColorActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void HeadColorActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mHeadColorId );
@@ -33,7 +33,7 @@ void HeadColorActionRenderer::FillRenderableSprites( const Actor& actor, Rendera
         glm::vec4 col = ColorRepo::Get()( playerCC->mControllerId );
         col.a = GetCloakColor( actor ).a;
         renderableSprites.push_back(
-            RenderableSprite( &actor, mHeadColorId, &Spr, &Phase, col ) );
+            RenderableSprite( &actor, &renderableC, mHeadColorId, &Spr, &Phase, col ) );
     }
 }
 

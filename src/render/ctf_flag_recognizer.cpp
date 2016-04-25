@@ -9,7 +9,7 @@ CtfFlagRecognizer::CtfFlagRecognizer( int32_t Id )
 }
 
 
-bool CtfFlagRecognizer::Recognize( Actor const& actor )
+bool CtfFlagRecognizer::Recognize( Actor const& actor ) const
 {
     return true;
 }

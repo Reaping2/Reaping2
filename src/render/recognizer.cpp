@@ -12,7 +12,7 @@ Recognizer::Recognizer( int32_t Id )
 {
 
 }
-bool Recognizer::Recognize( Actor const& actor )
+bool Recognizer::Recognize( Actor const& actor ) const
 {
     return false;
 }
