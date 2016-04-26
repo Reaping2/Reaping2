@@ -9,7 +9,7 @@ PickupRecognizer::PickupRecognizer( int32_t Id )
 
 }
 
-bool PickupRecognizer::Recognize( Actor const& actor )
+bool PickupRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if ( healthC.IsValid() && !healthC->IsAlive() )

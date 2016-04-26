@@ -10,7 +10,7 @@ class Recognizer
 public:
     virtual ~Recognizer();
     Recognizer( int32_t Id );
-    virtual bool Recognize( Actor const& actor );
+    virtual bool Recognize( Actor const& actor ) const;
 
     void SetActionRenderer( int32_t actionRendererId );
     int32_t GetActionRenderer() const;

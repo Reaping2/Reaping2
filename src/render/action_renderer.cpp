@@ -22,7 +22,7 @@ void ActionRenderer::Init( const Actor& actor )
 {
 }
 
-void ActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void ActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
 
 }

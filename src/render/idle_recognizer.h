@@ -8,7 +8,7 @@ class IdleRecognizer: public Recognizer
 {
 public:
     IdleRecognizer( int32_t Id );
-    virtual bool Recognize( Actor const& );
+    virtual bool Recognize( Actor const& ) const;
 };
 
 } // namespace render

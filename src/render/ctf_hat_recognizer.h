@@ -11,7 +11,7 @@ class CtfHatRecognizer : public Recognizer
 {
 public:
     CtfHatRecognizer( int32_t Id );
-    virtual bool Recognize( Actor const& );
+    virtual bool Recognize( Actor const& ) const;
 private:
 };
 

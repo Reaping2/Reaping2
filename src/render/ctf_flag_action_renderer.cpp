@@ -23,7 +23,7 @@ void CtfFlagActionRenderer::Init( Actor const& actor )
 }
 
 
-void CtfFlagActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void CtfFlagActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mCtfFlagId );
@@ -34,7 +34,7 @@ void CtfFlagActionRenderer::FillRenderableSprites( const Actor& actor, Renderabl
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
             renderableSprites.push_back(
-                RenderableSprite( &actor, mCtfFlagId, &Spr, &Phase,  mColorRepo( teamC->GetTeam() ) ) );
+                RenderableSprite( &actor, &renderableC, mCtfFlagId, &Spr, &Phase,  mColorRepo( teamC->GetTeam() ) ) );
         }
     }
 }

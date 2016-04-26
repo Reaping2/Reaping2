@@ -8,7 +8,7 @@ IdleRecognizer::IdleRecognizer( int32_t Id )
 
 }
 
-bool IdleRecognizer::Recognize( Actor const& actor )
+bool IdleRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     if ( !moveC.IsValid() )

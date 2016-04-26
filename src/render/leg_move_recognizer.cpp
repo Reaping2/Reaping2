@@ -8,7 +8,7 @@ LegMoveRecognizer::LegMoveRecognizer( int32_t Id )
 
 }
 
-bool LegMoveRecognizer::Recognize( Actor const& actor )
+bool LegMoveRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     if ( !moveC.IsValid() )

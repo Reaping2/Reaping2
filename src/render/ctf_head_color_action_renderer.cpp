@@ -22,7 +22,7 @@ void CtfHeadColorActionRenderer::Init( Actor const& actor )
 }
 
 
-void CtfHeadColorActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void CtfHeadColorActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mCtfHeadColorId );
@@ -35,7 +35,7 @@ void CtfHeadColorActionRenderer::FillRenderableSprites( const Actor& actor, Rend
             glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
             col.a = GetCloakColor( actor ).a;
             renderableSprites.push_back(
-                RenderableSprite( &actor, mCtfHeadColorId, &Spr, &Phase, col ) );
+                RenderableSprite( &actor, &renderableC, mCtfHeadColorId, &Spr, &Phase, col ) );
         }
     }
 }
