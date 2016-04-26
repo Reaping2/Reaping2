@@ -31,7 +31,7 @@ bool Start( std::string const& command, std::vector<std::string> const& argument
 }
 bool Start( std::wstring const& command, std::vector<std::wstring> const& arguments )
 {
-    std::wstring commandline = std::accumulate( arguments.begin(), arguments.end(), command, []( std::wstring const& accu, std::wstring const& elem ){ return accu + " " + elem; } );
+    std::wstring commandline = std::accumulate( arguments.begin(), arguments.end(), command, []( std::wstring const& accu, std::wstring const& elem ){ return accu + L" " + elem; } );
 
     PROCESS_INFORMATION     pi;
     STARTUPINFOW            si;
@@ -43,7 +43,7 @@ bool Start( std::wstring const& command, std::vector<std::wstring> const& argume
     wchar_t dir[1024];
     GetCurrentDirectoryW(sizeof(dir), dir);
 
-    if (!CreateProcessW(NULL, commandline.c_str(), NULL, NULL, FALSE, 0, NULL, dir, &si, &pi))
+    if (!CreateProcessW(NULL, const_cast<wchar_t*>( commandline.c_str() ), NULL, NULL, FALSE, 0, NULL, dir, &si, &pi))
     {
         return false;
     }
