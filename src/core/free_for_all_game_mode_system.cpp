@@ -16,6 +16,7 @@
 #include "map/editor_soldier_spawn_system.h"
 #include "main/window.h"
 #include "capture_the_flag_game_mode_system.h"
+#include "rogue_game_mode_system.h"
 
 namespace core {
 
@@ -50,6 +51,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
     ::engine::Engine::Get().SetEnabled< ::map::EditorSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( true );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
+    ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( false );
 
     mScene.Load( mScene.GetSelectedLevel() );
     //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);

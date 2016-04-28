@@ -117,6 +117,8 @@
 #include "rotate_component_system.h"
 #include "network/rotate_message.h"
 #include "network/data_checksum_message.h"
+#include "core/rogue_game_mode_system.h"
+#include "core/map/level_generator/level_generator_map_element_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -234,9 +236,12 @@ void SystemFactory::Init()
     Bind( AutoId( "spawn_actor_map_element_system" ), &CreateSystem<map::SpawnActorMapElementSystem> );
     Bind( AutoId( "respawn_actor_map_element_system" ), &CreateSystem<map::RespawnActorMapElementSystem> );
     Bind( AutoId( "soldier_auto_revive_map_element_system" ), &CreateSystem<map::SoldierAutoReviveMapElementSystem> );
+    Bind( AutoId( "level_generator_map_element_system" ), &CreateSystem<map::LevelGeneratorMapElementSystem> );
 
     Bind( AutoId( "free_for_all_game_mode_system" ), &CreateSystem<core::FreeForAllGameModeSystem> );
     Bind( AutoId( "capture_the_flag_game_mode_system" ), &CreateSystem<core::CaptureTheFlagGameModeSystem> );
+    Bind( AutoId( "rogue_game_mode_system" ), &CreateSystem<core::RogueGameModeSystem> );
+
     Bind( AutoId( "ctf_soldier_spawn_point_map_element_system" ), &CreateSystem<map::ctf::CtfSoldierSpawnPointMapElementSystem> );
     Bind( AutoId( "ctf_spawn_soldiers_map_element_system" ), &CreateSystem<map::ctf::CtfSpawnSoldiersMapElementSystem> );
     Bind( AutoId( "ctf_soldier_spawn_system" ), &CreateSystem<engine::ctf::CtfSoldierSpawnSystem> );
