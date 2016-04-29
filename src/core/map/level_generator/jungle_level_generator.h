@@ -4,8 +4,11 @@
 #include "platform/i_platform.h"
 #include "i_level_generator.h"
 #include "room_repo.h"
+#include "room_desc.h"
+#include "core/opt.h"
 
 namespace map {
+
 
 class JungleLevelGenerator: public ILevelGenerator
 {

@@ -2,9 +2,11 @@
 #define INCLUDED_MAP_ROOM_DESC_H
 
 #include "platform/i_platform.h"
+#include "core/opt.h"
 
 namespace map {
 
+class IRoom;
 struct Cell 
 {
     enum Entrance
@@ -36,14 +38,17 @@ struct RoomDesc
     int32_t GetCellCount() const;
     void SetCellSize( int32_t cellSize );
     int32_t GetCellSize();
-    void SetProperties( Properties_t& properties );
-    Properties_t const& GetProperties() const;
+    Properties_t& GetProperties();
     CellMatrix_t& GetCells();
+    void ClearAllCellentrances();
+    Opt<IRoom> GetRoom();
+    void SetRoom( Opt<IRoom> room );
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;
     Properties_t mProperties;
     CellMatrix_t mCells;
+    Opt<IRoom> mRoom;
 };
 
 } // namespace map

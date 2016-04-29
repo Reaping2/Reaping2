@@ -20,8 +20,9 @@ DefaultRoom::DefaultRoom()
 {
 }
 
-void DefaultRoom::Generate( RoomDesc const& roomDesc )
+void DefaultRoom::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
 {
+
 }
 
 } // namespace map

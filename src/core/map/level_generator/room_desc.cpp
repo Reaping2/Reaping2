@@ -1,4 +1,5 @@
 #include "room_desc.h"
+#include "i_room.h"
 
 namespace map {
 
@@ -32,12 +33,7 @@ int32_t RoomDesc::GetCellSize()
     return mCellSize;
 }
 
-void RoomDesc::SetProperties( Properties_t& properties )
-{
-    mProperties = properties;
-}
-
-map::RoomDesc::Properties_t const& RoomDesc::GetProperties() const
+map::RoomDesc::Properties_t& RoomDesc::GetProperties()
 {
     return mProperties;
 }
@@ -45,6 +41,29 @@ map::RoomDesc::Properties_t const& RoomDesc::GetProperties() const
 map::RoomDesc::CellMatrix_t& RoomDesc::GetCells()
 {
     return mCells;
+}
+
+
+void RoomDesc::ClearAllCellentrances()
+{
+    for (auto& row : mCells)
+    {
+        for (auto& cell : row)
+        {
+            cell.mEntrances.clear();
+        }
+    }
+}
+
+Opt<IRoom> RoomDesc::GetRoom()
+{
+    return mRoom;
+}
+
+
+void RoomDesc::SetRoom( Opt<IRoom> room )
+{
+    mRoom = room;
 }
 
 } // namespace map

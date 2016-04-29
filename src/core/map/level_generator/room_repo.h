@@ -11,7 +11,7 @@ class DefaultRoom : public IRoom
 {
 public:
     DefaultRoom();
-    virtual void Generate( RoomDesc const& roomDesc );
+    virtual void Generate( RoomDesc& roomDesc, int32_t x, int32_t y );
 };
 
 class RoomRepo : public platform::Repository<IRoom>, public platform::Singleton<RoomRepo>
