@@ -15,7 +15,7 @@ public:
     int_function_t GetInputNodeId( int32_t id );
     void ResetValues();
     void ResetValueId( int32_t id );
-    int32_t GetValueId( int32_t id );
+    int32_t GetValueId( int32_t id ) const;
 protected:
     void AddInputNodeId( int32_t id, int_function_t inputNode );
     template<typename BASE, typename FUN>

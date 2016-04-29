@@ -21,6 +21,12 @@ class BorderActionRenderer : public ActionRenderer
     BorderType& mBorderType;
     IBorderComponent::Borders_t mBorders;
     IBorderComponent::Borders_t mOuterBorders;
+    struct SpriteData {
+        glm::vec2 RelativePosition;
+        Sprite const& Spr;
+        SpriteData( glm::vec2 const& rp, Sprite const& sp ) : RelativePosition( rp ), Spr( sp ) {}
+    };
+    std::vector<SpriteData> mSprites;
 public:
     BorderActionRenderer( int32_t Id );
     virtual void Init( const Actor& actor );
