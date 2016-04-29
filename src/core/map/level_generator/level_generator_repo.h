@@ -7,12 +7,12 @@
 
 namespace map {
 
-    class DefaultLevelGenerator : public ILevelGenerator
-    {
-    public:
-        DefaultLevelGenerator();
-        virtual void Generate();
-    };
+class DefaultLevelGenerator : public ILevelGenerator
+{
+public:
+    DefaultLevelGenerator();
+    virtual void Generate();
+};
 
 class LevelGeneratorRepo : public platform::Repository<ILevelGenerator>, public platform::Singleton<LevelGeneratorRepo>
 {

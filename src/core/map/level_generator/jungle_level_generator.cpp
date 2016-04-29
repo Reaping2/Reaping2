@@ -9,6 +9,7 @@ namespace map {
 JungleLevelGenerator::JungleLevelGenerator( int32_t Id )
     : ILevelGenerator( Id )
     , mActorFactory( ActorFactory::Get() )
+    , mRoomRepo( RoomRepo::Get() )
 {
 }
 
@@ -27,6 +28,11 @@ void JungleLevelGenerator::Generate()
     positionC->SetX( 240 );
     positionC->SetY( 0.0 );
     mScene.AddActor( wall.release() );
+    auto& room = mRoomRepo( AutoId( "simple_room1" ) );
+    RoomDesc rd;
+    rd.SetCellCount( 1 );
+    rd.GetCells()[0][0].mEntrances.insert( Cell::Bottom );
+    room.Generate(rd);
 }
 
 } // namespace map

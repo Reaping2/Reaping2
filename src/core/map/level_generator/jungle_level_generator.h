@@ -3,6 +3,7 @@
 
 #include "platform/i_platform.h"
 #include "i_level_generator.h"
+#include "room_repo.h"
 
 namespace map {
 
@@ -13,6 +14,7 @@ public:
     virtual void Generate();
 private:
     ActorFactory& mActorFactory;
+    RoomRepo& mRoomRepo;
 };
 
 } // namespace map
