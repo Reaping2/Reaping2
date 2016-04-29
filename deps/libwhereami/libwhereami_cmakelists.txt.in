@@ -1,0 +1,36 @@
+if ( NOT DEFINED CMAKE_BUILD_TYPE )
+  set( CMAKE_BUILD_TYPE Release CACHE STRING "Build type" )
+endif ()
+
+project (libwhereami)
+
+cmake_minimum_required (VERSION 2.8)
+
+if (COMMAND cmake_policy)
+  cmake_policy (SET CMP0003 NEW)
+endif()
+
+set(CMAKE_DEBUG_POSTFIX d)
+
+option (BUILD_UTILS "utilities" ON)
+
+set (LIBWHEREAMI_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+include_directories( ${LIBWHEREAMI_DIR}/src )
+add_library (whereami STATIC ${LIBWHEREAMI_DIR}/src/whereami.c)
+
+install ( TARGETS whereami
+          RUNTIME DESTINATION bin
+          LIBRARY DESTINATION lib${LIB_SUFFIX}
+          ARCHIVE DESTINATION lib${LIB_SUFFIX}
+)
+
+install ( FILES
+    ${LIBWHEREAMI_DIR}/src/whereami.h
+    DESTINATION include )
+

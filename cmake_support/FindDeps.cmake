@@ -46,7 +46,7 @@ macro( my_find_package pkg_name header default_lib_name )
                 PATHS
                     ${REAPING2_DEPS_INSTALL_DIR}/lib
                     $ENV{${pkg_name_upper}_LIBRARYDIR})
-            if(NOT ${pkg_name}_LIBRARY)
+            if(NOT ${pkg_name_upper}_LIBRARY)
                 message(FATAL_ERROR "${pkg_name_upper} library not found! Searched for: ${default_lib_name};${lib_names}")
             endif()
 	    endif( NOT "${default_lib_name}" STREQUAL "" )
@@ -69,7 +69,7 @@ else(glew_FOUND)
     my_find_package( GLEW GL/glew.h GLEW glew32s glew32sd )
 endif(glew_FOUND)
 
-my_find_package( glfw GLFW/glfw3.h glfw glfw3 glfw3dll )
+my_find_package( GLFW GLFW/glfw3.h glfw glfw3 glfw3dll )
 
 my_find_package( glm glm/glm.hpp "" )
 
@@ -90,6 +90,10 @@ my_find_package( PNG png.h png libpng16 libpng16_static libpng16d libpng16_stati
 my_find_package( PORTAUDIO portaudio.h portaudio portaudio_x86 portaudio_static_x86 portaudio_x64 portaudio_static_x64 )
 
 my_find_package( ENET enet/enet.h enet enet64 enet.lib enet64.lib )
+
+my_find_package( WHEREAMI whereami.h whereami whereamid )
+
+my_find_package( curl curl/curl.h curl libcurl curl.lib libcurl.lib curl_imp libcurl_imp.lib )
 
 if(WIN32)
     set( PLATFORM_LIBS "" )

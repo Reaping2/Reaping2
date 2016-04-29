@@ -11,7 +11,7 @@ CtfHatRecognizer::CtfHatRecognizer( int32_t Id )
 }
 
 
-bool CtfHatRecognizer::Recognize( Actor const& actor )
+bool CtfHatRecognizer::Recognize( Actor const& actor ) const
 {
     //     Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
     //     if (!playerCC.IsValid())

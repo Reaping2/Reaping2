@@ -20,7 +20,7 @@ void HeadActionRenderer::Init( Actor const& actor )
 }
 
 
-void HeadActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void HeadActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mHeadId );
@@ -29,7 +29,7 @@ void HeadActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSp
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
         glm::vec4 col = GetCloakColor( actor );
         renderableSprites.push_back(
-            RenderableSprite( &actor, mHeadId, &Spr, &Phase, col ) );
+            RenderableSprite( &actor, &renderableC, mHeadId, &Spr, &Phase, col ) );
     }
 }
 

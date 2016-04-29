@@ -36,6 +36,7 @@ void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size )
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tgt.DepthBufferId);
     }
     glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
+    glBindRenderbuffer( GL_RENDERBUFFER, tgt.DepthBufferId );
     GLenum drawBuffers[1] = { tgt.Attachment };
     glDrawBuffers(1, drawBuffers);
     bool succ = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
@@ -48,6 +49,7 @@ void RenderTarget::SelectTargetTexture( uint32_t id ) const
 {
     TargetTexture const& tgt = mTargets.at( id );
     glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
+    glBindRenderbuffer( GL_RENDERBUFFER, tgt.DepthBufferId );
     GLenum drawBuffers[1] = { tgt.Attachment };
     glDrawBuffers(1, drawBuffers);
     bool succ = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;

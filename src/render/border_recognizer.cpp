@@ -9,7 +9,7 @@ BorderRecognizer::BorderRecognizer( int32_t Id )
 }
 
 
-bool BorderRecognizer::Recognize( Actor const& actor )
+bool BorderRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IBorderComponent> borderC = actor.Get<IBorderComponent>();
     if ( !borderC.IsValid() )

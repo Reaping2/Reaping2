@@ -20,7 +20,7 @@ void DeathActionRenderer::Init( const Actor& actor )
     }
 }
 
-void DeathActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void DeathActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     int32_t aid = AutoId( "death" );
@@ -28,7 +28,7 @@ void DeathActionRenderer::FillRenderableSprites( const Actor& actor, RenderableS
     if( Spr.IsValid() )
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase ) );
+        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, aid, &Spr, &Phase ) );
     }
 }
 

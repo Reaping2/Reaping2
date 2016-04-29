@@ -10,7 +10,7 @@ class BorderRecognizer : public Recognizer
 {
 public:
     BorderRecognizer( int32_t Id );
-    virtual bool Recognize( Actor const& );
+    virtual bool Recognize( Actor const& ) const;
 private:
 };
 
