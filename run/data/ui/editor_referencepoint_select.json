@@ -49,8 +49,7 @@
                                     "color":"0xffffff",
                                     "visible":1,
                                     "enabled":0,
-                                    "actor_visual":"%editor.target.referencepoints#refptidx",
-                                    "fontsize":4
+                                    "actor_visual":"%editor.target.referencepoints#refptidx"
                                 }
                             ]
                         }
