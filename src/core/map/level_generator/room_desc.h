@@ -40,7 +40,7 @@ struct RoomDesc
     int32_t GetCellSize();
     Properties_t& GetProperties();
     CellMatrix_t& GetCells();
-    void ClearAllCellentrances();
+    void ClearAllCellEntrances();
     Opt<IRoom> GetRoom();
     void SetRoom( Opt<IRoom> room );
 protected:

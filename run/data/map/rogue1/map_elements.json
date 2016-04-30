@@ -69,26 +69,6 @@
     },
     {
         "name":"soldier_spawn_point",
-        "position":{"x":1000,"y":1000}
-    },
-    {
-        "name":"soldier_spawn_point",
-        "position":{"x":-550,"y":150}
-    },
-    {
-        "name":"soldier_spawn_point",
-        "position":{"x":500,"y":250}
-    },
-    {
-        "name":"soldier_spawn_point",
-        "position":{"x":150,"y":-1000}
-    },
-    {
-        "name":"soldier_spawn_point",
-        "position":{"x":1000,"y":-1000}
-    },
-    {
-        "name":"soldier_spawn_point",
         "position":{"x":-1000,"y":-1000}
     },
     {

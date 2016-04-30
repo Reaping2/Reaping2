@@ -1,6 +1,8 @@
 #include "platform/i_platform.h"
 #include "room_repo.h"
 #include "simple_room1.h"
+#include "vdouble_room1.h"
+#include "hdouble_room1.h"
 
 using platform::AutoId;
 
@@ -13,6 +15,8 @@ RoomRepo::RoomRepo()
 {
     int32_t id = AutoId( "simple_room1" );
     mElements.insert( id, new SimpleRoom1( id ) );
+    id = AutoId( "vdouble_room1" ); mElements.insert( id, new VDoubleRoom1( id ) );
+    id = AutoId( "hdouble_room1" ); mElements.insert( id, new HDoubleRoom1( id ) );
 }
 
 DefaultRoom::DefaultRoom()

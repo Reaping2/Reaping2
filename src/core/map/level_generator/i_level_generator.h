@@ -23,9 +23,18 @@ struct GeneratorRoomDesc
     glm::vec2 mRoomCoord = glm::vec2( -1, -1 );
 };
 
+struct PossibleRoom
+{
+    int32_t mRoomId;
+    int32_t mPossibility;
+    PossibleRoom( int32_t roomId, int32_t possibility );
+};
+
 class ILevelGenerator
 {
 public:
+    typedef std::vector<int32_t> PossibleRooms_t;
+    PossibleRooms_t mPossibleRooms;
     typedef std::vector<std::vector<GeneratorCell>> CellMatrix_t;
     CellMatrix_t mCells;
     typedef std::vector<GeneratorRoomDesc> RoomDescs_t;
@@ -37,9 +46,11 @@ public:
     ILevelGenerator( int32_t Id );
     virtual ~ILevelGenerator();
     virtual void Generate() = 0;
+    bool IsInBounds( int32_t x, int32_t y ) const;
 protected:
     int32_t mId = -1;
     Scene& mScene;
+    void AddPossibleRoom( int32_t roomId, int32_t possibility );
 };
 
 } // namespace map

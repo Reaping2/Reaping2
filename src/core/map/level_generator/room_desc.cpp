@@ -44,7 +44,7 @@ map::RoomDesc::CellMatrix_t& RoomDesc::GetCells()
 }
 
 
-void RoomDesc::ClearAllCellentrances()
+void RoomDesc::ClearAllCellEntrances()
 {
     for (auto& row : mCells)
     {

@@ -17,6 +17,7 @@ public:
     virtual bool PlaceRoom(ILevelGenerator& levelGenerator, int32_t x, int32_t y);
     virtual void InsertNeighbours( ILevelGenerator& levelGenerator, int32_t x, int32_t y );
     virtual RoomDesc GetRoomDesc()const;
+    int32_t GetId()const;
 protected:
     RoomDesc mRoomDesc;
     int32_t mId = -1;

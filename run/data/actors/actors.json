@@ -21,7 +21,7 @@
                 "set":[{"layer":"buildings", "cast_shadow":1}]
             },
             {"name":"wall_collision_component",
-                "set":[{"class":"wall", "radius":50}]
+                "set":[{"class":"no_collision", "radius":50}]
             }
         ]
     },
@@ -820,7 +820,7 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":500}]
+                "set":[{"speed":1000}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"players", "cast_shadow":1}]

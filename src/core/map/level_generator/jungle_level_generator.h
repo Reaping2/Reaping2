@@ -15,6 +15,10 @@ class JungleLevelGenerator: public ILevelGenerator
 public:
     JungleLevelGenerator( int32_t Id );
     virtual void Generate();
+
+    Opt<IRoom> PlaceARoom( glm::vec2 &vec );
+
+    void LogNodes( std::string log );
 private:
     ActorFactory& mActorFactory;
     RoomRepo& mRoomRepo;
@@ -22,5 +26,5 @@ private:
 
 } // namespace map
 
-#endif//INCLUDED_MAP_LEVEL_GENERATOR_H
+#endif//INCLUDED_MAP_JUNGLE_LEVEL_GENERATOR_H
 
