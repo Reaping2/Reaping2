@@ -13,7 +13,7 @@ class WeaponActionRenderer: public ActionRenderer
 public:
     WeaponActionRenderer( int32_t Id );
     virtual void Init( const Actor& actor );
-    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
+    virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
 };
 
 

@@ -27,7 +27,7 @@ void SoldierCurrentActionRenderer::Init( Actor const& actor )
 }
 
 
-void SoldierCurrentActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void SoldierCurrentActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mCurrentId );
@@ -45,7 +45,7 @@ void SoldierCurrentActionRenderer::FillRenderableSprites( const Actor& actor, Re
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
             renderableSprites.push_back(
-                RenderableSprite( &actor, mCurrentId, &Spr, &Phase, mColor ) );
+                RenderableSprite( &actor, &renderableC, mCurrentId, &Spr, &Phase, mColor ) );
         }
         //             }
         //

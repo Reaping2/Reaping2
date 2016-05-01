@@ -9,7 +9,7 @@ HatRecognizer::HatRecognizer( int32_t Id )
 
 }
 
-bool HatRecognizer::Recognize( Actor const& actor )
+bool HatRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<PlayerControllerComponent> playerCC = actor.Get<PlayerControllerComponent>();
     if ( !playerCC.IsValid() )

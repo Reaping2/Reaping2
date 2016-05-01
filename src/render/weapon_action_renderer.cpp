@@ -25,7 +25,7 @@ void WeaponActionRenderer::Init( const Actor& actor )
     }
 }
 
-void WeaponActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void WeaponActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
     if ( !weapon.IsValid() )
@@ -38,7 +38,7 @@ void WeaponActionRenderer::FillRenderableSprites( const Actor& actor, Renderable
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
         glm::vec4 col = GetCloakColor( actor );
-        renderableSprites.push_back( RenderableSprite( &actor, weapon->GetId(), &Spr, &Phase, col ) );
+        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, weapon->GetId(), &Spr, &Phase, col ) );
     }
 }
 

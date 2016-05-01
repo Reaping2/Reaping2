@@ -65,13 +65,10 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
         return false;
     }
     TexId = i->Spr->TexId;
-    Opt<IPositionComponent> const positionC = i->Obj->Get<IPositionComponent>();
-    Positions.push_back( glm::vec2( positionC->GetX(), positionC->GetY() ) + i->RelativePosition );
-    Headings.push_back( ( GLfloat )positionC->GetOrientation() );
+    Positions.push_back( glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition );
+    Headings.push_back( ( GLfloat )i->PositionC->GetOrientation() );
 
-    Opt<ICollisionComponent> const collisionC = i->Obj->Get<ICollisionComponent>();
-    //TODO: this one should not depend on collision radius
-    Sizes.push_back( ( GLfloat )( ( collisionC.IsValid() ? collisionC->GetRadius() : 50 )*i->Anim->GetScale() ) );
+    Sizes.push_back( ( GLfloat )( ( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )*i->Anim->GetScale() ) );
     TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
     Colors.push_back( i->Color );
     ++i;
@@ -93,60 +90,58 @@ void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
     for( ActorListFilter<Scene::RenderableActors>::const_iterator i = wrp.begin(), e = wrp.end(); i != e; ++i )
     {
         const Actor& Object = **i;
-        Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
-        if ( mRecognizerRepo.HasRecognizers( Object.GetId() ) )
+        auto recogptr = mRecognizerRepo.GetRecognizers( Object.GetId() );
+        if( nullptr == recogptr )
         {
-            RecognizerRepo::Recognizers_t& recognizers = mRecognizerRepo.GetRecognizers( Object.GetId() );
-            RecognizerRepo::ExcludedRecognizers_t excluded;
+            continue;
+        }
+        Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
+        auto const& recognizers = *recogptr;
+        RecognizerRepo::ExcludedRecognizers_t excluded;
 
-            ActionRenderersMap_t::iterator actionRenderersIt = mActionRenderersMap.find( Object.GetGUID() );
-            BOOST_ASSERT( actionRenderersIt != mActionRenderersMap.end() );
-            ActionRenderers_t& actionRenderers = actionRenderersIt->second;
+        ActionRenderersMap_t::iterator actionRenderersIt = mActionRenderersMap.find( Object.GetGUID() );
+        BOOST_ASSERT( actionRenderersIt != mActionRenderersMap.end() );
+        ActionRenderers_t& actionRenderers = actionRenderersIt->second;
 
-            for ( RecognizerRepo::Recognizers_t::iterator recogIt = recognizers.begin(), recogE = recognizers.end(); recogIt != recogE; ++recogIt )
+        for ( auto recogIt = recognizers.begin(), recogE = recognizers.end(); recogIt != recogE; ++recogIt )
+        {
+            auto const& recognizer = *recogIt;
+            if ( excluded.find( recognizer.GetId() ) == excluded.end()
+                 && recognizer.Recognize( Object ) )
             {
-                render::Recognizer& recognizer = *recogIt;
-                if ( excluded.find( recognizer.GetId() ) == excluded.end()
-                     && recognizer.Recognize( Object ) )
+                int32_t actionRendererId = recognizer.GetActionRenderer();
+                ActionRenderers_t::iterator foundActionRendererIt =
+                    std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( actionRendererId ) );
+                if ( foundActionRendererIt == actionRenderers.end() )
                 {
-                    int32_t actionRendererId = recognizer.GetActionRenderer();
-                    ActionRenderers_t::iterator foundActionRendererIt =
-                        std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( actionRendererId ) );
-                    if ( foundActionRendererIt == actionRenderers.end() )
-                    {
-                        std::auto_ptr<ActionRenderer> actionRenderer( mActionRendererFactory( actionRendererId ) );
-                        actionRenderer->SetOrder( recognizer.GetOrder() );
-                        actionRenderer->Init( Object );
-                        actionRenderers.insert( actionRenderer );
-                    }
-                    if ( mRecognizerRepo.HasExcludedRecognizers( recognizer.GetId() ) )
-                    {
-                        RecognizerRepo::ExcludedRecognizers_t& excludedRecognizers = mRecognizerRepo.GetExcludedRecognizers( recognizer.GetId() );
-                        excluded.insert( excludedRecognizers.begin(), excludedRecognizers.end() );
-                    }
+                    std::auto_ptr<ActionRenderer> actionRenderer( mActionRendererFactory( actionRendererId ) );
+                    actionRenderer->SetOrder( recognizer.GetOrder() );
+                    actionRenderer->Init( Object );
+                    actionRenderers.insert( actionRenderer );
                 }
-            }
-            for ( RecognizerRepo::ExcludedRecognizers_t::iterator excludedIt = excluded.begin(), excludedE = excluded.end(); excludedIt != excludedE; ++excludedIt )
-            {
-                ActionRenderers_t::iterator arIt = std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( *excludedIt ) );
-                if( arIt != actionRenderers.end() )
+                auto excludedRecognizers = mRecognizerRepo.GetExcludedRecognizers( recognizer.GetId() );
+                if( nullptr != excludedRecognizers )
                 {
-                    actionRenderers.erase( arIt );
-
+                    excluded.insert( excludedRecognizers->begin(), excludedRecognizers->end() );
                 }
-            }
-            for ( ActionRenderers_t::iterator actionRendererIt = actionRenderers.begin(), actionRendererE = actionRenderers.end(); actionRendererIt != actionRendererE; ++actionRendererIt )
-            {
-                ActionRenderer& actionRenderer = *actionRendererIt;
-                actionRenderer.FillRenderableSprites( Object, RenderableSprites );
-                actionRenderer.Update( DeltaTime );
             }
         }
-    }
+        for ( auto excludedIt = excluded.begin(), excludedE = excluded.end(); excludedIt != excludedE; ++excludedIt )
+        {
+            auto arIt = std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( *excludedIt ) );
+            if( arIt != actionRenderers.end() )
+            {
+                actionRenderers.erase( arIt );
 
-    // TODO: sort Z order, alive state es texture id alapjan.
-    // Meg persze (last cmp) pointerek szerint, hogy determinisztikus legyen.
-    //std::sort( RenderableSprites.begin(), RenderableSprites.end(), RenderableSpriteCompare() );
+            }
+        }
+        for ( auto actionRendererIt = actionRenderers.begin(), actionRendererE = actionRenderers.end(); actionRendererIt != actionRendererE; ++actionRendererIt )
+        {
+            ActionRenderer& actionRenderer = *actionRendererIt;
+            actionRenderer.FillRenderableSprites( Object, *renderableC.Get(), RenderableSprites );
+            actionRenderer.Update( DeltaTime );
+        }
+    }
 
     std::swap( RenderableSprites, mRenderableSprites );
     size_t CurSize = mRenderableSprites.size();
@@ -227,7 +222,7 @@ void partitionByFilter( render::Counts_t& rv, RenderableSprites_t const& sprites
     for( auto i = sprites.begin() + part.Start, e = sprites.begin() + part.Start + part.Count; i != e; ++i, ++idx )
     {
         auto const& val = *i;
-        bool match = filter( *val.Obj->Get<IRenderableComponent>() );
+        bool match = filter( *val.RenderableComp );
         if( !match )
         {
             actual = NULL;

@@ -16,7 +16,7 @@ public:
     ActionRenderer( int32_t Id );
     virtual void Update( double DeltaTime );
     virtual void Init( const Actor& actor );
-    virtual void FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites );
+    virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
 protected:
     int32_t mId;
     double mSecsToEnd;                          // speed. This much seconds is needed, till this action counts from 0..100.

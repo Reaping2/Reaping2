@@ -8,7 +8,7 @@ class BodyMoveRecognizer: public Recognizer
 {
 public:
     BodyMoveRecognizer( int32_t Id );
-    virtual bool Recognize( Actor const& );
+    virtual bool Recognize( Actor const& ) const;
 };
 
 } // namespace render
