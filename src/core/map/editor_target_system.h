@@ -34,12 +34,14 @@ private:
     std::vector<int32_t> mBuffs;
     std::vector<int32_t> mItems;
     std::vector<int32_t> mMapitems;
-    std::vector<int32_t> mReferencepoints;
+    std::vector<int32_t> mSpawnpoints;
+    // some items (spawn points) have different ids for the visuals and the actors
+    std::map<int32_t, int32_t> mVisualToActor;
     std::vector<int32_t> Guns();
     std::vector<int32_t> Buffs();
     std::vector<int32_t> Items();
     std::vector<int32_t> MapItems();
-    std::vector<int32_t> Referencepoints();
+    std::vector<int32_t> Spawnpoints();
     boost::ptr_vector<ModelValue> mEditorModels;
     void TargetChanged( int32_t target );
 };

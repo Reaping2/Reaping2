@@ -22,7 +22,7 @@
 					"enabled":1,
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"action":[["ui.load","editor_referencepoint_select"]],
+					"action":[["ui.load","editor_spawnpoints_select"]],
 					"children":[
 						{
 							"type":"text_widget",
@@ -33,7 +33,7 @@
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
-							"text":"reference point",
+							"text":"spawn point",
 							"fontsize":4
 						}
 					]

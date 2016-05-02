@@ -30,14 +30,20 @@ void EditorTargetSystem::Init()
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &pickupModel ) );
 
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::MapItems, this ), "mapitems", &targetModel ) );
-    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Referencepoints, this ), "referencepoints", &targetModel ) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Spawnpoints, this ), "spawnpoints", &targetModel ) );
 
     using namespace boost::assign;
     mGuns += AutoId("pistol"), AutoId("plasma_gun"), AutoId("rocket_launcher"), AutoId("shotgun"),AutoId("ion_gun"), AutoId("gatling_gun"), AutoId("gauss_gun");
+    for (auto const& id : mGuns ) { mVisualToActor[id] = id; }
     mBuffs += AutoId("HealOverTimeBuff"),AutoId("MoveSpeedBuff"),AutoId("AccuracyBuff"),AutoId("ArmorBuff"),AutoId("CloakBuff");
+    for (auto const& id : mBuffs ) { mVisualToActor[id] = id; }
     mItems += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
+    for (auto const& id : mItems ) { mVisualToActor[id] = id; }
     mMapitems += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete");
-    mReferencepoints += AutoId("ctf_flag_spawn_blue"), AutoId("ctf_flag_spawn_blue"), AutoId("ctf_soldier_spawn_blue"), AutoId("ctf_soldier_spawn_red");
+    for (auto const& id : mMapitems ) { mVisualToActor[id] = id; }
+    mSpawnpoints += AutoId("ctf_flag_spawn_red"), AutoId("ctf_flag_spawn_blue"), AutoId("ctf_soldier_spawn_blue"), AutoId("ctf_soldier_spawn_red");
+    for (auto const& id : mSpawnpoints ) { mVisualToActor[id] = id; }
+    mVisualToActor[ AutoId("ctf_flag_spawn_point") ] = AutoId("ctf_flag_spawn_blue");
 }
 
 void EditorTargetSystem::Update( double DeltaTime )
@@ -60,7 +66,7 @@ void EditorTargetSystem::TargetChanged( int32_t target )
     {
         mScene.RemoveActor( mCursor->GetGUID() );
     }
-    mTargetId = target;
+    mTargetId = mVisualToActor[target];
     std::auto_ptr<Actor> cursor( GetTarget().GetCursor() );
     Opt<IPositionComponent> positionC( cursor->Get<IPositionComponent>() );
     if ( positionC.IsValid() )
@@ -141,9 +147,9 @@ std::vector<int32_t> EditorTargetSystem::MapItems()
     return mMapitems;
 }
 
-std::vector<int32_t> EditorTargetSystem::Referencepoints()
+std::vector<int32_t> EditorTargetSystem::Spawnpoints()
 {
-    return mReferencepoints;
+    return mSpawnpoints;
 }
 
 } // namespace map
