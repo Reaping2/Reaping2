@@ -50,14 +50,7 @@ bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
         }
         recognizer->SetActionRenderer( AutoId( rendererName ) );
         recognizer->SetOrder( orderindex++ );
-        try
-        {
-            recognizers.push_back( recognizer.release() );
-        }
-        catch( boost::bad_pointer const& )
-        {
-            continue;
-        }
+        recognizers.push_back( recognizer.release() );
     }
     return true;
 }
