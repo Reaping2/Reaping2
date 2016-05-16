@@ -38,7 +38,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.target","%editor.target.pickups.guns#gunsidx"]],
+                            "action":[["editor.guntarget","#gunsidx"]],
                             "children":[
                                 {
                                     "type":"image",
@@ -82,7 +82,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.target","%editor.target.pickups.buffs#buffsidx"]],
+                            "action":[["editor.bufftarget","#buffsidx"]],
                             "children":[
                                 {
                                     "type":"image",
@@ -126,7 +126,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.target","%editor.target.pickups.items#itemsidx"]],
+                            "action":[["editor.itemtarget","#itemsidx"]],
                             "children":[
                                 {
                                     "type":"image",

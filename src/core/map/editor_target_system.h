@@ -30,20 +30,23 @@ private:
     int32_t mTargetId;
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;
-    std::vector<int32_t> mGuns;
-    std::vector<int32_t> mBuffs;
-    std::vector<int32_t> mItems;
-    std::vector<int32_t> mMapitems;
-    std::vector<int32_t> mSpawnpoints;
-    // some items (spawn points) have different ids for the visuals and the actors
-    std::map<int32_t, int32_t> mVisualToActor;
+    std::vector<int32_t> mGunVisualIds;
+    std::vector<int32_t> mGunActorIds;
+    std::vector<int32_t> mBuffVisualIds;
+    std::vector<int32_t> mBuffActorIds;
+    std::vector<int32_t> mItemVisualIds;
+    std::vector<int32_t> mItemActorIds;
+    std::vector<int32_t> mMapitemVisualIds;
+    std::vector<int32_t> mMapitemActorIds;
+    std::vector<int32_t> mSpawnpointVisualIds;
+    std::vector<int32_t> mSpawnpointActorIds;
     std::vector<int32_t> Guns();
     std::vector<int32_t> Buffs();
     std::vector<int32_t> Items();
     std::vector<int32_t> MapItems();
     std::vector<int32_t> Spawnpoints();
     boost::ptr_vector<ModelValue> mEditorModels;
-    void TargetChanged( int32_t target );
+    void TargetChanged( std::string const& targetType, int32_t targetIdx );
 };
 
 } // namespace map
