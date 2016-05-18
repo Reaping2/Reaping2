@@ -11,7 +11,8 @@
 namespace network {
 
 ClientSystem::ClientSystem()
-    : mClient( NULL )
+    : mAddress()
+    , mClient( NULL )
     , mPeer( NULL )
     , mClientModel( "client", &RootModel::Get() )
     , mConnectModel( VoidFunc( this, &ClientSystem::Connect ), "connect", &mClientModel )

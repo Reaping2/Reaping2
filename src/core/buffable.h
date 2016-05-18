@@ -40,6 +40,9 @@ Limited<T>& Limited<T>::Init( T val, T min, T max )
 
 template<typename T>
 Limited<T>::Limited()
+    : mMax()
+    , mMin()
+    , mVal()
 {
 }
 

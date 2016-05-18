@@ -17,7 +17,6 @@ public:
     virtual void PutTarget( glm::vec2 position );
     virtual std::auto_ptr<Actor> GetCursor();
 protected:
-    int32_t mId;
     int32_t mCursorId;
     int32_t mActorId;
     int32_t mTypeId;

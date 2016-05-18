@@ -3,6 +3,7 @@
 
 #include <boost/assert.hpp>
 #include <boost/thread/mutex.hpp>
+#include <cstdlib>
 
 namespace platform {
 
@@ -15,8 +16,14 @@ public:
     {
         BOOST_ASSERT( !is_destructed );
         ( void )is_destructed; // prevent removing is_destructed in Release configuration
-
-        boost::mutex::scoped_lock lock( GetMutex() );
+        try
+        {
+            boost::mutex::scoped_lock lock( GetMutex() );
+        }
+        catch( boost::lock_error const& )
+        {
+            abort();
+        }
         static T instance;
         return instance;
     }
