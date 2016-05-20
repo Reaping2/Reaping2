@@ -70,7 +70,6 @@ ExternalProject_Add(ext_boost
                         --with-atomic
                         --with-serialization
                         --with-chrono
-                        --with-random
                         --build-dir=${EXTERNALS_WORK_DIR}/build/boost
                         --prefix=${EXTERNALS_INSTALL_DIR}
                         --includedir=${EXTERNALS_INSTALL_DIR}/include
