@@ -127,7 +127,7 @@ int main( int argc, char* argv[] )
     // convert to int64_t
     boost::posix_time::ptime myEpoch( boost::gregorian::date( 1970, boost::gregorian::Jan, 1 ) );
     boost::posix_time::time_duration myTimeFromEpoch = t - myEpoch;
-    srand ( int32_t( myTimeFromEpoch.total_milliseconds() ) );
+    RandomGenerator::global().seed ( uint32_t( myTimeFromEpoch.total_milliseconds() ) );
     using core::ProgramState;
     ProgramState& programState = ProgramState::Get();
     namespace po = boost::program_options;
@@ -188,7 +188,7 @@ int main( int argc, char* argv[] )
         L1( "run as a random named soldier. RanBro" );
         programState.SetMode( ProgramState::Client );
         programState.mServerIp = "localhost";
-        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( rand() % 1000 );
+        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( RandomGenerator::global()() % 1000 );
     }
     bool calibrateController = vm.count( "calibrate" );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );

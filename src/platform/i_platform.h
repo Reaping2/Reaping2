@@ -40,6 +40,7 @@
 #include "singleton.h"
 #include "log.h"
 
+#include "random.h"
 #include "compression.h"
 #include "ifile.h"
 #include "package.h"

@@ -40,14 +40,14 @@ void RandomControllerSubSystem::Update( Actor& actor, double DeltaTime )
         if ( randomCC->GetCounter() > 2 )
         {
             randomCC->SetCounter( 0 );
-            randomCC->SetHeadingModifier( ( rand() % 10 - 5 ) * .33 );
+            randomCC->SetHeadingModifier( ( RandomGenerator::global()() % 10 - 5 ) * .33 );
 
             Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
             if ( !moveC.IsValid() )
             {
                 return;
             }
-            moveC->GetSpeed().mBase.Set( ( rand() % 10 ) * 30 );
+            moveC->GetSpeed().mBase.Set( ( RandomGenerator::global()() % 10 ) * 30 );
             moveC->SetMoving( moveC->GetSpeed().Get() != 0 );
 
             moveC->SetHeadingModifier( randomCC->GetHeadingModifier() );
