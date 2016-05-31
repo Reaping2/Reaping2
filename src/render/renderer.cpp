@@ -147,7 +147,7 @@ void RendererSystem::Update( double DeltaTime )
     rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size() );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
-    mActorRenderer.Prepare( Scen, DeltaTime );
+    mActorRenderer.Prepare( Scen, mCamera, DeltaTime );
     mActorRenderer.Draw( &selectBloodReceivers );
     mDecalEngine.Draw();
 

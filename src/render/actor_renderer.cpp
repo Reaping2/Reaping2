@@ -12,6 +12,7 @@
 #include "engine/engine.h"
 #include "core/program_state.h"
 #include "core/scene.h"
+#include "renderable_repo.h"
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
@@ -56,6 +57,37 @@ typedef std::vector<GLfloat> Floats_t;
 typedef std::vector<glm::vec4> TexCoords_t;
 typedef std::vector<glm::vec4> Colors_t;
 typedef ActorRenderer::RenderableSprites_t RenderableSprites_t;
+bool isVisible( Actor const& actor, Camera const& camera )
+{
+    Opt<IPositionComponent> const positionC = actor.Get<IPositionComponent>();
+    if( !positionC.IsValid() )
+    {
+        return false;
+    }
+    static std::map<int32_t, float> scaleMap;
+    auto it = scaleMap.find( actor.GetId() );
+    if( scaleMap.end() == it )
+    {
+        float& f = scaleMap[ actor.GetId() ];
+        static RenderableRepo& renderables( RenderableRepo::Get() );
+        SpriteCollection const& Sprites = renderables( actor.GetId() );
+        for( auto i = Sprites.begin(), e = Sprites.end(); i != e; ++i )
+        {
+            if( i->second->GetScale() > f )
+            {
+                f = i->second->GetScale();
+            }
+        }
+        it = scaleMap.find( actor.GetId() );
+    }
+    float scale = it->second;
+    Opt<ICollisionComponent> const collisionC = actor.Get<ICollisionComponent>();
+    // 2.0 multiplier: safety
+    float size = ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale * 2.0;
+    glm::vec4 const& region = camera.VisibleRegion();
+    return region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
+        && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
+}
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
                     Positions_t& Positions, Floats_t& Headings, TexCoords_t& TexCoords, Floats_t& Sizes, Colors_t& Colors,
                     GLuint& TexId )
@@ -76,7 +108,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 }
 }
 
-void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
+void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double DeltaTime )
 {
     ActorList_t const& Lst = Object.GetActors();
     if( Lst.empty() )
@@ -90,6 +122,10 @@ void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
     for( ActorListFilter<Scene::RenderableActors>::const_iterator i = wrp.begin(), e = wrp.end(); i != e; ++i )
     {
         const Actor& Object = **i;
+        if( !isVisible( Object, camera ) )
+        {
+            continue;
+        }
         auto recogptr = mRecognizerRepo.GetRecognizers( Object.GetId() );
         if( nullptr == recogptr )
         {

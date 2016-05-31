@@ -21,6 +21,11 @@ void Camera::UpdateAllowedCenterRegion()
     mAllowedCenterRegion -= VisRegion;
 }
 
+glm::vec4 Camera::VisibleRegion() const
+{
+    return mProjection.GetVisibleRegion() + glm::vec4( mCenter, mCenter );
+}
+
 void Camera::Update()
 {
     ModelValue const& PlayerModel = RootModel::Get()["player"];
