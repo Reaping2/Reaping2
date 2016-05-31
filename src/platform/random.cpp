@@ -1,6 +1,6 @@
 #include "random.h"
 #include "singleton.h"
-#include "boost/random/mersenne_twister.hpp"
+#include <random>
 
 namespace platform {
 
@@ -8,7 +8,7 @@ namespace detail {
 class RandomGeneratorImpl
 {
 public:
-    boost::random::mt11213b mGenerator;
+    std::mt19937 mGenerator;
 };
 typedef  Singleton<RandomGenerator> RandomGeneratorGlobal;
 }

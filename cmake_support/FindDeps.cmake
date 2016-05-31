@@ -10,7 +10,7 @@ endif(WIN32)
 set(Boost_ADDITIONAL_VERSIONS 1.59 1.60)
 
 find_package( Boost 1.60 EXACT REQUIRED
-        COMPONENTS filesystem system thread date_time program_options atomic serialization chrono random )
+        COMPONENTS filesystem system thread date_time program_options atomic serialization chrono )
 
 find_package( OpenGL REQUIRED )
 

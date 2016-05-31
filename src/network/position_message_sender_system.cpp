@@ -26,10 +26,10 @@ void PositionMessageSenderSystem::Init()
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "player" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "ctf_player" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 1000.0, platform::AutoId( "flag" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "grenade_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "blue_grenade_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "rusty_reaper_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "grenade_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "blue_grenade_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "rusty_reaper_projectile" ) ) );
     }
     else if ( mProgramState.mMode == ProgramState::Client )
     {
