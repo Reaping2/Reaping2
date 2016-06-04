@@ -10,6 +10,7 @@ namespace render {
 
 class IdleActionRenderer: public ActionRenderer
 {
+    Sprite const* mSpr = nullptr;
 public:
     IdleActionRenderer( int32_t Id );
     virtual void Init( const Actor& actor );

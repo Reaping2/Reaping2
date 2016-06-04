@@ -16,20 +16,19 @@ void IdleActionRenderer::Init( const Actor& actor )
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {
+        mSpr = &Spr;
         mSecsToEnd = Spr.GetSecsToEnd();
     }
 }
 
 void IdleActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    static int32_t aid = AutoId( "body_idle" );
-    Sprite const& Spr = Sprites( aid );
-    if( Spr.IsValid() )
+    if( nullptr != mSpr )
     {
-        SpritePhase const& Phase = Spr( ( int32_t )GetState() );
+        SpritePhase const& Phase = (*mSpr)( ( int32_t )GetState() );
         glm::vec4 col = GetCloakColor( actor );
-        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, aid, &Spr, &Phase, col ) );
+        static int32_t aid = AutoId( "body_idle" );
+        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, aid, mSpr, &Phase, col ) );
     }
 }
 

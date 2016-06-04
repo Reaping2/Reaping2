@@ -56,20 +56,14 @@ void BorderActionRenderer::Init( Actor const& actor )
     }
     Opt<ICollisionComponent> const collisionC = actor.Get<ICollisionComponent>();
     mActorSize = ( ( GLfloat )( ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale ) );
-}
 
-
-void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
-{
     for ( BorderIds_t::const_iterator i = mBorderIds.begin(), e = mBorderIds.end(); i != e; ++i )
     {
         SpriteCollection const& Sprites = mRenderableRepo( *i );
         Sprite const& Spr = Sprites( mActionId );
         if( Spr.IsValid() )
         {
-            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase/*, color*/ );
-            renderableSprites.push_back( renderableSprite );
+            mSprites.emplace_back( glm::vec2(), Spr );
         }
     }
     IBorderComponent::Borders_t::const_iterator outer_i = mOuterBorders.begin();
@@ -79,12 +73,21 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
         Sprite const& Spr = Sprites( mActionId );
         if( Spr.IsValid() )
         {
-            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase/*, color*/ );
             glm::vec2 pos = mBorderType.GetNeighborDirs()[*outer_i];
-            renderableSprite.RelativePosition = glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize );
-            renderableSprites.push_back( renderableSprite );
+            mSprites.emplace_back( glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize ), Spr );
         }
+    }
+}
+
+
+void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
+{
+    for( auto const& data : mSprites )
+    {
+        SpritePhase const& Phase = data.Spr( ( int32_t )GetState() );
+        RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &data.Spr, &Phase/*, color*/ );
+        renderableSprite.RelativePosition = data.RelativePosition;
+        renderableSprites.push_back( renderableSprite );
     }
 }
 

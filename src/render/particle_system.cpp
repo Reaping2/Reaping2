@@ -25,16 +25,20 @@ void ParticleSystem::Update( double DeltaTime )
     {
         Actor& actor = **it;
         Opt<IEmitterComponent> emitterC = actor.Get<IEmitterComponent>();
-        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
-        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-        glm::vec2 distance(0);
-        if (moveC.IsValid()&&moveC->IsMoving()&&!moveC->IsRooted())
-        {
-            distance = glm::vec2(moveC->GetSpeedX()*DeltaTime, moveC->GetSpeedY()*DeltaTime);
-        }
-        if ( !emitterC.IsValid() || !positionC.IsValid() )
+        if( !emitterC.IsValid() )
         {
             continue;
+        }
+        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        if( !positionC.IsValid() )
+        {
+            continue;
+        }
+        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+        glm::vec2 distance(0);
+        if ( moveC.IsValid() && moveC->IsMoving() && !moveC->IsRooted() )
+        {
+            distance = glm::vec2(moveC->GetSpeedX()*DeltaTime, moveC->GetSpeedY()*DeltaTime);
         }
         emitterC->Update( DeltaTime );
         std::vector<int32_t> const& emitted = emitterC->GetEmitTypes();

@@ -48,16 +48,18 @@ void BaseInput::ResetValues()
     }
 }
 
-int32_t BaseInput::GetValueId( int32_t id )
+int32_t BaseInput::GetValueId( int32_t id ) const
 {
-    BOOST_ASSERT( mBaseInputNodesId.find( id ) != mBaseInputNodesId.end() );
-    return mBaseInputNodesId[id];
+    auto it = mBaseInputNodesId.find( id );
+    BOOST_ASSERT( it != mBaseInputNodesId.end() );
+    return it->second;
 }
 
 void BaseInput::ResetValueId( int32_t id )
 {
-    BOOST_ASSERT( mBaseInputNodesId.find( id ) != mBaseInputNodesId.end() );
-    mBaseInputNodesId[id] = 0;
+    auto it = mBaseInputNodesId.find( id );
+    BOOST_ASSERT( it != mBaseInputNodesId.end() );
+    it->second = 0;
 }
 
 } // namespace map
