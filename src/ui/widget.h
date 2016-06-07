@@ -132,7 +132,7 @@ protected:
     static void ParseIntProp( Prop& Pt, Json::Value& Val, int32_t Default );
     static void ParseDoubleProp( Prop& Pt, Json::Value& Val, double Default );
     static void ParseStrProp( Prop& Pt, Json::Value& Val, std::string const& Default );
-    static int32_t ParseColor( Json::Value& Color, int32_t Default );
+    void ParseColor( PropertyType Property, Json::Value& Color, int32_t Default );
     int32_t mZOrder;
     Widget* mParent;
     Widget* mNext;

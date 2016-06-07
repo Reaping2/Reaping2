@@ -221,14 +221,21 @@ Widget::Prop& Widget::operator()( PropertyType Property )
     return mProperties.Mutable( Property );
 }
 
-int32_t Widget::ParseColor( Json::Value& Color, int32_t Default )
+void Widget::ParseColor( PropertyType Property, Json::Value& Color, int32_t Default )
 {
     int32_t i;
-    if( Json::GetColor( Color, i ) )
+    if ( Color.isNull() )
     {
-        return i;
+        operator()( Property ) = Default;
     }
-    return Default;
+    else if( Json::GetColor( Color, i ) )
+    {
+        operator()( Property ) = i;
+    }
+    else
+    {
+        ParseIntProp( PT_Color, Color, Default);
+    }
 }
 
 void Widget::Init( Json::Value& Descriptor )
@@ -238,10 +245,9 @@ void Widget::Init( Json::Value& Descriptor )
     mRelativeDimensions.y = Json::GetDouble( Descriptor["y"], d ) ? d : 0;
     mRelativeDimensions.z = Json::GetDouble( Descriptor["w"], d ) ? d : 0;
     mRelativeDimensions.w = Json::GetDouble( Descriptor["h"], d ) ? d : 0;
-    static const int32_t DefaultColor = 0x0000fa77;
-    int32_t i = ParseColor( Descriptor["color"], DefaultColor );
-    operator()( PT_Color ) = i;
-    operator()( PT_HighlightColor ) = ParseColor( Descriptor["highlight_color"], i );
+    static const int32_t DefaultColor = 0x00000077;
+    ParseColor( PT_Color, Descriptor["color"], DefaultColor );
+    ParseColor( PT_HighlightColor, Descriptor["highlight_color"], DefaultColor );
     ParseIntProp( PT_Enabled, Descriptor["enabled"], 0 );
     ParseIntProp( PT_Visible, Descriptor["visible"], 0 );
     Json::Value& Children = Descriptor["children"];
