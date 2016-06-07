@@ -14,8 +14,8 @@
             "children":[
                 {
                     "type":"grid",
-                    "source":"%editor.target.spawnpoints",
                     "startid":"#spawnptidx",
+                    "source":"%editor.target.spawnpoints",
                     "direction":"horizontal",
                     "color":"0xffffff",
                     "x":0.0,
@@ -36,7 +36,7 @@
                             "h":1.0,
                             "visible":1,
                             "enabled":1,
-                            "color":"0x22222277",
+                            "color":"%editor.target.teamcolor#spawnptidx",
                             "highlight_color":"0xaaaaaa77",
                             "action":[["editor.spawntarget","#spawnptidx"]],
                             "children":[
@@ -46,7 +46,6 @@
                                     "y":0.02,
                                     "w":0.96,
                                     "h":0.96,
-                                    "color":"0xffffff",
                                     "visible":1,
                                     "enabled":0,
                                     "actor_visual":"%editor.target.spawnpoints#spawnptidx"
