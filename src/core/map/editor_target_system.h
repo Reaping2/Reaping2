@@ -39,12 +39,14 @@ private:
     std::vector<int32_t> mMapitemVisualIds;
     std::vector<int32_t> mMapitemActorIds;
     std::vector<int32_t> mSpawnpointVisualIds;
+    std::vector<int32_t> mSpawnpointVisualBackground;
     std::vector<int32_t> mSpawnpointActorIds;
     std::vector<int32_t> Guns();
     std::vector<int32_t> Buffs();
     std::vector<int32_t> Items();
     std::vector<int32_t> MapItems();
     std::vector<int32_t> Spawnpoints();
+    std::vector<int32_t> SpawnpointBackground();
     boost::ptr_vector<ModelValue> mEditorModels;
     void TargetChanged( std::string const& targetType, int32_t targetIdx );
 };

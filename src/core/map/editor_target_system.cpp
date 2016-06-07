@@ -29,16 +29,17 @@ void EditorTargetSystem::Init()
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &pickupModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &pickupModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &pickupModel ) );
-
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::MapItems, this ), "mapitems", &targetModel ) );
-
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Spawnpoints, this ), "spawnpoints", &targetModel ) );
+    // spawn point teams are ambigous, so use background colors
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::SpawnpointBackground, this ), "teamcolor", &targetModel) );
     // for the menu actions
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"spawnpoint",_2) ), "spawntarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"mapitem",_2) ), "mapitemtarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"gun",_2) ), "guntarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"buff",_2) ), "bufftarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"item",_2) ), "itemtarget", &editorModel ) );
+    
 
     // mapping the visual ids to the actor ids
     using namespace boost::assign;
@@ -54,8 +55,18 @@ void EditorTargetSystem::Init()
     mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete");
     mMapitemActorIds = mMapitemVisualIds;
 
-    mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(), mTargetRepo(AutoId("ctf_flag_spawn_blue")).GetCursorId(), mTargetRepo(AutoId("ctf_soldier_spawn_blue")).GetCursorId(), mTargetRepo(AutoId("ctf_soldier_spawn_red")).GetCursorId();
-    mSpawnpointActorIds += AutoId("ctf_flag_spawn_red"), AutoId("ctf_flag_spawn_blue"), AutoId("ctf_soldier_spawn_blue"), AutoId("ctf_soldier_spawn_red");
+    mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(),
+                            mTargetRepo( AutoId("ctf_soldier_spawn_red")).GetCursorId(),
+                            mTargetRepo( AutoId("ctf_flag_spawn_blue")).GetCursorId(),
+                            mTargetRepo( AutoId("ctf_soldier_spawn_blue")).GetCursorId();
+    mSpawnpointActorIds +=  AutoId("ctf_flag_spawn_red"),
+                            AutoId("ctf_soldier_spawn_red"),
+                            AutoId("ctf_flag_spawn_blue"),
+                            AutoId("ctf_soldier_spawn_blue");
+    mSpawnpointVisualBackground +=  0xaa000077,
+                                    0xaa000077,
+                                    0x0000aa77,
+                                    0x0000aa77;
 
 }
 
@@ -186,6 +197,11 @@ std::vector<int32_t> EditorTargetSystem::MapItems()
 std::vector<int32_t> EditorTargetSystem::Spawnpoints()
 {
     return mSpawnpointVisualIds;
+}
+
+std::vector<int32_t> EditorTargetSystem::SpawnpointBackground()
+{
+    return mSpawnpointVisualBackground;
 }
 
 } // namespace map
