@@ -11,11 +11,11 @@ struct DamageTakenEvent : public Event
         Armor
     };
     glm::vec2 const Pos;
-    int32_t Damage;
-    Type type;
-    int32_t ActorGUID;
-    DamageTakenEvent( double x, double y ): Pos( x, y ), type( Health ) {}
-    DamageTakenEvent( glm::vec2 const& p ): Pos( p ), type( Health ) {}
+    int32_t Damage = 0;
+    Type type = Health;
+    int32_t ActorGUID = -1;
+    DamageTakenEvent( double x, double y ): DamageTakenEvent( glm::vec2( x, y ) ) {}
+    DamageTakenEvent( glm::vec2 const& p ): Pos( p ) {}
 };
 }
 #endif//INCLUDED_CORE_DAMAGE_TAKEN_EVENT_H

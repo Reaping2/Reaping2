@@ -99,11 +99,20 @@ JsonReader::JsonReader( File& F )
     {
         return;
     }
-    if( !Reader.parse( Contents, mRoot, false ) )
+    try
     {
-        BOOST_ASSERT( false );
+        Json::Value target;
+        if( !Reader.parse( Contents, target, false ) )
+        {
+            BOOST_ASSERT( false );
+        }
+        using namespace std;
+        swap( target, mRoot );
+        mValid = true;
     }
-    mValid = true;
+    catch( std::runtime_error const& )
+    {
+    }
 }
 
 bool JsonReader::IsValid() const

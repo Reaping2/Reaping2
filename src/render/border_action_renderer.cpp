@@ -9,6 +9,7 @@ namespace render {
 BorderActionRenderer::BorderActionRenderer( int32_t Id )
     : ActionRenderer( Id )
     , mActionId( AutoId( "body_idle" ) )
+    , mActorSize( 1.0 )
     , mBorderType( BorderType::Get() )
 {
 }
@@ -26,7 +27,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         return;
     }
     std::string actorName;
-    mIdStorage.GetName( actor.GetId(), actorName );
+    bool const gotId = mIdStorage.GetName( actor.GetId(), actorName );
+    BOOST_ASSERT( gotId );
     mBorders = borderC->GetBorders();
     for ( IBorderComponent::Borders_t::iterator i = mBorders.begin(), e = mBorders.end(); i != e; ++i )
     {

@@ -26,6 +26,7 @@ Actor::Actor( int32_t Id )
 
 Actor::Actor()
     : ComponentHolder()
+    , mGUID( -1 )
     , mId( -1 )
 {
 
