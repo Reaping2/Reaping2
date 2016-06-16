@@ -90,7 +90,7 @@
                     "children":[
                         {
                             "type":"text_widget","x":0.0,"y":0.93,
-                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,    "enabled":0,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Name","fontsize":3
                         },
                         {
@@ -177,7 +177,7 @@
                     "children":[
                         {
                             "type":"text_widget","x":0.0,"y":0.93,
-                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,    "enabled":0,
+                            "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Name","fontsize":3
                         },
                         {

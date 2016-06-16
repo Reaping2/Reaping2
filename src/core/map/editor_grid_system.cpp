@@ -3,6 +3,7 @@
 #include "engine/engine.h"
 #include "editor_target_system.h"
 #include "ui/ui.h"
+#include <boost/assign/std/vector.hpp>
 
 namespace map {
 
@@ -18,8 +19,12 @@ void EditorGridSystem::Init()
 {
     ModelValue& editorModel = const_cast<ModelValue&>( RootModel::Get()["editor"] );
     mEditorModels.push_back( new ModelValue( StringFunc( this, &EditorGridSystem::GridChanged ), "grid", &editorModel ) );
+    ModelValue& gridModel = mEditorModels.back();
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_string_vec_t) boost::bind( &EditorGridSystem::GridStyles, this ), "styles", &gridModel ) );
     mOnWorldMouseMove = EventServer< ::WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &EditorGridSystem::OnWorldMouseMoveEvent, this, _1 ) );
     mGridId = AutoId( "matrix" );
+    using namespace boost::assign;
+    mGridStyles += "matrix","absolute";
 }
 
 
@@ -54,7 +59,10 @@ void EditorGridSystem::OnWorldMouseMoveEvent( ::WorldMouseMoveEvent const& Evt )
     GetGrid().SetMousePosition( Evt.Pos.x, Evt.Pos.y );
 }
 
-
+std::vector<std::string> EditorGridSystem::GridStyles()
+{
+    return mGridStyles;
+}
 
 } // namespace map
 

@@ -14,8 +14,8 @@
             "children":[
                 {
                     "type":"grid",
-                    "source":"%editor.brush.style",
-                    "startid":"#brushidx",
+                    "startid":"#spawnptidx",
+                    "source":"%editor.target.spawnpoints",
                     "direction":"horizontal",
                     "color":"0xffffff",
                     "x":0.0,
@@ -32,25 +32,23 @@
                             "type":"button",
                             "x":0.15,
                             "y":0.1,
-                            "w":0.2,
+                            "w":0.1,
                             "h":0.8,
                             "visible":1,
                             "enabled":1,
-                            "color":"0x22222277",
+                            "color":"%editor.target.teamcolor#spawnptidx",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["editor.brush","%editor.brush.style#brushidx"]],
+                            "action":[["editor.spawntarget","#spawnptidx"]],
                             "children":[
                                 {
-                                    "type":"text_widget",
+                                    "type":"image",
                                     "x":0.02,
                                     "y":0.02,
                                     "w":0.96,
                                     "h":0.96,
-                                    "color":"0xaa0000",
                                     "visible":1,
                                     "enabled":0,
-                                    "text":"%editor.brush.style#brushidx",
-                                    "fontsize":4
+                                    "actor_visual":"%editor.target.spawnpoints#spawnptidx"
                                 }
                             ]
                         }
@@ -59,5 +57,5 @@
             ]
         }
     ]
-},
+}
 
