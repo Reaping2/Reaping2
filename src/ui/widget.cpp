@@ -234,7 +234,7 @@ void Widget::ParseColor( PropertyType Property, Json::Value& Color, int32_t Defa
     }
     else
     {
-        ParseIntProp( PT_Color, Color, Default);
+        ParseIntProp( Property, Color, Default);
     }
 }
 
