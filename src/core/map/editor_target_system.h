@@ -41,6 +41,7 @@ private:
     std::vector<int32_t> mSpawnpointVisualIds;
     std::vector<int32_t> mSpawnpointVisualBackground;
     std::vector<int32_t> mSpawnpointActorIds;
+    std::map<std::string,std::vector<int32_t>> mTargetActorIdsMap;
     std::vector<int32_t> Guns();
     std::vector<int32_t> Buffs();
     std::vector<int32_t> Items();

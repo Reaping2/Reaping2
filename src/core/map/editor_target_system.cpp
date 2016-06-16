@@ -68,6 +68,12 @@ void EditorTargetSystem::Init()
                                     0x0000aa77,
                                     0x0000aa77;
 
+    mTargetActorIdsMap["spawnpoint"] = mSpawnpointActorIds;
+    mTargetActorIdsMap["mapitem"] = mMapitemActorIds;
+    mTargetActorIdsMap["gun"] = mGunActorIds;
+    mTargetActorIdsMap["buff"] = mBuffActorIds;
+    mTargetActorIdsMap["item"] = mItemActorIds;
+
 }
 
 void EditorTargetSystem::Update( double DeltaTime )
@@ -90,30 +96,12 @@ void EditorTargetSystem::TargetChanged( std::string const& targetType, int32_t t
     {
         mScene.RemoveActor( mCursor->GetGUID() );
     }
-    if ( "spawnpoint" == targetType )
-    {
-        mTargetId = mSpawnpointActorIds[targetIdx];
-    }
-    else if ( "mapitem" == targetType )
-    {
-        mTargetId = mMapitemActorIds[targetIdx];
-    }
-    else if ( "gun" == targetType )
-    {
-        mTargetId = mGunActorIds[targetIdx];
-    }
-    else if ( "buff" == targetType )
-    {
-        mTargetId = mBuffActorIds[targetIdx];
-    }
-    else if ( "item" == targetType )
-    {
-        mTargetId = mItemActorIds[targetIdx];
-    }
-    else
+    auto it = mTargetActorIdsMap.find( targetType );
+    if ( it == mTargetActorIdsMap.end() )
     {
         return;
     }
+    mTargetId = it->second[targetIdx];
     std::auto_ptr<Actor> cursor( GetTarget().GetCursor() );
     Opt<IPositionComponent> positionC( cursor->Get<IPositionComponent>() );
     if ( positionC.IsValid() )
