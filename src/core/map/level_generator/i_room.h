@@ -5,6 +5,10 @@
 #include "room_desc.h"
 #include "../../scene.h"
 #include "i_level_generator.h"
+#include "../map_element_factory.h"
+#include "../map_element.h"
+#include "../soldier_spawn_point_map_element.h"
+#include "../map_system.h"
 
 namespace map {
 
@@ -23,6 +27,8 @@ protected:
     int32_t mId = -1;
     Scene& mScene;
     virtual void InsertNeighbour( ILevelGenerator& levelGenerator, int32_t x, int32_t y );
+    void PlaceSoldierSpawnPoint( RoomDesc &roomDesc, int32_t x, int32_t y );
+    void PlaceLevelEndPoint( RoomDesc &roomDesc, int32_t x, int32_t y );
 };
 
 } // namespace map

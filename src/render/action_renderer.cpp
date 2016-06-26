@@ -1,5 +1,6 @@
 #include "render/action_renderer.h"
 #include "engine/cloak_system.h"
+#include "core/i_renderable_component.h"
 namespace render {
 
 
@@ -63,6 +64,16 @@ glm::vec4 GetCloakColor( const Actor& actor )
         r = glm::vec4( 0.0 );
     }
     return r;
+}
+
+glm::vec4 GetColor( const Actor& actor )
+{
+    auto renderableC = actor.Get<IRenderableComponent>();
+    if (renderableC.IsValid())
+    {
+        return renderableC->GetColor();
+    }
+    return glm::vec4( 1.0 );
 }
 
 } // namespace render

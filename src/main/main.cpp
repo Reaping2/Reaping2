@@ -312,6 +312,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "respawn_actor_map_element_system" ) );
         Eng.AddSystem( AutoId( "soldier_auto_revive_map_element_system" ) );
         Eng.AddSystem( AutoId( "level_generator_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generated_map_element_system" ) );
     }
 
     Eng.AddSystem( AutoId( "soldier_properties_system" ) ); //must be before message_sender

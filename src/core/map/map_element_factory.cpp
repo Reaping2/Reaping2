@@ -12,6 +12,7 @@
 #include "respawn_actor_map_element.h"
 #include "soldier_auto_revive_map_element.h"
 #include "level_generator/level_generator_map_element.h"
+#include "level_generator/level_generated_map_element.h"
 
 using platform::AutoId;
 namespace map {
@@ -33,6 +34,7 @@ MapElementFactory::MapElementFactory()
     Bind( AutoId( "ctf_spawn_flags" ), &CreateMapElement<ctf::CtfSpawnFlagsMapElement> );
     Bind( AutoId( "soldier_auto_revive" ), &CreateMapElement<SoldierAutoReviveMapElement> );
     Bind( AutoId( "level_generator" ), &CreateMapElement<LevelGeneratorMapElement> );
+    Bind( AutoId( "level_generated" ), &CreateMapElement<LevelGeneratedMapElement> );
 }
 
 } // namespace map

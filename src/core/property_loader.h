@@ -47,6 +47,8 @@ public:
     void Bind( std::string const& val, func_double func );
     typedef boost::function<void ( T*, bool )> func_bool;
     void Bind( std::string const& val, func_bool func );
+    typedef boost::function<void( T*, glm::vec4 const& )> func_color;
+    void Bind( std::string const& val, func_color func );
 
     virtual void Load( Json::Value& setters );
     virtual void BindValues() = 0;
@@ -127,6 +129,16 @@ void PropertyLoader<T, BASE>::Bind( std::string const& val, func_bool func )
     if( Json::GetInt( ( *mSetters )[val], iv ) )
     {
         Bind<bool>( func, ( iv != 0 ) );
+    }
+}
+
+template<typename T, typename BASE>
+void PropertyLoader<T, BASE>::Bind( std::string const& val, func_color func )
+{
+    glm::vec4 v4v;
+    if (Json::GetColor( (*mSetters)[val], v4v ))
+    {
+        Bind<glm::vec4>( func, v4v );
     }
 }
 

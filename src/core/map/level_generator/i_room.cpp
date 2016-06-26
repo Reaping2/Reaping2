@@ -1,4 +1,6 @@
 #include "i_room.h"
+#include "..\..\i_position_component.h"
+#include "..\..\actor_factory.h"
 
 namespace map {
 
@@ -99,6 +101,25 @@ void IRoom::InsertNeighbour( ILevelGenerator& levelGenerator, int32_t x, int32_t
         return;
     }
     levelGenerator.mFreeNodes.push_back( glm::vec2(x, y) );
+}
+
+void IRoom::PlaceSoldierSpawnPoint( RoomDesc &roomDesc, int32_t x, int32_t y )
+{
+    std::auto_ptr<MapElement> mapElement( MapElementFactory::Get()(AutoId( "soldier_spawn_point" )) );
+    Opt<SoldierSpawnPointMapElement> ctfSoldierSpawn( static_cast<SoldierSpawnPointMapElement*>(mapElement.get()) );
+    ctfSoldierSpawn->SetX( x );
+    ctfSoldierSpawn->SetY( y );
+    MapSystem::Get()->GetMapElementList().insert( Opt<MapElement>( mapElement.release() ) );
+}
+
+
+void IRoom::PlaceLevelEndPoint( RoomDesc &roomDesc, int32_t x, int32_t y )
+{
+    auto endPoint = ActorFactory::Get()( AutoId( "platform" ) );
+    Opt<IPositionComponent> positionC = endPoint->Get<IPositionComponent>();
+    positionC->SetX( x );
+    positionC->SetY( y );
+    mScene.AddActor( endPoint.release() );
 }
 
 } // namespace map

@@ -22,7 +22,7 @@ void Logger::Log( int Level, char const* format, ... )
     va_start ( arg, format );
     done = vfprintf ( mLogFile.mFile, format, arg );
     //Temporary it might cause crash still investigating
-    //if(Level==1) done = vfprintf ( stderr, format, arg );
+    if(Level==1) done = vfprintf ( stderr, format, arg );
     fflush( mLogFile.mFile );
     va_end ( arg );
 }

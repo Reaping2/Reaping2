@@ -9,12 +9,13 @@
 
 namespace map {
 
+// a single cell describing the corresponding room
 struct GeneratorCell
 {
     RoomDesc mRoomDesc;
-    bool mFilled = false;
-    glm::vec2 mDescCoord = glm::vec2( -1, -1 );
-    glm::vec2 mRoomCoord = glm::vec2( -1, -1 );
+    bool mFilled = false; // filled if a room places something into this cell
+    glm::vec2 mDescCoord = glm::vec2( -1, -1 ); // relative position inside the room
+    glm::vec2 mRoomCoord = glm::vec2( -1, -1 ); // absolute position of the corresponding rooms bottom left
 };
 
 struct GeneratorRoomDesc
@@ -23,11 +24,10 @@ struct GeneratorRoomDesc
     glm::vec2 mRoomCoord = glm::vec2( -1, -1 );
 };
 
-struct PossibleRoom
+struct RoomNode
 {
-    int32_t mRoomId;
-    int32_t mPossibility;
-    PossibleRoom( int32_t roomId, int32_t possibility );
+    Opt<IRoom> mRoot;
+    std::vector<RoomNode> mNodes;
 };
 
 class ILevelGenerator
@@ -36,9 +36,9 @@ public:
     typedef std::vector<int32_t> PossibleRooms_t;
     PossibleRooms_t mPossibleRooms;
     typedef std::vector<std::vector<GeneratorCell>> CellMatrix_t;
-    CellMatrix_t mCells;
+    CellMatrix_t mCells; // all cells with the corresponding roomDesc
     typedef std::vector<GeneratorRoomDesc> RoomDescs_t;
-    RoomDescs_t mRoomDescs;
+    RoomDescs_t mRoomDescs; // all roomdesc in one vector, with coords to the rooms
     typedef std::deque<glm::vec2> Neighbours_t;
     Neighbours_t mFreeNodes;
     int32_t mCellSize = 1000;
@@ -50,6 +50,8 @@ public:
 protected:
     int32_t mId = -1;
     Scene& mScene;
+    int32_t mStartIndex = -1; // start rooms index at mRoomDescs
+    int32_t mEndIndex = -1; // end rooms index at mRoomDescs
     void AddPossibleRoom( int32_t roomId, int32_t possibility );
 };
 

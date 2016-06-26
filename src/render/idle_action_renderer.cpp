@@ -28,7 +28,7 @@ void IdleActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSp
     if( Spr.IsValid() )
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        glm::vec4 col = GetCloakColor( actor );
+        glm::vec4 col = GetCloakColor( actor ) * GetColor( actor );
         renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase, col ) );
     }
 }

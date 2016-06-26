@@ -7,6 +7,7 @@
 namespace map {
 
 class IRoom;
+// describes a room cell
 struct Cell 
 {
     enum Entrance
@@ -18,10 +19,12 @@ struct Cell
         Num_entrances
     };
     typedef std::set<Entrance> Entrances_t;
-    Entrances_t mEntrances;
-    bool mFilled = false;
+    Entrances_t mEntrances; // possible entrances to this cell
+    bool mFilled = false; // filled if the correspoinding RoomDesc places stg into this cell
 };
 
+// describes an n*n room.
+// can contain empty cells that could be filled later
 struct RoomDesc
 {
     enum Property
@@ -32,7 +35,7 @@ struct RoomDesc
         Num_Properties
     };
     typedef std::vector<std::vector<Cell>> CellMatrix_t;
-    typedef std::vector<Property> Properties_t;
+    typedef std::set<Property> Properties_t;
     RoomDesc();
     void SetCellCount( int32_t cellCount );
     int32_t GetCellCount() const;
@@ -43,6 +46,9 @@ struct RoomDesc
     void ClearAllCellEntrances();
     Opt<IRoom> GetRoom();
     void SetRoom( Opt<IRoom> room );
+
+    typedef std::vector<int32_t> PlacedActorGUIDs_t;
+    PlacedActorGUIDs_t mPlacedActorGUIDs; // for debug
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;

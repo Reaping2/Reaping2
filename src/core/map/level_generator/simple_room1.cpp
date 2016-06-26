@@ -32,8 +32,17 @@ void SimpleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
             Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
             positionC->SetX( i%cellCount*100.0 + x );
             positionC->SetY( i / cellCount*100.0 + y );
+            roomDesc.mPlacedActorGUIDs.push_back( wall->GetGUID() );
             mScene.AddActor( wall.release() );
         }
+    }
+    if (roomDesc.GetProperties().find( RoomDesc::Start ) != roomDesc.GetProperties().end())
+    {
+        PlaceSoldierSpawnPoint( roomDesc, x+200, y+200 );
+    }
+    if (roomDesc.GetProperties().find( RoomDesc::End ) != roomDesc.GetProperties().end())
+    {
+        PlaceLevelEndPoint( roomDesc, x + 400, y + 300 );
     }
 }
 

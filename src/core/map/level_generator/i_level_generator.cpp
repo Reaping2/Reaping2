@@ -31,12 +31,5 @@ void ILevelGenerator::AddPossibleRoom( int32_t roomId, int32_t possibility )
     }
 }
 
-PossibleRoom::PossibleRoom( int32_t roomId, int32_t possibility )
-    : mRoomId( roomId )
-    , mPossibility( possibility )
-{
-
-}
-
 } // namespace map
 
