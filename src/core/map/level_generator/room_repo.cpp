@@ -17,6 +17,15 @@ RoomRepo::RoomRepo()
     mElements.insert( id, new SimpleRoom1( id ) );
     id = AutoId( "vdouble_room1" ); mElements.insert( id, new VDoubleRoom1( id ) );
     id = AutoId( "hdouble_room1" ); mElements.insert( id, new HDoubleRoom1( id ) );
+    Init();
+}
+
+void RoomRepo::Init()
+{
+    for (auto& e : mElements)
+    {
+        e.second->Init();
+    }
 }
 
 DefaultRoom::DefaultRoom()

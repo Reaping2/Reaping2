@@ -24,8 +24,7 @@ public:
 private:
     ActorFactory& mActorFactory;
     RoomRepo& mRoomRepo;
-    typedef std::vector<int32_t> NeighbourRooms_t;
-    
+    GGraph mGraph;
     NeighbourRooms_t GetNeighbourRooms( int32_t roomIndex );
 };
 

@@ -12,10 +12,9 @@ namespace map {
 // a single cell describing the corresponding room
 struct GeneratorCell
 {
-    RoomDesc mRoomDesc;
+    int32_t mGeneratorRoomDescIndex = -1;
     bool mFilled = false; // filled if a room places something into this cell
     glm::vec2 mDescCoord = glm::vec2( -1, -1 ); // relative position inside the room
-    glm::vec2 mRoomCoord = glm::vec2( -1, -1 ); // absolute position of the corresponding rooms bottom left
 };
 
 struct GeneratorRoomDesc
@@ -23,11 +22,16 @@ struct GeneratorRoomDesc
     RoomDesc mRoomDesc;
     glm::vec2 mRoomCoord = glm::vec2( -1, -1 );
 };
-
-struct RoomNode
+typedef std::set<int32_t> NeighbourRooms_t; 
+struct GGraphNode
 {
-    Opt<IRoom> mRoot;
-    std::vector<RoomNode> mNodes;
+    int32_t mIndex;
+    NeighbourRooms_t mNodes;
+    GGraphNode( int32_t ind, NeighbourRooms_t const& nodes );
+};
+struct GGraph
+{
+    std::vector<GGraphNode> mNodes;
 };
 
 class ILevelGenerator
@@ -46,13 +50,17 @@ public:
     ILevelGenerator( int32_t Id );
     virtual ~ILevelGenerator();
     virtual void Generate() = 0;
-    bool IsInBounds( int32_t x, int32_t y ) const;
+    bool IsInBounds( glm::vec2 pos ) const;
+    bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
+    void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
 protected:
     int32_t mId = -1;
     Scene& mScene;
     int32_t mStartIndex = -1; // start rooms index at mRoomDescs
     int32_t mEndIndex = -1; // end rooms index at mRoomDescs
     void AddPossibleRoom( int32_t roomId, int32_t possibility );
+    GeneratorCell& GetCell( int32_t x, int32_t y );
+    GeneratorCell const& GetCell( int32_t x, int32_t y ) const;
 };
 
 } // namespace map

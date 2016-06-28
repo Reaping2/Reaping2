@@ -19,6 +19,7 @@ class RoomRepo : public platform::Repository<IRoom>, public platform::Singleton<
     friend class platform::Singleton<RoomRepo>;
     static DefaultRoom const mDefault;
     RoomRepo();
+    void Init();
 };
 
 } // namespace map

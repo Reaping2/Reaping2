@@ -16,65 +16,7 @@ IRoom::~IRoom()
 
 }
 
-bool IRoom::PlaceRoom( ILevelGenerator& levelGenerator, int32_t x, int32_t y )
-{
-    L1( "place room\n" );
-    for (int32_t ry = 0; ry < mRoomDesc.GetCellCount();++ry)
-    {
-        for (int32_t rx = 0; rx < mRoomDesc.GetCellCount(); ++rx)
-        {
-            if (mRoomDesc.GetCells()[ry][rx].mFilled)
-            {
-                if (!levelGenerator.IsInBounds( rx + x, ry + y ))
-                {
-                    L1( "%d,%d is out of bounds\n", rx + x, ry + y );
-                    return false; //cell is out of bounds
-                }
-                if (levelGenerator.mCells[ry + y][rx + x].mFilled)
-                {
-                    L1( "%d,%d is already filled %d\n", rx + x, ry + y, levelGenerator.mCells[ry + y][rx + x].mFilled );
-                    return false; //cell is already filled this room cant be placed
-                }
-            }
-        }
-    }
-
-    for (int32_t ry = 0; ry < mRoomDesc.GetCellCount(); ++ry)
-    {
-        for (int32_t rx = 0; rx < mRoomDesc.GetCellCount(); ++rx)
-        {
-            if (levelGenerator.IsInBounds(rx + x,ry + y))
-            {
-                auto& cell=levelGenerator.mCells[ry + y][rx + x];
-                cell.mDescCoord = glm::vec2( rx, ry );
-                cell.mRoomCoord = glm::vec2( x, y );
-                cell.mFilled = cell.mFilled||mRoomDesc.GetCells()[ry][rx].mFilled;
-                L1( "%d,%d is now filled %d\n", rx + x, ry + y, cell.mFilled );
-                cell.mRoomDesc = mRoomDesc;
-            }
-        }
-    }
-}
-
-
-void IRoom::InsertNeighbours( ILevelGenerator& levelGenerator, int32_t x, int32_t y )
-{
-    for (int32_t ry = 0; ry < mRoomDesc.GetCellCount(); ++ry)
-    {
-        for (int32_t rx = 0; rx < mRoomDesc.GetCellCount(); ++rx)
-        {
-            if (mRoomDesc.GetCells()[ry][rx].mFilled)
-            {
-                InsertNeighbour( levelGenerator, rx + x - 1, ry + y );
-                InsertNeighbour( levelGenerator, rx + x + 1, ry + y );
-                InsertNeighbour( levelGenerator, rx + x, ry + y - 1 );
-                InsertNeighbour( levelGenerator, rx + x, ry + y + 1 );
-            }
-        }
-    }
-}
-
-RoomDesc IRoom::GetRoomDesc()const
+RoomDesc const& IRoom::GetRoomDesc()const
 {
     return mRoomDesc;
 }
@@ -85,22 +27,47 @@ int32_t IRoom::GetId() const
     return mId;
 }
 
-void IRoom::InsertNeighbour( ILevelGenerator& levelGenerator, int32_t x, int32_t y )
+
+IRoom::Neighbours_t const& IRoom::GetNeighbours() const
 {
-    if (!levelGenerator.IsInBounds(x,y))
+    return mNeighbours;
+}
+
+
+void IRoom::Init()
+{
+
+    mRoomDesc.SetRoom( this );
+    for (int32_t ry = 0; ry < mRoomDesc.GetCellCount(); ++ry)
     {
-        return;
+        for (int32_t rx = 0; rx < mRoomDesc.GetCellCount(); ++rx)
+        {
+            if (mRoomDesc.GetCell(rx,ry).mFilled)
+            {
+
+                AddNeighbour( rx - 1, ry );
+                AddNeighbour( rx + 1, ry );
+                AddNeighbour( rx, ry - 1 );
+                AddNeighbour( rx, ry + 1 );
+            }
+        }
     }
-    if (levelGenerator.mCells[y][x].mFilled)
+}
+
+
+void IRoom::AddNeighbour( int32_t x, int32_t y )
+{
+    if (std::find( mNeighbours.begin(), mNeighbours.end(), glm::vec2( x, y ) ) == mNeighbours.end()
+        && (!IsInBounds(glm::vec2(x,y)) || !mRoomDesc.GetCell(x,y).mFilled))
     {
-        return;
+        mNeighbours.push_back( glm::vec2( x, y ) );
     }
-    L1( "%d,%d not filled %d\n", x, y, levelGenerator.mCells[y][x].mFilled );
-    if (std::find(levelGenerator.mFreeNodes.begin(),levelGenerator.mFreeNodes.end(),glm::vec2(x,y))!=levelGenerator.mFreeNodes.end())
-    {
-        return;
-    }
-    levelGenerator.mFreeNodes.push_back( glm::vec2(x, y) );
+
+}
+
+bool IRoom::IsInBounds( glm::vec2 pos ) const
+{
+    return pos.x >= 0 && pos.y >= 0 && pos.x < mRoomDesc.GetCellCount() && pos.y < mRoomDesc.GetCellCount();
 }
 
 void IRoom::PlaceSoldierSpawnPoint( RoomDesc &roomDesc, int32_t x, int32_t y )

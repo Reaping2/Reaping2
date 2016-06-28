@@ -18,17 +18,20 @@ public:
     IRoom( int32_t Id );
     virtual ~IRoom();
     virtual void Generate(RoomDesc& roomDesc, int32_t x, int32_t y)=0;
-    virtual bool PlaceRoom(ILevelGenerator& levelGenerator, int32_t x, int32_t y);
-    virtual void InsertNeighbours( ILevelGenerator& levelGenerator, int32_t x, int32_t y );
-    virtual RoomDesc GetRoomDesc()const;
+    virtual RoomDesc const& GetRoomDesc()const;
     int32_t GetId()const;
+    typedef std::vector<glm::vec2> Neighbours_t;
+    Neighbours_t const& GetNeighbours()const;
+    virtual void Init();
 protected:
+    Neighbours_t mNeighbours;
     RoomDesc mRoomDesc;
     int32_t mId = -1;
     Scene& mScene;
-    virtual void InsertNeighbour( ILevelGenerator& levelGenerator, int32_t x, int32_t y );
     void PlaceSoldierSpawnPoint( RoomDesc &roomDesc, int32_t x, int32_t y );
     void PlaceLevelEndPoint( RoomDesc &roomDesc, int32_t x, int32_t y );
+    void AddNeighbour( int32_t x, int32_t y );
+    bool IsInBounds( glm::vec2 pos ) const;
 };
 
 } // namespace map

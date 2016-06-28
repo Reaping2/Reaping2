@@ -42,7 +42,8 @@ struct RoomDesc
     void SetCellSize( int32_t cellSize );
     int32_t GetCellSize();
     Properties_t& GetProperties();
-    CellMatrix_t& GetCells();
+    Cell& GetCell( int32_t x, int32_t y );
+    Cell const& GetCell( int32_t x, int32_t y ) const;
     void ClearAllCellEntrances();
     Opt<IRoom> GetRoom();
     void SetRoom( Opt<IRoom> room );

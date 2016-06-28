@@ -38,11 +38,16 @@ map::RoomDesc::Properties_t& RoomDesc::GetProperties()
     return mProperties;
 }
 
-map::RoomDesc::CellMatrix_t& RoomDesc::GetCells()
+map::Cell& RoomDesc::GetCell( int32_t x, int32_t y )
 {
-    return mCells;
+    return mCells[y][x];
 }
 
+
+map::Cell const& RoomDesc::GetCell( int32_t x, int32_t y ) const
+{
+    return mCells[y][x];
+}
 
 void RoomDesc::ClearAllCellEntrances()
 {
