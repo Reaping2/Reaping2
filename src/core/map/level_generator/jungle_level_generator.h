@@ -25,7 +25,11 @@ private:
     ActorFactory& mActorFactory;
     RoomRepo& mRoomRepo;
     GGraph mGraph;
+    typedef std::stack<int32_t> Route_t;
+    Route_t mRoute;
     NeighbourRooms_t GetNeighbourRooms( int32_t roomIndex );
+    void CreateRoute();
+    void LinkRooms();
 };
 
 } // namespace map

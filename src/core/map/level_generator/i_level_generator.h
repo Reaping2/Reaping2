@@ -22,16 +22,18 @@ struct GeneratorRoomDesc
     RoomDesc mRoomDesc;
     glm::vec2 mRoomCoord = glm::vec2( -1, -1 );
 };
-typedef std::set<int32_t> NeighbourRooms_t; 
+typedef std::vector<int32_t> NeighbourRooms_t; 
 struct GGraphNode
 {
     int32_t mIndex;
-    NeighbourRooms_t mNodes;
+    NeighbourRooms_t mNeighbours;
     GGraphNode( int32_t ind, NeighbourRooms_t const& nodes );
+    void ShuffleNeighbours();
 };
 struct GGraph
 {
     std::vector<GGraphNode> mNodes;
+    void ShuffleNodeNeighbours();
 };
 
 class ILevelGenerator
@@ -53,6 +55,9 @@ public:
     bool IsInBounds( glm::vec2 pos ) const;
     bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
     void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
+    typedef std::pair<glm::vec2, glm::vec2> CellPair_t;
+    typedef std::vector<CellPair_t> CellPairs_t;
+    CellPairs_t GetCellPairs( int32_t roomA, int32_t roomB );
 protected:
     int32_t mId = -1;
     Scene& mScene;
@@ -61,6 +66,7 @@ protected:
     void AddPossibleRoom( int32_t roomId, int32_t possibility );
     GeneratorCell& GetCell( int32_t x, int32_t y );
     GeneratorCell const& GetCell( int32_t x, int32_t y ) const;
+    void AddCellPair( CellPairs_t& cellPairs, int32_t x, int32_t y, int32_t roomA, int32_t roomB );
 };
 
 } // namespace map

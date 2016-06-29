@@ -1,5 +1,6 @@
 #include "i_level_generator.h"
 #include "platform/auto_id.h"
+#include "random.h"
 
 using platform::AutoId;
 
@@ -42,6 +43,7 @@ map::GeneratorCell const& ILevelGenerator::GetCell( int32_t x, int32_t y ) const
 {
     return mCells[y][x];
 }
+
 
 bool ILevelGenerator::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
 {
@@ -95,11 +97,63 @@ void ILevelGenerator::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
 }
 
 
+ILevelGenerator::CellPairs_t ILevelGenerator::GetCellPairs( int32_t roomA, int32_t roomB )
+{
+    CellPairs_t r;
+    auto& roomDescA=mRoomDescs[roomA];
+
+    for (int32_t ry = 0; ry < roomDescA.mRoomDesc.GetCellCount(); ++ry)
+    {
+        for (int32_t rx = 0; rx < roomDescA.mRoomDesc.GetCellCount(); ++rx)
+        {
+            auto& vec = glm::vec2( rx + roomDescA.mRoomCoord.x, ry + roomDescA.mRoomCoord.y );
+            auto& cell = roomDescA.mRoomDesc.GetCell( rx, ry );
+            if (cell.mFilled)
+            {
+                AddCellPair( r, vec.x - 1, vec.y, roomA, roomB );
+                AddCellPair( r, vec.x + 1, vec.y, roomA, roomB );
+                AddCellPair( r, vec.x, vec.y - 1, roomA, roomB );
+                AddCellPair( r, vec.x, vec.y + 1, roomA, roomB );
+            }
+        }
+    }
+    return r;
+}
+
+void ILevelGenerator::AddCellPair( CellPairs_t& cellPairs, int32_t x, int32_t y, int32_t roomA, int32_t roomB )
+{
+    auto& roomDescA = mRoomDescs[roomA];
+    auto& roomDescB = mRoomDescs[roomB];
+    if (IsInBounds( glm::vec2(x,y) ) 
+        && GetCell( x, y ).mGeneratorRoomDescIndex == roomB)
+    {
+        cellPairs.push_back( 
+            CellPair_t(
+                glm::vec2( roomDescA.mRoomCoord.x, roomDescA.mRoomCoord.y ),
+                glm::vec2( roomDescB.mRoomCoord.x, roomDescB.mRoomCoord.y )));
+    }
+}
+
+
 GGraphNode::GGraphNode( int32_t ind, NeighbourRooms_t const& nodes )
     : mIndex(ind)
-    , mNodes(nodes)
+    , mNeighbours(nodes)
 {
 
+}
+
+
+void GGraphNode::ShuffleNeighbours()
+{
+    std::shuffle( mNeighbours.begin(), mNeighbours.end(), mRand );
+}
+
+void GGraph::ShuffleNodeNeighbours()
+{
+    for (auto& node : mNodes)
+    {
+        node.ShuffleNeighbours();
+    }
 }
 
 } // namespace map

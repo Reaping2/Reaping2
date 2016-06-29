@@ -5,6 +5,7 @@
 #include "level_generated_event.h"
 #include "platform/settings.h"
 #include <chrono>
+#include <stack>
 
 using platform::AutoId;
 
@@ -34,8 +35,8 @@ void JungleLevelGenerator::Generate()
     PlaceRooms();
     CreateStartAndEnd();
     GenerateGraph();
-
-
+    CreateRoute();
+    LinkRooms();
     GenerateTerrain();
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
 }
@@ -134,16 +135,87 @@ NeighbourRooms_t JungleLevelGenerator::GetNeighbourRooms( int32_t roomIndex )
         glm::vec2 pos = roomDesc.mRoomCoord + n;
         if (IsInBounds(pos))
         {
-            r.insert( GetCell( pos.x, pos.y ).mGeneratorRoomDescIndex );
+            int32_t roomIndex = GetCell( pos.x, pos.y ).mGeneratorRoomDescIndex;
+            if (std::find( r.begin(), r.end(), roomIndex ) == r.end())
+            {
+                r.push_back( roomIndex );
+            }
         }
     }
     return r;
 }
 
+
+void JungleLevelGenerator::CreateRoute()
+{
+    mGraph.ShuffleNodeNeighbours();
+    Route_t route;
+    mRoute.swap( route );
+    int32_t curr = mStartIndex;
+    mRoute.push( curr );
+    std::vector<int32_t> visit(mRoomDescs.size(), 0);
+    std::set<int32_t> visited;
+    int32_t minLength = 2;
+    int32_t endChance = 80;
+    int32_t chanceIncrease = 10;
+    bool endHit = false;
+    while (curr != -1 && !endHit)
+    {
+        while (visit[curr] < mGraph.mNodes[curr].mNeighbours.size()
+            &&visited.find(visit[curr])!=visited.end())
+        {
+            ++visit[curr];
+        }
+            
+        if (visit[curr] >= mGraph.mNodes[curr].mNeighbours.size())
+        {
+            visit[curr] = 0;
+            visited.erase( curr );
+            mRoute.pop();
+            curr=mRoute.empty()?-1:mRoute.top();
+        }
+        else
+        {
+            int32_t nextRoomIndex = mGraph.mNodes[curr].mNeighbours[visit[curr]];
+            visited.insert( nextRoomIndex );
+            curr = nextRoomIndex;
+            mRoute.push( curr );
+            if (mRoute.size() - minLength>0)
+            {
+                if (mRand() % (100) < endChance + mRoute.size() - minLength*chanceIncrease)
+                {
+                    endHit = true;
+                }
+            }
+        }
+    }
+    if (endHit)
+    {
+        mEndIndex = mRoute.top();
+        auto& endRoom = mRoomDescs.at( mEndIndex );
+        //TODO: check if it has a emd property
+        endRoom.mRoomDesc.GetProperties().clear();
+        endRoom.mRoomDesc.GetProperties().insert( RoomDesc::End );
+    }
+    else
+    {
+        BOOST_ASSERT( false ); // the longest route is too short
+    }
+}
+
+
+void JungleLevelGenerator::LinkRooms()
+{
+    int32_t roomA = mRoute.top();
+    mRoute.pop();
+    int32_t roomB = mRoute.top();
+    mRoute.pop();
+    auto cellPairs = GetCellPairs( roomA, roomB );
+}
+
 void JungleLevelGenerator::CreateStartAndEnd()
 {
     mStartIndex = mRand() % mRoomDescs.size();
-    mEndIndex = mRand() % mRoomDescs.size();
     while (mStartIndex == mEndIndex)
     {
         mEndIndex = mRand() % mRoomDescs.size();
@@ -152,10 +224,6 @@ void JungleLevelGenerator::CreateStartAndEnd()
     //TODO: check if it has a start property
     startRoom.mRoomDesc.GetProperties().clear();
     startRoom.mRoomDesc.GetProperties().insert( RoomDesc::Start );
-    auto& endRoom = mRoomDescs.at( mEndIndex );
-    //TODO: check if it has a emd property
-    endRoom.mRoomDesc.GetProperties().clear();
-    endRoom.mRoomDesc.GetProperties().insert( RoomDesc::End );
 }
 
 } // namespace map

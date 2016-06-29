@@ -54,7 +54,6 @@ void IRoom::Init()
     }
 }
 
-
 void IRoom::AddNeighbour( int32_t x, int32_t y )
 {
     if (std::find( mNeighbours.begin(), mNeighbours.end(), glm::vec2( x, y ) ) == mNeighbours.end()
