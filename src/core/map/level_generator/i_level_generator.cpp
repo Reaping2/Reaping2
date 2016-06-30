@@ -110,27 +110,22 @@ ILevelGenerator::CellPairs_t ILevelGenerator::GetCellPairs( int32_t roomA, int32
             auto& cell = roomDescA.mRoomDesc.GetCell( rx, ry );
             if (cell.mFilled)
             {
-                AddCellPair( r, vec.x - 1, vec.y, roomA, roomB );
-                AddCellPair( r, vec.x + 1, vec.y, roomA, roomB );
-                AddCellPair( r, vec.x, vec.y - 1, roomA, roomB );
-                AddCellPair( r, vec.x, vec.y + 1, roomA, roomB );
+                AddCellPair( r, vec, glm::vec2( vec.x - 1, vec.y ), roomB );
+                AddCellPair( r, vec, glm::vec2( vec.x + 1, vec.y ), roomB );
+                AddCellPair( r, vec, glm::vec2( vec.x, vec.y - 1 ), roomB );
+                AddCellPair( r, vec, glm::vec2( vec.x, vec.y + 1 ), roomB );
             }
         }
     }
     return r;
 }
 
-void ILevelGenerator::AddCellPair( CellPairs_t& cellPairs, int32_t x, int32_t y, int32_t roomA, int32_t roomB )
+void ILevelGenerator::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room )
 {
-    auto& roomDescA = mRoomDescs[roomA];
-    auto& roomDescB = mRoomDescs[roomB];
-    if (IsInBounds( glm::vec2(x,y) ) 
-        && GetCell( x, y ).mGeneratorRoomDescIndex == roomB)
+    if (IsInBounds( posB ) 
+        && GetCell( posB.x, posB.y ).mGeneratorRoomDescIndex == room)
     {
-        cellPairs.push_back( 
-            CellPair_t(
-                glm::vec2( roomDescA.mRoomCoord.x, roomDescA.mRoomCoord.y ),
-                glm::vec2( roomDescB.mRoomCoord.x, roomDescB.mRoomCoord.y )));
+        cellPairs.push_back(CellPair_t( posA, posB));
     }
 }
 

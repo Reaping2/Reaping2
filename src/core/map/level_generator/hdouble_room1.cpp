@@ -10,9 +10,9 @@ HDoubleRoom1::HDoubleRoom1( int32_t Id )
 {
     mRoomDesc.SetCellCount( 2 );
     mRoomDesc.SetCellSize( 1000 );
-    mRoomDesc.GetCell( 0, 0 ).mEntrances = { Cell::Top, Cell::Bottom, Cell::Left };
+    mRoomDesc.GetCell( 0, 0 ).mPossibleEntrances = { Cell::Top, Cell::Bottom, Cell::Left };
     mRoomDesc.GetCell( 0, 0 ).mFilled = true;
-    mRoomDesc.GetCell( 1, 0 ).mEntrances = { Cell::Top, Cell::Right, Cell::Bottom };
+    mRoomDesc.GetCell( 1, 0 ).mPossibleEntrances = { Cell::Top, Cell::Right, Cell::Bottom };
     mRoomDesc.GetCell( 1, 0 ).mFilled = true;
     mRoomDesc.GetProperties() = { RoomDesc::Start,RoomDesc::End };
     mRoomDesc.SetRoom( this );
@@ -25,11 +25,16 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
     int cellCount = mRoomDesc.GetCellSize() / 100;
     for (int i = 0; i < cellCount*cellCount*2; ++i)
     {
-        auto& entrances = roomDesc.GetCell(0,0).mEntrances;
-        if (i < cellCount*2 && entrances.find( Cell::Bottom ) == entrances.end()
-            || i >= (cellCount - 1)*cellCount*2 && entrances.find( Cell::Top ) == entrances.end()
-            || i%(cellCount*2) == 0 && entrances.find( Cell::Left ) == entrances.end()
-            || i%(cellCount*2) == cellCount*2 - 1 && entrances.find( Cell::Right ) == entrances.end())
+        auto& entrances00 = roomDesc.GetCell( 0, 0 ).mPossibleEntrances;
+        auto& entrances10 = roomDesc.GetCell( 1, 0 ).mPossibleEntrances;
+        if (i < cellCount * 2 
+                && (i<cellCount&&entrances00.find( Cell::Top ) == entrances00.end()
+                    || i>=cellCount&&entrances10.find( Cell::Top ) == entrances10.end())
+            || i >= (cellCount - 1)*cellCount * 2
+                && (i < (cellCount - 1)*cellCount * 2+cellCount &&entrances00.find( Cell::Bottom ) == entrances00.end()
+                    || i >= (cellCount - 1)*cellCount * 2 + cellCount&&entrances10.find( Cell::Bottom ) == entrances10.end())
+            || i%(cellCount*2) == 0 && entrances00.find( Cell::Left ) == entrances00.end()
+            || i%(cellCount*2) == cellCount*2 - 1 && entrances10.find( Cell::Right ) == entrances10.end())
         {
             wall = mActorFactory( AutoId( "wall_small" ) );
             Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();

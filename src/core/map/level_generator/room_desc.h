@@ -19,7 +19,7 @@ struct Cell
         Num_entrances
     };
     typedef std::set<Entrance> Entrances_t;
-    Entrances_t mEntrances; // possible entrances to this cell
+    Entrances_t mPossibleEntrances; // possible entrances to this cell
     bool mFilled = false; // filled if the correspoinding RoomDesc places stg into this cell
 };
 
@@ -53,7 +53,7 @@ struct RoomDesc
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;
-    Properties_t mProperties;
+    Properties_t mPossibleProperties;
     CellMatrix_t mCells;
     Opt<IRoom> mRoom;
 };

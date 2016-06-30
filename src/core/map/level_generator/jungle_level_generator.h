@@ -30,6 +30,7 @@ private:
     NeighbourRooms_t GetNeighbourRooms( int32_t roomIndex );
     void CreateRoute();
     void LinkRooms();
+    void InsertEntrance( glm::vec2 pos, Cell::Entrance entrance );
 };
 
 } // namespace map

@@ -17,7 +17,7 @@ JungleLevelGenerator::JungleLevelGenerator( int32_t Id )
     , mRoomRepo( RoomRepo::Get() )
 {
     mCellSize = 1000;
-    mCellCount = 3;
+    mCellCount = 5;
     mRand.seed( Settings::Get().GetUInt("generator.seed", unsigned(std::time(0))) );
     AddPossibleRoom( AutoId( "simple_room1" ), 3);
     AddPossibleRoom( AutoId( "vdouble_room1" ), 1);
@@ -155,7 +155,7 @@ void JungleLevelGenerator::CreateRoute()
     mRoute.push( curr );
     std::vector<int32_t> visit(mRoomDescs.size(), 0);
     std::set<int32_t> visited;
-    int32_t minLength = 2;
+    int32_t minLength = 5;
     int32_t endChance = 80;
     int32_t chanceIncrease = 10;
     bool endHit = false;
@@ -180,9 +180,9 @@ void JungleLevelGenerator::CreateRoute()
             visited.insert( nextRoomIndex );
             curr = nextRoomIndex;
             mRoute.push( curr );
-            if (mRoute.size() - minLength>0)
+            if ((int32_t)mRoute.size() - minLength>0)
             {
-                if (mRand() % (100) < endChance + mRoute.size() - minLength*chanceIncrease)
+                if (mRand() % (100) < endChance + ((int32_t)mRoute.size() - minLength)*chanceIncrease)
                 {
                     endHit = true;
                 }
@@ -206,11 +206,45 @@ void JungleLevelGenerator::CreateRoute()
 
 void JungleLevelGenerator::LinkRooms()
 {
-    int32_t roomA = mRoute.top();
-    mRoute.pop();
     int32_t roomB = mRoute.top();
     mRoute.pop();
-    auto cellPairs = GetCellPairs( roomA, roomB );
+    int32_t roomA = -1;
+    while (!mRoute.empty())
+    {
+        roomA = roomB;
+        roomB = mRoute.top();
+        mRoute.pop();
+        auto cellPairs = GetCellPairs( roomA, roomB );
+        auto& cellPair = cellPairs[mRand() % cellPairs.size()];
+        if (cellPair.first.x > cellPair.second.x)
+        {
+            InsertEntrance( cellPair.first, Cell::Left );
+            InsertEntrance( cellPair.second, Cell::Right );
+        }
+        else if (cellPair.first.y > cellPair.second.y)
+        {
+            InsertEntrance( cellPair.first, Cell::Top );
+            InsertEntrance( cellPair.second, Cell::Bottom );
+        }
+        else if (cellPair.first.x < cellPair.second.x)
+        {
+            InsertEntrance( cellPair.first, Cell::Right );
+            InsertEntrance( cellPair.second, Cell::Left );
+        }
+        else
+        {
+            InsertEntrance( cellPair.first, Cell::Bottom );
+            InsertEntrance( cellPair.second, Cell::Top );
+        }
+    }
+}
+
+void JungleLevelGenerator::InsertEntrance( glm::vec2 pos, Cell::Entrance entrance )
+{
+    auto& gCell=GetCell( pos.x, pos.y );
+    mRoomDescs[gCell.mGeneratorRoomDescIndex]
+        .mRoomDesc.GetCell( gCell.mDescCoord.x, gCell.mDescCoord.y )
+        .mPossibleEntrances.insert( entrance );
 }
 
 void JungleLevelGenerator::CreateStartAndEnd()

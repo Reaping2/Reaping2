@@ -66,7 +66,7 @@ protected:
     void AddPossibleRoom( int32_t roomId, int32_t possibility );
     GeneratorCell& GetCell( int32_t x, int32_t y );
     GeneratorCell const& GetCell( int32_t x, int32_t y ) const;
-    void AddCellPair( CellPairs_t& cellPairs, int32_t x, int32_t y, int32_t roomA, int32_t roomB );
+    void AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room );
 };
 
 } // namespace map

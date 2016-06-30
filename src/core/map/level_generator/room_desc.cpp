@@ -3,11 +3,13 @@
 
 namespace map {
 
-RoomDesc::RoomDesc()
-{
-}
 
-void RoomDesc::SetCellCount( int32_t cellCount )
+    RoomDesc::RoomDesc()
+    {
+
+    }
+
+    void RoomDesc::SetCellCount( int32_t cellCount )
 {
     mCellCount = cellCount;
     mCells.clear();
@@ -35,7 +37,7 @@ int32_t RoomDesc::GetCellSize()
 
 map::RoomDesc::Properties_t& RoomDesc::GetProperties()
 {
-    return mProperties;
+    return mPossibleProperties;
 }
 
 map::Cell& RoomDesc::GetCell( int32_t x, int32_t y )
@@ -55,7 +57,7 @@ void RoomDesc::ClearAllCellEntrances()
     {
         for (auto& cell : row)
         {
-            cell.mEntrances.clear();
+            cell.mPossibleEntrances.clear();
         }
     }
 }
