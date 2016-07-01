@@ -1,6 +1,7 @@
 #include "vdouble_room1.h"
 #include "core/i_position_component.h"
 #include "random.h"
+#include "room_repo.h"
 
 namespace map {
 
@@ -10,9 +11,9 @@ VDoubleRoom1::VDoubleRoom1( int32_t Id )
 {
     mRoomDesc.SetCellCount( 2 );
     mRoomDesc.SetCellSize( 1000 );
-    mRoomDesc.GetCell( 0, 0 ).mPossibleEntrances = { Cell::Right, Cell::Bottom, Cell::Left };
+    mRoomDesc.GetCell( 0, 0 ).mPossibleEntrances = { Cell::Right, Cell::Top, Cell::Left };
     mRoomDesc.GetCell( 0, 0 ).mFilled = true;
-    mRoomDesc.GetCell( 0, 1 ).mPossibleEntrances = { Cell::Top, Cell::Right, Cell::Left };
+    mRoomDesc.GetCell( 0, 1 ).mPossibleEntrances = { Cell::Bottom, Cell::Right, Cell::Left };
     mRoomDesc.GetCell( 0, 1 ).mFilled = true;
     mRoomDesc.GetProperties() = { RoomDesc::Start,RoomDesc::End };
     mRoomDesc.SetRoom( this );
@@ -22,29 +23,32 @@ void VDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
 {
     std::auto_ptr<Actor> wall;// = mActorFactory( AutoId( "wall" ) );
 
-    int cellCount = mRoomDesc.GetCellSize() / 100;
-    for (int i = 0; i < cellCount*cellCount*2; ++i)
     {
-        auto& entrances00 = roomDesc.GetCell(0,0).mPossibleEntrances;
-        auto& entrances01 = roomDesc.GetCell( 0, 1 ).mPossibleEntrances;
-        if (i < cellCount && entrances00.find( Cell::Top ) == entrances00.end()
-            || i >= (cellCount*2 - 1)*cellCount && entrances01.find( Cell::Bottom ) == entrances01.end()
-            || i%cellCount == 0 
-                && (i < cellCount*cellCount / 2 && entrances00.find( Cell::Left ) == entrances00.end()
-                    || i>=cellCount*cellCount / 2 && entrances01.find( Cell::Left ) == entrances01.end())
-            || i%cellCount == cellCount - 1
-                && (i < cellCount*cellCount / 2 && entrances00.find( Cell::Right ) == entrances00.end()
-                    || i >= cellCount*cellCount / 2 && entrances01.find( Cell::Right ) == entrances01.end()))
-
-        {
-            wall = mActorFactory( AutoId( "wall_small" ) );
-            Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
-            positionC->SetX( i%cellCount*100.0 + x );
-            positionC->SetY( i / cellCount*100.0 + y );
-            roomDesc.mPlacedActorGUIDs.push_back( wall->GetGUID() );
-            mScene.AddActor( wall.release() );
-        }
+        auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));
+        RoomDesc tempDesc;
+        tempDesc.SetCellCount( 1 );
+        tempDesc.SetCellSize( roomDesc.GetCellSize() );
+        tempDesc.GetCell( 0, 0 ).mPossibleEntrances = roomDesc.GetCell( 0, 0 ).mPossibleEntrances;
+        tempDesc.GetCell( 0, 0 ).mPossibleEntrances.insert( Cell::Top );
+        tempDesc.GetCell( 0, 0 ).mFilled = true;
+        tempDesc.GetProperties() = roomDesc.GetProperties();
+        tempDesc.SetRoom( this );
+        simpleRoom1.Generate( tempDesc, x, y );
     }
+    {
+        auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));
+        RoomDesc tempDesc;
+        tempDesc.SetCellCount( 1 );
+        tempDesc.SetCellSize( roomDesc.GetCellSize() );
+        tempDesc.GetCell( 0, 0 ).mPossibleEntrances = roomDesc.GetCell( 0, 1 ).mPossibleEntrances;
+        tempDesc.GetCell( 0, 0 ).mPossibleEntrances.insert( Cell::Bottom );
+        tempDesc.GetCell( 0, 0 ).mFilled = true;
+        tempDesc.GetProperties().clear();
+        tempDesc.SetRoom( this );
+        simpleRoom1.Generate( tempDesc, x, y + roomDesc.GetCellSize() );
+    }
+    int cellCount = mRoomDesc.GetCellSize() / 100;
+
     for (int i = 0; i < 10; ++i)
     {
         wall = mActorFactory( AutoId( "wall_small" ) );

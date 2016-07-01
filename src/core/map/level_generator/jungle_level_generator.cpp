@@ -148,31 +148,33 @@ NeighbourRooms_t JungleLevelGenerator::GetNeighbourRooms( int32_t roomIndex )
 
 void JungleLevelGenerator::CreateRoute()
 {
+    std::set<int32_t> visited;
     mGraph.ShuffleNodeNeighbours();
     Route_t route;
     mRoute.swap( route );
     int32_t curr = mStartIndex;
     mRoute.push( curr );
+    visited.insert( curr );
     std::vector<int32_t> visit(mRoomDescs.size(), 0);
-    std::set<int32_t> visited;
-    int32_t minLength = 5;
+    int32_t minLength = 15;
     int32_t endChance = 80;
     int32_t chanceIncrease = 10;
     bool endHit = false;
     while (curr != -1 && !endHit)
     {
         while (visit[curr] < mGraph.mNodes[curr].mNeighbours.size()
-            &&visited.find(visit[curr])!=visited.end())
+            &&visited.find( mGraph.mNodes[curr].mNeighbours[visit[curr]])!=visited.end())
         {
             ++visit[curr];
         }
             
-        if (visit[curr] >= mGraph.mNodes[curr].mNeighbours.size())
+        if(visit[curr] >= mGraph.mNodes[curr].mNeighbours.size())
         {
             visit[curr] = 0;
             visited.erase( curr );
             mRoute.pop();
             curr=mRoute.empty()?-1:mRoute.top();
+            ++visit[curr];
         }
         else
         {
@@ -223,8 +225,8 @@ void JungleLevelGenerator::LinkRooms()
         }
         else if (cellPair.first.y > cellPair.second.y)
         {
-            InsertEntrance( cellPair.first, Cell::Top );
-            InsertEntrance( cellPair.second, Cell::Bottom );
+            InsertEntrance( cellPair.first, Cell::Bottom );
+            InsertEntrance( cellPair.second, Cell::Top );
         }
         else if (cellPair.first.x < cellPair.second.x)
         {
@@ -233,8 +235,8 @@ void JungleLevelGenerator::LinkRooms()
         }
         else
         {
-            InsertEntrance( cellPair.first, Cell::Bottom );
-            InsertEntrance( cellPair.second, Cell::Top );
+            InsertEntrance( cellPair.first, Cell::Top );
+            InsertEntrance( cellPair.second, Cell::Bottom );
         }
     }
 }

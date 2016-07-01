@@ -23,8 +23,8 @@ void SimpleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
     for (int i = 0; i < cellCount*cellCount; ++i)
     {
         auto& entrances = roomDesc.GetCell(0,0).mPossibleEntrances;
-        if (i < cellCount && entrances.find( Cell::Top ) == entrances.end()
-            || i >= (cellCount - 1)*cellCount && entrances.find( Cell::Bottom ) == entrances.end()
+        if (i < cellCount && entrances.find( Cell::Bottom ) == entrances.end()
+            || i >= (cellCount - 1)*cellCount && entrances.find( Cell::Top ) == entrances.end()
             || i%cellCount == 0 && entrances.find( Cell::Left ) == entrances.end()
             || i%cellCount == cellCount - 1 && entrances.find( Cell::Right ) == entrances.end())
         {
