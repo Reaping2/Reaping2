@@ -28,12 +28,17 @@ struct GGraphNode
     int32_t mIndex;
     NeighbourRooms_t mNeighbours;
     GGraphNode( int32_t ind, NeighbourRooms_t const& nodes );
+    int32_t operator[]( int32_t neighbourIndex ) const;
+    int32_t Size() const;
     void ShuffleNeighbours();
 };
 struct GGraph
 {
     std::vector<GGraphNode> mNodes;
     void ShuffleNodeNeighbours();
+    GGraphNode const& operator[](int32_t nodeIndex) const;
+    void Clear();
+    void AddNode( GGraphNode const& node );
 };
 
 class ILevelGenerator

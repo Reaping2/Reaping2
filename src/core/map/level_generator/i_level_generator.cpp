@@ -138,6 +138,17 @@ GGraphNode::GGraphNode( int32_t ind, NeighbourRooms_t const& nodes )
 }
 
 
+int32_t GGraphNode::operator[]( int32_t neighbourIndex ) const
+{
+    return mNeighbours[neighbourIndex];
+}
+
+
+int32_t GGraphNode::Size() const
+{
+    return mNeighbours.size();
+}
+
 void GGraphNode::ShuffleNeighbours()
 {
     std::shuffle( mNeighbours.begin(), mNeighbours.end(), mRand );
@@ -149,6 +160,24 @@ void GGraph::ShuffleNodeNeighbours()
     {
         node.ShuffleNeighbours();
     }
+}
+
+
+map::GGraphNode const& GGraph::operator[]( int32_t nodeIndex ) const
+{
+    return mNodes[nodeIndex];
+}
+
+
+void GGraph::Clear()
+{
+    mNodes.clear();
+}
+
+
+void GGraph::AddNode( GGraphNode const& node )
+{
+    mNodes.push_back( node );
 }
 
 } // namespace map

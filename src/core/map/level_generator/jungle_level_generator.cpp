@@ -35,8 +35,42 @@ void JungleLevelGenerator::Generate()
     PlaceRooms();
     CreateStartAndEnd();
     GenerateGraph();
-    CreateRoute();
-    LinkRooms();
+
+    {
+        RouteProperties properties;
+        properties.minLength = 13;
+        properties.endChance = 30;
+        properties.chanceIncrease = 30;
+        auto route = CreateRoute( mStartIndex, properties );
+        LinkRooms( route );
+        mEndIndex = route.top();
+        auto& endRoom = mRoomDescs.at( mEndIndex );
+        //TODO: check if it has a end property
+        endRoom.mRoomDesc.GetProperties().clear();
+        endRoom.mRoomDesc.GetProperties().insert( RoomDesc::End );
+    }
+    int32_t index = 0;
+    std::shuffle( mVisited.begin(), mVisited.end(), mRand );
+    RouteProperties properties;
+    properties.minLength = 2;
+    properties.endChance = 60;
+    properties.chanceIncrease = 0;
+    while (index < mVisited.size())
+    {
+        auto route = CreateRoute( mVisited[index], properties );
+        if (route.size()==1)
+        {
+            ++index;
+        }
+        else
+        {
+            LinkRooms( route );
+            index = 0;
+            std::shuffle( mVisited.begin(), mVisited.end(), mRand );
+        }
+       
+    }
+
     GenerateTerrain();
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
 }
@@ -117,11 +151,11 @@ void JungleLevelGenerator::LogNodes( std::string log )
 
 void JungleLevelGenerator::GenerateGraph()
 {
-    mGraph.mNodes.clear();
+    mGraph.Clear();
     for (int i = 0; i < mRoomDescs.size(); ++i)
     {
         auto& neighbourRooms = GetNeighbourRooms( i );
-        mGraph.mNodes.push_back( GGraphNode( i, GetNeighbourRooms( i ) ) );
+        mGraph.AddNode( GGraphNode( i, GetNeighbourRooms( i ) ) );
     }
 }
 
@@ -146,76 +180,91 @@ NeighbourRooms_t JungleLevelGenerator::GetNeighbourRooms( int32_t roomIndex )
 }
 
 
-void JungleLevelGenerator::CreateRoute()
+JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startIndex, RouteProperties const& properties )
 {
-    std::set<int32_t> visited;
     mGraph.ShuffleNodeNeighbours();
     Route_t route;
-    mRoute.swap( route );
-    int32_t curr = mStartIndex;
-    mRoute.push( curr );
-    visited.insert( curr );
-    std::vector<int32_t> visit(mRoomDescs.size(), 0);
-    int32_t minLength = 15;
-    int32_t endChance = 80;
-    int32_t chanceIncrease = 10;
+    int32_t curr = startIndex;
+    route.push( curr );
+    Route_t longestRoute;
+    Visited_t longestVisited;
+    if (std::find( mVisited.begin(), mVisited.end(), curr ) == mVisited.end())
+    {
+        mVisited.push_back( curr );
+    }
+    std::vector<int32_t> nextNeigh(mRoomDescs.size(), 0);
     bool endHit = false;
     while (curr != -1 && !endHit)
     {
-        while (visit[curr] < mGraph.mNodes[curr].mNeighbours.size()
-            &&visited.find( mGraph.mNodes[curr].mNeighbours[visit[curr]])!=visited.end())
+        while (nextNeigh[curr] < mGraph[curr].Size()
+            &&std::find(mVisited.begin(),mVisited.end(),
+                mGraph[curr][nextNeigh[curr]]) != mVisited.end()
+)
         {
-            ++visit[curr];
+            ++nextNeigh[curr];
         }
             
-        if(visit[curr] >= mGraph.mNodes[curr].mNeighbours.size())
+        if(nextNeigh[curr] >= mGraph[curr].Size())
         {
-            visit[curr] = 0;
-            visited.erase( curr );
-            mRoute.pop();
-            curr=mRoute.empty()?-1:mRoute.top();
-            ++visit[curr];
+            if (properties.minLength == 0)
+            {
+                endHit = true;
+            }
+            else
+            {
+                nextNeigh[curr] = 0;
+                if (longestRoute.size() < route.size())
+                {
+                    longestRoute = route;
+                    longestVisited = mVisited;
+                }
+                mVisited.erase( std::find( mVisited.begin(), mVisited.end(), curr ) );
+                route.pop();
+                if (route.empty())
+                {
+                    curr = -1;
+                }
+                else
+                {
+                    curr = route.top();
+                    ++nextNeigh[curr];
+                }
+            }
         }
         else
         {
-            int32_t nextRoomIndex = mGraph.mNodes[curr].mNeighbours[visit[curr]];
-            visited.insert( nextRoomIndex );
+            int32_t nextRoomIndex = mGraph[curr][nextNeigh[curr]];
+            mVisited.push_back( nextRoomIndex );
             curr = nextRoomIndex;
-            mRoute.push( curr );
-            if ((int32_t)mRoute.size() - minLength>0)
+            route.push( curr );
+            if ((int32_t)route.size() - properties.minLength>0)
             {
-                if (mRand() % (100) < endChance + ((int32_t)mRoute.size() - minLength)*chanceIncrease)
+                if (mRand() % (100) < properties.endChance + ((int32_t)route.size() - properties.minLength)*properties.chanceIncrease)
                 {
                     endHit = true;
                 }
             }
         }
     }
-    if (endHit)
+    if (route.empty())
     {
-        mEndIndex = mRoute.top();
-        auto& endRoom = mRoomDescs.at( mEndIndex );
-        //TODO: check if it has a emd property
-        endRoom.mRoomDesc.GetProperties().clear();
-        endRoom.mRoomDesc.GetProperties().insert( RoomDesc::End );
+        std::swap( mVisited,longestVisited );
+        std::swap( longestRoute, route );
     }
-    else
-    {
-        BOOST_ASSERT( false ); // the longest route is too short
-    }
+    return route;
 }
 
 
-void JungleLevelGenerator::LinkRooms()
+void JungleLevelGenerator::LinkRooms( Route_t route )
 {
-    int32_t roomB = mRoute.top();
-    mRoute.pop();
+    int32_t roomB = route.top();
+    route.pop();
     int32_t roomA = -1;
-    while (!mRoute.empty())
+    while (!route.empty())
     {
         roomA = roomB;
-        roomB = mRoute.top();
-        mRoute.pop();
+        roomB = route.top();
+        route.pop();
         auto cellPairs = GetCellPairs( roomA, roomB );
         auto& cellPair = cellPairs[mRand() % cellPairs.size()];
         if (cellPair.first.x > cellPair.second.x)
