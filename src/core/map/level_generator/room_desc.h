@@ -21,6 +21,8 @@ struct Cell
     typedef std::set<Entrance> Entrances_t;
     Entrances_t mPossibleEntrances; // possible entrances to this cell
     bool mFilled = false; // filled if the correspoinding RoomDesc places stg into this cell
+    glm::vec2 mDescCoord = glm::vec2( -1, -1 ); // relative position inside the room
+    
 };
 
 // describes an n*n room.
@@ -42,8 +44,13 @@ struct RoomDesc
     void SetCellSize( int32_t cellSize );
     int32_t GetCellSize();
     Properties_t& GetProperties();
+    Properties_t const& GetProperties() const;
+    void ClearProperties();
+    void AddProperty( Property prop );
+    void AddCellEntrance( glm::vec2 pos, Cell::Entrance entrance );
     Cell& GetCell( int32_t x, int32_t y );
     Cell const& GetCell( int32_t x, int32_t y ) const;
+    bool IsFilled( int32_t x, int32_t y ) const;
     void ClearAllCellEntrances();
     Opt<IRoom> GetRoom();
     void SetRoom( Opt<IRoom> room );

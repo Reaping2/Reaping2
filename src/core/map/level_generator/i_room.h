@@ -4,7 +4,6 @@
 #include "platform/i_platform.h"
 #include "room_desc.h"
 #include "../../scene.h"
-#include "i_level_generator.h"
 #include "../map_element_factory.h"
 #include "../map_element.h"
 #include "../soldier_spawn_point_map_element.h"
