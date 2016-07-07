@@ -2,6 +2,7 @@
 #include "core/i_position_component.h"
 #include "random.h"
 #include "room_repo.h"
+#include "platform/settings.h"
 
 namespace map {
 
@@ -10,7 +11,7 @@ HDoubleRoom1::HDoubleRoom1( int32_t Id )
     , mActorFactory( ActorFactory::Get() )
 {
     mRoomDesc.SetCellCount( 2 );
-    mRoomDesc.SetCellSize( 1000 );
+    mRoomDesc.SetCellSize( Settings::Get().GetInt( "generator.cell_size", 1000 ) );
     mRoomDesc.GetCell( 0, 0 ).mPossibleEntrances = { Cell::Top, Cell::Bottom, Cell::Left };
     mRoomDesc.GetCell( 0, 0 ).mFilled = true;
     mRoomDesc.GetCell( 1, 0 ).mPossibleEntrances = { Cell::Top, Cell::Right, Cell::Bottom };
@@ -48,22 +49,25 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
     }
 
     int cellCount = mRoomDesc.GetCellSize() / 100;
-    for (int i = 0; i < 10; ++i)
+    if (cellCount > 3)
     {
-        wall = mActorFactory( AutoId( "wall_small" ) );
-        Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
-        positionC->SetX( (mRand() % (cellCount*2 - 2) + 1)*100.0 + x );
-        positionC->SetY( (mRand() % (cellCount - 2) + 1)*100.0 + y );
-        roomDesc.mPlacedActorGUIDs.push_back( wall->GetGUID() );
-        mScene.AddActor( wall.release() );
+        for (int i = 0; i < mRand() % cellCount; ++i)
+        {
+            wall = mActorFactory( AutoId( "wall_small" ) );
+            Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
+            positionC->SetX( (mRand() % (cellCount * 2 - 4) + 2)*100.0 + x );
+            positionC->SetY( (mRand() % (cellCount - 4) + 2)*100.0 + y );
+            roomDesc.mPlacedActorGUIDs.push_back( wall->GetGUID() );
+            mScene.AddActor( wall.release() );
+        }
     }
     if (roomDesc.GetProperties().find( RoomDesc::Start ) != roomDesc.GetProperties().end())
     {
-        PlaceSoldierSpawnPoint( roomDesc, x + 200, y + 200 );
+        PlaceSoldierSpawnPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }
     if (roomDesc.GetProperties().find( RoomDesc::End ) != roomDesc.GetProperties().end())
     {
-        PlaceLevelEndPoint( roomDesc, x + 400, y + 300 );
+        PlaceLevelEndPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }
 }
 

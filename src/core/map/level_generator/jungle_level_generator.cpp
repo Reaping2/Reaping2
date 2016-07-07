@@ -16,9 +16,6 @@ JungleLevelGenerator::JungleLevelGenerator( int32_t Id )
     , mActorFactory( ActorFactory::Get() )
     , mRoomRepo( RoomRepo::Get() )
 {
-    mCellSize = 1000;
-    mCellCount = 5;
-    mRand.seed( Settings::Get().GetUInt("generator.seed", unsigned(std::time(0))) );
     AddPossibleRoom( AutoId( "simple_room1" ), 3);
     AddPossibleRoom( AutoId( "vdouble_room1" ), 1);
     AddPossibleRoom( AutoId( "hdouble_room1" ), 1 );
@@ -26,39 +23,35 @@ JungleLevelGenerator::JungleLevelGenerator( int32_t Id )
 
 void JungleLevelGenerator::Generate()
 {
-    mCells.resize( mCellCount );
-    for (auto& row : mCells)
+    mGCells.resize( mCellCount );
+    for (auto& row : mGCells)
     {
         row.resize( mCellCount );
     }
-    mFreeNodes.push_back( glm::vec2(0,0) );
-    PlaceRooms();
-    CreateStartAndEnd();
+    PlaceRooms( glm::vec2( 0, 0 ) );
+    CreateStart();
     GenerateGraph();
 
-    {
-        RouteProperties properties;
-        properties.minLength = 13;
-        properties.endChance = 30;
-        properties.chanceIncrease = 30;
-        auto route = CreateRoute( mStartIndex, properties );
-        LinkRooms( route );
-        mEndIndex = route.top();
-        auto& endRoom = mRoomDescs.at( mEndIndex );
-        //TODO: check if it has a end property
-        endRoom.mRoomDesc.GetProperties().clear();
-        endRoom.mRoomDesc.GetProperties().insert( RoomDesc::End );
-    }
+    CreateMainRoute();
+    CreateSideRoutes();
+
+    GenerateTerrain();
+    EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
+}
+
+
+void JungleLevelGenerator::CreateSideRoutes()
+{
     int32_t index = 0;
     std::shuffle( mVisited.begin(), mVisited.end(), mRand );
     RouteProperties properties;
-    properties.minLength = 2;
-    properties.endChance = 60;
-    properties.chanceIncrease = 0;
+    properties.minLength = Settings::Get().GetInt( "generator.side_route.min_length", 2 );;
+    properties.endChance = Settings::Get().GetInt( "generator.side_route.end_chance", 30 );;
+    properties.chanceIncrease = Settings::Get().GetInt( "generator.side_route.chance_increase", 0 );;
     while (index < mVisited.size())
     {
         auto route = CreateRoute( mVisited[index], properties );
-        if (route.size()==1)
+        if (route.size() == 1)
         {
             ++index;
         }
@@ -68,48 +61,61 @@ void JungleLevelGenerator::Generate()
             index = 0;
             std::shuffle( mVisited.begin(), mVisited.end(), mRand );
         }
-       
-    }
 
-    GenerateTerrain();
-    EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
+    }
 }
 
+void JungleLevelGenerator::CreateMainRoute()
+{
+    RouteProperties properties;
+    properties.minLength = Settings::Get().GetInt( "generator.route.min_length", 13 );
+    properties.endChance = Settings::Get().GetInt( "generator.route.end_chance", 30 );
+    properties.chanceIncrease = Settings::Get().GetInt( "generator.route.chance_increase", 30 );
+    auto route = CreateRoute( mStartIndex, properties );
+    LinkRooms( route );
+    mEndIndex = route.top();
+    auto& endRoom = mGRoomDescs.at( mEndIndex );
+    //TODO: check if it has a end property
+    endRoom.mRoomDesc.GetProperties().clear();
+    endRoom.mRoomDesc.GetProperties().insert( RoomDesc::End );
+}
 
 void JungleLevelGenerator::GenerateTerrain()
 {
-    for (auto& roomDesc : mRoomDescs)
+    for (auto& roomDesc : mGRoomDescs)
     {
         roomDesc.mRoomDesc.GetRoom()->Generate(
             roomDesc.mRoomDesc
-            , roomDesc.mRoomCoord.x*mCellSize - 2500
-            , roomDesc.mRoomCoord.y*mCellSize - 2500 );
+            , roomDesc.mRoomCoord.x*mCellSize - 2400
+            , roomDesc.mRoomCoord.y*mCellSize - 2400 );
     }
 }
 
-void JungleLevelGenerator::PlaceRooms()
+void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )
 {
-    while (!mFreeNodes.empty())
+    FreeNodes_t freeNodes;
+    freeNodes.push_back( startPos );
+    while (!freeNodes.empty())
     {
-        glm::vec2 vec = mFreeNodes.front();
+        glm::vec2 vec = freeNodes.front();
         if (GetCell( vec.x, vec.y ).mFilled)
         {
-            LogNodes( "filled so pre_pop" ); mFreeNodes.pop_front(); LogNodes( "filled so post_pop" );
+            LogNodes( "filled so pre_pop", freeNodes ); freeNodes.pop_front(); LogNodes( "filled so post_pop", freeNodes );
             continue;
         }
         Opt<IRoom> placedRoom = PlaceARoom( vec );
         if (placedRoom.IsValid())
         {
-            LogNodes( "pre_pop" ); mFreeNodes.pop_front(); LogNodes( "post_pop" );
+            LogNodes( "pre_pop", freeNodes ); freeNodes.pop_front(); LogNodes( "post_pop", freeNodes );
             auto& neighbours = placedRoom->GetNeighbours();
             for (auto& nVec : neighbours)
             {
                 auto v=nVec + vec;
                 if (IsInBounds( v )
                     &&!GetCell( v.x, v.y ).mFilled
-                    &&std::find(mFreeNodes.begin(),mFreeNodes.end(),v)==mFreeNodes.end())
+                    &&std::find(freeNodes.begin(),freeNodes.end(),v)==freeNodes.end())
                 {
-                    mFreeNodes.push_back( v );
+                    freeNodes.push_back( v );
                 }
             }
         }
@@ -120,7 +126,7 @@ void JungleLevelGenerator::PlaceRooms()
     }
 }
 
-Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 &vec )
+Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 const& vec )
 {
     Opt<IRoom> r;
     std::shuffle( mPossibleRooms.begin(), mPossibleRooms.end(), mRand );
@@ -128,7 +134,7 @@ Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 &vec )
     for (auto& roomId:mPossibleRooms)
     {
         auto& room = mRoomRepo( roomId );
-        if (CanPlaceRoom(room.GetRoomDesc(),vec ))
+        if (CanPlaceRoom( room.GetRoomDesc(),vec ))
         {
             PlaceRoom( room.GetRoomDesc(), vec );
             r = &room;
@@ -138,21 +144,21 @@ Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 &vec )
     return r;
 }
 
-void JungleLevelGenerator::LogNodes( std::string log )
+void JungleLevelGenerator::LogNodes( std::string log, FreeNodes_t const& nodes )
 {
-    L1( "%d %s\n", mFreeNodes.size(), log.c_str() );
-    for (auto& fn : mFreeNodes)
+    L2( "%d %s\n", nodes.size(), log.c_str() );
+    for (auto& fn : nodes)
     {
-        L1( "(%f,%f)", fn.x, fn.y );
+        L2( "(%f,%f)", fn.x, fn.y );
     }
-    L1( "\n" );
+    L2( "\n" );
 }
 
 
 void JungleLevelGenerator::GenerateGraph()
 {
     mGraph.Clear();
-    for (int i = 0; i < mRoomDescs.size(); ++i)
+    for (int i = 0; i < mGRoomDescs.size(); ++i)
     {
         auto& neighbourRooms = GetNeighbourRooms( i );
         mGraph.AddNode( GGraphNode( i, GetNeighbourRooms( i ) ) );
@@ -163,13 +169,13 @@ void JungleLevelGenerator::GenerateGraph()
 NeighbourRooms_t JungleLevelGenerator::GetNeighbourRooms( int32_t roomIndex )
 {
     NeighbourRooms_t r;
-    auto& roomDesc = mRoomDescs[roomIndex];
+    auto& roomDesc = mGRoomDescs[roomIndex];
     for (auto& n : roomDesc.mRoomDesc.GetRoom()->GetNeighbours())
     {
         glm::vec2 pos = roomDesc.mRoomCoord + n;
         if (IsInBounds(pos))
         {
-            int32_t roomIndex = GetCell( pos.x, pos.y ).mGeneratorRoomDescIndex;
+            int32_t roomIndex = GetCell( pos.x, pos.y ).mGRoomDescIndex;
             if (std::find( r.begin(), r.end(), roomIndex ) == r.end())
             {
                 r.push_back( roomIndex );
@@ -192,14 +198,13 @@ JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startIn
     {
         mVisited.push_back( curr );
     }
-    std::vector<int32_t> nextNeigh(mRoomDescs.size(), 0);
+    std::vector<int32_t> nextNeigh(mGRoomDescs.size(), 0);
     bool endHit = false;
     while (curr != -1 && !endHit)
     {
         while (nextNeigh[curr] < mGraph[curr].Size()
             &&std::find(mVisited.begin(),mVisited.end(),
-                mGraph[curr][nextNeigh[curr]]) != mVisited.end()
-)
+                mGraph[curr][nextNeigh[curr]]) != mVisited.end())
         {
             ++nextNeigh[curr];
         }
@@ -293,19 +298,19 @@ void JungleLevelGenerator::LinkRooms( Route_t route )
 void JungleLevelGenerator::InsertEntrance( glm::vec2 pos, Cell::Entrance entrance )
 {
     auto& gCell=GetCell( pos.x, pos.y );
-    mRoomDescs[gCell.mGeneratorRoomDescIndex]
+    mGRoomDescs[gCell.mGRoomDescIndex]
         .mRoomDesc.GetCell( gCell.mDescCoord.x, gCell.mDescCoord.y )
         .mPossibleEntrances.insert( entrance );
 }
 
-void JungleLevelGenerator::CreateStartAndEnd()
+void JungleLevelGenerator::CreateStart()
 {
-    mStartIndex = mRand() % mRoomDescs.size();
+    mStartIndex = mRand() % mGRoomDescs.size();
     while (mStartIndex == mEndIndex)
     {
-        mEndIndex = mRand() % mRoomDescs.size();
+        mEndIndex = mRand() % mGRoomDescs.size();
     }
-    auto& startRoom = mRoomDescs.at( mStartIndex );
+    auto& startRoom = mGRoomDescs.at( mStartIndex );
     //TODO: check if it has a start property
     startRoom.mRoomDesc.GetProperties().clear();
     startRoom.mRoomDesc.GetProperties().insert( RoomDesc::Start );

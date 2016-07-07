@@ -1,6 +1,7 @@
 #include "i_level_generator.h"
 #include "platform/auto_id.h"
 #include "random.h"
+#include "platform/settings.h"
 
 using platform::AutoId;
 
@@ -10,6 +11,9 @@ ILevelGenerator::ILevelGenerator( int32_t Id )
     : mId( Id )
     , mScene( Scene::Get() )
 {
+    mCellSize = Settings::Get().GetInt( "generator.cell_size", 1000 );
+    mCellCount = Settings::Get().GetInt( "generator.cell_count", 5 );;
+    mRand.seed( Settings::Get().GetUInt( "generator.seed", unsigned( std::time( 0 ) ) ) );
 }
 
 
@@ -33,15 +37,15 @@ void ILevelGenerator::AddPossibleRoom( int32_t roomId, int32_t possibility )
 }
 
 
-map::GeneratorCell& ILevelGenerator::GetCell( int32_t x, int32_t y )
+map::GCell& ILevelGenerator::GetCell( int32_t x, int32_t y )
 {
-    return mCells[y][x];
+    return mGCells[y][x];
 }
 
 
-map::GeneratorCell const& ILevelGenerator::GetCell( int32_t x, int32_t y ) const
+map::GCell const& ILevelGenerator::GetCell( int32_t x, int32_t y ) const
 {
-    return mCells[y][x];
+    return mGCells[y][x];
 }
 
 
@@ -83,24 +87,24 @@ void ILevelGenerator::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
                 auto& cell = GetCell( rx + pos.x, ry + pos.y );
                 cell.mDescCoord = glm::vec2( rx, ry );
                 cell.mFilled = true;
-                cell.mGeneratorRoomDescIndex = mRoomDescs.size();
+                cell.mGRoomDescIndex = mGRoomDescs.size();
                 L1( "%d,%d is now filled %d\n", rx + pos.x, ry + pos.y, cell.mFilled );
             }
         }
     }
-    GeneratorRoomDesc gRoomDesc;
+    GRoomDesc gRoomDesc;
     gRoomDesc.mRoomCoord = pos;
     gRoomDesc.mRoomDesc = roomDesc;
     gRoomDesc.mRoomDesc.GetProperties().clear();
     gRoomDesc.mRoomDesc.ClearAllCellEntrances();
-    mRoomDescs.push_back( gRoomDesc );
+    mGRoomDescs.push_back( gRoomDesc );
 }
 
 
 ILevelGenerator::CellPairs_t ILevelGenerator::GetCellPairs( int32_t roomA, int32_t roomB )
 {
     CellPairs_t r;
-    auto& roomDescA=mRoomDescs[roomA];
+    auto& roomDescA=mGRoomDescs[roomA];
 
     for (int32_t ry = 0; ry < roomDescA.mRoomDesc.GetCellCount(); ++ry)
     {
@@ -120,10 +124,11 @@ ILevelGenerator::CellPairs_t ILevelGenerator::GetCellPairs( int32_t roomA, int32
     return r;
 }
 
+// Adds a CellPair to cellPairs if posB cell is the same as room
 void ILevelGenerator::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room )
 {
     if (IsInBounds( posB ) 
-        && GetCell( posB.x, posB.y ).mGeneratorRoomDescIndex == room)
+        && GetCell( posB.x, posB.y ).mGRoomDescIndex == room)
     {
         cellPairs.push_back(CellPair_t( posA, posB));
     }

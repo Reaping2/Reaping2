@@ -15,12 +15,7 @@ class JungleLevelGenerator: public ILevelGenerator
 public:
     JungleLevelGenerator( int32_t Id );
     virtual void Generate();
-    void CreateStartAndEnd();
-    void GenerateTerrain();
-    void PlaceRooms();
-    Opt<IRoom> PlaceARoom( glm::vec2 &vec );
-    void LogNodes( std::string log );
-    void GenerateGraph();
+
 private:
     ActorFactory& mActorFactory;
     RoomRepo& mRoomRepo;
@@ -38,6 +33,14 @@ private:
         int32_t chanceIncrease = 0;
     };
     Route_t CreateRoute( int32_t startIndex, RouteProperties const& properties );
+    void CreateMainRoute();
+    void CreateSideRoutes();
+    void CreateStart();
+    void GenerateTerrain();
+    void PlaceRooms( glm::vec2 const& startPos );
+    Opt<IRoom> PlaceARoom( glm::vec2 const& vec );
+    void LogNodes( std::string log, FreeNodes_t const& nodes );
+    void GenerateGraph();
 };
 
 } // namespace map
