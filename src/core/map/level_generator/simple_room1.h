@@ -10,7 +10,7 @@ class SimpleRoom1 : public IRoom
 {
 public:
     SimpleRoom1( int32_t Id );
-    virtual void Generate( RoomDesc& roomDesc, int32_t x, int32_t y );
+    virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos );
 private:
     ActorFactory& mActorFactory;
 };

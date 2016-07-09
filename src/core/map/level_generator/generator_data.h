@@ -45,11 +45,11 @@ class GeneratorData
 {
 public:
     GeneratorData();
-    GCell& GetGCell( int32_t x, int32_t y );
-    GCell const& GetGCell( int32_t x, int32_t y ) const;
-    void SetSize( int32_t x, int32_t y );
-    bool IsFilled( int32_t x, int32_t y ) const;
-    bool IsRoomIdentical( int32_t x, int32_t y, int32_t roomIndex ) const;
+    GCell& GetGCell( glm::vec2 pos );
+    GCell const& GetGCell( glm::vec2 pos ) const;
+    void SetDimensions( int32_t x, int32_t y );
+    bool IsFilled( glm::vec2 pos ) const;
+    bool IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const;
     void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
     bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const;
     bool IsInBounds( glm::vec2 pos ) const;
@@ -59,7 +59,7 @@ public:
     Opt<IRoom> GetRoom( int32_t roomIndex );
     RoomDesc const& GetRoomDesc( int32_t roomIndex) const;
     RoomDesc& GetRoomDesc( int32_t roomIndex );
-    glm::vec2 GetRoomCoord( int32_t roomIndex) const;
+    glm::vec2 GetRoomCoord( int32_t roomIndex ) const;
     void LinkCells( glm::vec2 posA, glm::vec2 posB );
     void ShuffleNeighbours();
     int32_t GetNeighbourRoomCount( int32_t roomIndex ) const;
@@ -82,7 +82,6 @@ private:
     Cell& GetCell( glm::vec2 pos );
     glm::vec2 GetCellCoord( glm::vec2 pos );
     RoomDesc& GetRoomDesc( glm::vec2 pos );
-    void InsertEntrance( glm::vec2 pos, Cell::Entrance entrance );
     void AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room );
 };
 

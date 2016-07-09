@@ -34,7 +34,7 @@ void RoomDesc::SetCellSize( int32_t cellSize )
     mCellSize = cellSize;
 }
 
-int32_t RoomDesc::GetCellSize()
+int32_t RoomDesc::GetCellSize() const
 {
     return mCellSize;
 }
@@ -67,18 +67,6 @@ void RoomDesc::AddProperty( Property prop )
     mPossibleProperties.insert( prop );
 }
 
-
-void RoomDesc::AddCellEntrance( glm::vec2 pos, Cell::Entrance entrance )
-{
-    GetCell( pos.x, pos.y ).mPossibleEntrances.insert( entrance );
-}
-
-
-void RoomDesc::SetCellEntrances( glm::vec2 pos, Cell::Entrances_t entrances )
-{
-    GetCell( pos.x, pos.y ).mPossibleEntrances = entrances;
-}
-
 map::Cell& RoomDesc::GetCell( int32_t x, int32_t y )
 {
     return mCells[y][x];
@@ -96,9 +84,21 @@ map::Cell& RoomDesc::GetCell( glm::vec2 pos )
     return mCells[pos.y][pos.x];
 }
 
+
+map::Cell const& RoomDesc::GetCell( glm::vec2 pos ) const
+{
+    return mCells[pos.y][pos.x];
+}
+
 bool RoomDesc::IsFilled( int32_t x, int32_t y ) const
 {
     return GetCell( x, y ).mFilled;
+}
+
+
+bool RoomDesc::IsFilled( glm::vec2 pos ) const
+{
+    return GetCell( pos ).mFilled;
 }
 
 void RoomDesc::ClearCellEntrances()

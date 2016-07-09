@@ -8,17 +8,17 @@ GeneratorData::GeneratorData()
 
 }
 
-GCell& GeneratorData::GetGCell( int32_t x, int32_t y )
+GCell& GeneratorData::GetGCell( glm::vec2 pos )
 {
-    return mGCells[y][x];
+    return mGCells[pos.y][pos.x];
 }
 
-GCell const& GeneratorData::GetGCell( int32_t x, int32_t y ) const
+GCell const& GeneratorData::GetGCell( glm::vec2 pos ) const
 {
-    return mGCells[y][x];
+    return mGCells[pos.y][pos.x];
 }
 
-void GeneratorData::SetSize( int32_t x, int32_t y )
+void GeneratorData::SetDimensions( int32_t x, int32_t y )
 {
     mDimX = x;
     mDimY = y;
@@ -30,14 +30,14 @@ void GeneratorData::SetSize( int32_t x, int32_t y )
     }
 }
 
-bool GeneratorData::IsFilled( int32_t x, int32_t y ) const
+bool GeneratorData::IsFilled( glm::vec2 pos ) const
 {
-    return GetGCell( x, y ).mFilled;
+    return GetGCell( pos ).mFilled;
 }
 
-bool GeneratorData::IsRoomIdentical( int32_t x, int32_t y, int32_t roomIndex ) const
+bool GeneratorData::IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const
 {
-    return GetGCell( x, y ).mGRoomDescIndex == roomIndex;
+    return GetGCell( pos ).mGRoomDescIndex == roomIndex;
 }
 
 void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
@@ -46,14 +46,16 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
     {
         for (int32_t rx = 0; rx < roomDesc.GetCellCount(); ++rx)
         {
-            if (IsInBounds( glm::vec2( rx + pos.x, ry + pos.y ) )
-                && roomDesc.IsFilled( rx, ry )
-                && !IsFilled( rx + pos.x, ry + pos.y ))
+            glm::vec2 relPos = glm::vec2( rx, ry );
+            glm::vec2 targetPos = pos + relPos;
+            if (IsInBounds( targetPos )
+                && roomDesc.IsFilled( relPos )
+                && !IsFilled( targetPos ))
             {
-                auto& cell = GetGCell( rx + pos.x, ry + pos.y );
+                auto& cell = GetGCell( targetPos );
                 cell.mFilled = true;
                 cell.mGRoomDescIndex = mGRoomDescs.size();
-                L1( "%d,%d is now filled %d\n", rx + pos.x, ry + pos.y, cell.mFilled );
+                L1( "%d,%d is now filled %d\n", targetPos.x, targetPos.y, cell.mFilled );
             }
         }
     }
@@ -72,16 +74,18 @@ bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) cons
     {
         for (int32_t rx = 0; rx < roomDesc.GetCellCount(); ++rx)
         {
-            if (roomDesc.IsFilled( rx, ry ))
+            glm::vec2 relPos = glm::vec2( rx, ry );
+            glm::vec2 targetPos = pos + relPos;
+            if (roomDesc.IsFilled( relPos ))
             {
-                if (!IsInBounds( glm::vec2( rx + pos.x, ry + pos.y ) ))
+                if (!IsInBounds( targetPos ))
                 {
-                    L1( "%d,%d is out of bounds\n", rx + pos.x, ry + pos.y );
+                    L1( "%d,%d is out of bounds\n", targetPos.x, targetPos.y );
                     return false; //cell is out of bounds
                 }
-                if (IsFilled( rx + pos.x, ry + pos.y ))
+                if (IsFilled( targetPos ))
                 {
-                    L1( "%d,%d is already filled %d\n", rx + pos.x, ry + pos.y, IsFilled( rx + pos.x, ry + pos.y ) );
+                    L1( "%d,%d is already filled %d\n", targetPos.x, targetPos.x, IsFilled( targetPos ) );
                     return false; //cell is already filled this room cant be placed
                 }
             }
@@ -132,25 +136,27 @@ glm::vec2 GeneratorData::GetRoomCoord( int32_t roomIndex ) const
 
 void GeneratorData::LinkCells( glm::vec2 posA, glm::vec2 posB )
 {
+    auto& cellA = GetCell( posA );
+    auto& cellB = GetCell( posB );
     if (posA.x > posB.x)
     {
-        InsertEntrance( posA, Cell::Left );
-        InsertEntrance( posB, Cell::Right );
+        cellA.AddEntrance( Cell::Left );
+        cellB.AddEntrance( Cell::Right );
     }
     else if (posA.y > posB.y)
     {
-        InsertEntrance( posA, Cell::Bottom );
-        InsertEntrance( posB, Cell::Top );
+        cellA.AddEntrance( Cell::Bottom );
+        cellB.AddEntrance( Cell::Top );
     }
     else if (posA.x < posB.x)
     {
-        InsertEntrance( posA, Cell::Right );
-        InsertEntrance( posB, Cell::Left );
+        cellA.AddEntrance( Cell::Right );
+        cellB.AddEntrance( Cell::Left );
     }
     else
     {
-        InsertEntrance( posA, Cell::Top );
-        InsertEntrance( posB, Cell::Bottom );
+        cellA.AddEntrance( Cell::Top );
+        cellB.AddEntrance( Cell::Bottom );
     }
 }
 
@@ -172,7 +178,7 @@ int32_t GeneratorData::GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbou
 void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room )
 {
     if (IsInBounds( posB )
-        && IsRoomIdentical( posB.x, posB.y, room ))
+        && IsRoomIdentical( posB, room ))
     {
         cellPairs.push_back( CellPair_t( posA, posB ) );
     }
@@ -187,7 +193,7 @@ NeighbourRooms_t GeneratorData::GetNeighbourRooms( int32_t roomIndex )
         glm::vec2 pos = GetRoomCoord(roomIndex) + n;
         if (IsInBounds( pos ))
         {
-            int32_t roomIndex = GetGCell( pos.x, pos.y ).mGRoomDescIndex;
+            int32_t roomIndex = GetGCell( pos ).mGRoomDescIndex;
             if (std::find( r.begin(), r.end(), roomIndex ) == r.end())
             {
                 r.push_back( roomIndex );
@@ -209,12 +215,12 @@ void GeneratorData::GenerateGraph()
 
 GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
 {
-    return mGRoomDescs[GetGCell( pos.x, pos.y ).mGRoomDescIndex];
+    return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
 }
 
 Cell& GeneratorData::GetCell( glm::vec2 pos )
 {
-    return GetGRoomDesc( pos ).mRoomDesc.GetCell( GetCellCoord( pos ).x, GetCellCoord( pos ).y );
+    return GetRoomDesc( pos ).GetCell( GetCellCoord( pos ) );
 }
 
 glm::vec2 GeneratorData::GetCellCoord( glm::vec2 pos )
@@ -227,12 +233,6 @@ RoomDesc& GeneratorData::GetRoomDesc( glm::vec2 pos )
 {
     return GetGRoomDesc( pos ).mRoomDesc;
 }
-
-void GeneratorData::InsertEntrance( glm::vec2 pos, Cell::Entrance entrance )
-{
-    GetRoomDesc( pos ).AddCellEntrance( GetCellCoord( pos ), entrance );
-}
-
 
 GeneratorData::CellPairs_t GeneratorData::GetAdjacentCellPairs( int32_t roomA, int32_t roomB )
 {

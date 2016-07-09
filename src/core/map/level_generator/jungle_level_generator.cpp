@@ -19,11 +19,13 @@ JungleLevelGenerator::JungleLevelGenerator( int32_t Id )
     AddPossibleRoom( AutoId( "simple_room1" ), 3);
     AddPossibleRoom( AutoId( "vdouble_room1" ), 1);
     AddPossibleRoom( AutoId( "hdouble_room1" ), 1 );
+    mRand.seed( Settings::Get().GetUInt( "generator.seed", unsigned( std::time( 0 ) ) ) );
+    int32_t a = mRand() % 10;
 }
 
 void JungleLevelGenerator::Generate()
 {
-    mGData.SetSize( mCellCount, mCellCount );
+    mGData.SetDimensions( mCellCount, mCellCount );
     PlaceRooms( glm::vec2( 0, 0 ) );
     CreateStart();
 
@@ -80,8 +82,7 @@ void JungleLevelGenerator::GenerateTerrain()
     {
         mGData.GetRoom(i)->Generate(
             mGData.GetRoomDesc( i )
-            , mGData.GetRoomCoord( i ).x*mCellSize - 2400
-            , mGData.GetRoomCoord( i ).y*mCellSize - 2400 );
+            , mGData.GetRoomCoord( i )*mCellSize + glm::vec2(mScene.GetDimensions()));
     }
 }
 
@@ -92,7 +93,7 @@ void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )
     while (!freeCellPositions.empty())
     {
         glm::vec2 cellPos = freeCellPositions.front();
-        if (mGData.IsFilled( cellPos.x, cellPos.y ))
+        if (mGData.IsFilled( cellPos ))
         {
             LogNodes( "filled so pre_pop", freeCellPositions ); freeCellPositions.pop_front(); LogNodes( "filled so post_pop", freeCellPositions );
             continue;
@@ -106,7 +107,7 @@ void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )
             {
                 auto possiblePos=neighPos + cellPos;
                 if (mGData.IsInBounds( possiblePos )
-                    &&!mGData.IsFilled( possiblePos.x, possiblePos.y )
+                    &&!mGData.IsFilled( possiblePos )
                     &&std::find(freeCellPositions.begin(),freeCellPositions.end(),possiblePos)==freeCellPositions.end())
                 {
                     freeCellPositions.push_back( possiblePos );
@@ -120,7 +121,7 @@ void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )
     }
 }
 
-Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 const& vec )
+Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 const& pos )
 {
     Opt<IRoom> r;
     std::shuffle( mPossibleRoomIds.begin(), mPossibleRoomIds.end(), mRand );
@@ -128,9 +129,9 @@ Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 const& vec )
     for (auto& roomId : mPossibleRoomIds)
     {
         auto& room = mRoomRepo( roomId );
-        if (mGData.CanPlaceRoom( room.GetRoomDesc(), vec ))
+        if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
         {
-            mGData.PlaceRoom( room.GetRoomDesc(), vec );
+            mGData.PlaceRoom( room.GetRoomDesc(), pos );
             r = &room;
             break;
         }

@@ -12,15 +12,15 @@ HDoubleRoom1::HDoubleRoom1( int32_t Id )
 {
     mRoomDesc.SetCellCount( 2 );
     mRoomDesc.SetCellSize( Settings::Get().GetInt( "generator.cell_size", 1000 ) );
-    mRoomDesc.GetCell( glm::vec2( 0, 0 ) ).SetEntrances( { Cell::Top, Cell::Bottom, Cell::Left } );
-    mRoomDesc.GetCell( glm::vec2( 0, 0 ) ).SetFilled( true );
-    mRoomDesc.GetCell( glm::vec2( 1, 0 ) ).SetEntrances( { Cell::Top, Cell::Right, Cell::Bottom } );
-    mRoomDesc.GetCell( glm::vec2( 1, 0 ) ).SetFilled( true );
+    mRoomDesc.GetCell( 0, 0 ).SetEntrances( { Cell::Top, Cell::Bottom, Cell::Left } );
+    mRoomDesc.GetCell( 0, 0 ).SetFilled( true );
+    mRoomDesc.GetCell( 1, 0 ).SetEntrances( { Cell::Top, Cell::Right, Cell::Bottom } );
+    mRoomDesc.GetCell( 1, 0 ).SetFilled( true );
     mRoomDesc.SetProperties( { RoomDesc::Start, RoomDesc::End } );
     mRoomDesc.SetRoom( this );
 }
 
-void HDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
+void HDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
 {
     auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));
     {
@@ -32,7 +32,7 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
         tempDesc.GetCell( 0, 0 ).SetFilled( true );
         tempDesc.SetProperties( roomDesc.GetProperties() );
         tempDesc.SetRoom( this );
-        simpleRoom1.Generate( tempDesc, x, y );
+        simpleRoom1.Generate( tempDesc, pos );
     }
     {
         RoomDesc tempDesc;
@@ -43,7 +43,7 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
         tempDesc.GetCell( 0, 0 ).SetFilled( true );
         tempDesc.ClearProperties();
         tempDesc.SetRoom( this );
-        simpleRoom1.Generate( tempDesc, x + roomDesc.GetCellSize(), y );
+        simpleRoom1.Generate( tempDesc, pos+glm::vec2(roomDesc.GetCellSize(), 0) );
     }
 
     int cellCount = mRoomDesc.GetCellSize() / 100;
@@ -53,19 +53,11 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
         {
             std::auto_ptr<Actor> wall = mActorFactory( AutoId( "wall_small" ) );
             Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
-            positionC->SetX( (mRand() % (cellCount * 2 - 4) + 2)*100.0 + x );
-            positionC->SetY( (mRand() % (cellCount - 4) + 2)*100.0 + y );
+            positionC->SetX( (mRand() % (cellCount * 2 - 4) + 2)*100.0 + pos.x );
+            positionC->SetY( (mRand() % (cellCount - 4) + 2)*100.0 + pos.y );
             roomDesc.mPlacedActorGUIDs.push_back( wall->GetGUID() );
             mScene.AddActor( wall.release() );
         }
-    }
-    if (roomDesc.HasProperty( RoomDesc::Start ))
-    {
-        PlaceSoldierSpawnPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
-    }
-    if (roomDesc.HasProperty( RoomDesc::End ))
-    {
-        PlaceLevelEndPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }
 }
 
