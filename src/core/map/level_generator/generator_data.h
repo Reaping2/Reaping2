@@ -62,11 +62,11 @@ public:
     glm::vec2 GetRoomCoord( int32_t roomIndex) const;
     void LinkCells( glm::vec2 posA, glm::vec2 posB );
     void ShuffleNeighbours();
-    int32_t GetNeighbourCount( int32_t roomIndex ) const;
+    int32_t GetNeighbourRoomCount( int32_t roomIndex ) const;
     int32_t GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbourIndex ) const;
     typedef std::pair<glm::vec2, glm::vec2> CellPair_t;
     typedef std::vector<CellPair_t> CellPairs_t;
-    CellPairs_t GetCellPairs( int32_t roomA, int32_t roomB );
+    CellPairs_t GetAdjacentCellPairs( int32_t roomA, int32_t roomB );
 private:
     typedef std::vector<std::vector<GCell>> GCellMatrix_t;
     GCellMatrix_t mGCells; // all cells with the corresponding roomDesc

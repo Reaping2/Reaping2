@@ -12,27 +12,25 @@ VDoubleRoom1::VDoubleRoom1( int32_t Id )
 {
     mRoomDesc.SetCellCount( 2 );
     mRoomDesc.SetCellSize( Settings::Get().GetInt( "generator.cell_size", 1000 ) );
-    mRoomDesc.GetCell( 0, 0 ).mPossibleEntrances = { Cell::Right, Cell::Top, Cell::Left };
-    mRoomDesc.GetCell( 0, 0 ).mFilled = true;
-    mRoomDesc.GetCell( 0, 1 ).mPossibleEntrances = { Cell::Bottom, Cell::Right, Cell::Left };
-    mRoomDesc.GetCell( 0, 1 ).mFilled = true;
-    mRoomDesc.GetProperties() = { RoomDesc::Start,RoomDesc::End };
+    mRoomDesc.GetCell( glm::vec2( 0, 0 ) ).SetEntrances( { Cell::Right, Cell::Top, Cell::Left } );
+    mRoomDesc.GetCell( glm::vec2( 0, 0 ) ).SetFilled( true );
+    mRoomDesc.GetCell( glm::vec2( 0, 1 ) ).SetEntrances( { Cell::Bottom, Cell::Right, Cell::Left } );
+    mRoomDesc.GetCell( glm::vec2( 0, 1 ) ).SetFilled( true );
+    mRoomDesc.SetProperties( { RoomDesc::Start, RoomDesc::End } );
     mRoomDesc.SetRoom( this );
 }
 
 void VDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
 {
-    std::auto_ptr<Actor> wall;// = mActorFactory( AutoId( "wall" ) );
-
     {
         auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));
         RoomDesc tempDesc;
         tempDesc.SetCellCount( 1 );
         tempDesc.SetCellSize( roomDesc.GetCellSize() );
-        tempDesc.GetCell( 0, 0 ).mPossibleEntrances = roomDesc.GetCell( 0, 0 ).mPossibleEntrances;
-        tempDesc.GetCell( 0, 0 ).mPossibleEntrances.insert( Cell::Top );
-        tempDesc.GetCell( 0, 0 ).mFilled = true;
-        tempDesc.GetProperties() = roomDesc.GetProperties();
+        tempDesc.GetCell( 0, 0 ).SetEntrances( roomDesc.GetCell( 0, 0 ).GetEntrances() );
+        tempDesc.GetCell( 0, 0 ).AddEntrance( Cell::Top );
+        tempDesc.GetCell( 0, 0 ).SetFilled( true );
+        tempDesc.SetProperties( roomDesc.GetProperties() );
         tempDesc.SetRoom( this );
         simpleRoom1.Generate( tempDesc, x, y );
     }
@@ -41,10 +39,10 @@ void VDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
         RoomDesc tempDesc;
         tempDesc.SetCellCount( 1 );
         tempDesc.SetCellSize( roomDesc.GetCellSize() );
-        tempDesc.GetCell( 0, 0 ).mPossibleEntrances = roomDesc.GetCell( 0, 1 ).mPossibleEntrances;
-        tempDesc.GetCell( 0, 0 ).mPossibleEntrances.insert( Cell::Bottom );
-        tempDesc.GetCell( 0, 0 ).mFilled = true;
-        tempDesc.GetProperties().clear();
+        tempDesc.GetCell( 0, 0 ).SetEntrances( roomDesc.GetCell( 0, 1 ).GetEntrances() );
+        tempDesc.GetCell( 0, 0 ).AddEntrance( Cell::Bottom );
+        tempDesc.GetCell( 0, 0 ).SetFilled( true );
+        tempDesc.ClearProperties();
         tempDesc.SetRoom( this );
         simpleRoom1.Generate( tempDesc, x, y + roomDesc.GetCellSize() );
     }
@@ -54,7 +52,7 @@ void VDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
     {
         for (int i = 0; i < mRand() % cellCount; ++i)
         {
-            wall = mActorFactory( AutoId( "wall_small" ) );
+            std::auto_ptr<Actor> wall = mActorFactory( AutoId( "wall_small" ) );
             Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
             positionC->SetX( (mRand() % (cellCount - 4) + 2)*100.0 + x );
             positionC->SetY( (mRand() % (cellCount * 2 - 4) + 2)*100.0 + y );
@@ -62,11 +60,11 @@ void VDoubleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
             mScene.AddActor( wall.release() );
         }
     }
-    if (roomDesc.GetProperties().find( RoomDesc::Start ) != roomDesc.GetProperties().end())
+    if (roomDesc.HasProperty( RoomDesc::Start ))
     {
         PlaceSoldierSpawnPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }
-    if (roomDesc.GetProperties().find( RoomDesc::End ) != roomDesc.GetProperties().end())
+    if (roomDesc.HasProperty( RoomDesc::End ))
     {
         PlaceLevelEndPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }

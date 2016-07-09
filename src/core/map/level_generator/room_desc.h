@@ -22,7 +22,12 @@ struct Cell
     Entrances_t mPossibleEntrances; // possible entrances to this cell
     bool mFilled = false; // filled if the correspoinding RoomDesc places stg into this cell
     glm::vec2 mDescCoord = glm::vec2( -1, -1 ); // relative position inside the room
-    
+    void AddEntrance( Entrance const& entrance );
+    void SetEntrances( Entrances_t const& entrances );
+    bool HasEntrance( Entrance const& entrance) const;
+    Entrances_t const& GetEntrances() const;
+    void SetFilled( bool filled );
+    bool IsFilled();
 };
 
 // describes an n*n room.
@@ -43,15 +48,18 @@ struct RoomDesc
     int32_t GetCellCount() const;
     void SetCellSize( int32_t cellSize );
     int32_t GetCellSize();
-    Properties_t& GetProperties();
     Properties_t const& GetProperties() const;
+    void SetProperties( Properties_t const& properties );
+    bool HasProperty( Property prop ) const;
     void ClearProperties();
     void AddProperty( Property prop );
     void AddCellEntrance( glm::vec2 pos, Cell::Entrance entrance );
+    void SetCellEntrances( glm::vec2 pos, Cell::Entrances_t entrances );
     Cell& GetCell( int32_t x, int32_t y );
+    Cell& GetCell( glm::vec2 pos );
     Cell const& GetCell( int32_t x, int32_t y ) const;
     bool IsFilled( int32_t x, int32_t y ) const;
-    void ClearAllCellEntrances();
+    void ClearCellEntrances();
     Opt<IRoom> GetRoom();
     void SetRoom( Opt<IRoom> room );
 

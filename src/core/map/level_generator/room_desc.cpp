@@ -39,15 +39,21 @@ int32_t RoomDesc::GetCellSize()
     return mCellSize;
 }
 
-map::RoomDesc::Properties_t& RoomDesc::GetProperties()
+RoomDesc::Properties_t const& RoomDesc::GetProperties() const
 {
     return mPossibleProperties;
 }
 
 
-map::RoomDesc::Properties_t const& RoomDesc::GetProperties() const
+void RoomDesc::SetProperties( Properties_t const& properties )
 {
-    return mPossibleProperties;
+    mPossibleProperties = properties;
+}
+
+
+bool RoomDesc::HasProperty( Property prop ) const
+{
+    return mPossibleProperties.find( prop ) != mPossibleProperties.end();
 }
 
 void RoomDesc::ClearProperties()
@@ -67,6 +73,12 @@ void RoomDesc::AddCellEntrance( glm::vec2 pos, Cell::Entrance entrance )
     GetCell( pos.x, pos.y ).mPossibleEntrances.insert( entrance );
 }
 
+
+void RoomDesc::SetCellEntrances( glm::vec2 pos, Cell::Entrances_t entrances )
+{
+    GetCell( pos.x, pos.y ).mPossibleEntrances = entrances;
+}
+
 map::Cell& RoomDesc::GetCell( int32_t x, int32_t y )
 {
     return mCells[y][x];
@@ -79,12 +91,17 @@ map::Cell const& RoomDesc::GetCell( int32_t x, int32_t y ) const
 }
 
 
+map::Cell& RoomDesc::GetCell( glm::vec2 pos )
+{
+    return mCells[pos.y][pos.x];
+}
+
 bool RoomDesc::IsFilled( int32_t x, int32_t y ) const
 {
     return GetCell( x, y ).mFilled;
 }
 
-void RoomDesc::ClearAllCellEntrances()
+void RoomDesc::ClearCellEntrances()
 {
     for (auto& row : mCells)
     {
@@ -104,6 +121,41 @@ Opt<IRoom> RoomDesc::GetRoom()
 void RoomDesc::SetRoom( Opt<IRoom> room )
 {
     mRoom = room;
+}
+
+
+void Cell::AddEntrance( Entrance const& entrance )
+{
+    mPossibleEntrances.insert( entrance );
+}
+
+
+void Cell::SetEntrances( Entrances_t const& entrances )
+{
+    mPossibleEntrances = entrances;
+}
+
+
+bool Cell::HasEntrance( Entrance const& entrance ) const
+{
+    return mPossibleEntrances.find( entrance ) != mPossibleEntrances.end();
+}
+
+
+Cell::Entrances_t const& Cell::GetEntrances() const
+{
+    return mPossibleEntrances;
+}
+
+void Cell::SetFilled( bool filled )
+{
+    mFilled = filled;
+}
+
+
+bool Cell::IsFilled()
+{
+    return mFilled;
 }
 
 } // namespace map

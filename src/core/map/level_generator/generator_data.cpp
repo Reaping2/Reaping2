@@ -1,4 +1,5 @@
 #include "generator_data.h"
+#include "random.h"
 
 namespace map {
 
@@ -59,8 +60,8 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
     GRoomDesc gRoomDesc;
     gRoomDesc.mRoomCoord = pos;
     gRoomDesc.mRoomDesc = roomDesc;
-    gRoomDesc.mRoomDesc.GetProperties().clear();
-    gRoomDesc.mRoomDesc.ClearAllCellEntrances();
+    gRoomDesc.mRoomDesc.ClearProperties();
+    gRoomDesc.mRoomDesc.ClearCellEntrances();
     mGRoomDescs.push_back( gRoomDesc );
     GenerateGraph();
 }
@@ -158,7 +159,7 @@ void GeneratorData::ShuffleNeighbours()
     mGraph.ShuffleNodeNeighbours();
 }
 
-int32_t GeneratorData::GetNeighbourCount( int32_t roomIndex ) const
+int32_t GeneratorData::GetNeighbourRoomCount( int32_t roomIndex ) const
 {
     return mGraph[roomIndex].Size();
 }
@@ -181,7 +182,7 @@ NeighbourRooms_t GeneratorData::GetNeighbourRooms( int32_t roomIndex )
 {
     NeighbourRooms_t r;
     auto& roomDesc = mGRoomDescs[roomIndex];
-    for (auto& n : GetRoom( roomIndex )->GetNeighbours())
+    for (auto& n : GetRoom( roomIndex )->GetNeighbourCells())
     {
         glm::vec2 pos = GetRoomCoord(roomIndex) + n;
         if (IsInBounds( pos ))
@@ -233,7 +234,7 @@ void GeneratorData::InsertEntrance( glm::vec2 pos, Cell::Entrance entrance )
 }
 
 
-GeneratorData::CellPairs_t GeneratorData::GetCellPairs( int32_t roomA, int32_t roomB )
+GeneratorData::CellPairs_t GeneratorData::GetAdjacentCellPairs( int32_t roomA, int32_t roomB )
 {
     CellPairs_t r;
     auto const& roomDescA = GetRoomDesc( roomA );
@@ -254,6 +255,57 @@ GeneratorData::CellPairs_t GeneratorData::GetCellPairs( int32_t roomA, int32_t r
         }
     }
     return r;
+}
+
+
+GGraphNode::GGraphNode( int32_t ind, NeighbourRooms_t const& nodes )
+    : mIndex( ind )
+    , mNeighbours( nodes )
+{
+
+}
+
+
+int32_t GGraphNode::operator[]( int32_t neighbourIndex ) const
+{
+    return mNeighbours[neighbourIndex];
+}
+
+
+int32_t GGraphNode::Size() const
+{
+    return mNeighbours.size();
+}
+
+void GGraphNode::ShuffleNeighbours()
+{
+    std::shuffle( mNeighbours.begin(), mNeighbours.end(), mRand );
+}
+
+void GGraph::ShuffleNodeNeighbours()
+{
+    for (auto& node : mNodes)
+    {
+        node.ShuffleNeighbours();
+    }
+}
+
+
+GGraphNode const& GGraph::operator[]( int32_t nodeIndex ) const
+{
+    return mNodes[nodeIndex];
+}
+
+
+void GGraph::Clear()
+{
+    mNodes.clear();
+}
+
+
+void GGraph::AddNode( GGraphNode const& node )
+{
+    mNodes.push_back( node );
 }
 
 }

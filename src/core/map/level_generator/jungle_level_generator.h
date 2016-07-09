@@ -21,7 +21,7 @@ private:
     RoomRepo& mRoomRepo;
     typedef std::stack<int32_t> Route_t;
     typedef std::vector<int32_t> Visited_t;
-    Visited_t mVisited;
+    Visited_t mVisitedRooms; // a vector of visited room indices
     void LinkRooms( Route_t route );
     struct RouteProperties
     {
@@ -29,7 +29,7 @@ private:
         int32_t endChance = 0;
         int32_t chanceIncrease = 0;
     };
-    Route_t CreateRoute( int32_t startIndex, RouteProperties const& properties );
+    Route_t CreateRoute( int32_t startRoomIndex, RouteProperties const& properties );
     void CreateMainRoute();
     void CreateSideRoutes();
     void CreateStart();

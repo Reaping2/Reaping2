@@ -10,26 +10,24 @@ SimpleRoom1::SimpleRoom1( int32_t Id )
 {
     mRoomDesc.SetCellCount( 1 );
     mRoomDesc.SetCellSize( Settings::Get().GetInt( "generator.cell_size", 1000 ) );
-    mRoomDesc.GetCell( 0, 0 ).mPossibleEntrances = { Cell::Top, Cell::Right, Cell::Bottom, Cell::Left };
-    mRoomDesc.GetCell( 0, 0 ).mFilled = true;
-    mRoomDesc.GetProperties() = { RoomDesc::Start,RoomDesc::End };
+    mRoomDesc.GetCell( glm::vec2( 0, 0 ) ).SetEntrances( { Cell::Top, Cell::Right, Cell::Bottom, Cell::Left } );
+    mRoomDesc.GetCell( glm::vec2( 0, 0 ) ).SetFilled( true );
+    mRoomDesc.SetProperties( { RoomDesc::Start, RoomDesc::End } );
     mRoomDesc.SetRoom( this );
 }
 
 void SimpleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
 {
-    std::auto_ptr<Actor> wall;// = mActorFactory( AutoId( "wall" ) );
-
     int cellCount = mRoomDesc.GetCellSize() / 100;
     for (int i = 0; i < cellCount*cellCount; ++i)
     {
-        auto& entrances = roomDesc.GetCell(0,0).mPossibleEntrances;
-        if (i < cellCount && entrances.find( Cell::Bottom ) == entrances.end()
-            || i >= (cellCount - 1)*cellCount && entrances.find( Cell::Top ) == entrances.end()
-            || i%cellCount == 0 && entrances.find( Cell::Left ) == entrances.end()
-            || i%cellCount == cellCount - 1 && entrances.find( Cell::Right ) == entrances.end())
+        auto& cell = roomDesc.GetCell( glm::vec2( 0, 0 ) );
+        if (i < cellCount && !cell.HasEntrance( Cell::Bottom )
+            || i >= (cellCount - 1)*cellCount && !cell.HasEntrance( Cell::Top )
+            || i%cellCount == 0 && !cell.HasEntrance( Cell::Left )
+            || i%cellCount == cellCount - 1 && !cell.HasEntrance( Cell::Right ))
         {
-            wall = mActorFactory( AutoId( "wall_small" ) );
+            std::auto_ptr<Actor> wall = mActorFactory( AutoId( "wall_small" ) );
             Opt<IPositionComponent> positionC = wall->Get<IPositionComponent>();
             positionC->SetX( i%cellCount*100.0 + x );
             positionC->SetY( i / cellCount*100.0 + y );
@@ -37,11 +35,11 @@ void SimpleRoom1::Generate( RoomDesc& roomDesc, int32_t x, int32_t y )
             mScene.AddActor( wall.release() );
         }
     }
-    if (roomDesc.GetProperties().find( RoomDesc::Start ) != roomDesc.GetProperties().end())
+    if (roomDesc.HasProperty( RoomDesc::Start ))
     {
         PlaceSoldierSpawnPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }
-    if (roomDesc.GetProperties().find( RoomDesc::End ) != roomDesc.GetProperties().end())
+    if (roomDesc.HasProperty( RoomDesc::End ))
     {
         PlaceLevelEndPoint( roomDesc, cellCount / 2 * 100 + x, cellCount / 2 * 100 + y );
     }

@@ -19,17 +19,17 @@ public:
     virtual void Generate(RoomDesc& roomDesc, int32_t x, int32_t y)=0;
     virtual RoomDesc const& GetRoomDesc()const;
     int32_t GetId()const;
-    typedef std::vector<glm::vec2> Neighbours_t;
-    Neighbours_t const& GetNeighbours()const;
+    typedef std::vector<glm::vec2> NeighbourCells_t;
+    NeighbourCells_t const& GetNeighbourCells()const;
     virtual void Init();
 protected:
-    Neighbours_t mNeighbours;
+    NeighbourCells_t mNeighbourCells;
     RoomDesc mRoomDesc;
     int32_t mId = -1;
     Scene& mScene;
     void PlaceSoldierSpawnPoint( RoomDesc &roomDesc, int32_t x, int32_t y );
     void PlaceLevelEndPoint( RoomDesc &roomDesc, int32_t x, int32_t y );
-    void AddNeighbour( int32_t x, int32_t y );
+    void AddNeighbourCell( int32_t x, int32_t y );
     bool IsInBounds( glm::vec2 pos ) const;
 };
 

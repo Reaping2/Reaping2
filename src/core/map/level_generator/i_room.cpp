@@ -28,9 +28,9 @@ int32_t IRoom::GetId() const
 }
 
 
-IRoom::Neighbours_t const& IRoom::GetNeighbours() const
+IRoom::NeighbourCells_t const& IRoom::GetNeighbourCells() const
 {
-    return mNeighbours;
+    return mNeighbourCells;
 }
 
 
@@ -42,24 +42,23 @@ void IRoom::Init()
     {
         for (int32_t rx = 0; rx < mRoomDesc.GetCellCount(); ++rx)
         {
-            if (mRoomDesc.GetCell(rx,ry).mFilled)
+            if (mRoomDesc.IsFilled(rx,ry))
             {
-
-                AddNeighbour( rx - 1, ry );
-                AddNeighbour( rx + 1, ry );
-                AddNeighbour( rx, ry - 1 );
-                AddNeighbour( rx, ry + 1 );
+                AddNeighbourCell( rx - 1, ry );
+                AddNeighbourCell( rx + 1, ry );
+                AddNeighbourCell( rx, ry - 1 );
+                AddNeighbourCell( rx, ry + 1 );
             }
         }
     }
 }
 
-void IRoom::AddNeighbour( int32_t x, int32_t y )
+void IRoom::AddNeighbourCell( int32_t x, int32_t y )
 {
-    if (std::find( mNeighbours.begin(), mNeighbours.end(), glm::vec2( x, y ) ) == mNeighbours.end()
-        && (!IsInBounds(glm::vec2(x,y)) || !mRoomDesc.GetCell(x,y).mFilled))
+    if (std::find( mNeighbourCells.begin(), mNeighbourCells.end(), glm::vec2( x, y ) ) == mNeighbourCells.end()
+        && (!IsInBounds(glm::vec2(x,y)) || !mRoomDesc.IsFilled(x,y)))
     {
-        mNeighbours.push_back( glm::vec2( x, y ) );
+        mNeighbourCells.push_back( glm::vec2( x, y ) );
     }
 
 }

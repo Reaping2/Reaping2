@@ -37,24 +37,24 @@ void JungleLevelGenerator::Generate()
 
 void JungleLevelGenerator::CreateSideRoutes()
 {
-    int32_t index = 0;
-    std::shuffle( mVisited.begin(), mVisited.end(), mRand );
+    int32_t roomIndex = 0;
+    std::shuffle( mVisitedRooms.begin(), mVisitedRooms.end(), mRand );
     RouteProperties properties;
     properties.minLength = Settings::Get().GetInt( "generator.side_route.min_length", 2 );;
     properties.endChance = Settings::Get().GetInt( "generator.side_route.end_chance", 30 );;
     properties.chanceIncrease = Settings::Get().GetInt( "generator.side_route.chance_increase", 0 );;
-    while (index < mVisited.size())
+    while (roomIndex < mVisitedRooms.size())
     {
-        auto route = CreateRoute( mVisited[index], properties );
+        auto route = CreateRoute( mVisitedRooms[roomIndex], properties );
         if (route.size() == 1)
         {
-            ++index;
+            ++roomIndex;
         }
         else
         {
             LinkRooms( route );
-            index = 0;
-            std::shuffle( mVisited.begin(), mVisited.end(), mRand );
+            roomIndex = 0;
+            std::shuffle( mVisitedRooms.begin(), mVisitedRooms.end(), mRand );
         }
 
     }
@@ -66,12 +66,12 @@ void JungleLevelGenerator::CreateMainRoute()
     properties.minLength = Settings::Get().GetInt( "generator.route.min_length", 13 );
     properties.endChance = Settings::Get().GetInt( "generator.route.end_chance", 30 );
     properties.chanceIncrease = Settings::Get().GetInt( "generator.route.chance_increase", 30 );
-    auto route = CreateRoute( mStartIndex, properties );
+    auto route = CreateRoute( mStartRoomIndex, properties );
     LinkRooms( route );
-    mEndIndex = route.top();
+    mEndRoomIndex = route.top();
     //TODO: check if it has an end property
-    mGData.ClearRoomProperties( mEndIndex );
-    mGData.AddRoomProperty( mEndIndex, RoomDesc::End );
+    mGData.ClearRoomProperties( mEndRoomIndex );
+    mGData.AddRoomProperty( mEndRoomIndex, RoomDesc::End );
 }
 
 void JungleLevelGenerator::GenerateTerrain()
@@ -87,29 +87,29 @@ void JungleLevelGenerator::GenerateTerrain()
 
 void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )
 {
-    FreeNodes_t freeNodes;
-    freeNodes.push_back( startPos );
-    while (!freeNodes.empty())
+    FreeNodes_t freeCellPositions;
+    freeCellPositions.push_back( startPos );
+    while (!freeCellPositions.empty())
     {
-        glm::vec2 vec = freeNodes.front();
-        if (mGData.IsFilled( vec.x, vec.y ))
+        glm::vec2 cellPos = freeCellPositions.front();
+        if (mGData.IsFilled( cellPos.x, cellPos.y ))
         {
-            LogNodes( "filled so pre_pop", freeNodes ); freeNodes.pop_front(); LogNodes( "filled so post_pop", freeNodes );
+            LogNodes( "filled so pre_pop", freeCellPositions ); freeCellPositions.pop_front(); LogNodes( "filled so post_pop", freeCellPositions );
             continue;
         }
-        Opt<IRoom> placedRoom = PlaceARoom( vec );
+        Opt<IRoom> placedRoom = PlaceARoom( cellPos );
         if (placedRoom.IsValid())
         {
-            LogNodes( "pre_pop", freeNodes ); freeNodes.pop_front(); LogNodes( "post_pop", freeNodes );
-            auto& neighbours = placedRoom->GetNeighbours();
-            for (auto& nVec : neighbours)
+            LogNodes( "pre_pop", freeCellPositions ); freeCellPositions.pop_front(); LogNodes( "post_pop", freeCellPositions );
+            auto& neighbours = placedRoom->GetNeighbourCells();
+            for (auto& neighPos : neighbours)
             {
-                auto v=nVec + vec;
-                if (mGData.IsInBounds( v )
-                    &&!mGData.IsFilled( v.x, v.y )
-                    &&std::find(freeNodes.begin(),freeNodes.end(),v)==freeNodes.end())
+                auto possiblePos=neighPos + cellPos;
+                if (mGData.IsInBounds( possiblePos )
+                    &&!mGData.IsFilled( possiblePos.x, possiblePos.y )
+                    &&std::find(freeCellPositions.begin(),freeCellPositions.end(),possiblePos)==freeCellPositions.end())
                 {
-                    freeNodes.push_back( v );
+                    freeCellPositions.push_back( possiblePos );
                 }
             }
         }
@@ -123,9 +123,9 @@ void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )
 Opt<IRoom> JungleLevelGenerator::PlaceARoom( glm::vec2 const& vec )
 {
     Opt<IRoom> r;
-    std::shuffle( mPossibleRooms.begin(), mPossibleRooms.end(), mRand );
+    std::shuffle( mPossibleRoomIds.begin(), mPossibleRoomIds.end(), mRand );
     bool succ = false;
-    for (auto& roomId:mPossibleRooms)
+    for (auto& roomId : mPossibleRoomIds)
     {
         auto& room = mRoomRepo( roomId );
         if (mGData.CanPlaceRoom( room.GetRoomDesc(), vec ))
@@ -149,66 +149,74 @@ void JungleLevelGenerator::LogNodes( std::string log, FreeNodes_t const& nodes )
 }
 
 
-JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startIndex, RouteProperties const& properties )
+JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRoomIndex, RouteProperties const& properties )
 {
     mGData.ShuffleNeighbours();
     Route_t route;
-    int32_t curr = startIndex;
-    route.push( curr );
+    int32_t currRoomIndex = startRoomIndex;
+    route.push( currRoomIndex );
     Route_t longestRoute;
     Visited_t longestVisited;
-    if (std::find( mVisited.begin(), mVisited.end(), curr ) == mVisited.end())
+    if (std::find( mVisitedRooms.begin(), mVisitedRooms.end(), currRoomIndex ) == mVisitedRooms.end())
     {
-        mVisited.push_back( curr );
+        mVisitedRooms.push_back( currRoomIndex );
     }
     std::vector<int32_t> nextNeigh(mGData.GetRoomCount(), 0);
     bool endHit = false;
-    while (curr != -1 && !endHit)
+    while (currRoomIndex != -1 && !endHit)
     {
-        while (nextNeigh[curr] < mGData.GetNeighbourCount(curr)
-            &&std::find(mVisited.begin(),mVisited.end(),
-                mGData.GetNeigbourRoomIndex(curr,nextNeigh[curr])) != mVisited.end())
+        while (nextNeigh[currRoomIndex] < mGData.GetNeighbourRoomCount(currRoomIndex)
+            &&std::find(mVisitedRooms.begin(), mVisitedRooms.end(),
+                mGData.GetNeigbourRoomIndex(currRoomIndex, nextNeigh[currRoomIndex])) != mVisitedRooms.end())
         {
-            ++nextNeigh[curr];
+            ++nextNeigh[currRoomIndex];
         }
             
-        if(nextNeigh[curr] >= mGData.GetNeighbourCount( curr ))
+        if(nextNeigh[currRoomIndex] >= mGData.GetNeighbourRoomCount( currRoomIndex ))
         {
+            // reached a dead end.
             if (properties.minLength == 0)
             {
+                // if minLength is 0 then this means route creation is done
                 endHit = true;
             }
             else
             {
-                nextNeigh[curr] = 0;
+                // stepping back
+                // TODO: limit step backs in case of too long expected route size, this could be excessive
+                nextNeigh[currRoomIndex] = 0;
                 if (longestRoute.size() < route.size())
                 {
+                    // note that longest route and longest visited rooms have to be saved here
+                    // the first room (startRoomIndex) have to stay in mVisited
                     longestRoute = route;
-                    longestVisited = mVisited;
+                    longestVisited = mVisitedRooms;
                 }
-                mVisited.erase( std::find( mVisited.begin(), mVisited.end(), curr ) );
+                mVisitedRooms.erase( std::find( mVisitedRooms.begin(), mVisitedRooms.end(), currRoomIndex ) );
                 route.pop();
                 if (route.empty())
                 {
-                    curr = -1;
+                    currRoomIndex = -1;
                 }
                 else
                 {
-                    curr = route.top();
-                    ++nextNeigh[curr];
+                    currRoomIndex = route.top();
+                    ++nextNeigh[currRoomIndex];
                 }
             }
         }
         else
         {
-            int32_t nextRoomIndex = mGData.GetNeigbourRoomIndex( curr, nextNeigh[curr] );
-            mVisited.push_back( nextRoomIndex );
-            curr = nextRoomIndex;
-            route.push( curr );
+            // searching for a next neighbour
+            int32_t nextRoomIndex = mGData.GetNeigbourRoomIndex( currRoomIndex, nextNeigh[currRoomIndex] );
+            mVisitedRooms.push_back( nextRoomIndex );
+            currRoomIndex = nextRoomIndex;
+            route.push( currRoomIndex );
             if ((int32_t)route.size() - properties.minLength>0)
             {
                 if (mRand() % (100) < properties.endChance + ((int32_t)route.size() - properties.minLength)*properties.chanceIncrease)
                 {
+                    // the desired route size has been hit
                     endHit = true;
                 }
             }
@@ -216,7 +224,7 @@ JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startIn
     }
     if (route.empty())
     {
-        std::swap( mVisited,longestVisited );
+        std::swap( mVisitedRooms, longestVisited );
         std::swap( longestRoute, route );
     }
     return route;
@@ -233,7 +241,7 @@ void JungleLevelGenerator::LinkRooms( Route_t route )
         roomA = roomB;
         roomB = route.top();
         route.pop();
-        auto cellPairs = mGData.GetCellPairs( roomA, roomB );
+        auto cellPairs = mGData.GetAdjacentCellPairs( roomA, roomB );
         auto& cellPair = cellPairs[mRand() % cellPairs.size()];
         mGData.LinkCells( cellPair.first, cellPair.second );
     }
@@ -241,10 +249,10 @@ void JungleLevelGenerator::LinkRooms( Route_t route )
 
 void JungleLevelGenerator::CreateStart()
 {
-    mStartIndex = mRand() % mGData.GetRoomCount();
+    mStartRoomIndex = mRand() % mGData.GetRoomCount();
     //TODO: check if it has a start property
-    mGData.ClearRoomProperties( mStartIndex );
-    mGData.AddRoomProperty( mStartIndex, RoomDesc::Start );
+    mGData.ClearRoomProperties( mStartRoomIndex );
+    mGData.AddRoomProperty( mStartRoomIndex, RoomDesc::Start );
 }
 
 } // namespace map

@@ -19,14 +19,14 @@ public:
     virtual void Generate() = 0;
 protected:
     typedef std::vector<int32_t> PossibleRooms_t;
-    PossibleRooms_t mPossibleRooms;
+    PossibleRooms_t mPossibleRoomIds;
     typedef std::deque<glm::vec2> FreeNodes_t;
     int32_t mCellSize = 1000;
     int32_t mCellCount = 0;
     int32_t mId = -1;
     Scene& mScene;
-    int32_t mStartIndex = -1; // start rooms index at mRoomDescs
-    int32_t mEndIndex = -1; // end rooms index at mRoomDescs
+    int32_t mStartRoomIndex = -1; // start rooms index at mRoomDescs
+    int32_t mEndRoomIndex = -1; // end rooms index at mRoomDescs
     GeneratorData mGData;
     void AddPossibleRoom( int32_t roomId, int32_t possibility );
 };
