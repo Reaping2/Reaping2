@@ -57,7 +57,7 @@ void HatActionRenderer::Init( const Actor& actor )
     }
 }
 
-void HatActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void HatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
     Sprite const& Spr = Sprites( mHatId );
@@ -68,7 +68,7 @@ void HatActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSpr
         glm::vec4 col = playerCC.IsValid() ? ColorRepo::Get()( playerCC->mControllerId ) : glm::vec4( 1, 1, 1, 1 );
         col.a = GetCloakColor( actor ).a;
         renderableSprites.push_back(
-            RenderableSprite( &actor, mHatId, &Spr, &Phase, col ) );
+            RenderableSprite( &actor, &renderableC, mHatId, &Spr, &Phase, col ) );
     }
 }
 

@@ -13,7 +13,7 @@ LegMoveActionRenderer::LegMoveActionRenderer( int32_t Id )
 void LegMoveActionRenderer::Init( const Actor& actor )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    int32_t aid = AutoId( "move" );
+    static int32_t aid = AutoId( "move" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {
@@ -21,16 +21,16 @@ void LegMoveActionRenderer::Init( const Actor& actor )
     }
 }
 
-void LegMoveActionRenderer::FillRenderableSprites( const Actor& actor, RenderableSprites_t& renderableSprites )
+void LegMoveActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    int32_t aid = AutoId( "move" );
+    static int32_t aid = AutoId( "move" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
         glm::vec4 col = GetCloakColor( actor ) * GetColor( actor );
-        renderableSprites.push_back( RenderableSprite( &actor, aid, &Spr, &Phase, col ) );
+        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, aid, &Spr, &Phase, col ) );
     }
 }
 

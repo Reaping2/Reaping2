@@ -35,14 +35,18 @@ bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
         std::string recognizerName;
         if ( !Json::GetStr( recognizerJValue["recognizer"], recognizerName ) )
         {
-            return false;
+            continue;
         }
         std::auto_ptr<Recognizer> recognizer( mRecognizerFactory( AutoId( recognizerName ) ) );
+        if( recognizer.get() == nullptr )
+        {
+            continue;
+        }
 
         std::string rendererName;
         if ( !Json::GetStr( recognizerJValue["renderer"], rendererName ) )
         {
-            return false;
+            continue;
         }
         recognizer->SetActionRenderer( AutoId( rendererName ) );
         recognizer->SetOrder( orderindex++ );
@@ -136,24 +140,16 @@ void RecognizerRepo::Init()
     }
 }
 
-RecognizerRepo::Recognizers_t& RecognizerRepo::GetRecognizers( int32_t actorId )
+RecognizerRepo::Recognizers_t const* RecognizerRepo::GetRecognizers( int32_t actorId ) const
 {
-    return mRecognizersMap.find( actorId )->second;
+    auto it = mRecognizersMap.find( actorId );
+    return it == mRecognizersMap.end() ? nullptr : &it->second;
 }
 
-bool RecognizerRepo::HasRecognizers( int32_t actorId )
+RecognizerRepo::ExcludedRecognizers_t const* RecognizerRepo::GetExcludedRecognizers( int32_t recognizerId ) const
 {
-    return mRecognizersMap.find( actorId ) != mRecognizersMap.end();
-}
-
-bool RecognizerRepo::HasExcludedRecognizers( int32_t recognizerId )
-{
-    return mExcludedRecognizersMap.find( recognizerId ) != mExcludedRecognizersMap.end();
-}
-
-RecognizerRepo::ExcludedRecognizers_t& RecognizerRepo::GetExcludedRecognizers( int32_t recognizerId )
-{
-    return mExcludedRecognizersMap.find( recognizerId )->second;
+    auto it = mExcludedRecognizersMap.find( recognizerId );
+    return it == mExcludedRecognizersMap.end() ? nullptr : &it->second;
 }
 
 } // namespace render

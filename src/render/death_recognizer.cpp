@@ -8,7 +8,7 @@ DeathRecognizer::DeathRecognizer( int32_t Id )
 
 }
 
-bool DeathRecognizer::Recognize( Actor const& actor )
+bool DeathRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if ( !healthC.IsValid() )

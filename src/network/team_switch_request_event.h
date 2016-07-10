@@ -8,7 +8,7 @@ namespace network {
 struct TeamSwitchRequestEvent : public platform::Event
 {
     int32_t mClientId;
-    TeamSwitchRequestEvent() {}
+    TeamSwitchRequestEvent() : mClientId( -1 ) {}
 };
 
 } // namespace engine

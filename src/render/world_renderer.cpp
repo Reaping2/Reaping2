@@ -28,6 +28,9 @@ void WorldRenderer::Init()
     glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, 0 );
     glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, ( void* )( 8 * sizeof( GLfloat ) ) );
     mVAO.Unbind();
+    mTexIndex = 0;
+    mPosIndex = 0;
+    mColorIndex = 0;
 }
 
 WorldRenderer::WorldRenderer()

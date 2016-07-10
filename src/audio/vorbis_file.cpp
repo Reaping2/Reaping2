@@ -4,6 +4,7 @@ VorbisFile::VorbisFile( AutoFile File )
     : mSource( File )
     , mStatus( St_None )
     , mVorbisFile()
+    , mInfo()
 {
 }
 

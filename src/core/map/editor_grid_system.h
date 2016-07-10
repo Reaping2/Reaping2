@@ -24,6 +24,8 @@ private:
     Scene& mScene;
     GridRepo& mGridRepo;
     int32_t mGridId;
+    std::vector<std::string> mGridStyles;
+    std::vector<std::string> GridStyles();
     boost::ptr_vector<ModelValue> mEditorModels;
     void GridChanged( std::string const& grid );
     AutoReg mOnWorldMouseMove;

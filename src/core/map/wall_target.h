@@ -22,7 +22,6 @@ public:
 
 
 protected:
-    int32_t mId;
     int32_t mCursorId;
     int32_t mActorId;
 private:

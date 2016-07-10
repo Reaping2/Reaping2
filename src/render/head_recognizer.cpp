@@ -8,7 +8,7 @@ HeadRecognizer::HeadRecognizer( int32_t Id )
 }
 
 
-bool HeadRecognizer::Recognize( Actor const& actor )
+bool HeadRecognizer::Recognize( Actor const& actor ) const
 {
     return true;
 }

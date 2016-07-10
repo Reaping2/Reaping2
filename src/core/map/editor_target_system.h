@@ -30,8 +30,26 @@ private:
     int32_t mTargetId;
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;
+    std::vector<int32_t> mGunVisualIds;
+    std::vector<int32_t> mGunActorIds;
+    std::vector<int32_t> mBuffVisualIds;
+    std::vector<int32_t> mBuffActorIds;
+    std::vector<int32_t> mItemVisualIds;
+    std::vector<int32_t> mItemActorIds;
+    std::vector<int32_t> mMapitemVisualIds;
+    std::vector<int32_t> mMapitemActorIds;
+    std::vector<int32_t> mSpawnpointVisualIds;
+    std::vector<int32_t> mSpawnpointVisualBackground;
+    std::vector<int32_t> mSpawnpointActorIds;
+    std::map<std::string,std::vector<int32_t>> mTargetActorIdsMap;
+    std::vector<int32_t> Guns();
+    std::vector<int32_t> Buffs();
+    std::vector<int32_t> Items();
+    std::vector<int32_t> MapItems();
+    std::vector<int32_t> Spawnpoints();
+    std::vector<int32_t> SpawnpointBackground();
     boost::ptr_vector<ModelValue> mEditorModels;
-    void TargetChanged( std::string const& target );
+    void TargetChanged( std::string const& targetType, int32_t targetIdx );
 };
 
 } // namespace map

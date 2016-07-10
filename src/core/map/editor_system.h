@@ -29,18 +29,24 @@ protected:
 private:
     Scene& mScene;
     ModelValue mEditorModel;
+    ModelValue mLevelModel;
     ModelValue mStartModel;
     ModelValue mLoadModel;
     ModelValue mSaveModel;
     ModelValue mLayerModel;
+    ModelValue mLayerNamesModel;
     double mX;
     double mY;
     double const& GetX() const;
     double const& GetY() const;
     boost::ptr_vector<ModelValue> mPlayerModels;
     std::string mLevelName;
+    std::vector<std::string> mLevelNames;
+    std::vector<std::string> LevelNames();
     EditorLayer::Type mEditorLayerType;
     EditorLayer mEditorLayer;
+    std::vector<std::string> mLayerNames;
+    std::vector<std::string> LayerNames();
 
     Opt<engine::KeyboardSystem> mKeyboard;
     void Start();

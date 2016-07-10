@@ -17,10 +17,6 @@ protected:
     MessageHolder& mMessageHolder;
     Scene& mScene;
     ProgramState& mProgramState;
-    bool mIsClient;
-    bool IsClient();
-    bool mIsServer;
-    bool IsServer();
 public:
     MessageHandlerSubSystem();
     virtual int32_t GetType() const = 0;
