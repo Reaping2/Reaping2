@@ -4,6 +4,7 @@
 #include <boost/predef.h>
 #include <boost/filesystem.hpp>
 #include <boost/assert.hpp>
+#include <numeric>
 #if( BOOST_OS_WINDOWS )
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
