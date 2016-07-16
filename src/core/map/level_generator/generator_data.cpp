@@ -23,11 +23,7 @@ void GeneratorData::SetDimensions( int32_t x, int32_t y )
     mDimX = x;
     mDimY = y;
     mGCells.clear();
-    mGCells.resize( mDimY );
-    for (auto& row : mGCells)
-    {
-        row.resize( mDimX );
-    }
+    mGCells.resize( mDimY, std::vector<GCell>(mDimX) );
 }
 
 bool GeneratorData::IsFilled( glm::vec2 pos ) const
@@ -104,7 +100,7 @@ void GeneratorData::ClearRoomProperties( int32_t roomIndex )
     mGRoomDescs[roomIndex].mRoomDesc.ClearProperties();
 }
 
-void GeneratorData::AddRoomProperty( int32_t roomIndex, RoomDesc::Property prop )
+void GeneratorData::AddRoomProperty( int32_t roomIndex, RoomProperty::Type prop )
 {
     mGRoomDescs[roomIndex].mRoomDesc.AddProperty( prop );
 }
@@ -140,23 +136,23 @@ void GeneratorData::LinkCells( glm::vec2 posA, glm::vec2 posB )
     auto& cellB = GetCell( posB );
     if (posA.x > posB.x)
     {
-        cellA.AddEntrance( Cell::Left );
-        cellB.AddEntrance( Cell::Right );
+        cellA.AddEntrance( EntranceType::Left );
+        cellB.AddEntrance( EntranceType::Right );
     }
     else if (posA.y > posB.y)
     {
-        cellA.AddEntrance( Cell::Bottom );
-        cellB.AddEntrance( Cell::Top );
+        cellA.AddEntrance( EntranceType::Bottom );
+        cellB.AddEntrance( EntranceType::Top );
     }
     else if (posA.x < posB.x)
     {
-        cellA.AddEntrance( Cell::Right );
-        cellB.AddEntrance( Cell::Left );
+        cellA.AddEntrance( EntranceType::Right );
+        cellB.AddEntrance( EntranceType::Left );
     }
     else
     {
-        cellA.AddEntrance( Cell::Top );
-        cellB.AddEntrance( Cell::Bottom );
+        cellA.AddEntrance( EntranceType::Top );
+        cellB.AddEntrance( EntranceType::Bottom );
     }
 }
 
@@ -175,7 +171,7 @@ int32_t GeneratorData::GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbou
     return mGraph[roomIndex][neighbourIndex];
 }
 
-void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room )
+void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room ) const
 {
     if (IsInBounds( posB )
         && IsRoomIdentical( posB, room ))
@@ -238,6 +234,7 @@ GeneratorData::CellPairs_t GeneratorData::GetAdjacentCellPairs( int32_t roomA, i
 {
     CellPairs_t r;
     auto const& roomDescA = GetRoomDesc( roomA );
+    auto roomCoordA = GetRoomCoord( roomA );
     int32_t cellCount = roomDescA.GetCellCount();
     for (int32_t ry = 0; ry < cellCount; ++ry)
     {
@@ -245,7 +242,6 @@ GeneratorData::CellPairs_t GeneratorData::GetAdjacentCellPairs( int32_t roomA, i
         {
             if (roomDescA.IsFilled( rx, ry ))
             {
-                auto roomCoordA = GetRoomCoord( roomA );
                 auto vec = roomCoordA + glm::vec2( rx, ry );
                 AddCellPair( r, vec, glm::vec2( vec.x - 1, vec.y ), roomB );
                 AddCellPair( r, vec, glm::vec2( vec.x + 1, vec.y ), roomB );

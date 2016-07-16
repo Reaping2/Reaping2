@@ -1,0 +1,107 @@
+[
+    {
+        "plain_properties": [ "start","end" ],
+        "cell_count": 2,
+        "cell_size": 600,
+        "name": "test_room",
+        "cells":[
+            {
+                "x":0,
+                "y":0,
+                "entrances": [ "right","bottom","left" ],
+                "name" : "cell"
+            },
+            {
+                "x":0,
+                "y":1,
+                "entrances": [ "top","right","left" ],
+                "name" : "cell"
+            }        
+        ],
+        "properties":[
+            {
+                "name":"cell_entrance",
+                "x":0,
+                "y":0,
+                "type":"bottom",
+                "blocked_targets":["bottom_group"],
+                "entrance_targets":["w3"]
+            },
+            {
+                "name":"room_start",
+                "targets":["soldier_spawn_group"]
+            },
+            {
+                "name":"room_end",
+                "targets":["end_group"]
+            },
+            {
+                "name":"spawn_chance",
+                "targets":["spawn_at_start"],
+                "chance":100
+            }         
+        ],
+        "map_elements":[
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 300.0,"y" : 300.0}]}],
+                "identifier" : "spawn_at_start",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 600.0,"y" : 300.0}]}],
+                "identifier" : "spawn_at_start",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 300.0,"y" : 100.0}]}],
+                "identifier" : "w1",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 500.0,"y" : 100.0}]}],
+                "identifier" : "w2",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 500.0,"y" : 200.0}]}],
+                "identifier" : "w3",
+                "name" : "spawn_actor"
+            },
+            {
+                "name":"soldier_spawn_point",
+                "identifier" : "s1",
+                "position":{"x":200,"y":800}
+            },
+            {
+                "name":"rogue_end_point",
+                "identifier" : "e1",
+                "position":{"x":200,"y":800}
+            },
+            {
+                "name":"group",
+                "targets":["w1","w2"],
+                "identifier" : "bottom_group"
+            },
+            {
+                "name":"group",
+                "targets":["s1"],
+                "identifier" : "soldier_spawn_group"
+            },
+            {
+                "name":"group",
+                "targets":["e1"],
+                "identifier" : "end_group"
+            }        
+        ]
+    }
+]

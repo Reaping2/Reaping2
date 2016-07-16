@@ -15,11 +15,11 @@
     },
     "generator":
     {
-        "cell_size":600,
-        "cell_count":8,
+        "cell_size":1000,
+        "cell_count":7,
         "route":
         {
-            "min_length":20,
+            "min_length":12,
             "end_chance":30,
             "chance_increase":30
         },

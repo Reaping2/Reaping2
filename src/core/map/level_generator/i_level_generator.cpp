@@ -12,7 +12,7 @@ ILevelGenerator::ILevelGenerator( int32_t Id )
     , mScene( Scene::Get() )
 {
     mCellSize = Settings::Get().GetInt( "generator.cell_size", 1000 );
-    mCellCount = Settings::Get().GetInt( "generator.cell_count", 5 );;
+    mCellCount = Settings::Get().GetInt( "generator.cell_count", 5 );
     mRand.seed( Settings::Get().GetUInt( "generator.seed", unsigned( std::time( 0 ) ) ) );
 }
 

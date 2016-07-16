@@ -21,8 +21,10 @@ void Logger::Log( int Level, char const* format, ... )
     fprintf( mLogFile.mFile, "[%f]", glfwGetTime() );
     va_start ( arg, format );
     done = vfprintf ( mLogFile.mFile, format, arg );
-    //Temporary it might cause crash still investigating
+#if BOOST_OS_WINDOWS 
+    // Temp. Currently using va_args two times does crash using gcc.
     if(Level==1) done = vfprintf ( stderr, format, arg );
+#endif
     fflush( mLogFile.mFile );
     va_end ( arg );
 }

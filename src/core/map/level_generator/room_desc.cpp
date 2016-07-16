@@ -51,7 +51,7 @@ void RoomDesc::SetProperties( Properties_t const& properties )
 }
 
 
-bool RoomDesc::HasProperty( Property prop ) const
+bool RoomDesc::HasProperty( RoomProperty::Type prop ) const
 {
     return mPossibleProperties.find( prop ) != mPossibleProperties.end();
 }
@@ -62,7 +62,7 @@ void RoomDesc::ClearProperties()
 }
 
 
-void RoomDesc::AddProperty( Property prop )
+void RoomDesc::AddProperty( RoomProperty::Type prop )
 {
     mPossibleProperties.insert( prop );
 }
@@ -124,7 +124,43 @@ void RoomDesc::SetRoom( Opt<IRoom> room )
 }
 
 
-void Cell::AddEntrance( Entrance const& entrance )
+void RoomDesc::Load( Json::Value& setters )
+{
+    mPossibleProperties.clear();
+    Json::Value const& properties = setters["plain_properties"];
+    if (properties.isArray())
+    {
+        for (auto& prop : properties)
+        {
+            AddProperty( RoomProperty::Get()(AutoId( prop.asString() )) );
+        }
+    }
+    int i = 0;
+    if (Json::GetInt( setters["cell_count"], i ))
+    {
+        SetCellCount( i );
+    }
+    if (Json::GetInt( setters["cell_size"], i ))
+    {
+        SetCellSize( i );
+    }
+    auto& cells = setters["cells"];
+    if (cells.isArray())
+    {
+        for (auto& cell : cells)
+        {
+            int x = 0;
+            int y = 0;
+            if (Json::GetInt( cell["x"], x ) && Json::GetInt( cell["y"], y ))
+            {
+                GetCell( x, y ).Load( cell );
+            }
+        }
+    }
+
+}
+
+void Cell::AddEntrance( EntranceType::Type const& entrance )
 {
     mPossibleEntrances.insert( entrance );
 }
@@ -136,7 +172,7 @@ void Cell::SetEntrances( Entrances_t const& entrances )
 }
 
 
-bool Cell::HasEntrance( Entrance const& entrance ) const
+bool Cell::HasEntrance( EntranceType::Type const& entrance ) const
 {
     return mPossibleEntrances.find( entrance ) != mPossibleEntrances.end();
 }
@@ -156,6 +192,29 @@ void Cell::SetFilled( bool filled )
 bool Cell::IsFilled()
 {
     return mFilled;
+}
+
+
+void Cell::Load( Json::Value& setters )
+{
+    int i = 0;
+    if (Json::GetInt( setters["x"], i ))
+    {
+        mDescCoord.x = i;
+    }
+    if (Json::GetInt( setters["y"], i ))
+    {
+        mDescCoord.y = i;
+    }
+    mPossibleEntrances.clear();
+    auto const& entrances = setters["entrances"];
+    if (entrances.isArray())
+    {
+        for (auto& entrance : entrances)
+        {
+            AddEntrance( EntranceType::Get()(AutoId( entrance.asString() )) );
+        }
+    }
 }
 
 } // namespace map

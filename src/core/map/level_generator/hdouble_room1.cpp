@@ -12,11 +12,11 @@ HDoubleRoom1::HDoubleRoom1( int32_t Id )
 {
     mRoomDesc.SetCellCount( 2 );
     mRoomDesc.SetCellSize( Settings::Get().GetInt( "generator.cell_size", 1000 ) );
-    mRoomDesc.GetCell( 0, 0 ).SetEntrances( { Cell::Top, Cell::Bottom, Cell::Left } );
+    mRoomDesc.GetCell( 0, 0 ).SetEntrances( { EntranceType::Top, EntranceType::Bottom, EntranceType::Left } );
     mRoomDesc.GetCell( 0, 0 ).SetFilled( true );
-    mRoomDesc.GetCell( 1, 0 ).SetEntrances( { Cell::Top, Cell::Right, Cell::Bottom } );
+    mRoomDesc.GetCell( 1, 0 ).SetEntrances( { EntranceType::Top, EntranceType::Right, EntranceType::Bottom } );
     mRoomDesc.GetCell( 1, 0 ).SetFilled( true );
-    mRoomDesc.SetProperties( { RoomDesc::Start, RoomDesc::End } );
+    mRoomDesc.SetProperties( { RoomProperty::Start, RoomProperty::End } );
     mRoomDesc.SetRoom( this );
 }
 
@@ -28,7 +28,7 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
         tempDesc.SetCellCount( 1 );
         tempDesc.SetCellSize( roomDesc.GetCellSize() );
         tempDesc.GetCell( 0, 0 ).SetEntrances( roomDesc.GetCell( 0, 0 ).GetEntrances() );
-        tempDesc.GetCell( 0, 0 ).AddEntrance( Cell::Right );
+        tempDesc.GetCell( 0, 0 ).AddEntrance( EntranceType::Right );
         tempDesc.GetCell( 0, 0 ).SetFilled( true );
         tempDesc.SetProperties( roomDesc.GetProperties() );
         tempDesc.SetRoom( this );
@@ -39,7 +39,7 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
         tempDesc.SetCellCount( 1 );
         tempDesc.SetCellSize( roomDesc.GetCellSize() );
         tempDesc.GetCell( 0, 0 ).SetEntrances( roomDesc.GetCell( 1, 0 ).GetEntrances() );
-        tempDesc.GetCell( 0, 0 ).AddEntrance( Cell::Left );
+        tempDesc.GetCell( 0, 0 ).AddEntrance( EntranceType::Left );
         tempDesc.GetCell( 0, 0 ).SetFilled( true );
         tempDesc.ClearProperties();
         tempDesc.SetRoom( this );

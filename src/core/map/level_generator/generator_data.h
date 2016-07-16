@@ -4,6 +4,7 @@
 #include "core/actor_factory.h"
 #include "platform/i_platform.h"
 #include "i_room.h"
+#include "room_property.h"
 
 namespace map {
 
@@ -54,7 +55,7 @@ public:
     bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const;
     bool IsInBounds( glm::vec2 pos ) const;
     void ClearRoomProperties( int32_t roomIndex );
-    void AddRoomProperty( int32_t roomIndex, RoomDesc::Property prop );
+    void AddRoomProperty( int32_t roomIndex, RoomProperty::Type prop );
     int32_t GetRoomCount() const;
     Opt<IRoom> GetRoom( int32_t roomIndex );
     RoomDesc const& GetRoomDesc( int32_t roomIndex) const;
@@ -82,7 +83,7 @@ private:
     Cell& GetCell( glm::vec2 pos );
     glm::vec2 GetCellCoord( glm::vec2 pos );
     RoomDesc& GetRoomDesc( glm::vec2 pos );
-    void AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room );
+    void AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room ) const;
 };
 
 } // namespace map

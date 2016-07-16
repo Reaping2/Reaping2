@@ -42,9 +42,9 @@ void JungleLevelGenerator::CreateSideRoutes()
     int32_t roomIndex = 0;
     std::shuffle( mVisitedRooms.begin(), mVisitedRooms.end(), mRand );
     RouteProperties properties;
-    properties.minLength = Settings::Get().GetInt( "generator.side_route.min_length", 2 );;
-    properties.endChance = Settings::Get().GetInt( "generator.side_route.end_chance", 30 );;
-    properties.chanceIncrease = Settings::Get().GetInt( "generator.side_route.chance_increase", 0 );;
+    properties.minLength = Settings::Get().GetInt( "generator.side_route.min_length", 2 );
+    properties.endChance = Settings::Get().GetInt( "generator.side_route.end_chance", 30 );
+    properties.chanceIncrease = Settings::Get().GetInt( "generator.side_route.chance_increase", 0 );
     while (roomIndex < mVisitedRooms.size())
     {
         auto route = CreateRoute( mVisitedRooms[roomIndex], properties );
@@ -73,7 +73,7 @@ void JungleLevelGenerator::CreateMainRoute()
     mEndRoomIndex = route.top();
     //TODO: check if it has an end property
     mGData.ClearRoomProperties( mEndRoomIndex );
-    mGData.AddRoomProperty( mEndRoomIndex, RoomDesc::End );
+    mGData.AddRoomProperty( mEndRoomIndex, RoomProperty::End );
 }
 
 void JungleLevelGenerator::GenerateTerrain()
@@ -253,7 +253,7 @@ void JungleLevelGenerator::CreateStart()
     mStartRoomIndex = mRand() % mGData.GetRoomCount();
     //TODO: check if it has a start property
     mGData.ClearRoomProperties( mStartRoomIndex );
-    mGData.AddRoomProperty( mStartRoomIndex, RoomDesc::Start );
+    mGData.AddRoomProperty( mStartRoomIndex, RoomProperty::Start );
 }
 
 } // namespace map
