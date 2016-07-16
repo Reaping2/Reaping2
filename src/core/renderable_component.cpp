@@ -11,6 +11,7 @@ RenderableComponent::RenderableComponent()
     , mCastShadow( 0 )
     , mReceiveBlood( 0 )
     , mReceiveShadow( 0 )
+    , mColor( glm::vec4(1.0) )
 {
 }
 
@@ -64,6 +65,16 @@ void RenderableComponent::SetCastShadow( int32_t CastShadow )
     mCastShadow = CastShadow;
 }
 
+void RenderableComponent::SetColor( glm::vec4 const& color )
+{
+    mColor = color;
+}
+
+glm::vec4 RenderableComponent::GetColor()const
+{
+    return mColor;
+}
+
 RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow )
     : mLayer( Lay )
     , mZOrder( ZOrder )
@@ -108,6 +119,7 @@ void RenderableComponentLoader::BindValues()
         iv = std::numeric_limits<int32_t>::max();
     }
     Bind<int32_t>( func_int32_t( &RenderableComponent::SetReceiveShadow ), iv );
+    Bind( "color", func_color( &RenderableComponent::SetColor ) );
 }
 
 RenderableComponentLoader::RenderableComponentLoader()

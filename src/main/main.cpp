@@ -222,6 +222,7 @@ int main( int argc, char* argv[] )
 
     Eng.AddSystem( AutoId( "free_for_all_game_mode_system" ) );
     Eng.AddSystem( AutoId( "capture_the_flag_game_mode_system" ) );
+    Eng.AddSystem( AutoId( "rogue_game_mode_system" ) );
     Eng.AddSystem( AutoId( "leaderboard_system" ) );
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
@@ -310,6 +311,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "ctf_spawn_flags_map_element_system" ) );
         Eng.AddSystem( AutoId( "respawn_actor_map_element_system" ) );
         Eng.AddSystem( AutoId( "soldier_auto_revive_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generator_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generated_map_element_system" ) );
     }
 
     Eng.AddSystem( AutoId( "soldier_properties_system" ) ); //must be before message_sender

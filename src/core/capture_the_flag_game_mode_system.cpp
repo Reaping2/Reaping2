@@ -14,6 +14,7 @@
 #include "map/editor_soldier_spawn_system.h"
 #include "engine/client_score_event.h"
 #include "free_for_all_game_mode_system.h"
+#include "rogue_game_mode_system.h"
 
 namespace core {
 
@@ -82,6 +83,7 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode( core::StartGameModeEvent con
     ::engine::Engine::Get().SetEnabled< ::map::EditorSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( true );
+    ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( false );
 
 
     if ( mProgramState.mMode == core::ProgramState::Server )

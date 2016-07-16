@@ -1,0 +1,93 @@
+{
+    "health_bar":
+    {
+        "size":
+        {
+            "width":180,
+            "height":20
+        },
+        "border_size":
+        {
+            "width":186,
+            "height":26
+        },
+        "y":60
+    },
+    "generator":
+    {
+        "cell_size":1000,
+        "cell_count":7,
+        "route":
+        {
+            "min_length":12,
+            "end_chance":30,
+            "chance_increase":30
+        },
+        "side_route":
+        {
+            "side_min_length":4,
+            "side_end_chance":20,
+            "side_chance_increase":5
+        }
+    },
+    "soldier_name":
+    {
+        "size":76,
+        "y":70
+    },
+    "controlmappings":
+    {
+        "controller":
+        {
+            "Xbox 360 Wireless Receiver":
+            {
+                "linux":
+                {
+                    "shoot": "a5",
+                    "shoot_alt": "a2",
+                    "move_horizontal": "a0",
+                    "move_vertical": "-a1",
+                    "view_horizontal": "a3",
+                    "view_vertical": "-a4",
+                    "use_normal": "b5",
+                    "reload": "b4",
+                    "show_leaderboard": "b2",
+                    "pause": "b7"
+                },
+                "windows":
+                {
+                    "shoot": "a5",
+                    "shoot_alt": "a2",
+                    "move_horizontal": "a0",
+                    "move_vertical": "-a1",
+                    "view_horizontal": "a3",
+                    "view_vertical": "-a4",
+                    "use_normal": "b5",
+                    "reload": "b4",
+                    "show_leaderboard": "b2",
+                    "pause": "b7"
+                },
+                "shoot": "a5",
+                "shoot_alt": "a2",
+                "move_horizontal": "a0",
+                "move_vertical": "-a1",
+                "view_horizontal": "a3",
+                "view_vertical": "-a4",
+                "use_normal": "b5",
+                "reload": "b4",
+                "show_leaderboard": "b2",
+                "pause": "b7"
+            },
+            "shoot": "a4",
+            "shoot_alt": "a5",
+            "move_horizontal": "a0",
+            "move_vertical": "a1",
+            "view_horizontal": "a2",
+            "view_vertical": "a3",
+            "use_normal": "b5",
+            "reload": "b4",
+            "show_leaderboard": "b2",
+            "pause": "b7"
+        }
+    }
+}

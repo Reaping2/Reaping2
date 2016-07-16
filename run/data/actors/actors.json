@@ -18,7 +18,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings", "cast_shadow":1}]
+                "set":[{"layer":"buildings", "color":"0xff0000ff", "cast_shadow":1}]
             },
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":50}]

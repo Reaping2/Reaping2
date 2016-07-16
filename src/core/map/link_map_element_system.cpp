@@ -28,14 +28,10 @@ void LinkMapElementSystem::Update( double DeltaTime )
 
 void LinkMapElementSystem::OnMapLoaded( core::MapLoadedEvent const& Evt )
 {
-    MapElementListFilter<MapSystem::All> mapElementListFilter( mMapSystem->GetMapElementList(), LinkMapElement::GetType_static() );
-    for( MapElementListFilter<MapSystem::All>::const_iterator linkMapElementIt = mapElementListFilter.begin(), linkMapElementE = mapElementListFilter.end(); linkMapElementIt != linkMapElementE; ++linkMapElementIt )
+    for( Opt<LinkMapElement> linkMapElement : MapElementListFilter<MapSystem::All>( mMapSystem->GetMapElementList(), LinkMapElement::GetType_static() ))
     {
-        Opt<LinkMapElement> linkMapElement( *linkMapElementIt );
-        MapElementListFilter<MapSystem::UID> targetInputUIDs( mMapSystem->GetMapElementList(), linkMapElement->GetTargetInputUID() );
-        for( MapElementListFilter<MapSystem::UID>::const_iterator targetInputUIDIt = targetInputUIDs.begin(), targetInputUIDE = targetInputUIDs.end(); targetInputUIDIt != targetInputUIDE; ++targetInputUIDIt )
+        for ( Opt<IInput> targetInput : MapElementListFilter<MapSystem::UID>( mMapSystem->GetMapElementList(), linkMapElement->GetTargetInputUID() ))
         {
-            Opt<IInput> targetInput( *targetInputUIDIt );
             if( !targetInput.IsValid() )
             {
                 L1( "Tried to link an input node that has no input nodes!" );
@@ -52,10 +48,8 @@ void LinkMapElementSystem::OnMapLoaded( core::MapLoadedEvent const& Evt )
                 inputNode = targetInput->GetInputNode( linkMapElement->GetTargetInputNodeOrdinal() );
             }
 
-            MapElementListFilter<MapSystem::UID> targetOutputUIDs( mMapSystem->GetMapElementList(), linkMapElement->GetTargetOutputUID() );
-            for( MapElementListFilter<MapSystem::UID>::const_iterator targetOutputUIDIt = targetOutputUIDs.begin(), targetOutputUIDE = targetOutputUIDs.end(); targetOutputUIDIt != targetOutputUIDE; ++targetOutputUIDIt )
+            for( Opt<IOutput> targetOutput : MapElementListFilter<MapSystem::UID>( mMapSystem->GetMapElementList(), linkMapElement->GetTargetOutputUID() ))
             {
-                Opt<IOutput> targetOutput( *targetOutputUIDIt );
                 if( !targetOutput.IsValid() )
                 {
                     L1( "Tried to link to an output node that has no output nodes!" );

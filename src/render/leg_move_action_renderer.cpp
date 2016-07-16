@@ -29,7 +29,7 @@ void LegMoveActionRenderer::FillRenderableSprites( const Actor& actor, IRenderab
     if( Spr.IsValid() )
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        glm::vec4 col = GetCloakColor( actor );
+        glm::vec4 col = GetCloakColor( actor ) * GetColor( actor );
         renderableSprites.push_back( RenderableSprite( &actor, &renderableC, aid, &Spr, &Phase, col ) );
     }
 }

@@ -3,6 +3,7 @@
 #include "core/map/spawn_soldiers_map_element.h"
 #include "engine/soldier_spawn_system.h"
 #include "../player_controller_component.h"
+#include "../i_position_component.h"
 
 namespace map {
 
@@ -49,6 +50,7 @@ void SpawnSoldiersMapElementSystem::Update( double DeltaTime )
 
                     Pl->Get<PlayerControllerComponent>()->SetEnabled( true );
                     Pl->Get<PlayerControllerComponent>()->mActive = true;
+                    auto positionC=(Pl->Get<IPositionComponent>());
                     mScene.SetPlayerModels( Opt<Actor>( Pl.get() ) );
                     mProgramState.mControlledActorGUID = clientData->mClientActorGUID;
                     mScene.AddActor( Pl.release() );

@@ -50,7 +50,7 @@ void DataChecksumMessageHandlerSubSystem::Execute(Message const& message)
         if ( cs != msg.mChecksum )
         {
             L1("checksum mismatch for %s: server(%d) != client(%d)\n", msg.mDatasource.c_str(), msg.mChecksum, cs );
-            exit(1);
+            //exit(1);
         }
     }
 }
