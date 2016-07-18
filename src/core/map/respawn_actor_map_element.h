@@ -25,11 +25,14 @@ public:
     void SetSecsToRespawnOriginal( double secsToRespawnOriginal );
     double GetSecsToRespawnOriginal()const;
     static int32_t SpawnNodeId();
+    RespawnActorMapElement& operator=( RespawnActorMapElement const& other );
+    RespawnActorMapElement( RespawnActorMapElement const& other );
 private:
     int32_t mActorID;
     ActorCreator::ComponentLoaderMap_t mComponentLoaders;
     double mSecsToRespawn;
     double mSecsToRespawnOriginal;
+    // operator= should be filled
 };
 
 } // namespace map

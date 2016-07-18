@@ -39,13 +39,13 @@ int32_t RoomDesc::GetCellSize() const
     return mCellSize;
 }
 
-RoomDesc::Properties_t const& RoomDesc::GetProperties() const
+RoomDesc::PlainProperties_t const& RoomDesc::GetPlainProperties() const
 {
     return mPossibleProperties;
 }
 
 
-void RoomDesc::SetProperties( Properties_t const& properties )
+void RoomDesc::SetPlainProperties( PlainProperties_t const& properties )
 {
     mPossibleProperties = properties;
 }
@@ -157,7 +157,6 @@ void RoomDesc::Load( Json::Value& setters )
             }
         }
     }
-
 }
 
 void Cell::AddEntrance( EntranceType::Type const& entrance )
@@ -215,6 +214,7 @@ void Cell::Load( Json::Value& setters )
             AddEntrance( EntranceType::Get()(AutoId( entrance.asString() )) );
         }
     }
+    mFilled = true;
 }
 
 } // namespace map

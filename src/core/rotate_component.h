@@ -33,6 +33,9 @@ void RotateComponent::serialize(Archive& ar, const unsigned int version)
 
 class RotateComponentLoader : public ComponentLoader<RotateComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( RotateComponentLoader )
+private:
     virtual void BindValues();
 protected:
     RotateComponentLoader();

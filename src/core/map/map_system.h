@@ -48,7 +48,8 @@ public:
         >
         > MapElementList_t;
     MapElementList_t mAllMapElements;
-
+    MapElementHolder() = default;
+    MapElementHolder( MapElementHolder const& holder );
 };
 
 typedef MapElementHolder::MapElementList_t MapElementList_t;

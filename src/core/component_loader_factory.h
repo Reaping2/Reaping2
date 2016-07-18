@@ -25,6 +25,7 @@ std::auto_ptr<PropertyLoaderBase<Component> > ComponentLoaderFactory::CreateComp
 class DefaultComponentLoader: public ComponentLoader<DefaultComponent>
 {
 public:
+    DEFINE_COMPONENT_LOADER_BASE( DefaultComponentLoader )
     virtual void BindValues();
 protected:
     DefaultComponentLoader();

@@ -54,6 +54,20 @@ int32_t BaseInput::GetValueId( int32_t id )
     return mBaseInputNodesId[id];
 }
 
+BaseInput::BaseInput( BaseInput const& other )
+{
+    *this = other;
+}
+
+BaseInput& BaseInput::operator=( BaseInput const& other )
+{
+    for (auto& inIdPair : other.mInputNodesId)
+    {
+        AddInputNodeId( inIdPair.first );
+    }
+    return *this;
+}
+
 void BaseInput::ResetValueId( int32_t id )
 {
     BOOST_ASSERT( mBaseInputNodesId.find( id ) != mBaseInputNodesId.end() );

@@ -120,6 +120,7 @@
 #include "core/rogue_game_mode_system.h"
 #include "core/map/level_generator/level_generator_map_element_system.h"
 #include "core/map/level_generator/level_generated_map_element_system.h"
+#include "core/map/group_map_element_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -239,6 +240,7 @@ void SystemFactory::Init()
     Bind( AutoId( "soldier_auto_revive_map_element_system" ), &CreateSystem<map::SoldierAutoReviveMapElementSystem> );
     Bind( AutoId( "level_generator_map_element_system" ), &CreateSystem<map::LevelGeneratorMapElementSystem> );
     Bind( AutoId( "level_generated_map_element_system" ), &CreateSystem<map::LevelGeneratedMapElementSystem> );
+    Bind( AutoId( "group_map_element_system" ), &CreateSystem<map::GroupMapElementSystem> );
 
     Bind( AutoId( "free_for_all_game_mode_system" ), &CreateSystem<core::FreeForAllGameModeSystem> );
     Bind( AutoId( "capture_the_flag_game_mode_system" ), &CreateSystem<core::CaptureTheFlagGameModeSystem> );

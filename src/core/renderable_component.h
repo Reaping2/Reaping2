@@ -67,6 +67,9 @@ void RenderableComponent::serialize( Archive& ar, const unsigned int version )
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( RenderableComponentLoader )
+private:
     virtual void BindValues();
 protected:
     friend class ComponentLoaderFactory;

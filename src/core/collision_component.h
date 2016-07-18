@@ -37,10 +37,12 @@ void CollisionComponent::serialize( Archive& ar, const unsigned int version )
 
 class CollisionComponentLoader: public ComponentLoader<CollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( CollisionComponentLoader )
+private:
     virtual void BindValues();
 protected:
     friend class ComponentLoaderFactory;
-    CollisionClass& mCollisionClass;
 public:
     CollisionComponentLoader();
 };

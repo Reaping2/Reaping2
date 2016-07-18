@@ -9,6 +9,11 @@ BaseOutput::BaseOutput()
 
 }
 
+BaseOutput::BaseOutput( BaseOutput const& other )
+{
+    *this = other;
+}
+
 void BaseOutput::PlugInNode( int32_t ordinal, int_function_t node )
 {
     BOOST_ASSERT( 0 <= ordinal && ordinal < mOutputNodes.size() );
@@ -48,6 +53,15 @@ void BaseOutput::DoOutputId( int32_t id, int32_t val )
     {
         ( *i )( val );
     }
+}
+
+BaseOutput& BaseOutput::operator=( BaseOutput const& other )
+{
+    for (auto& outIdPair : other.mOutputNodesId)
+    {
+        AddOutputNodeId( outIdPair.first );
+    }
+    return *this;
 }
 
 void BaseOutput::AddOutputNodeId( int32_t id )

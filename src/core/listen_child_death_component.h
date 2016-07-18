@@ -31,6 +31,9 @@ void ListenChildDeathComponent::serialize( Archive& ar, const unsigned int versi
 
 class ListenChildDeathComponentLoader : public ComponentLoader<ListenChildDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ListenChildDeathComponentLoader )
+private:
     virtual void BindValues();
 protected:
     ListenChildDeathComponentLoader();

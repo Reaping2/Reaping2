@@ -13,6 +13,7 @@
 #include "soldier_auto_revive_map_element.h"
 #include "level_generator/level_generator_map_element.h"
 #include "level_generator/level_generated_map_element.h"
+#include "group_map_element.h"
 
 using platform::AutoId;
 namespace map {
@@ -35,6 +36,7 @@ MapElementFactory::MapElementFactory()
     Bind( AutoId( "soldier_auto_revive" ), &CreateMapElement<SoldierAutoReviveMapElement> );
     Bind( AutoId( "level_generator" ), &CreateMapElement<LevelGeneratorMapElement> );
     Bind( AutoId( "level_generated" ), &CreateMapElement<LevelGeneratedMapElement> );
+    Bind( AutoId( "group" ), &CreateMapElement<GroupMapElement> );
 }
 
 } // namespace map

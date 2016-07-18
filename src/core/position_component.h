@@ -13,6 +13,8 @@ public:
     virtual double const& GetOrientation()const;
     virtual void SetX( double X );
     virtual void SetY( double Y );
+    virtual void AddX( double X );
+    virtual void AddY( double Y );
     virtual void SetOrientation( double Orientation );
     virtual void Save( Json::Value& component );
 protected:
@@ -40,6 +42,9 @@ void PositionComponent::serialize( Archive& ar, const unsigned int version )
 
 class PositionComponentLoader: public ComponentLoader<PositionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( PositionComponentLoader )
+private:
     virtual void BindValues();
 protected:
     PositionComponentLoader();

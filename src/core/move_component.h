@@ -58,6 +58,9 @@ void MoveComponent::serialize( Archive& ar, const unsigned int version )
 
 class MoveComponentLoader: public ComponentLoader<MoveComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( MoveComponentLoader )
+private:
     virtual void BindValues();
 protected:
     MoveComponentLoader();

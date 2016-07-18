@@ -29,6 +29,9 @@ void FlagReceiverComponent::serialize( Archive& ar, const unsigned int version )
 
 class FlagReceiverComponentLoader : public ComponentLoader<FlagReceiverComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( FlagReceiverComponentLoader )
+private:
     virtual void BindValues();
 public:
     FlagReceiverComponentLoader();

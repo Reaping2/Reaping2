@@ -2,6 +2,7 @@
 #include "core/map/map_element.h"
 
 namespace map {
+
 MapElement::~MapElement()
 {
 }
@@ -65,3 +66,4 @@ DefaultMapElement::DefaultMapElement( int32_t Id )
 }
 
 } // namespace map
+

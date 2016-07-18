@@ -36,8 +36,8 @@
                 "targets":["end_group"]
             },
             {
-                "name":"spawn_chance",
-                "targets":["spawn_at_start"],
+                "name":"spawn",
+                "targets":["spawn_at_level_generated"],
                 "chance":100
             }         
         ],
@@ -46,14 +46,14 @@
                 "actor" : "wall",
                 "components" : [{"name" : "position_component",
                     "set" : [{"x" : 300.0,"y" : 300.0}]}],
-                "identifier" : "spawn_at_start",
+                "identifier" : "spawn_at_level_generated",
                 "name" : "spawn_actor"
             },
             {
                 "actor" : "wall",
                 "components" : [{"name" : "position_component",
-                    "set" : [{"x" : 600.0,"y" : 300.0}]}],
-                "identifier" : "spawn_at_start",
+                    "set" : [{"x" : 400.0,"y" : 600.0}]}],
+                "identifier" : "spawn_at_level_generated",
                 "name" : "spawn_actor"
             },
             {
@@ -76,16 +76,18 @@
                     "set" : [{"x" : 500.0,"y" : 200.0}]}],
                 "identifier" : "w3",
                 "name" : "spawn_actor"
-            },
+            }, 
             {
                 "name":"soldier_spawn_point",
                 "identifier" : "s1",
                 "position":{"x":200,"y":800}
             },
             {
-                "name":"rogue_end_point",
-                "identifier" : "e1",
-                "position":{"x":200,"y":800}
+                "actor" : "platform",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 200.0,"y" : 800.0}]}],
+                "identifier" : "spawn_at_start",
+                "name" : "spawn_actor"
             },
             {
                 "name":"group",

@@ -117,5 +117,13 @@ void MapSystem::RemoveMapElement( int32_t spawnedActorGUID )
     }
 }
 
+MapElementHolder::MapElementHolder( MapElementHolder const& holder )
+{
+    for (auto elem : holder.mAllMapElements)
+    {
+        mAllMapElements.insert(elem->clone());
+    }
+}
+
 } // namespace map
 

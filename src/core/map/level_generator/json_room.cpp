@@ -8,12 +8,17 @@ JsonRoom::JsonRoom( int32_t Id )
     : IRoom( Id )
     , mActorFactory( ActorFactory::Get() )
     , mMapElementFactory( MapElementFactory::Get() )
+    , mPropertyFactory( PropertyFactory::Get() )
 {
     mRoomDesc.SetRoom( this );
 }
 
 void JsonRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos )
 {
+    for (auto&& prop : mProperties)
+    {
+        prop.Generate( roomDesc, mMapElementHolder, pos );
+    }
 }
 
 void JsonRoom::ClearMapElements()
@@ -43,6 +48,28 @@ void JsonRoom::Load( Json::Value& setters )
             }
         }
     }
+    mProperties.clear();
+    auto& props = setters["properties"];
+    if (props.isArray())
+    {
+        for (auto& prop : props)
+        {
+            std::string str;
+            if (Json::GetStr( prop["name"], str ))
+            {
+                auto Property = mPropertyFactory( AutoId( str ) );
+                Property->Load( prop );
+                mProperties.push_back( Property );
+            }
+        }
+    }
+
+}
+
+
+JsonRoom::Properties_t const& JsonRoom::GetProperties() const
+{
+    return mProperties;
 }
 
 } // namespace map

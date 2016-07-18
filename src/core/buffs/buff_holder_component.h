@@ -40,6 +40,9 @@ protected:
 
 class BuffHolderComponentLoader : public ComponentLoader<BuffHolderComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( BuffHolderComponentLoader )
+private:
     virtual void BindValues();
 protected:
     BuffHolderComponentLoader();

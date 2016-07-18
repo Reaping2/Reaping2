@@ -21,11 +21,14 @@ public:
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
     void AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader );
+    Opt<PropertyLoaderBase<Component>> GetComponentLoader( int32_t componentId );
     static int32_t SpawnNodeId();
+    SpawnActorMapElement& operator=( SpawnActorMapElement const& other );
+    SpawnActorMapElement( SpawnActorMapElement const& other );
 private:
     int32_t mActorID;
     ActorCreator::ComponentLoaderMap_t mComponentLoaders;
-    ComponentLoaderFactory& mComponentLoaderFactory;
+    // operator= should be filled
 };
 
 } // namespace map

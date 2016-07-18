@@ -16,7 +16,7 @@ HDoubleRoom1::HDoubleRoom1( int32_t Id )
     mRoomDesc.GetCell( 0, 0 ).SetFilled( true );
     mRoomDesc.GetCell( 1, 0 ).SetEntrances( { EntranceType::Top, EntranceType::Right, EntranceType::Bottom } );
     mRoomDesc.GetCell( 1, 0 ).SetFilled( true );
-    mRoomDesc.SetProperties( { RoomProperty::Start, RoomProperty::End } );
+    mRoomDesc.SetPlainProperties( { RoomProperty::Start, RoomProperty::End } );
     mRoomDesc.SetRoom( this );
 }
 
@@ -30,7 +30,7 @@ void HDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
         tempDesc.GetCell( 0, 0 ).SetEntrances( roomDesc.GetCell( 0, 0 ).GetEntrances() );
         tempDesc.GetCell( 0, 0 ).AddEntrance( EntranceType::Right );
         tempDesc.GetCell( 0, 0 ).SetFilled( true );
-        tempDesc.SetProperties( roomDesc.GetProperties() );
+        tempDesc.SetPlainProperties( roomDesc.GetPlainProperties() );
         tempDesc.SetRoom( this );
         simpleRoom1.Generate( tempDesc, pos );
     }

@@ -16,9 +16,10 @@ JungleLevelGenerator::JungleLevelGenerator( int32_t Id )
     , mActorFactory( ActorFactory::Get() )
     , mRoomRepo( RoomRepo::Get() )
 {
-    AddPossibleRoom( AutoId( "simple_room1" ), 3);
-    AddPossibleRoom( AutoId( "vdouble_room1" ), 1);
-    AddPossibleRoom( AutoId( "hdouble_room1" ), 1 );
+    //AddPossibleRoom( AutoId( "simple_room1" ), 3);
+    AddPossibleRoom( AutoId( "test_room" ), 10 );
+    //AddPossibleRoom( AutoId( "vdouble_room1" ), 1);
+    //AddPossibleRoom( AutoId( "hdouble_room1" ), 1 );
     mRand.seed( Settings::Get().GetUInt( "generator.seed", unsigned( std::time( 0 ) ) ) );
     int32_t a = mRand() % 10;
 }

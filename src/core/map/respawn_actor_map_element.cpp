@@ -14,6 +14,21 @@ int32_t RespawnActorMapElement::SpawnNodeId()
     return id;
 }
 
+map::RespawnActorMapElement& RespawnActorMapElement::operator=( RespawnActorMapElement const& other )
+{
+    MapElement::operator=( other );
+    BaseInput::operator=( other );
+    mActorID = other.mActorID;
+    mSecsToRespawn = other.mSecsToRespawn;
+    mSecsToRespawnOriginal = other.mSecsToRespawnOriginal;
+    for (auto&& compload : other.mComponentLoaders)
+    {
+        int32_t i = compload.first;
+        mComponentLoaders.insert( i, static_cast<ActorCreator::ComponentLoader_t*>(compload.second->clone()) );
+    }
+    return *this;
+}
+
 RespawnActorMapElement::RespawnActorMapElement( int32_t Id )
     : MapElement( Id )
     , BaseInput()
@@ -22,6 +37,11 @@ RespawnActorMapElement::RespawnActorMapElement( int32_t Id )
     , mSecsToRespawnOriginal( 100 )
 {
     AddInputNodeId( SpawnNodeId() );
+}
+
+RespawnActorMapElement::RespawnActorMapElement( RespawnActorMapElement const& other )
+{
+    *this = other;
 }
 
 void RespawnActorMapElement::Load( Json::Value& setters )

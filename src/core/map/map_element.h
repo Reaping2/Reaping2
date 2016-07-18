@@ -16,11 +16,16 @@ namespace map {
     { \
         return BuffType::GetType_static(); \
     } \
+    BuffType() = default; \
+    virtual BuffType* clone() const \
+    { \
+        return new BuffType( *this ); \
+    } \
  
 class MapElement
 {
 public:
-    virtual int GetType() const = 0;
+    DEFINE_MAP_ELEMENT_BASE( MapElement );
     virtual ~MapElement();
     virtual void Load( Json::Value& setters );
     virtual void Save( Json::Value& Element );

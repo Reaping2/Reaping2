@@ -37,6 +37,9 @@ void BorderComponent::serialize( Archive& ar, const unsigned int version )
 
 class BorderComponentLoader : public ComponentLoader<BorderComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( BorderComponentLoader )
+private:
     virtual void BindValues();
 protected:
     BorderComponentLoader();

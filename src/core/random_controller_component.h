@@ -36,6 +36,9 @@ void RandomControllerComponent::serialize( Archive& ar, const unsigned int versi
 
 class RandomControllerComponentLoader: public ComponentLoader<RandomControllerComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( RandomControllerComponentLoader )
+private:
     virtual void BindValues();
 protected:
     RandomControllerComponentLoader();

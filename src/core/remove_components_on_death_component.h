@@ -29,6 +29,9 @@ void RemoveComponentsOnDeathComponent::serialize( Archive& ar, const unsigned in
 
 class RemoveComponentsOnDeathComponentLoader : public ComponentLoader<RemoveComponentsOnDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( RemoveComponentsOnDeathComponentLoader )
+private:
     virtual void BindValues();
 protected:
     RemoveComponentsOnDeathComponentLoader();

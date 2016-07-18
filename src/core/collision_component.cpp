@@ -53,16 +53,16 @@ void CollisionComponentLoader::BindValues()
 {
     Bind( "radius", func_double( &CollisionComponent::SetRadius ) );
     std::string istr;
+    CollisionClass& collisionClass=CollisionClass::Get();
     if( Json::GetStr( ( *mSetters )["class"], istr ) )
     {
-        Bind<CollisionClass::Type>( &CollisionComponent::SetCollisionClass, mCollisionClass( AutoId( istr ) ) );
+        Bind<CollisionClass::Type>( &CollisionComponent::SetCollisionClass, collisionClass( AutoId( istr ) ) );
     }
     Bind("clip_scene", func_bool(&CollisionComponent::SetClipScene));
 
 }
 
 CollisionComponentLoader::CollisionComponentLoader()
-    : mCollisionClass( CollisionClass::Get() )
 {
 }
 

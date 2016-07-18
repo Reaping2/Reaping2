@@ -30,14 +30,15 @@ struct Cell
 struct RoomDesc
 {
     typedef std::vector<std::vector<Cell>> CellMatrix_t;
-    typedef std::set<RoomProperty::Type> Properties_t;
+    typedef std::set<RoomProperty::Type> PlainProperties_t;
     RoomDesc();
     void SetCellCount( int32_t cellCount );
     int32_t GetCellCount() const;
     void SetCellSize( int32_t cellSize );
     int32_t GetCellSize() const;
-    Properties_t const& GetProperties() const;
-    void SetProperties( Properties_t const& properties );
+    PlainProperties_t const& GetPlainProperties() const;
+
+    void SetPlainProperties( PlainProperties_t const& properties );
     bool HasProperty( RoomProperty::Type prop ) const;
     void ClearProperties();
     void AddProperty( RoomProperty::Type prop );
@@ -57,7 +58,7 @@ struct RoomDesc
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;
-    Properties_t mPossibleProperties;
+    PlainProperties_t mPossibleProperties;
     CellMatrix_t mCells;
     Opt<IRoom> mRoom;
 };

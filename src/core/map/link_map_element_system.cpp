@@ -57,7 +57,7 @@ void LinkMapElementSystem::OnMapLoaded( core::MapLoadedEvent const& Evt )
                 }
                 if( linkMapElement->GetTargetOutputNodeId() != -1 )
                 {
-                    targetOutput->PlugInNodeId( linkMapElement->GetTargetInputNodeId(), inputNode );
+                    targetOutput->PlugInNodeId( linkMapElement->GetTargetOutputNodeId(), inputNode );
                 }
                 else if ( linkMapElement->GetTargetOutputNodeOrdinal() != -1 )
                 {
