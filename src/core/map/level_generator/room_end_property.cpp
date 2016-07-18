@@ -1,4 +1,5 @@
 #include "core/map/level_generator/room_end_property.h"
+#include "spawn_property.h"
 
 
 namespace map {
@@ -35,5 +36,13 @@ RoomEndProperty::Targets_t const& RoomEndProperty::GetTargets() const
 }
 
 
+
+void RoomEndProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+{
+    if (roomDesc.HasProperty( RoomProperty::End ))
+    {
+        SpawnProperty::SpawnTargets( roomDesc, mTargets, mMapElementHolder, pos );
+    }
+}
 
 } // namespace map

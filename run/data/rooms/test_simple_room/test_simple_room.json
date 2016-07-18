@@ -1,0 +1,126 @@
+[
+    {
+        "plain_properties": [ "start","end" ],
+        "cell_count": 1,
+        "cell_size": 600,
+        "name": "test_simple_room",
+        "cells":[
+            {
+                "x":0,
+                "y":0,
+                "entrances": [ "top","right","bottom","left" ],
+                "name" : "cell"
+            }
+        ],
+        "properties":[
+            {
+                "name":"cell_entrance","x":0,"y":0,
+                "type":"top",
+                "blocked_targets":["top"],
+                "entrance_targets":[]
+            },
+            {
+                "name":"cell_entrance","x":0,"y":0,
+                "type":"right",
+                "blocked_targets":["right"],
+                "entrance_targets":[]
+            },
+            {
+                "name":"cell_entrance","x":0,"y":0,
+                "type":"bottom",
+                "blocked_targets":["bottom"],
+                "entrance_targets":[]
+            },
+            {
+                "name":"cell_entrance","x":0,"y":0,
+                "type":"left",
+                "blocked_targets":["left"],
+                "entrance_targets":[]
+            },
+            {
+                "name":"room_start",
+                "targets":["start"]
+            },
+            {
+                "name":"room_end",
+                "targets":["end"]
+            },
+            {
+                "name":"spawn",
+                "targets":["spawn_at_level_generated"],
+                "chance":100
+            }         
+        ],
+        "map_elements":[
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 100.0,"y" : 100.0}]}],
+                "identifier" : "spawn_at_level_generated",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 500.0,"y" : 100.0}]}],
+                "identifier" : "spawn_at_level_generated",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 100.0,"y" : 500.0}]}],
+                "identifier" : "spawn_at_level_generated",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 500.0,"y" : 500.0}]}],
+                "identifier" : "spawn_at_level_generated",
+                "name" : "spawn_actor"
+            },
+            
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 300.0,"y" : 500.0}]}],
+                "identifier" : "top",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 500.0,"y" : 300.0}]}],
+                "identifier" : "right",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 300.0,"y" : 100.0}]}],
+                "identifier" : "bottom",
+                "name" : "spawn_actor"
+            },
+            {
+                "actor" : "wall",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 100.0,"y" : 300.0}]}],
+                "identifier" : "left",
+                "name" : "spawn_actor"
+            },
+            {
+                "name":"soldier_spawn_point",
+                "identifier" : "start",
+                "position":{"x":300,"y":300}
+            },
+            {
+                "actor" : "platform",
+                "components" : [{"name" : "position_component",
+                    "set" : [{"x" : 300.0,"y" : 300.0}]}],
+                "identifier" : "end",
+                "name" : "spawn_actor"
+            }      
+        ]
+    }
+]

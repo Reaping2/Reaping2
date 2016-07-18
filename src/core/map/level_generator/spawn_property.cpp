@@ -2,6 +2,8 @@
 #include "../spawn_actor_map_element.h"
 #include "core/position_component.h"
 #include "level_generated_map_element.h"
+#include "random.h"
+#include "../group_map_element.h"
 
 
 namespace map {
@@ -59,42 +61,54 @@ int32_t SpawnProperty::GetChance() const
 
 void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
 {
-    static int32_t componentId = AutoId( "position_component" );
-    for (auto& target : mTargets)
+    if (mRand() % 100 < mChance)
     {
+        SpawnTargets( roomDesc, mTargets, mMapElementHolder, pos );
+    }
+}
+
+
+void SpawnProperty::SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targets, MapElementHolder &mMapElementHolder, glm::vec2 &pos )
+{
+    static int32_t componentId = AutoId( "position_component" );
+    static Opt<MapSystem> mapSystem = MapSystem::Get();
+    int currTargetIndex = 0;
+    while (currTargetIndex<targets.size())
+    {
+        int32_t target = targets[currTargetIndex];
         for (auto targetMapElement : MapElementListFilter<MapSystem::UID>( mMapElementHolder.mAllMapElements, target ))
         {
-            Opt<SpawnActorMapElement> spawnActor( targetMapElement );
-            if (spawnActor.IsValid())
+            if (targetMapElement->GetType() == SpawnActorMapElement::GetType_static())
             {
-                Opt<PositionComponentLoader> positionCompLoader = spawnActor->GetComponentLoader( componentId );
-                if (positionCompLoader.IsValid())
-                {
-                    positionCompLoader->Bind<double>( &PositionComponent::AddX, pos.x );
-                    positionCompLoader->Bind<double>( &PositionComponent::AddY, pos.y );
-                }
-                for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
-                {
-                    levelGenerated->PlugInNodeId( LevelGeneratedMapElement::GeneratedNodeId(), spawnActor->GetInputNodeId( SpawnActorMapElement::SpawnNodeId() ) );
-                }
+                Opt<SpawnActorMapElement> spawnActorMapElement( targetMapElement );
+                SpawnActor( spawnActorMapElement, pos );
+                MapSystem::Get()->GetMapElementList().insert( targetMapElement );
+            }
+            else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
+            {
+                Opt<GroupMapElement> groupMapElement( targetMapElement );
+                targets.insert( targets.end(), groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
             }
         }
+        ++currTargetIndex;
     }
-    for (auto elem : mMapElementHolder.mAllMapElements)
+}
+
+
+void SpawnProperty::SpawnActor( Opt<SpawnActorMapElement> spawnActorMapElement, glm::vec2 &pos )
+{
+    static int32_t componentId = AutoId( "position_component" );
+    static Opt<MapSystem> mapSystem = MapSystem::Get();
+    Opt<PositionComponentLoader> positionCompLoader = spawnActorMapElement->GetComponentLoader( componentId );
+    if (positionCompLoader.IsValid())
     {
-        MapSystem::Get()->GetMapElementList().insert( elem );
+        positionCompLoader->Bind<double>( &PositionComponent::AddX, pos.x );
+        positionCompLoader->Bind<double>( &PositionComponent::AddY, pos.y );
     }
-//     for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
-//     {
-//         MapElementListFilter<MapSystem::All> mapElementListFilter( MapSystem::Get()->GetMapElementList(), SpawnActorMapElement::GetType_static() );
-//         for (MapElementListFilter<MapSystem::All>::const_iterator spawnActorMapElementIt = mapElementListFilter.begin(), spawnActorMapElementE = mapElementListFilter.end(); spawnActorMapElementIt != spawnActorMapElementE; ++spawnActorMapElementIt)
-//         {
-//             Opt<SpawnActorMapElement> spawnActorMapElement( *spawnActorMapElementIt );
-// 
-//             levelGenerated->PlugInNode( 0, spawnActorMapElement->GetInputNode( 0 ) );
-// 
-//         }
-//     }
+    for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
+    {
+        levelGenerated->PlugInNodeId( LevelGeneratedMapElement::GeneratedNodeId(), spawnActorMapElement->GetInputNodeId( SpawnActorMapElement::SpawnNodeId() ) );
+    }
 }
 
 } // namespace map

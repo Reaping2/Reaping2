@@ -15,7 +15,7 @@ class JungleLevelGenerator: public ILevelGenerator
 public:
     JungleLevelGenerator( int32_t Id );
     virtual void Generate();
-
+    virtual void Load( Json::Value& setters );
 private:
     ActorFactory& mActorFactory;
     RoomRepo& mRoomRepo;
@@ -28,7 +28,10 @@ private:
         int32_t minLength = 0;
         int32_t endChance = 0;
         int32_t chanceIncrease = 0;
+        void Load( Json::Value& setters );
     };
+    RouteProperties mMainRouteProperties;
+    RouteProperties mSideRouteProperties;
     Route_t CreateRoute( int32_t startRoomIndex, RouteProperties const& properties );
     void CreateMainRoute();
     void CreateSideRoutes();

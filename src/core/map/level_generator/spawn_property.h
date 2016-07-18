@@ -4,6 +4,7 @@
 #include "core/map/level_generator/i_property.h"
 #include "platform/i_platform.h"
 #include "entrance_type.h"
+#include "../spawn_actor_map_element.h"
 
 namespace map {
 
@@ -19,10 +20,15 @@ public:
     void SetChance( int32_t chance );
     int32_t GetChance() const;
     virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos );
+    static void SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targets, MapElementHolder &mMapElementHolder, glm::vec2 &pos );
+
+    static void SpawnActor( Opt<SpawnActorMapElement> spawnActorMapElement, glm::vec2 &pos );
+
 private:
     Targets_t mTargets;
     int32_t mChance;
 };
+
 
 } // namespace map
 

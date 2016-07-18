@@ -1,4 +1,5 @@
 #include "core/map/level_generator/cell_entrance_property.h"
+#include "spawn_property.h"
 
 
 namespace map {
@@ -100,5 +101,17 @@ CellEntranceProperty::Targets_t const& CellEntranceProperty::GetEntranceTargets(
     return mEntranceTargets;
 }
 
+
+void CellEntranceProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+{
+    if (roomDesc.GetCell(mX,mY).HasEntrance( mEntranceType ))
+    {
+        SpawnProperty::SpawnTargets( roomDesc, mEntranceTargets, mMapElementHolder, pos );
+    }
+    else
+    {
+        SpawnProperty::SpawnTargets( roomDesc, mBlockedTargets, mMapElementHolder, pos );
+    }
+}
 
 } // namespace map

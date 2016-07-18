@@ -86,7 +86,7 @@
                 "actor" : "platform",
                 "components" : [{"name" : "position_component",
                     "set" : [{"x" : 200.0,"y" : 800.0}]}],
-                "identifier" : "spawn_at_start",
+                "identifier" : "e1",
                 "name" : "spawn_actor"
             },
             {
