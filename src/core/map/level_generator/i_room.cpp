@@ -1,6 +1,6 @@
 #include "i_room.h"
-#include "..\..\i_position_component.h"
-#include "..\..\actor_factory.h"
+#include "core/i_position_component.h"
+#include "core/actor_factory.h"
 
 namespace map {
 
