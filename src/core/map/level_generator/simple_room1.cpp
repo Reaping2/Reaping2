@@ -16,7 +16,7 @@ SimpleRoom1::SimpleRoom1( int32_t Id )
     mRoomDesc.SetRoom( this );
 }
 
-void SimpleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void SimpleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
     int cellCount = mRoomDesc.GetCellSize() / 100;
     for (int i = 0; i < cellCount*cellCount; ++i)

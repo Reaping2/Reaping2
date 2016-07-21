@@ -121,6 +121,7 @@
 #include "core/map/level_generator/level_generator_map_element_system.h"
 #include "core/map/level_generator/level_generated_map_element_system.h"
 #include "core/map/group_map_element_system.h"
+#include "core/map/room_editor_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -256,6 +257,7 @@ void SystemFactory::Init()
     Bind( AutoId( "attachable_system" ), &CreateSystem<engine::ctf::AttachableSystem> );
     Bind( AutoId( "show_text_system" ), &CreateSystem<engine::ShowTextSystem> );
     Bind( AutoId( "editor_system" ), &CreateSystem<map::EditorSystem> );
+    Bind( AutoId( "room_editor_system" ), &CreateSystem<map::RoomEditorSystem> );
     Bind( AutoId( "kill_score_system" ), &CreateSystem<engine::KillScoreSystem> );
 
     Bind( AutoId( "editor_target_system" ), &CreateSystem<map::EditorTargetSystem> );

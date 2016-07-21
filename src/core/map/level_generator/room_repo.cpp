@@ -77,7 +77,7 @@ DefaultRoom::DefaultRoom()
 {
 }
 
-void DefaultRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void DefaultRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
 
 }

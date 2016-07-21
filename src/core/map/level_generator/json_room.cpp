@@ -1,6 +1,8 @@
 #include "json_room.h"
 #include "core/i_position_component.h"
 #include "platform/settings.h"
+#include "platform/id_storage.h"
+#include "room_property.h"
 
 namespace map {
 
@@ -13,11 +15,11 @@ JsonRoom::JsonRoom( int32_t Id )
     mRoomDesc.SetRoom( this );
 }
 
-void JsonRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void JsonRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
     for (auto&& prop : mProperties)
     {
-        prop.Generate( roomDesc, mMapElementHolder, pos );
+        prop.Generate( roomDesc, mMapElementHolder, pos, editor );
     }
 }
 
@@ -66,6 +68,25 @@ void JsonRoom::Load( Json::Value& setters )
 
 }
 
+
+void JsonRoom::Save( Json::Value& setters, RoomDesc const& roomDesc )
+{
+    IdStorage& idStorage = IdStorage::Get();
+    std::string name;
+    if (idStorage.GetName( mId, name ))
+    {
+        setters["name"] = name;
+    }
+    roomDesc.Save( setters );
+    Json::Value propArray( Json::arrayValue );
+    for (auto& prop : mProperties)
+    {
+        Json::Value propObject( Json::objectValue );
+        prop.Save( propObject );
+        propArray.append( propObject );
+    }
+    setters["properties"] = propArray;
+}
 
 JsonRoom::Properties_t const& JsonRoom::GetProperties() const
 {

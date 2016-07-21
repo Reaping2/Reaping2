@@ -291,6 +291,7 @@ int main( int argc, char* argv[] )
     {
         Eng.AddSystem( AutoId( "local_system" ) );
         Eng.AddSystem( AutoId( "editor_system" ) );
+        Eng.AddSystem( AutoId( "room_editor_system" ) );
 
         Eng.AddSystem( AutoId( "editor_target_system" ) );
         Eng.AddSystem( AutoId( "editor_grid_system" ) );

@@ -11,7 +11,8 @@ class GroupMapElement : public MapElement
 public:
     DEFINE_MAP_ELEMENT_BASE(GroupMapElement)
     GroupMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    virtual void Load( Json::Value& setters );
+    virtual void Save( Json::Value& Element ); 
     typedef std::vector<int32_t> Targets_t;
     void SetTargets( Targets_t targets );
     Targets_t const& GetTargets() const;

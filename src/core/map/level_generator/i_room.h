@@ -16,7 +16,7 @@ class IRoom
 public:
     IRoom( int32_t Id );
     virtual ~IRoom();
-    virtual void Generate(RoomDesc& roomDesc, glm::vec2 pos)=0;
+    virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor = false ) = 0;
     virtual RoomDesc const& GetRoomDesc()const;
     int32_t GetId()const;
     typedef std::vector<glm::vec2> NeighbourCells_t;

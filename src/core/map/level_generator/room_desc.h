@@ -23,6 +23,7 @@ struct Cell
     void SetFilled( bool filled );
     bool IsFilled();
     void Load( Json::Value& setters );
+    void Save( Json::Value& setters ) const;
 };
 
 // describes an n*n room.
@@ -55,6 +56,7 @@ struct RoomDesc
     typedef std::vector<int32_t> PlacedActorGUIDs_t;
     PlacedActorGUIDs_t mPlacedActorGUIDs; // for debug
     void Load( Json::Value& setters );
+    void Save( Json::Value& setters ) const; 
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;

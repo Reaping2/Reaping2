@@ -25,6 +25,24 @@ void GroupMapElement::Load( Json::Value& setters )
     }
 }
 
+
+void GroupMapElement::Save( Json::Value& Element )
+{
+    MapElement::Save( Element );
+    IdStorage& idStorage = IdStorage::Get();
+    Json::Value TargetArr( Json::arrayValue );
+    for (auto& target : mTargets)
+    {
+        std::string targetName;
+        if (idStorage.GetName( target, targetName ))
+        {
+            Json::Value jName = Json::Value( targetName );
+            TargetArr.append( jName );
+        }
+    }
+    Element["targets"] = TargetArr;
+}
+
 void GroupMapElement::SetTargets( Targets_t targets )
 {
     mTargets = targets;

@@ -11,13 +11,26 @@ void IProperty::Load( Json::Value& setters )
 {
 }
 
+
+void IProperty::Save( Json::Value& setters ) const
+{
+    auto& idStorage = IdStorage::Get();
+    std::string propName;
+    if (idStorage.GetName( mId, propName ))
+    {
+        Json::Value jName = Json::Value( propName );
+        setters["name"] = jName;
+    }
+
+}
+
 int32_t IProperty::GetId() const
 {
     return mId;
 }
 
 
-void IProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+void IProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor/*= false*/)
 {
 }
 

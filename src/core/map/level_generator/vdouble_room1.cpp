@@ -20,7 +20,7 @@ VDoubleRoom1::VDoubleRoom1( int32_t Id )
     mRoomDesc.SetRoom( this );
 }
 
-void VDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void VDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
     {
         auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));

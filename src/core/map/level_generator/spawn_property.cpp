@@ -35,6 +35,24 @@ void SpawnProperty::Load( Json::Value& setters )
 }
 
 
+void SpawnProperty::Save( Json::Value& setters ) const
+{
+    IProperty::Save( setters );
+    auto& idStorage = IdStorage::Get();
+    Json::Value TargetArr( Json::arrayValue );
+    for (auto& target : mTargets)
+    {
+        std::string targetName;
+        if (idStorage.GetName( target, targetName ))
+        {
+            Json::Value jName = Json::Value( targetName );
+            TargetArr.append( jName );
+        }
+    }
+    setters["targets"] = TargetArr;
+    setters["chance"] = Json::Value( mChance );
+}
+
 void SpawnProperty::SetTargets( Targets_t blockedTargets )
 {
     mTargets = blockedTargets;
@@ -59,9 +77,9 @@ int32_t SpawnProperty::GetChance() const
 }
 
 
-void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
-    if (mRand() % 100 < mChance)
+    if (mRand() % 100 < mChance || editor)
     {
         SpawnTargets( roomDesc, mTargets, mMapElementHolder, pos );
     }
@@ -82,12 +100,13 @@ void SpawnProperty::SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targe
             {
                 Opt<SpawnActorMapElement> spawnActorMapElement( targetMapElement );
                 SpawnActor( spawnActorMapElement, pos );
-                MapSystem::Get()->GetMapElementList().insert( targetMapElement );
+                mapSystem->GetMapElementList().insert( targetMapElement );
             }
             else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
             {
                 Opt<GroupMapElement> groupMapElement( targetMapElement );
                 targets.insert( targets.end(), groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
+                mapSystem->GetMapElementList().insert( targetMapElement );
             }
         }
         ++currTargetIndex;
@@ -105,7 +124,7 @@ void SpawnProperty::SpawnActor( Opt<SpawnActorMapElement> spawnActorMapElement, 
         positionCompLoader->Bind<double>( &PositionComponent::AddX, pos.x );
         positionCompLoader->Bind<double>( &PositionComponent::AddY, pos.y );
     }
-    for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
+    for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( mapSystem->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
     {
         levelGenerated->PlugInNodeId( LevelGeneratedMapElement::GeneratedNodeId(), spawnActorMapElement->GetInputNodeId( SpawnActorMapElement::SpawnNodeId() ) );
     }

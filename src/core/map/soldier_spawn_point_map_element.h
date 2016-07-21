@@ -11,7 +11,8 @@ class SoldierSpawnPointMapElement : public MapElement
 public:
     DEFINE_MAP_ELEMENT_BASE( SoldierSpawnPointMapElement )
     SoldierSpawnPointMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    virtual void Load( Json::Value& setters );
+    virtual void Save( Json::Value& Element ); 
     void SetX( int32_t x );
     int32_t GetX()const;
     void SetY( int32_t y );

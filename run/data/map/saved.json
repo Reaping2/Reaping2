@@ -1,0 +1,274 @@
+[
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 100.0,
+                  "y" : 100.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_level_generated",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 500.0,
+                  "y" : 100.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_level_generated",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 100.0,
+                  "y" : 500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_level_generated",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 500.0,
+                  "y" : 500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_level_generated",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 150.0,
+                  "y" : 550.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "top_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 450.0,
+                  "y" : 550.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "top_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 300.0,
+                  "y" : 500.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "top",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 550.0,
+                  "y" : 150.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "right_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 550.0,
+                  "y" : 450.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "right_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 500.0,
+                  "y" : 300.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "right",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 150.0,
+                  "y" : 50.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "bottom_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 450.0,
+                  "y" : 50.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "bottom_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 300.0,
+                  "y" : 100.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "bottom",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 50.0,
+                  "y" : 150.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "left_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall_small",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 50.0,
+                  "y" : 450.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "left_entrance",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "wall",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 100.0,
+                  "y" : 300.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "left",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "platform",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 300.0,
+                  "y" : 300.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "end",
+      "name" : "spawn_actor"
+   }
+]

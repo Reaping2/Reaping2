@@ -24,9 +24,10 @@ public:
 	IProperty( int32_t Id );
 	virtual ~IProperty() = default;
     virtual void Load( Json::Value& setters );
+    virtual void Save( Json::Value& setters ) const;
     virtual int GetType() const = 0;
 	int32_t GetId() const;
-    virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos );
+    virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor = false );
 protected:
 	int32_t mId;
 };

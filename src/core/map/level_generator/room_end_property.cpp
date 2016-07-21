@@ -25,6 +25,23 @@ void RoomEndProperty::Load( Json::Value& setters )
 }
 
 
+void RoomEndProperty::Save( Json::Value& setters ) const
+{
+    IProperty::Save( setters );
+    auto& idStorage = IdStorage::Get();
+    Json::Value TargetArr( Json::arrayValue );
+    for (auto& target : mTargets)
+    {
+        std::string targetName;
+        if (idStorage.GetName( target, targetName ))
+        {
+            Json::Value jName = Json::Value( targetName );
+            TargetArr.append( jName );
+        }
+    }
+    setters["targets"] = TargetArr;
+}
+
 void RoomEndProperty::SetTargets( Targets_t blockedTargets )
 {
     mTargets = blockedTargets;
@@ -37,9 +54,9 @@ RoomEndProperty::Targets_t const& RoomEndProperty::GetTargets() const
 
 
 
-void RoomEndProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+void RoomEndProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
-    if (roomDesc.HasProperty( RoomProperty::End ))
+    if (roomDesc.HasProperty( RoomProperty::End ) || editor)
     {
         SpawnProperty::SpawnTargets( roomDesc, mTargets, mMapElementHolder, pos );
     }

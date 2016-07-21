@@ -10,7 +10,7 @@ class VDoubleRoom1 : public IRoom
 {
 public:
     VDoubleRoom1( int32_t Id );
-    virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos );
+    virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor = false );
 private:
     ActorFactory& mActorFactory;
 };

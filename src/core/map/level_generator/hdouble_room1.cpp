@@ -20,7 +20,7 @@ HDoubleRoom1::HDoubleRoom1( int32_t Id )
     mRoomDesc.SetRoom( this );
 }
 
-void HDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void HDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
     auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));
     {

@@ -13,6 +13,7 @@ public:
     DEFINE_ROOM_PROPERTY_BASE(CellEntranceProperty)
     CellEntranceProperty( int32_t Id );
     virtual void Load( Json::Value& setters );
+    virtual void Save( Json::Value& setters ) const;
     void SetX( int32_t x );
     int32_t GetX() const;
     void SetY( int32_t y );
@@ -24,7 +25,7 @@ public:
     Targets_t const& GetBlockedTargets() const;
     void SetEntranceTargets( Targets_t entranceTargets );
     Targets_t const& GetEntranceTargets() const;
-    virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos );
+    virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor = false );
 private:
     int32_t mX;
     int32_t mY;

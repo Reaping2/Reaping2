@@ -1,5 +1,7 @@
 #include "room_desc.h"
 #include "i_room.h"
+#include "platform\id_storage.h"
+#include "room_property.h"
 
 namespace map {
 
@@ -159,6 +161,37 @@ void RoomDesc::Load( Json::Value& setters )
     }
 }
 
+
+void RoomDesc::Save( Json::Value& setters ) const
+{
+    auto& idStorage = IdStorage::Get();
+    auto& roomProperty = RoomProperty::Get();
+    Json::Value plainPropertyArray( Json::arrayValue );
+    for (auto& prop : mPossibleProperties)
+    {
+        std::string propName;
+        if (idStorage.GetName( roomProperty( prop ), propName ))
+        {
+            Json::Value jName = Json::Value( propName );
+            plainPropertyArray.append( jName );
+        }
+    }
+    setters["plain_properties"] = plainPropertyArray;
+    setters["cell_count"] = mCellCount;
+    setters["cell_size"] = mCellSize;
+    Json::Value cellsArray( Json::arrayValue );
+    for (auto& cellRow : mCells)
+    {
+        for (auto& cell : cellRow)
+        {
+            Json::Value cellObject( Json::objectValue );
+            cell.Save( cellObject );
+            cellsArray.append( cellObject );
+        }
+    }
+    setters["cells"] = cellsArray;
+}
+
 void Cell::AddEntrance( EntranceType::Type const& entrance )
 {
     mPossibleEntrances.insert( entrance );
@@ -215,6 +248,27 @@ void Cell::Load( Json::Value& setters )
         }
     }
     mFilled = true;
+}
+
+
+void Cell::Save( Json::Value& setters ) const
+{
+    auto& idStorage = IdStorage::Get();
+    auto& entranceType = EntranceType::Get();
+    Json::Value entrances( Json::arrayValue );
+    for (auto& entrance : mPossibleEntrances)
+    {
+        std::string entranceName;
+        if (idStorage.GetName( entranceType( entrance ), entranceName ))
+        {
+            Json::Value jName = Json::Value( entranceName );
+            entrances.append( jName );
+        }
+    }
+    setters["entrances"] = entrances;
+    setters["x"] = mDescCoord.x;
+    setters["y"] = mDescCoord.y;
+    setters["name"] = Json::Value("cell");
 }
 
 } // namespace map

@@ -27,11 +27,6 @@ void MouseAdapterSystem::Init()
 
 void MouseAdapterSystem::Update( double DeltaTime )
 {
-    Opt<Actor> actor( mScene.GetActor( mProgramState.mControlledActorGUID ) );
-    if ( !actor.IsValid() )
-    {
-        return;
-    }
     int32_t playerId = 1;
     static input::PlayerControlDevice& pcd( input::PlayerControlDevice::Get() );
     if( pcd.GetControlDevice( playerId ) != input::PlayerControlDevice::KeyboardAndMouse )
@@ -40,12 +35,15 @@ void MouseAdapterSystem::Update( double DeltaTime )
     }
     InputState inputState = mInputSystem->GetInputState( playerId );
 
-    Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
-    inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
-
     inputState.mCursorX = mX;
     inputState.mCursorY = mY;
 
+    Opt<Actor> actor( mScene.GetActor( mProgramState.mControlledActorGUID ) );
+    if (actor.IsValid())
+    {
+        Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
+        inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
+    }
     if ( mMouse->IsButtonPressed( MouseSystem::Button_Left ) )
     {
         inputState.mShoot = true;

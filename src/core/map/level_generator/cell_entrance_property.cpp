@@ -51,6 +51,44 @@ void CellEntranceProperty::Load( Json::Value& setters )
     }
 }
 
+
+void CellEntranceProperty::Save( Json::Value& setters ) const
+{
+    IProperty::Save( setters );
+    auto& idStorage = IdStorage::Get();
+    auto& entranceType = EntranceType::Get();
+    std::string entranceName;
+    if (idStorage.GetName( entranceType( mEntranceType ), entranceName ))
+    {
+        Json::Value jName = Json::Value( entranceName );
+        setters["type"] = jName;
+    }
+    setters["x"] = mX;
+    setters["y"] = mY;
+    Json::Value BlockedArr( Json::arrayValue );
+    for (auto& target : mBlockedTargets)
+    {
+        std::string targetName;
+        if (idStorage.GetName( target, targetName ))
+        {
+            Json::Value jName = Json::Value( targetName );
+            BlockedArr.append( jName );
+        }
+    }
+    setters["blocked_targets"] = BlockedArr;
+    Json::Value EntranceArr( Json::arrayValue );
+    for (auto& target : mEntranceTargets)
+    {
+        std::string targetName;
+        if (idStorage.GetName( target, targetName ))
+        {
+            Json::Value jName = Json::Value( targetName );
+            EntranceArr.append( jName );
+        }
+    }
+    setters["entrance_targets"] = EntranceArr;
+}
+
 void CellEntranceProperty::SetX( int32_t x )
 {
     mX = x;
@@ -102,13 +140,14 @@ CellEntranceProperty::Targets_t const& CellEntranceProperty::GetEntranceTargets(
 }
 
 
-void CellEntranceProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+void CellEntranceProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
-    if (roomDesc.GetCell(mX,mY).HasEntrance( mEntranceType ))
+    bool hasEntrance = roomDesc.GetCell( mX, mY ).HasEntrance( mEntranceType );
+    if (hasEntrance || editor)
     {
         SpawnProperty::SpawnTargets( roomDesc, mEntranceTargets, mMapElementHolder, pos );
     }
-    else
+    if(!hasEntrance || editor)
     {
         SpawnProperty::SpawnTargets( roomDesc, mBlockedTargets, mMapElementHolder, pos );
     }

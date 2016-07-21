@@ -27,6 +27,23 @@ void RoomStartProperty::Load( Json::Value& setters )
 }
 
 
+void RoomStartProperty::Save( Json::Value& setters ) const
+{
+    IProperty::Save( setters );
+    auto& idStorage = IdStorage::Get();
+    Json::Value TargetArr( Json::arrayValue );
+    for (auto& target : mTargets)
+    {
+        std::string targetName;
+        if (idStorage.GetName( target, targetName ))
+        {
+            Json::Value jName = Json::Value( targetName );
+            TargetArr.append( jName );
+        }
+    }
+    setters["targets"] = TargetArr;
+}
+
 void RoomStartProperty::SetTargets( Targets_t blockedTargets )
 {
     mTargets = blockedTargets;
@@ -39,16 +56,17 @@ RoomStartProperty::Targets_t const& RoomStartProperty::GetTargets() const
 
 
 
-void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos )
+void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
-    if (roomDesc.HasProperty( RoomProperty::Start ))
+    if (roomDesc.HasProperty( RoomProperty::Start ) || editor)
     {
         static int32_t componentId = AutoId( "position_component" );
         static Opt<MapSystem> mapSystem = MapSystem::Get();
         int currTargetIndex = 0;
-        while (currTargetIndex < mTargets.size())
+        auto targets = mTargets;
+        while (currTargetIndex < targets.size())
         {
-            int32_t target = mTargets[currTargetIndex];
+            int32_t target = targets[currTargetIndex];
             for (auto targetMapElement : MapElementListFilter<MapSystem::UID>( mMapElementHolder.mAllMapElements, target ))
             {
                 if (targetMapElement->GetType() == SoldierSpawnPointMapElement::GetType_static())
@@ -61,7 +79,8 @@ void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapEleme
                 else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
                 {
                     Opt<GroupMapElement> groupMapElement( targetMapElement );
-                    mTargets.insert( mTargets.end(), groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
+                    targets.insert( targets.end(), groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
+                    MapSystem::Get()->GetMapElementList().insert( targetMapElement );
                 }
             }
             ++currTargetIndex;
