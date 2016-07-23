@@ -101,6 +101,18 @@ void RespawnActorMapElement::AddComponentLoader( int32_t componentId, std::auto_
     mComponentLoaders.insert( componentId, static_cast<ActorCreator::ComponentLoader_t*>( compLoader.release() ) );
 }
 
+
+Opt<PropertyLoaderBase<Component>> RespawnActorMapElement::GetComponentLoader( int32_t componentId )
+{
+    Opt<PropertyLoaderBase<Component>> r;
+    auto found = mComponentLoaders.find( componentId );
+    if (found != mComponentLoaders.end())
+    {
+        r = found->second;
+    }
+    return r;
+}
+
 void RespawnActorMapElement::Save( Json::Value& Element )
 {
     Opt<Actor> actor( Scene::Get().GetActor( mSpawnedActorGUID ) );

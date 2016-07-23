@@ -5,6 +5,7 @@
 #include "platform/i_platform.h"
 #include "entrance_type.h"
 #include "../spawn_actor_map_element.h"
+#include "../respawn_actor_map_element.h"
 
 namespace map {
 
@@ -24,7 +25,7 @@ public:
     static void SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targets, MapElementHolder &mMapElementHolder, glm::vec2 &pos );
 
     static void SpawnActor( Opt<SpawnActorMapElement> spawnActorMapElement, glm::vec2 &pos );
-
+    static void RespawnActor( Opt<RespawnActorMapElement> respawnActorMapElement, glm::vec2 & pos );
 private:
     Targets_t mTargets;
     int32_t mChance;

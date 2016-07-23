@@ -297,6 +297,9 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "editor_grid_system" ) );
         Eng.AddSystem( AutoId( "editor_brush_system" ) );
         Eng.AddSystem( AutoId( "editor_soldier_spawn_system" ) );
+        Eng.AddSystem( AutoId( "editor_layer_system" ) );
+        Eng.AddSystem( AutoId( "editor_actor_system" ) );
+        Eng.AddSystem( AutoId( "room_cell_editor_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )

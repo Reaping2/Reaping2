@@ -19,7 +19,7 @@ public:
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
     void AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader );
-
+    Opt<PropertyLoaderBase<Component>> GetComponentLoader( int32_t componentId );
     void SetSecsToRespawn( double secsToRespawn );
     double GetSecsToRespawn()const;
     void SetSecsToRespawnOriginal( double secsToRespawnOriginal );

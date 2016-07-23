@@ -25,6 +25,11 @@
 #include "level_generator/level_generated_map_element.h"
 #include "link_map_element.h"
 #include "level_generator/json_room.h"
+#include "editor_back_event.h"
+#include "editor_system.h"
+#include "editor_mode_changed_event.h"
+#include "editor_hud_state.h"
+#include "room_cell_editor_system.h"
 
 namespace map {
 
@@ -33,20 +38,16 @@ RoomEditorSystem::RoomEditorSystem()
     , mEditorModel( "room_editor", &RootModel::Get() )
     , mStartModel( VoidFunc( this, &RoomEditorSystem::Start ), "start", &mEditorModel )
     , mLoadModel( StringFunc( this, &RoomEditorSystem::Load ), "load", &mEditorModel )
+    , mModeModel( StringFunc( this, &RoomEditorSystem::ModeSelect ), "mode", &mEditorModel )
     , mSaveModel( VoidFunc( this, &RoomEditorSystem::Save ), "save", &mEditorModel )
-    , mLayerModel( StringFunc( this, &RoomEditorSystem::LayerSelect ), "layer", &mEditorModel )
-    , mLayerNamesModel( (ModelValue::get_string_vec_t) boost::bind( &RoomEditorSystem::LayerNames, this ), "names", &mLayerModel )
     , mLevelModel( (ModelValue::get_string_vec_t) boost::bind(&RoomEditorSystem::LevelNames, this),"levels", &mEditorModel )
     , mX( 0 )
     , mY( 0 )
+    , mEditorMode()
     , mCurrentMovement( 0 )
     , mRoomName()
-    , mHudState( false )
-    , mSpaceTyped( false )
     , mTimer()
     , mAutoSaveOn( false )
-    , mEditorLayerType( EditorLayer::Target )
-    , mEditorLayer( EditorLayer::Get() )
 {
     mTimer.SetFrequency( 25000 );
 }
@@ -58,16 +59,32 @@ void RoomEditorSystem::Init()
     mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
     mRenderer = engine::Engine::Get().GetSystem<engine::RendererSystem>();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnKeyEvent, this, _1 ) );
+    mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnEditorBack, this, _1 ) );
     using namespace boost::assign;
-    mLayerNames += "any", "target";
     mLevelNames += "test_room", "test_simple_room";
 }
+
+void RoomEditorSystem::OnEditorBack( map::EditorBackEvent const& Evt )
+{
+    if (mEnabled)
+    {
+        if (Evt.mBackToBaseHud)
+        {
+            Ui::Get().Load( "room_editor_base_hud" );
+            EditorHudState::Get().SetHudShown( false );
+        }
+    }
+}
+
 
 void RoomEditorSystem::Start()
 {
     ::engine::Engine::Get().SetEnabled< ::engine::ControllerSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::engine::CollisionSystem>( false );
+    ::engine::Engine::Get().SetEnabled< EditorSystem>( false );
+    ::engine::Engine::Get().SetEnabled< RoomEditorSystem>( true );
     RespawnActorMapElementSystem::Get()->SetRespawnOnDeath( false ); //to be able to delete target actors
+    EditorTargetSystem::Get()->SetNextUID( AutoId( "spawn_at_level_generated" ) );
 }
 
 void RoomEditorSystem::Load( std::string const& room )
@@ -83,6 +100,7 @@ void RoomEditorSystem::Load( std::string const& room )
     mRoomId = AutoId( room );
     auto& aroom = RoomRepo::Get()( mRoomId );
     mRoomDesc = aroom.GetRoomDesc();
+    RoomCellEditorSystem::Get()->SetRoomDesc( &mRoomDesc );
     mScene.Load( "room_editor" );
     Opt<engine::System> spawnActorMES( engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>() );
     spawnActorMES->Update( 0 );
@@ -150,33 +168,22 @@ void RoomEditorSystem::Update( double DeltaTime )
         currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
     }
     currentKeyMovement |= mCurrentMovement;
-    if ( !mHudState )
+    if ( !EditorHudState::Get().IsHudShown() )
     {
         mX += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Right ) ? 1 : 0 ) );
         mY += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Down ) ? -1 : 0 ) );
     }
-    if( mKeyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Down )
+    if (mKeyboard->GetKey( GLFW_KEY_M ).State == KeyState::Typed)
     {
-        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
-    }
-    if ( mSpaceTyped )
-    {
-        mSpaceTyped = false;
-        if ( mHudState )
+        if (EditorHudState::Get().IsHudShown())
         {
-            Ui::Get().Load( "room_editor_base_hud" );
-            ::engine::Engine::Get().SetEnabled<EditorGridSystem>( true );
-            ::engine::Engine::Get().SetEnabled<EditorTargetSystem>( true );
-            ::engine::Engine::Get().SetEnabled<EditorBrushSystem>( true );
-            mHudState = false;
+            EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
         }
         else
         {
+            EditorHudState::Get().SetHudShown( true );
             Ui::Get().Load( "room_editor_hud" );
-            ::engine::Engine::Get().SetEnabled<EditorGridSystem>( false );
-            ::engine::Engine::Get().SetEnabled<EditorTargetSystem>( false );
-            ::engine::Engine::Get().SetEnabled<EditorBrushSystem>( false );
-            mHudState = true;
+            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select" ) );
         }
     }
 }
@@ -243,16 +250,10 @@ void RoomEditorSystem::Save()
 
 void RoomEditorSystem::OnKeyEvent( const KeyEvent& Event )
 {
-    if( Event.Key == GLFW_KEY_SPACE && Event.State == KeyState::Up )
+    if (!mEnabled)
     {
-        mSpaceTyped = true;
+        return;
     }
-}
-
-void RoomEditorSystem::LayerSelect( std::string const& layer )
-{
-    mEditorLayerType = mEditorLayer( IdStorage::Get().GetId( layer ) );
-    Ui::Get().Load( "editor_hud" );
 }
 
 Opt<RoomEditorSystem> RoomEditorSystem::Get()
@@ -260,19 +261,15 @@ Opt<RoomEditorSystem> RoomEditorSystem::Get()
     return engine::Engine::Get().GetSystem<RoomEditorSystem>();
 }
 
-EditorLayer::Type RoomEditorSystem::GetEditorLayerType()
-{
-    return mEditorLayerType;
-}
-
-std::vector<std::string> RoomEditorSystem::LayerNames()
-{
-    return mLayerNames;
-}
-
 std::vector<std::string> RoomEditorSystem::LevelNames()
 {
     return mLevelNames;
+}
+
+void RoomEditorSystem::ModeSelect( std::string const& mode )
+{
+    mEditorMode = mode;
+    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( mode ) );
 }
 
 

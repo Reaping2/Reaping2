@@ -122,6 +122,9 @@
 #include "core/map/level_generator/level_generated_map_element_system.h"
 #include "core/map/group_map_element_system.h"
 #include "core/map/room_editor_system.h"
+#include "core/map/editor_layer_system.h"
+#include "core/map/editor_actor_system.h"
+#include "core/map/room_cell_editor_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -264,6 +267,9 @@ void SystemFactory::Init()
     Bind( AutoId( "editor_grid_system" ), &CreateSystem<map::EditorGridSystem> );
     Bind( AutoId( "editor_brush_system" ), &CreateSystem<map::EditorBrushSystem> );
     Bind( AutoId( "editor_soldier_spawn_system" ), &CreateSystem<map::EditorSoldierSpawnSystem> );
+    Bind( AutoId( "editor_layer_system" ), &CreateSystem<map::EditorLayerSystem> );
+    Bind( AutoId( "editor_actor_system" ), &CreateSystem<map::EditorActorSystem> );
+    Bind( AutoId( "room_cell_editor_system" ), &CreateSystem<map::RoomCellEditorSystem> );
 
     Bind( AutoId( "detonate_on_hit_system" ), &CreateSystem<engine::DetonateOnHitSystem> );
     Bind( AutoId( "explode_on_hit_system" ), &CreateSystem<engine::ExplodeOnHitSystem> );

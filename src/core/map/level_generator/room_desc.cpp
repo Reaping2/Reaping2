@@ -184,9 +184,12 @@ void RoomDesc::Save( Json::Value& setters ) const
     {
         for (auto& cell : cellRow)
         {
-            Json::Value cellObject( Json::objectValue );
-            cell.Save( cellObject );
-            cellsArray.append( cellObject );
+            if (cell.IsFilled())
+            {
+                Json::Value cellObject( Json::objectValue );
+                cell.Save( cellObject );
+                cellsArray.append( cellObject );
+            }
         }
     }
     setters["cells"] = cellsArray;
@@ -221,7 +224,7 @@ void Cell::SetFilled( bool filled )
 }
 
 
-bool Cell::IsFilled()
+bool Cell::IsFilled() const
 {
     return mFilled;
 }

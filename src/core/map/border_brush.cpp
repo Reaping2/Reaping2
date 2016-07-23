@@ -116,7 +116,7 @@ void BorderBrush::Update( double DeltaTime )
         IBorderComponent::Borders_t borders = GetBorders( neighbors, mNeighborDirMap );
         IBorderComponent::Borders_t outerBorders = GetBorders( neighbors, mNeighborOuterDirMap );
 
-        EditorTargetSystem::Get()->GetTarget().PutTarget( EditorTargetSystem::Get()->GetCursorPosition(), borders, outerBorders );
+        EditorTargetSystem::Get()->PutTarget( EditorTargetSystem::Get()->GetCursorPosition(), borders, outerBorders );
         Opt<engine::System> spawnActorMES( engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>() );
         spawnActorMES->Update( 0 );
         mScene.InsertNewActors();
@@ -191,7 +191,7 @@ void BorderBrush::UpdateBorders( Neighbors& neighbors )
         IBorderComponent::Borders_t borders2 = GetBorders( neighbors2, mNeighborDirMap );
         IBorderComponent::Borders_t outerBorders2 = GetBorders( neighbors2, mNeighborOuterDirMap );
         removeActors.push_back( i->mActorGUID );
-        EditorTargetSystem::Get()->GetTarget().PutTarget( neighborPos, borders2, outerBorders2 );
+        EditorTargetSystem::Get()->PutTarget( neighborPos, borders2, outerBorders2 );
     }
     for ( std::vector<int32_t>::iterator i = removeActors.begin(), e = removeActors.end(); i != e; ++i )
     {

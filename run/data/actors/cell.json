@@ -1,0 +1,17 @@
+[
+    {
+        "name":"cell",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"no_collision", "radius":300}]
+            },
+            {"name":"cell_component"}
+        ]
+    }
+]
+

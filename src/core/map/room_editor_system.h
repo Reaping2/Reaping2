@@ -13,6 +13,7 @@
 #include "platform/frequency_timer.h"
 #include "editor_layer.h"
 #include "level_generator/room_desc.h"
+#include "editor_back_event.h"
 
 namespace map {
 
@@ -22,7 +23,6 @@ public:
     DEFINE_SYSTEM_BASE( RoomEditorSystem )
     RoomEditorSystem();
     ~RoomEditorSystem();
-    EditorLayer::Type GetEditorLayerType();
     static Opt<RoomEditorSystem> Get();
 protected:
     virtual void Init();
@@ -33,9 +33,8 @@ private:
     ModelValue mLevelModel;
     ModelValue mStartModel;
     ModelValue mLoadModel;
+    ModelValue mModeModel;
     ModelValue mSaveModel;
-    ModelValue mLayerModel;
-    ModelValue mLayerNamesModel;
     double mX;
     double mY;
     double const& GetX() const;
@@ -44,31 +43,28 @@ private:
     std::string mRoomName;
     std::vector<std::string> mLevelNames;
     std::vector<std::string> LevelNames();
-    EditorLayer::Type mEditorLayerType;
-    EditorLayer mEditorLayer;
-    std::vector<std::string> mLayerNames;
-    std::vector<std::string> LayerNames();
 
     Opt<engine::KeyboardSystem> mKeyboard;
     void Start();
     void Load( std::string const& room );
     void Save();
-    void LayerSelect( std::string const& layer );
+    void ModeSelect( std::string const& mode );
 
+    std::string mEditorMode;
     uint32_t mCurrentMovement;
     Opt<engine::RendererSystem> mRenderer;
     Opt<engine::WindowSystem> mWindow;
     AutoReg mOnScreenMouseMove;
     void OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt );
     AutoReg mKeyId;
-    bool mHudState;
-    bool mSpaceTyped;
     void OnKeyEvent( const KeyEvent& Event );
 
     FrequencyTimer mTimer;
     bool mAutoSaveOn;
     RoomDesc mRoomDesc;
     int32_t mRoomId;
+    AutoReg mOnEditorBack;
+    void OnEditorBack( map::EditorBackEvent const& Evt );
 };
 
 } // namespace map

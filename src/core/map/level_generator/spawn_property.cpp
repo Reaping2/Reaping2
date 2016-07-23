@@ -4,6 +4,7 @@
 #include "level_generated_map_element.h"
 #include "random.h"
 #include "../group_map_element.h"
+#include "../respawn_actor_map_element.h"
 
 
 namespace map {
@@ -102,6 +103,12 @@ void SpawnProperty::SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targe
                 SpawnActor( spawnActorMapElement, pos );
                 mapSystem->GetMapElementList().insert( targetMapElement );
             }
+            else if (targetMapElement->GetType() == RespawnActorMapElement::GetType_static())
+            {
+                Opt<RespawnActorMapElement> respawnActorMapElement( targetMapElement );
+                RespawnActor( respawnActorMapElement, pos );
+                mapSystem->GetMapElementList().insert( targetMapElement );
+            }
             else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
             {
                 Opt<GroupMapElement> groupMapElement( targetMapElement );
@@ -127,6 +134,22 @@ void SpawnProperty::SpawnActor( Opt<SpawnActorMapElement> spawnActorMapElement, 
     for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( mapSystem->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
     {
         levelGenerated->PlugInNodeId( LevelGeneratedMapElement::GeneratedNodeId(), spawnActorMapElement->GetInputNodeId( SpawnActorMapElement::SpawnNodeId() ) );
+    }
+}
+
+void SpawnProperty::RespawnActor( Opt<RespawnActorMapElement> respawnActorMapElement, glm::vec2 & pos )
+{
+    static int32_t componentId = AutoId( "position_component" );
+    static Opt<MapSystem> mapSystem = MapSystem::Get();
+    Opt<PositionComponentLoader> positionCompLoader = respawnActorMapElement->GetComponentLoader( componentId );
+    if (positionCompLoader.IsValid())
+    {
+        positionCompLoader->Bind<double>( &PositionComponent::AddX, pos.x );
+        positionCompLoader->Bind<double>( &PositionComponent::AddY, pos.y );
+    }
+    for (Opt<LevelGeneratedMapElement> levelGenerated : MapElementListFilter<MapSystem::All>( mapSystem->GetMapElementList(), LevelGeneratedMapElement::GetType_static() ))
+    {
+        levelGenerated->PlugInNodeId( LevelGeneratedMapElement::GeneratedNodeId(), respawnActorMapElement->GetInputNodeId( SpawnActorMapElement::SpawnNodeId() ) );
     }
 }
 

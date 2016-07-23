@@ -4,6 +4,7 @@
 #include "editor_grid_system.h"
 #include "editor_target_system.h"
 #include "editor_system.h"
+#include "editor_layer_system.h"
 
 namespace map {
 
@@ -17,7 +18,7 @@ IBrush::IBrush( int32_t Id )
 std::vector<int32_t> IBrush::GetActorsToRemove()
 {
     std::vector<int32_t> r;
-    EditorLayer::Type editorLayer = EditorSystem::Get()->GetEditorLayerType();
+    EditorLayer::Type editorLayer = EditorLayerSystem::Get()->GetEditorLayerType();
     glm::vec2 mousePos = EditorGridSystem::Get()->GetGrid().GetMousePosition();
     int32_t curGUID = EditorTargetSystem::Get()->GetCursor()->GetGUID();
     Opt<IRenderableComponent> cursorRenderableC( EditorTargetSystem::Get()->GetCursor()->Get<IRenderableComponent>() );

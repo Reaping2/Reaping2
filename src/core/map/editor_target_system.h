@@ -21,6 +21,12 @@ public:
     void SetCursorPosition( double x, double y );
     Opt<Actor> GetCursor() const;
     double GetCursorRadius() const;
+    int32_t GetNextUID() const;
+    void SetNextUID( int32_t uid );
+    void PutTarget( glm::vec2 position );
+    void PutTarget( glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders );
+    void RemoveCursor();
+    void AddCursor();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -30,6 +36,7 @@ private:
     int32_t mTargetId;
     glm::vec2 mCursorPosition;
     Opt<Actor> mCursor;
+    int32_t mNextUID;
     std::vector<int32_t> mGunVisualIds;
     std::vector<int32_t> mGunActorIds;
     std::vector<int32_t> mBuffVisualIds;

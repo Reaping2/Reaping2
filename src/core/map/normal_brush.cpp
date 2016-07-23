@@ -27,7 +27,7 @@ void NormalBrush::Update( double DeltaTime )
 
     if ( mMouseLeftPressed && !engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ) )
     {
-        EditorTargetSystem::Get()->GetTarget().PutTarget( EditorTargetSystem::Get()->GetCursorPosition() );
+        EditorTargetSystem::Get()->PutTarget( EditorTargetSystem::Get()->GetCursorPosition() );
         mMouseLeftPressed = false;
     }
     else if ( engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ) )

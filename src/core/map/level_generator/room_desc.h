@@ -21,7 +21,7 @@ struct Cell
     bool HasEntrance( EntranceType::Type const& entrance) const;
     Entrances_t const& GetEntrances() const;
     void SetFilled( bool filled );
-    bool IsFilled();
+    bool IsFilled() const;
     void Load( Json::Value& setters );
     void Save( Json::Value& setters ) const;
 };

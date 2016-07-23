@@ -393,6 +393,14 @@
 		]
 	},
 	{
+		"name":"cell",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"cell"}
+		]
+	},
+	{
 		"name":"concrete",
 		"recognizers":
 		[

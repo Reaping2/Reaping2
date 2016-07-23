@@ -22,7 +22,7 @@
                     "enabled":1,
                     "color":"0x22222277",
                     "highlight_color":"0xaaaaaa77",
-                    "action":[["room_editor.mode","actor"]],
+                    "action":[["ui.load","editor_target_select"]],
                     "children":[
                         {
                             "type":"text_widget",
@@ -33,7 +33,7 @@
                             "color":"0xaa0000",
                             "visible":1,
                             "enabled":0,
-                            "text":"actors",
+                            "text":"target",
                             "fontsize":4
                         }
                     ]
@@ -48,7 +48,7 @@
                     "enabled":1,
                     "color":"0x22222277",
                     "highlight_color":"0xaaaaaa77",
-                    "action":[["room_editor.mode","select"]],
+                    "action":[["ui.load","editor_brush_select"]],
                     "children":[
                         {
                             "type":"text_widget",
@@ -59,7 +59,7 @@
                             "color":"0xaa0000",
                             "visible":1,
                             "enabled":0,
-                            "text":"select",
+                            "text":"brush",
                             "fontsize":4
                         }
                     ]
@@ -74,7 +74,7 @@
                     "enabled":1,
                     "color":"0x22222277",
                     "highlight_color":"0xaaaaaa77",
-                    "action":[["room_editor.mode","cell"]],
+                    "action":[["ui.load","editor_grid_select"]],
                     "children":[
                         {
                             "type":"text_widget",
@@ -85,7 +85,7 @@
                             "color":"0xaa0000",
                             "visible":1,
                             "enabled":0,
-                            "text":"cells",
+                            "text":"positioning",
                             "fontsize":4
                         }
                     ]
@@ -100,7 +100,7 @@
                     "enabled":1,
                     "color":"0x22222277",
                     "highlight_color":"0xaaaaaa77",
-                    "action":[["room_editor.mode","room_property"]],
+                    "action":[["ui.load","editor_layer_select"]],
                     "children":[
                         {
                             "type":"text_widget",
@@ -111,33 +111,7 @@
                             "color":"0xaa0000",
                             "visible":1,
                             "enabled":0,
-                            "text":"room prop",
-                            "fontsize":4
-                        }
-                    ]
-                },
-                {
-                    "type":"button",
-                    "x":0.15,
-                    "y":0.24,
-                    "w":0.2,
-                    "h":0.1,
-                    "visible":1,
-                    "enabled":1,
-                    "color":"0x22222277",
-                    "highlight_color":"0xaaaaaa77",
-                    "action":[["room_editor.save"]],
-                    "children":[
-                        {
-                            "type":"text_widget",
-                            "x":0.02,
-                            "y":0.02,
-                            "w":0.96,
-                            "h":0.96,
-                            "color":"0xaa0000",
-                            "visible":1,
-                            "enabled":0,
-                            "text":"save",
+                            "text":"erase layer",
                             "fontsize":4
                         }
                     ]

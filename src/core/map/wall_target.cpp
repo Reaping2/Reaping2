@@ -44,7 +44,7 @@ void WallTarget::PutTarget( glm::vec2 position )
     AddPositionLoader( position, spawnActor );
 
     spawnActor->SetActorID( EditorTargetSystem::Get()->GetTarget().GetActorId() );
-    mapElement->SetUID( AutoId( "spawn_at_start" ) );
+    mapElement->SetUID( EditorTargetSystem::Get()->GetNextUID() );
     MapSystem::Get()->GetMapElementList().insert( Opt<MapElement>( mapElement.release() ) );
 }
 
@@ -61,7 +61,7 @@ void WallTarget::PutTarget( glm::vec2 position, IBorderComponent::Borders_t& bor
 
 
     spawnActor->SetActorID( EditorTargetSystem::Get()->GetTarget().GetActorId() );
-    mapElement->SetUID( AutoId( "spawn_at_start" ) );
+    mapElement->SetUID( EditorTargetSystem::Get()->GetNextUID() );
     MapSystem::Get()->GetMapElementList().insert( Opt<MapElement>( mapElement.release() ) );
 }
 

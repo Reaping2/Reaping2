@@ -14,6 +14,7 @@
 #include "head_color_action_renderer.h"
 #include "head_action_renderer.h"
 #include "ctf_head_color_action_renderer.h"
+#include "cell_action_renderer.h"
 namespace render {
 ActionRendererFactory::ActionRendererFactory()
 {
@@ -35,5 +36,6 @@ ActionRendererFactory::ActionRendererFactory()
     Bind<HeadColorActionRenderer>( AutoId( "head_color" ) );
     Bind<HeadActionRenderer>( AutoId( "head" ) );
     Bind<CtfHeadColorActionRenderer>( AutoId( "ctf_head_color" ) );
+    Bind<CellActionRenderer>( AutoId( "cell" ) );
 }
 } // namespace render
