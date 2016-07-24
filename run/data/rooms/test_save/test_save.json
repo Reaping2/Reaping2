@@ -4,51 +4,31 @@
       "cell_size" : 600,
       "cells" : [
          {
-            "entrances" : [ "right", "bottom", "left" ],
+            "entrances" : [ "top", "bottom", "left" ],
             "name" : "cell",
             "x" : 0.0,
             "y" : 0.0
          },
          {
+            "entrances" : [ "right", "bottom" ],
+            "name" : "cell",
+            "x" : 1.0,
+            "y" : 0.0
+         },
+         {
             "entrances" : [ "top", "right", "left" ],
             "name" : "cell",
-            "x" : 0.0,
+            "x" : 1.0,
             "y" : 1.0
          }
       ],
       "map_elements" : [
          {
-            "actor" : "revive_pickup",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 200.0,
-                        "y" : 600.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "pickup_collision_component",
-                  "set" : [
-                     {
-                        "content" : "HealOverTimeBuff",
-                        "type" : "buff"
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "respawn_actor",
-            "secs_to_respawn" : 15.0
-         },
-         {
-            "identifier" : "s1",
+            "identifier" : "start",
             "name" : "soldier_spawn_point",
             "position" : {
-               "x" : 200,
-               "y" : 800
+               "x" : 300,
+               "y" : 300
             }
          },
          {
@@ -58,13 +38,189 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 500.0,
-                        "y" : 200.0
+                        "x" : 100.0,
+                        "y" : 100.0
                      }
                   ]
                }
             ],
-            "identifier" : "w3",
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 500.0,
+                        "y" : 100.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 100.0,
+                        "y" : 500.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 500.0,
+                        "y" : 500.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "top_entrance",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 450.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "top_entrance",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 300.0,
+                        "y" : 500.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "top",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "right_entrance",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "right_entrance",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 500.0,
+                        "y" : 300.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "right",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "bottom_entrance",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 450.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "bottom_entrance",
             "name" : "spawn_actor"
          },
          {
@@ -80,7 +236,39 @@
                   ]
                }
             ],
-            "identifier" : "w1",
+            "identifier" : "bottom",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "left_entrance",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "left_entrance",
             "name" : "spawn_actor"
          },
          {
@@ -90,33 +278,17 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 500.0,
-                        "y" : 100.0
+                        "x" : 100.0,
+                        "y" : 300.0
                      }
                   ]
                }
             ],
-            "identifier" : "w2",
+            "identifier" : "left",
             "name" : "spawn_actor"
          },
          {
             "actor" : "platform",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 200.0,
-                        "y" : 800.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "e1",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "wall",
             "components" : [
                {
                   "name" : "position_component",
@@ -128,64 +300,57 @@
                   ]
                }
             ],
-            "identifier" : "spawn_at_level_generated",
+            "identifier" : "end",
             "name" : "spawn_actor"
-         },
-         {
-            "actor" : "wall",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 400.0,
-                        "y" : 600.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
-         },
-         {
-            "identifier" : "bottom_group",
-            "name" : "group",
-            "targets" : [ "w1", "w2" ]
-         },
-         {
-            "identifier" : "soldier_spawn_group",
-            "name" : "group",
-            "targets" : [ "s1" ]
-         },
-         {
-            "identifier" : "end_group",
-            "name" : "group",
-            "targets" : [ "e1" ]
          }
       ],
-      "name" : "test_room",
+      "name" : "test_simple_room",
       "plain_properties" : [ "start", "end" ],
       "properties" : [
          {
-            "blocked_targets" : [ "bottom_group" ],
-            "entrance_targets" : [ "w3" ],
+            "chance" : 100,
+            "name" : "spawn",
+            "targets" : [ "spawn_at_level_generated" ]
+         },
+         {
+            "blocked_targets" : [ "top" ],
+            "entrance_targets" : [ "top_entrance" ],
+            "name" : "cell_entrance",
+            "type" : "top",
+            "x" : 0,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "right" ],
+            "entrance_targets" : [ "right_entrance" ],
+            "name" : "cell_entrance",
+            "type" : "right",
+            "x" : 0,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "bottom" ],
+            "entrance_targets" : [ "bottom_entrance" ],
             "name" : "cell_entrance",
             "type" : "bottom",
             "x" : 0,
             "y" : 0
          },
          {
+            "blocked_targets" : [ "left" ],
+            "entrance_targets" : [ "left_entrance" ],
+            "name" : "cell_entrance",
+            "type" : "left",
+            "x" : 0,
+            "y" : 0
+         },
+         {
             "name" : "room_start",
-            "targets" : [ "soldier_spawn_group" ]
+            "targets" : [ "start" ]
          },
          {
             "name" : "room_end",
-            "targets" : [ "end_group" ]
-         },
-         {
-            "chance" : 100,
-            "name" : "spawn",
-            "targets" : [ "spawn_at_level_generated" ]
+            "targets" : [ "end" ]
          }
       ]
    }

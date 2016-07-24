@@ -17,6 +17,7 @@ struct Cell
     bool mFilled = false; // filled if the correspoinding RoomDesc places stg into this cell
     glm::vec2 mDescCoord = glm::vec2( -1, -1 ); // relative position inside the room
     void AddEntrance( EntranceType::Type const& entrance );
+    void RemoveEntrance( EntranceType::Type const& entrance );
     void SetEntrances( Entrances_t const& entrances );
     bool HasEntrance( EntranceType::Type const& entrance) const;
     Entrances_t const& GetEntrances() const;

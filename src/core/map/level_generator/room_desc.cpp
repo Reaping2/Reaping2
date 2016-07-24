@@ -14,7 +14,6 @@ RoomDesc::RoomDesc()
 void RoomDesc::SetCellCount( int32_t cellCount )
 {
     mCellCount = cellCount;
-    mCells.clear();
     mCells.resize( mCellCount );
     for (int32_t y = 0; y < mCellCount; ++y)
     {
@@ -200,6 +199,11 @@ void Cell::AddEntrance( EntranceType::Type const& entrance )
     mPossibleEntrances.insert( entrance );
 }
 
+
+void Cell::RemoveEntrance( EntranceType::Type const& entrance )
+{
+    mPossibleEntrances.erase( entrance );
+}
 
 void Cell::SetEntrances( Entrances_t const& entrances )
 {
