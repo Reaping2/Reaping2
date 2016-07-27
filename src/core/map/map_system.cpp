@@ -125,5 +125,18 @@ MapElementHolder::MapElementHolder( MapElementHolder const& holder )
     }
 }
 
+
+MapElementUIDModifier::MapElementUIDModifier( int32_t newUID )
+    : mNewUID( newUID )
+{
+
+}
+
+
+void MapElementUIDModifier::operator()( Opt<MapElement>& mapElement )
+{
+    mapElement->SetUID( mNewUID );
+}
+
 } // namespace map
 

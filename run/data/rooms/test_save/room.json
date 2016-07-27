@@ -148,38 +148,6 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "wall_small",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 450.0,
-                        "y" : 1150.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a1",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "wall_small",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 650.0,
-                        "y" : 950.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a2",
-            "name" : "spawn_actor"
-         },
-         {
             "identifier" : "bottom_group",
             "name" : "group",
             "targets" : [ "w1", "w2" ]
@@ -193,11 +161,6 @@
             "identifier" : "end_group",
             "name" : "group",
             "targets" : [ "e1" ]
-         },
-         {
-            "identifier" : "g1",
-            "name" : "group",
-            "targets" : [ "a1", "a2" ]
          }
       ],
       "name" : "test_room",

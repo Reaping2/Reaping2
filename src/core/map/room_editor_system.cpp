@@ -30,6 +30,9 @@
 #include "editor_mode_changed_event.h"
 #include "editor_hud_state.h"
 #include "room_cell_editor_system.h"
+#include "group_map_element.h"
+#include "editor_select_system.h"
+#include "editor_group_system.h"
 
 namespace map {
 
@@ -40,7 +43,7 @@ RoomEditorSystem::RoomEditorSystem()
     , mLoadModel( StringFunc( this, &RoomEditorSystem::Load ), "load", &mEditorModel )
     , mModeModel( StringFunc( this, &RoomEditorSystem::ModeSelect ), "mode", &mEditorModel )
     , mSaveModel( VoidFunc( this, &RoomEditorSystem::Save ), "save", &mEditorModel )
-    , mLevelModel( (ModelValue::get_string_vec_t) boost::bind(&RoomEditorSystem::LevelNames, this),"levels", &mEditorModel )
+    , mLevelModel( (ModelValue::get_string_vec_t) RefTo(mLevelNames),"levels", &mEditorModel )
     , mX( 0 )
     , mY( 0 )
     , mEditorMode()
@@ -104,20 +107,34 @@ void RoomEditorSystem::Load( std::string const& room )
     mScene.Load( "room_editor" );
     Opt<engine::System> spawnActorMES( engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>() );
     spawnActorMES->Update( 0 );
-    for (MapElementList_t::iterator it = MapSystem::Get()->GetMapElementList().begin(); it != MapSystem::Get()->GetMapElementList().end(); )
-    {
-        if ((*it)->GetType() == SpawnActorMapElement::GetType_static())
+
+    // removing temporary big_backgrounds
+        for (MapElementList_t::iterator it = MapSystem::Get()->GetMapElementList().begin(); it != MapSystem::Get()->GetMapElementList().end(); )
         {
-            delete (*it).Get();
-            it = MapSystem::Get()->GetMapElementList().erase( it );
+            if ((*it)->GetType() == SpawnActorMapElement::GetType_static())
+            {
+                delete (*it).Get();
+                it = MapSystem::Get()->GetMapElementList().erase( it );
+            }
+            else
+            {
+                ++it;
+            }
         }
-        else
-        {
-            ++it;
-        }
-    }
+    // removing temporary big_backgrounds
 
     aroom.Generate( mRoomDesc, glm::vec2(0), true );
+    std::vector<std::string> groupNames;
+    auto& idStorage = IdStorage::Get();
+    for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), GroupMapElement::GetType_static() ))
+    {
+        std::string groupName;
+        if (idStorage.GetName( groupMapElement->GetUID(), groupName ))
+        {
+            groupNames.push_back( groupName );
+        }
+    }
+    EditorGroupSystem::Get()->SetGroupNames( groupNames );
     Ui::Get().Load( "room_editor_base_hud" );
     mAutoSaveOn = true;
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );

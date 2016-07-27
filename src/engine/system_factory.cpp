@@ -125,6 +125,8 @@
 #include "core/map/editor_layer_system.h"
 #include "core/map/editor_actor_system.h"
 #include "core/map/room_cell_editor_system.h"
+#include "core/map/editor_select_system.h"
+#include "core/map/editor_group_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -270,6 +272,8 @@ void SystemFactory::Init()
     Bind( AutoId( "editor_layer_system" ), &CreateSystem<map::EditorLayerSystem> );
     Bind( AutoId( "editor_actor_system" ), &CreateSystem<map::EditorActorSystem> );
     Bind( AutoId( "room_cell_editor_system" ), &CreateSystem<map::RoomCellEditorSystem> );
+    Bind( AutoId( "editor_select_system" ), &CreateSystem<map::EditorSelectSystem> );
+    Bind( AutoId( "editor_group_system" ), &CreateSystem<map::EditorGroupSystem> );
 
     Bind( AutoId( "detonate_on_hit_system" ), &CreateSystem<engine::DetonateOnHitSystem> );
     Bind( AutoId( "explode_on_hit_system" ), &CreateSystem<engine::ExplodeOnHitSystem> );

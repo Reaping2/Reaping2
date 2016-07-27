@@ -19,7 +19,7 @@ void GroupMapElement::Load( Json::Value& setters )
         {
             if (target.isString())
             {
-                mTargets.push_back( AutoId( target.asString() ) );
+                mTargets.insert( AutoId( target.asString() ) );
             }
         }
     }

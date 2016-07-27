@@ -141,6 +141,13 @@ public:
     }
 };
 
+struct MapElementUIDModifier
+{
+    MapElementUIDModifier( int32_t newUID );
+    void operator()( Opt<MapElement>& mapElement );
+    int32_t mNewUID;
+};
+
 class MapSystem : public engine::System
 {
 public:

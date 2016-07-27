@@ -300,6 +300,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "editor_layer_system" ) );
         Eng.AddSystem( AutoId( "editor_actor_system" ) );
         Eng.AddSystem( AutoId( "room_cell_editor_system" ) );
+        Eng.AddSystem( AutoId( "editor_select_system" ) );
+        Eng.AddSystem( AutoId( "editor_group_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )

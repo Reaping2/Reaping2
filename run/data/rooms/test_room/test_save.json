@@ -222,7 +222,7 @@
          {
             "chance" : 100,
             "name" : "spawn",
-            "targets" : [ "spawn_at_level_generated" ]
+            "targets" : [ "spawn_at_level_generated","g1" ]
          }
       ]
    }
