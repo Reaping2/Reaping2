@@ -7,8 +7,8 @@
             "y":0.0,
             "w":1.0,
             "h":1.0,
-            "align_h":"center",
-            "align_v":"center",
+            "align_h":"left",
+            "align_v":"top",
             "visible":0,
             "enabled":0,
             "children":[

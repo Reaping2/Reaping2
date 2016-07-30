@@ -23,6 +23,8 @@ EditorSelectSystem::EditorSelectSystem()
     : mScene( Scene::Get() )
     , mEditorSelectModel( "editor_select", &RootModel::Get() )
     , mMouseModeModel( StringFunc( this, &EditorSelectSystem::SetMouseMode ), "mode", &mEditorSelectModel )
+    , mEditorSelectStateModel( StringFunc( this, &EditorSelectSystem::SetEditorSelectState ), "state", &mEditorSelectModel )
+    , mRemoveFromAllGroupsModel( VoidFunc( this, &EditorSelectSystem::OnRemoveFromAllGroups ), "remove_from_all_groups", &mEditorSelectModel )
 {
 }
 
@@ -50,6 +52,9 @@ void EditorSelectSystem::Update(double DeltaTime)
         {
             EnableSubsystems( true );
             EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
+            SetActorColors( mGroupPreSelectedActors, nullptr );
+            mGroupPreSelectedActors.clear();
+            mGroupPreSelectName.clear();
         }
         else
         {
@@ -60,6 +65,10 @@ void EditorSelectSystem::Update(double DeltaTime)
     }
     if (!EditorHudState::Get().IsHudShown())
     {
+        SetActorColors( mCurrentSelectedActors, nullptr );
+        SetActorColors( mSelectedActors, nullptr );
+        SetActorColors( mGroupPreSelectedActors, nullptr );
+
         if (keyboard->GetKey( GLFW_KEY_F ).State == KeyState::Typed
             || keyboard->GetKey( GLFW_KEY_KP_5 ).State == KeyState::Typed)
         {
@@ -90,8 +99,23 @@ void EditorSelectSystem::Update(double DeltaTime)
                 mSelectStartPos = mMousePos;
                 mSelectEndPos = mMousePos;
                 UpdateSelectedActors();
-                mSelectStarted = false;                
-                mSelectedActors.insert( mCurrentSelectedActors.begin(), mCurrentSelectedActors.end() );
+                mSelectStarted = false;
+                std::vector<int32_t> eraseActors;
+                for (auto& actorGUID : mSelectedActors)
+                {
+                    if (mCurrentSelectedActors.find(actorGUID.first)!=mCurrentSelectedActors.end())
+                    {
+                        eraseActors.push_back( actorGUID.first );
+                    }
+                }
+                for (auto actorGUID : eraseActors)
+                {
+                    mSelectedActors.erase( actorGUID );
+                }
+                if (eraseActors.empty())
+                {
+                    mSelectedActors.insert( mCurrentSelectedActors.begin(), mCurrentSelectedActors.end() );
+                }
             }
             else if (keyboard->GetKey( GLFW_KEY_LEFT_SHIFT ).State == KeyState::Down
                 || keyboard->GetKey( GLFW_KEY_RIGHT_SHIFT ).State == KeyState::Down)
@@ -114,30 +138,19 @@ void EditorSelectSystem::Update(double DeltaTime)
 
         if (mMouseRightPressed && !mouse->IsButtonPressed( MouseSystem::Button_Right ))
         {
-            if (keyboard->GetKey( GLFW_KEY_LEFT_CONTROL ).State == KeyState::Down
-                || keyboard->GetKey( GLFW_KEY_RIGHT_CONTROL ).State == KeyState::Down)
-            {
-                mSelectStarted = true;
-                mSelectStartPos = mMousePos;
-                mSelectEndPos = mMousePos;
-                UpdateSelectedActors();
-                mSelectStarted = false;
-                for (auto& actorGUID : mCurrentSelectedActors)
-                {
-                    mSelectedActors.erase( actorGUID.first );
-                }
-            }
+            mSelectedActors.clear();
+            mCurrentSelectedActors.clear();
             mMouseRightPressed = false;
         }
         else if (mouse->IsButtonPressed( MouseSystem::Button_Right ))
         {
             mMouseRightPressed = true;
         }
-        SetActorColors( mCurrentSelectedActors, nullptr );
         UpdateSelectedActors();
-        glm::vec4 selectColor = glm::vec4( 0, 0, 0.5, 1 );
-        SetActorColors( mCurrentSelectedActors, &selectColor );
-        SetActorColors( mSelectedActors, &selectColor );
+        SetActorColors( mCurrentSelectedActors, &mSelectColor );
+        SetActorColors( mSelectedActors, &mSelectColor );
+        SetActorColors( mGroupPreSelectedActors, &mPreSelectColor );
+
     }
 }
 
@@ -154,6 +167,13 @@ void EditorSelectSystem::OnEditorModeChanged(map::EditorModeChangedEvent const& 
     {
         EnableSubsystems( false );
         ::engine::Engine::Get().SetEnabled<EditorSelectSystem>( false );
+        SetActorColors( mCurrentSelectedActors, nullptr );
+        SetActorColors( mSelectedActors, nullptr );
+        SetActorColors( mGroupPreSelectedActors, nullptr );
+        mCurrentSelectedActors.clear();
+        mSelectedActors.clear();
+        mGroupPreSelectedActors.clear();
+        mGroupPreSelectName.clear();
     }
 }
 
@@ -174,34 +194,6 @@ void EditorSelectSystem::EnableSubsystems( bool enable )
 {
 }
 
-void EditorSelectSystem::RemoveCells()
-{
-    for (auto cellGUID : mCellGUIDs)
-    {
-        mScene.RemoveActor( cellGUID );
-    }
-}
-
-void EditorSelectSystem::AddCells()
-{
-    static ActorFactory& actorFactory = ActorFactory::Get();
-    static int32_t cellId = AutoId( "cell" );
-    RemoveCells();
-    mCellGUIDs.clear();
-    std::auto_ptr<Actor> cellActor( actorFactory( cellId ) );
-    Opt<IPositionComponent> positionC( cellActor->Get<IPositionComponent>() );
-    if (positionC.IsValid())
-    {
-    }
-    auto CollisionC( cellActor->Get<ICollisionComponent>() );
-    if (CollisionC.IsValid())
-    {
-        CollisionC->SetRadius( 100 );
-    }
-
-    mScene.AddActor( cellActor.release() );
-}
-
 Opt<EditorSelectSystem> EditorSelectSystem::Get()
 {
     return engine::Engine::Get().GetSystem<EditorSelectSystem>();
@@ -214,7 +206,6 @@ void EditorSelectSystem::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
 
 void EditorSelectSystem::SetMouseMode( std::string mode )
 {
-    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
 }
 
 void EditorSelectSystem::UpdateSelectedActors()
@@ -276,26 +267,109 @@ void EditorSelectSystem::OnGroupSelected( map::GroupSelectedEvent const& Evt )
     {
         return;
     }
-    int32_t groupId = AutoId(Evt.mGroupName);
-    GroupMapElement::Targets_t targets;
-    ActorColors_t newSelectedActors;
-    SetUIDUniqueForSelectedActors();
-    for (auto&& actorColor : mSelectedActors)
+    auto mapSystem = MapSystem::Get();
+    if (mSelectState == AddToGroup)
     {
-        int32_t actorGUID = actorColor.first;
-        for (auto mapElement : MapSystem::Get()->GetMapElementList())
+        if (mGroupPreSelectName == Evt.mGroupName
+            || Evt.mNew )
         {
-            if (mapElement->GetSpawnedActorGUID() == actorGUID)
+            int32_t groupId = AutoId( Evt.mGroupName );
+            GroupMapElement::Targets_t targets;
+            ActorColors_t newSelectedActors;
+            SetUIDUniqueForSelectedActors();
+            for (auto&& actorColor : mSelectedActors)
             {
-                targets.insert( mapElement->GetUID() );
+                int32_t actorGUID = actorColor.first;
+                auto mapElement(mapSystem->GetMapElement( actorGUID ));
+                if (mapElement.IsValid())
+                {
+                    targets.insert( mapElement->GetIdentifier() );
+                }
             }
+            for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), groupId )) // all groups - most probably one
+            {
+                auto newTargets = targets;
+                newTargets.insert( groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
+                groupMapElement->SetTargets( newTargets );
+            }
+            mSelectedActors.insert( mGroupPreSelectedActors.begin(), mGroupPreSelectedActors.end() );
+            SetActorColors( mGroupPreSelectedActors, nullptr );
+            SetActorColors( mSelectedActors, &mSelectColor );
+            mGroupPreSelectedActors.clear();
+            mGroupPreSelectName.clear();
+            EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
+        }
+        else // TODO: temporary, showing of group actors will be handled on mouse over
+        {
+            mGroupPreSelectName = Evt.mGroupName;
+            SetActorColors( mGroupPreSelectedActors, nullptr );
+            mGroupPreSelectedActors.clear();
+            int32_t groupId = AutoId( Evt.mGroupName );
+            for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), groupId )) // all groups - most probably one
+            {
+                for (auto target : groupMapElement->GetTargets())
+                {
+                    for (Opt<MapElement> mapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), target )) // all targets - could be more
+                    {
+                        auto actor( mScene.GetActor( mapElement->GetSpawnedActorGUID() ) );
+                        if (actor.IsValid())
+                        {
+                            auto renderableC( actor->Get<IRenderableComponent>() );
+                            auto color = renderableC.IsValid() ? renderableC->GetColor() : glm::vec4( 1.0 );
+                            mGroupPreSelectedActors.emplace( actor->GetGUID(), color );
+                        }
+                    }
+                }
+            }
+            SetActorColors( mGroupPreSelectedActors, &mPreSelectColor );
         }
     }
-    for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::UID>( MapSystem::Get()->GetMapElementList(), groupId ))
+    else if (mSelectState == RemoveFromGroup)
     {
-        auto newTargets = targets;
-        newTargets.insert(groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
-        groupMapElement->SetTargets( newTargets );
+        int32_t groupId = AutoId( Evt.mGroupName );
+        std::vector<int32_t> grouplessMapElements;
+        for (auto actorColor : mSelectedActors)
+        {
+            bool found = false;
+            auto mapElement( mapSystem->GetMapElement( actorColor.first ) );
+            if (!mapElement.IsValid())
+            {
+                continue; // this should not happen all actors should have a spawn actor map element at least
+            }
+            // check if there is another group containing this element if so the elements identifier remains the same. Otherwise it will be reset to spawn at start
+            for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), GroupMapElement::GetType_static() )) // all groups - most probably one
+            {
+                if (groupMapElement->GetIdentifier() == groupId)
+                {
+                    GroupMapElement::Targets_t targets=groupMapElement->GetTargets();
+                    targets.erase( mapElement->GetIdentifier() );
+                    groupMapElement->SetTargets( targets );
+                }
+                else if (!found)
+                {
+                    auto mapElement( mapSystem->GetMapElement( actorColor.first ) );
+                    if (groupMapElement->GetTargets().find( mapElement->GetIdentifier() ) != groupMapElement->GetTargets().end())
+                    {
+                        found = true;
+                    }
+                }
+            }
+            if (!found)
+            {
+                grouplessMapElements.push_back( mapElement->GetUID() );
+            }
+        }
+
+        static int32_t spawnID = EditorTargetSystem::Get()->GetNextUID();
+        for (auto mapElementUID : grouplessMapElements)
+        {
+            auto it = mapSystem->GetMapElementList().find( mapElementUID );
+            if (it != mapSystem->GetMapElementList().end())
+            {
+                MapSystem::Get()->GetMapElementList().modify(it, MapElementIdentifierModifier( spawnID ) );
+            }
+        }
+        EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
     }
 }
 
@@ -305,30 +379,25 @@ void EditorSelectSystem::SetUIDUniqueForSelectedActors()
     // to avoid this, have to check if an actor has a uid like this
     // if so it has to be changed for some really unique id to put the specific actor to a group
     static int32_t spawnID = EditorTargetSystem::Get()->GetNextUID();
-    std::vector<Opt<MapElement>> mapElementsToModify;
+    std::vector<int32_t> mapElementsToModify;
+    auto mapSystem(MapSystem::Get());
     for (auto&& actorColor : mSelectedActors)
     {
         int32_t actorGUID = actorColor.first;
-        for (auto mapElement : MapSystem::Get()->GetMapElementList())
+        auto mapElement( mapSystem->GetMapElement( actorGUID ));
+        if (mapElement.IsValid() && mapElement->GetIdentifier() == spawnID)
         {
-            if (mapElement->GetSpawnedActorGUID() == actorGUID
-                && mapElement->GetUID() == spawnID)
-            {
-                mapElementsToModify.push_back( mapElement );
-            }
+            mapElementsToModify.push_back( mapElement->GetUID() );
         }
     }
     int32_t nextIndex = GetNextUniqueSpawnIndex();
-    for (auto mapElement : mapElementsToModify)
+    for (auto mapElementUID : mapElementsToModify)
     {
-        for (auto i = MapSystem::Get()->GetMapElementList().begin(), e = MapSystem::Get()->GetMapElementList().end(); i != e;++i)
+        auto it = mapSystem->GetMapElementList().find( mapElementUID );
+        if (it != mapSystem->GetMapElementList().end())
         {
-            if (i->Get() == mapElement.Get())
-            {
-                MapSystem::Get()->GetMapElementList().modify(
-                i, MapElementUIDModifier( AutoId( "a" + std::to_string( nextIndex++ ) ) ) );
-                break;
-            }
+            mapSystem->GetMapElementList().modify(
+                it, MapElementIdentifierModifier( AutoId( "a" + std::to_string( nextIndex++ ) ) ) );
         }
     }
 }
@@ -342,19 +411,57 @@ int32_t EditorSelectSystem::GetNextUniqueSpawnIndex()
         try
         {
             std::string mapElementUName;
-            if (idStorage.GetName( mapElement->GetUID(), mapElementUName ))
+            if (idStorage.GetName( mapElement->GetIdentifier(), mapElementUName ))
             {
                 if (boost::starts_with( mapElementUName, "a" ))
                 {
                     max = std::max( std::stoi( mapElementUName.substr( 1 ) ), max );
                 }
             }
-        }
-        catch (...)
-        {
-        }
+        } catch (...) {}
     }
     return ++max;
+}
+
+void EditorSelectSystem::SetEditorSelectState( std::string state )
+{
+    if (state == "add")
+    {
+        mSelectState = AddToGroup;
+    }
+    else if (state == "remove")
+    {
+        mSelectState = RemoveFromGroup;
+    }
+}
+
+void EditorSelectSystem::OnRemoveFromAllGroups()
+{
+    auto mapSystem = MapSystem::Get();
+    for (auto actorColor : mSelectedActors)
+    {
+        auto mapElement( mapSystem->GetMapElement( actorColor.first ) );
+        if (!mapElement.IsValid())
+        {
+            continue; // this should not happen all actors should have a spawn actor map element at least
+        }
+        for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), GroupMapElement::GetType_static() )) // all groups - most probably one
+        {
+            GroupMapElement::Targets_t targets = groupMapElement->GetTargets();
+            targets.erase( mapElement->GetIdentifier() );
+            groupMapElement->SetTargets( targets );
+        }
+
+
+
+        static int32_t spawnID = EditorTargetSystem::Get()->GetNextUID();
+        auto it = mapSystem->GetMapElementList().find( mapElement->GetUID() );
+        if (it != mapSystem->GetMapElementList().end())
+        {
+            MapSystem::Get()->GetMapElementList().modify( it, MapElementIdentifierModifier( spawnID ) );
+        }
+    }
+    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
 }
 
 } // namespace map

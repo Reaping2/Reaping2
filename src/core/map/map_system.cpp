@@ -117,6 +117,18 @@ void MapSystem::RemoveMapElement( int32_t spawnedActorGUID )
     }
 }
 
+Opt<MapElement> MapSystem::GetMapElement( int32_t spawnedActorGUID )
+{
+    for (auto mapElement : mMapElementHolder.mAllMapElements)
+    {
+        if (mapElement->GetSpawnedActorGUID() == spawnedActorGUID)
+        {
+            return mapElement;
+        }
+    }
+    return Opt<MapElement>();
+}
+
 MapElementHolder::MapElementHolder( MapElementHolder const& holder )
 {
     for (auto elem : holder.mAllMapElements)
@@ -126,16 +138,16 @@ MapElementHolder::MapElementHolder( MapElementHolder const& holder )
 }
 
 
-MapElementUIDModifier::MapElementUIDModifier( int32_t newUID )
-    : mNewUID( newUID )
+MapElementIdentifierModifier::MapElementIdentifierModifier( int32_t newIdentifier )
+    : mNewIdentifier( newIdentifier )
 {
 
 }
 
 
-void MapElementUIDModifier::operator()( Opt<MapElement>& mapElement )
+void MapElementIdentifierModifier::operator()( Opt<MapElement>& mapElement )
 {
-    mapElement->SetUID( mNewUID );
+    mapElement->SetIdentifier( mNewIdentifier );
 }
 
 } // namespace map

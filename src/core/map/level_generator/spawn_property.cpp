@@ -95,7 +95,7 @@ void SpawnProperty::SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targe
     while (currTargetIndex<targets.size())
     {
         int32_t target = targets[currTargetIndex];
-        for (auto targetMapElement : MapElementListFilter<MapSystem::UID>( mMapElementHolder.mAllMapElements, target ))
+        for (auto targetMapElement : MapElementListFilter<MapSystem::Identifier>( mMapElementHolder.mAllMapElements, target ))
         {
             if (targetMapElement->GetType() == SpawnActorMapElement::GetType_static())
             {

@@ -129,7 +129,7 @@ void RoomEditorSystem::Load( std::string const& room )
     for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( MapSystem::Get()->GetMapElementList(), GroupMapElement::GetType_static() ))
     {
         std::string groupName;
-        if (idStorage.GetName( groupMapElement->GetUID(), groupName ))
+        if (idStorage.GetName( groupMapElement->GetIdentifier(), groupName ))
         {
             groupNames.push_back( groupName );
         }

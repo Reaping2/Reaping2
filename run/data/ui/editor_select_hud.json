@@ -1,7 +1,7 @@
 {
     "type":"root",
     "children":[
-        {
+       {
             "type":"fixed_ratio_container",
             "x":0.0,
             "y":0.5,
@@ -16,13 +16,13 @@
                     "type":"button",
                     "x":0.15,
                     "y":0.58,
-                    "w":0.4,
+                    "w":0.8,
                     "h":0.1,
                     "visible":1,
                     "enabled":1,
                     "color":"0x22222277",
                     "highlight_color":"0xaaaaaa77",
-                    "action":[["ui.load","editor/group_hud"]],
+                    "action":[["editor_select.state","add"],["editor_group.new_group"]],
                     "children":[
                         {
                             "type":"text_widget",
@@ -33,13 +33,92 @@
                             "color":"0xaa0000",
                             "visible":1,
                             "enabled":0,
-                            "text":"group",
+                            "text":"add to new group",
+                            "fontsize":4
+                        }
+                    ]
+                },                
+                {
+                    "type":"button",
+                    "x":0.15,
+                    "y":0.47,
+                    "w":0.8,
+                    "h":0.1,
+                    "visible":1,
+                    "enabled":1,
+                    "color":"0x22222277",
+                    "highlight_color":"0xaaaaaa77",
+                    "action":[["editor_select.state","add"],["ui.load","editor/all_groups"]],
+                    "children":[
+                        {
+                            "type":"text_widget",
+                            "x":0.02,
+                            "y":0.02,
+                            "w":0.96,
+                            "h":0.96,
+                            "color":"0xaa0000",
+                            "visible":1,
+                            "enabled":0,
+                            "text":"add to existing group",
+                            "fontsize":4
+                        }
+                    ]
+                },
+                {
+                    "type":"button",
+                    "x":0.15,
+                    "y":0.36,
+                    "w":0.8,
+                    "h":0.1,
+                    "visible":1,
+                    "enabled":1,
+                    "color":"0x22222277",
+                    "highlight_color":"0xaaaaaa77",
+                    "action":[["editor_select.state","remove"],["ui.load","editor/all_groups"]],
+                    "children":[
+                        {
+                            "type":"text_widget",
+                            "x":0.02,
+                            "y":0.02,
+                            "w":0.96,
+                            "h":0.96,
+                            "color":"0xaa0000",
+                            "visible":1,
+                            "enabled":0,
+                            "text":"remove from specific group",
+                            "fontsize":4
+                        }
+                    ]
+                },
+                {
+                    "type":"button",
+                    "x":0.15,
+                    "y":0.25,
+                    "w":0.8,
+                    "h":0.1,
+                    "visible":1,
+                    "enabled":1,
+                    "color":"0x22222277",
+                    "highlight_color":"0xaaaaaa77",
+                    "action":[["editor_select.remove_from_all_groups"]],
+                    "children":[
+                        {
+                            "type":"text_widget",
+                            "x":0.02,
+                            "y":0.02,
+                            "w":0.96,
+                            "h":0.96,
+                            "color":"0xaa0000",
+                            "visible":1,
+                            "enabled":0,
+                            "text":"remove from all groups",
                             "fontsize":4
                         }
                     ]
                 }                
             ]
         }
+
     ]
 }
 

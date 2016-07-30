@@ -64,7 +64,7 @@ void PickupTarget::PutTarget( glm::vec2 position )
         spawnActor->AddComponentLoader( componentId, compLoader );
     }
     spawnActor->SetActorID( EditorTargetSystem::Get()->GetTarget().GetActorId() );
-    mapElement->SetUID( EditorTargetSystem::Get()->GetNextUID() );
+    mapElement->SetIdentifier( EditorTargetSystem::Get()->GetNextUID() );
     spawnActor->SetSecsToRespawnOriginal( 15 );
     MapSystem::Get()->GetMapElementList().insert( Opt<MapElement>( mapElement.release() ) );
 }

@@ -8,17 +8,17 @@ MapElement::~MapElement()
 }
 
 MapElement::MapElement( int32_t Id )
-    : mUID( 0 )
+    : mIdentifier( 0 )
     , mId( Id )
     , mSpawnedActorGUID( -1 )
 {
-    //     static int32_t NextUID = 0;
-    //     mUID = ++NextUID;
+    static int32_t NextUID = 0;
+    mUID = ++NextUID;
 }
 
-int32_t MapElement::GetUID()
+int32_t MapElement::GetIdentifier()
 {
-    return mUID;
+    return mIdentifier;
 }
 
 void MapElement::Load( Json::Value& setters )
@@ -26,7 +26,7 @@ void MapElement::Load( Json::Value& setters )
     std::string identifier;
     if ( Json::GetStr( setters["identifier"], identifier ) )
     {
-        mUID = AutoId( identifier );
+        mIdentifier = AutoId( identifier );
     }
 }
 
@@ -38,15 +38,15 @@ void MapElement::Save( Json::Value& Element )
         Element["name"] = Json::Value( elementName );
     }
     std::string identifierName;
-    if ( IdStorage::Get().GetName( mUID, identifierName ) )
+    if ( IdStorage::Get().GetName( mIdentifier, identifierName ) )
     {
         Element["identifier"] = Json::Value( identifierName );
     }
 }
 
-void MapElement::SetUID( int32_t uId )
+void MapElement::SetIdentifier( int32_t uId )
 {
-    mUID = uId;
+    mIdentifier = uId;
 }
 
 void MapElement::SetSpawnedActorGUID( int32_t spawnedActorGUID )
@@ -57,6 +57,12 @@ void MapElement::SetSpawnedActorGUID( int32_t spawnedActorGUID )
 int32_t MapElement::GetSpawnedActorGUID() const
 {
     return mSpawnedActorGUID;
+}
+
+
+int32_t MapElement::GetUID() const
+{
+    return mUID;
 }
 
 DefaultMapElement::DefaultMapElement( int32_t Id )

@@ -30,7 +30,7 @@ void LinkMapElementSystem::OnMapLoaded( core::MapLoadedEvent const& Evt )
 {
     for( Opt<LinkMapElement> linkMapElement : MapElementListFilter<MapSystem::All>( mMapSystem->GetMapElementList(), LinkMapElement::GetType_static() ))
     {
-        for ( Opt<IInput> targetInput : MapElementListFilter<MapSystem::UID>( mMapSystem->GetMapElementList(), linkMapElement->GetTargetInputUID() ))
+        for ( Opt<IInput> targetInput : MapElementListFilter<MapSystem::Identifier>( mMapSystem->GetMapElementList(), linkMapElement->GetTargetInputUID() ))
         {
             if( !targetInput.IsValid() )
             {
@@ -48,7 +48,7 @@ void LinkMapElementSystem::OnMapLoaded( core::MapLoadedEvent const& Evt )
                 inputNode = targetInput->GetInputNode( linkMapElement->GetTargetInputNodeOrdinal() );
             }
 
-            for( Opt<IOutput> targetOutput : MapElementListFilter<MapSystem::UID>( mMapSystem->GetMapElementList(), linkMapElement->GetTargetOutputUID() ))
+            for( Opt<IOutput> targetOutput : MapElementListFilter<MapSystem::Identifier>( mMapSystem->GetMapElementList(), linkMapElement->GetTargetOutputUID() ))
             {
                 if( !targetOutput.IsValid() )
                 {

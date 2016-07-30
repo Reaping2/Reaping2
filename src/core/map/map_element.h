@@ -29,15 +29,17 @@ public:
     virtual ~MapElement();
     virtual void Load( Json::Value& setters );
     virtual void Save( Json::Value& Element );
-    int32_t GetUID();
-    void SetUID( int32_t uId );
+    int32_t GetIdentifier();
+    void SetIdentifier( int32_t uId );
     void SetSpawnedActorGUID( int32_t spawnedActorGUID );   // mostly editor uses this information
     int32_t GetSpawnedActorGUID()const;                     // mostly editor uses this information
+    int32_t GetUID() const;
 protected:
     MapElement( int32_t Id );
-    int32_t mUID;  //does not need to be unique. Some elements does not need UID. Some elements can have the same UID.
+    int32_t mIdentifier;  //does not need to be unique. Some elements does not need UID. Some elements can have the same UID.
     int32_t mId;
     int32_t mSpawnedActorGUID;
+    int32_t mUID;
 };
 
 

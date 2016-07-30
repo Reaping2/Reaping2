@@ -67,7 +67,7 @@ void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapEleme
         while (currTargetIndex < targets.size())
         {
             int32_t target = targets[currTargetIndex];
-            for (auto targetMapElement : MapElementListFilter<MapSystem::UID>( mMapElementHolder.mAllMapElements, target ))
+            for (auto targetMapElement : MapElementListFilter<MapSystem::Identifier>( mMapElementHolder.mAllMapElements, target ))
             {
                 if (targetMapElement->GetType() == SoldierSpawnPointMapElement::GetType_static())
                 {

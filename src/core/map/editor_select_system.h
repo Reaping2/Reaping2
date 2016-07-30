@@ -27,11 +27,6 @@ private:
     void EnableSubsystems( bool enable );
     AutoReg mOnEditorBack;
     void OnEditorBack( map::EditorBackEvent const& Evt );
-    void RemoveCells();
-    void AddCells();
-    std::vector<int32_t> mCellGUIDs;
-    int32_t mCellCount = 0;
-    int32_t mCellSize = 0;
     ModelValue mEditorSelectModel;
     glm::vec2 mMousePos;
     glm::vec2 mSelectStartPos;
@@ -39,13 +34,19 @@ private:
     typedef std::map<int32_t, glm::vec4> ActorColors_t;
     ActorColors_t mSelectedActors;
     ActorColors_t mCurrentSelectedActors;
+    ActorColors_t mGroupPreSelectedActors;
+    glm::vec4 mSelectColor = glm::vec4( 0, 0, 0.5, 1 );
+    glm::vec4 mPreSelectColor = glm::vec4( 0.5, 0, 0.5, 1 );
     AutoReg mMouseMoveId;
     bool mMouseLeftPressed = false;
     bool mMouseRightPressed = false;
     bool mSelectStarted = false;
+    std::string mGroupPreSelectName;
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
     ModelValue mMouseModeModel;
     void SetMouseMode( std::string mode );
+    ModelValue mEditorSelectStateModel;
+    void SetEditorSelectState( std::string state );
     void UpdateSelectedActors();
     void SetActorColors( std::map<int32_t, glm::vec4> const& actorGUIDs, Opt<glm::vec4> col );
     AutoReg mOnGroupSelected;
@@ -53,6 +54,14 @@ private:
 
     void SetUIDUniqueForSelectedActors();
     int32_t GetNextUniqueSpawnIndex();
+    enum SelectState
+    {
+        AddToGroup,
+        RemoveFromGroup
+    } mSelectState = AddToGroup;
+    ModelValue mRemoveFromAllGroupsModel;
+    void OnRemoveFromAllGroups();
+
 };
 
 } // namespace map

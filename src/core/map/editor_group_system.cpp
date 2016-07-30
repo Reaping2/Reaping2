@@ -76,19 +76,15 @@ void EditorGroupSystem::OnNewGroup()
             {
                 max = std::max(std::stoi( groupName.substr(1) ),max);
             }
-        }
-        catch (...)
-        {
-        }
+        } catch (...) {}
     }
     ++max;
     std::string newGroupName = "g" + std::to_string( max );
     mGroupNames.push_back( newGroupName );
     auto groupMapElement = MapElementFactory::Get()(AutoId("group"));
-    groupMapElement->SetUID( AutoId(newGroupName) );
+    groupMapElement->SetIdentifier( AutoId(newGroupName) );
     MapSystem::Get()->GetMapElementList().insert( groupMapElement.release() );
-    EventServer<GroupSelectedEvent>::Get().SendEvent( GroupSelectedEvent(newGroupName) );
-    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent() );
+    EventServer<GroupSelectedEvent>::Get().SendEvent( GroupSelectedEvent( newGroupName, true ) );
 }
 
 std::vector<std::string> EditorGroupSystem::GetGroupNames() const
@@ -103,8 +99,7 @@ void EditorGroupSystem::SetGroupNames( std::vector<std::string> val )
 
 void EditorGroupSystem::OnGroupSelected( std::string groupName )
 {
-    EventServer<GroupSelectedEvent>::Get().SendEvent( GroupSelectedEvent( groupName ) );
-    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent() );
+    EventServer<GroupSelectedEvent>::Get().SendEvent( GroupSelectedEvent( groupName, false ) );
 }
 
 } // namespace map

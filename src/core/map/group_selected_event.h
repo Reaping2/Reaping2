@@ -8,8 +8,9 @@ namespace map {
 struct GroupSelectedEvent : public platform::Event
 {
     std::string mGroupName;
-    GroupSelectedEvent(std::string groupName)
-        :mGroupName(groupName){}
+    bool mNew;
+    GroupSelectedEvent(std::string groupName, bool _new )
+        :mGroupName(groupName), mNew(_new){}
 };
 
 } // namespace map
