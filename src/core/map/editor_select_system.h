@@ -11,12 +11,16 @@
 
 namespace map {
 
+typedef std::map<int32_t, glm::vec4> ActorColors_t;
+
 class EditorSelectSystem : public engine::System
 {
 public:
     DEFINE_SYSTEM_BASE(EditorSelectSystem)
     EditorSelectSystem();
     static Opt<EditorSelectSystem> Get();
+    static void SetActorColors( ActorColors_t const& actorGUIDs, Opt<glm::vec4> col );
+    static void AddToActorColors( int32_t actorGUID, ActorColors_t &actorColors, Opt<ActorColors_t> colorShaders = nullptr );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -31,12 +35,11 @@ private:
     glm::vec2 mMousePos;
     glm::vec2 mSelectStartPos;
     glm::vec2 mSelectEndPos;
-    typedef std::map<int32_t, glm::vec4> ActorColors_t;
     ActorColors_t mSelectedActors;
     ActorColors_t mCurrentSelectedActors;
     ActorColors_t mGroupPreSelectedActors;
-    glm::vec4 mSelectColor = glm::vec4( 0, 0, 0.5, 1 );
-    glm::vec4 mPreSelectColor = glm::vec4( 0.5, 0, 0.5, 1 );
+    glm::vec4 mSelectColor = glm::vec4( 0, 0, 0.8, 1 );
+    glm::vec4 mPreSelectColor = glm::vec4( 0.8, 0, 0.8, 1 );
     AutoReg mMouseMoveId;
     bool mMouseLeftPressed = false;
     bool mMouseRightPressed = false;
@@ -48,12 +51,8 @@ private:
     ModelValue mEditorSelectStateModel;
     void SetEditorSelectState( std::string state );
     void UpdateSelectedActors();
-    void SetActorColors( std::map<int32_t, glm::vec4> const& actorGUIDs, Opt<glm::vec4> col );
     AutoReg mOnGroupSelected;
     void OnGroupSelected( map::GroupSelectedEvent const& Evt );
-
-    void AddToActorColors( int32_t actorGUID, ActorColors_t &actorColors );
-
     void SetUIDUniqueForSelectedActors();
     enum SelectState
     {

@@ -30,7 +30,7 @@ void HeadColorActionRenderer::FillRenderableSprites( const Actor& actor, IRender
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
         Opt<PlayerControllerComponent> playerCC = actor.Get<PlayerControllerComponent>();
-        glm::vec4 col = ColorRepo::Get()( playerCC->mControllerId );
+        glm::vec4 col = ColorRepo::Get()( playerCC->mControllerId )*GetColor( actor );
         col.a = GetCloakColor( actor ).a;
         renderableSprites.push_back(
             RenderableSprite( &actor, &renderableC, mHeadColorId, &Spr, &Phase, col ) );

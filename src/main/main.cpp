@@ -302,6 +302,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "room_cell_editor_system" ) );
         Eng.AddSystem( AutoId( "editor_select_system" ) );
         Eng.AddSystem( AutoId( "editor_group_system" ) );
+        Eng.AddSystem( AutoId( "editor_visibility_system" ) );
+        Eng.AddSystem( AutoId( "editor_renderable_layer_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )

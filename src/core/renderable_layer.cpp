@@ -18,3 +18,8 @@ RenderableLayer::Type RenderableLayer::operator()( int32_t Id ) const
     BOOST_ASSERT( i != mIdToRendLayerMap.end() );
     return ( i != mIdToRendLayerMap.end() ) ? i->second : RenderableLayer::Background;
 }
+
+RenderableLayer::IdToRendLayerMap_t const& RenderableLayer::GetIdToRenderLayerMap()
+{
+    return mIdToRendLayerMap;
+}

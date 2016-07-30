@@ -19,8 +19,9 @@ public:
         Num_Layers
     };
     RenderableLayer::Type operator()( int32_t Id ) const;
-private:
     typedef std::map<int32_t, RenderableLayer::Type> IdToRendLayerMap_t;
+    IdToRendLayerMap_t const& GetIdToRenderLayerMap();
+private:
     IdToRendLayerMap_t mIdToRendLayerMap;
 };
 

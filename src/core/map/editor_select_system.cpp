@@ -17,6 +17,8 @@
 #include "map_system.h"
 #include "../../platform/id_storage.h"
 #include "editor_group_system.h"
+#include "editor_visiblity_system.h"
+#include "groups_changed_event.h"
 
 namespace map {
 
@@ -161,8 +163,9 @@ void EditorSelectSystem::OnEditorModeChanged(map::EditorModeChangedEvent const& 
     {
         EnableSubsystems( false );
         ::engine::Engine::Get().SetEnabled<EditorSelectSystem>( true );
-        Ui::Get().Load( "editor_select_hud" );
-        EditorHudState::Get().SetHudShown( true );
+        EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
+        //Ui::Get().Load( "editor_select_hud" );
+        //EditorHudState::Get().SetHudShown( true );
     }
     else
     {
@@ -234,17 +237,18 @@ void EditorSelectSystem::UpdateSelectedActors()
                 && std::min( mSelectStartPos.y, mSelectEndPos.y ) <= y+radius
                 && y-radius <= std::max( mSelectStartPos.y, mSelectEndPos.y ))
             {
-                AddToActorColors( actor->GetGUID(), mCurrentSelectedActors );
+                AddToActorColors( actor->GetGUID(), mCurrentSelectedActors, &mSelectedActors );
             }
         }
     }
 }
 
-void EditorSelectSystem::SetActorColors( std::map<int32_t, glm::vec4> const& actorGUIDs, Opt<glm::vec4> col )
+void EditorSelectSystem::SetActorColors( ActorColors_t const& actorGUIDs, Opt<glm::vec4> col )
 {
+    static Scene& scene = Scene::Get();
     for (auto& actorGUID : actorGUIDs)
     {
-        auto actor = mScene.GetActor( actorGUID.first );
+        auto actor = scene.GetActor( actorGUID.first );
         auto renderableC( actor->Get<IRenderableComponent>() );
         if (renderableC.IsValid())
         {
@@ -254,6 +258,34 @@ void EditorSelectSystem::SetActorColors( std::map<int32_t, glm::vec4> const& act
 
 }
 
+void EditorSelectSystem::AddToActorColors( int32_t actorGUID, ActorColors_t &actorColors, Opt<ActorColors_t> colorShaders /*= nullptr*/ )
+{
+    static Scene& scene=Scene::Get();
+    auto actor( scene.GetActor( actorGUID ) );
+    if (actor.IsValid())
+    {
+        auto renderableC( actor->Get<IRenderableComponent>() );
+        auto color = renderableC.IsValid() ? renderableC->GetColor() : glm::vec4( 1.0 );
+        if (colorShaders.IsValid())
+        {
+            auto found = colorShaders->find( actor->GetGUID() );
+            if (found != colorShaders->end())
+            {
+                // this actor is already selected so the color is the selected color. taking color from the selected and saved colors
+                color = found->second;
+            }
+        }
+        if (renderableC.IsValid()&&renderableC->GetColor()==EditorVisibilitySystem::InvisibleColor)
+        {
+            // do not add to actorColors an invisible actor. That's the point in being invisible
+        }
+        else
+        {
+            actorColors.emplace( actor->GetGUID(), color );
+
+        }
+    }
+}
 void EditorSelectSystem::OnGroupSelected( map::GroupSelectedEvent const& Evt )
 {
     if (!mEnabled)
@@ -320,6 +352,15 @@ void EditorSelectSystem::OnGroupSelected( map::GroupSelectedEvent const& Evt )
         }
         EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
     }
+    SetActorColors( mSelectedActors, nullptr );
+    EventServer<GroupsChangedEvent>::Get().SendEvent( GroupsChangedEvent() ); // could change actor color for example if the group is invisible, the actor color will change from the original color if you add an originally visible actor
+    ActorColors_t newColors;
+    for (auto actorColor : mSelectedActors)
+    {
+        AddToActorColors( actorColor.first, newColors );
+    }
+    mSelectedActors = newColors;
+    SetActorColors( mSelectedActors, &mSelectColor );
 }
 
 void EditorSelectSystem::SetUIDUniqueForSelectedActors()
@@ -370,22 +411,6 @@ void EditorSelectSystem::OnRemoveFromAllGroups()
     EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
 }
 
-void EditorSelectSystem::AddToActorColors( int32_t actorGUID, ActorColors_t &actorColors )
-{
-    auto actor( mScene.GetActor( actorGUID ) );
-    if (actor.IsValid())
-    {
-        auto renderableC( actor->Get<IRenderableComponent>() );
-        auto color = renderableC.IsValid() ? renderableC->GetColor() : glm::vec4( 1.0 );
-        auto found = mSelectedActors.find( actor->GetGUID() );
-        if (found != mSelectedActors.end())
-        {
-            // this actor is already selected so the color is the selected color. taking color from the selected and saved colors
-            color = found->second;
-        }
-        actorColors.emplace( actor->GetGUID(), color );
-    }
-}
 
 
 } // namespace map

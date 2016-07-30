@@ -9,7 +9,7 @@ struct GroupSelectedEvent : public platform::Event
 {
     std::string mGroupName;
     bool mNew;
-    GroupSelectedEvent(std::string groupName, bool _new )
+    GroupSelectedEvent(std::string const& groupName, bool _new )
         :mGroupName(groupName), mNew(_new){}
 };
 

@@ -29,7 +29,7 @@ void PickupActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
     if( Spr.IsValid() )
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase ) );
+        renderableSprites.push_back( RenderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase, GetColor( actor ) ) );
     }
 }
 

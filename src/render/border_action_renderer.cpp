@@ -68,7 +68,7 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
         if( Spr.IsValid() )
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase/*, color*/ );
+            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase, GetColor( actor ) );
             renderableSprites.push_back( renderableSprite );
         }
     }
@@ -80,7 +80,7 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
         if( Spr.IsValid() )
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase/*, color*/ );
+            RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase, GetColor( actor ) );
             glm::vec2 pos = mBorderType.GetNeighborDirs()[*outer_i];
             renderableSprite.RelativePosition = glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize );
             renderableSprites.push_back( renderableSprite );
