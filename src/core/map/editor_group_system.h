@@ -18,6 +18,12 @@ public:
     static Opt<EditorGroupSystem> Get();
     std::vector<std::string> GetGroupNames() const;
     void SetGroupNames( std::vector<std::string> val );
+    static int32_t RemoveFromAllGroups( int32_t actorGUID );
+
+    static void SetMapElementIdentifier( int32_t mapElementUID, int32_t spawnID );
+
+    static int32_t RemoveFromGroup( int32_t actorGUID, int32_t groupId );
+    static void AddToGroup( std::vector<int32_t> actorGUIDs, int32_t groupId );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

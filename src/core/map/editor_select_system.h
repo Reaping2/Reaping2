@@ -52,8 +52,9 @@ private:
     AutoReg mOnGroupSelected;
     void OnGroupSelected( map::GroupSelectedEvent const& Evt );
 
+    void AddToActorColors( int32_t actorGUID, ActorColors_t &actorColors );
+
     void SetUIDUniqueForSelectedActors();
-    int32_t GetNextUniqueSpawnIndex();
     enum SelectState
     {
         AddToGroup,

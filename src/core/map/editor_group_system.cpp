@@ -101,6 +101,86 @@ void EditorGroupSystem::OnGroupSelected( std::string groupName )
 {
     EventServer<GroupSelectedEvent>::Get().SendEvent( GroupSelectedEvent( groupName, false ) );
 }
+// returns the uid for mapelement
+int32_t EditorGroupSystem::RemoveFromAllGroups( int32_t actorGUID )
+{
+    int32_t r = -1;
+    auto mapSystem = MapSystem::Get();
+    auto mapElement( mapSystem->GetMapElement( actorGUID ) );
+    if (!mapElement.IsValid())
+    {
+        return r; // this should not happen all actors should have a spawn actor map element at least
+    }
+    r = mapElement->GetUID();
+    for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( mapSystem->GetMapElementList(), GroupMapElement::GetType_static() )) // all groups - most probably one
+    {
+        GroupMapElement::Targets_t targets = groupMapElement->GetTargets();
+        targets.erase( mapElement->GetIdentifier() );
+        groupMapElement->SetTargets( targets );
+    }
+    return r;
+}
+
+void EditorGroupSystem::AddToGroup( std::vector<int32_t> actorGUIDs, int32_t groupId )
+{
+    GroupMapElement::Targets_t targets;
+    auto mapSystem = MapSystem::Get();
+    for (auto actorGUID : actorGUIDs)
+    {
+        auto mapElement( mapSystem->GetMapElement( actorGUID ) );
+        if (mapElement.IsValid())
+        {
+            targets.insert( mapElement->GetIdentifier() );
+        }
+    }
+    for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::Identifier>( mapSystem->GetMapElementList(), groupId )) // all groups - most probably one
+    {
+        auto newTargets = targets;
+        newTargets.insert( groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
+        groupMapElement->SetTargets( newTargets );
+    }
+}
+
+// returns the uid for mapelement when the actor is not present in other groups. -1 otherwise
+int32_t EditorGroupSystem::RemoveFromGroup( int32_t actorGUID, int32_t groupId )
+{
+    auto mapSystem = MapSystem::Get();
+    int32_t r = -1;
+    auto mapElement( mapSystem->GetMapElement( actorGUID ) );
+    if (!mapElement.IsValid())
+    {
+        return r; // this should not happen all actors should have a spawn actor map element at least
+    }
+    // check if there is another group containing this element if so the elements identifier remains the same. Otherwise it should be reset to spawn at start
+    for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( mapSystem->GetMapElementList(), GroupMapElement::GetType_static() )) // all groups - most probably one
+    {
+        if (groupMapElement->GetIdentifier() == groupId)
+        {
+            GroupMapElement::Targets_t targets = groupMapElement->GetTargets();
+            targets.erase( mapElement->GetIdentifier() );
+            groupMapElement->SetTargets( targets );
+        }
+        else if (r==-1)
+        {
+            auto mapElement( mapSystem->GetMapElement( actorGUID ) );
+            if (groupMapElement->GetTargets().find( mapElement->GetIdentifier() ) != groupMapElement->GetTargets().end())
+            {
+                r = mapElement->GetUID();
+            }
+        }
+    }
+    return r;
+}
+
+void EditorGroupSystem::SetMapElementIdentifier( int32_t mapElementUID, int32_t spawnID )
+{
+    auto mapSystem = MapSystem::Get();
+    auto it = mapSystem->GetMapElementList().find( mapElementUID );
+    if (it != mapSystem->GetMapElementList().end())
+    {
+        mapSystem->GetMapElementList().modify( it, MapElementIdentifierModifier( spawnID ) );
+    }
+}
 
 } // namespace map
 
