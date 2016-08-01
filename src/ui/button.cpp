@@ -1,5 +1,6 @@
 #include "i_ui.h"
 #include <boost/algorithm/string.hpp>
+#include <boost/assign.hpp>
 
 Button::ActionDesc::ActionDesc( Widget* w )
     : mArg( w )
@@ -9,7 +10,18 @@ Button::ActionDesc::ActionDesc( Widget* w )
 void Button::Init( Json::Value& Descriptor )
 {
     BaseClass::Init( Descriptor );
-    Json::Value& TriggerAction = Descriptor["action"];
+    static std::map<std::string, ActionType> const actiontypes = boost::assign::map_list_of
+        ( "action", AT_Trigger )
+        ( "enter", AT_MouseEnter )
+        ( "leave", AT_MouseLeave );
+    for( auto i = actiontypes.begin(), e = actiontypes.end(); i != e; ++i )
+    {
+        InitAction( i->second, Descriptor[ i->first ] );
+    }
+}
+
+void Button::InitAction( ActionType type, Json::Value& TriggerAction )
+{
     if( !TriggerAction.isArray() )
     {
         return;
@@ -19,14 +31,15 @@ void Button::Init( Json::Value& Descriptor )
     {
         return;
     }
-    mActions.reserve( NumActions );
+    auto& actions = mActions[ type ];
+    actions.reserve( NumActions );
     for( Json::Value::iterator i = TriggerAction.begin(), e = TriggerAction.end(); i != e; ++i )
     {
-        AddAction( *i );
+        AddAction( actions, *i );
     }
 }
 
-void Button::AddAction( Json::Value& TriggerAction )
+void Button::AddAction( Actions_t& target, Json::Value& TriggerAction )
 {
     if( !TriggerAction.isArray() )
     {
@@ -60,12 +73,18 @@ void Button::AddAction( Json::Value& TriggerAction )
             Desc.mArg = Arg.asString();
         }
     }
-    mActions.push_back( Desc );
+    target.push_back( Desc );
 }
 
 bool Button::Trigger()
 {
-    for( Actions_t::const_iterator i = mActions.begin(), e = mActions.end(); i != e; ++i )
+    return ExecuteAction( AT_Trigger );
+}
+
+bool Button::ExecuteAction( ActionType type )
+{
+    Actions_t& acts = mActions[type];
+    for( Actions_t::const_iterator i = acts.begin(), e = acts.end(); i != e; ++i )
     {
         ActionDesc const& Act = *i;
         ModelValue const& Model = RootModel::Get()[ Act.mAction ];
@@ -88,7 +107,7 @@ bool Button::Trigger()
             break;
         }
     }
-    return !mActions.empty();
+    return !acts.empty();
 }
 
 Button::Button( int32_t Id )
@@ -100,9 +119,11 @@ Button::Button( int32_t Id )
 void Button::OnMouseEnter()
 {
     operator()( PT_Highlight ) = 1;
+    ExecuteAction( AT_MouseEnter );
 }
 
 void Button::OnMouseLeave()
 {
     operator()( PT_Highlight ) = 0;
+    ExecuteAction( AT_MouseLeave );
 }
