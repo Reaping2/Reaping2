@@ -10,6 +10,7 @@
 #include "vao_base.h"
 #include "input/mouse.h"
 #include "counter.h"
+#include "camera.h"
 using render::RenderableSprite;
 using render::RecognizerRepo;
 using render::ActionRenderer;
@@ -62,7 +63,7 @@ private:
 public:
     ActorRenderer();
     ~ActorRenderer();
-    void Prepare( Scene const& scene, double deltaTime );
+    void Prepare( Scene const& scene, Camera const& camera, double deltaTime );
     void Draw( RenderFilter filter );
 
 };

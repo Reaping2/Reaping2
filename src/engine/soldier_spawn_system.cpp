@@ -47,7 +47,7 @@ Opt<SoldierSpawnSystem> SoldierSpawnSystem::Get()
 std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData )
 {
     map::SpawnPoints_t spawnPoints( map::SoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints() );
-    map::SpawnPoint spawnPoint( spawnPoints[rand() % spawnPoints.size()] );
+    map::SpawnPoint spawnPoint( spawnPoints[RandomGenerator::global()() % spawnPoints.size()] );
     return Spawn( clientData, spawnPoint );
 }
 

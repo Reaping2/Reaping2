@@ -21,7 +21,7 @@ std::vector<int32_t> EmitterComponent::GetEmitTypes() const
         {
             continue;
         }
-        if( ( rand() % 100 / 100. ) >= d.mProbability )
+        if( ( RandomGenerator::global()() % 100 / 100. ) >= d.mProbability )
         {
             continue;
         }
@@ -37,7 +37,7 @@ void EmitterComponent::Update( double dt )
         EmitDesc& d = *i;
         if( d.mCooldown < 0.0 )
         {
-            d.mCooldown = d.mDelay * ( 1. - d.mDelayVariance / 2. )  + d.mDelayVariance * ( rand() % 100 ) / 100.;
+            d.mCooldown = d.mDelay * ( 1. - d.mDelayVariance / 2. )  + d.mDelayVariance * ( RandomGenerator::global()() % 100 ) / 100.;
             continue;
         }
         d.mDelay -= dt;
@@ -52,7 +52,7 @@ void EmitterComponent::InitEmitDescs( EmitDescs emitDescs )
         EmitDesc& d = *i;
         if ( d.mIteration != -1 )
         {
-            d.mIteration = std::max( 0, d.mIteration + 2 * d.mIterationVariance * ( rand() % 100 ) / 100 - d.mIterationVariance );
+            d.mIteration = std::max<int>( 0, d.mIteration + 2 * d.mIterationVariance * ( RandomGenerator::global()() % 100 ) / 100 - d.mIterationVariance );
         }
     }
 }

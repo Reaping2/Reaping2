@@ -127,7 +127,7 @@ int main( int argc, char* argv[] )
     // convert to int64_t
     boost::posix_time::ptime myEpoch( boost::gregorian::date( 1970, boost::gregorian::Jan, 1 ) );
     boost::posix_time::time_duration myTimeFromEpoch = t - myEpoch;
-    srand ( int32_t( myTimeFromEpoch.total_milliseconds() ) );
+    RandomGenerator::global().seed ( uint32_t( myTimeFromEpoch.total_milliseconds() ) );
     using core::ProgramState;
     ProgramState& programState = ProgramState::Get();
     namespace po = boost::program_options;
@@ -139,7 +139,7 @@ int main( int argc, char* argv[] )
     ( "-s", "server ip" )
     ( "-n", po::value<std::string>( &programState.mClientName ), "client name" )
     ( "-v", "print version information" )
-    ( "-h", "connect as a client to localhost with Host privileges" )
+    ( "-h", po::value<std::string>( &programState.mServerIp )->implicit_value( std::string( "localhost" ) ), "connect as a client to localhost with Host privileges" )
     ( "-r", "connect as a random named soldier to localhost." )
     ( "-d", po::value<std::string>( &deviceConfig ), "set device configuration, format: player1:controller:1,player2:keyboard_and_mouse" )
     ( "calibrate", "print values read from detected controllers" )
@@ -176,7 +176,6 @@ int main( int argc, char* argv[] )
         L1( "run as host" );
         programState.SetMode( ProgramState::Client );
         programState.mIsHost = 1;
-        programState.mServerIp = "localhost";
     }
     else
     {
@@ -187,8 +186,7 @@ int main( int argc, char* argv[] )
     {
         L1( "run as a random named soldier. RanBro" );
         programState.SetMode( ProgramState::Client );
-        programState.mServerIp = "localhost";
-        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( rand() % 1000 );
+        programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( RandomGenerator::global()() % 1000 );
     }
     bool calibrateController = vm.count( "calibrate" );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
@@ -202,9 +200,14 @@ int main( int argc, char* argv[] )
     Engine& Eng = Engine::Get();
 
     Eng.AddSystem( AutoId( "window_system" ) );
-    if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
+    if( programState.mMode != ProgramState::Server &&
+        !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
     {
         PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
+    }
+    if( programState.mMode == ProgramState::Server )
+    {
+        ::engine::Engine::Get().SetEnabled< ::engine::WindowSystem>( false );
     }
 
 
@@ -213,8 +216,11 @@ int main( int argc, char* argv[] )
     PerfTimer.Log( "wnd" );
     AudioPlayer::Get();
     audio::AudioEffectRepo::Get();
-    DamageDecals::Get();
-    Corpses::Get();
+    if( programState.mMode != ProgramState::Server )
+    {
+        DamageDecals::Get();
+        Corpses::Get();
+    }
     PerfTimer.Log( "renderer" );
     Scene& Scen = Scene::Get();
     PerfTimer.Log( "scene" );
@@ -425,7 +431,10 @@ int main( int argc, char* argv[] )
         collisionSS->AddSubSystem( AutoId( "aoe_collision_component" ), AutoId( "aoe_collision_sub_system" ) );
         collisionSS->AddSubSystem( AutoId( "flag_collision_component" ), AutoId( "flag_collision_sub_system" ) );
     }
-    Eng.AddSystem( AutoId( "ParticleSystem" ) );
+    if( programState.mMode != ProgramState::Server )
+    {
+        Eng.AddSystem( AutoId( "ParticleSystem" ) );
+    }
     Eng.AddSystem( AutoId( "move_system" ) );
     Eng.AddSystem( AutoId( "rotate_component_system" ) );
     Eng.AddSystem( AutoId( "attachable_system" ) );
@@ -448,7 +457,6 @@ int main( int argc, char* argv[] )
     }
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>( true ); //just for testing
-    Eng.SetEnabled<render::ParticleSystem>( true );
 
     static const double MaxFrameRate = 60.;
     static const double MinFrameTime = 1. / MaxFrameRate;
