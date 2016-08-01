@@ -129,6 +129,10 @@
 #include "core/map/editor_group_system.h"
 #include "core/map/editor_visiblity_system.h"
 #include "core/map/editor_renderable_layer_system.h"
+#include "core/map/property_editor_system.h"
+#include "core/map/room_start_editor_system.h"
+#include "core/map/room_end_editor_system.h"
+#include "core/map/spawn_editor_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -278,6 +282,10 @@ void SystemFactory::Init()
     Bind( AutoId( "editor_group_system" ), &CreateSystem<map::EditorGroupSystem> );
     Bind( AutoId( "editor_visibility_system" ), &CreateSystem<map::EditorVisibilitySystem> );
     Bind( AutoId( "editor_renderable_layer_system" ), &CreateSystem<map::EditorRenderableLayerSystem> );
+    Bind( AutoId( "property_editor_system" ), &CreateSystem<map::PropertyEditorSystem> );
+    Bind( AutoId( "room_start_editor_system" ), &CreateSystem<map::RoomStartEditorSystem> );
+    Bind( AutoId( "room_end_editor_system" ), &CreateSystem<map::RoomEndEditorSystem> );
+    Bind( AutoId( "spawn_editor_system" ), &CreateSystem<map::SpawnEditorSystem> );
 
     Bind( AutoId( "detonate_on_hit_system" ), &CreateSystem<engine::DetonateOnHitSystem> );
     Bind( AutoId( "explode_on_hit_system" ), &CreateSystem<engine::ExplodeOnHitSystem> );

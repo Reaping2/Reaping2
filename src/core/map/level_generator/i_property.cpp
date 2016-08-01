@@ -5,6 +5,8 @@ namespace map {
 IProperty::IProperty( int32_t Id )
     : mId( Id )
 {
+    static int32_t NextUID = 0;
+    mUID = ++NextUID;
 }
 
 void IProperty::Load( Json::Value& setters )
@@ -32,6 +34,12 @@ int32_t IProperty::GetId() const
 
 void IProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor/*= false*/)
 {
+}
+
+
+int32_t IProperty::GetUID() const
+{
+    return mUID;
 }
 
 DefaultProperty::DefaultProperty( int32_t Id )

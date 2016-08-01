@@ -144,7 +144,7 @@
                   ]
                }
             ],
-            "identifier" : "a3",
+            "identifier" : "spawn_at_level_generated",
             "name" : "spawn_actor"
          },
          {
@@ -197,7 +197,7 @@
          {
             "identifier" : "g1",
             "name" : "group",
-            "targets" : [ "a1", "a2", "a3" ]
+            "targets" : [ "a1", "a2" ]
          }
       ],
       "name" : "test_room",
@@ -223,6 +223,11 @@
             "chance" : 100,
             "name" : "spawn",
             "targets" : [ "spawn_at_level_generated", "g1" ]
+         },
+         {
+            "chance" : 96,
+            "name" : "spawn",
+            "targets" : [ "end_group" ]
          }
       ]
    }

@@ -21,6 +21,8 @@ public:
     static Opt<EditorSelectSystem> Get();
     static void SetActorColors( ActorColors_t const& actorGUIDs, Opt<glm::vec4> col );
     static void AddToActorColors( int32_t actorGUID, ActorColors_t &actorColors, Opt<ActorColors_t> colorShaders = nullptr );
+    static void FillActorColors( int32_t groupId, ActorColors_t& preSelectActors );
+    static glm::vec4 PreSelectColor;
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -39,7 +41,6 @@ private:
     ActorColors_t mCurrentSelectedActors;
     ActorColors_t mGroupPreSelectedActors;
     glm::vec4 mSelectColor = glm::vec4( 0, 0, 0.8, 1 );
-    glm::vec4 mPreSelectColor = glm::vec4( 0.8, 0, 0.8, 1 );
     AutoReg mMouseMoveId;
     bool mMouseLeftPressed = false;
     bool mMouseRightPressed = false;

@@ -33,6 +33,7 @@
 #include "group_map_element.h"
 #include "editor_select_system.h"
 #include "editor_group_system.h"
+#include "room_editor_loaded_event.h"
 
 namespace map {
 
@@ -138,6 +139,7 @@ void RoomEditorSystem::Load( std::string const& room )
     Ui::Get().Load( "room_editor_base_hud" );
     mAutoSaveOn = true;
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
+    EventServer<RoomEditorLoadedEvent>::Get().SendEvent( RoomEditorLoadedEvent(&mRoomDesc) );
 }
 
 double const& RoomEditorSystem::GetX() const

@@ -53,6 +53,36 @@ void IRoom::Init()
     }
 }
 
+
+IRoom::Properties_t const& IRoom::GetProperties() const
+{
+    return mProperties;
+}
+
+
+IRoom::Properties_t& IRoom::GetProperties()
+{
+    return mProperties;
+}
+
+
+Opt<IProperty> IRoom::GetProperty( int32_t propUID )
+{
+    for (auto&& prop : mProperties)
+    {
+        if (propUID == prop.GetUID())
+        {
+            return &prop;
+        }
+    }
+    return Opt<IProperty>();
+}
+
+void IRoom::AddProperty( std::auto_ptr<IProperty> prop )
+{
+    mProperties.push_back( prop );
+}
+
 void IRoom::AddNeighbourCell( glm::vec2 pos )
 {
     if (std::find( mNeighbourCells.begin(), mNeighbourCells.end(), pos ) == mNeighbourCells.end()

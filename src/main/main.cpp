@@ -304,6 +304,10 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "editor_group_system" ) );
         Eng.AddSystem( AutoId( "editor_visibility_system" ) );
         Eng.AddSystem( AutoId( "editor_renderable_layer_system" ) );
+        Eng.AddSystem( AutoId( "property_editor_system" ) ); 
+        Eng.AddSystem( AutoId( "room_start_editor_system" ) );
+        Eng.AddSystem( AutoId( "room_end_editor_system" ) );
+        Eng.AddSystem( AutoId( "spawn_editor_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )

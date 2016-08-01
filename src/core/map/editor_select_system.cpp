@@ -152,7 +152,7 @@ void EditorSelectSystem::Update(double DeltaTime)
         UpdateSelectedActors();
         SetActorColors( mCurrentSelectedActors, &mSelectColor );
         SetActorColors( mSelectedActors, &mSelectColor );
-        SetActorColors( mGroupPreSelectedActors, &mPreSelectColor );
+        SetActorColors( mGroupPreSelectedActors, &PreSelectColor );
 
     }
 }
@@ -252,7 +252,7 @@ void EditorSelectSystem::SetActorColors( ActorColors_t const& actorGUIDs, Opt<gl
         auto renderableC( actor->Get<IRenderableComponent>() );
         if (renderableC.IsValid())
         {
-            renderableC->SetColor( col.Get()?*col:actorGUID.second );
+            renderableC->SetColor( col.IsValid()?*col:actorGUID.second );
         }
     }
 
@@ -318,18 +318,8 @@ void EditorSelectSystem::OnGroupSelected( map::GroupSelectedEvent const& Evt )
             mGroupPreSelectName = Evt.mGroupName;
             SetActorColors( mGroupPreSelectedActors, nullptr );
             mGroupPreSelectedActors.clear();
-            int32_t groupId = AutoId( Evt.mGroupName );
-            for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), groupId )) // all groups - most probably one
-            {
-                for (auto target : groupMapElement->GetTargets())
-                {
-                    for (Opt<MapElement> mapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), target )) // all targets - could be more
-                    {
-                        AddToActorColors( mapElement->GetSpawnedActorGUID(), mGroupPreSelectedActors );
-                    }
-                }
-            }
-            SetActorColors( mGroupPreSelectedActors, &mPreSelectColor );
+            FillActorColors( AutoId( Evt.mGroupName ), mGroupPreSelectedActors );
+            SetActorColors( mGroupPreSelectedActors, &PreSelectColor );
         }
     }
     else if (mSelectState == RemoveFromGroup)
@@ -411,6 +401,21 @@ void EditorSelectSystem::OnRemoveFromAllGroups()
     EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
 }
 
+void EditorSelectSystem::FillActorColors( int32_t groupId, ActorColors_t& preSelectActors )
+{
+    for (Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), groupId )) // all groups - most probably one
+    {
+        for (auto target : groupMapElement->GetTargets())
+        {
+            for (Opt<MapElement> mapElement : MapElementListFilter<MapSystem::Identifier>( MapSystem::Get()->GetMapElementList(), target )) // all targets - could be more
+            {
+                AddToActorColors( mapElement->GetSpawnedActorGUID(), preSelectActors );
+            }
+        }
+    }
+}
+
+glm::vec4 EditorSelectSystem::PreSelectColor = glm::vec4( 0.8, 0, 0.8, 1 );
 
 
 } // namespace map

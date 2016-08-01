@@ -14,15 +14,12 @@ public:
     virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor = false );
     void Load( Json::Value& setters );
     void Save( Json::Value& setters, RoomDesc const& roomDesc );
-    typedef boost::ptr_vector<IProperty> Properties_t;
-    Properties_t const& GetProperties() const;
 private:
     ActorFactory& mActorFactory;
     MapElementFactory& mMapElementFactory;
     PropertyFactory& mPropertyFactory;
     MapElementHolder mMapElementHolder;
     void ClearMapElements();
-    Properties_t mProperties;
 };
 
 } // namespace map

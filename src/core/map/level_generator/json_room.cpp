@@ -88,10 +88,5 @@ void JsonRoom::Save( Json::Value& setters, RoomDesc const& roomDesc )
     setters["properties"] = propArray;
 }
 
-JsonRoom::Properties_t const& JsonRoom::GetProperties() const
-{
-    return mProperties;
-}
-
 } // namespace map
 

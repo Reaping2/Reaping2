@@ -28,8 +28,10 @@ public:
     virtual int GetType() const = 0;
 	int32_t GetId() const;
     virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor = false );
+    int32_t GetUID() const;
 protected:
 	int32_t mId;
+    int32_t mUID;
 };
 
 class DefaultProperty : public IProperty
