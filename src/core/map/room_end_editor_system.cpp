@@ -32,16 +32,10 @@ RoomEndEditorSystem::RoomEndEditorSystem()
 
 void RoomEndEditorSystem::Init()
 {
+    PropertyEditorBaseSystem::Init();
     mOnEditorModeChanged = EventServer<map::EditorModeChangedEvent>::Get().Subscribe( boost::bind( &RoomEndEditorSystem::OnEditorModeChanged, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &RoomEndEditorSystem::OnEditorBack, this, _1 ) );
-    mOnRoomEditorLoaded = EventServer<map::RoomEditorLoadedEvent>::Get().Subscribe( boost::bind( &RoomEndEditorSystem::OnRoomEditorLoaded, this, _1 ) );
     mOnGroupSelected = EventServer<map::GroupSelectedEvent>::Get().Subscribe( boost::bind( &RoomEndEditorSystem::OnGroupSelected, this, _1 ) );
-}
-
-void RoomEndEditorSystem::OnRoomEditorLoaded( map::RoomEditorLoadedEvent const& Evt )
-{
-    mRoomDesc = Evt.mRoomDesc;
-    LoadRoomDesc();
 }
 
 void RoomEndEditorSystem::Update(double DeltaTime)
@@ -90,7 +84,7 @@ void RoomEndEditorSystem::OnNewProp()
     mTargetName.clear();
     mRoomDesc->GetRoom()->AddProperty( prop );
     LoadProp();
-    LoadRoomDesc();
+    LoadPropNames();
     Ui::Get().Load( "editor/room_end_edit" );
 }
 
@@ -164,23 +158,6 @@ void RoomEndEditorSystem::LoadProp()
         if (!targets.empty()) // TODO: handle more then one target. Just a reminder the editor is a helper to edit json files.
         {
             idStorage.GetName( *targets.begin(), mTargetName );
-        }
-    }
-}
-
-void RoomEndEditorSystem::LoadRoomDesc()
-{
-    mPropNames.clear();
-    if (!mRoomDesc.IsValid())
-    {
-        return;
-    }
-
-    for (auto&& prop : mRoomDesc->GetRoom()->GetProperties())
-    {
-        if (prop.GetType() == RoomEndProperty::GetType_static())
-        {
-            mPropNames.push_back( "prop" + std::to_string( prop.GetUID() ) );
         }
     }
 }

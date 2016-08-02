@@ -11,10 +11,11 @@
 #include "editor_select_system.h"
 #include "group_selected_event.h"
 #include "property_editor_base_system.h"
+#include "level_generator/room_end_property.h"
 
 namespace map {
 
-class RoomEndEditorSystem : public PropertyEditorBaseSystem<RoomEndEditorSystem>
+class RoomEndEditorSystem : public PropertyEditorBaseSystem<RoomEndEditorSystem, RoomEndProperty>
 {
 public:
     DEFINE_SYSTEM_BASE(RoomEndEditorSystem)
@@ -34,16 +35,11 @@ private:
     ModelValue mNewPropModel;
     void OnNewProp();
     ModelValue mPropNamesModel;
-    std::vector<std::string> mPropNames;
     ModelValue mPropSelectedModel;
     void OnPropSelected( std::string groupName );
-
     void LoadProp();
-
-    Opt<RoomDesc> mRoomDesc;
     ModelValue mTargetNameModel;
     std::string mTargetName;
-    AutoReg mOnRoomEditorLoaded;
     int32_t mPropUID = -1;
     ModelValue mChangeTargetModel;
     void OnChangeTarget();
@@ -51,10 +47,6 @@ private:
     ActorColors_t mGroupPreSelectedActors;
     std::string mGroupPreSelectName;
     void OnGroupSelected( map::GroupSelectedEvent const& Evt );
-    void OnRoomEditorLoaded( map::RoomEditorLoadedEvent const& Evt );
-
-    void LoadRoomDesc();
-
 };
 
 } // namespace map

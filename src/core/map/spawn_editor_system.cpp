@@ -34,16 +34,10 @@ SpawnEditorSystem::SpawnEditorSystem()
 
 void SpawnEditorSystem::Init()
 {
+    PropertyEditorBaseSystem::Init();
     mOnEditorModeChanged = EventServer<map::EditorModeChangedEvent>::Get().Subscribe( boost::bind( &SpawnEditorSystem::OnEditorModeChanged, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &SpawnEditorSystem::OnEditorBack, this, _1 ) );
-    mOnRoomEditorLoaded = EventServer<map::RoomEditorLoadedEvent>::Get().Subscribe( boost::bind( &SpawnEditorSystem::OnRoomEditorLoaded, this, _1 ) );
     mOnGroupSelected = EventServer<map::GroupSelectedEvent>::Get().Subscribe( boost::bind( &SpawnEditorSystem::OnGroupSelected, this, _1 ) );
-}
-
-void SpawnEditorSystem::OnRoomEditorLoaded( map::RoomEditorLoadedEvent const& Evt )
-{
-    mRoomDesc = Evt.mRoomDesc;
-    LoadRoomDesc();
 }
 
 void SpawnEditorSystem::Update(double DeltaTime)
@@ -92,7 +86,7 @@ void SpawnEditorSystem::OnNewProp()
     mTargetName.clear();
     mRoomDesc->GetRoom()->AddProperty( prop );
     LoadProp();
-    LoadRoomDesc();
+    LoadPropNames();
     Ui::Get().Load( "editor/spawn_edit" );
 }
 
@@ -197,23 +191,6 @@ void SpawnEditorSystem::LoadProp()
             idStorage.GetName( *targets.begin(), mTargetName );
         }
         mChance = prop->GetChance();
-    }
-}
-
-void SpawnEditorSystem::LoadRoomDesc()
-{
-    mPropNames.clear();
-    if (!mRoomDesc.IsValid())
-    {
-        return;
-    }
-
-    for (auto&& prop : mRoomDesc->GetRoom()->GetProperties())
-    {
-        if (prop.GetType() == SpawnProperty::GetType_static())
-        {
-            mPropNames.push_back( "prop" + std::to_string( prop.GetUID() ) );
-        }
     }
 }
 
