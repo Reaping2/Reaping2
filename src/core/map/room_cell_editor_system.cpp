@@ -33,6 +33,7 @@ void RoomCellEditorSystem::Init()
     mOnEditorModeChanged = EventServer<map::EditorModeChangedEvent>::Get().Subscribe( boost::bind( &RoomCellEditorSystem::OnEditorModeChanged, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &RoomCellEditorSystem::OnEditorBack, this, _1 ) );
     mMouseMoveId = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &RoomCellEditorSystem::OnMouseMoveEvent, this, _1 ) );
+    mOnRoomEditorLoaded = EventServer<map::RoomEditorLoadedEvent>::Get().Subscribe( boost::bind( &RoomCellEditorSystem::OnRoomEditorLoaded, this, _1 ) );
 }
 
 
@@ -113,24 +114,7 @@ void RoomCellEditorSystem::Update(double DeltaTime)
             {
                 if (mRoomDesc.IsValid())
                 {
-                    int32_t x = (int)mMousePos.x%mRoomDesc->GetCellSize();
-                    int32_t y = (int)mMousePos.y%mRoomDesc->GetCellSize();
-                    if (x < mRoomDesc->GetCellSize()*0.3)
-                    {
-                        SwitchEntranceState( mMousePos, EntranceType::Left );
-                    }
-                    else if (x > mRoomDesc->GetCellSize()*0.7)
-                    {
-                        SwitchEntranceState( mMousePos, EntranceType::Right );
-                    }
-                    if (y < mRoomDesc->GetCellSize()*0.3)
-                    {
-                        SwitchEntranceState( mMousePos, EntranceType::Bottom );
-                    }
-                    else if (y > mRoomDesc->GetCellSize()*0.7)
-                    {
-                        SwitchEntranceState( mMousePos, EntranceType::Top );
-                    }
+                    SwitchEntranceState( mMousePos, GetEntranceType(mMousePos) );
                 }
             }
             mMouseLeftPressed = false;
@@ -161,7 +145,7 @@ void RoomCellEditorSystem::OnEditorModeChanged(map::EditorModeChangedEvent const
         EditorHudState::Get().SetHudShown( true );
         AddCells();
     }
-    else
+    else if (Evt.mPrevMode == "cell")
     {
         EnableSubsystems( false );
         ::engine::Engine::Get().SetEnabled<RoomCellEditorSystem>( false );
@@ -353,6 +337,34 @@ void RoomCellEditorSystem::SwitchCellFilledState( glm::vec2 pos )
     {
         cell->SetFilled( !cell->IsFilled() );
     }
+}
+
+void RoomCellEditorSystem::OnRoomEditorLoaded( map::RoomEditorLoadedEvent const& Evt )
+{
+    mRoomDesc = Evt.mRoomDesc;
+}
+
+EntranceType::Type RoomCellEditorSystem::GetEntranceType( glm::vec2 pos )
+{
+    int32_t x = (int)pos.x%mRoomDesc->GetCellSize();
+    int32_t y = (int)pos.y%mRoomDesc->GetCellSize();
+    if (x < mRoomDesc->GetCellSize()*0.3)
+    {
+        return EntranceType::Left;
+    }
+    else if (x > mRoomDesc->GetCellSize()*0.7)
+    {
+        return  EntranceType::Right;
+    }
+    if (y < mRoomDesc->GetCellSize()*0.3)
+    {
+        return  EntranceType::Bottom;
+    }
+    else if (y > mRoomDesc->GetCellSize()*0.7)
+    {
+        return  EntranceType::Top;
+    }
+
 }
 
 } // namespace map

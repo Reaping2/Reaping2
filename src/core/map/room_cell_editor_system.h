@@ -7,6 +7,7 @@
 #include "editor_back_event.h"
 #include "level_generator/room_desc.h"
 #include "input/mouse.h"
+#include "room_editor_loaded_event.h"
 
 namespace map {
 
@@ -17,14 +18,15 @@ public:
     RoomCellEditorSystem();
     static Opt<RoomCellEditorSystem> Get();
     void SetRoomDesc( Opt<RoomDesc> roomDesc );
+    void RemoveCells();
+    void AddCells();
+    EntranceType::Type GetEntranceType( glm::vec2 pos );
+    Opt<Cell> GetCellFromScene( glm::vec2 pos );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-
     void SwitchCellFilledState( glm::vec2 pos );
-
     void SwitchEntranceState( glm::vec2 pos, EntranceType::Type entrance );
-
 private:
     Scene& mScene;
     AutoReg mOnEditorModeChanged;
@@ -32,8 +34,6 @@ private:
     void EnableSubsystems( bool enable );
     AutoReg mOnEditorBack;
     void OnEditorBack( map::EditorBackEvent const& Evt );
-    void RemoveCells();
-    void AddCells();
     Opt<RoomDesc> mRoomDesc;
     std::vector<int32_t> mCellGUIDs;
     int32_t mCellCount = 0;
@@ -50,7 +50,6 @@ private:
     bool mMouseLeftPressed = false;
     bool mMouseRightPressed = false;
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
-    Opt<Cell> GetCellFromScene( glm::vec2 pos );
     enum MouseMode
     {
         Nothing,
@@ -59,6 +58,8 @@ private:
     } mMouseMode = Nothing;
     ModelValue mMouseModeModel;
     void SetMouseMode( std::string mode );
+    AutoReg mOnRoomEditorLoaded;
+    void OnRoomEditorLoaded( map::RoomEditorLoadedEvent const& Evt );
 };
 
 } // namespace map

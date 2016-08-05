@@ -1,0 +1,31 @@
+{
+    "type":"root",
+    "children":[
+        {
+            "type":"fixed_ratio_container",
+            "x":0.0,
+            "y":0.5,
+            "w":1.0,
+            "h":0.5,
+            "align_h":"left",
+            "align_v":"top",
+            "visible":0,
+            "enabled":0,
+            "children":[
+       			{
+					"type":"text_widget",
+					"x":0.15,
+                    "y":0.57,
+					"w":0.5,
+					"h":0.1,
+					"color":"0xaa0000",
+					"visible":1,
+					"enabled":0,
+					"text":"Select cell entrance!",
+					"fontsize":4
+				}
+            ]
+        }
+    ]
+}
+

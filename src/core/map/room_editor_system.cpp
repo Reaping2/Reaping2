@@ -34,6 +34,7 @@
 #include "editor_select_system.h"
 #include "editor_group_system.h"
 #include "room_editor_loaded_event.h"
+#include "cell_entrance_editor_system.h"
 
 namespace map {
 
@@ -64,6 +65,7 @@ void RoomEditorSystem::Init()
     mRenderer = engine::Engine::Get().GetSystem<engine::RendererSystem>();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnKeyEvent, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnEditorBack, this, _1 ) );
+    mOnPhaseChanged = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnPhaseChanged, this, _1 ) );
     using namespace boost::assign;
     mLevelNames += "test_room", "test_simple_room";
 }
@@ -104,7 +106,6 @@ void RoomEditorSystem::Load( std::string const& room )
     mRoomId = AutoId( room );
     auto& aroom = RoomRepo::Get()( mRoomId );
     mRoomDesc = aroom.GetRoomDesc();
-    RoomCellEditorSystem::Get()->SetRoomDesc( &mRoomDesc );
     mScene.Load( "room_editor" );
     Opt<engine::System> spawnActorMES( engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>() );
     spawnActorMES->Update( 0 );
@@ -202,7 +203,8 @@ void RoomEditorSystem::Update( double DeltaTime )
         {
             EditorHudState::Get().SetHudShown( true );
             Ui::Get().Load( "room_editor_hud" );
-            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select" ) );
+            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
+            mEditorMode = "mode_select";
         }
     }
 }
@@ -287,8 +289,16 @@ std::vector<std::string> RoomEditorSystem::LevelNames()
 
 void RoomEditorSystem::ModeSelect( std::string const& mode )
 {
+    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( mode, mEditorMode ) );
     mEditorMode = mode;
-    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( mode ) );
+}
+
+void RoomEditorSystem::OnPhaseChanged( PhaseChangedEvent const& Evt )
+{
+    if (Evt.CurrentPhase==ProgramPhase::Running)
+    {
+        ::engine::Engine::Get().SetEnabled<CellEntranceEditorSystem>( false );
+    }
 }
 
 

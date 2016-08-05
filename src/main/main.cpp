@@ -202,7 +202,7 @@ int main( int argc, char* argv[] )
     Engine& Eng = Engine::Get();
 
     Eng.AddSystem( AutoId( "window_system" ) );
-    if( !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
+    if( !Eng.GetSystem<engine::WindowSystem>()->Create( 1280, 960, "Reaping2" ) )
     {
         PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
     }
@@ -308,6 +308,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "room_start_editor_system" ) );
         Eng.AddSystem( AutoId( "room_end_editor_system" ) );
         Eng.AddSystem( AutoId( "spawn_editor_system" ) );
+        Eng.AddSystem( AutoId( "cell_entrance_editor_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )

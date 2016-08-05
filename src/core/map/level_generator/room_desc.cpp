@@ -131,7 +131,7 @@ void RoomDesc::Load( Json::Value& setters )
     Json::Value const& properties = setters["plain_properties"];
     if (properties.isArray())
     {
-        for (auto& prop : properties)
+        for (auto&& prop : properties)
         {
             AddProperty( RoomProperty::Get()(AutoId( prop.asString() )) );
         }
@@ -166,7 +166,7 @@ void RoomDesc::Save( Json::Value& setters ) const
     auto& idStorage = IdStorage::Get();
     auto& roomProperty = RoomProperty::Get();
     Json::Value plainPropertyArray( Json::arrayValue );
-    for (auto& prop : mPossibleProperties)
+    for (auto&& prop : mPossibleProperties)
     {
         std::string propName;
         if (idStorage.GetName( roomProperty( prop ), propName ))

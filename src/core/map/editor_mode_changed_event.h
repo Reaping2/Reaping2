@@ -8,8 +8,10 @@ namespace map {
 struct EditorModeChangedEvent : public platform::Event
 {
     std::string mMode;
-    EditorModeChangedEvent(std::string mode)
-        :mMode(mode){}
+    std::string mPrevMode;
+    EditorModeChangedEvent(std::string mode, std::string prevMode )
+        : mMode(mode)
+        , mPrevMode(prevMode){}
 };
 
 } // namespace map

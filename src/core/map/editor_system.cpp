@@ -153,7 +153,8 @@ void EditorSystem::Update( double DeltaTime )
         {
             EditorHudState::Get().SetHudShown( true );
             Ui::Get().Load( "editor_hud" );
-            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select" ) );
+            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
+            mEditorMode = "mode_select";
         }
     }
 }
@@ -303,8 +304,8 @@ std::vector<std::string> EditorSystem::LevelNames()
 
 void EditorSystem::ModeSelect( std::string const& mode )
 {
+    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( mode, mEditorMode ) );
     mEditorMode = mode;
-    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( mode ) );
 }
 
 

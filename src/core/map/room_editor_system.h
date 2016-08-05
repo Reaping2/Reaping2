@@ -14,6 +14,7 @@
 #include "editor_layer.h"
 #include "level_generator/room_desc.h"
 #include "editor_back_event.h"
+#include "../../platform/program_phases.h"
 
 namespace map {
 
@@ -65,6 +66,8 @@ private:
     int32_t mRoomId;
     AutoReg mOnEditorBack;
     void OnEditorBack( map::EditorBackEvent const& Evt );
+    AutoReg mOnPhaseChanged;
+    void OnPhaseChanged( PhaseChangedEvent const& Evt );
 };
 
 } // namespace map

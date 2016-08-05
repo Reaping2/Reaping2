@@ -54,7 +54,7 @@ void JsonRoom::Load( Json::Value& setters )
     auto& props = setters["properties"];
     if (props.isArray())
     {
-        for (auto& prop : props)
+        for (auto&& prop : props)
         {
             std::string str;
             if (Json::GetStr( prop["name"], str ))
@@ -79,7 +79,7 @@ void JsonRoom::Save( Json::Value& setters, RoomDesc const& roomDesc )
     }
     roomDesc.Save( setters );
     Json::Value propArray( Json::arrayValue );
-    for (auto& prop : mProperties)
+    for (auto&& prop : mProperties)
     {
         Json::Value propObject( Json::objectValue );
         prop.Save( propObject );
