@@ -68,6 +68,12 @@ void RoomDesc::AddProperty( RoomProperty::Type prop )
     mPossibleProperties.insert( prop );
 }
 
+
+void RoomDesc::RemoveProperty( RoomProperty::Type prop )
+{
+    mPossibleProperties.erase( prop );
+}
+
 map::Cell& RoomDesc::GetCell( int32_t x, int32_t y )
 {
     return mCells[y][x];

@@ -21,7 +21,7 @@ namespace map {
 EditorVisibilitySystem::EditorVisibilitySystem()
     : mScene( Scene::Get() )
     , mEditorVisibilityModel( "editor_visibility", &RootModel::Get() )
-    , mShowAllModel( VoidFunc( this, &EditorVisibilitySystem::OnShowAll ), "editor_visibility", &mEditorVisibilityModel )
+    , mShowAllModel( VoidFunc( this, &EditorVisibilitySystem::OnShowAll ), "show_all", &mEditorVisibilityModel )
 {
 }
 
@@ -116,6 +116,7 @@ void EditorVisibilitySystem::OnGroupSelected( map::GroupSelectedEvent const& Evt
 
 void EditorVisibilitySystem::OnShowAll()
 {
+    UpdateInvisibleActors();
     EditorSelectSystem::SetActorColors( mInvisibleActors, nullptr );
     mInvisibleActors.clear();
     mInvisibleGroups.clear();

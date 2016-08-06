@@ -44,6 +44,7 @@ struct RoomDesc
     bool HasProperty( RoomProperty::Type prop ) const;
     void ClearProperties();
     void AddProperty( RoomProperty::Type prop );
+    void RemoveProperty( RoomProperty::Type prop );
     Cell& GetCell( int32_t x, int32_t y );
     Cell& GetCell( glm::vec2 pos );
     Cell const& GetCell( int32_t x, int32_t y ) const;

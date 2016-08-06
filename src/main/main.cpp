@@ -309,6 +309,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "room_end_editor_system" ) );
         Eng.AddSystem( AutoId( "spawn_editor_system" ) );
         Eng.AddSystem( AutoId( "cell_entrance_editor_system" ) );
+        Eng.AddSystem( AutoId( "room_plain_property_editor_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )

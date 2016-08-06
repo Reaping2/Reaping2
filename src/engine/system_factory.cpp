@@ -134,6 +134,7 @@
 #include "core/map/room_end_editor_system.h"
 #include "core/map/spawn_editor_system.h"
 #include "core/map/cell_entrance_editor_system.h"
+#include "core/map/room_plain_property_editor_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -288,6 +289,7 @@ void SystemFactory::Init()
     Bind( AutoId( "room_end_editor_system" ), &CreateSystem<map::RoomEndEditorSystem> );
     Bind( AutoId( "spawn_editor_system" ), &CreateSystem<map::SpawnEditorSystem> );
     Bind( AutoId( "cell_entrance_editor_system" ), &CreateSystem<map::CellEntranceEditorSystem> );
+    Bind( AutoId( "room_plain_property_editor_system" ), &CreateSystem<map::RoomPlainPropertyEditorSystem> );
 
     Bind( AutoId( "detonate_on_hit_system" ), &CreateSystem<engine::DetonateOnHitSystem> );
     Bind( AutoId( "explode_on_hit_system" ), &CreateSystem<engine::ExplodeOnHitSystem> );
