@@ -72,6 +72,11 @@ void RoomRepo::Init()
     }
 }
 
+platform::Repository<IRoom>::ElementMap_t const& RoomRepo::GetElements()
+{
+    return mElements;
+}
+
 DefaultRoom::DefaultRoom()
     : IRoom( -1 )
 {

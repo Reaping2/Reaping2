@@ -81,6 +81,8 @@ void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
     ActorList_t const& Lst = Object.GetActors();
     if( Lst.empty() )
     {
+        mRenderableSprites.clear(); // renderable sprites still can contain obsolete sprites, so render nothing instead of invalid object
+        mCounts.clear();
         return;
     }
     RenderableSprites_t RenderableSprites;

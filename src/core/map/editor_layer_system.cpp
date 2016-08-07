@@ -7,6 +7,7 @@ namespace map {
 
 EditorLayerSystem::EditorLayerSystem()
     : mScene( Scene::Get() )
+    , mEditorLayerType( EditorLayer::Any )
     , mEditorLayer( EditorLayer::Get() )
 {
 }

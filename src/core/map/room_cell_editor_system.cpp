@@ -13,6 +13,7 @@
 #include "../i_cell_component.h"
 #include "../i_collision_component.h"
 #include "input/mouse.h"
+#include "editor_visiblity_system.h"
 
 namespace map {
 
@@ -145,11 +146,17 @@ void RoomCellEditorSystem::OnEditorModeChanged(map::EditorModeChangedEvent const
         EditorHudState::Get().SetHudShown( true );
         AddCells();
     }
-    else if (Evt.mPrevMode == "cell")
+    else 
     {
         EnableSubsystems( false );
         ::engine::Engine::Get().SetEnabled<RoomCellEditorSystem>( false );
-        RemoveCells();
+        if (Evt.mPrevMode == "cell")
+        {
+            if (!mCellsVisible)
+            {
+                RemoveCells();
+            }
+        }
     }
 }
 
@@ -207,12 +214,17 @@ void RoomCellEditorSystem::AddCells()
                 CellC->SetX( x );
                 CellC->SetY( y );
             }
-            auto CollisionC( cellActor->Get<ICollisionComponent>() );
-            if (CollisionC.IsValid())
+            auto collisionC( cellActor->Get<ICollisionComponent>() );
+            if (collisionC.IsValid())
             {
-                CollisionC->SetRadius( mRoomDesc->GetCellSize() / 2 );
+                collisionC->SetRadius( mRoomDesc->GetCellSize() / 2 );
             }
-
+            auto renderableC(cellActor->Get<IRenderableComponent>());
+            if (renderableC.IsValid())
+            {
+                // this way the cell cannot be deleted by left click, nor selected. cell_action_renderer does not use color value. Hackish.
+                renderableC->SetColor( EditorVisibilitySystem::InvisibleColor );
+            }
             mScene.AddActor( cellActor.release() );
         }
     }
@@ -221,16 +233,6 @@ void RoomCellEditorSystem::AddCells()
 Opt<RoomCellEditorSystem> RoomCellEditorSystem::Get()
 {
     return engine::Engine::Get().GetSystem<RoomCellEditorSystem>();
-}
-
-void RoomCellEditorSystem::SetRoomDesc( Opt<RoomDesc> roomDesc )
-{
-    mRoomDesc = roomDesc;
-    if (mRoomDesc.IsValid())
-    {
-        mCellCount = mRoomDesc->GetCellCount();
-        mCellSize = mRoomDesc->GetCellSize()/100;
-    }
 }
 
 void RoomCellEditorSystem::CellCountPress( std::string modifier )
@@ -342,6 +344,11 @@ void RoomCellEditorSystem::SwitchCellFilledState( glm::vec2 pos )
 void RoomCellEditorSystem::OnRoomEditorLoaded( map::RoomEditorLoadedEvent const& Evt )
 {
     mRoomDesc = Evt.mRoomDesc;
+    if (mRoomDesc.IsValid())
+    {
+        mCellCount = mRoomDesc->GetCellCount();
+        mCellSize = mRoomDesc->GetCellSize() / 100;
+    }
 }
 
 EntranceType::Type RoomCellEditorSystem::GetEntranceType( glm::vec2 pos )
@@ -365,6 +372,21 @@ EntranceType::Type RoomCellEditorSystem::GetEntranceType( glm::vec2 pos )
         return  EntranceType::Top;
     }
 
+}
+
+void RoomCellEditorSystem::SetCellsVisible( bool visible )
+{
+    mCellsVisible = visible;
+    RemoveCells();
+    if (mCellsVisible)
+    {
+        AddCells();
+    }
+}
+
+bool RoomCellEditorSystem::IsCellsVisible() const
+{
+    return mCellsVisible;
 }
 
 } // namespace map

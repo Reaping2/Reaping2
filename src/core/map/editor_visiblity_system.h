@@ -44,6 +44,8 @@ private:
     ModelValue mEditorVisibilityModel;
     ModelValue mShowAllModel;
     void OnShowAll();
+    ModelValue mSwitchCellsModel;
+    void OnSwitchCells();
 };
 
 } // namespace map

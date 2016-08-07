@@ -28,6 +28,9 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    void SitchToModeSelect();
+
 private:
     Scene& mScene;
     ModelValue mEditorModel;

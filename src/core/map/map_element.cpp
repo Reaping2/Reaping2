@@ -12,6 +12,12 @@ MapElement::MapElement( int32_t Id )
     , mId( Id )
     , mSpawnedActorGUID( -1 )
 {
+    SetNextUID();
+}
+
+
+void MapElement::SetNextUID()
+{
     static int32_t NextUID = 0;
     mUID = ++NextUID;
 }
@@ -63,6 +69,17 @@ int32_t MapElement::GetSpawnedActorGUID() const
 int32_t MapElement::GetUID() const
 {
     return mUID;
+}
+
+
+MapElement& MapElement::operator=( MapElement const& other )
+{
+    mIdentifier = other.mIdentifier;
+    mId = other.mId;
+    mSpawnedActorGUID = other.mSpawnedActorGUID;
+    // mUID should be unique
+    SetNextUID();
+    return *this;
 }
 
 DefaultMapElement::DefaultMapElement( int32_t Id )

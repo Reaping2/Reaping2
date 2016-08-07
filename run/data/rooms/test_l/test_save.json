@@ -1,0 +1,1198 @@
+[
+   {
+      "cell_count" : 2,
+      "cell_size" : 600,
+      "cells" : [
+         {
+            "entrances" : [ "bottom", "left" ],
+            "name" : "cell",
+            "x" : 0.0,
+            "y" : 0.0
+         },
+         {
+            "entrances" : [ "top", "right", "bottom" ],
+            "name" : "cell",
+            "x" : 1.0,
+            "y" : 0.0
+         },
+         {
+            "entrances" : [ "top", "right", "left" ],
+            "name" : "cell",
+            "x" : 0.0,
+            "y" : 1.0
+         }
+      ],
+      "map_elements" : [
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 750.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a20",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 650.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a17",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 750.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a9",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 650.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 650.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 750.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a26",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 1150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 250.0,
+                        "y" : 1150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a24",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 1150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 450.0,
+                        "y" : 1150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 1150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 350.0,
+                        "y" : 1150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a25",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 350.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a18",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 250.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a19",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 250.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a13",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 350.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a14",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 250.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a15",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 250.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a16",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 850.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a5",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1050.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a1",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 250.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a2",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1050.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 950.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a6",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 950.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a7",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 350.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a3",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 950.0,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a10",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 950.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a11",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1050.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1050.0,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a4",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 850.0,
+                        "y" : 550.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a12",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 950.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a21",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 150.0,
+                        "y" : 1050.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 850.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a22",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 950.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a23",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 1050.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 450.0,
+                        "y" : 950.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a27",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 450.0,
+                        "y" : 1050.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 1050.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 950.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a28",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 850.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a29",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 750.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a8",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 650.0,
+                        "y" : 150.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 650.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wall_small",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 450.0,
+                        "y" : 50.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "concrete",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 200.0,
+                        "y" : 200.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "top", "right", "bottom", "left" ],
+                        "outer_borders" : [
+                           "top",
+                           "topright",
+                           "right",
+                           "bottomright",
+                           "bottom",
+                           "bottomleft",
+                           "left",
+                           "topleft"
+                        ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "concrete",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 200.0,
+                        "y" : 1000.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "top", "right", "bottom", "left" ],
+                        "outer_borders" : [
+                           "top",
+                           "topright",
+                           "right",
+                           "bottomright",
+                           "bottom",
+                           "bottomleft",
+                           "left",
+                           "topleft"
+                        ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "concrete",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1000.0,
+                        "y" : 200.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "top", "right", "bottom", "left" ],
+                        "outer_borders" : [
+                           "top",
+                           "topright",
+                           "right",
+                           "bottomright",
+                           "bottom",
+                           "bottomleft",
+                           "left",
+                           "topleft"
+                        ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "identifier" : "a31",
+            "name" : "soldier_spawn_point",
+            "position" : {
+               "x" : 330,
+               "y" : 390
+            },
+            "team" : "red"
+         },
+         {
+            "identifier" : "a30",
+            "actor" : "platform",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 350.0,
+                        "y" : 350.0
+                     }
+                  ]
+               }
+            ],
+            "name" : "spawn_actor"
+         },
+         {
+            "identifier" : "g1",
+            "name" : "group",
+            "targets" : [ "a1", "a2", "a3", "a4" ]
+         },
+         {
+            "identifier" : "g2",
+            "name" : "group",
+            "targets" : [ "a5", "a6", "a7", "a8" ]
+         },
+         {
+            "identifier" : "g3",
+            "name" : "group",
+            "targets" : [ "a9", "a10", "a11", "a12" ]
+         },
+         {
+            "identifier" : "g4",
+            "name" : "group",
+            "targets" : [ "a13", "a14", "a15", "a16" ]
+         },
+         {
+            "identifier" : "g5",
+            "name" : "group",
+            "targets" : [ "a16", "a17", "a18", "a19" ]
+         },
+         {
+            "identifier" : "g6",
+            "name" : "group",
+            "targets" : [ "a20", "a21", "a22", "a23" ]
+         },
+         {
+            "identifier" : "g7",
+            "name" : "group",
+            "targets" : [ "a24", "a25" ]
+         },
+         {
+            "identifier" : "g8",
+            "name" : "group",
+            "targets" : [ "a26", "a27", "a28", "a29" ]
+         },
+         {
+            "identifier" : "g9",
+            "name" : "group",
+            "targets" : [ "a31" ]
+         },
+         {
+            "identifier" : "g10",
+            "name" : "group",
+            "targets" : [ "a30" ]
+         }
+      ],
+      "name" : "test_l",
+      "plain_properties" : [ "start", "end" ],
+      "properties" : [
+         {
+            "chance" : 100,
+            "name" : "spawn",
+            "targets" : [ "spawn_at_level_generated" ]
+         },
+         {
+            "name" : "room_start",
+            "targets" : [ "g9" ]
+         },
+         {
+            "name" : "room_end",
+            "targets" : [ "g10" ]
+         },
+         {
+            "blocked_targets" : [ "g1" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "right",
+            "x" : 1,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "g3" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "top",
+            "x" : 1,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "g2" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "bottom",
+            "x" : 1,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "g4" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "bottom",
+            "x" : 0,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "g5" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "left",
+            "x" : 0,
+            "y" : 0
+         },
+         {
+            "blocked_targets" : [ "g6" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "left",
+            "x" : 0,
+            "y" : 1
+         },
+         {
+            "blocked_targets" : [ "g7" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "top",
+            "x" : 0,
+            "y" : 1
+         },
+         {
+            "blocked_targets" : [ "g8" ],
+            "entrance_targets" : [],
+            "name" : "cell_entrance",
+            "type" : "right",
+            "x" : 0,
+            "y" : 1
+         }
+      ]
+   }
+]

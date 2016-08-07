@@ -20,6 +20,8 @@ class RoomRepo : public platform::Repository<IRoom>, public platform::Singleton<
     static DefaultRoom const mDefault;
     RoomRepo();
     void Init();
+public:
+    platform::Repository<IRoom>::ElementMap_t const& GetElements();
 };
 
 } // namespace map

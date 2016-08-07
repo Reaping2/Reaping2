@@ -3,6 +3,7 @@
 #include "platform/auto_id.h"
 #include "core/map_loaded_event.h"
 #include "engine/engine.h"
+#include "map_element_removed_event.h"
 
 namespace map {
 
@@ -110,6 +111,7 @@ void MapSystem::RemoveMapElement( int32_t spawnedActorGUID )
     {
         if ( ( *it )->GetSpawnedActorGUID() == spawnedActorGUID )
         {
+            EventServer<MapElementRemovedEvent>::Get().SendEvent( MapElementRemovedEvent( *it ) );
             delete ( *it ).Get();
             mMapElementHolder.mAllMapElements.erase( it );
             return;

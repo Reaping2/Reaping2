@@ -149,11 +149,15 @@ void EditorSelectSystem::Update(double DeltaTime)
         {
             mMouseRightPressed = true;
         }
+        if (keyboard->GetKey( GLFW_KEY_DELETE ).State == KeyState::Down)
+        {
+            RemoveSelectedActors();
+
+        }
         UpdateSelectedActors();
         SetActorColors( mCurrentSelectedActors, &mSelectColor );
         SetActorColors( mSelectedActors, &mSelectColor );
         SetActorColors( mGroupPreSelectedActors, &PreSelectColor );
-
     }
 }
 
@@ -413,6 +417,17 @@ void EditorSelectSystem::FillActorColors( int32_t groupId, ActorColors_t& preSel
             }
         }
     }
+}
+
+void EditorSelectSystem::RemoveSelectedActors()
+{
+    auto mapSystem = MapSystem::Get();
+    for (auto&& actorColor : mSelectedActors)
+    {
+        mScene.RemoveActor( actorColor.first );
+        mapSystem->RemoveMapElement( actorColor.first );
+    }
+    mSelectedActors.clear();
 }
 
 glm::vec4 EditorSelectSystem::PreSelectColor = glm::vec4( 0.8, 0, 0.8, 1 );

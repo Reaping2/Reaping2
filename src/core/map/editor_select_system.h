@@ -26,6 +26,9 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    void RemoveSelectedActors();
+
 private:
     Scene& mScene;
     AutoReg mOnEditorModeChanged;

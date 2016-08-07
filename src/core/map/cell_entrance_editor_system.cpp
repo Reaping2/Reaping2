@@ -137,7 +137,10 @@ void CellEntranceEditorSystem::OnEditorModeChanged( map::EditorModeChangedEvent 
     {
         if (Evt.mPrevMode == mMode)
         { 
-            RoomCellEditorSystem::Get()->RemoveCells();
+            if (!RoomCellEditorSystem::Get()->IsCellsVisible())
+            {
+                RoomCellEditorSystem::Get()->RemoveCells();
+            }
         }
         ::engine::Engine::Get().SetEnabled<CellEntranceEditorSystem>( false );
     }

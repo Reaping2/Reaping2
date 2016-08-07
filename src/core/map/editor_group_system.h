@@ -7,6 +7,7 @@
 #include "editor_back_event.h"
 #include "level_generator/room_desc.h"
 #include "input/mouse.h"
+#include "map_element_removed_event.h"
 
 namespace map {
 
@@ -34,6 +35,8 @@ private:
     void EnableSubsystems( bool enable );
     AutoReg mOnEditorBack;
     void OnEditorBack( map::EditorBackEvent const& Evt );
+    AutoReg mOnMapElementRemoved;
+    void OnMapElementRemoved( map::MapElementRemovedEvent const& Evt );
     ModelValue mEditorGroupModel;
     ModelValue mNewGroupModel;
     void OnNewGroup();

@@ -5,6 +5,7 @@
 #include "editor_target_system.h"
 #include "editor_system.h"
 #include "editor_layer_system.h"
+#include "editor_visiblity_system.h"
 
 namespace map {
 
@@ -40,7 +41,8 @@ std::vector<int32_t> IBrush::GetActorsToRemove()
                  || ( editorLayer == EditorLayer::Target
                       && renderableC.IsValid()
                       && cursorRenderableC.IsValid()
-                      && renderableC->GetLayer() == cursorRenderableC->GetLayer() ) )
+                      && renderableC->GetLayer() == cursorRenderableC->GetLayer() 
+                      && renderableC->GetColor() != EditorVisibilitySystem::InvisibleColor ) )
             {
                 r.push_back( actor.GetGUID() );
             }

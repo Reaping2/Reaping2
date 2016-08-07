@@ -67,7 +67,18 @@ void RoomEditorSystem::Init()
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnEditorBack, this, _1 ) );
     mOnPhaseChanged = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &RoomEditorSystem::OnPhaseChanged, this, _1 ) );
     using namespace boost::assign;
-    mLevelNames += "test_room", "test_simple_room";
+    auto& idStorage = IdStorage::Get();
+    for (auto&& elem : RoomRepo::Get().GetElements())
+    {
+        if (dynamic_cast<const JsonRoom const*>(elem.second) != nullptr)
+        {
+            std::string name;
+            if (idStorage.GetName( elem.second->GetId(), name ))
+            {
+                mLevelNames += name;
+            }
+        }
+    }
 }
 
 void RoomEditorSystem::OnEditorBack( map::EditorBackEvent const& Evt )
@@ -141,6 +152,7 @@ void RoomEditorSystem::Load( std::string const& room )
     mAutoSaveOn = true;
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
     EventServer<RoomEditorLoadedEvent>::Get().SendEvent( RoomEditorLoadedEvent(&mRoomDesc) );
+    SitchToModeSelect();
 }
 
 double const& RoomEditorSystem::GetX() const
@@ -195,17 +207,7 @@ void RoomEditorSystem::Update( double DeltaTime )
     }
     if (mKeyboard->GetKey( GLFW_KEY_M ).State == KeyState::Typed)
     {
-        if (EditorHudState::Get().IsHudShown())
-        {
-            EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
-        }
-        else
-        {
-            EditorHudState::Get().SetHudShown( true );
-            Ui::Get().Load( "room_editor_hud" );
-            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
-            mEditorMode = "mode_select";
-        }
+        SitchToModeSelect();
     }
 }
 void RoomEditorSystem::OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt )
@@ -297,8 +299,16 @@ void RoomEditorSystem::OnPhaseChanged( PhaseChangedEvent const& Evt )
 {
     if (Evt.CurrentPhase==ProgramPhase::Running)
     {
-        ::engine::Engine::Get().SetEnabled<CellEntranceEditorSystem>( false );
+        EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
     }
+}
+
+void RoomEditorSystem::SitchToModeSelect()
+{
+    EditorHudState::Get().SetHudShown( true );
+    Ui::Get().Load( "room_editor_hud" );
+    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
+    mEditorMode = "mode_select";
 }
 
 

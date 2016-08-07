@@ -11,6 +11,7 @@
 #include "group_selected_event.h"
 #include "group_map_element.h"
 #include "map_system.h"
+#include "map_element_removed_event.h"
 
 namespace map {
 
@@ -28,6 +29,7 @@ void EditorGroupSystem::Init()
 {
     mOnEditorModeChanged = EventServer<map::EditorModeChangedEvent>::Get().Subscribe( boost::bind( &EditorGroupSystem::OnEditorModeChanged, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &EditorGroupSystem::OnEditorBack, this, _1 ) );
+    mOnMapElementRemoved = EventServer<map::MapElementRemovedEvent>::Get().Subscribe( boost::bind( &EditorGroupSystem::OnMapElementRemoved, this, _1 ) );
 }
 
 
@@ -174,6 +176,15 @@ void EditorGroupSystem::SetMapElementIdentifier( int32_t mapElementUID, int32_t 
     {
         mapSystem->GetMapElementList().modify( it, MapElementIdentifierModifier( spawnID ) );
     }
+}
+
+void EditorGroupSystem::OnMapElementRemoved( map::MapElementRemovedEvent const& Evt )
+{
+    if (!mEnabled)
+    {
+        return;
+    }
+    RemoveFromAllGroups( Evt.mMapElement->GetSpawnedActorGUID() );
 }
 
 } // namespace map

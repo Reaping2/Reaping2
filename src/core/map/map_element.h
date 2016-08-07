@@ -34,8 +34,12 @@ public:
     void SetSpawnedActorGUID( int32_t spawnedActorGUID );   // mostly editor uses this information
     int32_t GetSpawnedActorGUID()const;                     // mostly editor uses this information
     int32_t GetUID() const;
+    MapElement& operator=( MapElement const& other );
 protected:
     MapElement( int32_t Id );
+
+    void SetNextUID();
+
     int32_t mIdentifier;  //does not need to be unique. Some elements does not need UID. Some elements can have the same UID.
     int32_t mId;
     int32_t mSpawnedActorGUID;

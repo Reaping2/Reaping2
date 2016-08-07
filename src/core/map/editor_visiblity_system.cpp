@@ -13,6 +13,7 @@
 #include "map_system.h"
 #include "../renderable_layer.h"
 #include "../i_renderable_component.h"
+#include "room_cell_editor_system.h"
 
 namespace map {
 
@@ -22,6 +23,7 @@ EditorVisibilitySystem::EditorVisibilitySystem()
     : mScene( Scene::Get() )
     , mEditorVisibilityModel( "editor_visibility", &RootModel::Get() )
     , mShowAllModel( VoidFunc( this, &EditorVisibilitySystem::OnShowAll ), "show_all", &mEditorVisibilityModel )
+    , mSwitchCellsModel( VoidFunc( this, &EditorVisibilitySystem::OnSwitchCells ), "switch_cells", &mEditorVisibilityModel )
 {
 }
 
@@ -44,6 +46,12 @@ void EditorVisibilitySystem::Update(double DeltaTime)
     }
     static Opt<engine::KeyboardSystem> keyboard = ::engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
     static Opt<engine::MouseSystem> mouse = ::engine::Engine::Get().GetSystem<MouseSystem>();
+    if (keyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Typed)
+    {
+        EnableSubsystems( false );
+        Ui::Get().Load( "editor/visibility_hud" );
+        EditorHudState::Get().SetHudShown( true );
+    }
 }
 
 void EditorVisibilitySystem::OnEditorModeChanged(map::EditorModeChangedEvent const& Evt)
@@ -162,6 +170,11 @@ void EditorVisibilitySystem::UpdateInvisibleActors()
 void EditorVisibilitySystem::OnGroupsChanged( map::GroupsChangedEvent const& Evt )
 {
     UpdateInvisibleActors();
+}
+
+void EditorVisibilitySystem::OnSwitchCells()
+{
+    RoomCellEditorSystem::Get()->SetCellsVisible( !RoomCellEditorSystem::Get()->IsCellsVisible() );
 }
 
 } // namespace map

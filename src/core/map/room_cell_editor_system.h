@@ -17,11 +17,12 @@ public:
     DEFINE_SYSTEM_BASE(RoomCellEditorSystem)
     RoomCellEditorSystem();
     static Opt<RoomCellEditorSystem> Get();
-    void SetRoomDesc( Opt<RoomDesc> roomDesc );
     void RemoveCells();
     void AddCells();
     EntranceType::Type GetEntranceType( glm::vec2 pos );
     Opt<Cell> GetCellFromScene( glm::vec2 pos );
+    void SetCellsVisible( bool visible );
+    bool IsCellsVisible() const;
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
@@ -49,6 +50,7 @@ private:
     AutoReg mMouseMoveId;
     bool mMouseLeftPressed = false;
     bool mMouseRightPressed = false;
+    bool mCellsVisible = false;
     void OnMouseMoveEvent( const WorldMouseMoveEvent& Event );
     enum MouseMode
     {
