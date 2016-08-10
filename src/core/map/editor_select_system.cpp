@@ -374,7 +374,7 @@ void EditorSelectSystem::SetUIDUniqueForSelectedActors()
             mapElementsToModify.push_back( mapElement->GetUID() );
         }
     }
-    int32_t nextIndex = MapSystem::GetNextUniqueSpawnIndex();
+    int32_t nextIndex = MapSystem::GetNextUniqueSpawnIndex( "a" );
     for (auto mapElementUID : mapElementsToModify)
     {
         EditorGroupSystem::SetMapElementIdentifier( mapElementUID, AutoId( "a" + std::to_string( nextIndex++ ) ) );

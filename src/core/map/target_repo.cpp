@@ -5,6 +5,7 @@
 #include "../ctf_program_state.h"
 #include "pickup_target.h"
 #include "flag_spawn_target.h"
+#include "soldier_spawn_target.h"
 
 using platform::AutoId;
 
@@ -27,10 +28,14 @@ TargetRepo::TargetRepo()
     mElements.insert( id, new WallTarget( id, id, id ) );
     id = AutoId( "grass_tile" );
     mElements.insert( id, new WallTarget( id, id, id ) );
+    id = AutoId( "end" );
+    mElements.insert( id, new WallTarget( id, id, id ) );
     id = AutoId( "ctf_soldier_spawn_blue" );
     mElements.insert( id, new CtfSoldierSpawnTarget( id, AutoId( "ctf_player" ), Team::Blue ) );
     id = AutoId( "ctf_soldier_spawn_red" );
     mElements.insert( id, new CtfSoldierSpawnTarget( id, AutoId( "ctf_player" ), Team::Red ) );
+    id = AutoId( "soldier_spawn" );
+    mElements.insert( id, new SoldierSpawnTarget( id, AutoId( "player" ) ) );
 
     id = AutoId( "flash_normal_item" );
     mElements.insert( id, new PickupTarget( AutoId( "revive_pickup" ), AutoId( "normal" ), id ) );

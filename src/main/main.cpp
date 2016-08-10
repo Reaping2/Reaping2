@@ -405,6 +405,7 @@ int main( int argc, char* argv[] )
     weaponItemSS->AddSubSystem( AutoId( "gatling_gun" ), AutoId( "gatling_gun_weapon_sub_system" ) ); //handles client specific stuff like windup and deploy states.
     Eng.AddSystem( AutoId( "audio_system" ) );
     Eng.AddSystem( AutoId( "fade_out_system" ) );
+    Eng.AddSystem( AutoId( "level_end_system" ) );
     if ( programState.mMode != ProgramState::Client )
     {
         // these must be before health_system

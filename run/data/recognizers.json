@@ -401,6 +401,14 @@
 		]
 	},
 	{
+		"name":"end",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"concrete",
 		"recognizers":
 		[

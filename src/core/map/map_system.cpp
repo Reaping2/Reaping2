@@ -131,7 +131,7 @@ Opt<MapElement> MapSystem::GetMapElement( int32_t spawnedActorGUID )
     return Opt<MapElement>();
 }
 
-int32_t MapSystem::GetNextUniqueSpawnIndex()
+int32_t MapSystem::GetNextUniqueSpawnIndex( std::string const& startsWith )
 {
     int max = 0;
     static IdStorage& idStorage = IdStorage::Get();
@@ -142,7 +142,7 @@ int32_t MapSystem::GetNextUniqueSpawnIndex()
             std::string mapElementUName;
             if (idStorage.GetName( mapElement->GetIdentifier(), mapElementUName ))
             {
-                if (boost::starts_with( mapElementUName, "a" ))
+                if (boost::starts_with( mapElementUName, startsWith ))
                 {
                     max = std::max( std::stoi( mapElementUName.substr( 1 ) ), max );
                 }

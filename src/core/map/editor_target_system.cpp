@@ -54,21 +54,24 @@ void EditorTargetSystem::Init()
     mItemVisualIds += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
     mItemActorIds = mItemVisualIds;
 
-    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete");
+    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete"), AutoId( "end" );
     mMapitemActorIds = mMapitemVisualIds;
 
     mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(),
                             mTargetRepo( AutoId("ctf_soldier_spawn_red")).GetCursorId(),
                             mTargetRepo( AutoId("ctf_flag_spawn_blue")).GetCursorId(),
-                            mTargetRepo( AutoId("ctf_soldier_spawn_blue")).GetCursorId();
+                            mTargetRepo( AutoId("ctf_soldier_spawn_blue")).GetCursorId(),
+                            mTargetRepo( AutoId( "soldier_spawn" ) ).GetCursorId();
     mSpawnpointActorIds +=  AutoId("ctf_flag_spawn_red"),
                             AutoId("ctf_soldier_spawn_red"),
                             AutoId("ctf_flag_spawn_blue"),
-                            AutoId("ctf_soldier_spawn_blue");
-    mSpawnpointVisualBackground +=  0xaa000077,
-                                    0xaa000077,
-                                    0x0000aa77,
-                                    0x0000aa77;
+                            AutoId("ctf_soldier_spawn_blue"),
+                            AutoId( "soldier_spawn" );
+    mSpawnpointVisualBackground +=  0xaa0000ee,
+                                    0xaa0000ee,
+                                    0x0000aaee,
+                                    0x0000aaee,
+                                    0xeeeeeeee;
 
     mTargetActorIdsMap["spawnpoint"] = mSpawnpointActorIds;
     mTargetActorIdsMap["mapitem"] = mMapitemActorIds;

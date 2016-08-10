@@ -135,6 +135,7 @@
 #include "core/map/spawn_editor_system.h"
 #include "core/map/cell_entrance_editor_system.h"
 #include "core/map/room_plain_property_editor_system.h"
+#include "level_end_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -297,6 +298,7 @@ void SystemFactory::Init()
     Bind( AutoId( "gamemode_selected_message_sender_system" ), &CreateSystem<network::GamemodeSelectedMessageSenderSystem> );
     Bind( AutoId( "remove_components_on_death_system" ), &CreateSystem<engine::RemoveComponentsOnDeathSystem> );
     Bind( AutoId( "player_model_system" ), &CreateSystem<engine::PlayerModelSystem> );
+    Bind( AutoId( "level_end_system" ), &CreateSystem<engine::LevelEndSystem> );
 }
 
 REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )

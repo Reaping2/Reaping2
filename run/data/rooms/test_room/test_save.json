@@ -100,7 +100,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "platform",
+            "actor" : "end",
             "components" : [
                {
                   "name" : "position_component",

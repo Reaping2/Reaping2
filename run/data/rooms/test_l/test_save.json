@@ -1048,7 +1048,7 @@
          },
          {
             "identifier" : "a30",
-            "actor" : "platform",
+            "actor" : "end",
             "components" : [
                {
                   "name" : "position_component",
