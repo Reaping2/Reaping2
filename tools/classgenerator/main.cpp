@@ -538,7 +538,7 @@ class ComponentGenerator : public Generator
         {
             std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId("system")));
             generator->command = command;
-            generator->classUnderscore = classUnderscore+"_system";
+            generator->classUnderscore = classUnderscore.substr( 0, classUnderscore.find( "_component" ) ) +"_system";
             generator->parentUnderscore = "";
             generator->namespaceLowerCase = "engine";
             generator->membersArg = membersArg;

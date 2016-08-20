@@ -263,8 +263,8 @@ void RoomEditorSystem::Save()
             Json::StyledWriter Writer;
             std::string const& JString = Writer.write( Root );
             {
-//                OsFile OutJson( "data/map/" + mRoomName + "/saved.json", std::ios_base::out );
-                OsFile OutJson( "data/rooms/test_save/test_save.json", std::ios_base::out );
+                OsFile OutJson( "data/rooms/" + mRoomName + "/room.json", std::ios_base::out );
+//                OsFile OutJson( "data/rooms/test_save/test_save.json", std::ios_base::out );
                 OutJson.Write( JString );
             }
         }

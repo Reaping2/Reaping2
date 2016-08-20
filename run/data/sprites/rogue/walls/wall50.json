@@ -1,0 +1,128 @@
+[
+    {
+        "texture_path":"textures/rogue/walls/wall50.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_top_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_top"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_right_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_right"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_bottom_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_bottom"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_left_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_left"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_topright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_topright"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_bottomright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_bottomright"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_bottomleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_bottomleft"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/walls/wall50_topleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "rogue_wall50_topleft"
+        }]
+    }
+]

@@ -37,12 +37,11 @@ std::vector<int32_t> IBrush::GetActorsToRemove()
              && std::abs( positionC->GetY() - mousePos.y ) < collisionC->GetRadius() )
         {
             Opt<IRenderableComponent> renderableC( actor.Get<IRenderableComponent>() );
-            if ( editorLayer == EditorLayer::Any
-                 || ( editorLayer == EditorLayer::Target
-                      && renderableC.IsValid()
+            if (renderableC.IsValid() && renderableC->GetColor() != EditorVisibilitySystem::InvisibleColor
+                && ( editorLayer == EditorLayer::Any
+                   || ( editorLayer == EditorLayer::Target
                       && cursorRenderableC.IsValid()
-                      && renderableC->GetLayer() == cursorRenderableC->GetLayer() 
-                      && renderableC->GetColor() != EditorVisibilitySystem::InvisibleColor ) )
+                      && renderableC->GetLayer() == cursorRenderableC->GetLayer() ) ) )
             {
                 r.push_back( actor.GetGUID() );
             }

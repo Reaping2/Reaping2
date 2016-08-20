@@ -54,7 +54,7 @@ void EditorTargetSystem::Init()
     mItemVisualIds += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
     mItemActorIds = mItemVisualIds;
 
-    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete"), AutoId( "end" );
+    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete"), AutoId( "end" ), AutoId( "rogue_grass200" ), AutoId( "rogue_wall100" ), AutoId( "rogue_wall50" );
     mMapitemActorIds = mMapitemVisualIds;
 
     mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(),
