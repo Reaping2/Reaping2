@@ -12,6 +12,7 @@
 #include "engine/engine.h"
 #include "core/program_state.h"
 #include "core/scene.h"
+#include "renderable_repo.h"
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
@@ -56,8 +57,39 @@ typedef std::vector<GLfloat> Floats_t;
 typedef std::vector<glm::vec4> TexCoords_t;
 typedef std::vector<glm::vec4> Colors_t;
 typedef ActorRenderer::RenderableSprites_t RenderableSprites_t;
+bool isVisible( Actor const& actor, Camera const& camera )
+{
+    Opt<IPositionComponent> const positionC = actor.Get<IPositionComponent>();
+    if( !positionC.IsValid() )
+    {
+        return false;
+    }
+    static std::map<int32_t, float> scaleMap;
+    auto it = scaleMap.find( actor.GetId() );
+    if( scaleMap.end() == it )
+    {
+        float& f = scaleMap[ actor.GetId() ];
+        static RenderableRepo& renderables( RenderableRepo::Get() );
+        SpriteCollection const& Sprites = renderables( actor.GetId() );
+        for( auto i = Sprites.begin(), e = Sprites.end(); i != e; ++i )
+        {
+            if( i->second->GetScale() > f )
+            {
+                f = i->second->GetScale();
+            }
+        }
+        it = scaleMap.find( actor.GetId() );
+    }
+    float scale = it->second;
+    Opt<ICollisionComponent> const collisionC = actor.Get<ICollisionComponent>();
+    // 2.0 multiplier: safety
+    float size = ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale * 2.0;
+    glm::vec4 const& region = camera.VisibleRegion();
+    return region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
+        && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
+}
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
-                    Positions_t& Positions, Floats_t& Headings, TexCoords_t& TexCoords, Floats_t& Sizes, Colors_t& Colors,
+                    glm::vec2*& Positions, GLfloat*& Headings, glm::vec4*& TexCoords, GLfloat*& Sizes, glm::vec4*& Colors,
                     GLuint& TexId )
 {
     if( i == e )
@@ -65,18 +97,18 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
         return false;
     }
     TexId = i->Spr->TexId;
-    Positions.push_back( glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition );
-    Headings.push_back( ( GLfloat )i->PositionC->GetOrientation() );
+    (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
+    (*Headings++) = ( GLfloat )i->PositionC->GetOrientation();
 
-    Sizes.push_back( ( GLfloat )( ( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )*i->Anim->GetScale() ) );
-    TexCoords.push_back( glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top ) );
-    Colors.push_back( i->Color );
+    (*Sizes++) = ( GLfloat )( ( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )*i->Anim->GetScale() );
+    (*TexCoords++) = glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top );
+    (*Colors++) = i->Color;
     ++i;
     return true;
 }
 }
 
-void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
+void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double DeltaTime )
 {
     ActorList_t const& Lst = Object.GetActors();
     if( Lst.empty() )
@@ -92,6 +124,10 @@ void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
     for( ActorListFilter<Scene::RenderableActors>::const_iterator i = wrp.begin(), e = wrp.end(); i != e; ++i )
     {
         const Actor& Object = **i;
+        if( !isVisible( Object, camera ) )
+        {
+            continue;
+        }
         auto recogptr = mRecognizerRepo.GetRecognizers( Object.GetId() );
         if( nullptr == recogptr )
         {
@@ -152,21 +188,21 @@ void ActorRenderer::Prepare( Scene const& Object, double DeltaTime )
         return;
     }
 
-    Positions_t Positions;
-    Positions.reserve( CurSize );
-    Floats_t Headings;
-    Headings.reserve( CurSize );
-    Floats_t Sizes;
-    Sizes.reserve( CurSize );
-    TexCoords_t TexCoords;
-    TexCoords.reserve( CurSize );
-    Colors_t Colors;
-    Colors.reserve( CurSize );
+    Positions_t Positions( CurSize );
+    Floats_t Headings( CurSize );
+    Floats_t Sizes( CurSize );
+    TexCoords_t TexCoords( CurSize );
+    Colors_t Colors( CurSize );
 
+    glm::vec2* posptr = &Positions[0];
+    GLfloat* hptr = &Headings[0];
+    GLfloat* sptr = &Sizes[0];
+    glm::vec4* tptr = &TexCoords[0];
+    glm::vec4* cptr = &Colors[0];
     RenderableSprites_t::const_iterator i = mRenderableSprites.begin();
     mCounts = render::count(
         boost::lambda::bind( &getNextTextId, boost::ref( i ), mRenderableSprites.end(),
-        boost::ref( Positions ), boost::ref( Headings ), boost::ref( TexCoords ), boost::ref( Sizes ), boost::ref( Colors ),
+        boost::ref( posptr ), boost::ref( hptr ), boost::ref( tptr ), boost::ref( sptr ), boost::ref( cptr ),
         boost::lambda::_1 )
     );
     mVAO.Bind();
@@ -221,23 +257,31 @@ void partitionByFilter( render::Counts_t& rv, RenderableSprites_t const& sprites
     rv.clear();
     size_t idx = part.Start;
     render::CountByTexId* actual = NULL;
+    bool match = false;
+    IRenderableComponent const* prevRC = nullptr;
     for( auto i = sprites.begin() + part.Start, e = sprites.begin() + part.Start + part.Count; i != e; ++i, ++idx )
     {
         auto const& val = *i;
-        bool match = filter( *val.RenderableComp );
+        if( prevRC != val.RenderableComp )
+        {
+            match = filter( *val.RenderableComp );
+            prevRC = val.RenderableComp;
+        }
         if( !match )
         {
             actual = NULL;
-            continue;
         }
-        if( match && NULL == actual )
+        else
         {
-            rv.push_back( part );
-            actual = &rv.back();
-            actual->Start = idx;
-            actual->Count = 0;
+            if( NULL == actual )
+            {
+                rv.push_back( part );
+                actual = &rv.back();
+                actual->Start = idx;
+                actual->Count = 0;
+            }
+            ++actual->Count;
         }
-        ++actual->Count;
     }
 }
 }

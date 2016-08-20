@@ -11,8 +11,17 @@ class Button : public Widget
         Widget::Prop mArg;
     };
     typedef std::vector<ActionDesc> Actions_t;
-    Actions_t mActions;
-    void AddAction( Json::Value& TriggerAction );
+    enum ActionType {
+        AT_Trigger,
+        AT_MouseEnter,
+        AT_MouseLeave,
+        NumActionTypes,
+    };
+    typedef std::map<ActionType, Actions_t> ActionsMap_t;
+    ActionsMap_t mActions;
+    void AddAction( Actions_t& target, Json::Value& TriggerAction );
+    void InitAction( ActionType type, Json::Value& actionDesc );
+    bool ExecuteAction( ActionType type );
 public:
     Button( int32_t Id );
     virtual void Init( Json::Value& Descriptor );

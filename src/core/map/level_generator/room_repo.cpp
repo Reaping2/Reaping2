@@ -66,7 +66,7 @@ void RoomRepo::Init()
     }
 
 
-    for (auto const& e : mElements)
+    for (auto&& e : mElements)
     {
         e.second->Init();
     }

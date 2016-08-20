@@ -45,13 +45,13 @@ void DamageDecals::OnDamageTaken( DamageTakenEvent const& Evt )
     if ( Evt.type == DamageTakenEvent::Health )
     {
         Decal Part;
-        Part.mCenter = Evt.Pos + glm::vec2( ( rand() % 10 - 5.f ) / 200.f, ( rand() % 10 - 5.f ) / 200.f );
-        DamageDecal const& decal = mDecalDescs[rand() % mDecalDescs.size()];
+        Part.mCenter = Evt.Pos + glm::vec2( ( RandomGenerator::global()() % 10 - 5.f ) / 200.f, ( rand() % 10 - 5.f ) / 200.f );
+        DamageDecal const& decal = mDecalDescs[RandomGenerator::global()() % mDecalDescs.size()];
         Part.mTexId = decal.TexId;
         Part.mTexCoords = decal.TexCoords;
-        Part.mRadius = rand() % 2000 / 10.;
-        Part.mHeading = rand() % 360 / 180. * 3.141592654;
-        Part.mAlpha = rand() % 100 / 100.;
+        Part.mRadius = RandomGenerator::global()() % 2000 / 10.;
+        Part.mHeading = RandomGenerator::global()() % 360 / 180. * 3.141592654;
+        Part.mAlpha = RandomGenerator::global()() % 100 / 100.;
         mDecalEngine.Add( Part, DecalEngine::GroundParticle );
     }
 }

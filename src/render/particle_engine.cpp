@@ -34,10 +34,10 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
 {
     ParticleTemplate const& pt = *ppt;
 #define COLOR( channel ) \
-    std::max<double>( 0.0, std::min<double>( 1.0, ( ( pt.Color.channel - pt.ColorVariance.channel / 2. ) + pt.ColorVariance.channel * ( rand() % 100 ) / 100. ) ) )
+    std::max<double>( 0.0, std::min<double>( 1.0, ( ( pt.Color.channel - pt.ColorVariance.channel / 2. ) + pt.ColorVariance.channel * ( RandomGenerator::global()() % 100 ) / 100. ) ) )
     Color = glm::vec4( COLOR( x ), COLOR( y ), COLOR( z ), COLOR( w ) );
 #define INIT( member ) \
-    member = ( pt.member - pt.member##Variance / 2. ) + ( pt.member##Variance * ( rand() % 100 ) / 100. )
+    member = ( pt.member - pt.member##Variance / 2. ) + ( pt.member##Variance * ( RandomGenerator::global()() % 100 ) / 100. )
     float AbsAcceleration;
     INIT( AbsAcceleration );
     INIT( RotationAcceleration );
@@ -50,7 +50,7 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     { \
         val = std::abs( val ); \
     } \
-    else if( rand() % 2 == 1 ) \
+    else if( RandomGenerator::global()() % 2 == 1 ) \
     { \
         val = - val; \
     }
@@ -62,8 +62,8 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     ROLL_DIR( SpeedDir, Towards, Away, AbsSpeed );
     ROLL_DIR( AccelerationDir, Towards, Away, AbsAcceleration );
     static const double pi = boost::math::constants::pi<double>();
-    float dir = pi * 2 * ( rand() % 100 / 100. );
-    Pos = pos + pt.PosVariance * ( ( rand() % 100 ) / 100.f ) * glm::vec2( cos( dir ), sin( dir ) );
+    float dir = pi * 2 * ( RandomGenerator::global()() % 100 / 100. );
+    Pos = pos + pt.PosVariance * ( ( RandomGenerator::global()() % 100 ) / 100.f ) * glm::vec2( cos( dir ), sin( dir ) );
     if( Pos != pos )
     {
         Speed = AbsSpeed * glm::normalize( Pos - pos );
@@ -80,7 +80,7 @@ Particle::Particle( ParticleTemplate const* ppt, glm::vec2 const& pos, double or
     }
     else
     {
-        Heading = pi * 2. * ( rand() % 101 ) / 100.;
+        Heading = pi * 2. * ( RandomGenerator::global()() % 101 ) / 100.;
     }
     INIT( Lifetime );
     InitialLifetime = Lifetime;
@@ -335,7 +335,7 @@ void ParticleEngineImpl::AddParticle( int32_t type, glm::vec2 const& pos, glm::v
         return;
     }
     Particles& particles = mParticlesByLayer[ pt.ParticleLayer ];
-    for( int32_t i = 0, e = std::max( 0, ( pt.Num - pt.NumVariance / 2 + ( pt.NumVariance * ( rand() % 100 ) ) / 100 ) ); i != e; ++i )
+    for( int32_t i = 0, e = std::max<int>( 0, ( pt.Num - pt.NumVariance / 2 + ( pt.NumVariance * ( RandomGenerator::global()() % 100 ) ) / 100 ) ); i != e; ++i )
     {
         Particle p( &pt, pos, ori );
         if( p.Lifetime <= 0.0 )

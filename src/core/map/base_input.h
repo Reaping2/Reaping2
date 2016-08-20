@@ -15,7 +15,7 @@ public:
     int_function_t GetInputNodeId( int32_t id );
     void ResetValues();
     void ResetValueId( int32_t id );
-    int32_t GetValueId( int32_t id );
+    int32_t GetValueId( int32_t id ) const;
     BaseInput& operator=( BaseInput const& other );
     BaseInput( BaseInput const& other );
     BaseInput() = default;

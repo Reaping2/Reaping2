@@ -204,7 +204,6 @@ void GeneratorData::GenerateGraph()
     mGraph.Clear();
     for (int i = 0; i < mGRoomDescs.size(); ++i)
     {
-        auto& neighbourRooms = GetNeighbourRooms( i );
         mGraph.AddNode( GGraphNode( i, GetNeighbourRooms( i ) ) );
     }
 }

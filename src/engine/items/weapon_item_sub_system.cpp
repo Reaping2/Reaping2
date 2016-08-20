@@ -164,9 +164,9 @@ void WeaponItemSubSystem::AddProjectiles( Actor& actor, Projectiles_t& projectil
     int scat = int( scatter.GetCalculated() * 1000 );
     if( scat )
     {
-        double realScatter = ( rand() % ( scat + 1 ) - scat / 2. );
+        double realScatter = ( RandomGenerator::global()() % ( scat + 1 ) - scat / 2. );
         L1( "realScatter:%f\n", realScatter );
-        actorOrientation += ( rand() % ( scat + 1 ) - scat / 2. ) * 0.001 * boost::math::double_constants::pi;
+        actorOrientation += ( RandomGenerator::global()() % ( scat + 1 ) - scat / 2. ) * 0.001 * boost::math::double_constants::pi;
     }
 
     L1( "calculated and updated scatter:%f\n", scatter.GetCalculated() );

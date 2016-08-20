@@ -40,12 +40,12 @@ void DropOnDeathSystem::Update( double DeltaTime )
 #else
             static const size_t Mod = 2;
 #endif//DEBUG
-            if( rand() % Mod )
+            if( RandomGenerator::global()() % Mod )
             {
                 return;
             }
             std::auto_ptr<Actor> Pu = mActorFactory( AutoId( "pickup" ) );
-            int32_t rolled = rand() % 3;
+            int32_t rolled = RandomGenerator::global()() % 3;
             if( rolled == 0 )
             {
                 int32_t contentId = Roll( 5 );
@@ -77,7 +77,7 @@ void DropOnDeathSystem::Update( double DeltaTime )
 AutoId DropOnDeathSystem::RollNormalItem( int32_t n )
 {
     // TODO: need a way to ask about available drops, this way
-    switch( rand() % n )
+    switch( RandomGenerator::global()() % n )
     {
     case 0:
         return AutoId( "grenade_normal_item" );
@@ -95,7 +95,7 @@ AutoId DropOnDeathSystem::RollNormalItem( int32_t n )
 AutoId DropOnDeathSystem::Roll( int32_t n )
 {
     // TODO: need a way to ask about available drops, this way
-    switch( rand() % n )
+    switch( RandomGenerator::global()() % n )
     {
     case 0:
         return AutoId( "pistol" );
@@ -117,7 +117,7 @@ AutoId DropOnDeathSystem::Roll( int32_t n )
 AutoId DropOnDeathSystem::RollBuff( int32_t n )
 {
     // TODO: need a way to ask about available drops, this way
-    switch( rand() % n )
+    switch( RandomGenerator::global()() % n )
     {
     case 0:
         return AutoId( "HealOverTimeBuff" );

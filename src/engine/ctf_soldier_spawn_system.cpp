@@ -42,7 +42,7 @@ void CtfSoldierSpawnSystem::OnRevive( core::ReviveEvent const& Evt )
 std::auto_ptr<Actor> CtfSoldierSpawnSystem::Spawn( ::core::ClientData& clientData, Team::Type team )
 {
     map::SpawnPoints_t spawnPoints( map::ctf::CtfSoldierSpawnPointMapElementSystem::Get()->GetActiveSpawnPoints( team ) );
-    map::SpawnPoint spawnPoint( spawnPoints[rand() % spawnPoints.size()] );
+    map::SpawnPoint spawnPoint( spawnPoints[RandomGenerator::global()() % spawnPoints.size()] );
     std::auto_ptr<Actor> player( mActorFactory( mPlayerAutoId ) );
     Opt<ITeamComponent> teamC( player->Get<ITeamComponent>() );
     if ( teamC.IsValid() )

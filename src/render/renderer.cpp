@@ -4,6 +4,7 @@
 #include "font.h"
 #include "particle_engine.h"
 #include "render_target.h"
+#include "platform/settings.h"
 #include <boost/assign.hpp>
 
 namespace engine {
@@ -119,6 +120,10 @@ bool selectBloodReceivers( IRenderableComponent const& renderableC )
 {
     return renderableC.GetReceiveBlood() != 0;
 }
+bool selectNonBloodReceivers( IRenderableComponent const& renderableC )
+{
+    return renderableC.GetReceiveBlood() == 0;
+}
 bool selectShadowReceivers( IRenderableComponent const& renderableC, int32_t shadowLevel )
 {
     return renderableC.GetReceiveBlood() == 0 && renderableC.GetReceiveShadow() == shadowLevel;
@@ -147,42 +152,49 @@ void RendererSystem::Update( double DeltaTime )
     rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size() );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
-    mActorRenderer.Prepare( Scen, DeltaTime );
+    mActorRenderer.Prepare( Scen, mCamera, DeltaTime );
     mActorRenderer.Draw( &selectBloodReceivers );
     mDecalEngine.Draw();
 
-    uint32_t shadowOutline = 2, shadow_1=4, shadow_2=5;
-
-    auto const shadowLevels = getShadowLevels( Scen );
-    for( auto shadowLevel : shadowLevels )
+    static bool const castShadows = Settings::Get().GetInt( "graphics.cast_shadows", 1 );
+    if( castShadows != 0 )
     {
-        // !---- rt - shadows outline
-        rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() );
-        SetupRenderer( mWorldProjector );
-        mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
+        uint32_t shadowOutline = 2, shadow_1=4, shadow_2=5;
 
-        mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-        mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+        auto const shadowLevels = getShadowLevels( Scen );
+        for( auto shadowLevel : shadowLevels )
+        {
+            // !---- rt - shadows outline
+            rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() );
+            SetupRenderer( mWorldProjector );
+            mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
+
+            mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+            mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
 
 
-        // !---- rt4 - shadows - with depth
-        rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() );
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows" );
-        // !---- rt5 - shadows - vblurred
-        rt.SetTargetTexture( shadow_2, mWorldProjector.GetViewport().Size() );
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "vblur" );
+            // !---- rt4 - shadows - with depth
+            rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows" );
+            // !---- rt5 - shadows - vblurred
+            rt.SetTargetTexture( shadow_2, mWorldProjector.GetViewport().Size() );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "vblur" );
 
-        rt.SelectTargetTexture( world );
-        SetupRenderer( mWorldProjector );
-        mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
+            rt.SelectTargetTexture( world );
+            SetupRenderer( mWorldProjector );
+            mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
-        mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-        mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+            mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+            mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
 
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
+        }
     }
-
+    else
+    {
+        mActorRenderer.Draw( &selectNonBloodReceivers );
+    }
     // !---- rt16
     // particle blending happens with different blending modes
     // so we can't simply render the particles to their own FBO

@@ -61,7 +61,7 @@ void TargetPlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
     if ( targetPCC->IsNeedInit() )
     {
         Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
-        moveC->GetSpeed().mBase.Set( ( ( rand() % 10 ) + 5 ) * 20 );
+        moveC->GetSpeed().mBase.Set( ( ( RandomGenerator::global()() % 10 ) + 5 ) * 20 );
         moveC->SetMoving( true );
         targetPCC->SetNeedInit( false );
     }
@@ -120,7 +120,7 @@ void TargetPlayerControllerSubSystem::UpdateTarget( Opt<ITargetHolderComponent> 
 
         if( wrp.size() != 0 )
         {
-            size_t selectedTarget = rand() % wrp.size();
+            size_t selectedTarget = RandomGenerator::global()() % wrp.size();
             ActorListFilter<Scene::CollisionClassActors>::const_iterator i = wrp.begin(), e = wrp.end();
             for( size_t c = 0; i != e && c < selectedTarget; ++i, ++c )
             {}

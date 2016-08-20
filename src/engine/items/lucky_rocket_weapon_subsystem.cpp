@@ -50,8 +50,8 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         return;
     }
 
-    bool alt = rand() % 2;
-    int32_t selectedWeapon = alt ? altweapons.at( rand() % altweapons.size() ) : weapons.at( rand() % weapons.size() );
+    bool alt = RandomGenerator::global()() % 2;
+    int32_t selectedWeapon = alt ? altweapons.at( RandomGenerator::global()() % altweapons.size() ) : weapons.at( rand() % weapons.size() );
     if( selectedWeapon != weapon->GetId() )
     {
         Opt<IInventoryComponent> inv = actor.Get<IInventoryComponent>();
@@ -70,13 +70,13 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         mWeaponItemSubSystem->Update( actor, DeltaTime );
         weapon->GetScatter().mCurrent = rolledWeapon->GetScatter().mCurrent;
         weapon->SetCooldown( std::min( 1.0, rolledWeapon->GetCooldown() ) );
-        int32_t bullets = rand() % int( 1 + weapon->GetBulletsMax() );
+        int32_t bullets = RandomGenerator::global()() % int( 1 + weapon->GetBulletsMax() );
         if( bullets == 0 )
         {
             weapon->SetReloadTimeMax( rolledWeapon->GetReloadTimeMax() );
             weapon->SetReloadTime( rolledWeapon->GetReloadTimeMax() );
         }
-        weapon->SetBullets( bullets == 0 ? 0 : ( bullets * 10 + rand() % 10 ) );
+        weapon->SetBullets( bullets == 0 ? 0 : ( bullets * 10 + RandomGenerator::global()() % 10 ) );
 
         inv->DropItem( selectedWeapon );
         inv->SetSelectedWeapon( weapon->GetId() );

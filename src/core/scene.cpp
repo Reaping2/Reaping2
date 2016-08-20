@@ -83,11 +83,11 @@ void Scene::Update( double DeltaTime )
     }
     //TODO: testing
     if ( false && ProgramState::Get().mMode != ProgramState::Client
-         && rand() % 600 == 1
+         && RandomGenerator::global()() % 600 == 1
          && mActorHolder.mAllActors.size() < 1500 )
     {
-        AddTestCreep( mDimensions.x + ( rand() % ( int )( ( mDimensions.z - mDimensions.x ) ) )
-                      , mDimensions.y + ( rand() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
+        AddTestCreep( mDimensions.x + ( RandomGenerator::global()() % ( int )( ( mDimensions.z - mDimensions.x ) ) )
+                      , mDimensions.y + ( RandomGenerator::global()() % ( int )( ( mDimensions.w - mDimensions.y ) ) ) );
     }
     //testing end
 
@@ -96,7 +96,7 @@ void Scene::Update( double DeltaTime )
 }
 
 Scene::Scene()
-    : mDimensions( -4000, -4000, 4000, 4000 )
+    : mDimensions( -16000, -16000, 16000, 16000 )
     , mTypeId( 0 )
     , mPaused( true )
     , mSceneModel( "scene", &RootModel::Get() )
@@ -178,7 +178,7 @@ void Scene::Load( std::string const& Level )
 void Scene::AddTestCreep( double X, double Y )
 {
     std::auto_ptr<Actor> Obj;
-    switch( rand() % 4 )
+    switch( RandomGenerator::global()() % 4 )
     {
     case 0:
         Obj = ActorFactory::Get()( AutoId( "spider1" ) );

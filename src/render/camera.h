@@ -18,6 +18,7 @@ class Camera
 public:
     Camera( Projection const& Proj );
     glm::vec2 GetCenter() const;
+    glm::vec4 VisibleRegion() const;
     void Update();
     glm::mat4 const& GetView()const;
     glm::mat4 const& GetInverseView()const;

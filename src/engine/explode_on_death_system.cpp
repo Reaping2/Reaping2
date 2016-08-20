@@ -76,7 +76,7 @@ void ExplodeOnDeathSystem::FillExplosionProjectiles( IExplode& explode, Actor& a
             else if ( explode.GetDistribution() == ExplodeDistributionType::Random )
             {
                 ps->Get<IPositionComponent>()->SetOrientation( -1 * explode.GetExplosionScatter()
-                        + ( rand() % 100 ) * 0.01 * ( explode.GetExplosionScatter() * 2 ) );
+                        + ( RandomGenerator::global()() % 100 ) * 0.01 * ( explode.GetExplosionScatter() * 2 ) );
             }
         }
         Opt<IPositionComponent> projPositionC( ps->Get<IPositionComponent>() );
@@ -86,7 +86,7 @@ void ExplodeOnDeathSystem::FillExplosionProjectiles( IExplode& explode, Actor& a
         const double s = sin( h );
         if ( explode.GetPositionVariance() != 0 )
         {
-            const double shft = ( rand() % explode.GetPositionVariance() );
+            const double shft = ( RandomGenerator::global()() % explode.GetPositionVariance() );
             projPositionC->SetX( c * shft );
             projPositionC->SetY( s * shft );
         }
@@ -95,14 +95,14 @@ void ExplodeOnDeathSystem::FillExplosionProjectiles( IExplode& explode, Actor& a
         {
             projMoveC->SetSpeed( projMoveC->GetSpeed().mBase.Get()
                                  * ( 1 - explode.GetSpeedVariance()
-                                     + ( rand() % 100 ) * 0.01 * explode.GetSpeedVariance() * 2 ) );
+                                     + ( RandomGenerator::global()() % 100 ) * 0.01 * explode.GetSpeedVariance() * 2 ) );
         }
         Opt<IFadeOutComponent> fadeOutC( ps->Get<IFadeOutComponent>() );
         if ( fadeOutC.IsValid() )
         {
             fadeOutC->SetSecsToEnd( fadeOutC->GetSecsToEnd()
                                     * ( 1 - explode.GetSecsToEndVariance()
-                                        + ( rand() % 100 ) * 0.01 * explode.GetSecsToEndVariance() * 2 ) );
+                                        + ( RandomGenerator::global()() % 100 ) * 0.01 * explode.GetSecsToEndVariance() * 2 ) );
         }
         projectiles.push_back( Opt<Actor>( ps.release() ) );
     }
