@@ -37,6 +37,7 @@ private:
     void CreateSideRoutes();
     void CreateStart();
     void GenerateTerrain();
+    void RecreateBorders();
     void PlaceRooms( glm::vec2 const& startPos );
     Opt<IRoom> PlaceARoom( glm::vec2 const& pos );
     static void LogNodes( std::string log, FreeNodes_t const& nodes );

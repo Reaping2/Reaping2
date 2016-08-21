@@ -15,12 +15,8 @@ public:
     virtual void Update( double DeltaTime );
 
     void UpdateBorders( Neighbors& neighbors );
-
 protected:
-    typedef std::vector<Neighbors::NeighborMap_t> NeighborDirMap_t;
-    NeighborDirMap_t mNeighborDirMap;
-    NeighborDirMap_t mNeighborOuterDirMap;
-    IBorderComponent::Borders_t GetBorders( Neighbors& neighbors, NeighborDirMap_t& neighborDirs );
+
     bool mMouseLeftPressed;
     bool mMouseRightPressed;
 };

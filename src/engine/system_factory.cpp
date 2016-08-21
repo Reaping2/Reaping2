@@ -136,6 +136,7 @@
 #include "core/map/cell_entrance_editor_system.h"
 #include "core/map/room_plain_property_editor_system.h"
 #include "level_end_system.h"
+#include "recreate_borders_map_element_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -256,6 +257,7 @@ void SystemFactory::Init()
     Bind( AutoId( "level_generator_map_element_system" ), &CreateSystem<map::LevelGeneratorMapElementSystem> );
     Bind( AutoId( "level_generated_map_element_system" ), &CreateSystem<map::LevelGeneratedMapElementSystem> );
     Bind( AutoId( "group_map_element_system" ), &CreateSystem<map::GroupMapElementSystem> );
+    Bind( AutoId( "recreate_borders_map_element_system" ), &CreateSystem<map::RecreateBordersMapElementSystem> );
 
     Bind( AutoId( "free_for_all_game_mode_system" ), &CreateSystem<core::FreeForAllGameModeSystem> );
     Bind( AutoId( "capture_the_flag_game_mode_system" ), &CreateSystem<core::CaptureTheFlagGameModeSystem> );

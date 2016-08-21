@@ -7,6 +7,7 @@ LevelGeneratedMapElement::LevelGeneratedMapElement(int32_t Id)
     , BaseOutput() 
 {
     AddOutputNodeId( GeneratedNodeId() );
+    AddOutputNodeId( ActorsSpawnedNodeId() );
 }
 
 void LevelGeneratedMapElement::Load(Json::Value& setters)
@@ -18,6 +19,13 @@ void LevelGeneratedMapElement::Load(Json::Value& setters)
 int32_t LevelGeneratedMapElement::GeneratedNodeId()
 {
     static int32_t id = AutoId( "generated" );
+    return id;
+}
+
+
+int32_t LevelGeneratedMapElement::ActorsSpawnedNodeId()
+{
+    static int32_t id = AutoId( "actors_spawned" );
     return id;
 }
 

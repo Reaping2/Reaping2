@@ -12,9 +12,18 @@
         "identifier":"level_generated"
     },
     {
+        "name":"recreate_borders",
+        "identifier":"recreate_borders"
+    },
+    {
         "name":"link",
         "from":{"identifier":"level_generated","node":0},
         "to":{"identifier":"spawn_soldiers","node":0}
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"level_generated","node":1},
+        "to":{"identifier":"recreate_borders","node":0}
     },
     {
         "name":"link",
@@ -37,7 +46,7 @@
         {
             "seed":10,
             "cell_size":800,
-            "cell_count":12,
+            "cell_count":20,
             "route":
             {
                 "min_length":8,

@@ -30,7 +30,7 @@ void JungleLevelGenerator::Generate()
     CreateSideRoutes();
 
     GenerateTerrain();
-    EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
+    EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::TerrainGenerated ) );
 }
 
 
@@ -93,6 +93,12 @@ void JungleLevelGenerator::GenerateTerrain()
             mGData.GetRoomDesc( i )
             , mGData.GetRoomCoord( i )*mCellSize + glm::vec2(mScene.GetDimensions()));
     }
+}
+
+
+void JungleLevelGenerator::RecreateBorders()
+{
+
 }
 
 void JungleLevelGenerator::PlaceRooms( glm::vec2 const& startPos )

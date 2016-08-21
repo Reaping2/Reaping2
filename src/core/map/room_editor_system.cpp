@@ -150,7 +150,7 @@ void RoomEditorSystem::Load( std::string const& room )
     EditorGroupSystem::Get()->SetGroupNames( groupNames );
     Ui::Get().Load( "room_editor_base_hud" );
     mAutoSaveOn = true;
-    EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent() );
+    EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::TerrainGenerated ) );
     EventServer<RoomEditorLoadedEvent>::Get().SendEvent( RoomEditorLoadedEvent(&mRoomDesc) );
     SitchToModeSelect();
 }

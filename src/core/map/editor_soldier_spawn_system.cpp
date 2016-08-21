@@ -64,7 +64,10 @@ void EditorSoldierSpawnSystem::Spawn( Opt<SoldierSpawnPointMapElement> soldierSp
 
 void EditorSoldierSpawnSystem::OnLevelGenerated( LevelGeneratedEvent const& Evt )
 {
-    SpawnPlayers();
+    if (Evt.mState == LevelGeneratedEvent::ActorsSpawned)
+    {
+        SpawnPlayers();
+    }
 }
 
 void EditorSoldierSpawnSystem::SpawnPlayers()

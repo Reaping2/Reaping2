@@ -17,6 +17,11 @@ BorderActionRenderer::BorderActionRenderer( int32_t Id )
 
 void BorderActionRenderer::Init( Actor const& actor )
 {
+    mSprites.clear();
+    mBorders.clear();
+    mBorderIds.clear();
+    mOuterBorders.clear();
+    mOuterBorderIds.clear();
     static BorderType& mBorderType = BorderType::Get();
     static IdStorage& mIdStorage = IdStorage::Get();
     Opt<IBorderComponent> borderC = actor.Get<IBorderComponent>();
@@ -83,6 +88,7 @@ void BorderActionRenderer::Init( Actor const& actor )
 
 void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
+    Init( actor );
     for( auto const& data : mSprites )
     {
         SpritePhase const& Phase = data.Spr( ( int32_t )GetState() );

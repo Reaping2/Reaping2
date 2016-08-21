@@ -14,6 +14,7 @@
 #include "level_generator/level_generator_map_element.h"
 #include "level_generator/level_generated_map_element.h"
 #include "group_map_element.h"
+#include "recreate_borders_map_element.h"
 
 using platform::AutoId;
 namespace map {
@@ -37,6 +38,7 @@ MapElementFactory::MapElementFactory()
     Bind( AutoId( "level_generator" ), &CreateMapElement<LevelGeneratorMapElement> );
     Bind( AutoId( "level_generated" ), &CreateMapElement<LevelGeneratedMapElement> );
     Bind( AutoId( "group" ), &CreateMapElement<GroupMapElement> );
+    Bind( AutoId( "recreate_borders" ), &CreateMapElement<RecreateBordersMapElement> );
 }
 
 } // namespace map

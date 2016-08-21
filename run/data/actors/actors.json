@@ -815,60 +815,6 @@
         ]
     },
     {
-        "name":"player",
-        "components":
-        [
-            {"name":"position_component"},
-            {"name":"move_component",
-                "set":[{"speed":500}]
-            },
-            {"name":"renderable_component",
-                "set":[{"layer":"players", "cast_shadow":1}]
-            },
-            {"name":"collision_component",
-                "set":[{"class":"player", "radius":30}]
-            },
-            {"name":"player_controller_component"},
-            {"name":"inventory_component",
-                "set":[{"add_item":"pistol"}]
-            },
-            {"name":"health_component",
-                "set":[{"hp":100}]
-            },
-            {"name":"accuracy_component",
-                "set":[{"accuracy":0}]
-            },
-            {"name":"armor_component"},
-            {"name":"cloak_component"},
-            {"name":"stop_on_death_component"},
-            {"name":"buff_holder_component"},
-            {"name":"score_on_death_component"},
-            {"name":"kill_score_on_death_component"},
-            {"name":"heat_source_component"},
-            {"name":"audible_component"},
-            {"name":"remove_on_death_component",
-                "set":[{"delay":5.0}] },
-            {"name":"remove_components_on_death_component",
-                "set":[
-                    {
-                        "components":[
-                            "collision_component",
-                            "move_component",
-                            "accuracy_component",
-                            "armor_component",
-                            "cloak_component",
-                            "stop_on_death_component",
-                            "buff_holder_component",
-                            "heat_source_component",
-                            "audible_component",
-                            "remove_components_on_death_component"
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
         "name":"ctf_player",
         "components":
         [

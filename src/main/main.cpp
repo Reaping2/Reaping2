@@ -323,6 +323,9 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "map_system" ) );
         Eng.AddSystem( AutoId( "link_map_element_system" ) );
         Eng.AddSystem( AutoId( "map_start_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generated_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generator_map_element_system" ) );
+        Eng.AddSystem( AutoId( "recreate_borders_map_element_system" ) );
         Eng.AddSystem( AutoId( "spawn_soldiers_map_element_system" ) );
         Eng.AddSystem( AutoId( "soldier_spawn_point_map_element_system" ) );
         Eng.AddSystem( AutoId( "spawn_actor_map_element_system" ) );
@@ -331,8 +334,6 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "ctf_spawn_flags_map_element_system" ) );
         Eng.AddSystem( AutoId( "respawn_actor_map_element_system" ) );
         Eng.AddSystem( AutoId( "soldier_auto_revive_map_element_system" ) );
-        Eng.AddSystem( AutoId( "level_generator_map_element_system" ) );
-        Eng.AddSystem( AutoId( "level_generated_map_element_system" ) );
         Eng.AddSystem( AutoId( "group_map_element_system" ) );
     }
 
