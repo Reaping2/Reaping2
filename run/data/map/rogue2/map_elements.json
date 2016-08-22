@@ -46,10 +46,10 @@
         {
             "seed":10,
             "cell_size":800,
-            "cell_count":20,
+            "cell_count":12,
             "route":
             {
-                "min_length":8,
+                "min_length":14,
                 "end_chance":30,
                 "chance_increase":30
             },
@@ -62,7 +62,7 @@
             "possible_rooms":
             [
                 { "room_id":"rogue1x1","weight":1 },
-                { "room_id":"rogue2x2","weight":2 },
+                { "room_id":"rogue2x2","weight":6 },
                 { "room_id":"rogue1x3","weight":4 }
             ]
         },        

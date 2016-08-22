@@ -5,6 +5,7 @@
 
 BorderComponent::BorderComponent()
     : mBorders()
+    , mChanged(false)
 {
 }
 
@@ -17,6 +18,17 @@ IBorderComponent::Borders_t BorderComponent::GetBorders()const
 {
     return mBorders;
 }
+
+void BorderComponent::SetChanged( bool changed )
+{
+    mChanged = changed;
+}
+
+bool BorderComponent::IsChanged() const
+{
+    return mChanged;
+}
+
 
 void BorderComponent::Save( Json::Value& component )
 {

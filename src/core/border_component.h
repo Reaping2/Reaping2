@@ -15,10 +15,13 @@ public:
     virtual void SetOuterBorders( Borders_t borders );
     virtual Borders_t GetOuterBorders()const;
     virtual void Save( Json::Value& component );
+    virtual void SetChanged( bool changed );
+    virtual bool IsChanged() const;
 protected:
     friend class ComponentFactory;
     Borders_t mBorders;
     Borders_t mOuterBorders;
+    bool mChanged;
 private:
 public:
     friend class ::boost::serialization::access;
@@ -33,6 +36,7 @@ void BorderComponent::serialize( Archive& ar, const unsigned int version )
     ar& boost::serialization::base_object<IBorderComponent>( *this );
     ar& mBorders;
     ar& mOuterBorders;
+    ar& mChanged;
 }
 
 class BorderComponentLoader : public ComponentLoader<BorderComponent>

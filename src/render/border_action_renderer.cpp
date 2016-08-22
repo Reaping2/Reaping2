@@ -88,7 +88,10 @@ void BorderActionRenderer::Init( Actor const& actor )
 
 void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    Init( actor );
+    if (actor.Get<IBorderComponent>()->IsChanged())
+    {
+        Init( actor );
+    }
     for( auto const& data : mSprites )
     {
         SpritePhase const& Phase = data.Spr( ( int32_t )GetState() );
