@@ -5,6 +5,7 @@
 #include "core/property_loader.h"
 #include "platform/export.h"
 #include "platform/serialize_vec4.h"
+#include <boost/serialization/vector.hpp>
 
 class Actor;
 
@@ -37,6 +38,10 @@ public:
     virtual void SetReceiveBlood( int32_t set );
     virtual void SetColor( glm::vec4 const& color );
     virtual glm::vec4 GetColor() const;
+    virtual void SetRandomSprites( RandomSprites_t const& randomSprites );
+    virtual RandomSprites_t const& GetRandomSprites() const;
+    virtual void SetSpriteIndex( int32_t spriteIndex );
+    virtual int32_t GetSpriteIndex() const;
 protected:
     RenderableComponent();
     friend class ComponentFactory;
@@ -46,6 +51,8 @@ protected:
     int32_t mReceiveBlood;
     int32_t mReceiveShadow;
     glm::vec4 mColor;
+    RandomSprites_t mRandomSprites;
+    int32_t mSpriteIndex;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -63,6 +70,8 @@ void RenderableComponent::serialize( Archive& ar, const unsigned int version )
     ar& mReceiveBlood;
     ar& mReceiveShadow;
     ar& mColor;
+    ar& mRandomSprites;
+    ar& mSpriteIndex;
 }
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>

@@ -3,6 +3,7 @@
 #include "core/i_border_component.h"
 #include "platform/id_storage.h"
 #include "core/i_collision_component.h"
+#include "idle_action_renderer.h"
 
 namespace render {
 
@@ -40,7 +41,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         std::string borderName;
         if( mIdStorage.GetName( mBorderType( *i ), borderName ) )
         {
-            mBorderIds.push_back( mIdStorage.GetId( actorName + "_" + borderName ) );
+            mBorderIds.push_back( 
+                IdleActionRenderer::GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName ) ) );
         }
     }
     mOuterBorders = borderC->GetOuterBorders();
@@ -49,7 +51,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         std::string borderName;
         if( mIdStorage.GetName( mBorderType( *i ), borderName ) )
         {
-            mOuterBorderIds.push_back( mIdStorage.GetId( actorName + "_" + borderName + "_outer" ) );
+            mOuterBorderIds.push_back( 
+                IdleActionRenderer::GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName + "_outer") ) );
         }
     }
     double scale = 1.0;

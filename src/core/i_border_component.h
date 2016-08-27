@@ -17,6 +17,11 @@ public:
     virtual Borders_t GetOuterBorders()const = 0;
     virtual void SetChanged( bool changed ) = 0;
     virtual bool IsChanged()const = 0;
+    typedef std::vector<int32_t> RandomSprites_t; //weight of sprites
+    virtual void SetRandomSprites( RandomSprites_t const& randomSprites ) = 0;
+    virtual RandomSprites_t const& GetRandomSprites()const = 0;
+    virtual void SetSpriteIndex( int32_t spriteIndex ) = 0;
+    virtual int32_t GetSpriteIndex()const = 0;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

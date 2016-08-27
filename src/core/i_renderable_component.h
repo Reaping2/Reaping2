@@ -20,6 +20,12 @@ public:
     virtual void SetReceiveBlood( int32_t set ) = 0;
     virtual void SetColor( glm::vec4 const& color ) = 0;
     virtual glm::vec4 GetColor()const = 0;
+    typedef std::vector<int32_t> RandomSprites_t; //weight of sprites
+    virtual void SetRandomSprites( RandomSprites_t const& randomSprites ) = 0;
+    virtual RandomSprites_t const& GetRandomSprites()const = 0;
+    virtual void SetSpriteIndex( int32_t spriteIndex ) = 0;
+    virtual int32_t GetSpriteIndex()const = 0;
+
 protected:
     friend class ComponentFactory;
 public:

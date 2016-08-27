@@ -137,6 +137,7 @@
 #include "core/map/room_plain_property_editor_system.h"
 #include "level_end_system.h"
 #include "recreate_borders_map_element_system.h"
+#include "core/randomize_sprite_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -156,6 +157,7 @@ void SystemFactory::Init()
     Bind( AutoId( "frame_counter_system" ), &CreateSystem<FrameCounterSystem> );
     Bind( AutoId( "renderer_system" ), &CreateSystem<RendererSystem> );
     Bind( AutoId( "leaderboard_system" ), &CreateSystem<engine::LeaderboardSystem> );
+    Bind( AutoId( "randomize_sprite_system" ), &CreateSystem<engine::RandomizeSpriteSystem> );
 
     Bind( AutoId( "collision_system" ), &CreateSystem<CollisionSystem> );
 
