@@ -6,6 +6,7 @@ using platform::AutoId;
 RenderableLayer::RenderableLayer()
 {
     mIdToRendLayerMap[AutoId( "background" )] = RenderableLayer::Background;
+    mIdToRendLayerMap[AutoId( "background_1" )] = RenderableLayer::Background_1;
     mIdToRendLayerMap[AutoId( "corpses" )] = RenderableLayer::Corpses;
     mIdToRendLayerMap[AutoId( "creeps" )] = RenderableLayer::Creeps;
     mIdToRendLayerMap[AutoId( "players" )] = RenderableLayer::Players;

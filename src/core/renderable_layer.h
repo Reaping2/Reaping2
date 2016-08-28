@@ -12,6 +12,7 @@ public:
     enum Type
     {
         Background = 0,
+        Background_1,
         Corpses,
         Creeps,
         Players,

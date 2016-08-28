@@ -453,5 +453,25 @@
 			{"recognizer":"border",
 				"renderer":"border"}
 		]
+	},
+	{
+		"name":"rogue_wall50_background",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
+		"name":"rogue_wall100_background",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
 	}
 ]	
