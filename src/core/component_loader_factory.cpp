@@ -47,6 +47,7 @@
 #include "audible_component.h"
 #include "remove_components_on_death_component.h"
 #include "rotate_component.h"
+#include "render/visual_box_multiplier_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -55,6 +56,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
 
     Bind( AutoId( "position_component" ), &CreateComponentLoader<PositionComponentLoader> );
     Bind( AutoId( "rotate_component" ), &CreateComponentLoader<RotateComponentLoader> );
+    Bind( AutoId( "visual_box_multiplier_component" ), &CreateComponentLoader<render::VisualBoxMultiplierComponentLoader> );
     Bind( AutoId( "move_component" ), &CreateComponentLoader<MoveComponentLoader> );
     Bind( AutoId( "acceleration_component" ), &CreateComponentLoader<AccelerationComponentLoader> );
     Bind( AutoId( "player_controller_component" ), &CreateComponentLoader<PlayerControllerComponentLoader> );

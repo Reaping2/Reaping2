@@ -50,7 +50,7 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     typedef std::vector<GLfloat> Floats_t;
     Floats_t Headings;
     Headings.reserve( CurSize );
-    Floats_t Sizes;
+    Positions_t Sizes;
     Sizes.reserve( CurSize );
     typedef std::vector<glm::vec4> TexCoords_t;
     TexCoords_t TexCoords;
@@ -85,15 +85,14 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         //             siz=siz;//*(100.0/(100.0+accuracyC->GetAccuracy().Get()));
         //         }
         siz += mouseSize;
-        Sizes.push_back( ( GLfloat )( siz ) );
-        Sizes.push_back( ( GLfloat )( siz ) );
+        Sizes.push_back( glm::vec2( siz, siz ) );
         Text text( 80.0, glm::vec4( mX, mY - 80, 500, 500 ), glm::vec4( mouseColor, 0.7 ),
                    weapon->GetMouseText(), true );
         textSceneRenderer.AddText( text );
     }
     if ( !actor.IsValid() )
     {
-        Sizes.push_back( ( GLfloat )mouseSize );
+        Sizes.push_back( glm::vec2( mouseSize, mouseSize ) );
     }
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
@@ -101,17 +100,17 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     Colors.push_back( glm::vec4( mouseColor, 0.5 ) );
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
-    Sizes.push_back( ( GLfloat )mouseSize );
+    Sizes.push_back( glm::vec2( mouseSize, mouseSize ) );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
     Colors.push_back( glm::vec4( mouseColor, 1.0 ) );
     Positions.push_back( glm::vec2( mX, mY ) );
     Headings.push_back( ( GLfloat )0.0 );
-    Sizes.push_back( ( GLfloat )mouseSize );
+    Sizes.push_back( glm::vec2( mouseSize, mouseSize ) );
     TexCoords.push_back( glm::vec4( Phase.Left, Phase.Right, Phase.Bottom, Phase.Top ) );
     Colors.push_back( glm::vec4( mouseColor, 1.0 ) );
 
     mVAO.Bind();
-    size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + sizeof( glm::vec4 ) );
+    size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + sizeof( glm::vec4 ) );
     glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
 
     size_t CurrentOffset = 0;
@@ -137,7 +136,7 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
-    CurrentSize = CurSize * sizeof( GLfloat );
+    CurrentSize = CurSize * sizeof( glm::vec2 );
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Sizes[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     size_t const SizeIndex = CurrentOffset;
@@ -164,7 +163,7 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( HeadingIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
-    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( SizeIndex ) );
+    glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( SizeIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( ColorIndex ) );
