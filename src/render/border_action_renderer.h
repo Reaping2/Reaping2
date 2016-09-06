@@ -27,6 +27,7 @@ class BorderActionRenderer : public ActionRenderer
         SpriteData( glm::vec2 const& rp, Sprite const& sp ) : RelativePosition( rp ), Spr( sp ) {}
     };
     std::vector<SpriteData> mSprites;
+    glm::vec4 mActorColor;
 public:
     BorderActionRenderer( int32_t Id );
     virtual void Init( const Actor& actor );

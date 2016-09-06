@@ -51,6 +51,9 @@ void TargetPlayerControllerComponent::serialize( Archive& ar, const unsigned int
 
 class TargetPlayerControllerComponentLoader: public ComponentLoader<TargetPlayerControllerComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( TargetPlayerControllerComponentLoader )
+private:
     virtual void BindValues();
 protected:
     TargetPlayerControllerComponentLoader();

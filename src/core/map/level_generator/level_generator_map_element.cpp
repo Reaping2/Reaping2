@@ -17,6 +17,10 @@ void LevelGeneratorMapElement::Load( Json::Value& setters )
     {
         mGeneratorId = AutoId( identifier );
     }
+    static LevelGeneratorFactory& levelGeneratorFactory = LevelGeneratorFactory::Get();
+    auto generator = levelGeneratorFactory( mGeneratorId );
+    generator->Load( setters["properties"] );
+    mLevelGenerator.reset( generator.release() );
     AddInputNodeId( GeneratorNodeId() );
 }
 
@@ -35,6 +39,12 @@ int32_t LevelGeneratorMapElement::GeneratorNodeId()
 {
     static int32_t id = AutoId( "generator" );
     return id;
+}
+
+
+Opt<ILevelGenerator> LevelGeneratorMapElement::GetLevelGenerator()
+{
+    return mLevelGenerator.get();
 }
 
 } // namespace map

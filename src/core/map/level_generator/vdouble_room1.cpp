@@ -16,11 +16,11 @@ VDoubleRoom1::VDoubleRoom1( int32_t Id )
     mRoomDesc.GetCell( 0, 0 ).SetFilled( true );
     mRoomDesc.GetCell( 0, 1 ).SetEntrances( { EntranceType::Bottom, EntranceType::Right, EntranceType::Left } );
     mRoomDesc.GetCell( 0, 1 ).SetFilled( true );
-    mRoomDesc.SetProperties( { RoomProperty::Start, RoomProperty::End } );
+    mRoomDesc.SetPlainProperties( { RoomProperty::Start, RoomProperty::End } );
     mRoomDesc.SetRoom( this );
 }
 
-void VDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void VDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
     {
         auto& simpleRoom1 = RoomRepo::Get()(AutoId( "simple_room1" ));
@@ -30,7 +30,7 @@ void VDoubleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
         tempDesc.GetCell( 0, 0 ).SetEntrances( roomDesc.GetCell( 0, 0 ).GetEntrances() );
         tempDesc.GetCell( 0, 0 ).AddEntrance( EntranceType::Top );
         tempDesc.GetCell( 0, 0 ).SetFilled( true );
-        tempDesc.SetProperties( roomDesc.GetProperties() );
+        tempDesc.SetPlainProperties( roomDesc.GetPlainProperties() );
         tempDesc.SetRoom( this );
         simpleRoom1.Generate( tempDesc, pos );
     }

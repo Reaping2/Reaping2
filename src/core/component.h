@@ -23,7 +23,13 @@
     { \
         return ComponentType::GetType_static(); \
     } \
- 
+
+#define DEFINE_COMPONENT_LOADER_BASE( ComponentLoader ) \
+    virtual ComponentLoader* clone() const \
+    { \
+        return new ComponentLoader( *this ); \
+    } \
+
 extern const double PRECISION;
 
 class Actor;
@@ -120,8 +126,15 @@ template<typename COMPONENT>
 class ComponentLoader: public PropertyLoader<COMPONENT, Component>
 {
 public:
+    DEFINE_COMPONENT_LOADER_BASE( ComponentLoader )
     virtual void FillProperties( ComponentHolder& actor )const;
+    virtual void BindValues();
 };
+
+template<typename COMPONENT>
+void ComponentLoader<COMPONENT>::BindValues()
+{
+}
 
 template<typename COMPONENT>
 void ComponentLoader<COMPONENT>::FillProperties( ComponentHolder& actor ) const

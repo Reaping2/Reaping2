@@ -11,7 +11,7 @@ class DefaultRoom : public IRoom
 {
 public:
     DefaultRoom();
-    virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos );
+    virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor = false );
 };
 
 class RoomRepo : public platform::Repository<IRoom>, public platform::Singleton<RoomRepo>
@@ -20,6 +20,8 @@ class RoomRepo : public platform::Repository<IRoom>, public platform::Singleton<
     static DefaultRoom const mDefault;
     RoomRepo();
     void Init();
+public:
+    platform::Repository<IRoom>::ElementMap_t const& GetElements();
 };
 
 } // namespace map

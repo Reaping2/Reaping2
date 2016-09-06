@@ -17,6 +17,8 @@ public:
     void PlugInNodeId( int32_t id, int_function_t node );
     void DoOutput( int32_t ordinal, int32_t val );
     void DoOutputId( int32_t id, int32_t val );
+    BaseOutput& operator=( BaseOutput const& other );
+    BaseOutput( BaseOutput const& other );
 protected:
     void AddOutputNodeId( int32_t id );
     typedef std::list<int_function_t> PluggedInFunctions_t;

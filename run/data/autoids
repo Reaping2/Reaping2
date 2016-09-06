@@ -902,3 +902,9 @@ rotate_message_handler_system
 RotateMessage
 RotateMessageSenderSystem
 RotateMessageHandlerSystem
+level_end_component
+i_level_end_component
+level_end_component_system
+LevelEndComponent
+ILevelEndComponent
+LevelEndComponentSystem

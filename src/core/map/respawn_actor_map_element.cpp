@@ -14,6 +14,21 @@ int32_t RespawnActorMapElement::SpawnNodeId()
     return id;
 }
 
+map::RespawnActorMapElement& RespawnActorMapElement::operator=( RespawnActorMapElement const& other )
+{
+    MapElement::operator=( other );
+    BaseInput::operator=( other );
+    mActorID = other.mActorID;
+    mSecsToRespawn = other.mSecsToRespawn;
+    mSecsToRespawnOriginal = other.mSecsToRespawnOriginal;
+    for (auto&& compload : other.mComponentLoaders)
+    {
+        int32_t i = compload.first;
+        mComponentLoaders.insert( i, static_cast<ActorCreator::ComponentLoader_t*>(compload.second->clone()) );
+    }
+    return *this;
+}
+
 RespawnActorMapElement::RespawnActorMapElement( int32_t Id )
     : MapElement( Id )
     , BaseInput()
@@ -22,6 +37,11 @@ RespawnActorMapElement::RespawnActorMapElement( int32_t Id )
     , mSecsToRespawnOriginal( 100 )
 {
     AddInputNodeId( SpawnNodeId() );
+}
+
+RespawnActorMapElement::RespawnActorMapElement( RespawnActorMapElement const& other )
+{
+    *this = other;
 }
 
 void RespawnActorMapElement::Load( Json::Value& setters )
@@ -79,6 +99,18 @@ double RespawnActorMapElement::GetSecsToRespawnOriginal()const
 void RespawnActorMapElement::AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader )
 {
     mComponentLoaders.insert( componentId, static_cast<ActorCreator::ComponentLoader_t*>( compLoader.release() ) );
+}
+
+
+Opt<PropertyLoaderBase<Component>> RespawnActorMapElement::GetComponentLoader( int32_t componentId )
+{
+    Opt<PropertyLoaderBase<Component>> r;
+    auto found = mComponentLoaders.find( componentId );
+    if (found != mComponentLoaders.end())
+    {
+        r = found->second;
+    }
+    return r;
 }
 
 void RespawnActorMapElement::Save( Json::Value& Element )

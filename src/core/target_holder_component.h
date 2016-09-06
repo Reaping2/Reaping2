@@ -31,6 +31,9 @@ void TargetHolderComponent::serialize( Archive& ar, const unsigned int version )
 
 class TargetHolderComponentLoader : public ComponentLoader<TargetHolderComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( TargetHolderComponentLoader )
+private:
     virtual void BindValues();
 protected:
     TargetHolderComponentLoader();

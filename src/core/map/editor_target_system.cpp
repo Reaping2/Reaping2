@@ -5,6 +5,7 @@
 #include "ui/ui.h"
 #include "../i_collision_component.h"
 #include <boost/assign/std/vector.hpp>
+#include "editor_back_event.h"
 
 namespace map {
 
@@ -14,6 +15,7 @@ EditorTargetSystem::EditorTargetSystem()
     , mTargetId( -1 )
     , mCursorPosition( 0.0, 0.0 )
     , mCursor( NULL )
+    , mNextUID( AutoId( "spawn_at_start" ) )
 {
 }
 
@@ -52,21 +54,24 @@ void EditorTargetSystem::Init()
     mItemVisualIds += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
     mItemActorIds = mItemVisualIds;
 
-    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete");
+    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"), AutoId("water"), AutoId("grass_tile"), AutoId("concrete"), AutoId( "end" ), AutoId( "rogue_grass200" ), AutoId( "rogue_wall100" ), AutoId( "rogue_wall50" ), AutoId( "rogue_wall100_background" ), AutoId( "rogue_wall50_background" );
     mMapitemActorIds = mMapitemVisualIds;
 
     mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(),
                             mTargetRepo( AutoId("ctf_soldier_spawn_red")).GetCursorId(),
                             mTargetRepo( AutoId("ctf_flag_spawn_blue")).GetCursorId(),
-                            mTargetRepo( AutoId("ctf_soldier_spawn_blue")).GetCursorId();
+                            mTargetRepo( AutoId("ctf_soldier_spawn_blue")).GetCursorId(),
+                            mTargetRepo( AutoId( "soldier_spawn" ) ).GetCursorId();
     mSpawnpointActorIds +=  AutoId("ctf_flag_spawn_red"),
                             AutoId("ctf_soldier_spawn_red"),
                             AutoId("ctf_flag_spawn_blue"),
-                            AutoId("ctf_soldier_spawn_blue");
-    mSpawnpointVisualBackground +=  0xaa000077,
-                                    0xaa000077,
-                                    0x0000aa77,
-                                    0x0000aa77;
+                            AutoId("ctf_soldier_spawn_blue"),
+                            AutoId( "soldier_spawn" );
+    mSpawnpointVisualBackground +=  0xaa0000ee,
+                                    0xaa0000ee,
+                                    0x0000aaee,
+                                    0x0000aaee,
+                                    0xeeeeeeee;
 
     mTargetActorIdsMap["spawnpoint"] = mSpawnpointActorIds;
     mTargetActorIdsMap["mapitem"] = mMapitemActorIds;
@@ -92,27 +97,16 @@ void EditorTargetSystem::Update( double DeltaTime )
 
 void EditorTargetSystem::TargetChanged( std::string const& targetType, int32_t targetIdx )
 {
-    if ( mCursor.IsValid() )
-    {
-        mScene.RemoveActor( mCursor->GetGUID() );
-    }
+    RemoveCursor();
     auto it = mTargetActorIdsMap.find( targetType );
     if ( it == mTargetActorIdsMap.end() )
     {
         return;
     }
     mTargetId = it->second[targetIdx];
-    std::auto_ptr<Actor> cursor( GetTarget().GetCursor() );
-    Opt<IPositionComponent> positionC( cursor->Get<IPositionComponent>() );
-    if ( positionC.IsValid() )
-    {
-        positionC->SetX( mCursorPosition.x );
-        positionC->SetY( mCursorPosition.y );
-    }
-    int32_t guid = cursor->GetGUID();
-    mScene.AddActor( cursor.release() );
-    mCursor = mScene.GetActor( guid );
-    Ui::Get().Load( "editor_hud" );
+    AddCursor();
+
+    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent() );
 }
 
 EditorTargetSystem::~EditorTargetSystem()
@@ -190,6 +184,53 @@ std::vector<int32_t> EditorTargetSystem::Spawnpoints()
 std::vector<int32_t> EditorTargetSystem::SpawnpointBackground()
 {
     return mSpawnpointVisualBackground;
+}
+
+int32_t EditorTargetSystem::GetNextUID() const
+{
+    return mNextUID;
+}
+
+void EditorTargetSystem::SetNextUID( int32_t uid )
+{
+    mNextUID = uid;
+}
+
+void EditorTargetSystem::PutTarget( glm::vec2 position )
+{
+    GetTarget().PutTarget( position );
+}
+
+void EditorTargetSystem::PutTarget( glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders )
+{
+    GetTarget().PutTarget( position, borders, outerBorders );
+}
+
+void EditorTargetSystem::RemoveCursor()
+{
+    if (mCursor.IsValid())
+    {
+        mScene.RemoveActor( mCursor->GetGUID() );
+    }
+    mCursor.Reset();
+}
+
+void EditorTargetSystem::AddCursor()
+{
+    if (mTargetId == -1 || mCursor.IsValid())
+    {
+        return;
+    }
+    std::auto_ptr<Actor> cursor( GetTarget().GetCursor() );
+    Opt<IPositionComponent> positionC( cursor->Get<IPositionComponent>() );
+    if (positionC.IsValid())
+    {
+        positionC->SetX( mCursorPosition.x );
+        positionC->SetY( mCursorPosition.y );
+    }
+    int32_t guid = cursor->GetGUID();
+    mScene.AddActor( cursor.release() );
+    mCursor = mScene.GetActor( guid );
 }
 
 } // namespace map

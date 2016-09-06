@@ -27,6 +27,9 @@ void HeatSourceComponent::serialize( Archive& ar, const unsigned int version )
 
 class HeatSourceComponentLoader : public ComponentLoader<HeatSourceComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( HeatSourceComponentLoader )
+private:
     virtual void BindValues();
 protected:
     HeatSourceComponentLoader();

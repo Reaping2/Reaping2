@@ -28,6 +28,7 @@ void HeadActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableC
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
         glm::vec4 col = GetCloakColor( actor );
+        col = col * GetColor( actor );
         renderableSprites.push_back(
             RenderableSprite( &actor, &renderableC, mHeadId, &Spr, &Phase, col ) );
     }

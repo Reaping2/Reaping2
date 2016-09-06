@@ -267,13 +267,13 @@ public:
     // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
     std::string CreateGetMemberFull( std::string memberType, std::string memberName )
     {
-        std::string r = memberType + " " + CreateGetMember( memberType, memberName ) + "()const";
+        std::string r = memberType + " " + CreateGetMember( memberType, memberName ) + "() const";
         return r;
     }
     // from int32_t,targetActor -> virtual void SetTargetActor(int32_t targetActor)
     std::string CreateSetMemberFull( std::string memberType, std::string memberName )
     {
-        std::string r = "void " + CreateSetMember( memberName ) + "(" + memberType + " " + memberName + ")";
+        std::string r = "void " + CreateSetMember( memberName ) + "( " + memberType + " " + memberName + " )";
         return r;
     }
     // from int32_t,targetActor -> virtual int32_t GetTargetActor()const
@@ -326,7 +326,7 @@ public:
     std::string CreateGetMemberCppDefiniton( std::string memberType, std::string memberName, std::string ClassCamelCase )
     {
 
-        std::string r = memberType + " " + ClassCamelCase + "::" + CreateGetMember( memberType, memberName ) + "()const\n";
+        std::string r = memberType + " " + ClassCamelCase + "::" + CreateGetMember( memberType, memberName ) + "() const\n";
         r = r + "{\n";
         r = r + "    return " + CreateMemberName( memberName ) + ";\n";
         r = r + "}\n";
@@ -342,9 +342,9 @@ public:
     //
     std::string CreateSetMemberCppDefiniton( std::string memberType, std::string memberName, std::string ClassCamelCase )
     {
-        std::string r = "void " + ClassCamelCase + "::" + CreateSetMember( memberName ) + "(" + memberType + " " + memberName + ")\n";
+        std::string r = "void " + ClassCamelCase + "::" + CreateSetMember( memberName ) + "( " + memberType + " " + memberName + " )\n";
         r = r + "{\n";
-        r = r + "    " + CreateMemberName( memberName ) + "=" + memberName + ";\n";
+        r = r + "    " + CreateMemberName( memberName ) + " = " + memberName + ";\n";
         r = r + "}\n";
         r = r + "\n";
         return r;
@@ -538,7 +538,7 @@ class ComponentGenerator : public Generator
         {
             std::auto_ptr<Generator> generator(GeneratorFactory::Get()(AutoId("system")));
             generator->command = command;
-            generator->classUnderscore = classUnderscore+"_system";
+            generator->classUnderscore = classUnderscore.substr( 0, classUnderscore.find( "_component" ) ) +"_system";
             generator->parentUnderscore = "";
             generator->namespaceLowerCase = "engine";
             generator->membersArg = membersArg;
@@ -591,8 +591,8 @@ class MapElementGenerator : public Generator
             fprintf( file.mFile, "{\n" );
             fprintf( file.mFile, "public:\n" );
             fprintf( file.mFile, "    DEFINE_MAP_ELEMENT_BASE(%sMapElement)\n", classCamelCase.c_str() );
-            fprintf( file.mFile, "    %sMapElement(int32_t Id);\n", classCamelCase.c_str() );
-            fprintf( file.mFile, "    void Load(Json::Value& setters);\n" );
+            fprintf( file.mFile, "    %sMapElement( int32_t Id );\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "    void Load( Json::Value& setters );\n" );
             for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
                 fprintf( file.mFile, "    %s;\n", CreateSetMemberFull( i->first, i->second ).c_str() );
@@ -622,19 +622,19 @@ class MapElementGenerator : public Generator
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "namespace %s {\n", namespaceLowerCase.c_str() );
             fprintf( file.mFile, "\n" );
-            fprintf( file.mFile, "%sMapElement::%sMapElement(int32_t Id)\n", classCamelCase.c_str(), classCamelCase.c_str() );
-            fprintf( file.mFile, "    : MapElement(Id)\n" );
+            fprintf( file.mFile, "%sMapElement::%sMapElement( int32_t Id )\n", classCamelCase.c_str(), classCamelCase.c_str() );
+            fprintf( file.mFile, "    : MapElement( Id )\n" );
             for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
-                fprintf( file.mFile, "    , %s(_fill_me_)\n",
+                fprintf( file.mFile, "    , %s( _fill_me_ )\n",
                          CreateMemberName( i->second ).c_str() );
             }
             fprintf( file.mFile, "{\n" );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
-            fprintf( file.mFile, "void %sMapElement::Load(Json::Value& setters)\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "void %sMapElement::Load( Json::Value& setters )\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
-            fprintf( file.mFile, "    MapElement::Load(setters);\n" );
+            fprintf( file.mFile, "    MapElement::Load( setters );\n" );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
 
@@ -938,12 +938,10 @@ class MapElementSystemGenerator : public Generator
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "void %s::Update(double DeltaTime)\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
-            fprintf( file.mFile, "    %s::Update(DeltaTime);\n", parentCamelCase.c_str() );
-            fprintf( file.mFile, "    MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),%s::GetType_static());\n", targetCamelCase.c_str() );
-            fprintf( file.mFile, "    for( MapElementListFilter<MapSystem::All>::const_iterator %sIt = mapElementListFilter.begin(), %sE = mapElementListFilter.end(); %sIt != %sE; ++%sIt )\n"
-                     , targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str(), targetVariableName.c_str() );
+            fprintf( file.mFile, "    %s::Update( DeltaTime );\n", parentCamelCase.c_str() );
+            fprintf( file.mFile, "    for( Opt<%s> %s : MapElementListFilter<MapSystem::All>( mMapSystem->GetMapElementList(), %s::GetType_static() ) )\n"
+                , targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
             fprintf( file.mFile, "    {\n" );
-            fprintf( file.mFile, "        Opt<%s> %s(*%sIt);\n", targetCamelCase.c_str() , targetVariableName.c_str(), targetVariableName.c_str() );
             fprintf( file.mFile, "    }\n" );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );

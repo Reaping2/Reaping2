@@ -6,6 +6,7 @@ namespace map {
 
 LevelGeneratedMapElementSystem::LevelGeneratedMapElementSystem()
     : MapElementSystem()
+    , mTerrainGenerated(false)
 {
 }
 
@@ -20,6 +21,11 @@ void LevelGeneratedMapElementSystem::Init()
 void LevelGeneratedMapElementSystem::Update( double DeltaTime )
 {
     MapElementSystem::Update( DeltaTime );
+    if (mTerrainGenerated)
+    {
+        EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::ActorsSpawned ) );
+        mTerrainGenerated = false;
+    }
 }
 
 void LevelGeneratedMapElementSystem::OnLevelGenerated(map::LevelGeneratedEvent const& Evt)
@@ -28,7 +34,15 @@ void LevelGeneratedMapElementSystem::OnLevelGenerated(map::LevelGeneratedEvent c
     for (MapElementListFilter<MapSystem::All>::const_iterator levelGeneratedMapElementIt = mapElementListFilter.begin(), levelGeneratedMapElementE = mapElementListFilter.end(); levelGeneratedMapElementIt != levelGeneratedMapElementE; ++levelGeneratedMapElementIt)
     {
         Opt<LevelGeneratedMapElement> levelGeneratedMapElement( *levelGeneratedMapElementIt );
-        levelGeneratedMapElement->DoOutputId( LevelGeneratedMapElement::GeneratedNodeId(), 1 );
+        if (Evt.mState == LevelGeneratedEvent::TerrainGenerated)
+        {
+            levelGeneratedMapElement->DoOutputId( LevelGeneratedMapElement::GeneratedNodeId(), 1 );
+            mTerrainGenerated = true;
+        }
+        else if (Evt.mState == LevelGeneratedEvent::ActorsSpawned)
+        {
+            levelGeneratedMapElement->DoOutputId( LevelGeneratedMapElement::ActorsSpawnedNodeId(), 1 );
+        }
     }
 }
 

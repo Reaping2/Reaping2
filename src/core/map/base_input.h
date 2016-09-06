@@ -16,6 +16,9 @@ public:
     void ResetValues();
     void ResetValueId( int32_t id );
     int32_t GetValueId( int32_t id ) const;
+    BaseInput& operator=( BaseInput const& other );
+    BaseInput( BaseInput const& other );
+    BaseInput() = default;
 protected:
     void AddInputNodeId( int32_t id, int_function_t inputNode );
     template<typename BASE, typename FUN>

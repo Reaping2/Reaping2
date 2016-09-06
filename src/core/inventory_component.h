@@ -50,6 +50,9 @@ void InventoryComponent::serialize( Archive& ar, const unsigned int version )
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( InventoryComponentLoader )
+private:
     virtual void BindValues();
 protected:
     InventoryComponentLoader();

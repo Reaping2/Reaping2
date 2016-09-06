@@ -24,6 +24,9 @@ void ExplodeOnDeathComponent::serialize( Archive& ar, const unsigned int version
 
 class ExplodeOnDeathComponentLoader : public ComponentLoader<ExplodeOnDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ExplodeOnDeathComponentLoader )
+private:
     virtual void BindValues();
 protected:
     ExplodeOnDeathComponentLoader();

@@ -31,6 +31,9 @@ void DropOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 
 class DropOnDeathComponentLoader: public ComponentLoader<DropOnDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( DropOnDeathComponentLoader )
+private:
     virtual void BindValues();
 public:
     DropOnDeathComponentLoader();

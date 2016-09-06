@@ -25,6 +25,9 @@ void WallCollisionComponent::serialize( Archive& ar, const unsigned int version 
 
 class WallCollisionComponentLoader: public ComponentLoader<WallCollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( WallCollisionComponentLoader )
+private:
     virtual void BindValues();
 protected:
     WallCollisionComponentLoader();

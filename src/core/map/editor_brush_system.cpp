@@ -3,6 +3,7 @@
 #include "engine/engine.h"
 #include "ui/ui.h"
 #include <boost/assign/std/vector.hpp>
+#include "editor_back_event.h"
 
 namespace map {
 
@@ -34,7 +35,7 @@ void EditorBrushSystem::Update( double DeltaTime )
 void EditorBrushSystem::BrushChanged( std::string const& brush )
 {
     mBrushId = AutoId( brush );
-    Ui::Get().Load( "editor_hud" );
+    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent() );
 }
 
 EditorBrushSystem::~EditorBrushSystem()

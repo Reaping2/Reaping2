@@ -2,7 +2,6 @@
 #define INCLUDED_MAP_LEVEL_GENERATOR_MAP_ELEMENT_SYSTEM_H
 
 #include "core/map/map_element_system.h"
-#include "level_generator_repo.h"
 
 namespace map {
 
@@ -14,8 +13,6 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-private:
-    LevelGeneratorRepo& mLevelGeneratorRepo;
 };
 
 } // namespace map

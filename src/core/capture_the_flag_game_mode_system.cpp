@@ -15,6 +15,10 @@
 #include "engine/client_score_event.h"
 #include "free_for_all_game_mode_system.h"
 #include "rogue_game_mode_system.h"
+#include "map/editor_brush_system.h"
+#include "map/editor_grid_system.h"
+#include "map/editor_target_system.h"
+#include "map/room_editor_system.h"
 
 namespace core {
 
@@ -80,7 +84,11 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode( core::StartGameModeEvent con
     ::engine::Engine::Get().SetEnabled< ::engine::SoldierSpawnSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::engine::ctf::CtfSoldierSpawnSystem>( true );
     ::engine::Engine::Get().SetEnabled< ::map::EditorSoldierSpawnSystem>( false );
+    ::engine::Engine::Get().SetEnabled< ::map::RoomEditorSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::map::EditorSystem>( false );
+    ::engine::Engine::Get().SetEnabled< ::map::EditorTargetSystem>( false );
+    ::engine::Engine::Get().SetEnabled< ::map::EditorGridSystem>( false );
+    ::engine::Engine::Get().SetEnabled< ::map::EditorBrushSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( true );
     ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( false );

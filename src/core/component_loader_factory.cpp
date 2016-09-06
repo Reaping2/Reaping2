@@ -47,6 +47,8 @@
 #include "audible_component.h"
 #include "remove_components_on_death_component.h"
 #include "rotate_component.h"
+#include "cell_component.h"
+#include "level_end_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -109,6 +111,8 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "detonate_on_hit_component" ), &CreateComponentLoader<DetonateOnHitComponentLoader> );
     Bind( AutoId( "audible_component" ), &CreateComponentLoader<AudibleComponentLoader> );
     Bind( AutoId( "remove_components_on_death_component" ), &CreateComponentLoader<RemoveComponentsOnDeathComponentLoader> );
+    Bind( AutoId( "cell_component" ), &CreateComponentLoader<CellComponentLoader> );
+    Bind( AutoId( "level_end_component" ), &CreateComponentLoader<LevelEndComponentLoader> );
 }
 
 void DefaultComponentLoader::BindValues()

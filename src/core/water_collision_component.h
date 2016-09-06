@@ -27,6 +27,9 @@ void WaterCollisionComponent::serialize( Archive& ar, const unsigned int version
 
 class WaterCollisionComponentLoader : public ComponentLoader<WaterCollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( WaterCollisionComponentLoader )
+private:
     virtual void BindValues();
 protected:
     WaterCollisionComponentLoader();

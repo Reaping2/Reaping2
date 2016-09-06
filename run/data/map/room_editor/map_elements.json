@@ -1,0 +1,19 @@
+[
+    {
+        "name":"map_start",
+        "identifier":"map_start"
+    },
+    {
+        "name":"spawn_soldiers",
+        "identifier":"spawn_soldiers"
+    },
+    {
+        "name":"level_generated",
+        "identifier":"level_generated"
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":0},
+        "to":{"identifier":"spawn_at_start","node":0}
+    }    
+]

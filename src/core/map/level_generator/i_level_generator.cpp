@@ -11,15 +11,21 @@ ILevelGenerator::ILevelGenerator( int32_t Id )
     : mId( Id )
     , mScene( Scene::Get() )
 {
-    mCellSize = Settings::Get().GetInt( "generator.cell_size", 1000 );
-    mCellCount = Settings::Get().GetInt( "generator.cell_count", 5 );
-    mRand.seed( Settings::Get().GetUInt( "generator.seed", unsigned( std::time( 0 ) ) ) );
+    mRand.seed( unsigned( std::time( 0 ) ) );
 }
 
 
 ILevelGenerator::~ILevelGenerator()
 {
 
+}
+
+
+void ILevelGenerator::Load( Json::Value& setters )
+{
+    Json::GetInt( setters["cell_size"], mCellSize );
+    Json::GetInt( setters["cell_count"], mCellCount );
+    Json::GetUInt( setters["seed"], mSeed );
 }
 
 void ILevelGenerator::AddPossibleRoom( int32_t roomId, int32_t possibility )
@@ -30,6 +36,17 @@ void ILevelGenerator::AddPossibleRoom( int32_t roomId, int32_t possibility )
     }
 }
 
+
+DefaultLevelGenerator::DefaultLevelGenerator( int32_t Id )
+    : ILevelGenerator( Id )
+{
+
+}
+
+void DefaultLevelGenerator::Generate()
+{
+
+}
 
 } // namespace map
 

@@ -1,0 +1,20 @@
+[
+   {
+      "cell_count" : 2,
+      "cell_size" : 600,
+      "cells" : [
+      ],
+      "map_elements" : [
+         
+      ],
+      "name" : "test_vert",
+      "plain_properties" : [ "start", "end" ],
+      "properties" : [
+         {
+            "chance" : 100,
+            "name" : "spawn",
+            "targets" : [ "spawn_at_level_generated" ]
+         }
+      ]
+   }
+]

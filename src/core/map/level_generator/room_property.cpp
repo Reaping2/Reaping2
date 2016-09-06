@@ -26,5 +26,10 @@ int32_t RoomProperty::operator()( Type type ) const
     return (i!=mIdToRoomPropertyMap.right.end())?i->second:RoomProperty::Start;
 }
 
+RoomProperty::IdToRoomPropertyMap_t const& RoomProperty::GetIdToRoomPropertyMap()
+{
+    return mIdToRoomPropertyMap;
+}
+
 } // namespace map
 

@@ -31,6 +31,9 @@ void ArmorComponent::serialize( Archive& ar, const unsigned int version )
 
 class ArmorComponentLoader : public ComponentLoader<ArmorComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ArmorComponentLoader )
+private:
     virtual void BindValues();
 protected:
     ArmorComponentLoader();

@@ -34,6 +34,7 @@ void CtfHeadColorActionRenderer::FillRenderableSprites( const Actor& actor, IRen
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
             glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
             col.a = GetCloakColor( actor ).a;
+            col = col * GetColor( actor );
             renderableSprites.push_back(
                 RenderableSprite( &actor, &renderableC, mCtfHeadColorId, &Spr, &Phase, col ) );
         }

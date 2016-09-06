@@ -72,12 +72,17 @@ void RoomRepo::Init()
     }
 }
 
+platform::Repository<IRoom>::ElementMap_t const& RoomRepo::GetElements()
+{
+    return mElements;
+}
+
 DefaultRoom::DefaultRoom()
     : IRoom( -1 )
 {
 }
 
-void DefaultRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void DefaultRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
 
 }

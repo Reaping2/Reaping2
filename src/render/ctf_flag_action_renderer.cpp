@@ -34,7 +34,7 @@ void CtfFlagActionRenderer::FillRenderableSprites( const Actor& actor, IRenderab
         {
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
             renderableSprites.push_back(
-                RenderableSprite( &actor, &renderableC, mCtfFlagId, &Spr, &Phase,  mColorRepo( teamC->GetTeam() ) ) );
+                RenderableSprite( &actor, &renderableC, mCtfFlagId, &Spr, &Phase, mColorRepo( teamC->GetTeam() )*GetColor( actor ) ) );
         }
     }
 }

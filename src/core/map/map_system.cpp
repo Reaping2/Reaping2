@@ -3,6 +3,7 @@
 #include "platform/auto_id.h"
 #include "core/map_loaded_event.h"
 #include "engine/engine.h"
+#include "map_element_removed_event.h"
 
 namespace map {
 
@@ -110,11 +111,67 @@ void MapSystem::RemoveMapElement( int32_t spawnedActorGUID )
     {
         if ( ( *it )->GetSpawnedActorGUID() == spawnedActorGUID )
         {
+            EventServer<MapElementRemovedEvent>::Get().SendEvent( MapElementRemovedEvent( *it ) );
             delete ( *it ).Get();
             mMapElementHolder.mAllMapElements.erase( it );
             return;
         }
     }
+}
+
+Opt<MapElement> MapSystem::GetMapElement( int32_t spawnedActorGUID )
+{
+    for (auto mapElement : mMapElementHolder.mAllMapElements)
+    {
+        if (mapElement->GetSpawnedActorGUID() == spawnedActorGUID)
+        {
+            return mapElement;
+        }
+    }
+    return Opt<MapElement>();
+}
+
+int32_t MapSystem::GetNextUniqueSpawnIndex( std::string const& startsWith )
+{
+    int max = 0;
+    static IdStorage& idStorage = IdStorage::Get();
+    for (auto mapElement : MapSystem::Get()->GetMapElementList())
+    {
+        try
+        {
+            std::string mapElementUName;
+            if (idStorage.GetName( mapElement->GetIdentifier(), mapElementUName ))
+            {
+                if (boost::starts_with( mapElementUName, startsWith ))
+                {
+                    max = std::max( std::stoi( mapElementUName.substr( 1 ) ), max );
+                }
+            }
+        }
+        catch (...) {}
+    }
+    return ++max;
+}
+
+MapElementHolder::MapElementHolder( MapElementHolder const& holder )
+{
+    for (auto elem : holder.mAllMapElements)
+    {
+        mAllMapElements.insert(elem->clone());
+    }
+}
+
+
+MapElementIdentifierModifier::MapElementIdentifierModifier( int32_t newIdentifier )
+    : mNewIdentifier( newIdentifier )
+{
+
+}
+
+
+void MapElementIdentifierModifier::operator()( Opt<MapElement>& mapElement )
+{
+    mapElement->SetIdentifier( mNewIdentifier );
 }
 
 } // namespace map

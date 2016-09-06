@@ -31,6 +31,9 @@ void FadeOutComponent::serialize( Archive& ar, const unsigned int version )
 
 class FadeOutComponentLoader: public ComponentLoader<FadeOutComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( FadeOutComponentLoader )
+private:
     virtual void BindValues();
 public:
     FadeOutComponentLoader();

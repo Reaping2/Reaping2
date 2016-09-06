@@ -39,6 +39,9 @@ void ExplosionComponent::serialize( Archive& ar, const unsigned int version )
 
 class ExplosionComponentLoader : public ComponentLoader<ExplosionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ExplosionComponentLoader )
+private:
     virtual void BindValues();
     ExplosionComponentLoader();
 protected:

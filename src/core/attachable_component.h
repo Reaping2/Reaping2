@@ -49,6 +49,9 @@ void AttachableComponent::serialize( Archive& ar, const unsigned int version )
 
 class AttachableComponentLoader : public ComponentLoader<AttachableComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( AttachableComponentLoader )
+private:
     virtual void BindValues();
 public:
     AttachableComponentLoader();

@@ -3,6 +3,7 @@
 #include "core/i_border_component.h"
 #include "platform/id_storage.h"
 #include "core/i_collision_component.h"
+#include "idle_action_renderer.h"
 
 namespace render {
 
@@ -17,6 +18,11 @@ BorderActionRenderer::BorderActionRenderer( int32_t Id )
 
 void BorderActionRenderer::Init( Actor const& actor )
 {
+    mSprites.clear();
+    mBorders.clear();
+    mBorderIds.clear();
+    mOuterBorders.clear();
+    mOuterBorderIds.clear();
     static BorderType& mBorderType = BorderType::Get();
     static IdStorage& mIdStorage = IdStorage::Get();
     Opt<IBorderComponent> borderC = actor.Get<IBorderComponent>();
@@ -35,7 +41,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         std::string borderName;
         if( mIdStorage.GetName( mBorderType( *i ), borderName ) )
         {
-            mBorderIds.push_back( mIdStorage.GetId( actorName + "_" + borderName ) );
+            mBorderIds.push_back( 
+                IdleActionRenderer::GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName ) ) );
         }
     }
     mOuterBorders = borderC->GetOuterBorders();
@@ -44,7 +51,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         std::string borderName;
         if( mIdStorage.GetName( mBorderType( *i ), borderName ) )
         {
-            mOuterBorderIds.push_back( mIdStorage.GetId( actorName + "_" + borderName + "_outer" ) );
+            mOuterBorderIds.push_back( 
+                IdleActionRenderer::GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName + "_outer") ) );
         }
     }
     double scale = 1.0;
@@ -77,15 +85,20 @@ void BorderActionRenderer::Init( Actor const& actor )
             mSprites.emplace_back( glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize ), Spr );
         }
     }
+    mActorColor = GetColor( actor );
 }
 
 
 void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
+    if (actor.Get<IBorderComponent>()->IsChanged())
+    {
+        Init( actor );
+    }
     for( auto const& data : mSprites )
     {
         SpritePhase const& Phase = data.Spr( ( int32_t )GetState() );
-        RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &data.Spr, &Phase/*, color*/ );
+        RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &data.Spr, &Phase, mActorColor );
         renderableSprite.RelativePosition = data.RelativePosition;
         renderableSprites.push_back( renderableSprite );
     }

@@ -29,6 +29,9 @@ void FlagCollisionComponent::serialize( Archive& ar, const unsigned int version 
 
 class FlagCollisionComponentLoader : public ComponentLoader<FlagCollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( FlagCollisionComponentLoader )
+private:
     virtual void BindValues();
 public:
     FlagCollisionComponentLoader();

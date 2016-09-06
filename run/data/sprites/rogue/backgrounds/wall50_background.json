@@ -1,0 +1,716 @@
+[
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_1"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_top_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_top"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_top_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_top_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_top_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_top_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_right_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_right"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_right_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_right_1"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_right_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_right_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottom_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottom"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottom_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottom_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottom_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottom_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_left_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_left"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_left_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_left_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_left_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_left_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topright"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topright_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topright_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topright_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topright_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomright"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomright_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomright_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomright_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomright_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomleft"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomleft_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomleft_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomleft_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomleft_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topleft"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topleft_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topleft_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topleft_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topleft_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_top_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_top_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_top_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_top_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_top_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_top_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_right_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_right_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_right_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_right_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_right_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_right_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottom_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottom_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottom_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottom_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottom_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottom_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_left_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_left_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_left_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_left_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_left_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_left_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topright_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topright_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topright_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topright_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topright_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topright_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomright_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomright_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomright_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomright_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomright_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomright_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomleft_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomleft_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomleft_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomleft_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_bottomleft_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_bottomleft_outer_2"
+        }]
+    },
+    {
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topleft_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topleft_outer"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topleft_outer_border_1.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topleft_outer_1"
+        }]
+    },
+	{
+        "texture_path":"textures/rogue/backgrounds/wall50_background_topleft_outer_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_wall50_background_topleft_outer_2"
+        }]
+    }
+]

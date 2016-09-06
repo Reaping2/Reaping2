@@ -43,6 +43,7 @@ void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
             SpritePhase const& Phase = Spr( ( int32_t )GetState() );
             glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
             col.a = GetCloakColor( actor ).a;
+            col = col * GetColor( actor );
             renderableSprites.push_back(
                 RenderableSprite( &actor, &renderableC, mCtfHatId, &Spr, &Phase, col ) );
         }

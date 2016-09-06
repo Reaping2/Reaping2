@@ -17,6 +17,10 @@
 #include "../i_renderable_component.h"
 #include "input/keyboard_adapter_system.h"
 #include <boost/assign/std/vector.hpp>
+#include "editor_back_event.h"
+#include "room_editor_system.h"
+#include "editor_mode_changed_event.h"
+#include "editor_hud_state.h"
 
 namespace map {
 
@@ -25,20 +29,16 @@ EditorSystem::EditorSystem()
     , mEditorModel( "editor", &RootModel::Get() )
     , mStartModel( VoidFunc( this, &EditorSystem::Start ), "start", &mEditorModel )
     , mLoadModel( StringFunc( this, &EditorSystem::Load ), "load", &mEditorModel )
+    , mModeModel( StringFunc( this, &EditorSystem::ModeSelect ), "mode", &mEditorModel )
     , mSaveModel( VoidFunc( this, &EditorSystem::Save ), "save", &mEditorModel )
-    , mLayerModel( StringFunc( this, &EditorSystem::LayerSelect ), "layer", &mEditorModel )
-    , mLayerNamesModel( (ModelValue::get_string_vec_t) boost::bind( &EditorSystem::LayerNames, this ), "names", &mLayerModel )
     , mLevelModel( (ModelValue::get_string_vec_t) boost::bind(&EditorSystem::LevelNames, this),"levels", &mEditorModel )
     , mX( 0 )
     , mY( 0 )
+    , mEditorMode()
     , mCurrentMovement( 0 )
     , mLevelName()
-    , mHudState( false )
-    , mSpaceTyped( false )
     , mTimer()
     , mAutoSaveOn( false )
-    , mEditorLayerType( EditorLayer::Target )
-    , mEditorLayer( EditorLayer::Get() )
 {
     mTimer.SetFrequency( 25000 );
 }
@@ -50,16 +50,31 @@ void EditorSystem::Init()
     mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
     mRenderer = engine::Engine::Get().GetSystem<engine::RendererSystem>();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &EditorSystem::OnKeyEvent, this, _1 ) );
+    mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &EditorSystem::OnEditorBack, this, _1 ) );
     using namespace boost::assign;
-    mLayerNames += "any", "target";
     mLevelNames += "level1", "level2", "level3", "level4", "level5";
+}
+
+void EditorSystem::OnEditorBack( map::EditorBackEvent const& Evt )
+{
+    if (mEnabled)
+    {
+        if (Evt.mBackToBaseHud)
+        {
+             Ui::Get().Load( "editor_base_hud" );
+             EditorHudState::Get().SetHudShown( false );
+        }
+    }
 }
 
 void EditorSystem::Start()
 {
     ::engine::Engine::Get().SetEnabled< ::engine::ControllerSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::engine::CollisionSystem>( false );
+    ::engine::Engine::Get().SetEnabled< EditorSystem>( true );
+    ::engine::Engine::Get().SetEnabled< RoomEditorSystem>( false );
     RespawnActorMapElementSystem::Get()->SetRespawnOnDeath( false ); //to be able to delete target actors
+    EditorTargetSystem::Get()->SetNextUID( AutoId( "spawn_at_start" ) );
 }
 
 void EditorSystem::Load( std::string const& level )
@@ -74,6 +89,7 @@ void EditorSystem::Load( std::string const& level )
 
     mScene.Load( level );
     Ui::Get().Load( "editor_base_hud" );
+    EditorHudState::Get().SetHudShown( false );
     mAutoSaveOn = true;
 }
 
@@ -122,36 +138,27 @@ void EditorSystem::Update( double DeltaTime )
         currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
     }
     currentKeyMovement |= mCurrentMovement;
-    if ( !mHudState )
+    if ( !EditorHudState::Get().IsHudShown() )
     {
         mX += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Right ) ? 1 : 0 ) );
         mY += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Down ) ? -1 : 0 ) );
     }
-    if( mKeyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Down )
+    if ( mKeyboard->GetKey(GLFW_KEY_M).State == KeyState::Typed )
     {
-        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
-    }
-    if ( mSpaceTyped )
-    {
-        mSpaceTyped = false;
-        if ( mHudState )
+        if (EditorHudState::Get().IsHudShown())
         {
-            Ui::Get().Load( "editor_base_hud" );
-            ::engine::Engine::Get().SetEnabled<EditorGridSystem>( true );
-            ::engine::Engine::Get().SetEnabled<EditorTargetSystem>( true );
-            ::engine::Engine::Get().SetEnabled<EditorBrushSystem>( true );
-            mHudState = false;
+            EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent( true ) );
         }
         else
         {
+            EditorHudState::Get().SetHudShown( true );
             Ui::Get().Load( "editor_hud" );
-            ::engine::Engine::Get().SetEnabled<EditorGridSystem>( false );
-            ::engine::Engine::Get().SetEnabled<EditorTargetSystem>( false );
-            ::engine::Engine::Get().SetEnabled<EditorBrushSystem>( false );
-            mHudState = true;
+            EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
+            mEditorMode = "mode_select";
         }
     }
 }
+
 void EditorSystem::OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt )
 {
     int w, h;
@@ -279,16 +286,10 @@ void EditorSystem::Save()
 
 void EditorSystem::OnKeyEvent( const KeyEvent& Event )
 {
-    if( Event.Key == GLFW_KEY_SPACE && Event.State == KeyState::Up )
+    if (!mEnabled)
     {
-        mSpaceTyped = true;
+        return;
     }
-}
-
-void EditorSystem::LayerSelect( std::string const& layer )
-{
-    mEditorLayerType = mEditorLayer( IdStorage::Get().GetId( layer ) );
-    Ui::Get().Load( "editor_hud" );
 }
 
 Opt<EditorSystem> EditorSystem::Get()
@@ -296,20 +297,17 @@ Opt<EditorSystem> EditorSystem::Get()
     return engine::Engine::Get().GetSystem<EditorSystem>();
 }
 
-EditorLayer::Type EditorSystem::GetEditorLayerType()
-{
-    return mEditorLayerType;
-}
-
-std::vector<std::string> EditorSystem::LayerNames()
-{
-    return mLayerNames;
-}
-
 std::vector<std::string> EditorSystem::LevelNames()
 {
     return mLevelNames;
 }
+
+void EditorSystem::ModeSelect( std::string const& mode )
+{
+    EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( mode, mEditorMode ) );
+    mEditorMode = mode;
+}
+
 
 } // namespace map
 
