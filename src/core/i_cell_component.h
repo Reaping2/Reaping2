@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_CELL_COMPONENT_H
 
 #include "component.h"
-#include "map\level_generator\room_desc.h"
+#include "map/level_generator/room_desc.h"
 
 class ICellComponent : public Component
 {
