@@ -66,7 +66,7 @@
                     "x":-0.05,
                     "y":0.98,
                     "w":1.08,
-                    "h":-0.3,
+                    "h":-0.56,
                     "visible":1,
                     "enabled":1,
                     "color":"0x22222255",
@@ -80,31 +80,31 @@
                     "direction":"horizontal",
                     "color":"0xffffff",
                     "x":0.0,
-                    "y":0.0,
+                    "y":0.5,
                     "w":0.5,
-                    "h":1.0,
+                    "h":0.4,
                     "visible":1,
                     "enabled":0,
                     "cols":1,
                     "rows":10,
                     "children":[
                         {
-                            "type":"text_widget","x":0.0,"y":0.93,
+                            "type":"text_widget","x":0.0,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Name","fontsize":3
                         },
                         {
-                            "type":"text_widget","x":0.25,"y":0.93,
+                            "type":"text_widget","x":0.4,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Kill","fontsize":3
                         },
                         {
-                            "type":"text_widget","x":0.5,"y":0.93,
+                            "type":"text_widget","x":0.6,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Death","fontsize":3
                         },
                         {
-                            "type":"text_widget","x":0.75,"y":0.93,
+                            "type":"text_widget","x":0.8,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Score","fontsize":3
                         }
@@ -126,7 +126,7 @@
                             "type":"text_widget",
                             "color":"0xffffff",
                             "visible":1,
-                            "x":0.25,
+                            "x":0.40,
                             "y":0.0,
                             "w":1.0,
                             "h":1.0,
@@ -138,7 +138,7 @@
                             "type":"text_widget",
                             "color":"0xffffff",
                             "visible":1,
-                            "x":0.5,
+                            "x":0.6,
                             "y":0.0,
                             "w":1.0,
                             "h":1.0,
@@ -150,7 +150,7 @@
                             "type":"text_widget",
                             "color":"0xffffff",
                             "visible":1,
-                            "x":0.75,
+                            "x":0.8,
                             "y":0.0,
                             "w":1.0,
                             "h":1.0,
@@ -167,31 +167,31 @@
                     "direction":"horizontal",
                     "color":"0xffffff",
                     "x":0.5,
-                    "y":0.0,
+                    "y":0.5,
                     "w":0.5,
-                    "h":1.0,
+                    "h":0.4,
                     "visible":1,
                     "enabled":0,
                     "cols":1,
                     "rows":10,
                     "children":[
                         {
-                            "type":"text_widget","x":0.0,"y":0.93,
+                            "type":"text_widget","x":0.0,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Name","fontsize":3
                         },
                         {
-                            "type":"text_widget","x":0.25,"y":0.93,
+                            "type":"text_widget","x":0.4,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Kill","fontsize":3
                         },
                         {
-                            "type":"text_widget","x":0.5,"y":0.93,
+                            "type":"text_widget","x":0.6,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Death","fontsize":3
                         },
                         {
-                            "type":"text_widget","x":0.75,"y":0.93,
+                            "type":"text_widget","x":0.8,"y":0.96,
                             "w":1.0,"h":0.1,"color":"0xFFFFFF","visible":1,"enabled":0,
                             "text":"Score","fontsize":3
                         }
@@ -213,7 +213,7 @@
                             "type":"text_widget",
                             "color":"0xffffff",
                             "visible":1,
-                            "x":0.25,
+                            "x":0.4,
                             "y":0.0,
                             "w":1.0,
                             "h":1.0,
@@ -225,7 +225,7 @@
                             "type":"text_widget",
                             "color":"0xffffff",
                             "visible":1,
-                            "x":0.5,
+                            "x":0.6,
                             "y":0.0,
                             "w":1.0,
                             "h":1.0,
@@ -237,7 +237,7 @@
                             "type":"text_widget",
                             "color":"0xffffff",
                             "visible":1,
-                            "x":0.75,
+                            "x":0.8,
                             "y":0.0,
                             "w":1.0,
                             "h":1.0,
