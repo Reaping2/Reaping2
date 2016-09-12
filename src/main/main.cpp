@@ -476,6 +476,7 @@ int main( int argc, char* argv[] )
     {
         Eng.AddSystem( AutoId( "removed_actors_system" ) );
     }
+    Eng.AddSystem(AutoId("level_selection_system"));
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>( true ); //just for testing
 
