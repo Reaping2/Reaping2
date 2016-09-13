@@ -49,6 +49,13 @@ void TextSceneRenderer::Draw()
         UiVertexInserter_t Inserter( Vertices );
         Text const& text = *i;
         TextUiModel::CollectVertices( text, Inserter, false );
+        for( size_t i = 0; i + 5 < Vertices.size(); i += 6 )
+        {   // for every 6 vertex: swap top-bottom texcoord
+            using std::swap;
+            swap( Vertices[i].TexCoord.y, Vertices[i+1].TexCoord.y );
+            swap( Vertices[i+2].TexCoord.y, Vertices[i+4].TexCoord.y );
+            swap( Vertices[i+3].TexCoord.y, Vertices[i+5].TexCoord.y );
+        }
         for( auto& Vert : Vertices )
         {
             Positions.push_back( Vert.Pos );

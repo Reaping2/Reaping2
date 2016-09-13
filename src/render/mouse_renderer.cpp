@@ -86,7 +86,6 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         //         }
         siz += mouseSize;
         Sizes.push_back( ( GLfloat )( siz ) );
-        Sizes.push_back( ( GLfloat )( siz ) );
         Text text( 80.0, glm::vec4( mX, mY - 80, 500, 500 ), glm::vec4( mouseColor, 0.7 ),
                    weapon->GetMouseText(), true );
         textSceneRenderer.AddText( text );
