@@ -10,7 +10,7 @@
 namespace engine {
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )
-    , mUiProjector( 0.0f, 100.0f, Projection::VM_Fixed )
+    , mUiProjector( 100.0f, 0.0f, Projection::VM_Fixed )
     , mCamera( mWorldProjector )
     , mUi( Ui::Get() )
     , mDecalEngine( DecalEngine::Get() )

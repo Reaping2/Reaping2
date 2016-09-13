@@ -62,7 +62,7 @@ Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
 
 SpritePhase const& Sprite::operator()( int32_t Phase ) const
 {
-    int32_t SprPhase = ( int32_t )(( Phase * mSteps ) / 100. );
+    int32_t SprPhase = std::min( (int32_t)mSteps - 1, ( int32_t )(( Phase * mSteps ) / 100. ) );
     return RepoBase::operator()( SprPhase );
 }
 
