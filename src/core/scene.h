@@ -167,7 +167,7 @@ public:
 class Scene : public platform::Singleton<Scene>
 {
 public:
-    typedef std::list<Actor*> Actors_t;
+    typedef std::vector<Actor*> Actors_t;
 private:
     ActorHolder mActorHolder;
     typedef std::list< Opt<Actor> > NewActorList_t;

@@ -65,16 +65,15 @@ void CollisionSystem::Update( double DeltaTime )
             BCollisionSS->Collide( B, A );
         }
     }
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+        Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
         if ( collisionC.IsValid() )
         {
             Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
             if ( collisionSS.IsValid() )
             {
-                collisionSS->Update( actor, DeltaTime );
+                collisionSS->Update( *actor, DeltaTime );
             }
         }
     }
