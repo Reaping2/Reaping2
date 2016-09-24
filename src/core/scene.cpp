@@ -137,6 +137,7 @@ Scene::~Scene()
     }
     mActorHolder.mAllActors.clear();
     mPlayerModels.clear();
+    mActorMap.clear();
 }
 
 void Scene::SetType( std::string const& Type )
@@ -169,6 +170,7 @@ void Scene::Load( std::string const& Level )
         delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
+    mActorMap.clear();
     SetType( "grass" );
 
     EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent() );
@@ -204,6 +206,7 @@ void Scene::RemoveActor( ActorList_t::iterator it )
     L2( "removeActor it (GUID:%d)\n", ( *it )->GetGUID() );
     delete ( *it ).Get();
     mActorHolder.mAllActors.erase( it );
+    RemoveFromActorMap( it->Get() );
 }
 
 void Scene::RemoveActor( int32_t guid )
@@ -340,6 +343,7 @@ void Scene::InsertNewActors()
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Added ) );
         L2( "new actor inserted at update (GUID:%d)\n", ( *it )->GetGUID() );
         mActorHolder.mAllActors.insert( *it );
+        AddToActorMap( it->Get() );
     }
     mNewActors.clear();
 }
@@ -367,7 +371,12 @@ void Scene::SetActors( ActorList_t& actors, bool withAddActorEvents/*=true*/ )
         delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
+    mActorMap.clear();
     mActorHolder.mAllActors = actors;
+    for (auto actor : mActorHolder.mAllActors)
+    {
+        AddToActorMap( actor.Get() );
+    }
     if ( withAddActorEvents )
     {
         for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
@@ -391,7 +400,6 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
         mActorHolder.mAllActors.insert( *it );
     }
     mNewActors.clear();
-
     for( ActorList_t::iterator it = mActorHolder.mAllActors.begin(), e = mActorHolder.mAllActors.end(); it != e; ++it )
     {
         if ( withEvents )
@@ -402,6 +410,7 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
         delete ( *it ).Get();
     }
     mActorHolder.mAllActors.clear();
+    mActorMap.clear();
 }
 
 void Scene::SelectGameMode( std::string const& GameMode )
@@ -410,4 +419,35 @@ void Scene::SelectGameMode( std::string const& GameMode )
     core::GamemodeSelectedEvent event;
     event.mGameMode = GameMode;
     EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );
+}
+
+void Scene::AddValidator( int32_t Id, Validator_t validator )
+{
+    mValidatorMap.emplace( Id, validator );
+}
+
+void Scene::AddToActorMap( Actor* actor )
+{
+    for (auto&& validator : mValidatorMap)
+    {
+        if (validator.second( *actor ))
+        {
+            mActorMap[validator.first].push_back( actor );
+        }
+    }
+}
+
+void Scene::RemoveFromActorMap( Actor* actor )
+{
+    for (auto&& actors : mActorMap)
+    {
+        actors.second.remove( actor );
+    }
+}
+
+Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )
+{
+    auto found = mActorMap.find( Id );
+    static Actors_t emptyActors;
+    return ( found != mActorMap.end() ? found->second : emptyActors );
 }

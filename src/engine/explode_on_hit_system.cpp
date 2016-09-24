@@ -15,24 +15,25 @@ ExplodeOnHitSystem::ExplodeOnHitSystem()
 
 void ExplodeOnHitSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IExplodeOnHitComponent>().IsValid(); } );
 }
 
 
 void ExplodeOnHitSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for( auto actor : mScene.GetActorsFromMap( GetType_static() ) )
     {
-        Actor& actor = **it;
-        Opt<IExplodeOnHitComponent> explodeOnHitC = actor.Get<IExplodeOnHitComponent>();
+        Opt<IExplodeOnHitComponent> explodeOnHitC = actor->Get<IExplodeOnHitComponent>();
         if ( !explodeOnHitC.IsValid() || !explodeOnHitC->IsExploded() )
         {
             continue;
         }
         WeaponItemSubSystem::Projectiles_t projectiles;
-        ExplodeOnDeathSystem::FillExplosionProjectiles( *explodeOnHitC.Get(), actor, projectiles );
+        ExplodeOnDeathSystem::FillExplosionProjectiles( *explodeOnHitC.Get(), *actor, projectiles );
         Scatter scatter;
-        WeaponItemSubSystem::Get()->AddProjectiles( actor, projectiles, scatter );
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        WeaponItemSubSystem::Get()->AddProjectiles( *actor, projectiles, scatter );
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if( healthC.IsValid() )
         {
             healthC->SetHP( 0 );

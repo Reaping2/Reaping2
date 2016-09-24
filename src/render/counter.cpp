@@ -10,7 +10,7 @@ Counts_t count( GeneratorFunc f )
     size_t Start = 0;
     while( f ( NextTexId ) )
     {
-        if( TexId != NextTexId )
+        if( TexId != NextTexId /*&& TexId == -1*/ )
         {
             if( Count )
             {

@@ -21,19 +21,21 @@ ExplodeOnDeathSystem::ExplodeOnDeathSystem()
 
 void ExplodeOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IExplodeOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
 }
 
 void ExplodeOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IExplodeOnDeathComponent> explodeOnDeathC = actor.Get<IExplodeOnDeathComponent>();
+        Opt<IExplodeOnDeathComponent> explodeOnDeathC = actor->Get<IExplodeOnDeathComponent>();
         if ( !explodeOnDeathC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if( !healthC.IsValid() )
         {
             continue;
@@ -41,10 +43,10 @@ void ExplodeOnDeathSystem::Update( double DeltaTime )
         if( !healthC->IsAlive() )
         {
             WeaponItemSubSystem::Projectiles_t projectiles;
-            FillExplosionProjectiles( *explodeOnDeathC.Get(), actor, projectiles );
+            FillExplosionProjectiles( *explodeOnDeathC.Get(), *actor, projectiles );
             Scatter scatter;
-            WeaponItemSubSystem::Get()->AddProjectiles( actor, projectiles, scatter );
-            mScene.RemoveActor( it );
+            WeaponItemSubSystem::Get()->AddProjectiles( *actor, projectiles, scatter );
+            mScene.RemoveActor( actor->GetGUID() );
         }
     }
 }

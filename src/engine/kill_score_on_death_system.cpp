@@ -14,24 +14,26 @@ KillScoreOnDeathSystem::KillScoreOnDeathSystem()
 
 void KillScoreOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IKillScoreOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
 }
 
 
 void KillScoreOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IKillScoreOnDeathComponent> killScoreOnDeathC = actor.Get<IKillScoreOnDeathComponent>();
+        Opt<IKillScoreOnDeathComponent> killScoreOnDeathC = actor->Get<IKillScoreOnDeathComponent>();
         if ( !killScoreOnDeathC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if ( !killScoreOnDeathC->IsScored() && healthC.IsValid() && !healthC->IsAlive() )
         {
             L1( "KillScoreOnDeath sent" );
-            EventServer<KillScoreEvent>::Get().SendEvent( KillScoreEvent( healthC->GetLastDamageOwnerGUID(), actor.GetGUID() ) );
+            EventServer<KillScoreEvent>::Get().SendEvent( KillScoreEvent( healthC->GetLastDamageOwnerGUID(), actor->GetGUID() ) );
             killScoreOnDeathC->SetScored( true );
         }
     }

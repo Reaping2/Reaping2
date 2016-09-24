@@ -11,11 +11,22 @@ class SpawnActorMapElementSystem : public MapElementSystem
 public:
     DEFINE_SYSTEM_BASE( SpawnActorMapElementSystem )
     SpawnActorMapElementSystem();
+    void SetRemoveMapElementWhenUsed( bool removeWhenUsed );
+    bool IsRemoveMapElementWhenUsed();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
     ActorFactory& mActorFactory;
+    bool mRemoveWhenUsed;
+};
+
+struct RemoveWhenUsedRAII
+{
+    RemoveWhenUsedRAII( bool removeWhenUsed );
+    ~RemoveWhenUsedRAII();
+    bool mRemoveWhenUsed;
+    bool mOriginal;
 };
 
 } // namespace map

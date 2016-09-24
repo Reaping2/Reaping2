@@ -12,13 +12,19 @@ ControllerSystem::ControllerSystem()
 
 }
 
+void ControllerSystem::Init()
+{
+    SubSystemHolder::Init();
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IControllerComponent>().IsValid(); } );
+}
+
 
 void ControllerSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IControllerComponent> controllerC = actor.Get<IControllerComponent>();
+        Opt<IControllerComponent> controllerC = actor->Get<IControllerComponent>();
         if ( !controllerC.IsValid() || !controllerC->IsEnabled() )
         {
             continue;
@@ -27,14 +33,9 @@ void ControllerSystem::Update( double DeltaTime )
         BindIds_t::iterator subsysIt = bindIds.find( controllerC->GetId() );
         if ( subsysIt != bindIds.end() )
         {
-            subsysIt->mSystem->Update( actor, DeltaTime );
+            subsysIt->mSystem->Update( *actor, DeltaTime );
         }
     }
-}
-
-void ControllerSystem::Init()
-{
-    SubSystemHolder::Init();
 }
 
 } // namespace engine

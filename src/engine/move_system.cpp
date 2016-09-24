@@ -14,19 +14,21 @@ MoveSystem::MoveSystem()
 
 void MoveSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IMoveComponent>().IsValid()
+            && actor.Get<IPositionComponent>().IsValid(); } );
 }
 
 void MoveSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+        Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
         if ( !moveC.IsValid() )
         {
             continue;
         }
-        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
         if ( !positionC.IsValid() )
         {
             continue;

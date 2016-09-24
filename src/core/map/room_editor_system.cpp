@@ -106,6 +106,7 @@ void RoomEditorSystem::Start()
 
 void RoomEditorSystem::Load( std::string const& room )
 {
+    engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>()->SetRemoveMapElementWhenUsed( false );
     mRoomName = room;
     mX = 0;
     mY = 0;
