@@ -1,5 +1,7 @@
 #include "room_desc.h"
 #include "i_room.h"
+#include "platform/id_storage.h"
+#include "room_property.h"
 
 namespace map {
 
@@ -12,7 +14,6 @@ RoomDesc::RoomDesc()
 void RoomDesc::SetCellCount( int32_t cellCount )
 {
     mCellCount = cellCount;
-    mCells.clear();
     mCells.resize( mCellCount );
     for (int32_t y = 0; y < mCellCount; ++y)
     {
@@ -39,13 +40,13 @@ int32_t RoomDesc::GetCellSize() const
     return mCellSize;
 }
 
-RoomDesc::Properties_t const& RoomDesc::GetProperties() const
+RoomDesc::PlainProperties_t const& RoomDesc::GetPlainProperties() const
 {
     return mPossibleProperties;
 }
 
 
-void RoomDesc::SetProperties( Properties_t const& properties )
+void RoomDesc::SetPlainProperties( PlainProperties_t const& properties )
 {
     mPossibleProperties = properties;
 }
@@ -65,6 +66,12 @@ void RoomDesc::ClearProperties()
 void RoomDesc::AddProperty( RoomProperty::Type prop )
 {
     mPossibleProperties.insert( prop );
+}
+
+
+void RoomDesc::RemoveProperty( RoomProperty::Type prop )
+{
+    mPossibleProperties.erase( prop );
 }
 
 map::Cell& RoomDesc::GetCell( int32_t x, int32_t y )
@@ -130,7 +137,7 @@ void RoomDesc::Load( Json::Value& setters )
     Json::Value const& properties = setters["plain_properties"];
     if (properties.isArray())
     {
-        for (auto& prop : properties)
+        for (auto&& prop : properties)
         {
             AddProperty( RoomProperty::Get()(AutoId( prop.asString() )) );
         }
@@ -157,7 +164,40 @@ void RoomDesc::Load( Json::Value& setters )
             }
         }
     }
+}
 
+
+void RoomDesc::Save( Json::Value& setters ) const
+{
+    auto& idStorage = IdStorage::Get();
+    auto& roomProperty = RoomProperty::Get();
+    Json::Value plainPropertyArray( Json::arrayValue );
+    for (auto&& prop : mPossibleProperties)
+    {
+        std::string propName;
+        if (idStorage.GetName( roomProperty( prop ), propName ))
+        {
+            Json::Value jName = Json::Value( propName );
+            plainPropertyArray.append( jName );
+        }
+    }
+    setters["plain_properties"] = plainPropertyArray;
+    setters["cell_count"] = mCellCount;
+    setters["cell_size"] = mCellSize;
+    Json::Value cellsArray( Json::arrayValue );
+    for (auto& cellRow : mCells)
+    {
+        for (auto& cell : cellRow)
+        {
+            if (cell.IsFilled())
+            {
+                Json::Value cellObject( Json::objectValue );
+                cell.Save( cellObject );
+                cellsArray.append( cellObject );
+            }
+        }
+    }
+    setters["cells"] = cellsArray;
 }
 
 void Cell::AddEntrance( EntranceType::Type const& entrance )
@@ -165,6 +205,11 @@ void Cell::AddEntrance( EntranceType::Type const& entrance )
     mPossibleEntrances.insert( entrance );
 }
 
+
+void Cell::RemoveEntrance( EntranceType::Type const& entrance )
+{
+    mPossibleEntrances.erase( entrance );
+}
 
 void Cell::SetEntrances( Entrances_t const& entrances )
 {
@@ -189,7 +234,7 @@ void Cell::SetFilled( bool filled )
 }
 
 
-bool Cell::IsFilled()
+bool Cell::IsFilled() const
 {
     return mFilled;
 }
@@ -215,6 +260,28 @@ void Cell::Load( Json::Value& setters )
             AddEntrance( EntranceType::Get()(AutoId( entrance.asString() )) );
         }
     }
+    mFilled = true;
+}
+
+
+void Cell::Save( Json::Value& setters ) const
+{
+    auto& idStorage = IdStorage::Get();
+    auto& entranceType = EntranceType::Get();
+    Json::Value entrances( Json::arrayValue );
+    for (auto& entrance : mPossibleEntrances)
+    {
+        std::string entranceName;
+        if (idStorage.GetName( entranceType( entrance ), entranceName ))
+        {
+            Json::Value jName = Json::Value( entranceName );
+            entrances.append( jName );
+        }
+    }
+    setters["entrances"] = entrances;
+    setters["x"] = mDescCoord.x;
+    setters["y"] = mDescCoord.y;
+    setters["name"] = Json::Value("cell");
 }
 
 } // namespace map

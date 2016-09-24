@@ -42,6 +42,9 @@ void AccelerationComponent::serialize( Archive& ar, const unsigned int version )
 
 class AccelerationComponentLoader: public ComponentLoader<AccelerationComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( AccelerationComponentLoader )
+private:
     virtual void BindValues();
 protected:
     AccelerationComponentLoader();

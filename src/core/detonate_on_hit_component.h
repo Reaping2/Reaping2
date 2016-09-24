@@ -39,6 +39,9 @@ void DetonateOnHitComponent::serialize( Archive& ar, const unsigned int version 
 
 class DetonateOnHitComponentLoader : public ComponentLoader<DetonateOnHitComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( DetonateOnHitComponentLoader )
+private:
     virtual void BindValues();
 protected:
     DetonateOnHitComponentLoader();

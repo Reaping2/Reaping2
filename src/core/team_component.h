@@ -31,6 +31,9 @@ void TeamComponent::serialize( Archive& ar, const unsigned int version )
 
 class TeamComponentLoader : public ComponentLoader<TeamComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( TeamComponentLoader )
+private:
     virtual void BindValues();
 protected:
     TeamComponentLoader();

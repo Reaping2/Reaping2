@@ -49,6 +49,8 @@
 #include "remove_components_on_death_component.h"
 #include "rotate_component.h"
 #include "render/visual_box_multiplier_component.h"
+#include "cell_component.h"
+#include "level_end_component.h"
 
 using platform::AutoId;
 
@@ -116,4 +118,6 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "detonate_on_hit_component" ), &CreateComponent<DetonateOnHitComponent> );
     Bind( AutoId( "audible_component" ), &CreateComponent<AudibleComponent> );
     Bind( AutoId( "remove_components_on_death_component" ), &CreateComponent<RemoveComponentsOnDeathComponent> );
+    Bind( AutoId( "cell_component" ), &CreateComponent<CellComponent> );
+    Bind( AutoId( "level_end_component" ), &CreateComponent<LevelEndComponent> );
 }

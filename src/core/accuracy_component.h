@@ -31,6 +31,9 @@ void AccuracyComponent::serialize( Archive& ar, const unsigned int version )
 
 class AccuracyComponentLoader : public ComponentLoader<AccuracyComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( AccuracyComponentLoader )
+private:
     virtual void BindValues();
 protected:
     AccuracyComponentLoader();

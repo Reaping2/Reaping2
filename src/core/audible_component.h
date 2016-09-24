@@ -35,6 +35,9 @@ void AudibleComponent::serialize( Archive& ar, const unsigned int version )
 
 class AudibleComponentLoader : public ComponentLoader<AudibleComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( AudibleComponentLoader )
+private:
     virtual void BindValues();
 protected:
     AudibleComponentLoader();

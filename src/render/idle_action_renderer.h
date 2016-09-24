@@ -14,6 +14,9 @@ class IdleActionRenderer: public ActionRenderer
 public:
     IdleActionRenderer( int32_t Id );
     virtual void Init( const Actor& actor );
+
+    static int32_t GetSpriteId( int32_t spriteIndex, int32_t actorId );
+
     virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
 };
 

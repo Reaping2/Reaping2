@@ -17,12 +17,14 @@ struct Cell
     bool mFilled = false; // filled if the correspoinding RoomDesc places stg into this cell
     glm::vec2 mDescCoord = glm::vec2( -1, -1 ); // relative position inside the room
     void AddEntrance( EntranceType::Type const& entrance );
+    void RemoveEntrance( EntranceType::Type const& entrance );
     void SetEntrances( Entrances_t const& entrances );
     bool HasEntrance( EntranceType::Type const& entrance) const;
     Entrances_t const& GetEntrances() const;
     void SetFilled( bool filled );
-    bool IsFilled();
+    bool IsFilled() const;
     void Load( Json::Value& setters );
+    void Save( Json::Value& setters ) const;
 };
 
 // describes an n*n room.
@@ -30,17 +32,19 @@ struct Cell
 struct RoomDesc
 {
     typedef std::vector<std::vector<Cell>> CellMatrix_t;
-    typedef std::set<RoomProperty::Type> Properties_t;
+    typedef std::set<RoomProperty::Type> PlainProperties_t;
     RoomDesc();
     void SetCellCount( int32_t cellCount );
     int32_t GetCellCount() const;
     void SetCellSize( int32_t cellSize );
     int32_t GetCellSize() const;
-    Properties_t const& GetProperties() const;
-    void SetProperties( Properties_t const& properties );
+    PlainProperties_t const& GetPlainProperties() const;
+
+    void SetPlainProperties( PlainProperties_t const& properties );
     bool HasProperty( RoomProperty::Type prop ) const;
     void ClearProperties();
     void AddProperty( RoomProperty::Type prop );
+    void RemoveProperty( RoomProperty::Type prop );
     Cell& GetCell( int32_t x, int32_t y );
     Cell& GetCell( glm::vec2 pos );
     Cell const& GetCell( int32_t x, int32_t y ) const;
@@ -54,10 +58,11 @@ struct RoomDesc
     typedef std::vector<int32_t> PlacedActorGUIDs_t;
     PlacedActorGUIDs_t mPlacedActorGUIDs; // for debug
     void Load( Json::Value& setters );
+    void Save( Json::Value& setters ) const; 
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;
-    Properties_t mPossibleProperties;
+    PlainProperties_t mPossibleProperties;
     CellMatrix_t mCells;
     Opt<IRoom> mRoom;
 };

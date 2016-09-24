@@ -31,6 +31,9 @@ void ScoreOnDeathComponent::serialize( Archive& ar, const unsigned int version )
 
 class ScoreOnDeathComponentLoader : public ComponentLoader<ScoreOnDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ScoreOnDeathComponentLoader )
+private:
     virtual void BindValues();
 protected:
     ScoreOnDeathComponentLoader();

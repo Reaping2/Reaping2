@@ -12,11 +12,11 @@ SimpleRoom1::SimpleRoom1( int32_t Id )
     mRoomDesc.SetCellSize( Settings::Get().GetInt( "generator.cell_size", 1000 ) );
     mRoomDesc.GetCell( 0, 0 ).SetEntrances( { EntranceType::Top, EntranceType::Right, EntranceType::Bottom, EntranceType::Left } );
     mRoomDesc.GetCell( 0, 0 ).SetFilled( true );
-    mRoomDesc.SetProperties( { RoomProperty::Start, RoomProperty::End } );
+    mRoomDesc.SetPlainProperties( { RoomProperty::Start, RoomProperty::End } );
     mRoomDesc.SetRoom( this );
 }
 
-void SimpleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos )
+void SimpleRoom1::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
     int cellCount = mRoomDesc.GetCellSize() / 100;
     for (int i = 0; i < cellCount*cellCount; ++i)

@@ -39,6 +39,9 @@ void ExplodeOnHitComponent::serialize( Archive& ar, const unsigned int version )
 
 class ExplodeOnHitComponentLoader : public ComponentLoader<ExplodeOnHitComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ExplodeOnHitComponentLoader )
+private:
     virtual void BindValues();
 protected:
     ExplodeOnHitComponentLoader();

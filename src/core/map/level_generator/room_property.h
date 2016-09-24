@@ -21,8 +21,9 @@ public:
     };
     RoomProperty::Type operator()( int32_t Id ) const;
     int32_t operator()( RoomProperty::Type type ) const;
+    typedef boost::bimap<int32_t, RoomProperty::Type> IdToRoomPropertyMap_t;
+    IdToRoomPropertyMap_t const& GetIdToRoomPropertyMap();
 private:
-    typedef boost::bimap<int32_t,RoomProperty::Type> IdToRoomPropertyMap_t;
     IdToRoomPropertyMap_t mIdToRoomPropertyMap;
 };
 

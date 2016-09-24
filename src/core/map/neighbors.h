@@ -2,6 +2,7 @@
 #define INCLUDED_MAP_NEIGHBORS_H
 #include "platform/i_platform.h"
 #include "../border_type.h"
+#include "../i_border_component.h"
 
 namespace map {
 
@@ -24,6 +25,12 @@ public:
     typedef std::vector<Neighbor> Neighbors_t;
     Neighbors_t mNeighbors;
     bool IsMatching( NeighborMap_t const& neighborMap );
+    typedef std::vector<Neighbors::NeighborMap_t> NeighborDirMap_t;
+    NeighborDirMap_t mNeighborDirMap;
+    NeighborDirMap_t mNeighborOuterDirMap;
+    static NeighborDirMap_t const& GetNeighborDirs();
+    static NeighborDirMap_t const& GetNeighborOuterDirs();
+    IBorderComponent::Borders_t GetBorders( NeighborDirMap_t const& neighborDirs );
 };
 
 } // namespace map

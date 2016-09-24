@@ -29,6 +29,9 @@ void CloakComponent::serialize( Archive& ar, const unsigned int version )
 
 class CloakComponentLoader : public ComponentLoader<CloakComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( CloakComponentLoader )
+private:
     virtual void BindValues();
 protected:
     CloakComponentLoader();

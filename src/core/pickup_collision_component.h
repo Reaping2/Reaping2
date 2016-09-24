@@ -36,6 +36,9 @@ void PickupCollisionComponent::serialize( Archive& ar, const unsigned int versio
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( PickupCollisionComponentLoader )
+private:
     virtual void BindValues();
 public:
     PickupCollisionComponentLoader();

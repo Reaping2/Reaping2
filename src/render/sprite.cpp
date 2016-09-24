@@ -16,7 +16,7 @@ Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
         mSteps = 0;
         return;
     }
-    mSteps = Phases.size() - 1;
+    mSteps = Phases.size();
     if( Phases.empty() )
     {
         return;
@@ -62,7 +62,7 @@ Sprite::Sprite( int32_t TexId, Json::Value const& Anim )
 
 SpritePhase const& Sprite::operator()( int32_t Phase ) const
 {
-    int32_t SprPhase = ( int32_t )( Phase / 100.*mSteps + 0.5 );
+    int32_t SprPhase = ( int32_t )(( Phase * mSteps ) / 100. );
     return RepoBase::operator()( SprPhase );
 }
 

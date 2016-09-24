@@ -31,6 +31,17 @@ void PositionComponent::SetY( double Y )
 {
     mY = std::floor( Y * PRECISION ) / PRECISION;
 }
+
+void PositionComponent::AddX( double X )
+{
+    mX = mX + X;
+}
+
+void PositionComponent::AddY( double Y )
+{
+    mY = mY + Y;
+}
+
 void PositionComponent::SetOrientation( double Orientation )
 {
     mOrientation = std::floor( Orientation * PRECISION ) / PRECISION;
@@ -51,6 +62,7 @@ void PositionComponentLoader::BindValues()
 {
     Bind( "x", func_double( &PositionComponent::SetX ) );
     Bind( "y", func_double( &PositionComponent::SetY ) );
+    SetterFuncList_t setterfunc = mSetterFuncList;
 }
 
 PositionComponentLoader::PositionComponentLoader()

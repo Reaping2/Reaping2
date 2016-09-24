@@ -58,6 +58,9 @@ void HealthComponent::serialize( Archive& ar, const unsigned int version )
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( HealthComponentLoader )
+private:
     virtual void BindValues();
 public:
     HealthComponentLoader();

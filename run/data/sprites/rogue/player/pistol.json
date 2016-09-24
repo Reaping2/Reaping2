@@ -1,0 +1,40 @@
+[
+    {
+        "texture_path":"textures/rogue/player/pistol_muzzle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 200,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 200
+                    }
+                ],
+                "name" : "pistol_muzzle_spr"
+            }
+        ]
+    },
+    {
+		"texture_path":"textures/rogue/player/soldier_pistol.png",
+		"actor_visuals":
+		[
+			{
+				"name":"player",
+				"animations":
+				[
+					{
+						"name":"pistol",
+						"w":100,
+						"h":100,
+						"scale":2.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}
+		]
+	}
+]

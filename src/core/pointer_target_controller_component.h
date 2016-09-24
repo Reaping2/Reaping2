@@ -51,6 +51,9 @@ void PointerTargetControllerComponent::serialize( Archive& ar, const unsigned in
 
 class PointerTargetControllerComponentLoader : public ComponentLoader<PointerTargetControllerComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( PointerTargetControllerComponentLoader )
+private:
     virtual void BindValues();
 protected:
     PointerTargetControllerComponentLoader();

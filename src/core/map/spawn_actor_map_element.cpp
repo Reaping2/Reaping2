@@ -2,6 +2,7 @@
 #include "../scene.h"
 #include "../i_position_component.h"
 #include "../i_border_component.h"
+#include "../position_component.h"
 
 namespace map {
 
@@ -11,13 +12,33 @@ int32_t SpawnActorMapElement::SpawnNodeId()
     return id;
 }
 
+
+SpawnActorMapElement& SpawnActorMapElement::operator=( SpawnActorMapElement const& other )
+{
+    MapElement::operator=( other );
+    BaseInput::operator=( other );
+    mActorID = other.mActorID;
+    for (auto&& compload : other.mComponentLoaders)
+    {
+        int32_t i = compload.first;
+        mComponentLoaders.insert( i, static_cast<ActorCreator::ComponentLoader_t*>(compload.second->clone()) );
+    }
+    return *this;
+
+}
+
 SpawnActorMapElement::SpawnActorMapElement( int32_t Id )
     : MapElement( Id )
     , BaseInput()
     , mActorID( -1 )
-    , mComponentLoaderFactory( ComponentLoaderFactory::Get() )
 {
     AddInputNodeId( SpawnNodeId() );
+}
+
+
+SpawnActorMapElement::SpawnActorMapElement( SpawnActorMapElement const& other )
+{
+    *this = other;
 }
 
 void SpawnActorMapElement::Load( Json::Value& setters )
@@ -83,6 +104,17 @@ void SpawnActorMapElement::LoadComponentLoaders( Json::Value& setters, ActorCrea
 void SpawnActorMapElement::AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader )
 {
     mComponentLoaders.insert( componentId, static_cast<ActorCreator::ComponentLoader_t*>( compLoader.release() ) );
+}
+
+Opt<PropertyLoaderBase<Component>> SpawnActorMapElement::GetComponentLoader( int32_t componentId )
+{
+    Opt<PropertyLoaderBase<Component>> r;
+    auto found = mComponentLoaders.find( componentId );
+    if (found != mComponentLoaders.end())
+    {
+        r = found->second;
+    }
+    return r;
 }
 
 void SpawnActorMapElement::Save( Json::Value& Element )

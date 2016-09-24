@@ -393,7 +393,79 @@
 		]
 	},
 	{
+		"name":"cell",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"cell"}
+		]
+	},
+	{
+		"name":"end",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"entrance",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"concrete",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
+		"name":"rogue_grass200",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
+		"name":"rogue_wall100",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
+		"name":"rogue_wall50",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
+		"name":"rogue_wall50_background",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"border",
+				"renderer":"border"}
+		]
+	},
+	{
+		"name":"rogue_wall100_background",
 		"recognizers":
 		[
 			{"recognizer":"idle",

@@ -63,6 +63,9 @@ void ShotCollisionComponent::serialize( Archive& ar, const unsigned int version 
 
 class ShotCollisionComponentLoader: public ComponentLoader<ShotCollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( ShotCollisionComponentLoader )
+private:
     virtual void BindValues();
 public:
     ShotCollisionComponentLoader();

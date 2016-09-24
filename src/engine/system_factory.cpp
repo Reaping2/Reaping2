@@ -120,6 +120,24 @@
 #include "core/rogue_game_mode_system.h"
 #include "core/map/level_generator/level_generator_map_element_system.h"
 #include "core/map/level_generator/level_generated_map_element_system.h"
+#include "core/map/group_map_element_system.h"
+#include "core/map/room_editor_system.h"
+#include "core/map/editor_layer_system.h"
+#include "core/map/editor_actor_system.h"
+#include "core/map/room_cell_editor_system.h"
+#include "core/map/editor_select_system.h"
+#include "core/map/editor_group_system.h"
+#include "core/map/editor_visiblity_system.h"
+#include "core/map/editor_renderable_layer_system.h"
+#include "core/map/property_editor_system.h"
+#include "core/map/room_start_editor_system.h"
+#include "core/map/room_end_editor_system.h"
+#include "core/map/spawn_editor_system.h"
+#include "core/map/cell_entrance_editor_system.h"
+#include "core/map/room_plain_property_editor_system.h"
+#include "level_end_system.h"
+#include "recreate_borders_map_element_system.h"
+#include "core/randomize_sprite_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -139,6 +157,7 @@ void SystemFactory::Init()
     Bind( AutoId( "frame_counter_system" ), &CreateSystem<FrameCounterSystem> );
     Bind( AutoId( "renderer_system" ), &CreateSystem<RendererSystem> );
     Bind( AutoId( "leaderboard_system" ), &CreateSystem<engine::LeaderboardSystem> );
+    Bind( AutoId( "randomize_sprite_system" ), &CreateSystem<engine::RandomizeSpriteSystem> );
 
     Bind( AutoId( "collision_system" ), &CreateSystem<CollisionSystem> );
 
@@ -239,6 +258,8 @@ void SystemFactory::Init()
     Bind( AutoId( "soldier_auto_revive_map_element_system" ), &CreateSystem<map::SoldierAutoReviveMapElementSystem> );
     Bind( AutoId( "level_generator_map_element_system" ), &CreateSystem<map::LevelGeneratorMapElementSystem> );
     Bind( AutoId( "level_generated_map_element_system" ), &CreateSystem<map::LevelGeneratedMapElementSystem> );
+    Bind( AutoId( "group_map_element_system" ), &CreateSystem<map::GroupMapElementSystem> );
+    Bind( AutoId( "recreate_borders_map_element_system" ), &CreateSystem<map::RecreateBordersMapElementSystem> );
 
     Bind( AutoId( "free_for_all_game_mode_system" ), &CreateSystem<core::FreeForAllGameModeSystem> );
     Bind( AutoId( "capture_the_flag_game_mode_system" ), &CreateSystem<core::CaptureTheFlagGameModeSystem> );
@@ -254,12 +275,26 @@ void SystemFactory::Init()
     Bind( AutoId( "attachable_system" ), &CreateSystem<engine::ctf::AttachableSystem> );
     Bind( AutoId( "show_text_system" ), &CreateSystem<engine::ShowTextSystem> );
     Bind( AutoId( "editor_system" ), &CreateSystem<map::EditorSystem> );
+    Bind( AutoId( "room_editor_system" ), &CreateSystem<map::RoomEditorSystem> );
     Bind( AutoId( "kill_score_system" ), &CreateSystem<engine::KillScoreSystem> );
 
     Bind( AutoId( "editor_target_system" ), &CreateSystem<map::EditorTargetSystem> );
     Bind( AutoId( "editor_grid_system" ), &CreateSystem<map::EditorGridSystem> );
     Bind( AutoId( "editor_brush_system" ), &CreateSystem<map::EditorBrushSystem> );
     Bind( AutoId( "editor_soldier_spawn_system" ), &CreateSystem<map::EditorSoldierSpawnSystem> );
+    Bind( AutoId( "editor_layer_system" ), &CreateSystem<map::EditorLayerSystem> );
+    Bind( AutoId( "editor_actor_system" ), &CreateSystem<map::EditorActorSystem> );
+    Bind( AutoId( "room_cell_editor_system" ), &CreateSystem<map::RoomCellEditorSystem> );
+    Bind( AutoId( "editor_select_system" ), &CreateSystem<map::EditorSelectSystem> );
+    Bind( AutoId( "editor_group_system" ), &CreateSystem<map::EditorGroupSystem> );
+    Bind( AutoId( "editor_visibility_system" ), &CreateSystem<map::EditorVisibilitySystem> );
+    Bind( AutoId( "editor_renderable_layer_system" ), &CreateSystem<map::EditorRenderableLayerSystem> );
+    Bind( AutoId( "property_editor_system" ), &CreateSystem<map::PropertyEditorSystem> );
+    Bind( AutoId( "room_start_editor_system" ), &CreateSystem<map::RoomStartEditorSystem> );
+    Bind( AutoId( "room_end_editor_system" ), &CreateSystem<map::RoomEndEditorSystem> );
+    Bind( AutoId( "spawn_editor_system" ), &CreateSystem<map::SpawnEditorSystem> );
+    Bind( AutoId( "cell_entrance_editor_system" ), &CreateSystem<map::CellEntranceEditorSystem> );
+    Bind( AutoId( "room_plain_property_editor_system" ), &CreateSystem<map::RoomPlainPropertyEditorSystem> );
 
     Bind( AutoId( "detonate_on_hit_system" ), &CreateSystem<engine::DetonateOnHitSystem> );
     Bind( AutoId( "explode_on_hit_system" ), &CreateSystem<engine::ExplodeOnHitSystem> );
@@ -267,6 +302,7 @@ void SystemFactory::Init()
     Bind( AutoId( "gamemode_selected_message_sender_system" ), &CreateSystem<network::GamemodeSelectedMessageSenderSystem> );
     Bind( AutoId( "remove_components_on_death_system" ), &CreateSystem<engine::RemoveComponentsOnDeathSystem> );
     Bind( AutoId( "player_model_system" ), &CreateSystem<engine::PlayerModelSystem> );
+    Bind( AutoId( "level_end_system" ), &CreateSystem<engine::LevelEndSystem> );
 }
 
 REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )

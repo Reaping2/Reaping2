@@ -12,6 +12,8 @@ RenderableComponent::RenderableComponent()
     , mReceiveBlood( 0 )
     , mReceiveShadow( 0 )
     , mColor( glm::vec4(1.0) )
+    , mRandomSprites( )
+    , mSpriteIndex( -1 )
 {
 }
 
@@ -75,6 +77,26 @@ glm::vec4 RenderableComponent::GetColor()const
     return mColor;
 }
 
+void RenderableComponent::SetRandomSprites( RandomSprites_t const& randomSprites )
+{
+    mRandomSprites = randomSprites;
+}
+
+IRenderableComponent::RandomSprites_t const& RenderableComponent::GetRandomSprites() const
+{
+    return mRandomSprites;
+}
+
+void RenderableComponent::SetSpriteIndex( int32_t spriteIndex )
+{
+    mSpriteIndex = spriteIndex;
+}
+
+int32_t RenderableComponent::GetSpriteIndex() const
+{
+    return mSpriteIndex;
+}
+
 RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow )
     : mLayer( Lay )
     , mZOrder( ZOrder )
@@ -120,6 +142,17 @@ void RenderableComponentLoader::BindValues()
     }
     Bind<int32_t>( func_int32_t( &RenderableComponent::SetReceiveShadow ), iv );
     Bind( "color", func_color( &RenderableComponent::SetColor ) );
+
+    IRenderableComponent::RandomSprites_t randomSprites;
+    auto const& json = (*mSetters)["random_sprites"];
+    if (json.isArray())
+    {
+        for (auto& chance : json)
+        {
+            randomSprites.push_back( chance.asInt() );
+        }
+        Bind<IRenderableComponent::RandomSprites_t>( &RenderableComponent::SetRandomSprites, randomSprites );
+    }
 }
 
 RenderableComponentLoader::RenderableComponentLoader()

@@ -4,6 +4,7 @@
 #include "editor_target_system.h"
 #include "ui/ui.h"
 #include <boost/assign/std/vector.hpp>
+#include "editor_back_event.h"
 
 namespace map {
 
@@ -36,7 +37,7 @@ void EditorGridSystem::Update( double DeltaTime )
 void EditorGridSystem::GridChanged( std::string const& grid )
 {
     mGridId = AutoId( grid );
-    Ui::Get().Load( "editor_hud" );
+    EventServer<EditorBackEvent>::Get().SendEvent( EditorBackEvent() );
 }
 
 EditorGridSystem::~EditorGridSystem()

@@ -30,7 +30,7 @@ void ActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableCompo
 
 void ActionRenderer::Update( double DeltaTime )
 {
-    double nextState = mSecsToEnd == 0 ? 100 : ( mState + 1. / mSecsToEnd * DeltaTime * 100. );
+    double nextState = mSecsToEnd == 0 ? 100 : ( mState + DeltaTime / mSecsToEnd * 100. );
 
     if( nextState >= 100 )
     {

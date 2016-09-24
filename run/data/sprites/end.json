@@ -1,0 +1,22 @@
+[
+    {
+        "texture_path":"textures/vortex_anim.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0},
+                          {"x":0,"y":0},
+                          {"x":0,"y":0},
+                          {"x":0,"y":0},
+                          {"x":0,"y":0},
+                          {"x":0,"y":0}],
+                "scale" : 1.75,
+                "secs_to_end" : 0.55 
+            }], "name" : "end"
+        }]
+    }
+]

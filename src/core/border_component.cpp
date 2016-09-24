@@ -5,6 +5,7 @@
 
 BorderComponent::BorderComponent()
     : mBorders()
+    , mChanged(false)
 {
 }
 
@@ -17,6 +18,37 @@ IBorderComponent::Borders_t BorderComponent::GetBorders()const
 {
     return mBorders;
 }
+
+void BorderComponent::SetChanged( bool changed )
+{
+    mChanged = changed;
+}
+
+bool BorderComponent::IsChanged() const
+{
+    return mChanged;
+}
+
+void BorderComponent::SetRandomSprites( RandomSprites_t const& randomSprites )
+{
+    mRandomSprites = randomSprites;
+}
+
+IBorderComponent::RandomSprites_t const& BorderComponent::GetRandomSprites() const
+{
+    return mRandomSprites;
+}
+
+void BorderComponent::SetSpriteIndex( int32_t spriteIndex )
+{
+    mSpriteIndex = spriteIndex;
+}
+
+int32_t BorderComponent::GetSpriteIndex() const
+{
+    return mSpriteIndex;
+}
+
 
 void BorderComponent::Save( Json::Value& component )
 {
@@ -97,6 +129,16 @@ void BorderComponentLoader::BindValues()
             }
             Bind<IBorderComponent::Borders_t>( &BorderComponent::SetOuterBorders, borders );
         }
+    }
+    IBorderComponent::RandomSprites_t randomSprites;
+    auto const& json = (*mSetters)["random_sprites"];
+    if (json.isArray()&&!json.empty())
+    {
+        for (auto& chance : json)
+        {
+            randomSprites.push_back( chance.asInt() );
+        }
+        Bind<IBorderComponent::RandomSprites_t>( &BorderComponent::SetRandomSprites, randomSprites );
     }
 }
 

@@ -31,6 +31,9 @@ void OwnerComponent::serialize( Archive& ar, const unsigned int version )
 
 class OwnerComponentLoader : public ComponentLoader<OwnerComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( OwnerComponentLoader )
+private:
     virtual void BindValues();
 protected:
     OwnerComponentLoader();

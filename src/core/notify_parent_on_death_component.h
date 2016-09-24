@@ -35,6 +35,9 @@ void NotifyParentOnDeathComponent::serialize( Archive& ar, const unsigned int ve
 
 class NotifyParentOnDeathComponentLoader : public ComponentLoader<NotifyParentOnDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( NotifyParentOnDeathComponentLoader )
+private:
     virtual void BindValues();
 protected:
     NotifyParentOnDeathComponentLoader();

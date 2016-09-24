@@ -39,6 +39,9 @@ void BounceCollisionComponent::serialize( Archive& ar, const unsigned int versio
 
 class BounceCollisionComponentLoader : public ComponentLoader<BounceCollisionComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( BounceCollisionComponentLoader )
+private:
     virtual void BindValues();
 protected:
     BounceCollisionComponentLoader();

@@ -14,6 +14,7 @@ public:
     LevelGeneratedMapElement(int32_t Id);
     void Load(Json::Value& setters);
     static int32_t GeneratedNodeId();
+    static int32_t ActorsSpawnedNodeId();
 private:
 };
 

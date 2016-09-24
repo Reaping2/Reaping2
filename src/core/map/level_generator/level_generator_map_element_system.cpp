@@ -6,7 +6,6 @@ namespace map {
 
 LevelGeneratorMapElementSystem::LevelGeneratorMapElementSystem()
     : MapElementSystem()
-    , mLevelGeneratorRepo( LevelGeneratorRepo::Get() )
 {
 }
 
@@ -26,7 +25,7 @@ void LevelGeneratorMapElementSystem::Update(double DeltaTime)
         Opt<LevelGeneratorMapElement> levelGeneratorMapElement(*levelGeneratorMapElementIt);
         if (levelGeneratorMapElement->GetValueId( LevelGeneratorMapElement::GeneratorNodeId() ) > 0)
         {
-            mLevelGeneratorRepo( levelGeneratorMapElement->GetGeneratorId() ).Generate();
+            levelGeneratorMapElement->GetLevelGenerator()->Generate();
             levelGeneratorMapElement->ResetValues();
         }
     }

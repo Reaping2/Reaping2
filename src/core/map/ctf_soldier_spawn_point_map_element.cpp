@@ -22,23 +22,20 @@ void CtfSoldierSpawnPointMapElement::Load( Json::Value& setters )
         return;
     }
     int32_t x;
-    if ( !Json::GetInt( position["x"], x ) )
+    if (Json::GetInt( position["x"], x ))
     {
-        return;
+        SetX( x );
     }
-    SetX( x );
     int32_t y;
-    if ( !Json::GetInt( position["y"], y ) )
+    if (Json::GetInt( position["y"], y ))
     {
-        return;
+        SetY( y );
     }
-    SetY( y );
     std::string teamStr;
-    if ( !Json::GetStr( setters["team"], teamStr ) )
+    if ( Json::GetStr( setters["team"], teamStr ) )
     {
-        return;
+        SetTeam( Team::Get()(AutoId( teamStr )) );
     }
-    SetTeam( Team::Get()( AutoId( teamStr ) ) );
 
 }
 

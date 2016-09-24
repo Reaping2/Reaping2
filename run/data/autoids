@@ -908,3 +908,9 @@ visual_box_multiplier_component_system
 VisualBoxMultiplierComponent
 IVisualBoxMultiplierComponent
 VisualBoxMultiplierComponentSystem
+level_end_component
+i_level_end_component
+level_end_component_system
+LevelEndComponent
+ILevelEndComponent
+LevelEndComponentSystem

@@ -39,6 +39,9 @@ void KillScoreOnDeathComponent::serialize( Archive& ar, const unsigned int versi
 
 class KillScoreOnDeathComponentLoader : public ComponentLoader<KillScoreOnDeathComponent>
 {
+public:
+    DEFINE_COMPONENT_LOADER_BASE( KillScoreOnDeathComponentLoader )
+private:
     virtual void BindValues();
 protected:
     KillScoreOnDeathComponentLoader();

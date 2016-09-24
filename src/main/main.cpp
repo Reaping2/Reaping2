@@ -201,7 +201,7 @@ int main( int argc, char* argv[] )
 
     Eng.AddSystem( AutoId( "window_system" ) );
     if( programState.mMode != ProgramState::Server &&
-        !Eng.GetSystem<engine::WindowSystem>()->Create( 640, 480, "Reaping2" ) )
+        !Eng.GetSystem<engine::WindowSystem>()->Create( 1280, 960, "Reaping2" ) )
     {
         PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
     }
@@ -230,6 +230,10 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "capture_the_flag_game_mode_system" ) );
     Eng.AddSystem( AutoId( "rogue_game_mode_system" ) );
     Eng.AddSystem( AutoId( "leaderboard_system" ) );
+    if (programState.mMode != ProgramState::Client)
+    {
+        Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
+    }
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
 
@@ -297,11 +301,25 @@ int main( int argc, char* argv[] )
     {
         Eng.AddSystem( AutoId( "local_system" ) );
         Eng.AddSystem( AutoId( "editor_system" ) );
+        Eng.AddSystem( AutoId( "room_editor_system" ) );
 
         Eng.AddSystem( AutoId( "editor_target_system" ) );
         Eng.AddSystem( AutoId( "editor_grid_system" ) );
         Eng.AddSystem( AutoId( "editor_brush_system" ) );
         Eng.AddSystem( AutoId( "editor_soldier_spawn_system" ) );
+        Eng.AddSystem( AutoId( "editor_layer_system" ) );
+        Eng.AddSystem( AutoId( "editor_actor_system" ) );
+        Eng.AddSystem( AutoId( "room_cell_editor_system" ) );
+        Eng.AddSystem( AutoId( "editor_select_system" ) );
+        Eng.AddSystem( AutoId( "editor_group_system" ) );
+        Eng.AddSystem( AutoId( "editor_visibility_system" ) );
+        Eng.AddSystem( AutoId( "editor_renderable_layer_system" ) );
+        Eng.AddSystem( AutoId( "property_editor_system" ) ); 
+        Eng.AddSystem( AutoId( "room_start_editor_system" ) );
+        Eng.AddSystem( AutoId( "room_end_editor_system" ) );
+        Eng.AddSystem( AutoId( "spawn_editor_system" ) );
+        Eng.AddSystem( AutoId( "cell_entrance_editor_system" ) );
+        Eng.AddSystem( AutoId( "room_plain_property_editor_system" ) );
     }
 
     if ( programState.mMode != ProgramState::Client )
@@ -309,6 +327,9 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "map_system" ) );
         Eng.AddSystem( AutoId( "link_map_element_system" ) );
         Eng.AddSystem( AutoId( "map_start_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generated_map_element_system" ) );
+        Eng.AddSystem( AutoId( "level_generator_map_element_system" ) );
+        Eng.AddSystem( AutoId( "recreate_borders_map_element_system" ) );
         Eng.AddSystem( AutoId( "spawn_soldiers_map_element_system" ) );
         Eng.AddSystem( AutoId( "soldier_spawn_point_map_element_system" ) );
         Eng.AddSystem( AutoId( "spawn_actor_map_element_system" ) );
@@ -317,8 +338,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "ctf_spawn_flags_map_element_system" ) );
         Eng.AddSystem( AutoId( "respawn_actor_map_element_system" ) );
         Eng.AddSystem( AutoId( "soldier_auto_revive_map_element_system" ) );
-        Eng.AddSystem( AutoId( "level_generator_map_element_system" ) );
-        Eng.AddSystem( AutoId( "level_generated_map_element_system" ) );
+        Eng.AddSystem( AutoId( "group_map_element_system" ) );
     }
 
     Eng.AddSystem( AutoId( "soldier_properties_system" ) ); //must be before message_sender
@@ -396,6 +416,7 @@ int main( int argc, char* argv[] )
     weaponItemSS->AddSubSystem( AutoId( "gatling_gun" ), AutoId( "gatling_gun_weapon_sub_system" ) ); //handles client specific stuff like windup and deploy states.
     Eng.AddSystem( AutoId( "audio_system" ) );
     Eng.AddSystem( AutoId( "fade_out_system" ) );
+    Eng.AddSystem( AutoId( "level_end_system" ) );
     if ( programState.mMode != ProgramState::Client )
     {
         // these must be before health_system
