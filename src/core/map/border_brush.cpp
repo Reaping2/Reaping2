@@ -29,6 +29,7 @@ void BorderBrush::Update( double DeltaTime )
     {
         return;
     }
+    RemoveWhenUsedRAII( false );
     if ( mMouseLeftPressed && !engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ) )
     {
         Neighbors neighbors = EditorGridSystem::Get()->GetGrid().GetNeighbors( EditorTargetSystem::Get()->GetCursorPosition(), EditorTargetSystem::Get()->GetCursor()->GetId() );
@@ -78,6 +79,7 @@ void BorderBrush::Update( double DeltaTime )
 
 void BorderBrush::UpdateBorders( Neighbors& neighbors )
 {
+    RemoveWhenUsedRAII( false );
     Opt<engine::System> spawnActorMES( engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>() );
     std::vector<int32_t> removeActors;
     for ( Neighbors::Neighbors_t::iterator i = neighbors.mNeighbors.begin(), e = neighbors.mNeighbors.end(); i != e; ++i )

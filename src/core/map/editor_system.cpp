@@ -21,6 +21,7 @@
 #include "room_editor_system.h"
 #include "editor_mode_changed_event.h"
 #include "editor_hud_state.h"
+#include "spawn_actor_map_element_system.h"
 
 namespace map {
 
@@ -79,6 +80,7 @@ void EditorSystem::Start()
 
 void EditorSystem::Load( std::string const& level )
 {
+    engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>()->SetRemoveMapElementWhenUsed( false );
     mLevelName = level;
     mX = 0;
     mY = 0;

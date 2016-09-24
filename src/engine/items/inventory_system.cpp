@@ -13,36 +13,38 @@ InventorySystem::InventorySystem()
 
 }
 
+void InventorySystem::Init()
+{
+    SubSystemHolder::Init();
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IInventoryComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
+}
 
 void InventorySystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
+        Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
         if ( !inventoryC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if( healthC.IsValid() && !healthC->IsAlive() )
         {
             //if it has no healthComponent, it should not
             continue;
         }
 
-        for( SubSystems_t::iterator ssIt = mSubSystems.begin(), e = mSubSystems.end(); ssIt != e; ++ssIt )
+        for( auto ss : mSubSystems )
         {
-            ssIt->mSystem->Update( actor, DeltaTime );
+            ss.mSystem->Update( *actor, DeltaTime );
         }
     }
     mScene.InsertNewActors();
 }
 
-void InventorySystem::Init()
-{
-    SubSystemHolder::Init();
-}
 
 } // namespace engine
 

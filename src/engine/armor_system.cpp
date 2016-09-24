@@ -15,20 +15,22 @@ ArmorSystem::ArmorSystem()
 
 void ArmorSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IArmorComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
 }
 
 
 void ArmorSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IArmorComponent> armorC = actor.Get<IArmorComponent>();
+        Opt<IArmorComponent> armorC = actor->Get<IArmorComponent>();
         if ( !armorC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if ( !healthC.IsValid() || !healthC->IsAlive()
              || healthC->GetDamage() <= 0 )
         {
@@ -44,11 +46,11 @@ void ArmorSystem::Update( double DeltaTime )
         }
         int32_t armorDiff = armorC->GetCurrentArmor() - newArmor;
         armorC->SetCurrentArmor( newArmor );
-        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
         if( positionC.IsValid() )
         {
             core::DamageTakenEvent damageTakeEvent = core::DamageTakenEvent( positionC->GetX(), positionC->GetY() );
-            damageTakeEvent.ActorGUID = actor.GetGUID();
+            damageTakeEvent.ActorGUID = actor->GetGUID();
             damageTakeEvent.Damage = armorDiff;
             damageTakeEvent.type = core::DamageTakenEvent::Armor;
             EventServer<core::DamageTakenEvent>::Get().SendEvent( damageTakeEvent );

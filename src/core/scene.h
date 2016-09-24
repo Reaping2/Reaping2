@@ -166,9 +166,19 @@ public:
 
 class Scene : public platform::Singleton<Scene>
 {
+public:
+    typedef std::list<Actor*> Actors_t;
+private:
     ActorHolder mActorHolder;
     typedef std::list< Opt<Actor> > NewActorList_t;
     NewActorList_t mNewActors;
+    typedef boost::function<bool( Actor const& )> Validator_t;
+    typedef std::map<int32_t, Validator_t> ValidatorMap_t;
+    ValidatorMap_t mValidatorMap;
+    typedef std::map<int32_t, Actors_t> ActorMap_t;
+    ActorMap_t mActorMap;
+    void AddToActorMap( Actor* actor );
+    void RemoveFromActorMap( Actor* actor );
     glm::vec4 mDimensions;
     int32_t mTypeId;
     friend class platform::Singleton<Scene>;
@@ -201,7 +211,9 @@ public:
 
     void InsertNewActors();
 
+    void AddValidator( int32_t Id, Validator_t validator );
     void AddActor( Actor* Object );
+    Actors_t& GetActorsFromMap( int32_t Id );
     void RemoveActor( int32_t guid );
     void RemoveActor( ActorList_t::iterator it );
     glm::vec4 const& GetDimensions();

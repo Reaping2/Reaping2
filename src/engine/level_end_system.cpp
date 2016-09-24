@@ -12,15 +12,16 @@ LevelEndSystem::LevelEndSystem()
 
 void LevelEndSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<ILevelEndComponent>().IsValid(); } );
 }
 
 
 void LevelEndSystem::Update(double DeltaTime)
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-       Actor& actor = **it;
-       Opt<ILevelEndComponent> levelEndC=actor.Get<ILevelEndComponent>();
+       Opt<ILevelEndComponent> levelEndC = actor->Get<ILevelEndComponent>();
        if (!levelEndC.IsValid())
        {
            continue;

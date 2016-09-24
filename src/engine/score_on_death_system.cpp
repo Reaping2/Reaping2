@@ -14,23 +14,25 @@ ScoreOnDeathSystem::ScoreOnDeathSystem()
 
 void ScoreOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IScoreOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
 }
 
 
 void ScoreOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IScoreOnDeathComponent> scoreOnDeathC = actor.Get<IScoreOnDeathComponent>();
+        Opt<IScoreOnDeathComponent> scoreOnDeathC = actor->Get<IScoreOnDeathComponent>();
         if ( !scoreOnDeathC.IsValid() )
         {
             continue;
         }
-        if( !scoreOnDeathC->IsScored() && !actor.Get<IHealthComponent>()->IsAlive() )
+        if( !scoreOnDeathC->IsScored() && !actor->Get<IHealthComponent>()->IsAlive() )
         {
             scoreOnDeathC->SetScored( true );
-            EventServer<ScoreEvent>::Get().SendEvent( ScoreEvent( actor.GetGUID() ) );
+            EventServer<ScoreEvent>::Get().SendEvent( ScoreEvent( actor->GetGUID() ) );
         }
     }
 }

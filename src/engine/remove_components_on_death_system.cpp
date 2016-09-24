@@ -13,20 +13,22 @@ RemoveComponentsOnDeathSystem::RemoveComponentsOnDeathSystem()
 
 void RemoveComponentsOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IRemoveComponentsOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
 }
 
 
 void RemoveComponentsOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IRemoveComponentsOnDeathComponent> removeComponentsOnDeathC = actor.Get<IRemoveComponentsOnDeathComponent>();
+        Opt<IRemoveComponentsOnDeathComponent> removeComponentsOnDeathC = actor->Get<IRemoveComponentsOnDeathComponent>();
         if ( !removeComponentsOnDeathC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if( !healthC.IsValid() )
         {
             continue;
@@ -38,7 +40,7 @@ void RemoveComponentsOnDeathSystem::Update( double DeltaTime )
         // create copy, component might drop itself
         std::vector<int32_t> const comps = removeComponentsOnDeathC->GetComponents();
         std::for_each( std::begin( comps ), std::end( comps ),
-                [&]( int32_t id ) { actor.DropComponent( id ); } );
+                [&]( int32_t id ) { actor->DropComponent( id ); } );
     }
 }
 

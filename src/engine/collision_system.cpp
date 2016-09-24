@@ -3,6 +3,7 @@
 #include "core/i_collision_component.h"
 #include "boost/assert.hpp"
 #include "core/collision_model.h"
+#include "core/i_position_component.h"
 
 namespace engine {
 
@@ -17,22 +18,24 @@ void CollisionSystem::Init()
 {
     SubSystemHolder::Init();
     mCollisionGrid.Build( mScene.GetDimensions(), 400.0f );
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<ICollisionComponent>().IsValid()
+            && actor.Get<IPositionComponent>().IsValid(); } );
 }
 
 void CollisionSystem::Update( double DeltaTime )
 {
     mCollisionGrid.Clear();
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+        Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
         if ( collisionC.IsValid() )
         {
-            mCollisionGrid.AddActor( &actor, DeltaTime );
+            mCollisionGrid.AddActor( actor, DeltaTime );
             Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
             if ( collisionSS.IsValid() )
             {
-                collisionSS->ClipScene( actor );
+                collisionSS->ClipScene( *actor );
             }
         }
     }

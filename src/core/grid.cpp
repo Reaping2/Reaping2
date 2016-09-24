@@ -24,7 +24,13 @@ PossibleCollisions_t Grid::GetPossibleCollisions()const
     for( Cells_t::const_iterator i = mCells.begin(), e = mCells.end(); i != e; ++i )
     {
         Cell const& C = *i;
-        for( size_t k = 0; k < CollisionClass::Num_Classes; ++k )
+        if (C.mActors[CollisionClass::Player].empty() &&
+            C.mActors[CollisionClass::Projectile].empty() &&
+            C.mActors[CollisionClass::Creep].empty())
+        {
+            continue;
+        }
+        for (size_t k = 0; k < CollisionClass::Num_Classes; ++k)
         {
             Actors_t const& Actors = C.mActors[k];
             for( size_t j = k; j < CollisionClass::Num_Classes; ++j )

@@ -14,15 +14,16 @@ BuffHolderSystem::BuffHolderSystem()
 void BuffHolderSystem::Init()
 {
     SubSystemHolder::Init();
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IBuffHolderComponent>().IsValid(); } );
 }
 
 
 void BuffHolderSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for ( auto actor : mScene.GetActorsFromMap( GetType_static() ) )
     {
-        Actor& actor = **it;
-        Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();
+        Opt<IBuffHolderComponent> buffHolderC = actor->Get<IBuffHolderComponent>();
         if ( !buffHolderC.IsValid() )
         {
             continue;
@@ -46,7 +47,7 @@ void BuffHolderSystem::Update( double DeltaTime )
         //         }
         for( SubSystems_t::iterator ssIt = mSubSystems.begin(), e = mSubSystems.end(); ssIt != e; ++ssIt )
         {
-            ssIt->mSystem->Update( actor, DeltaTime );
+            ssIt->mSystem->Update( *actor, DeltaTime );
         }
 
         BuffList_t& buffList = buffHolderC->GetBuffList();

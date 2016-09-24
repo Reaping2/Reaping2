@@ -19,20 +19,23 @@ DropOnDeathSystem::DropOnDeathSystem()
 
 void DropOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IDropOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid()
+            && actor.Get<IPositionComponent>().IsValid(); } );
 }
 
 void DropOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IDropOnDeathComponent> dropOnDeathC = actor.Get<IDropOnDeathComponent>();
+        Opt<IDropOnDeathComponent> dropOnDeathC = actor->Get<IDropOnDeathComponent>();
         if ( !dropOnDeathC.IsValid() )
         {
             continue;
         }
 
-        if( !dropOnDeathC->IsTriedDrop() && !actor.Get<IHealthComponent>()->IsAlive() )
+        if( !dropOnDeathC->IsTriedDrop() && !actor->Get<IHealthComponent>()->IsAlive() )
         {
             dropOnDeathC->SetTriedDrop( true );
 #ifdef DEBUG
@@ -64,8 +67,8 @@ void DropOnDeathSystem::Update( double DeltaTime )
                 Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
                 Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Buff );
             }
-            BOOST_ASSERT( actor.Get<IPositionComponent>().IsValid() );
-            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+            BOOST_ASSERT( actor->Get<IPositionComponent>().IsValid() );
+            Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
             Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
             puPositionC->SetX( positionC->GetX() );
             puPositionC->SetY( positionC->GetY() );

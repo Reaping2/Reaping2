@@ -23,6 +23,7 @@ SpawnActorMapElement& SpawnActorMapElement::operator=( SpawnActorMapElement cons
         int32_t i = compload.first;
         mComponentLoaders.insert( i, static_cast<ActorCreator::ComponentLoader_t*>(compload.second->clone()) );
     }
+    mRemoveWhenUsed = other.mRemoveWhenUsed;
     return *this;
 
 }
@@ -31,6 +32,7 @@ SpawnActorMapElement::SpawnActorMapElement( int32_t Id )
     : MapElement( Id )
     , BaseInput()
     , mActorID( -1 )
+    , mRemoveWhenUsed( true )
 {
     AddInputNodeId( SpawnNodeId() );
 }
@@ -52,6 +54,11 @@ void SpawnActorMapElement::Load( Json::Value& setters )
     }
     SetActorID( AutoId( actorStr ) );
     LoadComponentLoaders( setters, mComponentLoaders );
+    int32_t removeWhenUsed;
+    if (Json::GetInt( setters["remove_when_used"], removeWhenUsed ))
+    {
+        mRemoveWhenUsed = removeWhenUsed != 0;
+    }
 }
 
 void SpawnActorMapElement::SetActorID( int32_t actorID )
@@ -67,6 +74,16 @@ int32_t SpawnActorMapElement::GetActorID()const
 ActorCreator::ComponentLoaderMap_t const& SpawnActorMapElement::GetComponentLoaders()const
 {
     return mComponentLoaders;
+}
+
+void SpawnActorMapElement::SetRemoveWhenUsed( bool removeWhenUsed )
+{
+    mRemoveWhenUsed = removeWhenUsed;
+}
+
+bool SpawnActorMapElement::IsRemoveWhenUsed() const
+{
+    return mRemoveWhenUsed;
 }
 
 void SpawnActorMapElement::LoadComponentLoaders( Json::Value& setters, ActorCreator::ComponentLoaderMap_t& componentLoaders )

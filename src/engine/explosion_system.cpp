@@ -13,20 +13,22 @@ ExplosionSystem::ExplosionSystem()
 
 void ExplosionSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IExplosionComponent>().IsValid()
+            && actor.Get<ICollisionComponent>().IsValid(); } );
 }
 
 
 void ExplosionSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IExplosionComponent> explosionC = actor.Get<IExplosionComponent>();
+        Opt<IExplosionComponent> explosionC = actor->Get<IExplosionComponent>();
         if ( !explosionC.IsValid() )
         {
             continue;
         }
-        Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+        Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
         if ( !collisionC.IsValid() )
         {
             continue;
