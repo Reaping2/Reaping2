@@ -8,7 +8,6 @@
 #include "soldier_created_event.h"
 #include "core/map/soldier_spawn_point_map_element_system.h"
 #include "core/player_controller_component.h"
-#include "render/visual_box_multiplier_component.h"
 
 namespace engine {
 
@@ -36,9 +35,6 @@ void SoldierSpawnSystem::OnRevive( core::ReviveEvent const& Evt )
     if ( mEnabled )
     {
         std::auto_ptr<Actor> player( Spawn( *Evt.mClientData ) );
-        render::VisualBoxMultiplierComponent* vboxC( new render::VisualBoxMultiplierComponent() );
-        vboxC->SetWidth( 2.0 );
-        player->AddComponent( std::auto_ptr<Component>( vboxC ) );
         mScene.AddActor( player.release() );
     }
 }
