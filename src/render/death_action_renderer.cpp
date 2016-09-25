@@ -34,13 +34,8 @@ void DeathActionRenderer::FillRenderableSprites( const Actor& actor, IRenderable
 
 void DeathActionRenderer::Update( double DeltaTime )
 {
-    double nextState = mSecsToEnd == 0 ? 100 : ( mState + 1. / mSecsToEnd * DeltaTime * 100. );
-
-    if( nextState >= 100 )
-    {
-        nextState = 100.;
-    }
-    mState = nextState;
+    double nextState = mSecsToEnd == 0 ? 100 : ( mState + DeltaTime * 100. / mSecsToEnd );
+    mState = std::min( 100., nextState );
 }
 
 } // namespace render

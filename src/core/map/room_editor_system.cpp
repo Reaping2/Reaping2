@@ -70,7 +70,7 @@ void RoomEditorSystem::Init()
     auto& idStorage = IdStorage::Get();
     for (auto&& elem : RoomRepo::Get().GetElements())
     {
-        if (dynamic_cast<const JsonRoom const*>(elem.second) != nullptr)
+        if (dynamic_cast<JsonRoom const*>(elem.second) != nullptr)
         {
             std::string name;
             if (idStorage.GetName( elem.second->GetId(), name ))

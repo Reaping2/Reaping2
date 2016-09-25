@@ -1,6 +1,6 @@
 #include "room_desc.h"
 #include "i_room.h"
-#include "platform\id_storage.h"
+#include "platform/id_storage.h"
 #include "room_property.h"
 
 namespace map {
