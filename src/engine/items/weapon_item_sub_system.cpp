@@ -175,7 +175,7 @@ void WeaponItemSubSystem::AddProjectiles( Actor& actor, Projectiles_t& projectil
     {
         Actor& Proj = **i;
         SetProjectilePosition( Proj, actor );
-        Opt<ShotCollisionComponent> shotCC = Proj.Get<ShotCollisionComponent>();
+        Opt<ShotCollisionComponent> shotCC = Proj.Get<ICollisionComponent>();
         if ( shotCC.IsValid() )
         {
             shotCC->SetParentGUID( actor.GetGUID() );

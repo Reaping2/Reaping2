@@ -441,7 +441,7 @@ void Scene::RemoveFromActorMap( Actor* actor )
 {
     for (auto&& actors : mActorMap)
     {
-        actors.second.remove( actor );
+        actors.second.erase( std::remove(actors.second.begin(),actors.second.end(),actor),actors.second.end() );
     }
 }
 

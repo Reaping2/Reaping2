@@ -64,7 +64,7 @@ void HatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableCo
     if( Spr.IsValid() )
     {
         SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        Opt<PlayerControllerComponent> playerCC = actor.Get<PlayerControllerComponent>();
+        Opt<PlayerControllerComponent> playerCC = actor.Get<IControllerComponent>();
         glm::vec4 col = (playerCC.IsValid() ? ColorRepo::Get()(playerCC->mControllerId) : glm::vec4( 1, 1, 1, 1 ))*GetColor( actor );
         col.a = GetCloakColor( actor ).a;
         col = col * GetColor( actor );

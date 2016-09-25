@@ -86,7 +86,7 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, ma
         inventoryC->SetSelectedWeapon( AutoId( "pistol" ) );
     }
 
-    Opt<PlayerControllerComponent> playerControllerC( player->Get<PlayerControllerComponent>() );
+    Opt<PlayerControllerComponent> playerControllerC( player->Get<IControllerComponent>() );
     if ( playerControllerC.IsValid() )
     {
         playerControllerC->mControllerId = clientData.mClientId;

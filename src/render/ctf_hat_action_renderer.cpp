@@ -31,7 +31,7 @@ void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
     Sprite const& Spr = Sprites( mCtfHatId );
     if( Spr.IsValid() )
     {
-        //         Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
+        //         Opt<PlayerControllerComponent> playerCC=actor.Get<IControllerComponent>();
         //         if (playerCC.IsValid())
         //         {
         //             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));

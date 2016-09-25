@@ -27,7 +27,7 @@ void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 
 void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<PickupCollisionComponent> pickupCC = actor.Get<PickupCollisionComponent>();
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
 
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if ( inventoryC.IsValid() )

@@ -46,7 +46,7 @@ void FlagCollisionSubSystem::OnAttachStateChanged( engine::AttachStateChangedEve
         {
             return;
         }
-        if ( !actor->Get<FlagCollisionComponent>().IsValid() )
+        if ( !Opt<FlagCollisionComponent>(actor->Get<ICollisionComponent>()).IsValid() )
         {
             return; //not the flag
         }
@@ -61,7 +61,7 @@ void FlagCollisionSubSystem::OnAttachStateChanged( engine::AttachStateChangedEve
 void FlagCollisionSubSystem::ClipScene( Actor& actor )
 {
     CollisionSubSystem::ClipScene( actor );
-    Opt<FlagCollisionComponent> flagCC = actor.Get<FlagCollisionComponent>();
+    //Opt<FlagCollisionComponent> flagCC = actor.Get<ICollisionComponent>();
 }
 
 void FlagCollisionSubSystem::Collide( Actor& actor, Actor& other )
