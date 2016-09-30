@@ -20,6 +20,8 @@ ItemLoaderRepo::ItemLoaderRepo()
 {
     int32_t id = AutoId( "plasma_gun" );
     mElements.insert( id, new PlasmaGunLoader() );
+    id = AutoId( "guard_plasma_gun" );
+    mElements.insert( id, new PlasmaGunLoader() );
     id = AutoId( "pistol" );
     mElements.insert( id, new PistolLoader() );
     id = AutoId( "shotgun" );

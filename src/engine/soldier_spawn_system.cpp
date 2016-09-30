@@ -80,11 +80,11 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, ma
     positionC->SetY( spawnPoint.mY );
 
     //TODO: temporary till normal inventory sync
-    Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
-    if ( inventoryC.IsValid() )
-    {
-        inventoryC->SetSelectedWeapon( AutoId( "pistol" ) );
-    }
+//     Opt<IInventoryComponent> inventoryC = player->Get<IInventoryComponent>();
+//     if ( inventoryC.IsValid() )
+//     {
+//         inventoryC->SetSelectedWeapon( AutoId( "pistol" ) );
+//     }
 
     Opt<PlayerControllerComponent> playerControllerC( player->Get<IControllerComponent>() );
     if ( playerControllerC.IsValid() )

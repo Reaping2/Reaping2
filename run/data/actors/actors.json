@@ -513,7 +513,7 @@
             },
 
             {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":8, "damage":5 }]
+                "set":[{"class":"projectile", "radius":8, "damage":25 }]
             },
             {"name":"health_component"},
             {"name":"owner_component"},
@@ -692,7 +692,7 @@
                 "set":[{"layer":"buildings"}]
             },
             {"name":"aoe_collision_component",
-                "set":[{"class":"aoe", "radius":14, "damage":1, "damage_once":1 }]
+                "set":[{"class":"aoe", "radius":14, "damage":35, "damage_once":1 }]
             },
             {"name":"explosion_component",
                 "set":[{"scale_speed":1500.0, "max_radius":250.0}]

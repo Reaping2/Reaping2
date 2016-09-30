@@ -1,0 +1,47 @@
+[
+    {
+        "name":"guard",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":250,"moving":0}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"players", "cast_shadow":1}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"creep", "radius":30}]
+            },
+            {"name":"guard_controller_component",
+                "set":[{"aggro_distance":750,
+                        "aggro_alt_distance":600,
+                        "close_distance":350,
+                        "walk_away_distance":200,
+                        "peace_distance":1000,
+                        "next_move_timer":2.0,
+                        "next_move_timer_variance":1.5
+                        }]
+            },
+            {"name":"target_holder_component"},
+            {"name":"inventory_component",
+                "set":[{"add_item":"guard_plasma_gun",
+                        "select_weapon":"guard_plasma_gun",
+                        "pickup_items":0}]
+            },
+            {"name":"health_component",
+                "set":[{"hp":65}]
+            },
+            {"name":"accuracy_component",
+                "set":[{"accuracy":0}]
+            },
+            {"name":"armor_component"},
+            {"name":"cloak_component"},
+            {"name":"stop_on_death_component"},
+            {"name":"heat_source_component"},
+            {"name":"audible_component"},
+            {"name":"remove_on_death_component",
+                "set":[{"delay":5.0}] }
+        ]
+    }
+]

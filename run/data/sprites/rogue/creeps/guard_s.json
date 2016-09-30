@@ -1,10 +1,10 @@
 [
     {
-        "texture_path":"textures/rogue/player/soldier_body_color.png",
+        "texture_path":"textures/rogue/creeps/guard_body_color.png",
         "actor_visuals":
         [
             {
-                "name":"player",
+                "name":"guard",
                 "animations":
                 [
                     {
@@ -19,11 +19,11 @@
         ]
     },
     {
-        "texture_path":"textures/rogue/player/soldier_head_color.png",
+        "texture_path":"textures/rogue/creeps/guard_head_color.png",
         "actor_visuals":
         [
             {
-                "name":"player",
+                "name":"guard",
                 "animations":
                 [
                     {
@@ -38,11 +38,11 @@
         ]
     },
     {
-        "texture_path":"textures/rogue/player/soldier_head_base.png",
+        "texture_path":"textures/rogue/creeps/guard_head_base.png",
         "actor_visuals":
         [
             {
-                "name":"player",
+                "name":"guard",
                 "animations":
                 [
                     {
@@ -57,11 +57,11 @@
         ]
     },
     {
-        "texture_path":"textures/rogue/player/soldier_body_base.png",
+        "texture_path":"textures/rogue/creeps/guard_body_base.png",
         "actor_visuals":
         [
             {
-                "name":"player",
+                "name":"guard",
                 "animations":
                 [
                     {
@@ -76,11 +76,11 @@
         ]
     },
     {
-        "texture_path":"textures/rogue/player/soldier_body_base.png",
+        "texture_path":"textures/rogue/creeps/guard_body_base.png",
         "actor_visuals":
         [
             {
-                "name":"player",
+                "name":"guard",
                 "animations":
                 [
                     {
@@ -100,7 +100,31 @@
             "animations" : [
                {
                   "h" : 17,
+                  "name" : "pistol",
+                  "phases" : [
+                     {
+                        "x" : 546,
+                        "y" : 156
+                     }
+                  ],
+                  "scale" : 2.0,
+                  "w" : 30
+               },
+               {
+                  "h" : 17,
                   "name" : "plasma_gun",
+                  "phases" : [
+                     {
+                        "x" : 580,
+                        "y" : 156
+                     }
+                  ],
+                  "scale" : 2.0,
+                  "w" : 30
+               },
+               {
+                  "h" : 17,
+                  "name" : "guard_plasma_gun",
                   "phases" : [
                      {
                         "x" : 580,
@@ -161,7 +185,7 @@
                   "secs_to_end" : 1 
                }
             ],
-            "name" : "player"
+            "name" : "guard"
          }
       ],
       "texture_path" : "textures/combined.tga"

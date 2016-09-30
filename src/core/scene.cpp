@@ -202,11 +202,11 @@ void Scene::AddTestCreep( double X, double Y )
 
 void Scene::RemoveActor( ActorList_t::iterator it )
 {
-    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Removed ) );
     L2( "removeActor it (GUID:%d)\n", ( *it )->GetGUID() );
+    RemoveFromActorMap( it->Get() );
+    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
     delete ( *it ).Get();
     mActorHolder.mAllActors.erase( it );
-    RemoveFromActorMap( it->Get() );
 }
 
 void Scene::RemoveActor( int32_t guid )
@@ -439,7 +439,7 @@ void Scene::AddToActorMap( Actor* actor )
 
 void Scene::RemoveFromActorMap( Actor* actor )
 {
-    for (auto&& actors : mActorMap)
+    for (auto& actors : mActorMap)
     {
         actors.second.erase( std::remove(actors.second.begin(),actors.second.end(),actor),actors.second.end() );
     }
