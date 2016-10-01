@@ -204,7 +204,7 @@ void Scene::RemoveActor( ActorList_t::iterator it )
 {
     L2( "removeActor it (GUID:%d)\n", ( *it )->GetGUID() );
     RemoveFromActorMap( it->Get() );
-    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( (*it), ActorEvent::Removed ) );
+    EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Removed ) );
     delete ( *it ).Get();
     mActorHolder.mAllActors.erase( it );
 }
@@ -441,8 +441,10 @@ void Scene::RemoveFromActorMap( Actor* actor )
 {
     for (auto& actors : mActorMap)
     {
-        actors.second.erase( std::remove(actors.second.begin(),actors.second.end(),actor),actors.second.end() );
-    }
+        auto& vec = actors.second;
+        vec.erase( std::remove( vec.begin(), vec.end(), actor ), vec.end() );
+
+   }
 }
 
 Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )
