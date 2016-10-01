@@ -20,6 +20,7 @@ void RemoveOnDeathSystem::Init()
 
 void RemoveOnDeathSystem::Update( double DeltaTime )
 {
+    std::vector<int32_t> removeActorUIDs;
     for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
         Opt<IRemoveOnDeathComponent> removeOnDeathC = actor->Get<IRemoveOnDeathComponent>();
@@ -36,8 +37,12 @@ void RemoveOnDeathSystem::Update( double DeltaTime )
         removeOnDeathC->SetRemainingTime( RemainingTime );
         if( RemainingTime <= 0 )
         {
-            mScene.RemoveActor( actor->GetGUID() );
+            removeActorUIDs.push_back( actor->GetGUID() );
         }
+    }
+    for (auto uid : removeActorUIDs)
+    {
+        mScene.RemoveActor( uid );
     }
 }
 

@@ -44,9 +44,9 @@
         "generator_name":"jungle",
         "properties":
         {
-            "seed":10,
+            "seed":3,
             "cell_size":800,
-            "cell_count":6,
+            "cell_count":10,
             "route":
             {
                 "min_length":14,
@@ -61,7 +61,7 @@
             },
             "possible_rooms":
             [
-                { "room_id":"rogue1x1","weight":1 },
+                { "room_id":"rogue1x1","weight":3 },
                 { "room_id":"rogue2x2","weight":6 },
                 { "room_id":"rogue1x3","weight":4 }
             ]

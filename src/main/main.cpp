@@ -388,6 +388,8 @@ int main( int argc, char* argv[] )
     controllserSystem->AddSubSystem( AutoId( "random_controller_component" ), AutoId( "random_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "target_player_controller_component" ), AutoId( "target_player_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "pointer_target_controller_component" ), AutoId( "pointer_target_controller_sub_system" ) );
+    controllserSystem->AddSubSystem( AutoId( "guard_controller_component" ), AutoId( "guard_controller_sub_system" ) );
+
 
     Eng.AddSystem( AutoId( "cloak_system" ) );
 
@@ -398,6 +400,7 @@ int main( int argc, char* argv[] )
     if ( programState.mMode != ProgramState::Client )
     {
         weaponItemSS->AddSubSystem( AutoId( "plasma_gun" ), AutoId( "plasma_gun_weapon_sub_system" ) );
+        weaponItemSS->AddSubSystem( AutoId( "guard_plasma_gun" ), AutoId( "plasma_gun_weapon_sub_system" ) );
         weaponItemSS->AddSubSystem( AutoId( "pistol" ), AutoId( "pistol_weapon_sub_system" ) );
         weaponItemSS->AddSubSystem( AutoId( "shotgun" ), AutoId( "shotgun_weapon_sub_system" ) );
         weaponItemSS->AddSubSystem( AutoId( "rocket_launcher" ), AutoId( "rocket_launcher_weapon_sub_system" ) );
@@ -435,7 +438,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "remove_on_death_system" ) );
         Eng.AddSystem( AutoId( "explode_on_death_system" ) );
     }
-    Eng.AddSystem( AutoId( "remove_components_on_death_system" ) );
+    //Eng.AddSystem( AutoId( "remove_components_on_death_system" ) );
     Eng.AddSystem( AutoId( "soldier_auto_revive_system" ) );
     Eng.AddSystem( AutoId( "explosion_system" ) );
     Eng.AddSystem( AutoId( "acceleration_system" ) );

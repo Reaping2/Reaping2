@@ -24,7 +24,7 @@ void BounceCollisionSubSystem::Init()
 
 void BounceCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+    Opt<BounceCollisionComponent> bounceCC = actor.Get<ICollisionComponent>();
     if (mShotCollisionSubSystem.IsValid()&&bounceCC->IsUseShotCollision())
     {
         mShotCollisionSubSystem->Update(actor, DeltaTime);
@@ -38,7 +38,7 @@ void BounceCollisionSubSystem::ClipScene( Actor& actor )
 //      There might be a switch to turn this functionality on.
 //      Bouncing back from the edge of the stage.
 
-//     Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+//     Opt<BounceCollisionComponent> bounceCC = actor.Get<ICollisionComponent>();
 //     Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
 //     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
 //     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
@@ -84,13 +84,13 @@ void BounceCollisionSubSystem::ClipScene( Actor& actor )
 
 void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<BounceCollisionComponent> bounceCC = actor.Get<BounceCollisionComponent>();
+    Opt<BounceCollisionComponent> bounceCC = actor.Get<ICollisionComponent>();
     if (mShotCollisionSubSystem.IsValid() && bounceCC->IsUseShotCollision())
     {
         mShotCollisionSubSystem->Collide(actor, other);
     }
     //TODO: for now its wallcc should be a bouncableComponent or this should be a collision class
-    Opt<WallCollisionComponent> wallCC = other.Get<WallCollisionComponent>();
+    Opt<WallCollisionComponent> wallCC = other.Get<ICollisionComponent>();
     if( !wallCC.IsValid() )
     {
         return;

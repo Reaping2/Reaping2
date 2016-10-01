@@ -36,6 +36,8 @@ TargetRepo::TargetRepo()
     mElements.insert( id, new WallTarget( id, id, id ) );
     id = AutoId( "rogue_wall50" );
     mElements.insert( id, new WallTarget( id, id, id ) );
+    id = AutoId( "guard" );
+    mElements.insert( id, new WallTarget( id, id, id ) );
     id = AutoId( "grass_tile" );
     mElements.insert( id, new WallTarget( id, id, id ) );
     id = AutoId( "end" );

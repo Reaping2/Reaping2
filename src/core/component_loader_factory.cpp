@@ -50,6 +50,7 @@
 #include "render/visual_box_multiplier_component.h"
 #include "cell_component.h"
 #include "level_end_component.h"
+#include "guard_controller_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -64,6 +65,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "player_controller_component" ), &CreateComponentLoader<PlayerControllerComponentLoader> );
     Bind( AutoId( "target_player_controller_component" ), &CreateComponentLoader<TargetPlayerControllerComponentLoader> );
     Bind( AutoId( "random_controller_component" ), &CreateComponentLoader<RandomControllerComponentLoader> );
+    Bind( AutoId( "guard_controller_component" ), &CreateComponentLoader<GuardControllerComponentLoader> );
     Bind( AutoId( "inventory_component" ), &CreateComponentLoader<InventoryComponentLoader> );
 
     Bind( AutoId( "health_component" ), &CreateComponentLoader<HealthComponentLoader> );

@@ -7,6 +7,7 @@
 #include "engine/system.h"
 #include "engine/sub_system_holder.h"
 #include "engine/collisions/collision_sub_system.h"
+#include "core/perf_timer.h"
 
 namespace engine {
 
@@ -22,6 +23,8 @@ private:
     Grid mCollisionGrid;
     CollisionStore& mCollisionStore;
     Scene& mScene;
+    perf::Timer_t mPerfTimer;
+    perf::Timer_t mUpdateTimer;
 };
 
 } // namespace engine

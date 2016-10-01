@@ -19,7 +19,6 @@ private:
     ActorFactory& mActorFactory;
     int32_t mShotId;
     int32_t mAltShotId;
-    int32_t mPlasmaShotId;
 };
 
 } // namespace engine

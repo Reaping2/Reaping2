@@ -443,7 +443,8 @@ void Scene::RemoveFromActorMap( Actor* actor )
     {
         auto& vec = actors.second;
         vec.erase( std::remove( vec.begin(), vec.end(), actor ), vec.end() );
-    }
+
+   }
 }
 
 Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )

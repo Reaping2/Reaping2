@@ -33,7 +33,7 @@ void AoeCollisionSubSystem::ClipScene( Actor& actor )
 
 void AoeCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<AoeCollisionComponent> aoeCC = actor.Get<AoeCollisionComponent>();
+    Opt<AoeCollisionComponent> aoeCC = actor.Get<ICollisionComponent>();
     Opt<IOwnerComponent> ownerC = actor.Get<IOwnerComponent>();
     Opt<IHealthComponent> otherHealthC = other.Get<IHealthComponent>();
 

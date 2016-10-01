@@ -27,7 +27,7 @@ void TargetPlayerControllerSubSystem::Init()
 
 void TargetPlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<TargetPlayerControllerComponent> targetPCC = actor.Get<TargetPlayerControllerComponent>();
+    Opt<TargetPlayerControllerComponent> targetPCC = actor.Get<IControllerComponent>();
     if ( !targetPCC.IsValid() || !targetPCC->IsEnabled() )
     {
         return;

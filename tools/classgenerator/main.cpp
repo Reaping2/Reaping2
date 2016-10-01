@@ -1063,7 +1063,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf( file.mFile, "    {\n" );
             fprintf( file.mFile, "        return;\n" );
             fprintf( file.mFile, "    }\n" );
-            fprintf( file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<ICollisionComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str() );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
 
@@ -1071,7 +1071,7 @@ class CollisionSubSystemGenerator : public SubSystemGenerator
             fprintf( file.mFile, "void %s::ClipScene(Actor& actor)\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
             fprintf( file.mFile, "    CollisionSubSystem::ClipScene(actor);\n" );
-            fprintf( file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<%sCollisionComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "    Opt<%sCollisionComponent> %sCC=actor.Get<ICollisionComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str() );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
 
@@ -1163,7 +1163,7 @@ class ControllerSubSystemGenerator : public SubSystemGenerator
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
-            fprintf( file.mFile, "    Opt<%sControllerComponent> %sCC=actor.Get<%sControllerComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "    Opt<%sControllerComponent> %sCC=actor.Get<IControllerComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str() );
             fprintf( file.mFile, "    if (!%sCC.IsValid()||!%sCC->IsEnabled())\n", targetVariableName.c_str(), targetVariableName.c_str() );
             fprintf( file.mFile, "    {\n" );
             fprintf( file.mFile, "        return;\n" );

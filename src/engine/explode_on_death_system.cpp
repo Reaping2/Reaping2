@@ -28,6 +28,7 @@ void ExplodeOnDeathSystem::Init()
 
 void ExplodeOnDeathSystem::Update( double DeltaTime )
 {
+    std::vector<int32_t> removeActorUIDs;
     for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
         Opt<IExplodeOnDeathComponent> explodeOnDeathC = actor->Get<IExplodeOnDeathComponent>();
@@ -46,8 +47,12 @@ void ExplodeOnDeathSystem::Update( double DeltaTime )
             FillExplosionProjectiles( *explodeOnDeathC.Get(), *actor, projectiles );
             Scatter scatter;
             WeaponItemSubSystem::Get()->AddProjectiles( *actor, projectiles, scatter );
-            mScene.RemoveActor( actor->GetGUID() );
+            removeActorUIDs.push_back( actor->GetGUID() );
         }
+    }
+    for (auto uid : removeActorUIDs)
+    {
+        mScene.RemoveActor( uid );
     }
 }
 

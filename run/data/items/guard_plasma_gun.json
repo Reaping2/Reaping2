@@ -1,0 +1,22 @@
+[
+    {
+        "name":"guard_plasma_gun",
+        "set":[{
+            "shoot_cooldown":1.0,
+            "shoot_alt_cooldown":2.0,
+            "bullets":100.0,
+            "shot_cost":10,
+            "shot_cost_alt":30,
+            "reload_time":0.2,
+            "static_reload":5,
+            "scatter_increase":13,
+            "scatter_alt_increase":20,
+            "scatter_chill":40,
+            "scatter_magic_number":100,
+            "position_x":60.0,
+            "position_y":20.0,
+            "shot":"guard_plasma_shot",
+            "shot_alt":"guard_plasma_shot"
+        }]
+    }
+]

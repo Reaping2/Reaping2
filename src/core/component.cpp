@@ -45,7 +45,7 @@ void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
     if( i == mComponents.end() )
     {
         int type = Comp->GetType();
-        mComponents.insert( type, Comp );
+        mComponents.emplace( type, Comp.release() );
     }
 }
 
@@ -56,6 +56,7 @@ void ComponentHolder::DropComponent( int32_t id )
         auto const& comp = *it->second;
         if( comp.GetId() == id )
         {
+            delete it->second;
             it = mComponents.erase( it );
         }
         else
@@ -72,6 +73,11 @@ ComponentHolder::ComponentHolder()
 
 ComponentHolder::~ComponentHolder()
 {
+    for (auto i : mComponents)
+    {
+        delete i.second;
+    }
+    mComponents.clear();
 }
 
 

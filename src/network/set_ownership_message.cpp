@@ -53,7 +53,7 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending( Message const& message
     SetOwnershipMessage const& msg = static_cast<SetOwnershipMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
     L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
-    Opt<PlayerControllerComponent> playerControllerC( actor->Get<PlayerControllerComponent>() );
+    Opt<PlayerControllerComponent> playerControllerC( actor->Get<IControllerComponent>() );
     if ( !playerControllerC.IsValid() )
     {
         L1( "setownership is called on an actor that is not playerControllable \n" );
@@ -68,7 +68,7 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending( Message const& message
         Opt<Actor> oldActor = mScene.GetActor( mProgramState.mControlledActorGUID );
         if ( oldActor.IsValid() )
         {
-            Opt<PlayerControllerComponent> pcc = oldActor->Get<PlayerControllerComponent>();
+            Opt<PlayerControllerComponent> pcc = oldActor->Get<IControllerComponent>();
             if( pcc.IsValid() )
             {
                 pcc->SetEnabled( false );

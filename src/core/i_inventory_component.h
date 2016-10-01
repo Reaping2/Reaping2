@@ -25,6 +25,8 @@ public:
     virtual void SetSelectedWeapon( int32_t Id ) = 0;
     virtual Opt<NormalItem> GetSelectedNormalItem() = 0;
     virtual void SetSelectedNormalItem( int32_t Id ) = 0;
+    virtual void SetPickupItems( bool pickupItems ) = 0;
+    virtual bool IsPickupItems()const = 0;
     virtual void Update( double Seconds ) = 0;
 protected:
     friend class ComponentFactory;

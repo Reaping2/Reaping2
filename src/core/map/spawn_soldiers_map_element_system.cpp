@@ -47,9 +47,9 @@ void SpawnSoldiersMapElementSystem::Update( double DeltaTime )
                     L2( "spawning local player" );
                     clientData->mClientActorGUID = -1;
                     std::auto_ptr<Actor> Pl( engine::SoldierSpawnSystem::Get()->Spawn( *clientData ) );
-
-                    Pl->Get<PlayerControllerComponent>()->SetEnabled( true );
-                    Pl->Get<PlayerControllerComponent>()->mActive = true;
+                    Opt<PlayerControllerComponent>playerCC(Pl->Get<IControllerComponent>());
+                    playerCC->SetEnabled( true );
+                    playerCC->mActive = true;
                     auto positionC=(Pl->Get<IPositionComponent>());
                     mScene.SetPlayerModels( Opt<Actor>( Pl.get() ) );
                     mProgramState.mControlledActorGUID = clientData->mClientActorGUID;

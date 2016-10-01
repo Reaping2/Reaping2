@@ -22,7 +22,7 @@ void ShotCollisionSubSystem::Init()
 
 void ShotCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<ShotCollisionComponent> shotCC = actor.Get<ShotCollisionComponent>();
+    Opt<ShotCollisionComponent> shotCC = actor.Get<ICollisionComponent>();
     if ( shotCC->GetActorsCollided().empty() )
     {
         return;
@@ -62,7 +62,7 @@ void ShotCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 
 void ShotCollisionSubSystem::ClipScene( Actor& actor )
 {
-    Opt<ShotCollisionComponent> shotCC = actor.Get<ShotCollisionComponent>();
+    Opt<ShotCollisionComponent> shotCC = actor.Get<ICollisionComponent>();
     Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
 
@@ -79,7 +79,7 @@ void ShotCollisionSubSystem::ClipScene( Actor& actor )
 
 void ShotCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<ShotCollisionComponent> shotCC = actor.Get<ShotCollisionComponent>();
+    Opt<ShotCollisionComponent> shotCC = actor.Get<ICollisionComponent>();
     if( other.GetGUID() == shotCC->GetParentGuid() )
     {
         return;
