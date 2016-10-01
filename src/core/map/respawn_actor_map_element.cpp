@@ -137,7 +137,7 @@ void RespawnActorMapElement::Save( Json::Value& Element )
         ComponentsArr.append( Component );
     }
 
-    Opt<PickupCollisionComponent> pickupCollisionC( actor->Get<PickupCollisionComponent>() );
+    Opt<PickupCollisionComponent> pickupCollisionC( actor->Get<ICollisionComponent>() );
     if ( pickupCollisionC.IsValid() )
     {
         Json::Value Component( Json::objectValue );

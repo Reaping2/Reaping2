@@ -19,6 +19,7 @@ ItemFactory::ItemFactory()
     Bind<DefaultItem>( AutoId( "default_item" ) );
     SetDefault( AutoId( "default_item" ) );
     Bind( AutoId( "plasma_gun" ), &CreateItem<PlasmaGun> );
+    Bind( AutoId( "guard_plasma_gun" ), &CreateItem<PlasmaGun> );
     Bind( AutoId( "pistol" ), &CreateItem<Pistol> );
     Bind( AutoId( "shotgun" ), &CreateItem<Shotgun> );
     Bind( AutoId( "rocket_launcher" ), &CreateItem<RocketLauncher> );

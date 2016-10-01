@@ -26,7 +26,7 @@ void PlayerControllerSubSystem::Init()
 
 void PlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<PlayerControllerComponent> playerControllerC = actor.Get<PlayerControllerComponent>();
+    Opt<PlayerControllerComponent> playerControllerC = actor.Get<IControllerComponent>();
     if ( !playerControllerC.IsValid() )
     {
         return;

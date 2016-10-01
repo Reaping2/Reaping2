@@ -7,6 +7,7 @@ InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
     , mSelectedWeapon( 0 )
     , mSelectedNormalItem( 0 )
+    , mPickupItems( true )
 {
 
 }
@@ -130,6 +131,17 @@ void InventoryComponent::SetSelectedNormalItem( int32_t Id )
     mSelectedNormalItem = Opt<NormalItem>( dynamic_cast<NormalItem*>( GetItem( Id ).Get() ) );
 }
 
+void InventoryComponent::SetPickupItems( bool pickupItems )
+{
+    mPickupItems = pickupItems;
+}
+
+bool InventoryComponent::IsPickupItems() const
+{
+    return mPickupItems;
+}
+
+
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;
@@ -138,6 +150,11 @@ void InventoryComponentLoader::BindValues()
     {
         Bind<int32_t>( static_cast<void ( InventoryComponent::* )( int32_t )>( &InventoryComponent::AddItem ), AutoId( istr ) );
     }
+    if (Json::GetStr( (*mSetters)["select_weapon"], istr ))
+    {
+        Bind<int32_t>( static_cast<void (InventoryComponent::*)(int32_t)>( &InventoryComponent::SetSelectedWeapon ), AutoId( istr ) );
+    }
+    Bind( "pickup_items", func_bool( &InventoryComponent::SetPickupItems ) );
 }
 
 InventoryComponentLoader::InventoryComponentLoader()

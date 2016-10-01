@@ -69,6 +69,10 @@ public:
     double GetPositionX()const;
     void SetPositionY(double y);
     double GetPositionY()const;
+    void SetShotId( int32_t Id );
+    int32_t GetShotId()const;
+    void SetShotAltId( int32_t Id );
+    int32_t GetShotAltId()const;
 
     virtual bool CanReload() const;
     virtual glm::vec3 GetMouseColor() const;
@@ -99,6 +103,8 @@ protected:
     int32_t mMuzzleAltId;
     double mPositionX;
     double mPositionY;
+    int32_t mShotId;
+    int32_t mShotAltId;
     friend class ItemFactory;
 };
 
@@ -119,6 +125,8 @@ void Weapon::serialize( Archive& ar, const unsigned int version )
     ar& mReloadTime;
     ar& mReloadTimeMax;
     ar& mStaticReload;
+    ar& mShotId;
+    ar& mShotAltId;
 }
 
 class WeaponLoader: public ItemLoader<Weapon>

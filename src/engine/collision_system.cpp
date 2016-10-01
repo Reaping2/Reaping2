@@ -25,20 +25,25 @@ void CollisionSystem::Init()
 
 void CollisionSystem::Update( double DeltaTime )
 {
+    mUpdateTimer.Log( "start collision" );
     mCollisionGrid.Clear();
+    mPerfTimer.Log( "pre build grid" );
+    std::vector<std::pair<Opt<CollisionSubSystem>, Actor*>> collisionAndActors;
     for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
         Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
         if ( collisionC.IsValid() )
         {
-            mCollisionGrid.AddActor( actor, DeltaTime );
+            mCollisionGrid.AddActor( actor, DeltaTime, collisionC );
             Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
             if ( collisionSS.IsValid() )
             {
+                collisionAndActors.push_back( std::make_pair( collisionSS, actor ) );
                 collisionSS->ClipScene( *actor );
             }
         }
     }
+    mPerfTimer.Log( "post build grid" );
     PossibleCollisions_t const& PossibleCollisions = mCollisionGrid.GetPossibleCollisions();
     for( PossibleCollisions_t::const_iterator i = PossibleCollisions.begin(), e = PossibleCollisions.end(); i != e; ++i )
     {
@@ -65,32 +70,26 @@ void CollisionSystem::Update( double DeltaTime )
             BCollisionSS->Collide( B, A );
         }
     }
-    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    mPerfTimer.Log( "post collide" );
+    for (auto& collAndActor : collisionAndActors)
     {
-        Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
-        if ( collisionC.IsValid() )
-        {
-            Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
-            if ( collisionSS.IsValid() )
-            {
-                collisionSS->Update( *actor, DeltaTime );
-            }
-        }
+        collAndActor.first->Update( *collAndActor.second, DeltaTime );
     }
+    mPerfTimer.Log( "post collSS" );
+    mUpdateTimer.Log( "end collision" );
 }
 
 Opt<CollisionSubSystem> CollisionSystem::GetCollisionSubSystem( int32_t id )
 {
-    Opt<CollisionSubSystem> r;
     BindIds_t& bindIds = mSubSystems.get<SubSystemHolder::AllByBindId>();
     BindIds_t::iterator subsysIt = bindIds.find( id );
     if ( subsysIt != bindIds.end() )
     {
-        r = Opt<CollisionSubSystem>(
-                dynamic_cast<CollisionSubSystem*>(
+        return Opt<CollisionSubSystem>(
+                static_cast<CollisionSubSystem*>(
                     subsysIt->mSystem.Get() ) );
     }
-    return r;
+    return nullptr;
 }
 
 } // namespace engine

@@ -47,7 +47,7 @@ void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     }
     Opt<Actor> saw( mScene.GetActor( weapon->GetSawGUID() ) );
     BOOST_ASSERT( saw.IsValid() );
-    Opt<ShotCollisionComponent> sawShotCC( saw->Get<ShotCollisionComponent>() );
+    Opt<ShotCollisionComponent> sawShotCC( saw->Get<ICollisionComponent>() );
     BOOST_ASSERT( sawShotCC.IsValid() );
     sawShotCC->SetDoDamage( false );
     sawShotCC->ResetDamagedActorIds();

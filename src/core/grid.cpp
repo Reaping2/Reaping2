@@ -73,9 +73,9 @@ void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
     mCells.resize( mDimX * mDimY );
 }
 
-void Grid::AddActor( Actor* A, double Dt )
+void Grid::AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC )
 {
-    int32_t const CC = A->Get<ICollisionComponent>()->GetCollisionClass();
+    int32_t const CC = collisionC->GetCollisionClass();
     if( !Collisions[CC] )
     {
         return;

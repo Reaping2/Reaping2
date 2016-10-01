@@ -100,18 +100,6 @@
             "animations" : [
                {
                   "h" : 17,
-                  "name" : "pistol",
-                  "phases" : [
-                     {
-                        "x" : 546,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               },
-               {
-                  "h" : 17,
                   "name" : "plasma_gun",
                   "phases" : [
                      {

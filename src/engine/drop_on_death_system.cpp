@@ -49,23 +49,24 @@ void DropOnDeathSystem::Update( double DeltaTime )
             }
             std::auto_ptr<Actor> Pu = mActorFactory( AutoId( "pickup" ) );
             int32_t rolled = RandomGenerator::global()() % 3;
+            Opt<PickupCollisionComponent> pickupCC(Pu->Get<ICollisionComponent>());
             if( rolled == 0 )
             {
                 int32_t contentId = Roll( 5 );
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Weapon );
+                pickupCC->SetPickupContent( contentId );
+                pickupCC->SetItemType( ItemType::Weapon );
             }
             else if ( rolled == 1 )
             {
                 int32_t contentId = RollNormalItem( 4 );
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Normal );
+                pickupCC->SetPickupContent( contentId );
+                pickupCC->SetItemType( ItemType::Normal );
             }
             else if ( rolled == 2 )
             {
                 int32_t contentId = RollBuff( 5 );
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Buff );
+                pickupCC->SetPickupContent( contentId );
+                pickupCC->SetItemType( ItemType::Buff );
             }
             BOOST_ASSERT( actor->Get<IPositionComponent>().IsValid() );
             Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();

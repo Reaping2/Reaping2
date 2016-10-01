@@ -12,7 +12,8 @@ PickupActionRenderer::PickupActionRenderer( int32_t Id )
 
 void PickupActionRenderer::Init( const Actor& actor )
 {
-    int32_t pickupContent = actor.Get<PickupCollisionComponent>()->GetPickupContent();
+    Opt<PickupCollisionComponent> pickupCC( actor.Get<ICollisionComponent>() );
+    int32_t pickupContent = pickupCC->GetPickupContent();
     SpriteCollection const& Sprites = mRenderableRepo( pickupContent );
     Sprite const& Spr = Sprites( mActionId );
     if( Spr.IsValid() )
@@ -23,7 +24,8 @@ void PickupActionRenderer::Init( const Actor& actor )
 
 void PickupActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    int32_t pickupContent = actor.Get<PickupCollisionComponent>()->GetPickupContent();
+    Opt<PickupCollisionComponent> pickupCC( actor.Get<ICollisionComponent>() );
+    int32_t pickupContent = pickupCC->GetPickupContent();
     SpriteCollection const& Sprites = mRenderableRepo( pickupContent );
     Sprite const& Spr = Sprites( mActionId );
     if( Spr.IsValid() )

@@ -50,6 +50,8 @@ Weapon::Weapon()
     , mMuzzleAltId( -1 )
     , mPositionX( 0 )
     , mPositionY( 0 )
+    , mShotId( -1 )
+    , mShotAltId( -1 )
 {
 
 }
@@ -223,6 +225,30 @@ double Weapon::GetPositionY() const
     return mPositionY;
 }
 
+
+void Weapon::SetShotId( int32_t Id )
+{
+    mShotId = Id;
+}
+
+
+int32_t Weapon::GetShotId() const
+{
+    return mShotId;
+}
+
+
+void Weapon::SetShotAltId( int32_t Id )
+{
+    mShotAltId = Id;
+}
+
+
+int32_t Weapon::GetShotAltId() const
+{
+    return mShotAltId;
+}
+
 bool Weapon::GetShoot()
 {
     return mShoot;
@@ -338,6 +364,14 @@ void WeaponLoader::BindValues()
     Json::GetDouble( ( *mSetters )["scatter_magic_number"], scatter.mMagicNumber );
     L1( "Scatter in: %f %f %f %f", scatter.mIncrease, scatter.mAltIncrease, scatter.mChill, scatter.mMagicNumber );
     Bind<Scatter>( &Weapon::SetScatter, scatter );
+    if (Json::GetStr( (*mSetters)["shot"], istr ))
+    {
+        Bind<int32_t>( &Weapon::SetShotId, AutoId( istr ) );
+    }
+    if (Json::GetStr( (*mSetters)["shot_alt"], istr ))
+    {
+        Bind<int32_t>( &Weapon::SetShotAltId, AutoId( istr ) );
+    }
 }
 
 WeaponLoader::WeaponLoader()

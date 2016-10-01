@@ -51,7 +51,7 @@ void SoldierAutoReviveSystem::Update( double DeltaTime )
                 {
                     if( player.IsValid() )
                     {
-                        Opt<PlayerControllerComponent> playerControllerC( player->Get<PlayerControllerComponent>() );
+                        Opt<PlayerControllerComponent> playerControllerC( player->Get<IControllerComponent>() );
                         if ( playerControllerC.IsValid() )
                         {
                             playerControllerC->SetEnabled( false );

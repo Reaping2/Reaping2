@@ -2,6 +2,7 @@
 #define INCLUDED_CORE_GRID_H
 #include "core/actor.h"
 #include "collision_class.h"
+#include "i_collision_component.h"
 
 struct CollPair
 {
@@ -19,7 +20,7 @@ class Grid
 {
 public:
     void Build( glm::vec4 const& Dimensions, float CellSize );
-    void AddActor( Actor* A, double Dt );
+    void AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC );
     void Clear();
     PossibleCollisions_t GetPossibleCollisions()const;
 private:

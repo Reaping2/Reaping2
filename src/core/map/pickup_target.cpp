@@ -72,8 +72,9 @@ void PickupTarget::PutTarget( glm::vec2 position )
 std::auto_ptr<Actor> PickupTarget::GetCursor()
 {
     std::auto_ptr<Actor> pickup( ActorFactory::Get()( mCursorId ) );
-    pickup->Get<PickupCollisionComponent>()->SetPickupContent( mContentId );
-    pickup->Get<PickupCollisionComponent>()->SetItemType( ItemType::Get()( mTypeId ) );
+    Opt<PickupCollisionComponent> pickupCC( pickup->Get<ICollisionComponent>() );
+    pickupCC->SetPickupContent( mContentId );
+    pickupCC->SetItemType( ItemType::Get()( mTypeId ) );
     return pickup;
 }
 

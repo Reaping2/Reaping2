@@ -10,8 +10,9 @@
 #include <portable_iarchive.hpp>
 #include "platform/export.h"
 #include <boost/serialization/serialization.hpp>
-#include <boost/ptr_container/serialize_ptr_map.hpp>
+#include <boost/serialization/unordered_map.hpp>
 #include "platform/export.h"
+#include <unordered_map>
 
 #define DEFINE_COMPONENT_BASE( ComponentType ) \
     static int GetType_static() \
@@ -65,7 +66,7 @@ class ComponentFactory;
 class ComponentHolder
 {
 protected:
-    typedef boost::ptr_map<int32_t, Component> ComponentList_t;
+    typedef std::unordered_map<int32_t, Component*> ComponentList_t;
     ComponentFactory& mComponentFactory;
     ComponentList_t mComponents;
 
@@ -93,9 +94,9 @@ void ComponentHolder::serialize( Archive& ar, const unsigned int version )
 template<typename Component_t>
 Opt<Component_t> ComponentHolder::Get() const
 {
-    ComponentList_t::const_iterator i = mComponents.find( Component_t::GetType_static() );
-    return Opt<Component_t>( dynamic_cast<Component_t*>( const_cast<Component*>(
-                                 i == mComponents.end() ? NULL : i->second ) ) );
+    auto i = mComponents.find( Component_t::GetType_static() );
+    return Opt<Component_t>( i == mComponents.end() ? nullptr 
+        : static_cast<Component_t*> ( const_cast<Component*> ( i->second ) ) );
 }
 
 template<typename Component_t>
@@ -103,6 +104,7 @@ Opt<Component_t> ComponentHolder::Get()
 {
     return ( ( const ComponentHolder* )this )->Get<Component_t>();
 }
+
 
 class DefaultComponent : public Component
 {
