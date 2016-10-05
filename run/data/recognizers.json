@@ -432,6 +432,14 @@
 		]
 	},
 	{
+		"name":"cell_debug",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		]
+	},
+	{
 		"name":"end",
 		"recognizers":
 		[

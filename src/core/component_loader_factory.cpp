@@ -51,6 +51,7 @@
 #include "cell_component.h"
 #include "level_end_component.h"
 #include "guard_controller_component.h"
+#include "static_actor_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -67,7 +68,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "random_controller_component" ), &CreateComponentLoader<RandomControllerComponentLoader> );
     Bind( AutoId( "guard_controller_component" ), &CreateComponentLoader<GuardControllerComponentLoader> );
     Bind( AutoId( "inventory_component" ), &CreateComponentLoader<InventoryComponentLoader> );
-
+    Bind( AutoId( "static_actor_component" ), &CreateComponentLoader<StaticActorComponentLoader> );
     Bind( AutoId( "health_component" ), &CreateComponentLoader<HealthComponentLoader> );
 
     Bind( AutoId( "collision_component" ), &CreateComponentLoader<CollisionComponentLoader> );

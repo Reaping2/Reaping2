@@ -13,16 +13,6 @@
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":30}]
             },
-            {"name":"guard_controller_component",
-                "set":[{"aggro_distance":750,
-                        "aggro_alt_distance":600,
-                        "close_distance":350,
-                        "walk_away_distance":200,
-                        "peace_distance":1000,
-                        "next_move_timer":2.0,
-                        "next_move_timer_variance":1.5
-                        }]
-            },
             {"name":"target_holder_component"},
             {"name":"inventory_component",
                 "set":[{"add_item":"guard_plasma_gun",

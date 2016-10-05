@@ -52,6 +52,7 @@
 #include "cell_component.h"
 #include "level_end_component.h"
 #include "guard_controller_component.h"
+#include "static_actor_component.h"
 
 using platform::AutoId;
 
@@ -72,7 +73,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "guard_controller_component" ), &CreateComponent<GuardControllerComponent> );
 
     Bind( AutoId( "inventory_component" ), &CreateComponent<InventoryComponent> );
-
+    Bind( AutoId( "static_actor_component" ), &CreateComponent<StaticActorComponent> );
     Bind( AutoId( "health_component" ), &CreateComponent<HealthComponent> );
 
     Bind( AutoId( "collision_component" ), &CreateComponent<CollisionComponent> );

@@ -32,12 +32,12 @@ double VisualBoxMultiplierComponent::GetHeight()const
 
 void VisualBoxMultiplierComponentLoader::BindValues()
 {
+    Bind( "width", func_double( &VisualBoxMultiplierComponent::SetWidth ) );
+    Bind( "height", func_double( &VisualBoxMultiplierComponent::SetHeight ) );
 }
 
 VisualBoxMultiplierComponentLoader::VisualBoxMultiplierComponentLoader()
 {
-    Bind( "width", func_double( &VisualBoxMultiplierComponent::SetWidth ) );
-    Bind( "height", func_double( &VisualBoxMultiplierComponent::SetHeight ) );
 }
 
 } // namespace render

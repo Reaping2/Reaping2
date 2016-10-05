@@ -3,6 +3,7 @@
         "name":"rogue_wall50",
         "components":
         [
+            {"name":"static_actor_component"},
             {"name":"position_component"},
             {"name":"renderable_component",
                 "set":[{"layer":"buildings", "cast_shadow":1,

@@ -233,6 +233,7 @@ int main( int argc, char* argv[] )
     if (programState.mMode != ProgramState::Client)
     {
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
+        Eng.AddSystem( AutoId( "path_system" ) );
     }
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );

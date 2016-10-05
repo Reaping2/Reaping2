@@ -26,5 +26,19 @@
                 "scale" : 0.3
             }], "name" : "cell"
         }]
+    },
+    {
+        "texture_path":"textures/cell.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 600,
+                "h" : 600,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "cell_debug"
+        }]
     }
 ]
