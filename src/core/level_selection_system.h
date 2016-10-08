@@ -12,18 +12,19 @@ class LevelSelectionSystem : public engine::System
     ModelValue mLevelModel;
     ModelValue mSelectLevelModel;
     ModelValue mGetSelectedLevelModel;
-    ModelValue mLevelNamesModel;
-    ModelValue mLevelImagesModel;
+    ModelValue mLevelDisplayNamesModel;
+    ModelValue mLevelThumbnailsModel;
     std::string mSelectedLevel;
-    std::vector<std::string> mLevelNames;
-    std::vector<std::string> mLevelImages;
+    std::vector<std::string> mLevelDisplayNames;
+    std::vector<std::string> mLevelRealNames;
+    std::vector<int32_t> mLevelThumbnails;
 public:
     DEFINE_SYSTEM_BASE(LevelSelectionSystem)
     LevelSelectionSystem();
     std::string GetSelectedLevel();
-    void SelectLevel( std::string const& Level );
-    std::vector<std::string> GetLevelNames();
-    std::vector<std::string> GetLevelImages();
+    void SelectLevel( int32_t idx );
+    std::vector<std::string> GetLevelDisplayNames();
+    std::vector<int32_t> GetLevelThumbnails();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

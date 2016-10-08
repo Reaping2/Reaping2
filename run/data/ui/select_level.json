@@ -38,7 +38,7 @@
                             "enabled":1,
                             "color":"0x22222277",
                             "highlight_color":"0xaaaaaa77",
-                            "action":[["level.select","%level.names#levelidx"]],
+                            "action":[["level.select","#levelidx"]],
                             "children":[
                                 {
                                     "type":"image",

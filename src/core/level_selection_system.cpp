@@ -7,10 +7,10 @@ namespace core {
 
 LevelSelectionSystem::LevelSelectionSystem()
     : mLevelModel( "level", &RootModel::Get() )
-    , mSelectLevelModel( StringFunc( this, &LevelSelectionSystem::SelectLevel ), "select", &mLevelModel )
+    , mSelectLevelModel( IntFunc( this, &LevelSelectionSystem::SelectLevel ), "select", &mLevelModel )
     , mGetSelectedLevelModel( GetStringFunc( this, &LevelSelectionSystem::GetSelectedLevel), "getselected", &mLevelModel ) 
-    , mLevelNamesModel( (ModelValue::get_string_vec_t) boost::bind( &LevelSelectionSystem::GetLevelNames, this) , "names", &mLevelModel)
-    , mLevelImagesModel( (ModelValue::get_string_vec_t) boost::bind( &LevelSelectionSystem::GetLevelImages, this) , "images", &mLevelModel)
+    , mLevelDisplayNamesModel( (ModelValue::get_string_vec_t) boost::bind( &LevelSelectionSystem::GetLevelDisplayNames, this) , "names", &mLevelModel)
+    , mLevelThumbnailsModel( (ModelValue::get_int_vec_t) boost::bind( &LevelSelectionSystem::GetLevelThumbnails, this) , "images", &mLevelModel)
     , mSelectedLevel( "" )
 {
 }
@@ -24,16 +24,47 @@ void LevelSelectionSystem::Init()
     Fs.GetFileNames(paths, "map");
     for ( auto pathit = paths.begin(); pathit != paths.end(); ++pathit )
     {
-        if ( pathit->filename() == "desc.json")
+        if ( pathit->filename() == "description.json")
         {
+            AutoFile JsonFile = Fs.Open( *pathit );
+            if ( !JsonFile.get() )
+            {
+                L1("cannot open %s file\n", pathit->string().c_str() );
+                continue;
+            }
+            JsonReader Reader( *JsonFile );
+            if ( !Reader.IsValid() )
+            {
+                L1("%s is not a valid JSON file", pathit->filename().string().c_str());
+                continue;
+            }
+            Json::Value Root = Reader.GetRoot();
+            if ( !Root.isObject() )
+            {
+                continue;
+            }
             pathit->remove_filename();
-            // store maps by their folder name, but use display name for displaying if not empty
-            mLevelNames.push_back(pathit->stem().string());
-            L1("%s has desc.json -> adding to list\n", mLevelNames.back().c_str());
+            std::string foldername = pathit->stem().string();
+
+            std::string desc;
+            Json::GetStr( Root["description"], desc );
+            std::string name;
+            if ( !Json::GetStr( Root["name"], name) )
+            {
+                // fallback case: if no name is given, use the containing folder's name
+                name = foldername;
+            }
+            std::string thumbnail;
+            Json::GetStr( Root["thumbnail"], thumbnail);
+
+            mLevelRealNames.push_back( foldername );
+            mLevelDisplayNames.push_back(name);
+            mLevelThumbnails.push_back( AutoId(thumbnail) );
+            L1("%s successfully addded to map list as %s\n", mLevelRealNames.back().c_str(), mLevelDisplayNames.back().c_str());
         }
         else
         {
-            L1("%s misses desc.json\n", pathit->remove_filename().stem().string().c_str() );
+            L1("%s misses description.json, so not treating as valid map\n", pathit->remove_filename().stem().string().c_str() );
         }
     }
 }
@@ -43,11 +74,11 @@ void LevelSelectionSystem::Update(double DeltaTime)
 {
 }
 
-void LevelSelectionSystem::SelectLevel( std::string const& Level )
+void LevelSelectionSystem::SelectLevel( int32_t idx )
 {
-    mSelectedLevel = Level;
-    L1( "selected level: %s\n", Level.c_str() );
-    EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( Level ) );
+    mSelectedLevel = mLevelRealNames[idx];
+    L1( "selected level: %s\n", mSelectedLevel.c_str() );
+    EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
 
 std::string LevelSelectionSystem::GetSelectedLevel()
@@ -55,19 +86,14 @@ std::string LevelSelectionSystem::GetSelectedLevel()
     return mSelectedLevel;
 } 
 
-std::vector<std::string> LevelSelectionSystem::GetLevelNames()
+std::vector<std::string> LevelSelectionSystem::GetLevelDisplayNames()
 {
-    L1("levelnames ...  size %d\n", mLevelNames.size() );
-    for ( auto it = mLevelNames.begin(); it != mLevelNames.end(); ++it )
-    {
-        L1("level: %s\n", it->c_str() );
-    }
-    return mLevelNames;
+    return mLevelDisplayNames;
 }
 
-std::vector<std::string> LevelSelectionSystem::GetLevelImages()
+std::vector<int32_t> LevelSelectionSystem::GetLevelThumbnails()
 {
-    return mLevelImages;
+    return mLevelThumbnails;
 }
 
 } // namespace core
