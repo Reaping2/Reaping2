@@ -33,7 +33,7 @@ void SoldierCurrentActionRenderer::FillRenderableSprites( const Actor& actor, IR
     Sprite const& Spr = Sprites( mCurrentId );
     if( Spr.IsValid() )
     {
-        //         Opt<PlayerControllerComponent> playerCC=actor.Get<PlayerControllerComponent>();
+        //         Opt<PlayerControllerComponent> playerCC=actor.Get<IControllerComponent>();
         //         if (playerCC.IsValid())
         //         {
         //             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));

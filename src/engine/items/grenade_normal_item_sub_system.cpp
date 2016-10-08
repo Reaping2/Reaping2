@@ -40,7 +40,7 @@ void GrenadeNormalItemSubSystem::SetGrenadeProperties( Actor& Proj, Actor& actor
     Opt<IMoveComponent> actorMoveC = actor.Get<IMoveComponent>();
     Opt<IPositionComponent> projPositionC = Proj.Get<IPositionComponent>();
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
-    Opt<ShotCollisionComponent> shotCC = Proj.Get<ShotCollisionComponent>();
+    Opt<ShotCollisionComponent> shotCC = Proj.Get<ICollisionComponent>();
 
     double actorOrientation = actor.Get<IPositionComponent>()->GetOrientation();
 

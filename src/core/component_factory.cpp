@@ -48,8 +48,10 @@
 #include "audible_component.h"
 #include "remove_components_on_death_component.h"
 #include "rotate_component.h"
+#include "render/visual_box_multiplier_component.h"
 #include "cell_component.h"
 #include "level_end_component.h"
+#include "guard_controller_component.h"
 
 using platform::AutoId;
 
@@ -60,12 +62,14 @@ ComponentFactory::ComponentFactory()
 
     Bind( AutoId( "position_component" ), &CreateComponent<PositionComponent> );
     Bind( AutoId( "rotate_component" ), &CreateComponent<RotateComponent> );
+    Bind( AutoId( "visual_box_multiplier_component" ), &CreateComponent<render::VisualBoxMultiplierComponent> );
     Bind( AutoId( "move_component" ), &CreateComponent<MoveComponent> );
     Bind( AutoId( "acceleration_component" ), &CreateComponent<AccelerationComponent> );
 
     Bind( AutoId( "player_controller_component" ), &CreateComponent<PlayerControllerComponent> );
     Bind( AutoId( "target_player_controller_component" ), &CreateComponent<TargetPlayerControllerComponent> );
     Bind( AutoId( "random_controller_component" ), &CreateComponent<RandomControllerComponent> );
+    Bind( AutoId( "guard_controller_component" ), &CreateComponent<GuardControllerComponent> );
 
     Bind( AutoId( "inventory_component" ), &CreateComponent<InventoryComponent> );
 

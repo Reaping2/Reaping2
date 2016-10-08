@@ -10,7 +10,7 @@
 namespace engine {
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )
-    , mUiProjector( 0.0f, 100.0f, Projection::VM_Fixed )
+    , mUiProjector( 100.0f, 0.0f, Projection::VM_Fixed )
     , mCamera( mWorldProjector )
     , mUi( Ui::Get() )
     , mDecalEngine( DecalEngine::Get() )
@@ -136,6 +136,8 @@ bool selectShadowCasters( IRenderableComponent const& renderableC, int32_t shado
 
 void RendererSystem::Update( double DeltaTime )
 {
+    perf::Timer_t method;
+    method.Log( "start render" );
     render::ParticleEngine::Get().Update( DeltaTime );
     SendWorldMouseMoveEvent();
 
@@ -152,11 +154,14 @@ void RendererSystem::Update( double DeltaTime )
     rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size() );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
+    mPerfTimer.Log( "pre prepare" );
     mActorRenderer.Prepare( Scen, mCamera, DeltaTime );
+    mPerfTimer.Log( "post prepare" );
     mActorRenderer.Draw( &selectBloodReceivers );
     mDecalEngine.Draw();
 
     static bool const castShadows = Settings::Get().GetInt( "graphics.cast_shadows", 1 );
+    mPerfTimer.Log( "pre shadow" );
     if( castShadows != 0 )
     {
         uint32_t shadowOutline = 2, shadow_1=4, shadow_2=5;
@@ -195,6 +200,7 @@ void RendererSystem::Update( double DeltaTime )
     {
         mActorRenderer.Draw( &selectNonBloodReceivers );
     }
+    mPerfTimer.Log( "post shadow" );
     // !---- rt16
     // particle blending happens with different blending modes
     // so we can't simply render the particles to their own FBO
@@ -228,6 +234,7 @@ void RendererSystem::Update( double DeltaTime )
     mMouseRenderer.Draw( mTextSceneRenderer );
     mTextSceneRenderer.Draw();
     EndRender();
+    method.Log( "end render" );
 }
 
 void RendererSystem::SendWorldMouseMoveEvent()

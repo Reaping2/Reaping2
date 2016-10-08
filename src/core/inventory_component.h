@@ -23,6 +23,8 @@ public:
     virtual void SetActorGUID( int32_t actorGUID );
     virtual Opt<NormalItem> GetSelectedNormalItem();
     virtual void SetSelectedNormalItem( int32_t Id );
+    virtual void SetPickupItems( bool pickupItems );
+    virtual bool IsPickupItems() const;
     virtual ~InventoryComponent();
 protected:
     InventoryComponent();
@@ -32,6 +34,7 @@ private:
     ItemList_t mItems;
     Opt<Weapon> mSelectedWeapon;
     Opt<NormalItem> mSelectedNormalItem;
+    bool mPickupItems;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -46,6 +49,7 @@ void InventoryComponent::serialize( Archive& ar, const unsigned int version )
     ar& mItems;
     ar& mSelectedWeapon;
     ar& mSelectedNormalItem;
+    ar& mPickupItems;
 }
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>

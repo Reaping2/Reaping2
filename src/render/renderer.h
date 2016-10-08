@@ -12,6 +12,7 @@
 #include "health_bar_renderer.h"
 #include "mouse_renderer.h"
 #include "world_renderer.h"
+#include "core/perf_timer.h"
 
 namespace engine {
 class RendererSystem : public System
@@ -56,6 +57,7 @@ public:
 
     void SendWorldMouseMoveEvent();
     Camera const& GetCamera() const;
+    perf::Timer_t mPerfTimer;
 };
 } // namespace engine
 

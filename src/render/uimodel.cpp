@@ -29,11 +29,11 @@ glm::vec4 UiModel::GetColor( Widget const& Wdg )
 
 void UiModel::TexturedBox( glm::vec4 const& Dim, SpritePhase const& Phase, glm::vec4 const& Col, UiVertexInserter_t& Inserter )
 {
-    *Inserter++ = UiVertex( glm::vec2( Dim.x, Dim.y ), glm::vec2( Phase.Left, Phase.Bottom ), Col, Phase.TexId );
-    *Inserter++ = UiVertex( glm::vec2( Dim.x, Dim.y + Dim.w ), glm::vec2( Phase.Left, Phase.Top ), Col, Phase.TexId );
-    *Inserter++ = UiVertex( glm::vec2( Dim.x + Dim.z, Dim.y ), glm::vec2( Phase.Right, Phase.Bottom ), Col, Phase.TexId );
-    *Inserter++ = UiVertex( glm::vec2( Dim.x + Dim.z, Dim.y ), glm::vec2( Phase.Right, Phase.Bottom ), Col, Phase.TexId );
-    *Inserter++ = UiVertex( glm::vec2( Dim.x, Dim.y + Dim.w ), glm::vec2( Phase.Left, Phase.Top ), Col, Phase.TexId );
-    *Inserter++ = UiVertex( glm::vec2( Dim.x + Dim.z, Dim.y + Dim.w ), glm::vec2( Phase.Right, Phase.Top ), Col, Phase.TexId );
+    *Inserter++ = UiVertex( glm::vec2( Dim.x, Dim.y ), glm::vec2( Phase.Left, Phase.Top ), Col, Phase.TexId );
+    *Inserter++ = UiVertex( glm::vec2( Dim.x, Dim.y + Dim.w ), glm::vec2( Phase.Left, Phase.Bottom ), Col, Phase.TexId );
+    *Inserter++ = UiVertex( glm::vec2( Dim.x + Dim.z, Dim.y ), glm::vec2( Phase.Right, Phase.Top ), Col, Phase.TexId );
+    *Inserter++ = UiVertex( glm::vec2( Dim.x + Dim.z, Dim.y ), glm::vec2( Phase.Right, Phase.Top ), Col, Phase.TexId );
+    *Inserter++ = UiVertex( glm::vec2( Dim.x, Dim.y + Dim.w ), glm::vec2( Phase.Left, Phase.Bottom ), Col, Phase.TexId );
+    *Inserter++ = UiVertex( glm::vec2( Dim.x + Dim.z, Dim.y + Dim.w ), glm::vec2( Phase.Right, Phase.Bottom ), Col, Phase.TexId );
 }
 

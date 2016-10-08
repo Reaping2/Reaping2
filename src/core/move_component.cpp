@@ -86,6 +86,7 @@ bool MoveComponent::GetMoving() const
 void MoveComponentLoader::BindValues()
 {
     Bind( "speed", func_double( &MoveComponent::SetSpeed ) );
+    Bind( "moving", func_bool( &MoveComponent::SetMoving ) );
 }
 
 MoveComponentLoader::MoveComponentLoader()

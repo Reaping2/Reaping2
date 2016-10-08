@@ -175,6 +175,7 @@ public:
     MapElementList_t& GetMapElementList();
     Opt<MapElement> GetMapElement( int32_t spawnedActorGUID );
     void RemoveMapElement( int32_t spawnedActorGUID );
+    void RemoveMapElementUID( int32_t mapElementUID );
     static int32_t GetNextUniqueSpawnIndex( std::string const& startsWith );
 protected:
     virtual void Init();

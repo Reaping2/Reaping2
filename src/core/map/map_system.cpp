@@ -119,6 +119,21 @@ void MapSystem::RemoveMapElement( int32_t spawnedActorGUID )
     }
 }
 
+void MapSystem::RemoveMapElementUID( int32_t mapElementUID )
+{
+    for (MapElementList_t::iterator it = mMapElementHolder.mAllMapElements.begin(), e = mMapElementHolder.mAllMapElements.end(); it != e; ++it)
+    {
+        if ((*it)->GetUID() == mapElementUID)
+        {
+            EventServer<MapElementRemovedEvent>::Get().SendEvent( MapElementRemovedEvent( *it ) );
+            delete (*it).Get();
+            mMapElementHolder.mAllMapElements.erase( it );
+            return;
+        }
+    }
+}
+
+
 Opt<MapElement> MapSystem::GetMapElement( int32_t spawnedActorGUID )
 {
     for (auto mapElement : mMapElementHolder.mAllMapElements)

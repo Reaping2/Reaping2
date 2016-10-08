@@ -32,7 +32,7 @@ void PointerTargetControllerSubSystem::Init()
 
 void PointerTargetControllerSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<PointerTargetControllerComponent> pointerTargetCC = actor.Get<PointerTargetControllerComponent>();
+    Opt<PointerTargetControllerComponent> pointerTargetCC = actor.Get<IControllerComponent>();
     if ( !pointerTargetCC.IsValid() || !pointerTargetCC->IsEnabled() )
     {
         return;
@@ -55,7 +55,7 @@ void PointerTargetControllerSubSystem::Update( Actor& actor, double DeltaTime )
         Opt<IHealthComponent> currentTargetHealthC = currentTarget->Get<IHealthComponent>();
         currentTargetIsAlive = !currentTargetHealthC.IsValid() || currentTargetHealthC->IsAlive();
     }
-    Opt<ShotCollisionComponent> shotCC( actor.Get<ShotCollisionComponent>() );
+    Opt<ShotCollisionComponent> shotCC( actor.Get<ICollisionComponent>() );
     if ( shotCC.IsValid() && killerOfChild.IsValid() && killerOfChild->GetGUID() == shotCC->GetParentGuid() )
     {
         //no self targeting

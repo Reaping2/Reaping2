@@ -23,11 +23,14 @@ public:
     void AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader );
     Opt<PropertyLoaderBase<Component>> GetComponentLoader( int32_t componentId );
     static int32_t SpawnNodeId();
+    void SetRemoveWhenUsed( bool removeWhenUsed );
+    bool IsRemoveWhenUsed() const;
     SpawnActorMapElement& operator=( SpawnActorMapElement const& other );
     SpawnActorMapElement( SpawnActorMapElement const& other );
 private:
     int32_t mActorID;
     ActorCreator::ComponentLoaderMap_t mComponentLoaders;
+    bool mRemoveWhenUsed;
     // operator= should be filled
 };
 

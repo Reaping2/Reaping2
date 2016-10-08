@@ -8,6 +8,8 @@
 #include "editor_target_system.h"
 #include "../i_collision_component.h"
 #include "editor_grid_system.h"
+#include "spawn_actor_map_element_system.h"
+#include "engine/system.h"
 namespace map {
 
 NormalBrush::NormalBrush( int32_t Id )
@@ -24,10 +26,12 @@ void NormalBrush::Update( double DeltaTime )
     {
         return;
     }
-
     if ( mMouseLeftPressed && !engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ) )
     {
+        RemoveWhenUsedRAII( false );
         EditorTargetSystem::Get()->PutTarget( EditorTargetSystem::Get()->GetCursorPosition() );
+        Opt<engine::System> spawnActorMES( engine::Engine::Get().GetSystem<SpawnActorMapElementSystem>() );
+        spawnActorMES->Update( 0 );
         mMouseLeftPressed = false;
     }
     else if ( engine::Engine::Get().GetSystem<MouseSystem>()->IsButtonPressed( MouseSystem::Button_Left ) )

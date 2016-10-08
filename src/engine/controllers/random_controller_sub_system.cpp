@@ -24,7 +24,7 @@ void RandomControllerSubSystem::Init()
 
 void RandomControllerSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<RandomControllerComponent> randomCC = actor.Get<RandomControllerComponent>();
+    Opt<RandomControllerComponent> randomCC = actor.Get<IControllerComponent>();
     if ( !randomCC.IsValid() || !randomCC->IsEnabled() )
     {
         return;

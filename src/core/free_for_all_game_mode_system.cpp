@@ -102,9 +102,10 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
         Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
         inventoryC->AddItem( AutoId( "plasma_gun" ) );
         inventoryC->SetSelectedWeapon( AutoId( "plasma_gun" ) );
-        Pl->Get<PlayerControllerComponent>()->SetEnabled( false );
-        Pl->Get<PlayerControllerComponent>()->mActive = false;
-        Pl->Get<PlayerControllerComponent>()->mControllerId = i;
+        Opt<PlayerControllerComponent> pcc( Pl->Get<IControllerComponent>() );
+        pcc->SetEnabled( false );
+        pcc->mActive = false;
+        pcc->mControllerId = i;
         Pl->Get<IMoveComponent>()->SetMoving( false );
         mScene.AddActor( Pl.release() );
     }

@@ -19,20 +19,23 @@ DropOnDeathSystem::DropOnDeathSystem()
 
 void DropOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IDropOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid()
+            && actor.Get<IPositionComponent>().IsValid(); } );
 }
 
 void DropOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IDropOnDeathComponent> dropOnDeathC = actor.Get<IDropOnDeathComponent>();
+        Opt<IDropOnDeathComponent> dropOnDeathC = actor->Get<IDropOnDeathComponent>();
         if ( !dropOnDeathC.IsValid() )
         {
             continue;
         }
 
-        if( !dropOnDeathC->IsTriedDrop() && !actor.Get<IHealthComponent>()->IsAlive() )
+        if( !dropOnDeathC->IsTriedDrop() && !actor->Get<IHealthComponent>()->IsAlive() )
         {
             dropOnDeathC->SetTriedDrop( true );
 #ifdef DEBUG
@@ -46,26 +49,27 @@ void DropOnDeathSystem::Update( double DeltaTime )
             }
             std::auto_ptr<Actor> Pu = mActorFactory( AutoId( "pickup" ) );
             int32_t rolled = RandomGenerator::global()() % 3;
+            Opt<PickupCollisionComponent> pickupCC(Pu->Get<ICollisionComponent>());
             if( rolled == 0 )
             {
                 int32_t contentId = Roll( 5 );
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Weapon );
+                pickupCC->SetPickupContent( contentId );
+                pickupCC->SetItemType( ItemType::Weapon );
             }
             else if ( rolled == 1 )
             {
                 int32_t contentId = RollNormalItem( 4 );
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Normal );
+                pickupCC->SetPickupContent( contentId );
+                pickupCC->SetItemType( ItemType::Normal );
             }
             else if ( rolled == 2 )
             {
                 int32_t contentId = RollBuff( 5 );
-                Pu->Get<PickupCollisionComponent>()->SetPickupContent( contentId );
-                Pu->Get<PickupCollisionComponent>()->SetItemType( ItemType::Buff );
+                pickupCC->SetPickupContent( contentId );
+                pickupCC->SetItemType( ItemType::Buff );
             }
-            BOOST_ASSERT( actor.Get<IPositionComponent>().IsValid() );
-            Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+            BOOST_ASSERT( actor->Get<IPositionComponent>().IsValid() );
+            Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
             Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
             puPositionC->SetX( positionC->GetX() );
             puPositionC->SetY( positionC->GetY() );

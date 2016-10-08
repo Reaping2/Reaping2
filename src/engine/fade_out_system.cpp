@@ -13,14 +13,15 @@ FadeOutSystem::FadeOutSystem()
 
 void FadeOutSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IFadeOutComponent>().IsValid(); } );
 }
 
 void FadeOutSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IFadeOutComponent> fadeOutC = actor.Get<IFadeOutComponent>();
+        Opt<IFadeOutComponent> fadeOutC = actor->Get<IFadeOutComponent>();
         if ( !fadeOutC.IsValid() )
         {
             continue;
@@ -30,7 +31,7 @@ void FadeOutSystem::Update( double DeltaTime )
         if ( currSecsToEnd > 0 && newSecsToEnd <= 0 )
         {
             newSecsToEnd = 0;
-            Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+            Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
             if ( healthC.IsValid() )
             {
                 healthC->SetHP( 0 );

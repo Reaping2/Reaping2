@@ -13,6 +13,7 @@
 #include "core/program_state.h"
 #include "core/scene.h"
 #include "renderable_repo.h"
+#include "i_visual_box_multiplier_component.h"
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
@@ -57,6 +58,15 @@ typedef std::vector<GLfloat> Floats_t;
 typedef std::vector<glm::vec4> TexCoords_t;
 typedef std::vector<glm::vec4> Colors_t;
 typedef ActorRenderer::RenderableSprites_t RenderableSprites_t;
+glm::vec2 visMultiplier( Actor const& actor )
+{
+    Opt<render::IVisualBoxMultiplierComponent> const& vbox = actor.Get<render::IVisualBoxMultiplierComponent>();
+    if( vbox.IsValid() )
+    {
+        return glm::vec2( vbox->GetWidth(), vbox->GetHeight() );
+    }
+    return glm::vec2( 1.0, 1.0 );
+}
 bool isVisible( Actor const& actor, Camera const& camera )
 {
     Opt<IPositionComponent> const positionC = actor.Get<IPositionComponent>();
@@ -82,14 +92,16 @@ bool isVisible( Actor const& actor, Camera const& camera )
     }
     float scale = it->second;
     Opt<ICollisionComponent> const collisionC = actor.Get<ICollisionComponent>();
+    glm::vec2 const& visMulti = visMultiplier( actor );
+    float vmult = std::max<float>( visMulti.x, visMulti.y );
     // 2.0 multiplier: safety
-    float size = ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale * 2.0;
+    float size = ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale * 2.0 * vmult;
     glm::vec4 const& region = camera.VisibleRegion();
     return region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
         && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
 }
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
-                    glm::vec2*& Positions, GLfloat*& Headings, glm::vec4*& TexCoords, GLfloat*& Sizes, glm::vec4*& Colors,
+                    glm::vec2*& Positions, GLfloat*& Headings, glm::vec4*& TexCoords, glm::vec2*& Sizes, glm::vec4*& Colors,
                     GLuint& TexId )
 {
     if( i == e )
@@ -100,7 +112,10 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
     (*Headings++) = ( GLfloat )i->PositionC->GetOrientation();
 
-    (*Sizes++) = ( GLfloat )( ( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )*i->Anim->GetScale() );
+    float const radius = ( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )*i->Anim->GetScale();
+    (*Sizes) = radius * visMultiplier( *(i->Obj) );
+    ++Sizes;
+
     (*TexCoords++) = glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top );
     (*Colors++) = i->Color;
     ++i;
@@ -190,13 +205,13 @@ void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double D
 
     Positions_t Positions( CurSize );
     Floats_t Headings( CurSize );
-    Floats_t Sizes( CurSize );
+    Positions_t Sizes( CurSize );
     TexCoords_t TexCoords( CurSize );
     Colors_t Colors( CurSize );
 
     glm::vec2* posptr = &Positions[0];
     GLfloat* hptr = &Headings[0];
-    GLfloat* sptr = &Sizes[0];
+    glm::vec2* sptr = &Sizes[0];
     glm::vec4* tptr = &TexCoords[0];
     glm::vec4* cptr = &Colors[0];
     RenderableSprites_t::const_iterator i = mRenderableSprites.begin();
@@ -210,7 +225,7 @@ void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double D
     if( CurSize > mPrevSize )
     {
         mPrevSize = CurSize;
-        size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + sizeof( glm::vec4 ) );
+        size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + sizeof( glm::vec4 ) );
         glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
     }
 
@@ -237,7 +252,7 @@ void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double D
     ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
-    CurrentSize = CurSize * sizeof( GLfloat );
+    CurrentSize = CurSize * sizeof( glm::vec2 );
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Sizes[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     mSizeIndex = CurrentOffset;
@@ -312,7 +327,7 @@ void ActorRenderer::Draw( RenderFilter filter )
             glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mHeadingIndex + sizeof( GLfloat )*Part.Start ) );
             glVertexAttribDivisor( CurrentAttribIndex, 1 );
             ++CurrentAttribIndex;
-            glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mSizeIndex + sizeof( GLfloat )*Part.Start ) );
+            glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mSizeIndex + sizeof( glm::vec2 )*Part.Start ) );
             glVertexAttribDivisor( CurrentAttribIndex, 1 );
             ++CurrentAttribIndex;
             glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mColorIndex + sizeof( glm::vec4 )*Part.Start ) );

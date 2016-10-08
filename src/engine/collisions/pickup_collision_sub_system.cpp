@@ -27,10 +27,10 @@ void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 
 void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<PickupCollisionComponent> pickupCC = actor.Get<PickupCollisionComponent>();
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
 
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
-    if ( inventoryC.IsValid() )
+    if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
         if ( pickupCC->GetItemType() == ItemType::Weapon )
         {
@@ -53,11 +53,11 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
             }
         }
         EventServer<PickupEvent>::Get().SendEvent( PickupEvent( Opt<Actor>( &other ), pickupCC->GetItemType(), pickupCC->GetPickupContent() ) );
-    }
-    Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-    if ( healthC.IsValid() )
-    {
-        healthC->SetHP( 0 );
+        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        if (healthC.IsValid())
+        {
+            healthC->SetHP( 0 );
+        }
     }
 
 }

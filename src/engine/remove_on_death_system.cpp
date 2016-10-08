@@ -13,19 +13,22 @@ RemoveOnDeathSystem::RemoveOnDeathSystem()
 
 void RemoveOnDeathSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IRemoveOnDeathComponent>().IsValid()
+            && actor.Get<IHealthComponent>().IsValid(); } );
 }
 
 void RemoveOnDeathSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(), n; ( n = it, it != e ? ( ++n, true ) : false ); it = n )
+    std::vector<int32_t> removeActorUIDs;
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IRemoveOnDeathComponent> removeOnDeathC = actor.Get<IRemoveOnDeathComponent>();
+        Opt<IRemoveOnDeathComponent> removeOnDeathC = actor->Get<IRemoveOnDeathComponent>();
         if ( !removeOnDeathC.IsValid() )
         {
             continue;
         }
-        Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
+        Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if( !healthC.IsValid() || healthC->IsAlive() )
         {
             continue;
@@ -34,8 +37,12 @@ void RemoveOnDeathSystem::Update( double DeltaTime )
         removeOnDeathC->SetRemainingTime( RemainingTime );
         if( RemainingTime <= 0 )
         {
-            mScene.RemoveActor( it );
+            removeActorUIDs.push_back( actor->GetGUID() );
         }
+    }
+    for (auto uid : removeActorUIDs)
+    {
+        mScene.RemoveActor( uid );
     }
 }
 

@@ -26,6 +26,8 @@ AudioSystem::AudioSystem()
 
 void AudioSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IAudibleComponent>().IsValid(); } );
 }
 
 
@@ -37,10 +39,9 @@ void AudioSystem::Update( double DeltaTime )
     auto prevEffects = ap.HaltableEffects();
     static core::ProgramState& programState( core::ProgramState::Get() );
     static platform::EventServer<core::AudibleEvent>& es( platform::EventServer<core::AudibleEvent>::Get() );
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IAudibleComponent> audibleC = actor.Get<IAudibleComponent>();
+        Opt<IAudibleComponent> audibleC = actor->Get<IAudibleComponent>();
         if ( !audibleC.IsValid() )
         {
             continue;
@@ -48,7 +49,7 @@ void AudioSystem::Update( double DeltaTime )
         std::for_each( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
                 [&]( AudibleEffectDesc& d ) { if( d.AutoLoopUntilDeath ) d.TTL=2; } );
         
-        Opt<IPositionComponent> posC=actor.Get<IPositionComponent>();
+        Opt<IPositionComponent> posC=actor->Get<IPositionComponent>();
         glm::vec2 pos;
         if( posC.IsValid() )
         {
@@ -64,7 +65,7 @@ void AudioSystem::Update( double DeltaTime )
         if( programState.mMode == core::ProgramState::Server )
         {
             std::for_each( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
-                    [&]( AudibleEffectDesc const& d ) { if( AudibleEffectDesc::TTL_Infinity != d.TTL && 0 >= d.TTL ) es.SendEvent( core::AudibleEvent( actor.GetGUID(), d.Id, false, false ) ); } );
+                    [&]( AudibleEffectDesc const& d ) { if( AudibleEffectDesc::TTL_Infinity != d.TTL && 0 >= d.TTL ) es.SendEvent( core::AudibleEvent( actor->GetGUID(), d.Id, false, false ) ); } );
         }
         audibleC->GetEffects().erase( std::remove_if( std::begin( audibleC->GetEffects() ), std::end( audibleC->GetEffects() ),
                     []( AudibleEffectDesc const& d ) { return d.TTL <= 0; } ), std::end( audibleC->GetEffects() ) );

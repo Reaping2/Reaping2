@@ -20,15 +20,16 @@ AttachableSystem::AttachableSystem()
 
 void AttachableSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IAttachableComponent>().IsValid(); } );
 }
 
 
 void AttachableSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-        Actor& actor = **it;
-        Opt<IAttachableComponent> attachableC = actor.Get<IAttachableComponent>();
+        Opt<IAttachableComponent> attachableC = actor->Get<IAttachableComponent>();
         if ( !attachableC.IsValid() )
         {
             continue;
@@ -42,7 +43,7 @@ void AttachableSystem::Update( double DeltaTime )
         if ( !attachedActor.IsValid() )
         {
             attachableC->SetAttachedGUID( -1 );
-            EventServer< AttachStateChangedEvent>::Get().SendEvent( AttachStateChangedEvent( AttachStateChangedEvent::Detached, -1, actor.GetGUID() ) );
+            EventServer< AttachStateChangedEvent>::Get().SendEvent( AttachStateChangedEvent( AttachStateChangedEvent::Detached, -1, actor->GetGUID() ) );
             continue;
         }
 
@@ -53,14 +54,14 @@ void AttachableSystem::Update( double DeltaTime )
             {
                 if (attachableC->IsRemoveOnAttachedDeath())
                 {
-                    Opt<IHealthComponent> healthC( actor.Get<IHealthComponent>() );
+                    Opt<IHealthComponent> healthC( actor->Get<IHealthComponent>() );
                     if (healthC.IsValid())
                     {
                         healthC->SetHP( 0 );
                     }
                 }
                 attachableC->SetAttachedGUID( -1 );
-                EventServer<AttachStateChangedEvent>::Get().SendEvent( AttachStateChangedEvent( AttachStateChangedEvent::Detached, attachedActor->GetGUID(), actor.GetGUID() ) );
+                EventServer<AttachStateChangedEvent>::Get().SendEvent( AttachStateChangedEvent( AttachStateChangedEvent::Detached, attachedActor->GetGUID(), actor->GetGUID() ) );
                 continue;
             }
         }
@@ -70,7 +71,7 @@ void AttachableSystem::Update( double DeltaTime )
         {
             continue;
         }
-        Opt<IPositionComponent> positionC( actor.Get<IPositionComponent>() );
+        Opt<IPositionComponent> positionC( actor->Get<IPositionComponent>() );
         if ( !positionC.IsValid() )
         {
             continue;

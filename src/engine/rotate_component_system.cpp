@@ -13,20 +13,22 @@ RotateComponentSystem::RotateComponentSystem()
 
 void RotateComponentSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IRotateComponent>().IsValid()
+            && actor.Get<IPositionComponent>().IsValid(); } );
 }
 
 
 void RotateComponentSystem::Update(double DeltaTime)
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
-       Actor& actor = **it;
-       Opt<IRotateComponent> rotateC=actor.Get<IRotateComponent>();
+       Opt<IRotateComponent> rotateC=actor->Get<IRotateComponent>();
        if (!rotateC.IsValid()||!rotateC->IsRotating())
        {
            continue;
        }
-       Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+       Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
        if (!positionC.IsValid())
        {
            continue;

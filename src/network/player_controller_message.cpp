@@ -27,7 +27,7 @@ void PlayerControllerMessageSenderSystem::Update( double DeltaTime )
     Opt<Actor> actor = mScene.GetActor( mProgramState.mControlledActorGUID );
     if ( actor.IsValid() )
     {
-        Opt<PlayerControllerComponent> playerControllerC = actor->Get<PlayerControllerComponent>();
+        Opt<PlayerControllerComponent> playerControllerC = actor->Get<IControllerComponent>();
         if ( playerControllerC.IsValid() )
         {
             std::auto_ptr<PlayerControllerMessage> playerControllerMsg( new PlayerControllerMessage );
@@ -66,7 +66,7 @@ void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
         return;
     }
 
-    Opt<PlayerControllerComponent> playerControllerC = actor->Get<PlayerControllerComponent>();
+    Opt<PlayerControllerComponent> playerControllerC = actor->Get<IControllerComponent>();
     if ( !playerControllerC.IsValid() )
     {
         L1( "playercontroller is called on an actor that has no player_controller_component \n" );

@@ -26,13 +26,13 @@ void Projection::Setup( float bottom, float top, ViewMode vm/*=VM_DynamicRatio*/
     mViewMode = vm;
     if( mViewMode == VM_DynamicRatio )
     {
-        mVisibleRegion.x = mRatio * mVisibleRegion.y;
-        mVisibleRegion.z = mRatio * mVisibleRegion.w;
+        mVisibleRegion.x = mRatio * std::min( mVisibleRegion.y, mVisibleRegion.w );
+        mVisibleRegion.z = mRatio * std::max( mVisibleRegion.y, mVisibleRegion.w );
     }
     else
     {
-        mVisibleRegion.x = mVisibleRegion.y;
-        mVisibleRegion.z = mVisibleRegion.w;
+        mVisibleRegion.x = std::min( mVisibleRegion.y, mVisibleRegion.w );
+        mVisibleRegion.z = std::max( mVisibleRegion.y, mVisibleRegion.w );
     }
     mVisibleRegion = glm::round( mVisibleRegion );
     mNearVal = nearVal;

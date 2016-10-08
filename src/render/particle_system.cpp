@@ -16,25 +16,27 @@ ParticleSystem::ParticleSystem()
 
 void ParticleSystem::Init()
 {
+    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        return actor.Get<IEmitterComponent>().IsValid()
+            && actor.Get<IPositionComponent>().IsValid(); } );
 }
 
 
 void ParticleSystem::Update( double DeltaTime )
 {
-    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
+    for( auto actor: mScene.GetActorsFromMap( GetType_static() ) )
     {
-        Actor& actor = **it;
-        Opt<IEmitterComponent> emitterC = actor.Get<IEmitterComponent>();
-        if( !emitterC.IsValid() )
+        Opt<IEmitterComponent> emitterC = actor->Get<IEmitterComponent>();
+        if (!emitterC.IsValid())
         {
             continue;
         }
-        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
         if( !positionC.IsValid() )
         {
             continue;
         }
-        Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
+        Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
         glm::vec2 distance(0);
         if ( moveC.IsValid() && moveC->IsMoving() && !moveC->IsRooted() )
         {

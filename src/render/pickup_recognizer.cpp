@@ -16,7 +16,7 @@ bool PickupRecognizer::Recognize( Actor const& actor ) const
     {
         return false;
     }
-    return actor.Get<PickupCollisionComponent>().IsValid();
+    return Opt<PickupCollisionComponent>(actor.Get<ICollisionComponent>()).IsValid();
 }
 
 } // namespace render
