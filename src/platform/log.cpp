@@ -18,7 +18,7 @@ void Logger::Log( int Level, char const* format, ... )
     }
     va_list arg;
     int done;
-    //fprintf( mLogFile.mFile, "[%f]", glfwGetTime() );
+    fprintf( mLogFile.mFile, "[%f]", glfwGetTime() );
     va_start ( arg, format );
     done = vfprintf ( mLogFile.mFile, format, arg );
 #if BOOST_OS_WINDOWS 

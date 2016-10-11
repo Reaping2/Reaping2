@@ -13,6 +13,7 @@
 #include "mouse_renderer.h"
 #include "world_renderer.h"
 #include "core/perf_timer.h"
+#include "path_box_renderer.h"
 
 namespace engine {
 class RendererSystem : public System
@@ -26,6 +27,7 @@ class RendererSystem : public System
     ActorRenderer mActorRenderer;
     UiRenderer mUiRenderer;
     NameRenderer mNameRenderer;
+    PathBoxRenderer mPathBoxRenderer;
     TextSceneRenderer mTextSceneRenderer;
     HealthBarRenderer mHealthBarRenderer;
     MouseRenderer mMouseRenderer;

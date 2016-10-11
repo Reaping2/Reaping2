@@ -8,6 +8,8 @@
 #include "core/i_renderable_component.h"
 #include "engine.h"
 #include "core/i_move_component.h"
+#include <queue>
+#include "platform/settings.h"
 
 namespace engine {
 namespace path {
@@ -21,6 +23,11 @@ PathSystem::PathSystem()
 {
 }
 
+
+Graph& PathSystem::GetGraph()
+{
+    return mGraph;
+}
 
 void PathSystem::Init()
 {
@@ -38,6 +45,7 @@ void PathSystem::Update(double DeltaTime)
     static auto& programState( core::ProgramState::Get() );
     if (mDebugOnPlayerPosition)
     {
+        mPerfTimer.Log( "pre FindPath" );
         auto actor(mScene.GetActor( programState.mControlledActorGUID ));
         if (actor.IsValid())
         {
@@ -57,8 +65,9 @@ void PathSystem::Update(double DeltaTime)
             AddDebugStartPoint();
         }
         auto actorB( mScene.GetActor( mDebugActorGUID ) );
-        mPath = FindPath( *actorB, *actor );
-        ShowDebugPath();
+        mPath = FindPathDijkstra( *actorB, *actor );
+//         ShowDebugPath();
+        mPerfTimer.Log( "post FindPath" );
     }
 
 }
@@ -102,38 +111,7 @@ void PathSystem::OnLevelGenerated( map::LevelGeneratedEvent const& Evt )
     {
         mDebugOnPlayerPosition = true;
         L2( "Path Level Generated\n" );
-        const glm::vec4 dimensions = mScene.GetDimensions();
-        mGridSize = std::ceil( std::max(
-            std::abs( dimensions.x ) + std::abs( dimensions.z ),
-            std::abs( dimensions.y ) + std::abs( dimensions.w ) )
-            / mCellSize );
-        mGrid.clear();
-        mGrid.resize( mGridSize*mGridSize );
-        for (auto actor : mScene.GetActors())
-        {
-            auto staticActorComp( actor->Get<IStaticActorComponent>() );
-            if (staticActorComp.IsValid())
-            {
-                auto positionC( actor->Get<IPositionComponent>() );
-                auto collisionC( actor->Get<ICollisionComponent>() );
-            }
-        }
-        for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
-        {
-            auto positionC( actor->Get<IPositionComponent>() );
-            auto collisionC( actor->Get<ICollisionComponent>() );
-            int32_t posX = (std::abs( dimensions.x ) + positionC->GetX() - collisionC->GetRadius()) / mCellSize;
-            int32_t posY = (std::abs( dimensions.y ) + positionC->GetY() - collisionC->GetRadius()) / mCellSize;
-            int32_t posZ = std::ceil( (std::abs( dimensions.x ) + positionC->GetX() + collisionC->GetRadius()) / mCellSize );
-            int32_t posW = std::ceil( (std::abs( dimensions.y ) + positionC->GetY() + collisionC->GetRadius()) / mCellSize );
-            for (int32_t y = posY; y < posW; ++y)
-            {
-                for (int32_t x = posX; x < posZ; ++x)
-                {
-                    mGrid[y*mGridSize + x].mFilled = true;
-                }
-            }
-        }
+        CreateGrid();
         mGraph.GenerateGraph( mGrid, mGridSize, mCellSize );
         AddDebugBoxes();
         LogCells();
@@ -141,7 +119,43 @@ void PathSystem::OnLevelGenerated( map::LevelGeneratedEvent const& Evt )
 }
 
 
-Cell::Cell( bool filled ) 
+void PathSystem::CreateGrid()
+{
+    const glm::vec4 dimensions = mScene.GetDimensions();
+    mGridSize = std::ceil( std::max(
+        std::abs( dimensions.x ) + std::abs( dimensions.z ),
+        std::abs( dimensions.y ) + std::abs( dimensions.w ) )
+        / mCellSize );
+    mGrid.clear();
+    mGrid.resize( mGridSize*mGridSize );
+    for (auto actor : mScene.GetActors())
+    {
+        auto staticActorComp( actor->Get<IStaticActorComponent>() );
+        if (staticActorComp.IsValid())
+        {
+            auto positionC( actor->Get<IPositionComponent>() );
+            auto collisionC( actor->Get<ICollisionComponent>() );
+        }
+    }
+    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    {
+        auto positionC( actor->Get<IPositionComponent>() );
+        auto collisionC( actor->Get<ICollisionComponent>() );
+        int32_t posX = (std::abs( dimensions.x ) + positionC->GetX() - collisionC->GetRadius()) / mCellSize;
+        int32_t posY = (std::abs( dimensions.y ) + positionC->GetY() - collisionC->GetRadius()) / mCellSize;
+        int32_t posZ = std::ceil( (std::abs( dimensions.x ) + positionC->GetX() + collisionC->GetRadius()) / mCellSize );
+        int32_t posW = std::ceil( (std::abs( dimensions.y ) + positionC->GetY() + collisionC->GetRadius()) / mCellSize );
+        for (int32_t y = posY; y < posW; ++y)
+        {
+            for (int32_t x = posX; x < posZ; ++x)
+            {
+                mGrid[y*mGridSize + x].mFilled = true;
+            }
+        }
+    }
+}
+
+Cell::Cell( bool filled )
     : mFilled( filled )
 {
 
@@ -158,27 +172,25 @@ Box::Box( int32_t x, int32_t y, int32_t z, int32_t w )
 }
 
 
+glm::vec2 Box::GetCenter()
+{
+    return glm::vec2( (mZ + mX + 1) / 2.0, (mY + mW + 1) / 2.0 );
+}
+
+
+glm::vec2 Graph::GetBoxCenter( int32_t ind )
+{
+    static auto dimensions = glm::vec2(Scene::Get().GetDimensions());
+    return mNodes[ind].GetCenter()*mCellSize+dimensions;
+}
+
 void Graph::GenerateGraph( Grid_t const& grid, int32_t gridSize, int32_t cellSize )
 {
     mGrid = grid;
     mGridSize = gridSize;
     mCellSize = cellSize;
-    mNeighbours.clear();
-    mNodes.clear();
-    Grid_t visited( mGrid.size(), false );
-    int32_t ind = 0;
-    for (int32_t y = 0; y < gridSize; ++y)
-    {
-        for (int32_t x = 0; x < gridSize; ++x)
-        {
-            if (!visited[ind].mFilled&&!mGrid[ind].mFilled)
-            { 
-                mNodes.push_back(CreateBox( x, y, visited ));
-            }
-            visited[ind].mFilled = true;
-            ++ind;
-        }
-    }
+    CreateQuadNodes();
+
     mNeighbours.clear();
     mNeighbours.resize( mNodes.size() );
     for (int i = 0; i < mNodes.size();++i)
@@ -199,11 +211,59 @@ void Graph::GenerateGraph( Grid_t const& grid, int32_t gridSize, int32_t cellSiz
                     && box.mW <= neigh.mY&&neigh.mW <= box.mY)) // y interval overlap
             {
                 mNeighbours[i].push_back( ni );
+                const double distance = std::sqrt(glm::distance2( 
+                    glm::vec2((box.mZ + box.mX + 1) / 2.0, (box.mY + box.mW + 1) / 2.0 ), 
+                    glm::vec2((neigh.mZ + neigh.mX + 1) / 2.0, (neigh.mY + neigh.mW + 1) / 2.0 )
+                    ));
+                mDistanceMatrix[i].emplace( ni, distance );
+                if (distance < 100)
+                {
+                    int h = 7;
+                }
             }
         }
     }
 }
 
+
+void Graph::CreateFloodNodes()
+{
+    mNodes.clear();
+    Grid_t visited( mGrid.size(), false );
+    int32_t ind = 0;
+    for (int32_t y = 0; y < mGridSize; ++y)
+    {
+        for (int32_t x = 0; x < mGridSize; ++x)
+        {
+            if (!visited[ind].mFilled&&!mGrid[ind].mFilled)
+            {
+                mNodes.push_back( CreateBox( x, y, visited ) );
+            }
+            visited[ind].mFilled = true;
+            ++ind;
+        }
+    }
+}
+
+
+void Graph::CreateQuadNodes()
+{
+    mNodes.clear();
+    Grid_t visited( mGrid.size(), false );
+    int32_t ind = 0;
+    for (int32_t y = 0; y < mGridSize; ++y)
+    {
+        for (int32_t x = 0; x < mGridSize; ++x)
+        {
+            if (!visited[ind].mFilled&&!mGrid[ind].mFilled)
+            {
+                mNodes.push_back( CreateQuadBox( x, y, visited ) );
+            }
+            visited[ind].mFilled = true;
+            ++ind;
+        }
+    }
+}
 
 void PathSystem::AddDebugBoxes()
 {
@@ -285,6 +345,10 @@ engine::path::PathSystem::Path_t PathSystem::FindPath( Actor& actorA, Actor& act
     int32_t startInd = mGraph.GetBoxIndex( actorA );
     int32_t endInd = mGraph.GetBoxIndex( actorB );
     Path_t r;
+    if (startInd == -1 || endInd == -1)
+    {
+        return r;
+    }
     std::deque<int32_t> nodes;
     std::set<int32_t> visited;
     std::map<int32_t, int32_t> destToStartMap;
@@ -314,6 +378,83 @@ engine::path::PathSystem::Path_t PathSystem::FindPath( Actor& actorA, Actor& act
         r.push_front( currInd );
     }
     
+    return r;
+}
+
+
+engine::path::PathSystem::Path_t PathSystem::FindPathDijkstra( Actor& actorA, Actor& actorB )
+{
+    static const auto mMaxLength = Settings::Get().GetInt( "find_path.max", 400 );
+    int32_t startInd = mGraph.GetBoxIndex( actorA );
+    int32_t endInd = mGraph.GetBoxIndex( actorB );
+    Path_t r;
+    if (startInd == -1 || endInd == -1)
+    {
+        return r;
+    }
+    if (mPrevEndActorInd == endInd)
+    {
+        return r;
+    }
+    mPrevEndActorInd = endInd;
+    std::set<int32_t> nodes;
+    std::vector<int32_t> destToStartMap;
+    destToStartMap.resize( mGraph.mNodes.size(), -1 );
+    mGraph.mNodeLength.clear();
+    mGraph.mNodeLength.resize( mGraph.mNodes.size(), std::numeric_limits<double>::max() );
+
+    nodes.insert( startInd );
+    mGraph.mNodeLength[startInd]= 0.0;
+
+    int32_t currInd = startInd;
+    double currLen = std::numeric_limits<double>::max();
+    double minLength = 0;
+    bool done = false;
+    //bool foundEnd = false;
+    while (minLength<mMaxLength&&!nodes.empty())
+    {
+        nodes.erase(currInd);
+        const double len= mGraph.mNodeLength[currInd];
+        auto& distMatCurr = mGraph.mDistanceMatrix[currInd];
+        for (auto neigh : mGraph.mNeighbours[currInd])
+        {
+            const double sumLen = len + distMatCurr[neigh];
+            if (mGraph.mNodeLength[neigh]>sumLen)
+            {
+                nodes.insert( neigh );
+                mGraph.mNodeLength[neigh] = sumLen;
+                destToStartMap[neigh] = currInd;
+            }
+        }
+        minLength = std::numeric_limits<double>::max();
+        for (auto& node : nodes)
+        {
+            const double len = mGraph.mNodeLength[node];
+            if (len < minLength)
+            {
+                minLength = len;
+                currInd = node;
+            }
+        }
+        if (currInd == endInd)
+        {
+            if (minLength < currLen)
+            {
+                currLen = minLength;
+            }
+        }
+        if (currInd == endInd)
+        {
+            int32_t minInd = endInd;
+            while (minInd != startInd)
+            {
+                r.push_front( minInd );
+                minInd = destToStartMap[minInd];
+            }
+            r.push_front( minInd );
+        }
+    }
+
     return r;
 }
 
@@ -355,6 +496,64 @@ Box Graph::CreateBox( int32_t x, int32_t y, Grid_t& visited )
     }
     box.mY = iy - 1;
     return box;
+}
+
+
+Box Graph::CreateQuadBox( int32_t x, int32_t y, Grid_t& visited )
+{
+    bool allEmpty = true;
+    int32_t nextIter = 1;
+    while (allEmpty)
+    {
+        if (y + nextIter >= mGridSize || x + nextIter >= mGridSize)
+        {
+            allEmpty = false;
+            --nextIter;
+            break;
+        }
+        int32_t iy = y + nextIter;
+        int32_t ix = x;
+        for (; ix <= x + nextIter; ++ix)
+        {
+            const int32_t ind = iy*mGridSize + ix;
+            if (mGrid[ind].mFilled||visited[ind].mFilled)
+            {
+                allEmpty = false;
+                break;
+            }
+        }
+        if (!allEmpty)
+        {
+            break;
+        }
+        ix = x + nextIter;
+        for (iy = y; iy <= y + nextIter; ++iy)
+        {
+            const int32_t ind = iy*mGridSize + ix;
+            if (mGrid[ind].mFilled || visited[ind].mFilled)
+            {
+                allEmpty = false;
+                break;
+            }
+        }
+        if (!allEmpty)
+        {
+            break;
+        }
+        ++nextIter;
+    }
+    --nextIter;
+    for (int32_t iy = y; iy <= y + nextIter; ++iy)
+    {
+        int32_t ind = iy*mGridSize+x;
+        for (int32_t ix = x; ix <= x + nextIter; ++ix)
+        {
+            visited[ind].mFilled = true;
+            ++ind;
+        }
+    }
+    //--nextIter;
+    return Box( x, y + nextIter,x+nextIter, y );
 }
 
 int32_t Graph::GetBoxIndex( Actor& actor )
