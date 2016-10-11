@@ -6,9 +6,8 @@
 namespace core {
 
 LevelSelectionSystem::LevelSelectionSystem()
-    : mLevelModel( "level", &RootModel::Get() )
+    : mLevelModel( RefTo(mSelectedLevel), "level", &RootModel::Get() )
     , mSelectLevelModel( IntFunc( this, &LevelSelectionSystem::SelectLevel ), "select", &mLevelModel )
-    , mGetSelectedLevelModel( GetStringFunc( this, &LevelSelectionSystem::GetSelectedLevel), "getselected", &mLevelModel ) 
     , mLevelDisplayNamesModel( (ModelValue::get_string_vec_t) boost::bind( &LevelSelectionSystem::GetLevelDisplayNames, this) , "names", &mLevelModel)
     , mLevelThumbnailsModel( (ModelValue::get_int_vec_t) boost::bind( &LevelSelectionSystem::GetLevelThumbnails, this) , "images", &mLevelModel)
     , mSelectedLevel( "" )
@@ -22,20 +21,20 @@ void LevelSelectionSystem::Init()
     // list of available levels/maps
     std::vector<boost::filesystem::path> paths;
     Fs.GetFileNames(paths, "map");
-    for ( auto pathit = paths.begin(); pathit != paths.end(); ++pathit )
+    for ( auto path : paths )
     {
-        if ( pathit->filename() == "description.json")
+        if ( path.filename() == "description.json")
         {
-            AutoFile JsonFile = Fs.Open( *pathit );
+            AutoFile JsonFile = Fs.Open( path );
             if ( !JsonFile.get() )
             {
-                L1("cannot open %s file\n", pathit->string().c_str() );
+                L1("cannot open %s file\n", path.string().c_str() );
                 continue;
             }
             JsonReader Reader( *JsonFile );
             if ( !Reader.IsValid() )
             {
-                L1("%s is not a valid JSON file", pathit->filename().string().c_str());
+                L1("%s is not a valid JSON file", path.filename().string().c_str());
                 continue;
             }
             Json::Value Root = Reader.GetRoot();
@@ -43,8 +42,8 @@ void LevelSelectionSystem::Init()
             {
                 continue;
             }
-            pathit->remove_filename();
-            std::string foldername = pathit->stem().string();
+            path.remove_filename();
+            std::string foldername = path.stem().string();
 
             std::string desc;
             Json::GetStr( Root["description"], desc );
@@ -64,7 +63,7 @@ void LevelSelectionSystem::Init()
         }
         else
         {
-            L1("%s misses description.json, so not treating as valid map\n", pathit->remove_filename().stem().string().c_str() );
+            L1("%s misses description.json, so not treating as valid map\n", path.remove_filename().stem().string().c_str() );
         }
     }
 }
@@ -80,11 +79,6 @@ void LevelSelectionSystem::SelectLevel( int32_t idx )
     L1( "selected level: %s\n", mSelectedLevel.c_str() );
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
-
-std::string LevelSelectionSystem::GetSelectedLevel()
-{
-    return mSelectedLevel;
-} 
 
 std::vector<std::string> LevelSelectionSystem::GetLevelDisplayNames()
 {

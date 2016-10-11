@@ -11,7 +11,6 @@ class LevelSelectionSystem : public engine::System
 {
     ModelValue mLevelModel;
     ModelValue mSelectLevelModel;
-    ModelValue mGetSelectedLevelModel;
     ModelValue mLevelDisplayNamesModel;
     ModelValue mLevelThumbnailsModel;
     std::string mSelectedLevel;
@@ -21,7 +20,6 @@ class LevelSelectionSystem : public engine::System
 public:
     DEFINE_SYSTEM_BASE(LevelSelectionSystem)
     LevelSelectionSystem();
-    std::string GetSelectedLevel();
     void SelectLevel( int32_t idx );
     std::vector<std::string> GetLevelDisplayNames();
     std::vector<int32_t> GetLevelThumbnails();
