@@ -26,7 +26,6 @@
 #include "engine/soldier_spawn_system.h"
 #include "map_load_event.h"
 #include "map_start_event.h"
-#include "level_selected_event.h"
 
 using core::ProgramState;
 
@@ -104,13 +103,10 @@ Scene::Scene()
     , mPauseModel( VoidFunc( this, &Scene::Pause ), "pause", &mSceneModel )
     , mResumeModel( VoidFunc( this, &Scene::Resume ), "resume", &mSceneModel )
     , mPlayerModel( "player", &RootModel::Get() )
-    , mLevelModel( "level", &RootModel::Get() )
-    , mSelectLevelModel( StringFunc( this, &Scene::SelectLevel ), "select", &mLevelModel )
     , mGameModeModel( "gamemode", &RootModel::Get() )
     , mSelectGameModeModel( StringFunc( this, &Scene::SelectGameMode ), "select", &mGameModeModel )
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
-    , mSelectedLevel( "" )
 {
 }
 
@@ -324,17 +320,6 @@ void Scene::SetPlayerModels( Opt<Actor> actor )
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
 }
 
-void Scene::SelectLevel( std::string const& Level )
-{
-    mSelectedLevel = Level;
-    L1( "selected level: %s", Level.c_str() );
-    EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( Level ) );
-}
-
-std::string Scene::GetSelectedLevel()
-{
-    return mSelectedLevel;
-}
 
 void Scene::InsertNewActors()
 {

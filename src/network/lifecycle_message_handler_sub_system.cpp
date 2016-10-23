@@ -88,7 +88,7 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
     {
         if ( msg.mState == LifecycleMessage::Start )
         {
-            mScene.SelectLevel( msg.mSelectedLevel );
+            RootModel::Get()["level"]["select"]( msg.mSelectedLevel);
             EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ) );
             std::auto_ptr<network::LifecycleMessage> lifecycleMsg( new network::LifecycleMessage );
             lifecycleMsg->mState = msg.mState;

@@ -52,7 +52,7 @@ void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( true );
 
-    mScene.Load( mScene.GetSelectedLevel() );
+    mScene.Load( RootModel::Get()["level"].operator std::string() );
     //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
     Ui::Get().Load( "hud" );
     if (ProgramState::Get().mMode == ProgramState::Client)
