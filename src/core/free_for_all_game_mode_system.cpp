@@ -21,6 +21,7 @@
 #include "map/editor_grid_system.h"
 #include "map/editor_brush_system.h"
 #include "map/room_editor_system.h"
+#include "level_selection_system.h"
 
 namespace core {
 
@@ -61,7 +62,16 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( false );
 
-    mScene.Load( RootModel::Get()["level"].operator std::string() );
+    auto levelSelectionSystem = engine::Engine::Get().GetSystem<LevelSelectionSystem>();
+    if ( levelSelectionSystem.IsValid() )
+    {
+        mScene.Load( levelSelectionSystem->GetSelectedLevel() );
+    }
+    else
+    {
+        L1("failed to retrieve LevelSelectionSystem\n");
+        return;
+    }
     //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
     Ui::Get().Load( "hud" );
     if ( ProgramState::Get().mMode == ProgramState::Client )

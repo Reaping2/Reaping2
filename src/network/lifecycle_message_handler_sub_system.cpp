@@ -22,6 +22,7 @@
 #include "engine/engine.h"
 #include "main/window.h"
 #include "load_clientlist_event.h"
+#include "core/level_selection_system.h"
 
 namespace network {
 
@@ -88,7 +89,16 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
     {
         if ( msg.mState == LifecycleMessage::Start )
         {
-            RootModel::Get()["level"]["select"]( msg.mSelectedLevel);
+            auto levelSelectionSystem = engine::Engine::Get().GetSystem<core::LevelSelectionSystem>();
+            if ( levelSelectionSystem.IsValid() )
+            {
+                levelSelectionSystem->SelectLevelByName(msg.mSelectedLevel);
+            }
+            else
+            {
+                L1("failed to retrieve LevelSelectionSystem\n");
+                return;
+            }
             EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ) );
             std::auto_ptr<network::LifecycleMessage> lifecycleMsg( new network::LifecycleMessage );
             lifecycleMsg->mState = msg.mState;
