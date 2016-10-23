@@ -44,7 +44,7 @@
     {
         "max_path_length":3000,
         "max_box_size":20,
-        "debug":1,
+        "debug":0,
         "debug_box_name":
         {
             "size":55,
