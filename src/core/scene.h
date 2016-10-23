@@ -190,9 +190,6 @@ private:
     ModelValue mResumeModel;
     boost::ptr_vector<ModelValue> mPlayerModels;
     ModelValue mPlayerModel;
-    ModelValue mLevelModel;
-    ModelValue mSelectLevelModel;
-    std::string mSelectedLevel;
     ModelValue mGameModeModel;
     ModelValue mSelectGameModeModel;
     int32_t mMaxHP;
@@ -238,10 +235,6 @@ public:
     //         return ActorListWrapper<N>(mActorHolder.mAllActors);
     //     }
     void Load( std::string const& Level );
-
-    void SelectLevel( std::string const& Level );
-
-    std::string GetSelectedLevel();
 
     void SelectGameMode( std::string const& GameMode );
 
