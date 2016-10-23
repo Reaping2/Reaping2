@@ -18,9 +18,9 @@
                     "startid":"#levelidx",
                     "direction":"horizontal",
                     "color":"0xffffff",
-                    "x":0.0,
+                    "x":0.1,
                     "y":0.1,
-                    "w":1.0,
+                    "w":0.7,
                     "h":0.8,
                     "cols":1,
                     "rows":10,
@@ -30,10 +30,10 @@
                     [
                         {
                             "type":"button",
-                            "x":0.35,
+                            "x":0.0,
                             "y":0.0,
-                            "w":0.3,
-                            "h":0.8,
+                            "w":1.0,
+                            "h":1.0,
                             "visible":1,
                             "enabled":1,
                             "color":"0x22222277",
@@ -42,10 +42,10 @@
                             "children":[
                                 {
                                     "type":"text_widget",
-                                    "x":0.02,
-                                    "y":0.02,
-                                    "w":0.96,
-                                    "h":0.96,
+                                    "x":0.0,
+                                    "y":0.0,
+                                    "w":1.0,
+                                    "h":1.0,
                                     "color":"0xaa0000",
                                     "visible":1,
                                     "enabled":0,
@@ -55,7 +55,61 @@
                             ]
                         }
                     ]
-                }
+                },
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.8,
+					"y":0.1,
+					"w":0.1,
+					"h":0.1,
+					"visible":1,
+					"enabled":1,
+					"action":[["#levelidx.add",-1]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"-",
+							"fontsize":5
+						}
+					]
+				},
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.8,
+					"y":0.8,
+					"w":0.1,
+					"h":0.1,
+					"visible":1,
+					"enabled":1,
+					"action":[["#levelidx.add",1]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"+",
+							"fontsize":5
+						}
+					]
+				},
             ]
         }
     ]
