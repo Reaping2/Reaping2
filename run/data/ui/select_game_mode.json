@@ -14,10 +14,10 @@
 			"children":[
 				{
 					"type":"button",
-					"x":0.35,
-					"y":0.9,
-					"w":0.3,
-					"h":0.1,
+					"x":0.25,
+					"y":0.3,
+					"w":0.5,
+					"h":0.09,
 					"visible":1,
 					"enabled":1,
 					"color":"0x22222277",
@@ -26,24 +26,24 @@
 					"children":[
 						{
 							"type":"text_widget",
-							"x":0.02,
-							"y":0.02,
-							"w":0.96,
-							"h":0.96,
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
-							"text":"Free4All",
-							"fontsize":6
+							"text":"Free for all",
+							"fontsize":5
 						}
 					]
 				},
 				{
 					"type":"button",
-					"x":0.35,
-					"y":0.79,
-					"w":0.3,
-					"h":0.1,
+					"x":0.25,
+					"y":0.4,
+					"w":0.5,
+					"h":0.09,
 					"visible":1,
 					"enabled":1,
 					"color":"0x22222277",
@@ -52,24 +52,24 @@
 					"children":[
 						{
 							"type":"text_widget",
-							"x":0.02,
-							"y":0.02,
-							"w":0.96,
-							"h":0.96,
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
 							"text":"CTF",
-							"fontsize":6
+							"fontsize":5
 						}
 					]
 				},
 				{
 					"type":"button",
-					"x":0.35,
-					"y":0.68,
-					"w":0.3,
-					"h":0.1,
+					"x":0.25,
+					"y":0.5,
+					"w":0.5,
+					"h":0.09,
 					"visible":1,
 					"enabled":1,
 					"color":"0x22222277",
@@ -78,15 +78,15 @@
 					"children":[
 						{
 							"type":"text_widget",
-							"x":0.02,
-							"y":0.02,
-							"w":0.96,
-							"h":0.96,
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
 							"color":"0xaa0000",
 							"visible":1,
 							"enabled":0,
-							"text":"ROGUE",
-							"fontsize":6
+							"text":"Rogue",
+							"fontsize":5
 						}
 					]
 				}

@@ -17,9 +17,9 @@
 					"type":"button",
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"x":0.37,
-					"y":0.0,
-					"w":0.25,
+					"x":0.25,
+					"y":0.8,
+					"w":0.5,
 					"h":0.1,
 					"visible":"%programstate.ishost",
 					"enabled":"%programstate.ishost",
@@ -36,7 +36,7 @@
 							"visible":"%programstate.ishost",
 							"enabled":0,
 							"text":"Play",
-							"fontsize":6
+							"fontsize":5
 						}
 					]
 				},
