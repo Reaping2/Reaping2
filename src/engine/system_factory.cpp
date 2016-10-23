@@ -139,6 +139,7 @@
 #include "recreate_borders_map_element_system.h"
 #include "core/randomize_sprite_system.h"
 #include "path_system.h"
+#include "core/level_selection_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -305,6 +306,7 @@ void SystemFactory::Init()
     Bind( AutoId( "remove_components_on_death_system" ), &CreateSystem<engine::RemoveComponentsOnDeathSystem> );
     Bind( AutoId( "player_model_system" ), &CreateSystem<engine::PlayerModelSystem> );
     Bind( AutoId( "level_end_system" ), &CreateSystem<engine::LevelEndSystem> );
+    Bind( AutoId( "level_selection_system"), &CreateSystem<core::LevelSelectionSystem>);
 }
 
 REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )
