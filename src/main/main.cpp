@@ -390,7 +390,7 @@ int main( int argc, char* argv[] )
     controllserSystem->AddSubSystem( AutoId( "target_player_controller_component" ), AutoId( "target_player_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "pointer_target_controller_component" ), AutoId( "pointer_target_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "guard_controller_component" ), AutoId( "guard_controller_sub_system" ) );
-
+    controllserSystem->AddSubSystem( AutoId( "path_controller_component" ), AutoId( "path_controller_sub_system" ) );
 
     Eng.AddSystem( AutoId( "cloak_system" ) );
 

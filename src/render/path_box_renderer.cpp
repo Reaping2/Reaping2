@@ -18,7 +18,7 @@
 
 void PathBoxRenderer::Init()
 {
-    mSize = mSettings.GetInt("path_box_name.size", 76);
+    mSize = mSettings.GetInt("find_path.box_name.size", 76);
 }
 
 PathBoxRenderer::PathBoxRenderer()
@@ -32,7 +32,11 @@ PathBoxRenderer::PathBoxRenderer()
 
 void PathBoxRenderer::Draw( TextSceneRenderer& textSceneRenderer )
 {
-    return;
+    static const auto mDebugPathSystem = Settings::Get().GetInt( "find_path.debug", 0 )!=0;
+    if (!mDebugPathSystem)
+    {
+        return;
+    }
     static auto pathSystem = engine::Engine::Get().GetSystem<engine::path::PathSystem>();
     auto& pathGraph = pathSystem->GetGraph();
     auto actor( Scene::Get().GetActor( mProgramState.mControlledActorGUID ) );
@@ -42,12 +46,13 @@ void PathBoxRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     }
     //auto positionC( actor->Get<IPositionComponent>() );
     int32_t boxInd = pathGraph.GetBoxIndex( *actor );
-    for (int32_t i = 0; i < pathGraph.mNodeLength.size(); ++i)
+    auto const& nodeDistance = pathSystem->GetNodeDistance( mProgramState.mControlledActorGUID );
+    for (int32_t i = 0; i < nodeDistance.size(); ++i)
     {
         auto center = pathGraph.GetBoxCenter( i );
         Text text( mSize, glm::vec4( center, 500, 500 ),
                    glm::vec4( 1.0, 1.0, 1.0, 1.0 )
-                   , boost::lexical_cast<std::string>(int32_t( pathGraph.mNodeLength[i])), true );
+                   , boost::lexical_cast<std::string>(int32_t( nodeDistance[i])), true );
         textSceneRenderer.AddText( text );
     }
 }

@@ -58,7 +58,7 @@ void EditorTargetSystem::Init()
                         AutoId("water"), AutoId("grass_tile"), AutoId("concrete"),
                         AutoId( "end" ), AutoId( "rogue_grass200" ), AutoId( "rogue_wall100" ),
                         AutoId( "rogue_wall50" ), AutoId( "rogue_wall100_background" ), AutoId( "rogue_wall50_background" ),
-                        AutoId( "guard" );
+                        AutoId( "guard" ), AutoId( "skull" );
     mMapitemActorIds = mMapitemVisualIds;
 
     mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(),

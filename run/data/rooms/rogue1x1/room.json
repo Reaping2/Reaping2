@@ -74,6 +74,16 @@
             "targets" : [ "s1", "s2", "s3", "s4" ]
          },
          {
+            "identifier" : "g8",
+            "name" : "group",
+            "targets" : [ "a34" ]
+         },
+         {
+            "identifier" : "g9",
+            "name" : "group",
+            "targets" : [ "a35" ]
+         },
+         {
             "actor" : "rogue_wall100",
             "components" : [
                {
@@ -1226,7 +1236,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "guard",
+            "actor" : "skull",
             "components" : [
                {
                   "name" : "position_component",
@@ -1236,22 +1246,13 @@
                         "y" : 416.6660
                      }
                   ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [],
-                        "outer_borders" : []
-                     }
-                  ]
                }
             ],
             "identifier" : "a34",
             "name" : "spawn_actor"
          },
          {
-            "actor" : "guard",
+            "actor" : "skull",
             "components" : [
                {
                   "name" : "position_component",
@@ -1261,29 +1262,31 @@
                         "y" : 418.750
                      }
                   ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [],
-                        "outer_borders" : []
-                     }
-                  ]
                }
             ],
             "identifier" : "a35",
             "name" : "spawn_actor"
          },
          {
-            "identifier" : "g8",
-            "name" : "group",
-            "targets" : [ "a34" ]
+            "actor" : "guard",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 410.3130,
+                        "y" : 256.250
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a36",
+            "name" : "spawn_actor"
          },
          {
-            "identifier" : "g9",
+            "identifier" : "g10",
             "name" : "group",
-            "targets" : [ "a35" ]
+            "targets" : [ "a36" ]
          }
       ],
       "name" : "rogue1x1",
@@ -1343,6 +1346,11 @@
             "chance" : 75,
             "name" : "spawn",
             "targets" : [ "g9" ]
+         },
+         {
+            "chance" : 40,
+            "name" : "spawn",
+            "targets" : [ "g10" ]
          }
       ]
    }

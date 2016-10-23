@@ -127,6 +127,11 @@
             "targets" : [ "a46" ]
          },
          {
+            "identifier" : "g14",
+            "name" : "group",
+            "targets" : [ "a87" ]
+         },
+         {
             "actor" : "rogue_wall50",
             "components" : [
                {
@@ -2566,22 +2571,6 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "guard",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 570.0,
-                        "y" : 330.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a87",
-            "name" : "spawn_actor"
-         },
-         {
             "actor" : "rogue_wall50",
             "components" : [
                {
@@ -4728,9 +4717,36 @@
             "secs_to_respawn" : 15.0
          },
          {
-            "identifier" : "g14",
-            "name" : "group",
-            "targets" : [ "a87" ]
+            "actor" : "skull",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 17191.2980,
+                        "y" : 330.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a87",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "guard",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 330.0,
+                        "y" : 570.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
          }
       ],
       "name" : "rogue2x2",

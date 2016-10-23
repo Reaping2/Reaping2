@@ -368,6 +368,18 @@
 			{"recognizer":"move",
 				"renderer":"move"}
 		]
+	},		
+	{
+		"name":"skull",
+		"recognizers":
+		[
+			{"recognizer":"death",
+				"renderer":"death"},
+			{"recognizer":"idle",
+				"renderer":"idle"},
+			{"recognizer":"move",
+				"renderer":"move"}
+		]
 	},
 	{
 		"name":"spider1target",

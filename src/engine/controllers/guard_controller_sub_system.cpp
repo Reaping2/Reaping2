@@ -171,7 +171,7 @@ void GuardControllerSubSystem::UpdateTarget( Actor& actor, Opt<ITargetHolderComp
     if (currentTarget.IsValid())
     {
         auto targetPositionC( currentTarget->Get<IPositionComponent>() );
-        static int32_t const disaggroDistSqr = 1100 * 1100;
+        int32_t const disaggroDistSqr = guardCC->GetPeaceDist()*guardCC->GetPeaceDist();
         if (GetDistanceSqr( positionC, targetPositionC) > disaggroDistSqr )
         {
             targetHolderC->SetTargetGUID( -1 );

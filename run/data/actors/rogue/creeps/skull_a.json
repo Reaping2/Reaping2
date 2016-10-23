@@ -1,11 +1,11 @@
 [
     {
-        "name":"guard",
+        "name":"skull",
         "components":
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":250,"moving":0}]
+                "set":[{"speed":400,"moving":0}]
             },
             {"name":"renderable_component",
                 "set":[{"layer":"players", "cast_shadow":1}]
@@ -13,21 +13,14 @@
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":30}]
             },
-            {"name":"guard_controller_component"},
-            {"name":"target_holder_component"},
-            {"name":"inventory_component",
-                "set":[{"add_item":"guard_plasma_gun",
-                        "select_weapon":"guard_plasma_gun",
-                        "pickup_items":0}]
+            {"name":"path_controller_component",
+                "set":[{"aggro_distance":1200, "peace_distance":1800
+                    ,"next_attack_timer":3.0,"damage":15}]
             },
+            {"name":"target_holder_component"},
             {"name":"health_component",
                 "set":[{"hp":65}]
             },
-            {"name":"accuracy_component",
-                "set":[{"accuracy":0}]
-            },
-            {"name":"armor_component"},
-            {"name":"cloak_component"},
             {"name":"stop_on_death_component"},
             {"name":"heat_source_component"},
             {"name":"audible_component"},
