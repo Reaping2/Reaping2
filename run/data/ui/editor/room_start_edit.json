@@ -4,9 +4,9 @@
         {
             "type":"fixed_ratio_container",
             "x":0.0,
-            "y":0.5,
-            "w":1.0,
-            "h":0.5,
+            "y":0.0,
+            "w":0.1,
+            "h":1.0,
             "align_h":"left",
             "align_v":"top",
             "visible":0,
@@ -14,10 +14,10 @@
             "children":[
                 {
                     "type":"button",
-                    "x":0.15,
-                    "y":0.58,
-                    "w":0.18,
-                    "h":0.1,
+                    "x":0.0,
+                    "y":0.0,
+                    "w":1.0,
+                    "h":1.0,
                     "visible":1,
                     "enabled":1,
                     "color":"0x22222277",
