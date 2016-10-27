@@ -230,6 +230,7 @@ void RendererSystem::Update( double DeltaTime )
     SetupRenderer( mUiProjector );
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
     mNameRenderer.Draw( mTextSceneRenderer );
+    mPathBoxRenderer.Draw( mTextSceneRenderer );
     mHealthBarRenderer.Draw();
     mMouseRenderer.Draw( mTextSceneRenderer );
     mTextSceneRenderer.Draw();

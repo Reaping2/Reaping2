@@ -233,6 +233,7 @@ int main( int argc, char* argv[] )
     if (programState.mMode != ProgramState::Client)
     {
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
+        Eng.AddSystem( AutoId( "path_system" ) );
     }
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
@@ -389,7 +390,7 @@ int main( int argc, char* argv[] )
     controllserSystem->AddSubSystem( AutoId( "target_player_controller_component" ), AutoId( "target_player_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "pointer_target_controller_component" ), AutoId( "pointer_target_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "guard_controller_component" ), AutoId( "guard_controller_sub_system" ) );
-
+    controllserSystem->AddSubSystem( AutoId( "path_controller_component" ), AutoId( "path_controller_sub_system" ) );
 
     Eng.AddSystem( AutoId( "cloak_system" ) );
 

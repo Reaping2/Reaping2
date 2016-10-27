@@ -52,6 +52,8 @@
 #include "cell_component.h"
 #include "level_end_component.h"
 #include "guard_controller_component.h"
+#include "static_actor_component.h"
+#include "path_controller_component.h"
 
 using platform::AutoId;
 
@@ -70,9 +72,10 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "target_player_controller_component" ), &CreateComponent<TargetPlayerControllerComponent> );
     Bind( AutoId( "random_controller_component" ), &CreateComponent<RandomControllerComponent> );
     Bind( AutoId( "guard_controller_component" ), &CreateComponent<GuardControllerComponent> );
+    Bind( AutoId( "path_controller_component" ), &CreateComponent<PathControllerComponent> );
 
     Bind( AutoId( "inventory_component" ), &CreateComponent<InventoryComponent> );
-
+    Bind( AutoId( "static_actor_component" ), &CreateComponent<StaticActorComponent> );
     Bind( AutoId( "health_component" ), &CreateComponent<HealthComponent> );
 
     Bind( AutoId( "collision_component" ), &CreateComponent<CollisionComponent> );

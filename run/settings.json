@@ -15,25 +15,43 @@
     },
     "generator":
     {
-        "cell_size":1000,
-        "cell_count":7,
+        "seed":4,
+        "cell_size":600,
+        "cell_count":10,
         "route":
         {
-            "min_length":12,
-            "end_chance":30,
+            "min_length":2,
+            "end_chance":100,
             "chance_increase":30
         },
         "side_route":
         {
-            "side_min_length":4,
-            "side_end_chance":20,
+            "side_min_length":1,
+            "side_end_chance":100,
             "side_chance_increase":5
         }
+    },
+    "graphics":
+    {
+        "cast_shadows":1
     },
     "soldier_name":
     {
         "size":76,
         "y":70
+    },
+    "find_path":
+    {
+        "max_path_length":3000,
+        "max_box_size":20,
+        "debug":0,
+        "debug_box_name":
+        {
+            "size":55,
+            "y":70
+        },
+        "debug_log_cell_size":300,
+        "debug_log_cells":0
     },
     "controlmappings":
     {

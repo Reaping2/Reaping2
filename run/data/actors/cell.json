@@ -12,6 +12,21 @@
             },
             {"name":"cell_component"}
         ]
+    },
+    {
+        "name":"cell_debug",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"visual_box_multiplier_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"no_collision", "radius":25}]
+            },
+            {"name":"cell_component"}
+        ]
     }
 ]
 
