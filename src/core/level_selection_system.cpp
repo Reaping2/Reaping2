@@ -7,9 +7,9 @@ namespace core {
 
 LevelSelectionSystem::LevelSelectionSystem()
     : mLevelModel( RefTo(mSelectedLevel), "level", &RootModel::Get() )
-    , mSelectLevelModel( IntFunc( this, &LevelSelectionSystem::SelectLevel ), "select", &mLevelModel )
-    , mLevelDisplayNamesModel( (ModelValue::get_string_vec_t) boost::bind( &LevelSelectionSystem::GetLevelDisplayNames, this) , "names", &mLevelModel)
-    , mLevelThumbnailsModel( (ModelValue::get_int_vec_t) boost::bind( &LevelSelectionSystem::GetLevelThumbnails, this) , "images", &mLevelModel)
+    , mSelectLevelModel( IntFunc( this, &LevelSelectionSystem::SelectLevelByIdx ), "select", &mLevelModel )
+    , mLevelDisplayNamesModel( RefTo(mLevelDisplayNames), "names", &mLevelModel)
+    , mLevelThumbnailsModel( RefTo(mLevelThumbnails), "images", &mLevelModel)
     , mSelectedLevel( "" )
 {
 }
@@ -73,21 +73,26 @@ void LevelSelectionSystem::Update(double DeltaTime)
 {
 }
 
-void LevelSelectionSystem::SelectLevel( int32_t idx )
+void LevelSelectionSystem::SelectLevelByIdx( int32_t idx )
 {
     mSelectedLevel = mLevelRealNames[idx];
     L1( "selected level: %s\n", mSelectedLevel.c_str() );
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
 
-std::vector<std::string> LevelSelectionSystem::GetLevelDisplayNames()
+void LevelSelectionSystem::SelectLevelByName( std::string realName )
 {
-    return mLevelDisplayNames;
+    if ( std::find(mLevelRealNames.begin(), mLevelRealNames.end(), realName) == mLevelRealNames.end() )
+    {
+        L1("attempted selection of invalid level: %d\n", realName.c_str() );
+        return;
+    }
+    mSelectedLevel = realName;
 }
 
-std::vector<int32_t> LevelSelectionSystem::GetLevelThumbnails()
+std::string LevelSelectionSystem::GetSelectedLevel()
 {
-    return mLevelThumbnails;
+    return mSelectedLevel;
 }
 
 } // namespace core

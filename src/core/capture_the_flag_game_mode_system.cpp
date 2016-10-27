@@ -19,6 +19,7 @@
 #include "map/editor_grid_system.h"
 #include "map/editor_target_system.h"
 #include "map/room_editor_system.h"
+#include "level_selection_system.h"
 
 namespace core {
 
@@ -106,9 +107,17 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode( core::StartGameModeEvent con
     }
     mCtfProgramState.mRedScore = 0;
     mCtfProgramState.mBlueScore = 0;
-    mScene.Load( RootModel::Get()["level"].operator std::string() );
-    Ui::Get().Load( "ctf_hud" );
-    mHudShown = true;
+    auto levelSelectionSystem = engine::Engine::Get().GetSystem<LevelSelectionSystem>();
+    if ( levelSelectionSystem.IsValid() )
+    {
+        mScene.Load( levelSelectionSystem->GetSelectedLevel() );
+        Ui::Get().Load( "ctf_hud" );
+        mHudShown = true;
+    }
+    else
+    {
+        L1("failed to retrieve LevelSelectionSystem\n");
+    }
 }
 
 void CaptureTheFlagGameModeSystem::OnFlagStateChanged( ctf::FlagStateChangedEvent const& Evt )
