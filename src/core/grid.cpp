@@ -57,6 +57,7 @@ PossibleCollisions_t Grid::GetPossibleCollisions()const
 
 void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
 {
+    mActorInCell.clear();
     mCells.clear();
     mCellSize = CellSize;
     mMin = glm::vec2( Dimensions.x, Dimensions.y );
@@ -80,6 +81,13 @@ void Grid::AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC )
     {
         return;
     }
+    auto& cells = mActorInCell[ A ];
+    for( auto& cell : cells )
+    {
+        auto& actors = cell->mActors[ CC ];
+        actors.erase( std::remove( actors.begin(), actors.end(), A ), actors.end() );
+    }
+    cells.clear();
     size_t const NumCells = mCells.size();
     if( NumCells == 0 )
     {
@@ -89,6 +97,7 @@ void Grid::AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC )
     else if( NumCells == 1 )
     {
         mCells[0].mActors[CC].push_back( A );
+        cells.push_back( &mCells[0] );
         return;
     }
     glm::vec4 const& ActorDim = Box( *A, Dt );
@@ -98,10 +107,14 @@ void Grid::AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC )
     size_t const Sx = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.x ) / mCellSize );
     size_t const Sy = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.y ) / mCellSize );
     for( size_t y = Sy, ey = std::min<size_t>( Ey + 1, mDimY ); y < ey; ++y )
+    {
         for( size_t x = Sx, ex = std::min<size_t>( Ex + 1, mDimX ); x < ex; ++x )
         {
-            mCells[y * mDimX + x].mActors[CC].push_back( A );
+            auto& cell = mCells[y * mDimX + x];
+            cell.mActors[CC].push_back( A );
+            cells.push_back( &cell );
         }
+    }
 }
 
 glm::vec4 Grid::Box( Actor const& Obj, double Dt )const
@@ -137,9 +150,17 @@ glm::vec4 Grid::Box( Actor const& Obj, double Dt )const
     return Ret;
 }
 
-void Grid::Clear()
+void Grid::RemoveActor( Actor* A )
 {
-    mCells.assign( mCells.size(), Cell() );
+    auto& cells = mActorInCell[ A ];
+    for( auto& cell : cells )
+    {
+        for( auto& actors : cell->mActors )
+        {
+            actors.erase( std::remove( actors.begin(), actors.end(), A ), actors.end() );
+        }
+    }
+    mActorInCell.erase( A );
 }
 
 CollPair::CollPair( Actor* a1, Actor* a2 ) : A1( a1 < a2 ? a1 : a2 )
