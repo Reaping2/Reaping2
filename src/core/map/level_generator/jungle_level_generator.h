@@ -30,17 +30,27 @@ private:
         int32_t chanceIncrease = 0;
         void Load( Json::Value& setters );
     };
+    typedef std::vector<PossibleRooms> MandatoryRooms_t;
+    MandatoryRooms_t mMandatoryRooms;
     RouteProperties mMainRouteProperties;
     RouteProperties mSideRouteProperties;
     Route_t CreateRoute( int32_t startRoomIndex, RouteProperties const& properties );
+    FreeNodes_t mFreeCellPositions;
     void CreateMainRoute();
     void CreateSideRoutes();
-    void CreateStart();
+    int32_t PlaceRoomByProperty( RoomProperty::Type roomProp );
     void GenerateTerrain();
     void RecreateBorders();
-    void PlaceRooms( glm::vec2 const& startPos );
-    Opt<IRoom> PlaceARoom( glm::vec2 const& pos );
+    void PlaceRooms();
+
+    void AddNeighboursToFreeCells( IRoom& placedRoom, glm::vec2 const& cellPos );
+
+    Opt<IRoom> PlaceRandomRoom( glm::vec2 const& pos );
     static void LogNodes( std::string log, FreeNodes_t const& nodes );
+    void PlaceMandatoryRooms();
+    // try to place roomId room. returns roomIndex on success -1 otherwise
+    int32_t PlaceRoom( int32_t roomId );
+    void CheckRoomEntrances();
 };
 
 } // namespace map

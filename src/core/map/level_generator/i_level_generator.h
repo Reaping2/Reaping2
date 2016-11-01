@@ -7,6 +7,7 @@
 #include "room_desc.h"
 #include <deque>
 #include "generator_data.h"
+#include "possible_rooms.h"
 
 namespace map {
 
@@ -19,8 +20,7 @@ public:
     virtual void Generate() = 0;
     virtual void Load( Json::Value& setters ); 
 protected:
-    typedef std::vector<int32_t> PossibleRooms_t;
-    PossibleRooms_t mPossibleRoomIds;
+    PossibleRooms mPossibleRooms;
     typedef std::deque<glm::vec2> FreeNodes_t;
     int32_t mCellSize = 1000;
     int32_t mCellCount = 5;
@@ -30,7 +30,6 @@ protected:
     int32_t mEndRoomIndex = -1; // end rooms index at mRoomDescs
     GeneratorData mGData;
     uint32_t mSeed = 0;
-    void AddPossibleRoom( int32_t roomId, int32_t possibility );
 };
 
 class DefaultLevelGenerator : public ILevelGenerator

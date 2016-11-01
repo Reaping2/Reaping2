@@ -1,5 +1,6 @@
 #include "generator_data.h"
 #include "random.h"
+#include "room_repo.h"
 
 namespace map {
 
@@ -62,6 +63,14 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
     gRoomDesc.mRoomDesc.ClearCellEntrances();
     mGRoomDescs.push_back( gRoomDesc );
     GenerateGraph();
+}
+
+
+void GeneratorData::ReplaceRoom( int32_t roomIndex, int32_t roomId )
+{
+    //auto& gRoomDesc = mGRoomDescs[roomIndex];
+    static auto& mRoomRepo = RoomRepo::Get();
+    GetRoomDesc(roomIndex).SetRoom(&mRoomRepo( roomId ) );
 }
 
 bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const
