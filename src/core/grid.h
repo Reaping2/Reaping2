@@ -3,6 +3,9 @@
 #include "core/actor.h"
 #include "collision_class.h"
 #include "i_collision_component.h"
+#include <map>
+#include <set>
+#include <vector>
 
 struct CollPair
 {
@@ -21,7 +24,7 @@ class Grid
 public:
     void Build( glm::vec4 const& Dimensions, float CellSize );
     void AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC );
-    void Clear();
+    void RemoveActor( Actor* A );
     PossibleCollisions_t GetPossibleCollisions()const;
 private:
     static const uint32_t Collisions[];
@@ -31,6 +34,7 @@ private:
         Actors_t mActors[CollisionClass::Num_Classes];
     };
     typedef std::vector<Cell> Cells_t;
+    std::map<Actor*,std::vector<Cell*> > mActorInCell;
     float mCellSize;
     size_t mDimX;
     size_t mDimY;
