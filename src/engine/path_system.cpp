@@ -204,7 +204,7 @@ bool PathSystem::GenerateNodeDistance( Actor& actor )
 
 std::vector<double> const& PathSystem::GetNodeDistance( int32_t actorGUID ) const
 {
-    auto& r = mActorPathDescs.find( actorGUID );
+    auto const& r = mActorPathDescs.find( actorGUID );
     static auto const defaultR = std::vector<double>();
     return r!=mActorPathDescs.end()?r->second.mNodeDistance:defaultR;
 }

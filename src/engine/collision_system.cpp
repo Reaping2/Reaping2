@@ -4,6 +4,7 @@
 #include "boost/assert.hpp"
 #include "core/collision_model.h"
 #include "core/i_position_component.h"
+#include "core/i_move_component.h"
 
 namespace engine {
 
@@ -20,13 +21,34 @@ void CollisionSystem::Init()
     mCollisionGrid.Build( mScene.GetDimensions(), 400.0f );
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<ICollisionComponent>().IsValid()
-            && actor.Get<IPositionComponent>().IsValid(); } );
+            && actor.Get<IPositionComponent>().IsValid()
+            && actor.Get<IMoveComponent>().IsValid(); } );
+    mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CollisionSystem::OnActorEvent, this, _1 ) );
+}
+
+void CollisionSystem::OnActorEvent( ActorEvent const& Evt )
+{
+    if( Evt.mState == ActorEvent::Added )
+    {
+        Opt<ICollisionComponent> collisionC = Evt.mActor->Get<ICollisionComponent>();
+        if( !collisionC.IsValid() )
+        {
+            return;
+        }
+        if ( !Evt.mActor->Get<IMoveComponent>().IsValid() )
+        {
+            mCollisionGrid.AddActor( Evt.mActor.Get(), 0, collisionC );
+        }
+    }
+    else
+    {
+        mCollisionGrid.RemoveActor( Evt.mActor.Get() );
+    }
 }
 
 void CollisionSystem::Update( double DeltaTime )
 {
     mUpdateTimer.Log( "start collision" );
-    mCollisionGrid.Clear();
     mPerfTimer.Log( "pre build grid" );
     std::vector<std::pair<Opt<CollisionSubSystem>, Actor*>> collisionAndActors;
     for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
@@ -34,13 +56,13 @@ void CollisionSystem::Update( double DeltaTime )
         Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
         if ( collisionC.IsValid() )
         {
-            mCollisionGrid.AddActor( actor, DeltaTime, collisionC );
             Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
             if ( collisionSS.IsValid() )
             {
                 collisionAndActors.push_back( std::make_pair( collisionSS, actor ) );
                 collisionSS->ClipScene( *actor );
             }
+            mCollisionGrid.AddActor( actor, DeltaTime, collisionC );
         }
     }
     mPerfTimer.Log( "post build grid" );

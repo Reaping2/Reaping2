@@ -2,6 +2,9 @@
 #include "network/lifecycle_sender_system.h"
 #include "lifecycle_message.h"
 #include "core/program_state.h"
+#include "engine/engine.h"
+#include "core/level_selection_system.h"
+
 namespace network {
 
 LifecycleSenderSystem::LifecycleSenderSystem()
@@ -29,10 +32,16 @@ void LifecycleSenderSystem::Host()
         L1( "Need to connect first before hosting a game!\n" );
         return;
     }
+    auto levelSelectionSystem = engine::Engine::Get().GetSystem<core::LevelSelectionSystem>();
+    if ( !levelSelectionSystem.IsValid() )
+    {
+        L1("failed to retrieve LevelSelectionSystem\n");
+        return;
+    }
     std::auto_ptr<LifecycleMessage> msg( new LifecycleMessage );
     msg->mState = LifecycleMessage::Start;
     msg->mGameMode = mProgramState.mGameMode;
-    msg->mSelectedLevel = RootModel::Get()["level"].operator std::string();
+    msg->mSelectedLevel = levelSelectionSystem->GetSelectedLevel();
     mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( msg.release() ) );
 }
 

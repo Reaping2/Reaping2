@@ -20,9 +20,9 @@ class LevelSelectionSystem : public engine::System
 public:
     DEFINE_SYSTEM_BASE(LevelSelectionSystem)
     LevelSelectionSystem();
-    void SelectLevel( int32_t idx );
-    std::vector<std::string> GetLevelDisplayNames();
-    std::vector<int32_t> GetLevelThumbnails();
+    void SelectLevelByIdx( int32_t idx );
+    void SelectLevelByName( std::string realName );
+    std::string GetSelectedLevel();
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
