@@ -28,14 +28,6 @@ void ILevelGenerator::Load( Json::Value& setters )
     Json::GetUInt( setters["seed"], mSeed );
 }
 
-void ILevelGenerator::AddPossibleRoom( int32_t roomId, int32_t possibility )
-{
-    for (int i = 0; i < possibility; ++i)
-    {
-        mPossibleRoomIds.push_back( roomId );
-    }
-}
-
 
 DefaultLevelGenerator::DefaultLevelGenerator( int32_t Id )
     : ILevelGenerator( Id )

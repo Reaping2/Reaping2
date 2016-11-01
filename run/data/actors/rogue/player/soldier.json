@@ -19,7 +19,7 @@
                         "select_weapon":"plasma_gun"}]
             },
             {"name":"health_component",
-                "set":[{"hp":100}]
+                "set":[{"hp":1000}]
             },
             {"name":"accuracy_component",
                 "set":[{"accuracy":0}]
