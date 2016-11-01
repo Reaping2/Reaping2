@@ -35,6 +35,8 @@ void JungleLevelGenerator::Generate()
     CreateMainRoute();
     CreateSideRoutes();
 
+    CheckRoomEntrances();
+
     GenerateTerrain();
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::TerrainGenerated ) );
 }
@@ -167,17 +169,37 @@ int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId )
     {
         for (auto y : yvalues)
         {
-            const glm::vec2 position( x, y );
-            if (mGData.CanPlaceRoom( room.GetRoomDesc(), position ))
+            const glm::vec2 pos( x, y );
+            if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
             {
                 const int32_t roomIndex = mGData.GetRoomCount();
-                mGData.PlaceRoom( room.GetRoomDesc(), position );
-                AddNeighboursToFreeCells( room, position );
+                mGData.PlaceRoom( room.GetRoomDesc(), pos );
+                AddNeighboursToFreeCells( room, pos );
                 return roomIndex;
             }
         }
     }
     return -1;
+}
+
+
+void JungleLevelGenerator::CheckRoomEntrances()
+{
+    for (int32_t i = 0; i < mGData.GetRoomCount(); ++i)
+    {
+        auto& roomDesc = mGData.GetRoomDesc( i );
+        if (!roomDesc.FitsInto( roomDesc.GetRoom()->GetRoomDesc(), RoomDesc::Layout|RoomDesc::Entrance ))
+        {
+            L2( "Found a room that should be changed!\n" );
+            auto possibleRooms = mPossibleRooms.GetRoomIdsFiltered( roomDesc, RoomDesc::Layout|RoomDesc::Entrance );
+            if (possibleRooms.empty())
+            {
+                L2( "A room should have been replaced but couldn't find matching room!" );
+                continue;
+            }
+            mGData.ReplaceRoom( i, possibleRooms.at( 0 ) );
+        }
+    }
 }
 
 void JungleLevelGenerator::PlaceRooms()

@@ -52,6 +52,7 @@ public:
     bool IsFilled( glm::vec2 pos ) const;
     bool IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const;
     void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
+    void ReplaceRoom( int32_t roomIndex, int32_t roomId );
     bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const;
     bool IsInBounds( glm::vec2 pos ) const;
     void ClearRoomProperties( int32_t roomIndex );

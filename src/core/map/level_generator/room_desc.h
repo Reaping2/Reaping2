@@ -19,7 +19,7 @@ struct Cell
     void AddEntrance( EntranceType::Type const& entrance );
     void RemoveEntrance( EntranceType::Type const& entrance );
     void SetEntrances( Entrances_t const& entrances );
-    bool HasEntrance( EntranceType::Type const& entrance) const;
+    bool HasEntrance( EntranceType::Type const& entrance ) const;
     Entrances_t const& GetEntrances() const;
     void SetFilled( bool filled );
     bool IsFilled() const;
@@ -59,6 +59,13 @@ struct RoomDesc
     PlacedActorGUIDs_t mPlacedActorGUIDs; // for debug
     void Load( Json::Value& setters );
     void Save( Json::Value& setters ) const; 
+    enum EqualFlags
+    {
+        Layout = 1 << 0,
+        Entrance = 1 << 1,
+        Properties = 1 << 2,
+    };
+    bool FitsInto( RoomDesc const& roomDesc, int32_t flags ) const;
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;

@@ -200,6 +200,63 @@ void RoomDesc::Save( Json::Value& setters ) const
     setters["cells"] = cellsArray;
 }
 
+
+bool RoomDesc::FitsInto( RoomDesc const& roomDesc, int32_t flags ) const
+{
+    bool r = true;
+    if (r && flags&Layout != 0)
+    {
+        if (mCellCount != roomDesc.GetCellCount())
+        {
+            r = false;
+        }
+        const bool checkEntrance = flags&Entrance != 0;
+        int32_t y = 0;
+        while (r && y < mCellCount)
+        {
+            int32_t x = 0;
+            while (r && x < mCellCount)
+            {
+                auto const& cell = GetCell( x, y );
+                auto const& otherCell = roomDesc.GetCell( x, y );
+                if (cell.IsFilled() == otherCell.IsFilled())
+                {
+                    if (checkEntrance)
+                    {
+                        for (auto entrance : cell.GetEntrances())
+                        {
+                            if (!otherCell.HasEntrance( entrance ))
+                            {
+                                r = false;
+                                break;
+                            }
+                                
+                        }
+                    }
+                }
+                else
+                {
+                    r = false;
+                }
+                ++x;
+            }
+            ++y;
+        }
+    }
+    if (r && flags&Properties != 0)
+    {
+        for (auto prop : mPossibleProperties)
+        {
+            if (!roomDesc.HasProperty( prop ))
+            {
+                r = false;
+                break;
+            }
+        }
+    }
+    return r;
+}
+
 void Cell::AddEntrance( EntranceType::Type const& entrance )
 {
     mPossibleEntrances.insert( entrance );

@@ -50,6 +50,7 @@ private:
     void PlaceMandatoryRooms();
     // try to place roomId room. returns roomIndex on success -1 otherwise
     int32_t PlaceRoom( int32_t roomId );
+    void CheckRoomEntrances();
 };
 
 } // namespace map
