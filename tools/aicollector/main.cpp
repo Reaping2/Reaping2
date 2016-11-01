@@ -1,8 +1,8 @@
 #include <json/json.h>
-//#include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <algorithm>
+#include <regex>
 
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
@@ -25,8 +25,18 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 }
 
 // append autoids to the given vector
-void parseCpp(std::string& s, std::set<std::string>& autoids)
+void parseCpp(std::string& content, std::set<std::string>& autoids)
 {
+    // the matching group (1) contains the actual string
+    std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
+    auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
+    auto aid_end = std::sregex_iterator();
+    for ( auto it = aid_begin; it != aid_end; ++it )
+    {
+        std::smatch match = *it;
+        //std::cout << "full: " << match.str() << ", group: " << match.str(1) << std::endl;
+        autoids.insert(match.str(1));
+    }
 }
 
 int main( int argc, char** argv)
@@ -37,8 +47,8 @@ int main( int argc, char** argv)
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help","prints help")
-        ("path",po::value<std::string>(&path),"path to files, use comma separated list for multiple paths")
-        ("ext", po::value< std::vector<std::string> >(&ext)->composing(),"extension of files, use comma separated list for multiple extensions")
+        ("path",po::value<std::string>(&path),"path to files")
+        ("ext", po::value< std::vector<std::string> >(&ext)->multitoken(),"extension of files, use comma separated list for multiple extensions")
         ("enable-cpp", "enable CPP parsing")
         ("enable-json", "enable JSON parsing")
         ("output-file", po::value<std::string>(&output),"name of the output file");
@@ -89,17 +99,17 @@ int main( int argc, char** argv)
             ext.push_back(".json");
         }
     }
-    std::cout << "supported extensions:" << std::endl;
+    //std::cout << "supported extensions:" << std::endl;
+    // auto prepend '.' : cpp -> .cpp
     for ( std::string& s : ext )
     {
         if ( s[0] != '.' )
         {
             s = '.'+s;
         }
-        std::cout << s << std::endl;
+        //std::cout << s << std::endl;
     }
     /*
-    // debug
     std::string e = ext.front();
     e = std::accumulate(std::next(ext.begin()), ext.end(),e, [](std::string& s, std::string& ss){ return s+","+ss;});
     std::cout << "called with" << std::endl
@@ -119,11 +129,10 @@ int main( int argc, char** argv)
     {
         if ( fs::is_regular_file(*it) )
         {
-
-            std::cout << "checkinf file " << it->path().filename() << " extesion :" << it->path().extension() << std::endl;
+            //std::cout << "checking file " << it->path().filename() << " extesion :" << it->path().extension() << std::endl;
             if ( std::find(ext.begin(), ext.end(), it->path().extension()) == ext.end() )
             {
-                std::cout << "not supported extension " << it->path().extension() << std::endl;
+                //std::cout << "not supported extension " << it->path().extension() << std::endl;
                 continue;
             }
             if (enableJSON)
@@ -135,7 +144,10 @@ int main( int argc, char** argv)
             }
             else
             {
-                //parseCpp(content, autoids);
+                fs::ifstream in(it->path());
+                std::string content((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
+                //std::cout << "content " << content << std::endl;
+                parseCpp(content, autoids);
             }
         }
     }
