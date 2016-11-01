@@ -27,8 +27,9 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 // append autoids to the given vector
 void parseCpp(std::string& content, std::set<std::string>& autoids)
 {
+    // TODO: what if there are multiple matches in 1 line?
     // the matching group (1) contains the actual string
-    std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
+    std::regex autoid_regex("AutoId\\(\\s*\"(\\w+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
     auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
     auto aid_end = std::sregex_iterator();
     for ( auto it = aid_begin; it != aid_end; ++it )
