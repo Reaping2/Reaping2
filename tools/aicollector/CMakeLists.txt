@@ -3,4 +3,4 @@ target_link_libraries(aicollector
 	${Boost_LIBRARIES}
 	)
 
-set_property(TARGET classgenerator PROPERTY FOLDER "tools")
+set_property(TARGET aicollector PROPERTY FOLDER "tools")
