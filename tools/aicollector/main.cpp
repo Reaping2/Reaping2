@@ -29,7 +29,7 @@ void parseCpp(std::string& content, std::set<std::string>& autoids)
 {
     // TODO: what if there are multiple matches in 1 line?
     // the matching group (1) contains the actual string
-    std::regex autoid_regex("AutoId\\(\\s*\"(\\w+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
+    std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
     auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
     auto aid_end = std::sregex_iterator();
     for ( auto it = aid_begin; it != aid_end; ++it )
@@ -119,7 +119,6 @@ int main( int argc, char** argv)
               << "enable-cpp" << enableCpp << std::endl
               << "enable-json" << enableJSON << std::endl
               << "output " << output << std::endl;*/
-    // TODO: abolute or relative path...
     if (!fs::exists(path) || !fs::is_directory(path))
     {
         std::cout << path << "does not exist or not a directory" << std::endl;
