@@ -8,6 +8,8 @@ namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
 // append autoids to the given vector
+// - recursively parses a json "tree" and stores all values of string type objects
+// - strings with leading '%' are stored without '%' as well
 void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 {
     for ( auto it = root.begin(), e = root.end(); it != e; ++it)
@@ -25,11 +27,22 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 }
 
 // append autoids to the given vector
+// - collects string literals from AutoId calls
+// - collects string literals from macros that use AutoId
+// possible issues:
+// - multiplie AutoId expressions in 1 line are not parsed
 void parseCpp(std::string& content, std::set<std::string>& autoids)
 {
-    // TODO: what if there are multiple matches in 1 line?
+    static std::array<std::string,7> macros = {
+        "DEFINE_BUFF_BASE",
+        "DEFINE_COMPONENT_BASE",
+        "DEFINE_ROOM_PROPERTY",
+        "DEFINE_MAP_ELEMENT_BASE",
+        "DEFINE_SUB_SYSTEM_BASE",
+        "DEFINE_SYSTEM_BASE",
+        "DEFINE_MESSAGE_BASE" };
     // the matching group (1) contains the actual string
-    std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
+    static std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
     auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
     auto aid_end = std::sregex_iterator();
     for ( auto it = aid_begin; it != aid_end; ++it )
@@ -37,6 +50,27 @@ void parseCpp(std::string& content, std::set<std::string>& autoids)
         std::smatch match = *it;
         //std::cout << "full: " << match.str() << ", group: " << match.str(1) << std::endl;
         autoids.insert(match.str(1));
+    }
+    // todo macros:
+    // define_buff_base
+    // define_component_base
+    // define_room_property_base
+    // define_map_element_base
+    // define_sub_system_base
+    // define_system_base
+    // define_message_base
+    for ( auto m : macros )
+    {
+        //std::cout << "matching for macro " << m << "..." << std::endl;
+        std::regex macro_regex( m+"\\(\\s*(\\S+)\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
+        auto m_begin = std::sregex_iterator(content.begin(), content.end(), macro_regex);
+        auto m_end = std::sregex_iterator();
+        for ( auto it = m_begin; it != m_end; ++it )
+        {
+            std::smatch match = *it;
+            //std::cout << "full: " << match.str() << ", group: " << match.str(1) << std::endl;
+            autoids.insert(match.str(1));
+        }
     }
 }
 
@@ -144,6 +178,7 @@ int main( int argc, char** argv)
             }
             else
             {
+                //std::cout << "checking " << it->path() << std::endl;
                 fs::ifstream in(it->path());
                 std::string content((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
                 //std::cout << "content " << content << std::endl;
