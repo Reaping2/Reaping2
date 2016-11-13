@@ -51,14 +51,6 @@ void parseCpp(std::string& content, std::set<std::string>& autoids)
         //std::cout << "full: " << match.str() << ", group: " << match.str(1) << std::endl;
         autoids.insert(match.str(1));
     }
-    // todo macros:
-    // define_buff_base
-    // define_component_base
-    // define_room_property_base
-    // define_map_element_base
-    // define_sub_system_base
-    // define_system_base
-    // define_message_base
     for ( auto m : macros )
     {
         //std::cout << "matching for macro " << m << "..." << std::endl;
