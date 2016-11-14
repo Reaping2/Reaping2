@@ -5,6 +5,7 @@
 #include "particle_engine.h"
 #include "render_target.h"
 #include "platform/settings.h"
+#include "sprite_phase_cache.h"
 #include <boost/assign.hpp>
 
 namespace engine {
@@ -138,6 +139,7 @@ void RendererSystem::Update( double DeltaTime )
 {
     perf::Timer_t method;
     method.Log( "start render" );
+    static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
     render::ParticleEngine::Get().Update( DeltaTime );
     SendWorldMouseMoveEvent();
 
@@ -224,6 +226,7 @@ void RendererSystem::Update( double DeltaTime )
 
     // paint the previous textures to screen with custom additional effects
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), "world_solid_objects" );
+//    mWorldRenderer.Draw( DeltaTime, cache.mTargetTexId, "world_solid_objects" );
     SetupRenderer( mWorldProjector );
     render::ParticleEngine::Get().Draw();
 
@@ -235,6 +238,9 @@ void RendererSystem::Update( double DeltaTime )
     mMouseRenderer.Draw( mTextSceneRenderer );
     mTextSceneRenderer.Draw();
     EndRender();
+    method.Log( "end draw" );
+    cache.ProcessPending();
+    method.Log( "end process pending" );
     method.Log( "end render" );
 }
 
