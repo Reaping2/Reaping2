@@ -57,6 +57,10 @@ double PathSystem::GetDirection( Actor& actor, Actor& targetActor ) const
         return 0.0;
     }
     auto const& targetBoxIndex = targetPathDesc->second.mNodeToPrevNode[actorBoxIndex];
+    if (targetBoxIndex == -1)
+    {
+        return 0.0;
+    }
     auto positionC(actor.Get<IPositionComponent>());
     // direction is based on the actor position(point) 
     // the actor's box node (start)
