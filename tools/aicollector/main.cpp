@@ -33,7 +33,7 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 // - multiplie AutoId expressions in 1 line are not parsed
 void parseCpp(std::string& content, std::set<std::string>& autoids)
 {
-    static std::array<std::string,7> macros = {
+    static std::array<std::string,8> macros = {
         "DEFINE_BUFF_BASE",
         "DEFINE_COMPONENT_BASE",
         "DEFINE_ROOM_PROPERTY",
@@ -83,7 +83,7 @@ int main( int argc, char** argv)
     po::variables_map vm;
     po::store(po::parse_command_line(argc,argv,desc),vm);
     po::notify(vm);
-    if (vm.count("help"))
+    if (argc == 1 || vm.count("help"))
     {
         std::cout << "This program collects autoids from files in a directory recursively." << std::endl
                   << "Files can be interpreted as either source files or content files, so enable-cpp and enable-json are exclusive." << std::endl
