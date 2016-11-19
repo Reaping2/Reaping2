@@ -27,7 +27,7 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 }
 
 // append autoids to the given vector
-// - collects string literals from AutoId calls
+// - collects string literals from
 // - collects string literals from macros that use AutoId or IdStorage
 // possible issues:
 // - multiplie AutoId expressions in 1 line are not parsed
@@ -43,7 +43,8 @@ void parseCpp(std::string& content, std::set<std::string>& autoids)
         "DEFINE_MESSAGE_BASE",
         "REGISTER_SYSTEM" };
     // the matching group (1) contains the actual string
-    static std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
+    // "All your string literals belong to us"
+    static std::regex autoid_regex("\"(\\S+)\"", std::regex_constants::ECMAScript | std::regex_constants::icase);
     auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
     auto aid_end = std::sregex_iterator();
     for ( auto it = aid_begin; it != aid_end; ++it )
