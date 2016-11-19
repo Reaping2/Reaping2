@@ -31,6 +31,7 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 // - collects string literals from macros that use AutoId or IdStorage
 // possible issues:
 // - multiplie string literal expressions in 1 line are not parsed
+// - string literals that contain spaces are skipped
 void parseCpp(std::string& content, std::set<std::string>& autoids)
 {
     static std::array<std::string,8> macros = {
