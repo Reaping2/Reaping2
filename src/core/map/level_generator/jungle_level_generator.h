@@ -49,7 +49,7 @@ private:
     static void LogNodes( std::string log, FreeNodes_t const& nodes );
     void PlaceMandatoryRooms();
     // try to place roomId room. returns roomIndex on success -1 otherwise
-    int32_t PlaceRoom( int32_t roomId );
+    int32_t PlaceRoom( int32_t roomId, PossibleRooms const& possibleRooms );
     void CheckRoomEntrances();
 };
 

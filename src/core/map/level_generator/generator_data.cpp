@@ -37,7 +37,7 @@ bool GeneratorData::IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const
     return GetGCell( pos ).mGRoomDescIndex == roomIndex;
 }
 
-void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
+void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms )
 {
     for (int32_t ry = 0; ry < roomDesc.GetCellCount(); ++ry)
     {
@@ -61,6 +61,8 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
     gRoomDesc.mRoomDesc = roomDesc;
     gRoomDesc.mRoomDesc.ClearProperties();
     gRoomDesc.mRoomDesc.ClearCellEntrances();
+    gRoomDesc.mPossibleRooms = possibleRooms;
+    gRoomDesc.mIsReplaceable = PossibleRooms::IsReplaceable( possibleRooms.GetRoomIds(), gRoomDesc.mRoomDesc.GetRoom()->GetId() );
     mGRoomDescs.push_back( gRoomDesc );
     GenerateGraph();
 }
@@ -91,7 +93,7 @@ bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) cons
                 if (IsFilled( targetPos ))
                 {
                     L1( "%d,%d is already filled %d\n", targetPos.x, targetPos.x, IsFilled( targetPos ) );
-                    return false; //cell is already filled this room cant be placed
+                    return false; //cell is already filled this room can't be placed
                 }
             }
         }
@@ -220,6 +222,12 @@ void GeneratorData::GenerateGraph()
 GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
 {
     return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
+}
+
+
+GRoomDesc const& GeneratorData::GetGRoomDesc( int32_t roomIndex ) const
+{
+    return mGRoomDescs[roomIndex];
 }
 
 Cell& GeneratorData::GetCell( glm::vec2 pos )

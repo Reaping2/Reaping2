@@ -113,9 +113,9 @@ int32_t JungleLevelGenerator::PlaceRoomByProperty( RoomProperty::Type roomProp )
 {
     const auto roomIds = mPossibleRooms.GetRoomIdsByProperty( roomProp );
     BOOST_ASSERT( !roomIds.empty() );
-    for (auto roomId : roomIds)
+    for (auto&& roomId : roomIds)
     {
-        const int32_t roomIndex = PlaceRoom( roomId );
+        const int32_t roomIndex = PlaceRoom( roomId.mRoomId, mPossibleRooms );
         if (roomIndex != -1)
         {
             mGData.AddRoomProperty( roomIndex, roomProp );
@@ -136,9 +136,9 @@ void JungleLevelGenerator::PlaceMandatoryRooms()
     for (auto& possibleRooms : mMandatoryRooms)
     {
         possibleRooms.ShuffleRoomIds();
-        for (auto roomId : possibleRooms.GetRoomIds())
+        for (auto&& roomId : possibleRooms.GetRoomIds())
         {
-            if (PlaceRoom( roomId ) != -1)
+            if (PlaceRoom( roomId.mRoomId, possibleRooms ) != -1)
             {
                 L2( "Succesfully placed room %d\n", roomId );
                 break;
@@ -153,7 +153,7 @@ void JungleLevelGenerator::PlaceMandatoryRooms()
 }
 
 
-int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId )
+int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId, PossibleRooms const& possibleRooms )
 {
     auto& room = mRoomRepo( roomId );
     const int32_t maxSize = mCellCount - room.GetRoomDesc().GetCellCount();
@@ -173,7 +173,7 @@ int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId )
             if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
             {
                 const int32_t roomIndex = mGData.GetRoomCount();
-                mGData.PlaceRoom( room.GetRoomDesc(), pos );
+                mGData.PlaceRoom( room.GetRoomDesc(), pos, possibleRooms );
                 AddNeighboursToFreeCells( room, pos );
                 return roomIndex;
             }
@@ -191,13 +191,13 @@ void JungleLevelGenerator::CheckRoomEntrances()
         if (!roomDesc.FitsInto( roomDesc.GetRoom()->GetRoomDesc(), RoomDesc::Layout|RoomDesc::Entrance ))
         {
             L2( "Found a room that should be changed!\n" );
-            auto possibleRooms = mPossibleRooms.GetRoomIdsFiltered( roomDesc, RoomDesc::Layout|RoomDesc::Entrance );
+            auto possibleRooms = mGData.GetGRoomDesc(i).mPossibleRooms.GetRoomIdsFiltered( roomDesc, RoomDesc::Layout|RoomDesc::Entrance );
             if (possibleRooms.empty())
             {
                 L2( "A room should have been replaced but couldn't find matching room!" );
                 continue;
             }
-            mGData.ReplaceRoom( i, possibleRooms.at( 0 ) );
+            mGData.ReplaceRoom( i, possibleRooms.at( 0 ).mRoomId );
         }
     }
 }
@@ -245,12 +245,12 @@ Opt<IRoom> JungleLevelGenerator::PlaceRandomRoom( glm::vec2 const& pos )
     Opt<IRoom> r;
     mPossibleRooms.ShuffleRoomIds();
     bool succ = false;
-    for (auto& roomId : mPossibleRooms.GetRoomIds())
+    for (auto&& roomId : mPossibleRooms.GetRoomIds())
     {
-        auto& room = mRoomRepo( roomId );
+        auto& room = mRoomRepo( roomId.mRoomId );
         if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
         {
-            mGData.PlaceRoom( room.GetRoomDesc(), pos );
+            mGData.PlaceRoom( room.GetRoomDesc(), pos, mPossibleRooms );
             r = &room;
             break;
         }

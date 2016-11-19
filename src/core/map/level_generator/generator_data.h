@@ -5,6 +5,7 @@
 #include "platform/i_platform.h"
 #include "i_room.h"
 #include "room_property.h"
+#include "possible_rooms.h"
 
 namespace map {
 
@@ -18,6 +19,8 @@ struct GCell
 struct GRoomDesc
 {
     RoomDesc mRoomDesc;
+    bool mIsReplaceable = true;
+    PossibleRooms mPossibleRooms;
     glm::vec2 mRoomCoord = glm::vec2( -1, -1 ); // absolute position in mGCells
 };
 typedef std::vector<int32_t> NeighbourRooms_t;
@@ -51,7 +54,7 @@ public:
     void SetDimensions( int32_t x, int32_t y );
     bool IsFilled( glm::vec2 pos ) const;
     bool IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const;
-    void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
+    void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms );
     void ReplaceRoom( int32_t roomIndex, int32_t roomId );
     bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const;
     bool IsInBounds( glm::vec2 pos ) const;
@@ -69,6 +72,7 @@ public:
     typedef std::pair<glm::vec2, glm::vec2> CellPair_t;
     typedef std::vector<CellPair_t> CellPairs_t;
     CellPairs_t GetAdjacentCellPairs( int32_t roomA, int32_t roomB );
+    GRoomDesc const& GetGRoomDesc( int32_t roomIndex ) const;
 private:
     typedef std::vector<std::vector<GCell>> GCellMatrix_t;
     GCellMatrix_t mGCells; // all cells with the corresponding roomDesc
