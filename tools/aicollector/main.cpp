@@ -28,7 +28,7 @@ void parseJSON(Json::Value& root, std::set<std::string>& autoids)
 
 // append autoids to the given vector
 // - collects string literals from AutoId calls
-// - collects string literals from macros that use AutoId
+// - collects string literals from macros that use AutoId or IdStorage
 // possible issues:
 // - multiplie AutoId expressions in 1 line are not parsed
 void parseCpp(std::string& content, std::set<std::string>& autoids)
@@ -40,7 +40,8 @@ void parseCpp(std::string& content, std::set<std::string>& autoids)
         "DEFINE_MAP_ELEMENT_BASE",
         "DEFINE_SUB_SYSTEM_BASE",
         "DEFINE_SYSTEM_BASE",
-        "DEFINE_MESSAGE_BASE" };
+        "DEFINE_MESSAGE_BASE",
+        "REGISTER_SYSTEM" };
     // the matching group (1) contains the actual string
     static std::regex autoid_regex("AutoId\\(\\s*\"(\\S+)\"\\s*\\)", std::regex_constants::ECMAScript | std::regex_constants::icase);
     auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
@@ -151,6 +152,12 @@ int main( int argc, char** argv)
         return 1;
     }
     std::set<std::string> autoids;
+    // some special ones that are not found by parseCpp's search criteria
+    if (enableCpp)
+    {
+        // EditorLayerSystem
+        autoids.insert("any"); autoids.insert("target");
+    }
     for ( fs::recursive_directory_iterator it(path), eit; it != eit; ++it )
     {
         if ( fs::is_regular_file(*it) )
@@ -170,10 +177,8 @@ int main( int argc, char** argv)
             }
             else
             {
-                //std::cout << "checking " << it->path() << std::endl;
                 fs::ifstream in(it->path());
                 std::string content((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
-                //std::cout << "content " << content << std::endl;
                 parseCpp(content, autoids);
             }
         }
