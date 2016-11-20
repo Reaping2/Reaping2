@@ -75,7 +75,7 @@ void GeneratorData::ReplaceRoom( int32_t roomIndex, int32_t roomId )
     GetRoomDesc(roomIndex).SetRoom(&mRoomRepo( roomId ) );
 }
 
-bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const
+bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms ) const
 {
     for (int32_t ry = 0; ry < roomDesc.GetCellCount(); ++ry)
     {
@@ -98,7 +98,8 @@ bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) cons
             }
         }
     }
-    return true;
+    return PossibleRooms::IsReplaceable( possibleRooms.GetRoomIds(), roomDesc.GetRoom()->GetId() )
+            || !HasUnreplaceableNeighbor(*roomDesc.GetRoom(),pos);
 }
 
 bool GeneratorData::IsInBounds( glm::vec2 pos ) const
@@ -194,7 +195,6 @@ void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::ve
 NeighbourRooms_t GeneratorData::GetNeighbourRooms( int32_t roomIndex )
 {
     NeighbourRooms_t r;
-    auto& roomDesc = mGRoomDescs[roomIndex];
     for (auto& n : GetRoom( roomIndex )->GetNeighbourCells())
     {
         glm::vec2 pos = GetRoomCoord(roomIndex) + n;
@@ -219,7 +219,7 @@ void GeneratorData::GenerateGraph()
     }
 }
 
-GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
+GRoomDesc const& GeneratorData::GetGRoomDesc( glm::vec2 pos ) const
 {
     return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
 }
@@ -228,6 +228,27 @@ GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
 GRoomDesc const& GeneratorData::GetGRoomDesc( int32_t roomIndex ) const
 {
     return mGRoomDescs[roomIndex];
+}
+
+
+map::GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
+{
+    return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
+}
+
+
+bool GeneratorData::HasGRoomDesc( glm::vec2 pos ) const
+{
+    return GetGCell( pos ).mGRoomDescIndex != -1;
+}
+
+bool GeneratorData::HasUnreplaceableNeighbor( IRoom const& room, glm::vec2 pos ) const
+{
+    return std::find_if(room.GetNeighbourCells().begin(), room.GetNeighbourCells().end(), [&]( glm::vec2 n ) 
+            {
+                auto const v = pos + n;
+                return IsInBounds( v ) && HasGRoomDesc( v ) && !GetGRoomDesc( v ).mIsReplaceable;
+            }) != room.GetNeighbourCells().end();
 }
 
 Cell& GeneratorData::GetCell( glm::vec2 pos )

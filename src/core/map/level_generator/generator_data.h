@@ -56,7 +56,7 @@ public:
     bool IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const;
     void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms );
     void ReplaceRoom( int32_t roomIndex, int32_t roomId );
-    bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const;
+    bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms ) const;
     bool IsInBounds( glm::vec2 pos ) const;
     void ClearRoomProperties( int32_t roomIndex );
     void AddRoomProperty( int32_t roomIndex, RoomProperty::Type prop );
@@ -73,6 +73,8 @@ public:
     typedef std::vector<CellPair_t> CellPairs_t;
     CellPairs_t GetAdjacentCellPairs( int32_t roomA, int32_t roomB );
     GRoomDesc const& GetGRoomDesc( int32_t roomIndex ) const;
+    bool HasGRoomDesc( glm::vec2 pos ) const;
+    bool HasUnreplaceableNeighbor( IRoom const& room, glm::vec2 pos ) const;
 private:
     typedef std::vector<std::vector<GCell>> GCellMatrix_t;
     GCellMatrix_t mGCells; // all cells with the corresponding roomDesc
@@ -85,6 +87,7 @@ private:
     NeighbourRooms_t GetNeighbourRooms( int32_t roomIndex );
     void GenerateGraph();
     GRoomDesc& GetGRoomDesc( glm::vec2 pos );
+    GRoomDesc const& GetGRoomDesc( glm::vec2 pos ) const;
     Cell& GetCell( glm::vec2 pos );
     glm::vec2 GetCellCoord( glm::vec2 pos );
     RoomDesc& GetRoomDesc( glm::vec2 pos );

@@ -52,7 +52,7 @@ struct RoomDesc
     bool IsFilled( int32_t x, int32_t y ) const;
     bool IsFilled( glm::vec2 pos ) const;
     void ClearCellEntrances();
-    Opt<IRoom> GetRoom();
+    Opt<IRoom> GetRoom() const;
     void SetRoom( Opt<IRoom> room );
 
     typedef std::vector<int32_t> PlacedActorGUIDs_t;

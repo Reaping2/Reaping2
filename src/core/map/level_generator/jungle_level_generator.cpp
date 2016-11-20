@@ -170,7 +170,7 @@ int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId, PossibleRooms const& po
         for (auto y : yvalues)
         {
             const glm::vec2 pos( x, y );
-            if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
+            if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos, possibleRooms ))
             {
                 const int32_t roomIndex = mGData.GetRoomCount();
                 mGData.PlaceRoom( room.GetRoomDesc(), pos, possibleRooms );
@@ -248,7 +248,7 @@ Opt<IRoom> JungleLevelGenerator::PlaceRandomRoom( glm::vec2 const& pos )
     for (auto&& roomId : mPossibleRooms.GetRoomIds())
     {
         auto& room = mRoomRepo( roomId.mRoomId );
-        if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
+        if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos, mPossibleRooms ))
         {
             mGData.PlaceRoom( room.GetRoomDesc(), pos, mPossibleRooms );
             r = &room;

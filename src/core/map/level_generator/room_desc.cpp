@@ -119,7 +119,7 @@ void RoomDesc::ClearCellEntrances()
     }
 }
 
-Opt<IRoom> RoomDesc::GetRoom()
+Opt<IRoom> RoomDesc::GetRoom() const
 {
     return mRoom;
 }
