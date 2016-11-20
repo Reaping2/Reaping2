@@ -66,6 +66,7 @@ public:
     RoomDesc& GetRoomDesc( int32_t roomIndex );
     glm::vec2 GetRoomCoord( int32_t roomIndex ) const;
     void LinkCells( glm::vec2 posA, glm::vec2 posB );
+    bool CanLinkCells( glm::vec2 posA, glm::vec2 posB, bool replaceableA = false, bool replaceableB = false ) const;
     void ShuffleNeighbours();
     int32_t GetNeighbourRoomCount( int32_t roomIndex ) const;
     int32_t GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbourIndex ) const;
@@ -89,8 +90,10 @@ private:
     GRoomDesc& GetGRoomDesc( glm::vec2 pos );
     GRoomDesc const& GetGRoomDesc( glm::vec2 pos ) const;
     Cell& GetCell( glm::vec2 pos );
-    glm::vec2 GetCellCoord( glm::vec2 pos );
+    Cell const& GetCell( glm::vec2 pos ) const;
+    glm::vec2 GetCellCoord( glm::vec2 pos ) const;
     RoomDesc& GetRoomDesc( glm::vec2 pos );
+    RoomDesc const& GetRoomDesc( glm::vec2 pos ) const;
     void AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room ) const;
 };
 
