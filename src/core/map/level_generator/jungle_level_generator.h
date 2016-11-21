@@ -28,6 +28,7 @@ private:
         int32_t minLength = 0;
         int32_t endChance = 0;
         int32_t chanceIncrease = 0;
+        RoomProperty::Type roomProperty = RoomProperty::Nothing;
         void Load( Json::Value& setters );
     };
     typedef std::vector<PossibleRooms> MandatoryRooms_t;
