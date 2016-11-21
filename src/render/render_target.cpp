@@ -1,4 +1,5 @@
 #include "render_target.h"
+#include "platform/settings.h"
 
 namespace render {
 
@@ -98,6 +99,10 @@ glm::vec2 RenderTarget::GetMaxTextureSize() const
 {
     int s;
     glGetIntegerv( GL_MAX_TEXTURE_SIZE, &s );
+    static Settings& settings( Settings::Get() );
+    // some nvidia cards report 16k supported size, but fail when requesting a texture with that size
+    static int maxAllowedTextureSize = settings.GetInt( "graphics.gl.max_allowed_texture_size", 8196 );
+    s = std::min( s, maxAllowedTextureSize );
     return glm::vec2( s, s );
 }
 
