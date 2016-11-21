@@ -43,16 +43,19 @@ void parseCpp(std::string& content, std::set<std::string>& autoids)
         "DEFINE_SYSTEM_BASE",
         "DEFINE_MESSAGE_BASE",
         "REGISTER_SYSTEM" };
-    // the matching group (1) contains the actual string
     // "All your string literals belong to us"
     static std::regex autoid_regex("\"(\\S+)\"", std::regex_constants::ECMAScript | std::regex_constants::icase);
     auto aid_begin = std::sregex_iterator(content.begin(), content.end(), autoid_regex);
     auto aid_end = std::sregex_iterator();
     for ( auto it = aid_begin; it != aid_end; ++it )
     {
-        std::smatch match = *it;
-        //std::cout << "full: " << match.str() << ", group: " << match.str(1) << std::endl;
-        autoids.insert(match.str(1));
+        // match[0] is the full match, we don't need that
+        std::smatch matches = *it;
+        for ( int i = 1; i < matches.size(); ++i )
+        {
+            //std::cout << "match: " << matches[i] << std::endl;
+            autoids.insert(matches.str(i));
+        }
     }
     for ( auto m : macros )
     {
@@ -155,11 +158,6 @@ int main( int argc, char** argv)
     }
     std::set<std::string> autoids;
     // some special ones that are not found by parseCpp's search criteria
-    if (enableCpp)
-    {
-        // EditorLayerSystem
-        autoids.insert("any"); autoids.insert("target");
-    }
     for ( fs::recursive_directory_iterator it(path), eit; it != eit; ++it )
     {
         if ( fs::is_regular_file(*it) )
