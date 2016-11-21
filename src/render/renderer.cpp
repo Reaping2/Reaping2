@@ -31,10 +31,10 @@ RendererSystem::~RendererSystem()
 
 }
 
-void RendererSystem::SetupRenderer( const Projection& Proj )
+void RendererSystem::SetupRenderer( const Projection& Proj, float Scale )
 {
     Viewport const& Vp = Proj.GetViewport();
-    glViewport( Vp.X, Vp.Y, Vp.Width, Vp.Height );
+    glViewport( Vp.X, Vp.Y, Vp.Width * Scale, Vp.Height * Scale );
 
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, mWorldProjector.GetMatrix() );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, mCamera.GetView() );
@@ -166,14 +166,14 @@ void RendererSystem::Update( double DeltaTime )
     mPerfTimer.Log( "pre shadow" );
     if( castShadows != 0 )
     {
+        static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         uint32_t shadowOutline = 2, shadow_1=4, shadow_2=5;
-
         auto const shadowLevels = getShadowLevels( Scen );
         for( auto shadowLevel : shadowLevels )
         {
             // !---- rt - shadows outline
-            rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() );
-            SetupRenderer( mWorldProjector );
+            rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() * shadowmult );
+            SetupRenderer( mWorldProjector, shadowmult );
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
 
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
@@ -181,11 +181,11 @@ void RendererSystem::Update( double DeltaTime )
 
 
             // !---- rt4 - shadows - with depth
-            rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows" );
+            rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() * shadowmult );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows", mWorldProjector.GetViewport().Size() * shadowmult );
             // !---- rt5 - shadows - vblurred
-            rt.SetTargetTexture( shadow_2, mWorldProjector.GetViewport().Size() );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "vblur" );
+            rt.SetTargetTexture( shadow_2, mWorldProjector.GetViewport().Size() * shadowmult );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "vblur", mWorldProjector.GetViewport().Size() * shadowmult );
 
             rt.SelectTargetTexture( world );
             SetupRenderer( mWorldProjector );
@@ -209,12 +209,12 @@ void RendererSystem::Update( double DeltaTime )
     // we render the background with effects, render the particles to a new FBO
     // and at last render the results onto the screen with another layer of effects
     uint32_t worldEffects = 16;
+    SetupRenderer( mWorldProjector );
     rt.SetTargetTexture( worldEffects, mWorldProjector.GetViewport().Size() );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
     glBlendFunc( GL_ONE, GL_ONE );
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), "world_solid_objects" );
-    SetupRenderer( mWorldProjector );
 
     // set painting to screen
     rt.SetTargetScreen();
