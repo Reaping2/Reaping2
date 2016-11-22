@@ -33,7 +33,15 @@
     },
     "graphics":
     {
-        "cast_shadows":1
+        "cast_shadows":1,
+        "sprite_phase_cache":
+        {
+            "enabled":1,
+            "gapless":1,
+            "max_cell_size":128,
+            "use_size_limit":1,
+            "downsample":1
+        }
     },
     "soldier_name":
     {

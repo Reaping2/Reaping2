@@ -42,21 +42,26 @@ WorldRenderer::~WorldRenderer()
 {
 }
 
-void WorldRenderer::Draw( double dt, GLuint texture, std::string const& shader )
+void WorldRenderer::Draw( double dt, GLuint texture, std::string const& shader, glm::vec2 const& size )
 {
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( shader );
     ShaderMgr.UploadData( "texture", GLuint( 1 ) );
-    int w, h;
-    static Opt<engine::WindowSystem> window( engine::Engine::Get().GetSystem<engine::WindowSystem>() );
-    window->GetWindowSize( w, h );
-    ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
+    ShaderMgr.UploadData( "resolution", size );
     glActiveTexture( GL_TEXTURE0 + 1 );
     mVAO.Bind();
     glBindTexture( GL_TEXTURE_2D, texture );
     glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
     mVAO.Unbind();
     glActiveTexture( GL_TEXTURE0 );
+}
+
+void WorldRenderer::Draw( double dt, GLuint texture, std::string const& shader )
+{
+    int w, h;
+    static Opt<engine::WindowSystem> window( engine::Engine::Get().GetSystem<engine::WindowSystem>() );
+    window->GetWindowSize( w, h );
+    Draw( dt, texture, shader, glm::vec2( w, h ) );
 }
 
 }

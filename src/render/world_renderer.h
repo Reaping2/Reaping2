@@ -14,6 +14,7 @@ class WorldRenderer
     size_t mColorIndex;
 public:
     void Draw( double dt, GLuint texture, std::string const& shader );
+    void Draw( double dt, GLuint texture, std::string const& shader, glm::vec2 const& size );
     WorldRenderer();
     ~WorldRenderer();
 };
