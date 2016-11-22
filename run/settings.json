@@ -1,4 +1,8 @@
 {
+    "collisions":
+    {
+        "enable":1
+    },
     "health_bar":
     {
         "size":
@@ -34,6 +38,7 @@
     "graphics":
     {
         "cast_shadows":1,
+        "shadow_scale":0.3,
         "sprite_phase_cache":
         {
             "enabled":1,
@@ -50,6 +55,7 @@
     },
     "find_path":
     {
+        "enable":1,
         "max_path_length":3000,
         "max_box_size":20,
         "debug":0,

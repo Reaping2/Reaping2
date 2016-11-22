@@ -5,6 +5,7 @@
 #include "core/collision_model.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "platform/settings.h"
 
 namespace engine {
 
@@ -48,6 +49,11 @@ void CollisionSystem::OnActorEvent( ActorEvent const& Evt )
 
 void CollisionSystem::Update( double DeltaTime )
 {
+    static const auto enableCollision = Settings::Get().GetInt( "collisions.enable", 1 ) != 0;
+    if( !enableCollision )
+    {
+        return;
+    }
     mUpdateTimer.Log( "start collision" );
     mPerfTimer.Log( "pre build grid" );
     std::vector<std::pair<Opt<CollisionSubSystem>, Actor*>> collisionAndActors;
