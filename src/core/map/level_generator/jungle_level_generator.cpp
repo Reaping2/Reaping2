@@ -193,7 +193,7 @@ void JungleLevelGenerator::CheckRoomEntrances()
     {
         auto const& gRoomDesc = mGData.GetGRoomDesc( i );
         auto const& roomDesc = gRoomDesc.mRoomDesc;
-        if (!roomDesc.FitsInto( roomDesc.GetRoom()->GetRoomDesc(), RoomDesc::Layout|RoomDesc::Entrance ))
+        if (!roomDesc.FitsInto( roomDesc.GetRoom()->GetRoomDesc(), RoomDesc::Layout|RoomDesc::Entrance|RoomDesc::Properties ))
         {
             BOOST_ASSERT( gRoomDesc.mIsReplaceable );
             L2( "Found a room that should be changed! (And is replaceable: %d)\n", gRoomDesc.mIsReplaceable );
