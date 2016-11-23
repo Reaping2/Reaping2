@@ -2,6 +2,7 @@
 #include "init.h"
 #include "filesystem.h"
 #include "ifile.h"
+#include "log.h"
 #include <map>
 
 namespace platform {
@@ -69,6 +70,7 @@ int32_t IdStorageImpl::GetId( const std::string& Name )
     int32_t& Id = mIdMap[Name];
     if( !Id )
     {
+        LOG("New autoid generated for %s\n", Name.c_str());
         Id = ++mNextId;
     }
     return Id;
