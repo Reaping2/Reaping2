@@ -1154,7 +1154,7 @@
          }
       ],
       "name" : "rogue1x1straight",
-      "plain_properties" : [ "start", "end" ],
+      "plain_properties" : [ "start" ,"end" ],
       "properties" : [
          {
             "chance" : 100,

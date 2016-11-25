@@ -5,6 +5,7 @@
 #include "platform/i_platform.h"
 #include "i_room.h"
 #include "room_property.h"
+#include "possible_rooms.h"
 
 namespace map {
 
@@ -18,6 +19,8 @@ struct GCell
 struct GRoomDesc
 {
     RoomDesc mRoomDesc;
+    bool mIsReplaceable = true;
+    PossibleRooms mPossibleRooms;
     glm::vec2 mRoomCoord = glm::vec2( -1, -1 ); // absolute position in mGCells
 };
 typedef std::vector<int32_t> NeighbourRooms_t;
@@ -51,9 +54,9 @@ public:
     void SetDimensions( int32_t x, int32_t y );
     bool IsFilled( glm::vec2 pos ) const;
     bool IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const;
-    void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos );
+    void PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms );
     void ReplaceRoom( int32_t roomIndex, int32_t roomId );
-    bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const;
+    bool CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms ) const;
     bool IsInBounds( glm::vec2 pos ) const;
     void ClearRoomProperties( int32_t roomIndex );
     void AddRoomProperty( int32_t roomIndex, RoomProperty::Type prop );
@@ -63,12 +66,16 @@ public:
     RoomDesc& GetRoomDesc( int32_t roomIndex );
     glm::vec2 GetRoomCoord( int32_t roomIndex ) const;
     void LinkCells( glm::vec2 posA, glm::vec2 posB );
+    bool CanLinkCells( glm::vec2 posA, glm::vec2 posB, bool replaceableA = false, bool replaceableB = false ) const;
     void ShuffleNeighbours();
     int32_t GetNeighbourRoomCount( int32_t roomIndex ) const;
     int32_t GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbourIndex ) const;
     typedef std::pair<glm::vec2, glm::vec2> CellPair_t;
     typedef std::vector<CellPair_t> CellPairs_t;
     CellPairs_t GetAdjacentCellPairs( int32_t roomA, int32_t roomB );
+    GRoomDesc const& GetGRoomDesc( int32_t roomIndex ) const;
+    bool HasGRoomDesc( glm::vec2 pos ) const;
+    bool HasUnreplaceableNeighbor( IRoom const& room, glm::vec2 pos ) const;
 private:
     typedef std::vector<std::vector<GCell>> GCellMatrix_t;
     GCellMatrix_t mGCells; // all cells with the corresponding roomDesc
@@ -81,9 +88,12 @@ private:
     NeighbourRooms_t GetNeighbourRooms( int32_t roomIndex );
     void GenerateGraph();
     GRoomDesc& GetGRoomDesc( glm::vec2 pos );
+    GRoomDesc const& GetGRoomDesc( glm::vec2 pos ) const;
     Cell& GetCell( glm::vec2 pos );
-    glm::vec2 GetCellCoord( glm::vec2 pos );
+    Cell const& GetCell( glm::vec2 pos ) const;
+    glm::vec2 GetCellCoord( glm::vec2 pos ) const;
     RoomDesc& GetRoomDesc( glm::vec2 pos );
+    RoomDesc const& GetRoomDesc( glm::vec2 pos ) const;
     void AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room ) const;
 };
 

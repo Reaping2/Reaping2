@@ -4,7 +4,6 @@
 namespace map {
 
 PossibleRooms::PossibleRooms()
-    : mRoomRepo(RoomRepo::Get())
 {
 
 }
@@ -21,7 +20,9 @@ void PossibleRooms::Load( Json::Value& possibleRooms )
             int32_t chance;
             if (Json::GetStr( possibleRoom["room_id"], roomIdStr ) && Json::GetInt( possibleRoom["weight"], chance ))
             {
-                AddPossibleRoom( AutoId( roomIdStr ), chance );
+                int32_t isBase = 1;
+                Json::GetInt( possibleRoom["base"], isBase );
+                AddPossibleRoom( AutoId( roomIdStr ), chance, isBase==1 );
             }
         }
     }
@@ -36,13 +37,13 @@ void PossibleRooms::ShuffleRoomIds()
 }
 
 
-PossibleRooms::PossibleRoomIds_t const& PossibleRooms::GetRoomIds()
+PossibleRooms::PossibleRoomIds_t const& PossibleRooms::GetRoomIds() const
 {
     return mUniqueRoomIds;
 }
 
 
-PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsByProperty( RoomProperty::Type prop, bool shuffled /*= true */ )
+PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsByProperty( RoomProperty::Type prop, bool shuffled /*= true */ ) const
 {
     PossibleRoomIds_t r;
     PossibleRoomIds_t roomIds;
@@ -57,9 +58,10 @@ PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsByProperty( RoomProper
         roomIds = mUniqueRoomIds;
     }
 
-    for (auto roomId : roomIds)
+    static auto& mRoomRepo = RoomRepo::Get();
+    for (auto&& roomId : roomIds)
     {
-        if (mRoomRepo( roomId ).GetRoomDesc().HasProperty( prop ))
+        if (mRoomRepo( roomId.mRoomId ).GetRoomDesc().HasProperty( prop ))
         {
             r.push_back( roomId );
         }
@@ -68,7 +70,7 @@ PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsByProperty( RoomProper
 }
 
 
-PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsFiltered( RoomDesc const& roomDesc, int32_t flags, bool shuffled /*= true*/ )
+PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsFiltered( RoomDesc const& roomDesc, int32_t flags, bool shuffled /*= true*/ ) const
 {
     PossibleRoomIds_t r;
     PossibleRoomIds_t roomIds;
@@ -83,9 +85,10 @@ PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsFiltered( RoomDesc con
         roomIds = mUniqueRoomIds;
     }
 
-    for (auto roomId : roomIds)
+    static auto& mRoomRepo = RoomRepo::Get();
+    for (auto&& roomId : roomIds)
     {
-        if (roomDesc.FitsInto(mRoomRepo( roomId ).GetRoomDesc(), flags))
+        if (roomDesc.FitsInto(mRoomRepo( roomId.mRoomId ).GetRoomDesc(), flags))
         {
             r.push_back( roomId );
         }
@@ -94,20 +97,36 @@ PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsFiltered( RoomDesc con
     return r;
 }
 
-void PossibleRooms::AddPossibleRoom( int32_t roomId, int32_t possibility )
+
+bool PossibleRooms::IsReplaceable( PossibleRooms::PossibleRoomIds_t const& roomIds, int32_t roomId )
+{
+    auto foundSelf = std::find_if( roomIds.begin(), roomIds.end(), [&]( PossibleRoom const& room ) { return room.mRoomId == roomId; } );
+    if (foundSelf != roomIds.end() && foundSelf->mIsBase)
+    {
+        return true;
+    }
+    static auto& mRoomRepo = RoomRepo::Get();
+    auto const& roomDesc = mRoomRepo( roomId ).GetRoomDesc();
+    auto found = std::find_if( roomIds.begin(), roomIds.end(), [&]( PossibleRoom const& room ) {
+            return roomDesc.FitsInto( mRoomRepo( room.mRoomId ).GetRoomDesc(), RoomDesc::Layout ) 
+                    && room.mIsBase; } );
+    return found != roomIds.end();
+}
+
+void PossibleRooms::AddPossibleRoom( int32_t roomId, int32_t possibility, bool isBase )
 {
     for (int i = 0; i < possibility; ++i)
     {
-        mRoomIds.push_back( roomId );
+        mRoomIds.emplace_back(roomId, isBase);
     }
 }
 
 
-PossibleRooms::PossibleRoomIds_t PossibleRooms::MakeRoomeIdsUnique( PossibleRoomIds_t const& roomIds )
+PossibleRooms::PossibleRoomIds_t PossibleRooms::MakeRoomeIdsUnique( PossibleRoomIds_t const& roomIds ) const
 {
     PossibleRoomIds_t r;
-    std::set<int32_t> roomIdSet;
-    for (auto roomId : roomIds)
+    std::set<PossibleRoom> roomIdSet;
+    for (auto&& roomId : roomIds)
     {
         auto ipair = roomIdSet.insert( roomId );
         if (ipair.second)
@@ -116,6 +135,12 @@ PossibleRooms::PossibleRoomIds_t PossibleRooms::MakeRoomeIdsUnique( PossibleRoom
         }
     }
     return r;
+}
+
+
+bool PossibleRoom::operator<( PossibleRoom const& other ) const
+{
+    return mRoomId < other.mRoomId;
 }
 
 } // namespace map
