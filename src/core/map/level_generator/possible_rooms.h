@@ -24,7 +24,7 @@ public:
     PossibleRoomIds_t const& GetRoomIds()  const;
     PossibleRoomIds_t GetRoomIdsByProperty( RoomProperty::Type prop, bool shuffled = true ) const;
     PossibleRoomIds_t GetRoomIdsFiltered( RoomDesc const& roomDesc, int32_t flags, bool shuffled = true ) const;
-    static bool IsReplaceable( PossibleRoomIds_t const& roomIds, int32_t roomId );
+    bool IsReplaceable( int32_t roomId ) const;
 private:
     // depending on room weight there can be more than one roomId of the same Id.
     PossibleRoomIds_t mRoomIds;
