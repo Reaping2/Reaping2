@@ -728,6 +728,7 @@ collisions/shot_collision_sub_system.h
 collisions/wall_collision_sub_system.h
 color
 cols
+combiner
 component
 component.h
 components
@@ -1356,6 +1357,13 @@ generator_data.h
 generator_name
 glm_fix.h
 graphics.cast_shadows
+graphics.gl.max_allowed_texture_size
+graphics.shadow_scale
+graphics.sprite_phase_cache.downsample
+graphics.sprite_phase_cache.enabled
+graphics.sprite_phase_cache.gapless
+graphics.sprite_phase_cache.max_cell_size
+graphics.sprite_phase_cache.use_size_limit
 grass
 grass_tile
 grenade_normal_item
@@ -1972,6 +1980,7 @@ platform/export.h
 platform/factory.h
 platform/filesystem.h
 platform/frequency_timer.h
+platform/glm_fix.h
 platform/i_platform.h
 platform/id_storage.h
 platform/init.h
@@ -2374,6 +2383,7 @@ sprite2
 spriteTexture
 sprite_collection.h
 sprite_phase.h
+sprite_phase_cache.h
 sprites
 start
 start_game_mode_event

@@ -10,24 +10,24 @@ namespace fs = boost::filesystem;
 // append autoids to the given vector
 // - recursively parses a json "tree" and stores all values of string type objects
 // - strings with leading '%' are stored without '%' as well
-void parseJSON(Json::Value& root, std::set<std::string>& autoids)
+void parseJSON(const Json::Value& root, std::set<std::string>& autoids)
 {
-    for ( auto it = root.begin(), e = root.end(); it != e; ++it)
+    for ( auto const& val : root )
     {
-        if ( (*it).isString() )
+        if ( val.isString() )
         {
-            std::string id((*it).asString());
+            std::string id(val.asString());
             autoids.insert(id);
             // insert it without %% as well
             id.erase(std::remove(id.begin(), id.end(),'%'), id.end());
             autoids.insert(id);
         }
-        parseJSON(*it, autoids);
+        parseJSON(val, autoids);
     }
 }
 
 // append autoids to the given vector
-// - collects string literals from
+// - collects string literals
 // - collects string literals from macros that use AutoId or IdStorage
 // possible issues:
 // - multiplie string literal expressions in 1 line are not parsed
@@ -81,7 +81,7 @@ int main( int argc, char** argv)
     desc.add_options()
         ("help","prints help")
         ("path",po::value<std::string>(&path),"path to files")
-        ("ext", po::value< std::vector<std::string> >(&ext)->multitoken(),"extension of files, use comma separated list for multiple extensions")
+        ("ext", po::value< std::vector<std::string> >(&ext)->multitoken(),"extension of files, use space separated list for multiple extensions")
         ("enable-cpp", "enable CPP parsing")
         ("enable-json", "enable JSON parsing")
         ("output-file", po::value<std::string>(&output),"name of the output file");
@@ -157,7 +157,6 @@ int main( int argc, char** argv)
         return 1;
     }
     std::set<std::string> autoids;
-    // some special ones that are not found by parseCpp's search criteria
     for ( fs::recursive_directory_iterator it(path), eit; it != eit; ++it )
     {
         if ( fs::is_regular_file(*it) )
@@ -165,6 +164,11 @@ int main( int argc, char** argv)
             //std::cout << "checking file " << it->path().filename() << " extesion :" << it->path().extension() << std::endl;
             if ( std::find(ext.begin(), ext.end(), it->path().extension()) == ext.end() )
             {
+                // some content files are used as autoids, but not referenced explicitly e.g. decal from sprites directory
+                if ( enableJSON )
+                {
+                    autoids.insert(it->path().stem().string());
+                }
                 //std::cout << "not supported extension " << it->path().extension() << std::endl;
                 continue;
             }

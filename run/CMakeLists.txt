@@ -75,7 +75,7 @@ if(R2PKG_VAR)
             ${R2PKG_VAR}
                 -c ${CMAKE_CURRENT_SOURCE_DIR}/data
                 -o ${PROJECT_BINARY_DIR}/bin/$<LOWER_CASE:$<CONFIG>>/data.pkg
-        DEPENDS ${content})
+        DEPENDS ${content} autoids.src autoids.content )
 
     add_custom_target(update_data ALL
         DEPENDS autoids.content autoids.src data.pkg
