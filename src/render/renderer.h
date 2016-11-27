@@ -43,7 +43,7 @@ class RendererSystem : public System
 
     bool BeginRender();
     bool EndRender();
-    void SetupRenderer( const Projection& Proj );
+    void SetupRenderer( const Projection& Proj, float Scale = 1.0f );
     // ez logikailag nem tuti, hogy teljesen korrekt, de a renderer az, aki ismeri a projectionoket
     // ki lehetne belole kulon osztalyba rakni esetleg
     // a screen mouse eventeket mindenesetre ezen a reszen lehet csak kezelni, a rendererben (hisz csak o tudja, h egyaltalan mi az a screen)

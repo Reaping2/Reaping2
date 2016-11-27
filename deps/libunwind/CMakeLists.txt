@@ -9,7 +9,7 @@ ExternalProject_Add(ext_libunwind
         INSTALL_DIR "${EXTERNALS_INSTALL_DIR}"
         URL "${LIBUNWIND_URL}"
         URL_HASH SHA256=d222f186b6bc60f49dac5030516ec35a7ed0ccca675551d6cf81008112116abc
-        CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+        CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --libdir=<INSTALL_DIR>/lib
         BUILD_COMMAND make
         INSTALL_COMMAND make install
     )

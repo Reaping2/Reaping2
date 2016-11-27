@@ -33,7 +33,7 @@
     },
     "graphics":
     {
-        "cast_shadows":0,
+        "cast_shadows":1,
         "sprite_phase_cache":
         {
             "enabled":1,
