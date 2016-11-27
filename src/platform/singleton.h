@@ -15,15 +15,6 @@ public:
     static T& Get()
     {
         BOOST_ASSERT( !is_destructed );
-        ( void )is_destructed; // prevent removing is_destructed in Release configuration
-        try
-        {
-            boost::mutex::scoped_lock lock( GetMutex() );
-        }
-        catch( boost::lock_error const& )
-        {
-            abort();
-        }
         static T instance;
         return instance;
     }
@@ -33,18 +24,11 @@ public:
         is_destructed = true;
     }
 private:
-    static bool is_destructed;
-
-    static boost::mutex& GetMutex()
-    {
-        static boost::mutex mutex;
-        return mutex;
-    }
+    static volatile bool is_destructed;
 };
 
-// force creating mutex before main() is called
 template<typename T>
-bool Singleton<T>::is_destructed = ( Singleton<T>::GetMutex(), false );
+volatile bool Singleton<T>::is_destructed = false;
 
 } // namespace platform
 
