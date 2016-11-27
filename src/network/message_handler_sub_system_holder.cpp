@@ -193,16 +193,19 @@ void MessageHandlerSubSystemHolder::Init()
 
 void MessageHandlerSubSystemHolder::Update( double DeltaTime )
 {
-    for( MessageList::Messages_t::iterator i = mMessageHolder.GetIncomingMessages().mMessages.begin(), e = mMessageHolder.GetIncomingMessages().mMessages.end(); i != e; ++i )
+    // no network threading
+    MessageList::Messages_t messages;
+    mMessageHolder.GetIncomingMessages().TransferPublishedMessagesTo( messages );
+    for( auto& message : messages )
     {
-        Opt<MessageHandlerSubSystem> messageHandlerSS = GetSubSystem( i->GetType() );
+        Opt<MessageHandlerSubSystem> messageHandlerSS = GetSubSystem( message.GetType() );
         if ( messageHandlerSS.IsValid() )
         {
-            messageHandlerSS->Execute( *i );
+            messageHandlerSS->Execute( message );
         }
         else
         {
-            L1( "cannot find subsystem for type! %d", i->GetType() );
+            L1( "cannot find subsystem for type! %d", message.GetType() );
         }
     }
     for( SubSystems_t::iterator it = mSubSystems.begin(), e = mSubSystems.end(); it != e; ++it )

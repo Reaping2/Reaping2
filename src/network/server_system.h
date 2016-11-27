@@ -37,7 +37,7 @@ public:
 
     void Receive( ENetEvent& event );
 
-    void SetSenderId( MessageList& msglist, ENetEvent& event );
+    void SetSenderId( MessageList::Messages_t& messages, ENetEvent& event );
 };
 
 } // namespace network

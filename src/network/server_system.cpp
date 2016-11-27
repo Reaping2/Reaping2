@@ -88,12 +88,18 @@ void ServerSystem::Update( double DeltaTime )
     }
     PerfTimer.Log( "server receive ended" );
 
-    MessageList& messages = mMessageHolder.GetOutgoingMessages();
-    if ( messages.mMessages.size() > 0 )
+
+    // no network threading
+    mMessageHolder.GetIncomingMessages().Publish();
+    mMessageHolder.GetOutgoingMessages().Publish();
+
+    MessageList::Messages_t messages;
+    mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
+    if ( !messages.empty() )
     {
         std::ostringstream oss;
         eos::portable_oarchive oa( oss );
-        oa& messages;
+        oa & messages;
         std::string astr( oss.str() );
         // L1("server sends - %s:\n",astr.c_str());
         ENetPacket* packet = enet_packet_create ( astr.c_str(),
@@ -103,7 +109,6 @@ void ServerSystem::Update( double DeltaTime )
 
         enet_host_broadcast( mServer, 0, packet );
         enet_host_flush( mServer );
-        mMessageHolder.ClearOutgoingMessages();
     }
     PerfTimer.Log( "server update ended" );
 
@@ -118,30 +123,22 @@ void ServerSystem::Receive( ENetEvent& event )
     //         event.channelID);
     std::istringstream iss( std::string( ( char* )( event.packet->data ), event.packet->dataLength ) );
     eos::portable_iarchive ia( iss );
-    if ( mMessageHolder.GetIncomingMessages().mMessages.empty() )
-    {
-        ia >> mMessageHolder.GetIncomingMessages();
-        SetSenderId( mMessageHolder.GetIncomingMessages(), event );
 
-    }
-    else
-    {
-        MessageList msglist;
-        ia >> msglist;
-        //        L1("msgList.mMessages.size: %d",msglist.mMessages.size());
-        SetSenderId( msglist, event );
-        mMessageHolder.GetIncomingMessages().mMessages.transfer(
-            mMessageHolder.GetIncomingMessages().mMessages.end(), msglist.mMessages );
-    }
+    MessageList::Messages_t messages;
+    ia >> messages;
+    SetSenderId( messages, event );
+    mMessageHolder.GetIncomingMessages().TransferFrom( messages );
+
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy ( event.packet );
 }
 
-void ServerSystem::SetSenderId( MessageList& msglist, ENetEvent& event )
+void ServerSystem::SetSenderId( MessageList::Messages_t& messages, ENetEvent& event )
 {
-    for( MessageList::Messages_t::iterator i = msglist.mMessages.begin(), e = msglist.mMessages.end(); i != e; ++i )
+    const int senderId = *(static_cast<int*>(event.peer->data));
+    for (auto& message : messages)
     {
-        i->mSenderId = *( static_cast<int*>( event.peer->data ) );
+        message.mSenderId = senderId;
     }
 }
 

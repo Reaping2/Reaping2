@@ -82,13 +82,18 @@ void ClientSystem::Update( double DeltaTime )
     PerfTimer.Log( "client receive ended" );
 
 
-    MessageList& messages = mMessageHolder.GetOutgoingMessages();
-    if ( messages.mMessages.size() > 0 )
+    // no network threading
+    mMessageHolder.GetIncomingMessages().Publish();
+    mMessageHolder.GetOutgoingMessages().Publish();
+
+    MessageList::Messages_t messages;
+    mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
+    if (!messages.empty())
     {
 
         std::ostringstream oss;
         eos::portable_oarchive oa( oss );
-        oa& messages;
+        oa & messages;
         std::string astr( oss.str() );
         //L1("Client sends - %s:\n",astr.c_str());
         ENetPacket* packet = enet_packet_create ( astr.c_str(),
@@ -97,7 +102,6 @@ void ClientSystem::Update( double DeltaTime )
 
         enet_peer_send( mPeer, 0, packet );
         enet_host_flush( mClient );
-        mMessageHolder.ClearOutgoingMessages();
     }
     PerfTimer.Log( "client update ended" );
 }
@@ -171,18 +175,11 @@ void ClientSystem::Receive( ENetEvent& event )
     //         event.channelID);
     std::istringstream iss( std::string( ( char* )( event.packet->data ), event.packet->dataLength ) );
     eos::portable_iarchive ia( iss );
-    if ( mMessageHolder.GetIncomingMessages().mMessages.empty() )
-    {
-        ia >> mMessageHolder.GetIncomingMessages();
-    }
-    else
-    {
-        MessageList msglist;
-        ia >> msglist;
-        mMessageHolder.GetIncomingMessages().mMessages.transfer(
-            mMessageHolder.GetIncomingMessages().mMessages.end(),
-            msglist.mMessages );
-    }
+
+    MessageList::Messages_t messages;
+    ia >> messages;
+    mMessageHolder.GetIncomingMessages().TransferFrom( messages );
+
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy ( event.packet );
 }
