@@ -8,6 +8,7 @@
 #include "my_name_message.h"
 #include "engine/engine.h"
 #include "main/window.h"
+#include "platform/settings.h"
 namespace network {
 
 ClientSystem::ClientSystem()
@@ -18,7 +19,10 @@ ClientSystem::ClientSystem()
     , mConnectModel( VoidFunc( this, &ClientSystem::Connect ), "connect", &mClientModel )
     , mMessageHolder( MessageHolder::Get() )
     , mProgramState( ProgramState::Get() )
+    , mRunning( false )
+    , mThreaded( false )
 {
+    mOnPhaseChanged = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &ClientSystem::OnPhaseChanged, this, _1 ) );
 }
 
 namespace {
@@ -49,6 +53,12 @@ void ClientSystem::Init()
     }
     atexit ( enet_deinitialize );
     Connect();
+    mThreaded = Settings::Get().GetBool( "network.threaded", true );
+    if (mThreaded)
+    {
+        mRunning = true;
+        mThread = std::thread(boost::bind(&ClientSystem::UpdateThread,this));
+    }
 }
 
 void ClientSystem::Update( double DeltaTime )
@@ -60,48 +70,18 @@ void ClientSystem::Update( double DeltaTime )
         PerfTimer.Log( "client not connected, client update ended" );
         return;
     }
-    ENetEvent event;
-    while( enet_host_service ( mClient, & event, 0 ) > 0 )
-    {
-        //PerfTimer.Log("server enter");
-        switch ( event.type )
-        {
-        case ENET_EVENT_TYPE_CONNECT:
-            break;
-        case ENET_EVENT_TYPE_RECEIVE:
-            Receive( event );
-            break;
 
-        case ENET_EVENT_TYPE_DISCONNECT:
-            L1 ( "%s disconnected.\n", event.peer -> data );
-            mProgramState.mClientConnected = false;
-            L1( "\n\n\n\nLost connection please try reconnecting later! One Love!\n" );
-            engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
-        }
+    if (mThreaded)
+    {
+        std::lock_guard<std::mutex> lck( mMessageHolder.GetOutgoingMessages().GetMutex() );
+        mMessageHolder.GetOutgoingMessages().Publish();
+        mMessageHolder.GetOutgoingMessages().GetCV().notify_all();
     }
-    PerfTimer.Log( "client receive ended" );
-
-
-    // no network threading
-    mMessageHolder.GetIncomingMessages().Publish();
-    mMessageHolder.GetOutgoingMessages().Publish();
-
-    MessageList::Messages_t messages;
-    mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
-    if (!messages.empty())
+    else
     {
-
-        std::ostringstream oss;
-        eos::portable_oarchive oa( oss );
-        oa & messages;
-        std::string astr( oss.str() );
-        //L1("Client sends - %s:\n",astr.c_str());
-        ENetPacket* packet = enet_packet_create ( astr.c_str(),
-                             astr.size(),
-                             ENET_PACKET_FLAG_RELIABLE );
-
-        enet_peer_send( mPeer, 0, packet );
-        enet_host_flush( mClient );
+        ReceiveMessages();
+        mMessageHolder.GetOutgoingMessages().Publish();
+        SendMessages();
     }
     PerfTimer.Log( "client update ended" );
 }
@@ -183,5 +163,110 @@ void ClientSystem::Receive( ENetEvent& event )
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy ( event.packet );
 }
+
+void ClientSystem::UpdateThread()
+{
+    while (mRunning)
+    {
+        //PerfTimer.Log( "client thread update started" );
+        if (!mProgramState.mClientConnected)
+        {
+            //PerfTimer.Log( "client not connected, client update ended" );
+            return;
+        }
+
+        ReceiveMessages();
+
+        SendMessages();
+
+        //PerfTimer.Log( "client thread update ended" );
+    }
+}
+
+void ClientSystem::OnPhaseChanged( PhaseChangedEvent const& Evt )
+{
+    if (mThreaded && Evt.CurrentPhase == ProgramPhase::CloseSignal)
+    {
+        mRunning = false;
+        mThread.join();
+    }
+}
+
+void ClientSystem::PublishIncomingMessages()
+{
+    if (mThreaded)
+    {
+        std::lock_guard<std::mutex> lck( mMessageHolder.GetIncomingMessages().GetMutex() );
+        mMessageHolder.GetIncomingMessages().Publish();
+    }
+    else
+    {
+        mMessageHolder.GetIncomingMessages().Publish();
+    }
+}
+
+void ClientSystem::TransferOutgoingMessagesTo( MessageList::Messages_t& messages )
+{
+    if (mThreaded)
+    {
+        static const int32_t mWaitMillisecs = Settings::Get().GetInt( "network.wait_millisec", 10 );
+        std::unique_lock<std::mutex> ulck( mMessageHolder.GetOutgoingMessages().GetMutex() );
+        if (!mMessageHolder.GetOutgoingMessages().HasPublishedMessages())
+        {
+            mMessageHolder.GetOutgoingMessages().GetCV().wait_for( ulck, std::chrono::milliseconds( mWaitMillisecs ) );
+        }
+        mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
+    }
+    else
+    {
+        mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
+    }
+}
+
+void ClientSystem::ReceiveMessages()
+{
+    ENetEvent event;
+    while (enet_host_service( mClient, &event, 0 ) > 0)
+    {
+        //PerfTimer.Log("server enter");
+        switch (event.type)
+        {
+        case ENET_EVENT_TYPE_CONNECT:
+            break;
+        case ENET_EVENT_TYPE_RECEIVE:
+            Receive( event );
+            break;
+
+        case ENET_EVENT_TYPE_DISCONNECT:
+//            L1( "%s disconnected.\n", event.peer->data );
+            mProgramState.mClientConnected = false;
+//            L1( "\n\n\n\nLost connection please try reconnecting later! One Love!\n" );
+            engine::Engine::Get().GetSystem<engine::WindowSystem>()->Close();
+        }
+    }
+//    PerfTimer.Log( "client receive ended" );
+    PublishIncomingMessages();
+}
+
+void ClientSystem::SendMessages()
+{
+    MessageList::Messages_t messages;
+    TransferOutgoingMessagesTo( messages );
+    if (!messages.empty())
+    {
+
+        std::ostringstream oss;
+        eos::portable_oarchive oa( oss );
+        oa & messages;
+        std::string astr( oss.str() );
+        ENetPacket* packet = enet_packet_create( astr.c_str(),
+            astr.size(),
+            ENET_PACKET_FLAG_RELIABLE );
+
+        enet_peer_send( mPeer, 0, packet );
+        enet_host_flush( mClient );
+    }
+}
+
 } // namespace engine
 

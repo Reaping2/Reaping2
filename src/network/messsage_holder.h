@@ -32,6 +32,8 @@ public:
     void Publish();
     // needs lock Publish and TransferPublishedMessagesTo can race
     void TransferPublishedMessagesTo( Messages_t& messages);
+    // needs lock. It's just a size ofc.
+    bool HasPublishedMessages() const;
     std::mutex& GetMutex();
     std::condition_variable& GetCV();
 private:
@@ -50,9 +52,6 @@ public:
     MessageList& GetIncomingMessages();
     template<typename MESSAGE>
     void AddOutgoingMessage( std::auto_ptr<MESSAGE> message );
-
-    void ClearOutgoingMessages();
-    void ClearIncomingMessages();
 private:
 
 };
