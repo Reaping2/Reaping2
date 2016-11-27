@@ -13,6 +13,7 @@ public:
     float GetFloat(std::string const& key, float Default = 0.0f) const;
     int32_t GetColor(std::string const& key, int32_t Default = 0.0f) const;
     glm::vec4 GetColor(std::string const& key, glm::vec4 Default = glm::vec4(0.0)) const;
+    bool GetBool( std::string const& key, bool Default = true ) const;
     Json::Value Resolve(std::string const& key) const;
 private:
     friend class platform::Singleton<Settings>;

@@ -113,3 +113,22 @@ Json::Value Settings::Resolve(std::string const& key) const
     return r;
 }
 
+bool Settings::GetBool( std::string const& key, bool Default /*= true */ ) const
+{
+    int32_t i = Default?1:0;
+    if (Json::GetInt( Resolve( key ), i ))
+    {
+        return i != 0;
+    }
+    std::string s = Default?"true":"false";
+    if (Json::GetStr( Resolve( key ), s ))
+    {
+        return boost::iequals( s, "true" )
+            || boost::iequals( s, "t" )
+            || boost::iequals( s, "1" )
+            || boost::iequals( s, "y" )
+            || boost::iequals( s, "yes" );
+    }
+    return Default;
+}
+
