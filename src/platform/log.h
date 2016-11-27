@@ -8,8 +8,9 @@ namespace platform {
 
 struct AutoNormalFile
 {
-    FILE* mFile;
+    FILE* mFile = nullptr;
     AutoNormalFile( const char* name, const char* mode );
+    AutoNormalFile();
     ~AutoNormalFile();
 };
 
@@ -21,6 +22,7 @@ class Logger : public Singleton<Logger>
     size_t mDisabledLevels;
 public:
     void Log( int Level, char const* format, ... );
+    void SetFileName( std::string filename );
 };
 
 } // namespace platform
