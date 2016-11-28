@@ -5,7 +5,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"players"}]
+                "set":[{"layer":"background"}]
             },
             {"name":"collision_component",
                 "set":[{"class":"no_collision", "radius":75}]
