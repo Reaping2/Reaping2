@@ -161,14 +161,14 @@ int main( int argc, char** argv)
     {
         if ( fs::is_regular_file(*it) )
         {
+            // some content files are used as autoids, but not referenced explicitly e.g. decal from sprites directory
+            if ( enableJSON )
+            {
+                autoids.insert(it->path().stem().string());
+            }
             //std::cout << "checking file " << it->path().filename() << " extesion :" << it->path().extension() << std::endl;
             if ( std::find(ext.begin(), ext.end(), it->path().extension()) == ext.end() )
             {
-                // some content files are used as autoids, but not referenced explicitly e.g. decal from sprites directory
-                if ( enableJSON )
-                {
-                    autoids.insert(it->path().stem().string());
-                }
                 //std::cout << "not supported extension " << it->path().extension() << std::endl;
                 continue;
             }

@@ -392,6 +392,12 @@ all ends
 all groups
 all spawns
 all starts
+all_groups
+all_layers
+all_plain_props
+all_room_ends
+all_room_starts
+all_spawns
 aoe
 aoe_collision_component
 armor_buff
@@ -422,6 +428,7 @@ b8
 b9
 background
 background_1
+backgrouns
 bar
 big_background
 biggerClip
@@ -494,6 +501,8 @@ cell_entrance.blocked_target
 cell_entrance.change_blocked_target
 cell_entrance.change_target
 cell_entrance.target
+cell_entrance_edit
+cell_entrance_hud
 cells
 center
 change fill
@@ -529,6 +538,7 @@ ctf
 ctf.blue
 ctf.red
 ctf_body_color
+ctf_client_list
 ctf_client_list.bluenames
 ctf_client_list.bluenames#blueidx
 ctf_client_list.rednames
@@ -536,6 +546,7 @@ ctf_client_list.rednames#redidx
 ctf_client_list.switch
 ctf_flag_spawn_point
 ctf_head_color
+ctf_hud
 ctf_player
 ctf_soldier_spawn_point
 ctf_spawn_flags
@@ -545,6 +556,7 @@ decal
 decals
 default
 default_action
+description
 desert
 detonate_on_hit_component
 diamond
@@ -587,12 +599,15 @@ editor/all_layers
 editor/all_room_ends
 editor/all_room_starts
 editor/all_spawns
+editor_actor_hud
+editor_base_hud
 editor_brush_select
 editor_grid_select
 editor_group.group_selected
 editor_group.groups
 editor_group.groups#groupidx
 editor_group.new_group
+editor_hud
 editor_layer.layer_selected
 editor_layer.layers
 editor_layer.layers#layeridx
@@ -608,10 +623,12 @@ editor_plain_prop.props#propidx
 editor_rooms
 editor_select.remove_from_all_groups
 editor_select.state
+editor_select_hud
 editor_spawnpoints_select
 editor_target_select
 editor_visibility.show_all
 editor_visibility.switch_cells
+effects
 emitter_component
 end
 end_group
@@ -625,6 +642,7 @@ explosion_component
 face
 fade_out_component
 ffa
+ffa_client_list
 ffa_client_list.clients
 ffa_client_list.clients#clientidx
 fill
@@ -707,17 +725,23 @@ grenade_projectile
 grenade_projectiole
 grid
 group
+group_hud
 groups
 guard
+guard_a
 guard_body_base
 guard_body_color
 guard_controller_component
 guard_head_base
 guard_head_color
 guard_plasma_gun
+guard_plasma_gun_s
 guard_plasma_particle
+guard_plasma_particle_s
 guard_plasma_projectile
 guard_plasma_shot
+guard_plasma_shot_a
+guard_s
 guns_pistol
 hblur
 head
@@ -744,6 +768,7 @@ jungle
 kill_score_on_death_component
 laser_pointer_projectile
 layers
+leaderboard
 leaderboard.team_blue_death#blue_idx
 leaderboard.team_blue_kill#blue_idx
 leaderboard.team_blue_name
@@ -778,6 +803,7 @@ lucky_rocket_flame
 lucky_rocket_pickup
 lucky_rocket_player
 lucky_rocket_projectile
+map_elements
 map_start
 mapitem
 menu item
@@ -803,6 +829,8 @@ normal_item_background
 notify_parent_on_death_component
 owner_component
 particle
+particlelayers
+particles
 path_controller_component
 pickup
 pickup_collision_component
@@ -857,6 +885,8 @@ random_controller_component
 reaping
 reaping_menu_r2
 reaping_welcome
+recognizers
+recognizers_excludes
 recreate_borders
 red
 remove
@@ -1093,13 +1123,17 @@ rogue_wall50_topright_2
 rogue_wall50_topright_outer
 rogue_wall50_topright_outer_1
 rogue_wall50_topright_outer_2
+room
 room prop
+room_cell_editor_hud
 room_editor.levels
 room_editor.levels#levelidx
 room_editor.load
 room_editor.mode
 room_editor.save
 room_editor.start
+room_editor_base_hud
+room_editor_hud
 room_end
 room_end.change_target
 room_end.new_prop
@@ -1107,6 +1141,9 @@ room_end.prop_selected
 room_end.props
 room_end.props#propidx
 room_end.target
+room_end_edit
+room_end_hud
+room_prop_hud
 room_property
 room_start
 room_start.change_target
@@ -1115,6 +1152,8 @@ room_start.prop_selected
 room_start.props
 room_start.props#propidx
 room_start.target
+room_start_edit
+room_start_hud
 root
 rotate_component
 rusty_reaper
@@ -1128,6 +1167,10 @@ s2
 s3
 s4
 save
+saved
+saved_background
+saved_pickups
+saved_start_points
 scene.resume
 score.death
 score.kill
@@ -1137,6 +1180,7 @@ select
 select_game_mode
 select_level
 set entrance
+settings
 shadows
 shooter_Loves
 shooter_move
@@ -1156,8 +1200,10 @@ shotgun_projectile
 show all
 show_text
 skull
+skull_a
 skull_move
 skull_rip
+skull_s
 snow2
 soldier
 soldier.accuracy
@@ -1181,6 +1227,7 @@ soldier_head_base
 soldier_head_color
 soldier_legs
 soldier_pistol
+soldier_properties
 soldier_properties.ready
 soldier_rip
 soldier_rip1
@@ -1217,6 +1264,8 @@ spawn.target
 spawn_actor
 spawn_at_level_generated
 spawn_at_start
+spawn_edit
+spawn_hud
 spawn_soldiers
 speyeder_eyez
 speyeder_mov_op
@@ -1239,6 +1288,7 @@ splider_rip_yellow
 sprite
 sprite2
 start
+start_nothing
 static_actor_component
 stone_wall
 stone_wall_bottom
@@ -1262,6 +1312,7 @@ test_simple_room
 test_vert
 text_scene
 text_widget
+textures
 textures/GatlingGunPickup.png
 textures/Ion2Loves.png
 textures/IonGun.png
@@ -1581,6 +1632,7 @@ ui
 ui.load
 vblur
 visibility
+visibility_hud
 visiblity
 visual_box_multiplier_component
 vortex
@@ -1589,6 +1641,7 @@ vortex_rip
 w1
 w2
 w3
+waiting_start
 wall
 wall100
 wall100_1
