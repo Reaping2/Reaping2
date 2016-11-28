@@ -1,4 +1,6 @@
 #include "messsage_holder.h"
+#include <mutex>
+
 namespace network {
 
 
@@ -17,19 +19,40 @@ MessageList& MessageHolder::GetIncomingMessages()
     return mIncomingMessages;
 }
 
-void MessageHolder::AddIncomingMessage( std::auto_ptr<Message> message )
+void MessageList::Add( std::auto_ptr<Message> message )
 {
-    mIncomingMessages.mMessages.push_back( message );
+    mMessages.push_back( message );
 }
 
-void MessageHolder::ClearOutgoingMessages()
+void MessageList::TransferFrom( Messages_t& messages )
 {
-    mOutgoingMessages.mMessages.clear();
+    mMessages.transfer( mMessages.end(), messages );
 }
 
-void MessageHolder::ClearIncomingMessages()
+void MessageList::Publish()
 {
-    mIncomingMessages.mMessages.clear();
+    mPublishedMessages.transfer( mPublishedMessages.end(), mMessages );
+}
+
+void MessageList::TransferPublishedMessagesTo( Messages_t& messages )
+{
+    messages.transfer( messages.end(), mPublishedMessages );
+}
+
+
+bool MessageList::HasPublishedMessages() const
+{
+    return !mPublishedMessages.empty();
+}
+
+std::mutex& MessageList::GetMutex()
+{
+    return mMutex;
+}
+
+std::condition_variable& MessageList::GetCV()
+{
+    return mCV;
 }
 
 } // namespace network

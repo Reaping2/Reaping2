@@ -5,20 +5,40 @@
 #include "boost/ptr_container/ptr_list.hpp"
 #include <boost/ptr_container/serialize_ptr_list.hpp>
 #include "boost/static_assert.hpp"
+#include <mutex>              
+#include <condition_variable> 
 
 namespace network {
 
 class MessageList
 {
+public:
+    typedef ::boost::ptr_list<Message> Messages_t;
+    Messages_t mMessages;
+    Messages_t mPublishedMessages;
+
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version )
     {
-        ar& mMessages;
+        ar& mPublishedMessages;
     }
-public:
-    typedef ::boost::ptr_list<Message> Messages_t;
-    Messages_t mMessages;
+    // no lock needed only the producer thread should access
+    void Add( std::auto_ptr<Message> message );
+    // no lock needed only the producer thread should access
+    void TransferFrom( Messages_t& messages );
+
+    // needs lock Publish and TransferPublishedMessagesTo can race
+    void Publish();
+    // needs lock Publish and TransferPublishedMessagesTo can race
+    void TransferPublishedMessagesTo( Messages_t& messages);
+    // needs lock. It's just a size ofc.
+    bool HasPublishedMessages() const;
+    std::mutex& GetMutex();
+    std::condition_variable& GetCV();
+private:
+    std::mutex mMutex;
+    std::condition_variable mCV;
 };
 
 class MessageHolder : public platform::Singleton<MessageHolder>
@@ -32,10 +52,7 @@ public:
     MessageList& GetIncomingMessages();
     template<typename MESSAGE>
     void AddOutgoingMessage( std::auto_ptr<MESSAGE> message );
-
-    void AddIncomingMessage( std::auto_ptr<Message> message );
-    void ClearOutgoingMessages();
-    void ClearIncomingMessages();
+private:
 
 };
 
@@ -51,7 +68,7 @@ void MessageHolder::AddOutgoingMessage( std::auto_ptr<MESSAGE> message )
             ( boost::is_base_of<Message, MESSAGE>::value ),
             "MESSAGE must be a descendant of Message!"
         );
-        mOutgoingMessages.mMessages.push_back( std::auto_ptr<Message>( message.release() ) );
+        mOutgoingMessages.Add( std::auto_ptr<Message>(message.release()) );
     }
 }
 
