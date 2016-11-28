@@ -14,21 +14,12 @@ class Singleton
 public:
     static T& Get()
     {
-        BOOST_ASSERT( !is_destructed );
         static T instance;
         return instance;
     }
     Singleton() {}
-    virtual ~Singleton()
-    {
-        is_destructed = true;
-    }
-private:
-    static volatile bool is_destructed;
+    virtual ~Singleton() {}
 };
-
-template<typename T>
-volatile bool Singleton<T>::is_destructed = false;
 
 } // namespace platform
 

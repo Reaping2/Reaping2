@@ -40,12 +40,12 @@
             "gapless":1,
             "max_cell_size":128,
             "use_size_limit":1,
-            "downsample":0.7
+            "downsample":1
         }
     },
     "network":
     {
-        "threaded":1,
+        "threaded":0,
         "wait_millisec":5
     },
     "soldier_name":

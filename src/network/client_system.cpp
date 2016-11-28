@@ -21,6 +21,7 @@ ClientSystem::ClientSystem()
     , mProgramState( ProgramState::Get() )
     , mRunning( false )
     , mThreaded( false )
+    , mWaitMillisecs( 10 )
 {
     mOnPhaseChanged = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &ClientSystem::OnPhaseChanged, this, _1 ) );
 }
@@ -54,9 +55,10 @@ void ClientSystem::Init()
     atexit ( enet_deinitialize );
     Connect();
     mThreaded = Settings::Get().GetBool( "network.threaded", true );
+    mRunning = true;
+    mWaitMillisecs = Settings::Get().GetInt( "network.wait_millisec", 10 );
     if (mThreaded)
     {
-        mRunning = true;
         mThread = std::thread(boost::bind(&ClientSystem::UpdateThread,this));
     }
 }
@@ -172,7 +174,8 @@ void ClientSystem::UpdateThread()
         if (!mProgramState.mClientConnected)
         {
             //PerfTimer.Log( "client not connected, client update ended" );
-            return;
+            std::this_thread::sleep_for( std::chrono::milliseconds( mWaitMillisecs ) );
+            continue;
         }
 
         ReceiveMessages();
@@ -209,7 +212,6 @@ void ClientSystem::TransferOutgoingMessagesTo( MessageList::Messages_t& messages
 {
     if (mThreaded)
     {
-        static const int32_t mWaitMillisecs = Settings::Get().GetInt( "network.wait_millisec", 10 );
         std::unique_lock<std::mutex> ulck( mMessageHolder.GetOutgoingMessages().GetMutex() );
         if (!mMessageHolder.GetOutgoingMessages().HasPublishedMessages())
         {

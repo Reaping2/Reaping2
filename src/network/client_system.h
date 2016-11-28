@@ -23,17 +23,17 @@ class ClientSystem: public engine::System
     ModelValue mConnectModel;
     MessageHolder& mMessageHolder;
     ProgramState& mProgramState;
+    
     std::atomic<bool> mRunning;
+    
     bool mThreaded;
     std::thread mThread;
+    int32_t mWaitMillisecs;
+
     void UpdateThread();
-
     void SendMessages();
-
     void ReceiveMessages();
-
     void TransferOutgoingMessagesTo( MessageList::Messages_t& messages );
-
     void PublishIncomingMessages();
 
     AutoReg mOnPhaseChanged;

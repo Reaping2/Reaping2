@@ -30,16 +30,14 @@ class ServerSystem: public engine::System
     int32_t mSentMessagesSize;
 
     std::atomic<bool> mRunning;
+
     bool mThreaded;
     std::thread mThread;
+
     void UpdateThread();
-
     void SendMessages();
-
     void ReceiveMessages();
-
     void TransferOutgoingMessagesTo( MessageList::Messages_t& messages );
-
     void PublishIncomingMessages();
 
     AutoReg mOnPhaseChanged;

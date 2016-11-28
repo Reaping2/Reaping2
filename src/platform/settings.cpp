@@ -123,11 +123,11 @@ bool Settings::GetBool( std::string const& key, bool Default /*= true */ ) const
     std::string s = Default?"true":"false";
     if (Json::GetStr( Resolve( key ), s ))
     {
-        return boost::iequals( s, "true" )
-            || boost::iequals( s, "t" )
-            || boost::iequals( s, "1" )
-            || boost::iequals( s, "y" )
-            || boost::iequals( s, "yes" );
+        return !(boost::iequals( s, "false" )
+            || boost::iequals( s, "f" )
+            || boost::iequals( s, "0" )
+            || boost::iequals( s, "n" )
+            || boost::iequals( s, "no" ));
     }
     return Default;
 }

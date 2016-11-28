@@ -67,10 +67,10 @@ void ServerSystem::Init()
     {
         L1 ( "An error occurred while trying to create an ENet server host.\n" );
     }
+    mRunning = true;
     mThreaded = Settings::Get().GetBool( "network.threaded", true );
     if (mThreaded)
     {
-        mRunning = true;
         mThread = std::thread( boost::bind( &ServerSystem::UpdateThread, this ) );
     }
 }
