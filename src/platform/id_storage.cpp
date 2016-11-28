@@ -2,14 +2,15 @@
 #include "init.h"
 #include "filesystem.h"
 #include "ifile.h"
+#include "log.h"
 #include <map>
 
 namespace platform {
 namespace {
-void InitAutoIDs()
+void ReadAutoIDsFromFile(const std::string& fname )
 {
     Filesys& fs( Filesys::Get() );
-    std::auto_ptr<File> f( fs.Open( "autoids" ) );
+    std::auto_ptr<File> f( fs.Open( fname ) );
     if( NULL == f.get() )
     {
         return;
@@ -24,6 +25,12 @@ void InitAutoIDs()
         std::getline( istrm, line );
         ids.GetId( line );
     }
+}
+
+void InitAutoIDs()
+{
+    ReadAutoIDsFromFile("autoids.content");
+    ReadAutoIDsFromFile("autoids.src");
 }
 REGISTER_INIT_PRIO( aaa, InitAutoIDs, &InitAutoIDs )
 }
@@ -63,6 +70,7 @@ int32_t IdStorageImpl::GetId( const std::string& Name )
     int32_t& Id = mIdMap[Name];
     if( !Id )
     {
+        LOG("New autoid generated for %s\n", Name.c_str());
         Id = ++mNextId;
     }
     return Id;
