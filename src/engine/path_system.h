@@ -15,6 +15,7 @@ namespace path {
 
 struct Cell
 {
+    int32_t mNodeIndex = -1;
     bool mFilled = false;
     Cell() = default;
     Cell( bool filled );
@@ -50,9 +51,14 @@ struct Graph
     // scene coordinates
     glm::vec2 GetBoxCenter( int32_t ind ) const;
     void GenerateGraph(Grid_t const& grid, int32_t gridSize, int32_t cellSize );
+
+    void CreateNeighbours();
+
     void CreateQuadNodes();
     Box CreateQuadBox( int32_t x, int32_t y, Grid_t& visited );
     int32_t GetBoxIndex( Actor& actor ) const;
+    void CreateDistanceMatrix();
+    void CreateNodeIndexForCells();
 };
 
 struct ActorPathDesc

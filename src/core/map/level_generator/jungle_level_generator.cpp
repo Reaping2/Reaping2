@@ -46,6 +46,7 @@ void JungleLevelGenerator::Load( Json::Value& setters )
 {
     ILevelGenerator::Load( setters );
     mMainRouteProperties.Load( setters["route"] );
+    mMainRouteProperties.roomProperty = RoomProperty::End;
     mSideRouteProperties.Load( setters["side_route"] );
     mPossibleRooms.Load( setters["possible_rooms"] );
     mMandatoryRooms.clear();
@@ -84,10 +85,13 @@ void JungleLevelGenerator::CreateSideRoutes()
 
 void JungleLevelGenerator::CreateMainRoute()
 {
+    L2( "CreateMainRouteStarted!\n" );
     auto route = CreateRoute( mStartRoomIndex, mMainRouteProperties );
+    L2( "Create main route length is: %d\n", route.size() );
     LinkRooms( route );
     mEndRoomIndex = route.top();
-    //TODO: check if it has an end property
+    bool const hasProperty = mGData.GetRoom( mEndRoomIndex )->GetRoomDesc().HasProperty( RoomProperty::End );
+    L2( "and the end of this route has an end property: %d\n", hasProperty );
     mGData.AddRoomProperty( mEndRoomIndex, RoomProperty::End );
 }
 
@@ -113,9 +117,9 @@ int32_t JungleLevelGenerator::PlaceRoomByProperty( RoomProperty::Type roomProp )
 {
     const auto roomIds = mPossibleRooms.GetRoomIdsByProperty( roomProp );
     BOOST_ASSERT( !roomIds.empty() );
-    for (auto roomId : roomIds)
+    for (auto&& roomId : roomIds)
     {
-        const int32_t roomIndex = PlaceRoom( roomId );
+        const int32_t roomIndex = PlaceRoom( roomId.mRoomId, mPossibleRooms );
         if (roomIndex != -1)
         {
             mGData.AddRoomProperty( roomIndex, roomProp );
@@ -136,9 +140,9 @@ void JungleLevelGenerator::PlaceMandatoryRooms()
     for (auto& possibleRooms : mMandatoryRooms)
     {
         possibleRooms.ShuffleRoomIds();
-        for (auto roomId : possibleRooms.GetRoomIds())
+        for (auto&& roomId : possibleRooms.GetRoomIds())
         {
-            if (PlaceRoom( roomId ) != -1)
+            if (PlaceRoom( roomId.mRoomId, possibleRooms ) != -1)
             {
                 L2( "Succesfully placed room %d\n", roomId );
                 break;
@@ -153,7 +157,7 @@ void JungleLevelGenerator::PlaceMandatoryRooms()
 }
 
 
-int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId )
+int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId, PossibleRooms const& possibleRooms )
 {
     auto& room = mRoomRepo( roomId );
     const int32_t maxSize = mCellCount - room.GetRoomDesc().GetCellCount();
@@ -170,10 +174,10 @@ int32_t JungleLevelGenerator::PlaceRoom( int32_t roomId )
         for (auto y : yvalues)
         {
             const glm::vec2 pos( x, y );
-            if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
+            if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos, possibleRooms ))
             {
                 const int32_t roomIndex = mGData.GetRoomCount();
-                mGData.PlaceRoom( room.GetRoomDesc(), pos );
+                mGData.PlaceRoom( room.GetRoomDesc(), pos, possibleRooms );
                 AddNeighboursToFreeCells( room, pos );
                 return roomIndex;
             }
@@ -187,17 +191,19 @@ void JungleLevelGenerator::CheckRoomEntrances()
 {
     for (int32_t i = 0; i < mGData.GetRoomCount(); ++i)
     {
-        auto& roomDesc = mGData.GetRoomDesc( i );
-        if (!roomDesc.FitsInto( roomDesc.GetRoom()->GetRoomDesc(), RoomDesc::Layout|RoomDesc::Entrance ))
+        auto const& gRoomDesc = mGData.GetGRoomDesc( i );
+        auto const& roomDesc = gRoomDesc.mRoomDesc;
+        if (!roomDesc.FitsInto( roomDesc.GetRoom()->GetRoomDesc(), RoomDesc::Layout|RoomDesc::Entrance|RoomDesc::Properties ))
         {
-            L2( "Found a room that should be changed!\n" );
-            auto possibleRooms = mPossibleRooms.GetRoomIdsFiltered( roomDesc, RoomDesc::Layout|RoomDesc::Entrance );
+            BOOST_ASSERT( gRoomDesc.mIsReplaceable );
+            L2( "Found a room that should be changed! (And is replaceable: %d)\n", gRoomDesc.mIsReplaceable );
+            auto possibleRooms = mGData.GetGRoomDesc(i).mPossibleRooms.GetRoomIdsFiltered( roomDesc, RoomDesc::Layout|RoomDesc::Entrance|RoomDesc::Properties );
             if (possibleRooms.empty())
             {
                 L2( "A room should have been replaced but couldn't find matching room!" );
                 continue;
             }
-            mGData.ReplaceRoom( i, possibleRooms.at( 0 ) );
+            mGData.ReplaceRoom( i, possibleRooms.at( 0 ).mRoomId );
         }
     }
 }
@@ -219,6 +225,7 @@ void JungleLevelGenerator::PlaceRooms()
         }
         else
         {
+            L2( "Could not place a room and there is still a position where a room should be placed!\n" );
             BOOST_ASSERT( false );
         }
     }
@@ -245,12 +252,12 @@ Opt<IRoom> JungleLevelGenerator::PlaceRandomRoom( glm::vec2 const& pos )
     Opt<IRoom> r;
     mPossibleRooms.ShuffleRoomIds();
     bool succ = false;
-    for (auto& roomId : mPossibleRooms.GetRoomIds())
+    for (auto&& roomId : mPossibleRooms.GetRoomIds())
     {
-        auto& room = mRoomRepo( roomId );
-        if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos ))
+        auto& room = mRoomRepo( roomId.mRoomId );
+        if (mGData.CanPlaceRoom( room.GetRoomDesc(), pos, mPossibleRooms ))
         {
-            mGData.PlaceRoom( room.GetRoomDesc(), pos );
+            mGData.PlaceRoom( room.GetRoomDesc(), pos, mPossibleRooms );
             r = &room;
             break;
         }
@@ -294,7 +301,8 @@ JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRo
         if(nextNeigh[currRoomIndex] >= mGData.GetNeighbourRoomCount( currRoomIndex ))
         {
             // reached a dead end.
-            if (properties.minLength == 0)
+            if (properties.minLength == 0
+                    &&mGData.GetRoom(currRoomIndex)->GetRoomDesc().HasProperty(properties.roomProperty))
             {
                 // if minLength is 0 then this means route creation is done
                 endHit = true;
@@ -335,14 +343,22 @@ JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRo
             {
                 if (mRand() % (100) < properties.endChance + ((int32_t)route.size() - properties.minLength)*properties.chanceIncrease)
                 {
-                    // the desired route size has been hit
-                    endHit = true;
+                    if (!mGData.GetRoom( currRoomIndex )->GetRoomDesc().HasProperty( properties.roomProperty ))
+                    {
+                        L2( "An end is reached, but this room does not have an end property! So continueing the search! (curr room ind: %d)\n",currRoomIndex );
+                    }
+                    else
+                    { 
+                        // the desired route size has been hit
+                        endHit = true;
+                    }
                 }
             }
         }
     }
     if (route.empty())
     {
+        L2( "Route is empty so didn't actually find the specific route. Giving back a kind of good one. This can be a real issue!\n" );
         std::swap( mVisitedRooms, longestVisited );
         std::swap( longestRoute, route );
     }

@@ -239,9 +239,9 @@ glm::vec2 PathSystem::DistancePtLine( glm::vec2 start, glm::vec2 end, glm::vec2 
 void PathSystem::LogCells()
 {
     static const auto mDebugLogCells = Settings::Get().GetInt( "find_path.debug_log_cell_size", 300 );
-    for (int y = mDebugLogCells; y >= 0; --y)
+    for (int32_t y = mDebugLogCells; y >= 0; --y)
     {
-        for (int x = 0; x < mDebugLogCells; ++x)
+        for (int32_t x = 0; x < mDebugLogCells; ++x)
         {
             L2( "%d", mGrid[y*mGridSize + x].mFilled );
         }
@@ -342,33 +342,71 @@ void Graph::GenerateGraph( Grid_t const& grid, int32_t gridSize, int32_t cellSiz
     mGridSize = gridSize;
     mCellSize = cellSize;
     CreateQuadNodes();
+    CreateNodeIndexForCells();
 
-    mNeighbours.clear();
-    mNeighbours.resize( mNodes.size() );
-    for (int i = 0; i < mNodes.size();++i)
+    CreateNeighbours();
+    CreateDistanceMatrix();
+}
+
+void Graph::CreateDistanceMatrix()
+{
+    mDistanceMatrix.clear();
+
+    for (int32_t i = 0; i < mNeighbours.size(); ++i)
     {
-        auto box = mNodes[i];
-        for (int ni = 0; ni < mNodes.size(); ++ni)
+        auto const& box = mNodes[i];
+        auto const& neighbours = mNeighbours[i];
+        for (auto ni : neighbours)
         {
-            if (ni == i)
+            auto const& neigh = mNodes[ni];
+            mDistanceMatrix[i].emplace( ni, glm::distance( box.GetCenter(), neigh.GetCenter() ) );
+        }
+    }
+}
+
+
+void Graph::CreateNodeIndexForCells()
+{
+    for (int32_t i = 0; i < mNodes.size(); ++i)
+    {
+        auto const& box = mNodes[i];
+        for (int32_t y = box.mY; y >= box.mW; --y)
+        {
+            int ind = y*mGridSize;
+            for (int32_t x = box.mX; x <= box.mZ; ++x)
             {
-                continue;
-            }
-            auto neigh = mNodes[ni];
-            if (((box.mY + 1 == neigh.mW //neigh is over
-                    || box.mW - 1 == neigh.mY) // neigh is under
-                       && box.mX<=neigh.mZ&&neigh.mX<=box.mZ)
-                || ((box.mX - 1 == neigh.mZ //neigh is on the left
-                    || box.mZ + 1 == neigh.mX) //neigh is on the right
-                    && box.mW <= neigh.mY&&neigh.mW <= box.mY)) // y interval overlap
-            {
-                mNeighbours[i].push_back( ni );
-                mDistanceMatrix[i].emplace( ni, glm::distance( box.GetCenter(), neigh.GetCenter() ) );
+                mGrid[ind + x].mNodeIndex = i;
             }
         }
     }
 }
 
+void Graph::CreateNeighbours()
+{
+    mNeighbours.clear();
+    mNeighbours.resize( mNodes.size() );
+    for (int32_t i = 0; i < mNodes.size(); ++i)
+    {
+        auto const& box = mNodes[i];
+        for (int32_t ni = 0; ni < mNodes.size(); ++ni)
+        {
+            if (ni == i)
+            {
+                continue;
+            }
+            auto const& neigh = mNodes[ni];
+            if (((box.mY + 1 == neigh.mW //neigh is over
+                || box.mW - 1 == neigh.mY) // neigh is under
+                && box.mX <= neigh.mZ&&neigh.mX <= box.mZ)
+                || ((box.mX - 1 == neigh.mZ //neigh is on the left
+                    || box.mZ + 1 == neigh.mX) //neigh is on the right
+                    && box.mW <= neigh.mY&&neigh.mW <= box.mY)) // y interval overlap
+            {
+                mNeighbours[i].push_back( ni );
+            }
+        }
+    }
+}
 
 void Graph::CreateQuadNodes()
 {
@@ -424,7 +462,7 @@ void PathSystem::AddDebugBoxes()
 void PathSystem::ShowDebugNeighbours( int32_t neighInd )
 {
     auto& scene = Scene::Get();
-    for (int i = 0; i < mGraph.mNodes.size(); ++i)
+    for (int32_t i = 0; i < mGraph.mNodes.size(); ++i)
     {
         auto neigh( scene.GetActor( mIndexToDebugCells[i] ) );
         auto renderableC( neigh->Get<IRenderableComponent>() );
@@ -504,19 +542,12 @@ Box Graph::CreateQuadBox( int32_t x, int32_t y, Grid_t& visited )
 int32_t Graph::GetBoxIndex( Actor& actor ) const
 {
     auto positionC( actor.Get<IPositionComponent>() );
-    int32_t x = positionC->GetX() / mCellSize + mGridSize / 2;
-    int32_t y = positionC->GetY() / mCellSize + mGridSize / 2;
-    for (int i = 0; i < mNodes.size(); ++i)
-    {
-        auto box = mNodes[i];
-        if (box.mX <= x&&x <= box.mZ
-            &&box.mW <= y&&y <= box.mY)
-        {
-            return i;
-        }
-    }
-    return -1;
+    int32_t const x = positionC->GetX() / mCellSize + mGridSize / 2;
+    int32_t const y = positionC->GetY() / mCellSize + mGridSize / 2;
+    int32_t const ind = y*mGridSize + x;
+    return 0<=ind&&ind<mGridSize*mGridSize?mGrid[ind].mNodeIndex:-1;
 }
+
 
 } // namespace path
 } // namespace engine

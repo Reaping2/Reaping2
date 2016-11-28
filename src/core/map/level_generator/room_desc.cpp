@@ -54,7 +54,7 @@ void RoomDesc::SetPlainProperties( PlainProperties_t const& properties )
 
 bool RoomDesc::HasProperty( RoomProperty::Type prop ) const
 {
-    return mPossibleProperties.find( prop ) != mPossibleProperties.end();
+    return prop==RoomProperty::Nothing||mPossibleProperties.find( prop ) != mPossibleProperties.end();
 }
 
 void RoomDesc::ClearProperties()
@@ -119,7 +119,7 @@ void RoomDesc::ClearCellEntrances()
     }
 }
 
-Opt<IRoom> RoomDesc::GetRoom()
+Opt<IRoom> RoomDesc::GetRoom() const
 {
     return mRoom;
 }

@@ -37,7 +37,7 @@ bool GeneratorData::IsRoomIdentical( glm::vec2 pos, int32_t roomIndex ) const
     return GetGCell( pos ).mGRoomDescIndex == roomIndex;
 }
 
-void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
+void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms )
 {
     for (int32_t ry = 0; ry < roomDesc.GetCellCount(); ++ry)
     {
@@ -61,6 +61,8 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos )
     gRoomDesc.mRoomDesc = roomDesc;
     gRoomDesc.mRoomDesc.ClearProperties();
     gRoomDesc.mRoomDesc.ClearCellEntrances();
+    gRoomDesc.mPossibleRooms = possibleRooms;
+    gRoomDesc.mIsReplaceable = PossibleRooms::IsReplaceable( possibleRooms.GetRoomIds(), gRoomDesc.mRoomDesc.GetRoom()->GetId() );
     mGRoomDescs.push_back( gRoomDesc );
     GenerateGraph();
 }
@@ -73,7 +75,7 @@ void GeneratorData::ReplaceRoom( int32_t roomIndex, int32_t roomId )
     GetRoomDesc(roomIndex).SetRoom(&mRoomRepo( roomId ) );
 }
 
-bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) const
+bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, PossibleRooms const& possibleRooms ) const
 {
     for (int32_t ry = 0; ry < roomDesc.GetCellCount(); ++ry)
     {
@@ -91,12 +93,13 @@ bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos ) cons
                 if (IsFilled( targetPos ))
                 {
                     L1( "%d,%d is already filled %d\n", targetPos.x, targetPos.x, IsFilled( targetPos ) );
-                    return false; //cell is already filled this room cant be placed
+                    return false; //cell is already filled this room can't be placed
                 }
             }
         }
     }
-    return true;
+    return PossibleRooms::IsReplaceable( possibleRooms.GetRoomIds(), roomDesc.GetRoom()->GetId() )
+            || !HasUnreplaceableNeighbor(*roomDesc.GetRoom(),pos);
 }
 
 bool GeneratorData::IsInBounds( glm::vec2 pos ) const
@@ -129,9 +132,15 @@ RoomDesc const& GeneratorData::GetRoomDesc( int32_t roomIndex ) const
     return mGRoomDescs[roomIndex].mRoomDesc;
 }
 
-map::RoomDesc& GeneratorData::GetRoomDesc( int32_t roomIndex )
+RoomDesc& GeneratorData::GetRoomDesc( int32_t roomIndex )
 {
     return mGRoomDescs[roomIndex].mRoomDesc;
+}
+
+
+RoomDesc const& GeneratorData::GetRoomDesc( glm::vec2 pos ) const
+{
+    return GetGRoomDesc( pos ).mRoomDesc;
 }
 
 glm::vec2 GeneratorData::GetRoomCoord( int32_t roomIndex ) const
@@ -192,14 +201,13 @@ void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::ve
 NeighbourRooms_t GeneratorData::GetNeighbourRooms( int32_t roomIndex )
 {
     NeighbourRooms_t r;
-    auto& roomDesc = mGRoomDescs[roomIndex];
     for (auto& n : GetRoom( roomIndex )->GetNeighbourCells())
     {
         glm::vec2 pos = GetRoomCoord(roomIndex) + n;
         if (IsInBounds( pos ))
         {
             int32_t roomIndex = GetGCell( pos ).mGRoomDescIndex;
-            if (std::find( r.begin(), r.end(), roomIndex ) == r.end())
+            if (roomIndex!=-1&&std::find( r.begin(), r.end(), roomIndex ) == r.end())
             {
                 r.push_back( roomIndex );
             }
@@ -213,13 +221,80 @@ void GeneratorData::GenerateGraph()
     mGraph.Clear();
     for (int i = 0; i < mGRoomDescs.size(); ++i)
     {
-        mGraph.AddNode( GGraphNode( i, GetNeighbourRooms( i ) ) );
+        bool const replI = GetGRoomDesc( i ).mIsReplaceable;
+        NeighbourRooms_t neighbourRooms;
+        for (auto&& neighbourRoom : GetNeighbourRooms( i ))
+        {
+            bool const replNeigh = GetGRoomDesc( neighbourRoom ).mIsReplaceable;
+            for (auto&& cellPair : GetAdjacentCellPairs( i, neighbourRoom ))
+            {
+                if (CanLinkCells( cellPair.first, cellPair.second, replI, replNeigh ))
+                {
+                    neighbourRooms.push_back( neighbourRoom );
+                    break;
+                }
+            }
+        }
+        mGraph.AddNode( GGraphNode( i, neighbourRooms ) );
     }
 }
 
-GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
+bool GeneratorData::CanLinkCells( glm::vec2 posA, glm::vec2 posB, bool replaceableA /*= false*/, bool replaceableB /*= false*/ ) const
+{
+    auto const& currCellA = GetCell( posA );
+    auto const& currCellB = GetCell( posB );
+    // getting the original rooms roomdesc and it's properties for this cell
+    auto const& cellA = GetRoomDesc( posA ).GetRoom()->GetRoomDesc().GetCell( currCellA.mDescCoord );
+    auto const& cellB = GetRoomDesc( posB ).GetRoom()->GetRoomDesc().GetCell( currCellB.mDescCoord );
+    if (posA.x > posB.x)
+    {
+        return  (replaceableA||cellA.HasEntrance( EntranceType::Left ))
+            && (replaceableB||cellB.HasEntrance( EntranceType::Right ));
+    }
+    else if (posA.y > posB.y)
+    {
+        return (replaceableA || cellA.HasEntrance( EntranceType::Bottom ))
+            && (replaceableB || cellB.HasEntrance( EntranceType::Top ));
+    }
+    else if (posA.x < posB.x)
+    {
+        return (replaceableA || cellA.HasEntrance( EntranceType::Right ))
+            && (replaceableB || cellB.HasEntrance( EntranceType::Left ));
+    }
+    return (replaceableA || cellA.HasEntrance( EntranceType::Top ))
+        && (replaceableB || cellB.HasEntrance( EntranceType::Bottom ));
+}
+
+GRoomDesc const& GeneratorData::GetGRoomDesc( glm::vec2 pos ) const
 {
     return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
+}
+
+
+GRoomDesc const& GeneratorData::GetGRoomDesc( int32_t roomIndex ) const
+{
+    return mGRoomDescs[roomIndex];
+}
+
+
+map::GRoomDesc& GeneratorData::GetGRoomDesc( glm::vec2 pos )
+{
+    return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
+}
+
+
+bool GeneratorData::HasGRoomDesc( glm::vec2 pos ) const
+{
+    return GetGCell( pos ).mGRoomDescIndex != -1;
+}
+
+bool GeneratorData::HasUnreplaceableNeighbor( IRoom const& room, glm::vec2 pos ) const
+{
+    return std::find_if(room.GetNeighbourCells().begin(), room.GetNeighbourCells().end(), [&]( glm::vec2 n ) 
+            {
+                auto const v = pos + n;
+                return IsInBounds( v ) && HasGRoomDesc( v ) && !GetGRoomDesc( v ).mIsReplaceable;
+            }) != room.GetNeighbourCells().end();
 }
 
 Cell& GeneratorData::GetCell( glm::vec2 pos )
@@ -227,7 +302,13 @@ Cell& GeneratorData::GetCell( glm::vec2 pos )
     return GetRoomDesc( pos ).GetCell( GetCellCoord( pos ) );
 }
 
-glm::vec2 GeneratorData::GetCellCoord( glm::vec2 pos )
+
+Cell const& GeneratorData::GetCell( glm::vec2 pos ) const
+{
+    return GetRoomDesc( pos ).GetCell( GetCellCoord( pos ) );
+}
+
+glm::vec2 GeneratorData::GetCellCoord( glm::vec2 pos ) const
 {
     return pos-GetGRoomDesc( pos ).mRoomCoord;
 }

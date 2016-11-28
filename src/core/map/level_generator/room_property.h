@@ -17,7 +17,9 @@ public:
         Start=0,
         End,
         Key,
-        Num_Classes
+
+        Nothing,
+        Num_Types
     };
     RoomProperty::Type operator()( int32_t Id ) const;
     int32_t operator()( RoomProperty::Type type ) const;
