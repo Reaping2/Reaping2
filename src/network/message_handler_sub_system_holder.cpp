@@ -48,6 +48,7 @@
 #include "network/team_switch_request_message.h"
 #include "network/gamemode_selected_message.h"
 #include "network/data_checksum_message.h"
+#include "platform/settings.h"
 
 using platform::AutoId;
 namespace network {
@@ -193,23 +194,33 @@ void MessageHandlerSubSystemHolder::Init()
 
 void MessageHandlerSubSystemHolder::Update( double DeltaTime )
 {
-    for( MessageList::Messages_t::iterator i = mMessageHolder.GetIncomingMessages().mMessages.begin(), e = mMessageHolder.GetIncomingMessages().mMessages.end(); i != e; ++i )
+    MessageList::Messages_t messages;
+    static const bool mThreaded = Settings::Get().GetBool( "network.threaded", true );
+    if (mThreaded)
     {
-        Opt<MessageHandlerSubSystem> messageHandlerSS = GetSubSystem( i->GetType() );
+        std::lock_guard<std::mutex> lck( mMessageHolder.GetIncomingMessages().GetMutex() );
+        mMessageHolder.GetIncomingMessages().TransferPublishedMessagesTo( messages );
+    }
+    else
+    {
+        mMessageHolder.GetIncomingMessages().TransferPublishedMessagesTo( messages );
+    }
+    for( auto& message : messages )
+    {
+        Opt<MessageHandlerSubSystem> messageHandlerSS = GetSubSystem( message.GetType() );
         if ( messageHandlerSS.IsValid() )
         {
-            messageHandlerSS->Execute( *i );
+            messageHandlerSS->Execute( message );
         }
         else
         {
-            L1( "cannot find subsystem for type! %d", i->GetType() );
+            L1( "cannot find subsystem for type! %d", message.GetType() );
         }
     }
     for( SubSystems_t::iterator it = mSubSystems.begin(), e = mSubSystems.end(); it != e; ++it )
     {
         it->mSystem->Update( DeltaTime );
     }
-    mMessageHolder.ClearIncomingMessages();
     mScene.InsertNewActors();
 }
 

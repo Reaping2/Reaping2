@@ -12,7 +12,7 @@ namespace platform {
 
 void Logger::Log( int Level, char const* format, ... )
 {
-    if( mDisabledLevels & ( 1 << Level ) )
+    if( mDisabledLevels & ( 1 << Level )||mLogFile.mFile==nullptr )
     {
         return;
     }
@@ -31,7 +31,7 @@ void Logger::Log( int Level, char const* format, ... )
 
 Logger::Logger()
     : mDisabledLevels( 0 )
-    , mLogFile( "log.txt", "w" )
+    , mLogFile()
 {
     std::auto_ptr<File> f( new OsFile( "debug.json" ) );
     if( !f.get() || !f->IsValid() )
@@ -67,14 +67,32 @@ Logger::Logger()
 }
 
 
+void Logger::SetFileName( std::string filename )
+{
+    if (mLogFile.mFile)
+    {
+        fclose( mLogFile.mFile );
+    }
+    mLogFile.mFile = fopen( filename.c_str(), "w" );
+}
+
 AutoNormalFile::AutoNormalFile( const char* name, const char* mode )
 {
     mFile = fopen ( name, mode );
 }
 
+
+AutoNormalFile::AutoNormalFile()
+{
+
+}
+
 AutoNormalFile::~AutoNormalFile()
 {
-    fclose( mFile );
+    if (mFile)
+    {
+        fclose( mFile );
+    }
 }
 
 } // namespace platform

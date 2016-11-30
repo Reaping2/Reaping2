@@ -98,19 +98,19 @@ PossibleRooms::PossibleRoomIds_t PossibleRooms::GetRoomIdsFiltered( RoomDesc con
 }
 
 
-bool PossibleRooms::IsReplaceable( PossibleRooms::PossibleRoomIds_t const& roomIds, int32_t roomId )
+bool PossibleRooms::IsReplaceable(int32_t roomId ) const
 {
-    auto foundSelf = std::find_if( roomIds.begin(), roomIds.end(), [&]( PossibleRoom const& room ) { return room.mRoomId == roomId; } );
-    if (foundSelf != roomIds.end() && foundSelf->mIsBase)
+    auto foundSelf = std::find_if( mUniqueRoomIds.begin(), mUniqueRoomIds.end(), [&]( PossibleRoom const& room ) { return room.mRoomId == roomId; } );
+    if (foundSelf != mUniqueRoomIds.end() && foundSelf->mIsBase)
     {
         return true;
     }
     static auto& mRoomRepo = RoomRepo::Get();
     auto const& roomDesc = mRoomRepo( roomId ).GetRoomDesc();
-    auto found = std::find_if( roomIds.begin(), roomIds.end(), [&]( PossibleRoom const& room ) {
+    auto found = std::find_if( mUniqueRoomIds.begin(), mUniqueRoomIds.end(), [&]( PossibleRoom const& room ) {
             return roomDesc.FitsInto( mRoomRepo( room.mRoomId ).GetRoomDesc(), RoomDesc::Layout ) 
                     && room.mIsBase; } );
-    return found != roomIds.end();
+    return found != mUniqueRoomIds.end();
 }
 
 void PossibleRooms::AddPossibleRoom( int32_t roomId, int32_t possibility, bool isBase )

@@ -163,31 +163,36 @@ int main( int argc, char* argv[] )
     }
     if ( vm.count( "-c" ) )
     {
-        L1( "run as client" );
         programState.SetMode( ProgramState::Client );
     }
     else if ( vm.count( "-s" ) )
     {
-        L1( "run as server" );
         programState.SetMode( ProgramState::Server );
     }
     else if ( vm.count( "-h" ) )
     {
-        L1( "run as host" );
         programState.SetMode( ProgramState::Client );
         programState.mIsHost = 1;
     }
     else
     {
-        L1( "run local" );
         programState.SetMode( ProgramState::Local );
     }
     if ( vm.count( "-r" ) )
     {
-        L1( "run as a random named soldier. RanBro" );
         programState.SetMode( ProgramState::Client );
         programState.mClientName = "RanBro" + boost::lexical_cast<std::string>( RandomGenerator::global()() % 1000 );
     }
+
+    if (programState.mMode == ProgramState::Server) Logger::Get().SetFileName("log_server.txt");
+    else if (programState.mMode == ProgramState::Local) Logger::Get().SetFileName( "log_local.txt" );
+    else if (programState.mMode == ProgramState::Client) Logger::Get().SetFileName( "log_client_"+programState.mClientName+".txt" );
+
+    if (programState.mMode == ProgramState::Server) L1( "run as server\n" );
+    else if (programState.mMode == ProgramState::Local) L1( "run local\n" );
+    else if (programState.mMode == ProgramState::Client) L1( "run as client: %s\n",programState.mClientName.c_str() );
+
+
     bool calibrateController = vm.count( "calibrate" );
     Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();

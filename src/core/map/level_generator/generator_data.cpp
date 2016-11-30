@@ -62,7 +62,7 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, Possible
     gRoomDesc.mRoomDesc.ClearProperties();
     gRoomDesc.mRoomDesc.ClearCellEntrances();
     gRoomDesc.mPossibleRooms = possibleRooms;
-    gRoomDesc.mIsReplaceable = PossibleRooms::IsReplaceable( possibleRooms.GetRoomIds(), gRoomDesc.mRoomDesc.GetRoom()->GetId() );
+    gRoomDesc.mIsReplaceable = possibleRooms.IsReplaceable( gRoomDesc.mRoomDesc.GetRoom()->GetId() );
     mGRoomDescs.push_back( gRoomDesc );
     GenerateGraph();
 }
@@ -98,7 +98,7 @@ bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, Possi
             }
         }
     }
-    return PossibleRooms::IsReplaceable( possibleRooms.GetRoomIds(), roomDesc.GetRoom()->GetId() )
+    return possibleRooms.IsReplaceable( roomDesc.GetRoom()->GetId() )
             || !HasUnreplaceableNeighbor(*roomDesc.GetRoom(),pos);
 }
 

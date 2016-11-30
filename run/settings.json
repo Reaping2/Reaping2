@@ -48,6 +48,11 @@
             "downsample":1
         }
     },
+    "network":
+    {
+        "threaded":0,
+        "wait_millisec":5
+    },
     "soldier_name":
     {
         "size":76,

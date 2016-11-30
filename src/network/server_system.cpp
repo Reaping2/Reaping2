@@ -7,6 +7,7 @@
 #include "engine/frame_counter_system.h"
 #include "core/program_state.h"
 #include "engine/connection_event.h"
+#include "platform/settings.h"
 namespace network {
 
 ServerSystem::ServerSystem()
@@ -15,7 +16,10 @@ ServerSystem::ServerSystem()
     , mSentMessagesSize( 0 )
     , mServer( NULL )
     , mAddress()
+    , mRunning( false )
+    , mThreaded( false )
 {
+    mOnPhaseChanged = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &ServerSystem::OnPhaseChanged, this, _1 ) );
 }
 
 namespace {
@@ -63,48 +67,31 @@ void ServerSystem::Init()
     {
         L1 ( "An error occurred while trying to create an ENet server host.\n" );
     }
+    mRunning = true;
+    mThreaded = Settings::Get().GetBool( "network.threaded", true );
+    if (mThreaded)
+    {
+        mThread = std::thread( boost::bind( &ServerSystem::UpdateThread, this ) );
+    }
 }
 
 void ServerSystem::Update( double DeltaTime )
 {
     PerfTimer.Log( "server update started" );
-    ENetEvent event;
-    while( enet_host_service ( mServer, & event, 0 ) > 0 )
+
+    if (mThreaded)
     {
-        //PerfTimer.Log("server enter");
-        switch ( event.type )
-        {
-        case ENET_EVENT_TYPE_CONNECT:
-            ClientConnect( event );
-            break;
-        case ENET_EVENT_TYPE_RECEIVE:
-            Receive( event );
-            break;
-
-        case ENET_EVENT_TYPE_DISCONNECT:
-            ClientDisconnect( event );
-            break;
-        }
+        std::lock_guard<std::mutex> lck( mMessageHolder.GetOutgoingMessages().GetMutex() );
+        mMessageHolder.GetOutgoingMessages().Publish();
+        mMessageHolder.GetOutgoingMessages().GetCV().notify_all();
     }
-    PerfTimer.Log( "server receive ended" );
-
-    MessageList& messages = mMessageHolder.GetOutgoingMessages();
-    if ( messages.mMessages.size() > 0 )
+    else
     {
-        std::ostringstream oss;
-        eos::portable_oarchive oa( oss );
-        oa& messages;
-        std::string astr( oss.str() );
-        // L1("server sends - %s:\n",astr.c_str());
-        ENetPacket* packet = enet_packet_create ( astr.c_str(),
-                             astr.size(),
-                             ENET_PACKET_FLAG_RELIABLE );
-        mSentMessagesSize += packet->dataLength * mClients.size();
-
-        enet_host_broadcast( mServer, 0, packet );
-        enet_host_flush( mServer );
-        mMessageHolder.ClearOutgoingMessages();
+        ReceiveMessages();
+        mMessageHolder.GetOutgoingMessages().Publish();
+        SendMessages();
     }
+
     PerfTimer.Log( "server update ended" );
 
 }
@@ -118,39 +105,32 @@ void ServerSystem::Receive( ENetEvent& event )
     //         event.channelID);
     std::istringstream iss( std::string( ( char* )( event.packet->data ), event.packet->dataLength ) );
     eos::portable_iarchive ia( iss );
-    if ( mMessageHolder.GetIncomingMessages().mMessages.empty() )
-    {
-        ia >> mMessageHolder.GetIncomingMessages();
-        SetSenderId( mMessageHolder.GetIncomingMessages(), event );
 
-    }
-    else
-    {
-        MessageList msglist;
-        ia >> msglist;
-        //        L1("msgList.mMessages.size: %d",msglist.mMessages.size());
-        SetSenderId( msglist, event );
-        mMessageHolder.GetIncomingMessages().mMessages.transfer(
-            mMessageHolder.GetIncomingMessages().mMessages.end(), msglist.mMessages );
-    }
+    MessageList::Messages_t messages;
+    ia >> messages;
+    SetSenderId( messages, event );
+    mMessageHolder.GetIncomingMessages().TransferFrom( messages );
+
     /* Clean up the packet now that we're done using it. */
     enet_packet_destroy ( event.packet );
 }
 
-void ServerSystem::SetSenderId( MessageList& msglist, ENetEvent& event )
+void ServerSystem::SetSenderId( MessageList::Messages_t& messages, ENetEvent& event )
 {
-    for( MessageList::Messages_t::iterator i = msglist.mMessages.begin(), e = msglist.mMessages.end(); i != e; ++i )
+    const int senderId = *(static_cast<int*>(event.peer->data));
+    for (auto& message : messages)
     {
-        i->mSenderId = *( static_cast<int*>( event.peer->data ) );
+        message.mSenderId = senderId;
     }
 }
 
 void ServerSystem::ClientConnect( ENetEvent& event )
 {
-    L1 ( "A new client connected from %x:%u.\n",
-         event.peer -> address.host,
-         event.peer -> address.port );
+//     L1 ( "A new client connected from %x:%u.\n",
+//          event.peer -> address.host,
+//          event.peer -> address.port );
     /* Store any relevant client information here. */
+    std::lock_guard<std::mutex> lck( mClientsMutex );
     int32_t clientId = mClientId++;
     event.peer -> data = static_cast<void*>( new int32_t( clientId ) );
     mClients[clientId] = event.peer;
@@ -164,13 +144,14 @@ void ServerSystem::OnFrameCounterEvent( engine::FrameCounterEvent const& Evt )
 
 void ServerSystem::ClientDisconnect( ENetEvent& event )
 {
+    std::lock_guard<std::mutex> lck( mClientsMutex );
     int32_t clientId = *static_cast<int32_t*>( event.peer -> data );
     Opt<core::ClientData> clientData( core::ProgramState::Get().FindClientDataByClientId( clientId ) );
-    L1 ( "client disconnected: %x:%u. client id: %d, name: %s\n",
-         event.peer -> address.host,
-         event.peer -> address.port,
-         clientId,
-         clientData.IsValid() ? clientData->mClientName.c_str() : "_no_name_" );
+//     L1 ( "client disconnected: %x:%u. client id: %d, name: %s\n",
+//          event.peer -> address.host,
+//          event.peer -> address.port,
+//          clientId,
+//          clientData.IsValid() ? clientData->mClientName.c_str() : "_no_name_" );
     /* Reset the peer's client information. */
     delete static_cast<int32_t*>( event.peer->data );
     event.peer -> data = NULL;
@@ -185,6 +166,7 @@ void ServerSystem::ClientDisconnect( ENetEvent& event )
 
 void ServerSystem::OnClientIdChanged( ClientIdChangedEvent const& Evt )
 {
+    std::lock_guard<std::mutex> lck( mClientsMutex );
     auto currPeer = mClients.find( Evt.mCurrClientId );
     if ( currPeer == mClients.end() )
     {
@@ -198,6 +180,97 @@ void ServerSystem::OnClientIdChanged( ClientIdChangedEvent const& Evt )
     currPeer->second -> data = static_cast<void*>( new int32_t( Evt.mNewClientId ) );
     mClients[Evt.mNewClientId] = currPeer->second;
     mClients.erase( Evt.mCurrClientId );
+}
+
+void ServerSystem::UpdateThread()
+{
+    while (mRunning)
+    {
+        ReceiveMessages();
+        SendMessages();
+    }
+}
+
+void ServerSystem::SendMessages()
+{
+    MessageList::Messages_t messages;
+    TransferOutgoingMessagesTo( messages );
+    if (!messages.empty())
+    {
+        std::ostringstream oss;
+        eos::portable_oarchive oa( oss );
+        oa & messages;
+        std::string astr( oss.str() );
+        // L1("server sends - %s:\n",astr.c_str());
+        ENetPacket* packet = enet_packet_create( astr.c_str(),
+            astr.size(),
+            ENET_PACKET_FLAG_RELIABLE );
+
+        enet_host_broadcast( mServer, 0, packet );
+        enet_host_flush( mServer );
+    }
+}
+
+void ServerSystem::ReceiveMessages()
+{
+    ENetEvent event;
+    while (enet_host_service( mServer, &event, 0 ) > 0)
+    {
+        switch (event.type)
+        {
+        case ENET_EVENT_TYPE_CONNECT:
+            ClientConnect( event );
+            break;
+        case ENET_EVENT_TYPE_RECEIVE:
+            Receive( event );
+            break;
+
+        case ENET_EVENT_TYPE_DISCONNECT:
+            ClientDisconnect( event );
+            break;
+        }
+    }
+    PublishIncomingMessages();
+}
+
+void ServerSystem::TransferOutgoingMessagesTo( MessageList::Messages_t& messages )
+{
+    if (mThreaded)
+    {
+        static const int32_t mWaitMillisecs = Settings::Get().GetInt( "network.wait_millisec", 10 );
+        std::unique_lock<std::mutex> ulck( mMessageHolder.GetOutgoingMessages().GetMutex() );
+        if (!mMessageHolder.GetOutgoingMessages().HasPublishedMessages())
+        {
+            mMessageHolder.GetOutgoingMessages().GetCV().wait_for( ulck, std::chrono::milliseconds( mWaitMillisecs ) );
+        }
+        mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
+    }
+    else
+    {
+        mMessageHolder.GetOutgoingMessages().TransferPublishedMessagesTo( messages );
+    }
+}
+
+void ServerSystem::PublishIncomingMessages()
+{
+    if (mThreaded)
+    {
+        std::lock_guard<std::mutex> lck( mMessageHolder.GetIncomingMessages().GetMutex() );
+        mMessageHolder.GetIncomingMessages().Publish();
+    }
+    else
+    {
+        mMessageHolder.GetIncomingMessages().Publish();
+    }
+}
+
+void ServerSystem::OnPhaseChanged( PhaseChangedEvent const& Evt )
+{
+    if (mThreaded && Evt.CurrentPhase == ProgramPhase::CloseSignal)
+    {
+        mRunning = false;
+        mThread.join();
+    }
 }
 
 } // namespace engine
