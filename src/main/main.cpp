@@ -506,16 +506,17 @@ int main( int argc, char* argv[] )
         double Dt = Curtime - Prevtime;
         if( Dt < MinFrameTime )
         {
-            const double SleepTime = ( MinFrameTime - Dt );
-            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 500. ) ) );
+//             const double SleepTime = ( MinFrameTime - Dt )/2;
+//             boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
+//             double const Curtime2 = glfwGetTime();
+//             ForceReceiveSendMessages();
+//             double const Dt2 = glfwGetTime()-Curtime2;
+//             double const SleepTime2 = std::max<double>( SleepTime - Dt2, 0.0 );
+            const double SleepTime = (MinFrameTime - Dt);
+            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
             ForceReceiveSendMessages();
-            double Curtime2 = glfwGetTime();
-            double Dt2 = Curtime2 - Curtime;
-            const double SleepTime2 = ( SleepTime - Dt2 );
-            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime2 * 1000. ) ) );
-            ForceReceiveSendMessages();
-            Dt = MinFrameTime;
             Curtime = glfwGetTime();
+            Dt = MinFrameTime;
         }
         PerfTimer.Log( "Frame started" );
         Eng.Update( Dt );
