@@ -26,12 +26,12 @@ void CreateActorMessageHandlerSubSystem::Execute( Message const& message )
         eos::portable_iarchive ia( iss );
         Opt<Actor> actor;
         ia >> actor;
-        L2( "createactormessage executed with (GUID:%d)\n", actor->GetGUID() );
+        L1( "createactormessage add executed with (GUID:%d)\n", actor->GetGUID() );
         mScene.AddActor( actor.Get() );
     }
     else if ( msg.mState == ActorEvent::Removed )
     {
-        L2( "createactormessage remove with (GUID:%d)\n", msg.mActorGUID );
+        L1( "createactormessage remove with (GUID:%d)\n", msg.mActorGUID );
         mScene.RemoveActor( msg.mActorGUID );
     }
 }

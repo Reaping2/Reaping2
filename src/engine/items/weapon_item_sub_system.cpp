@@ -165,11 +165,11 @@ void WeaponItemSubSystem::AddProjectiles( Actor& actor, Projectiles_t& projectil
     if( scat )
     {
         double realScatter = ( RandomGenerator::global()() % ( scat + 1 ) - scat / 2. );
-        L1( "realScatter:%f\n", realScatter );
+        L2( "realScatter:%f\n", realScatter );
         actorOrientation += ( RandomGenerator::global()() % ( scat + 1 ) - scat / 2. ) * 0.001 * boost::math::double_constants::pi;
     }
 
-    L1( "calculated and updated scatter:%f\n", scatter.GetCalculated() );
+    L2( "calculated and updated scatter:%f\n", scatter.GetCalculated() );
     Opt<IPositionComponent> actorPositionC = actor.Get<IPositionComponent>();
     for( Projectiles_t::iterator i = projectiles.begin(), e = projectiles.end(); i != e; ++i )
     {

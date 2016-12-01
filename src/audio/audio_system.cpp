@@ -93,9 +93,9 @@ void AudioSystem::Update( double DeltaTime )
     //     L1("effects: ");std::for_each(std::begin(effects),std::end(effects), [&]( EffectInst const& i ) { L1("%d ",i.UID);});L1("\n");
     //    prevEffects.erase( removedEffectsIt, std::end( prevEffects ) );
     std::for_each( std::begin( removedEffects ), std::end( removedEffects ),
-            [&]( int32_t i ) {     L1("halt for_each: %d\n",i); ap.Halt( i ); } );
+            [&]( int32_t i ) {     L2("halt for_each: %d\n",i); ap.Halt( i ); } );
     std::for_each( std::begin( effects ), std::end( effects ),
-            [&]( EffectInst const& i ) { L1("play for_each: %d\n",i.UID);ap.Play( i.UID, i.Id, i.Pos ); } );
+            [&]( EffectInst const& i ) { L2("play for_each: %d\n",i.UID);ap.Play( i.UID, i.Id, i.Pos ); } );
 }
 
 } // namespace audio
