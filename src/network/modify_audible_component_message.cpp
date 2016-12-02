@@ -32,7 +32,7 @@ void ModifyAudibleComponentMessageSenderSystem::OnAudible( core::AudibleEvent co
     modifyAudibleComponentMsg->mIsOneShot = Evt.mIsOneShot;
     modifyAudibleComponentMsg->mIsAddition = Evt.mIsAddition;
     mMessageHolder.AddOutgoingMessage( modifyAudibleComponentMsg );
-    L1( "added %s %d %d ", __FUNCTION__, Evt.mActorGUID, Evt.mId );
+    L2( "added %s %d %d ", __FUNCTION__, Evt.mActorGUID, Evt.mId );
 }
 
 ModifyAudibleComponentMessageHandlerSubSystem::ModifyAudibleComponentMessageHandlerSubSystem()
@@ -54,7 +54,7 @@ bool ModifyAudibleComponentMessageHandlerSubSystem::ProcessPending( Message cons
 {
     ModifyAudibleComponentMessage const& msg = static_cast<ModifyAudibleComponentMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IAudibleComponent> ac = actor->Get<IAudibleComponent>();
     if( !ac.IsValid() )
     {

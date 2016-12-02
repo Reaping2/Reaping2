@@ -210,7 +210,7 @@ void Scene::RemoveActor( int32_t guid )
     ActorList_t::iterator it = mActorHolder.mAllActors.find( guid );
     if ( it != mActorHolder.mAllActors.end() )
     {
-        L2( "removeActor from existing actors (GUID:%d)\n", ( *it )->GetGUID() );
+        L1( "removeActor from existing actors (GUID:%d)\n", ( *it )->GetGUID() );
         RemoveActor( it );
         return;
     }
@@ -220,7 +220,7 @@ void Scene::RemoveActor( int32_t guid )
         {
             if ( ( *i )->GetGUID() == guid )
             {
-                L2( "removeActor from new actors (GUID:%d)\n", ( *i )->GetGUID() );
+                L1( "removeActor from new actors (GUID:%d)\n", ( *i )->GetGUID() );
                 delete ( *i ).Get();
                 mNewActors.erase( i );
                 return;
