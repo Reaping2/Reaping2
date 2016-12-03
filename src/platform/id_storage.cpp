@@ -4,6 +4,7 @@
 #include "ifile.h"
 #include "log.h"
 #include <map>
+#include <boost/algorithm/string.hpp>
 
 namespace platform {
 namespace {
@@ -23,6 +24,9 @@ void ReadAutoIDsFromFile(const std::string& fname )
     {
         std::string line;
         std::getline( istrm, line );
+        boost::replace_all( line, "\r", "" );
+        boost::replace_all( line, "\n", "" );
+        LOG( "read line:%s\n", line.c_str() );
         ids.GetId( line );
     }
 }
@@ -30,7 +34,9 @@ void ReadAutoIDsFromFile(const std::string& fname )
 void InitAutoIDs()
 {
     ReadAutoIDsFromFile("autoids.content");
+    LOG( "autoids.content finished!\n" );
     ReadAutoIDsFromFile("autoids.src");
+    LOG( "autoids.src finished!\n" );
 }
 REGISTER_INIT_PRIO( aaa, InitAutoIDs, &InitAutoIDs )
 }
@@ -70,8 +76,8 @@ int32_t IdStorageImpl::GetId( const std::string& Name )
     int32_t& Id = mIdMap[Name];
     if( !Id )
     {
-        LOG("New autoid generated for %s\n", Name.c_str());
         Id = ++mNextId;
+        LOG( "New autoid(%d) generated for %s\n", Id, Name.c_str() );
     }
     return Id;
 }

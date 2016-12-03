@@ -79,12 +79,12 @@ int main( int argc, char** argv)
     bool enableCpp(false), enableJSON(false);
     po::options_description desc("Allowed options");
     desc.add_options()
-        ("help","prints help")
-        ("path",po::value<std::string>(&path),"path to files")
-        ("ext", po::value< std::vector<std::string> >(&ext)->multitoken(),"extension of files, use space separated list for multiple extensions")
-        ("enable-cpp", "enable CPP parsing")
-        ("enable-json", "enable JSON parsing")
-        ("output-file", po::value<std::string>(&output),"name of the output file");
+        ("help,h","prints help")
+        ("path,p",po::value<std::string>(&path),"path to files")
+        ("ext,e", po::value< std::vector<std::string> >(&ext)->multitoken(),"extension of files, use space separated list for multiple extensions")
+        ("enable-cpp,c", "enable CPP parsing")
+        ("enable-json,j", "enable JSON parsing")
+        ("output-file,o", po::value<std::string>(&output),"name of the output file");
     po::variables_map vm;
     po::store(po::parse_command_line(argc,argv,desc),vm);
     po::notify(vm);
