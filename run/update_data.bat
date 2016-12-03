@@ -1,4 +1,2 @@
-@echo off
-..\bin\debug\r2pkg.exe -c data
-copy data.pkg ..\bin\debug\
-copy data.pkg ..\bin\release\
+r2pkg.exe -c data
+aicollector.exe -p data -o data/autoids.content -j
