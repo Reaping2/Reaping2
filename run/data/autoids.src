@@ -93,6 +93,7 @@
 /saved_background.json
 /saved_pickups.json
 /saved_start_points.json
+0
 0x00ff00
 0xffffff00
 :
@@ -156,6 +157,7 @@ ControllerSystem
 CreateActorMessage
 CreateActorMessageHandlerSubSystem
 CreateActorMessageSenderSystem
+CreateMainRouteStarted!\n
 CtfClientListDisplayingSystem
 CtfClientListHandlingSystem
 CtfFlagSpawnPointMapElement
@@ -552,6 +554,7 @@ backtrace.h
 bar
 bar.h
 bar_model.h
+base
 base_input.h
 base_output.h
 blocked_target
@@ -1267,6 +1270,7 @@ explosion_component.h
 explosion_projectile
 explosion_system
 explosion_system.h
+f
 face.png
 factory
 factory.h
@@ -1276,6 +1280,7 @@ fade_out_message.h
 fade_out_message_handler_sub_system
 fade_out_message_sender_system
 fade_out_system
+false
 ffa
 ffa_client_list
 ffa_client_list_system
@@ -1719,7 +1724,9 @@ local_system
 local_system.h
 localhost
 log.h
-log.txt
+log_client_"+programState.mClientName+".txt
+log_local.txt
+log_server.txt
 loop_until_death
 lucky_rocket
 lucky_rocket.h
@@ -1818,6 +1825,7 @@ my_name_message
 my_name_message.h
 my_name_message_handler_sub_system
 my_name_message_handler_sub_system.h
+n
 name
 name":"laser_pointer_projectile
 name_renderer.h
@@ -1825,6 +1833,8 @@ names
 neighbors
 neighbors.h
 network
+network.threaded
+network.wait_millisec
 network/accuracy_message.h
 network/actor_list_message.h
 network/border_message.h
@@ -1899,6 +1909,7 @@ new_prop
 next_attack_timer
 next_move_timer
 next_move_timer_variance
+no
 no_collision
 node
 none
@@ -1945,6 +1956,9 @@ pause
 peace_distance
 pending
 perf_timer.h
+performance.frame_rate
+performance.limit_frames
+performance.sleep
 phases
 pickup
 pickup_collision_component
@@ -2026,7 +2040,6 @@ possible_rooms
 possible_rooms.h
 pow_projectile
 probability
-process.h
 program_phases.h
 program_state.h
 programstate
@@ -2046,6 +2059,7 @@ property_factory
 property_factory.h
 property_loader.h
 props
+r2process.h
 r2uploader
 r2uploader.exe
 radius
@@ -2480,6 +2494,7 @@ top
 topleft
 topright
 trigger.h
+true":"false
 type
 ui
 ui.

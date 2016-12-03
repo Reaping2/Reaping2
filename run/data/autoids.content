@@ -224,7 +224,6 @@ Select cell entrance!
 Shotgun
 ShotgunPickup
 Start
-TOCHECK
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
@@ -408,7 +407,6 @@ attachable_component
 audible_component
 auto_revive_text
 autoids
-autoids.old
 b
 b1
 b10
@@ -514,7 +512,6 @@ cloak_normal_item
 collision_component
 combined
 combiner
-compare
 concrete
 concrete_bottom_outer
 concrete_bottom_outer_border
@@ -1484,6 +1481,7 @@ textures/rogue/creeps/guard_plasma_particle.png
 textures/rogue/creeps/guard_plasma_projectile.png
 textures/rogue/creeps/skull_move.png
 textures/rogue/creeps/skull_rip.png
+textures/rogue/objects/waypoint.png
 textures/rogue/player/pistol_muzzle.png
 textures/rogue/player/soldier_body_base.png
 textures/rogue/player/soldier_body_color.png
@@ -1601,7 +1599,6 @@ textures/soldier_body_color.png
 textures/soldier_current.png
 textures/soldier_head_base.png
 textures/soldier_head_color.png
-textures/vortex_anim.png
 textures/wall_basic_2.png
 textures/wall_bottom_border_2.png
 textures/wall_bottomleft_border.png
@@ -1770,6 +1767,7 @@ water_topleft_outer
 water_topleft_outer_border
 water_topright_outer
 water_topright_outer_border
+waypoint
 weapon
 weapon_gatling_gun
 weapon_pickup

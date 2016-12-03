@@ -46,11 +46,11 @@
         {
             "seed":1,
             "cell_size":800,
-            "cell_count":5,
+            "cell_count":30,
             "route":
             {
-                "min_length":6,
-                "end_chance":30,
+                "min_length":1,
+                "end_chance":100,
                 "chance_increase":30
             },
             "side_route":

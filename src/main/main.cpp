@@ -57,6 +57,8 @@
 #include "network/soldier_properties_message.h"
 #include "input/player_control_device.h"
 #include "input/controller_adapter_system.h"
+#include <chrono>
+#include "platform/settings.h"
 
 using engine::Engine;
 namespace {
@@ -489,10 +491,12 @@ int main( int argc, char* argv[] )
     Eng.Init();
     Eng.SetEnabled<engine::CollisionSystem>( true ); //just for testing
 
-    static const double MaxFrameRate = 60.;
+    static const double MaxFrameRate = Settings::Get().GetDouble("performance.frame_rate",60);
+    static const bool LimitFrames = Settings::Get().GetBool( "performance.limit_frames", false );
+    static const int64_t SleepMilliseconds = Settings::Get().GetInt( "performance.sleep", 0 );
     static const double MinFrameTime = 1. / MaxFrameRate;
-    double Prevtime, Curtime;
-    Prevtime = Curtime = glfwGetTime();
+    auto Curtime = std::chrono::high_resolution_clock::now();
+    auto Prevtime = Curtime;
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
 
@@ -502,26 +506,31 @@ int main( int argc, char* argv[] )
 
     while( IsMainRunning )
     {
-        Curtime = glfwGetTime();
-        double Dt = Curtime - Prevtime;
-        if( Dt < MinFrameTime )
+        Curtime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> durDt = (Curtime - Prevtime);
+        auto Dt = durDt.count();
+        if (Dt < MinFrameTime)
         {
-//             const double SleepTime = ( MinFrameTime - Dt )/2;
-//             boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
-//             double const Curtime2 = glfwGetTime();
-//             ForceReceiveSendMessages();
-//             double const Dt2 = glfwGetTime()-Curtime2;
-//             double const SleepTime2 = std::max<double>( SleepTime - Dt2, 0.0 );
-            const double SleepTime = (MinFrameTime - Dt);
-            boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
-            ForceReceiveSendMessages();
-            Curtime = glfwGetTime();
-            Dt = MinFrameTime;
+            if (LimitFrames)
+            {
+                const double SleepTime = (MinFrameTime - Dt);
+                boost::this_thread::sleep( boost::posix_time::milliseconds( boost::int64_t( SleepTime * 1000. ) ) );
+                ForceReceiveSendMessages();
+            }
+            else if (SleepMilliseconds > 0)
+            {
+                const int64_t SleepTime = std::min<int64_t>( int64_t((MinFrameTime - Dt)*1000), SleepMilliseconds );
+                boost::this_thread::sleep( boost::posix_time::milliseconds( SleepTime ) );
+            }
+            Curtime = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> durDt = (Curtime - Prevtime);
+            Dt = durDt.count();
         }
+        L2( "Delta Time: %f. \n", Dt );
         PerfTimer.Log( "Frame started" );
         Eng.Update( Dt );
         Scen.Update( Dt );
-        CycleEventServer.SendEvent( CycleEvent( Curtime ) );
+        CycleEventServer.SendEvent( CycleEvent() );
 
         Prevtime = Curtime;
         PerfTimer.Log( "Frame ended" );
