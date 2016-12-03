@@ -45,8 +45,14 @@
     },
     "network":
     {
-        "threaded":0,
+        "threaded":1,
         "wait_millisec":5
+    },
+    "performance":
+    {
+        "sleep":10,
+        "frame_rate":100,
+        "limit_frames":0
     },
     "soldier_name":
     {

@@ -22,8 +22,7 @@ struct PhaseChangedEvent : public Event
 
 struct CycleEvent : public Event
 {
-    const double CurrentTime;
-    CycleEvent( double Time ): CurrentTime( Time ) {}
+    CycleEvent() {}
 };
 
 } // namespace platform
