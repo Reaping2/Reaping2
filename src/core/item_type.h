@@ -1,8 +1,15 @@
 #ifndef INCLUDED__ITEM_TYPE_H
 #define INCLUDED__ITEM_TYPE_H
 
-#include "platform/singleton.h"
+#include "platform/i_platform.h"
 #include "boost/bimap.hpp"
+
+class ItemColorRepo : public platform::Repository<glm::vec4>, public platform::Singleton<ItemColorRepo>
+{
+    friend class Singleton<ItemColorRepo>;
+    static glm::vec4 const mDefaultColor;
+    ItemColorRepo();
+};
 
 class ItemType : public platform::Singleton<ItemType>
 {

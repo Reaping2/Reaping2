@@ -272,6 +272,7 @@ IMoveComponent
 INotifyParentOnDeathComponent
 IOwnerComponent
 IPositionComponent
+IPulseComponent
 IRemoveComponentsOnDeathComponent
 IRemoveOnDeathComponent
 IRenderableComponent
@@ -369,6 +370,8 @@ PositionMessage
 PositionMessageHandlerSubSystem
 PositionMessageSenderSystem
 PropertyEditorSystem
+PulseSystem
+Pulses_t-pulses
 RanBro
 RandomControllerSubSystem
 RandomizeSpriteSystem
@@ -852,6 +855,7 @@ core/i_move_component.h
 core/i_notify_parent_on_death_component.h
 core/i_owner_component.h
 core/i_position_component.h
+core/i_pulse_component.h
 core/i_remove_components_on_death_component.h
 core/i_remove_on_death_component.h
 core/i_renderable_component.h
@@ -953,6 +957,7 @@ core/pointer_target_controller_component.h
 core/position_component.h
 core/program_state.h
 core/property_loader.h
+core/pulse_component.h
 core/random_controller_component.h
 core/randomize_sprite_system.h
 core/remove_components_on_death_component.h
@@ -1101,6 +1106,7 @@ distribution
 double-secsToRevive
 drop_on_death_component
 drop_on_death_system
+duration
 editor
 editor/all_groups
 editor/all_plain_props
@@ -1523,6 +1529,7 @@ i_position_component
 i_position_component.h
 i_property
 i_property.h
+i_pulse_component.h
 i_remove_component_on_death_component
 i_remove_components_on_death_component
 i_remove_components_on_death_component.h
@@ -1603,6 +1610,9 @@ item_changed_event
 item_changed_message.h
 item_changed_message_handler_sub_system
 item_changed_message_sender_system
+item_color.buff
+item_color.normal
+item_color.weapon
 item_dropped_event
 item_dropped_event.h
 item_loader
@@ -1961,6 +1971,7 @@ performance.limit_frames
 performance.sleep
 phases
 pickup
+pickup_background
 pickup_collision_component
 pickup_collision_sub_system
 pickup_items
@@ -2059,6 +2070,11 @@ property_factory
 property_factory.h
 property_loader.h
 props
+pulse_component
+pulse_component.h
+pulse_descs
+pulse_system
+pulse_system.h
 r2process.h
 r2uploader
 r2uploader.exe
@@ -2513,6 +2529,7 @@ uimodel_repo.h
 use_normal
 use_shot
 vao_base.h
+variance
 vblur
 vdouble_room1
 vdouble_room1.h

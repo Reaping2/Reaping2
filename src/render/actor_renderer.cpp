@@ -111,9 +111,10 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     }
     TexId = i->Spr->TexId;
     (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
-    (*Headings++) = ( GLfloat )i->PositionC->GetOrientation();
+    (*Headings++) = ( GLfloat )i->PositionC->GetOrientation() + i->RelativeOrientation;
 
-    float const radius = ( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )*i->Anim->GetScale();
+    float const radius = (( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )
+                            + i->RelativeRadius) *i->Anim->GetScale();
     auto const size = radius * visMultiplier( *(i->Obj) );
     (*Sizes) = size;
     ++Sizes;
