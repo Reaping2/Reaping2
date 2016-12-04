@@ -20,11 +20,18 @@ struct RenderableSprite
     Sprite const* Anim;
     glm::vec4 Color;
     glm::vec2 RelativePosition; //relative position of the sprite to actor
+    //added to the actual orientation
+    double RelativeOrientation; 
+    //added to the actual radius (before scale multiplication)
+    double RelativeRadius;
     RenderableSprite( Actor const* o, IRenderableComponent const* rc, int32_t a, Sprite const* s, SpritePhase const* p, glm::vec4 c = glm::vec4( 1, 1, 1, 1 ) )
         : Obj( o ), ActId( a ), RenderableComp( rc )
         , PositionC( o->Get<IPositionComponent>().Get() )
         , CollisionC( o->Get<ICollisionComponent>().Get() )
-        , Anim( s ), Spr( p ), Color( c ), RelativePosition( 0.0 ) {}
+        , Anim( s ), Spr( p ), Color( c )
+        , RelativePosition( 0.0 )
+        , RelativeOrientation(0.0)
+        , RelativeRadius(0.0){}
 };
 
 } // namespace render

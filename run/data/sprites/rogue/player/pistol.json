@@ -1,5 +1,24 @@
 [
     {
+        "texture_path":"textures/pistol_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"pistol",
+                "animations":
+                [
+                    {
+                        "name":"body_idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "texture_path":"textures/rogue/player/pistol_muzzle.png",
         "actor_visuals":
         [

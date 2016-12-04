@@ -106,40 +106,6 @@
          {
             "animations" : [
                {
-                  "h" : 32,
-                  "name" : "body_idle",
-                  "phases" : [
-                     {
-                        "x" : 976,
-                        "y" : 2
-                     }
-                  ],
-                  "scale" : 1.0,
-                  "w" : 32
-               }
-            ],
-            "name" : "pistol"
-         },
-         {
-            "animations" : [
-               {
-                  "h" : 32,
-                  "name" : "body_idle",
-                  "phases" : [
-                     {
-                        "x" : 976,
-                        "y" : 38
-                     }
-                  ],
-                  "scale" : 1.0,
-                  "w" : 32
-               }
-            ],
-            "name" : "plasma_gun"
-         },
-         {
-            "animations" : [
-               {
                   "h" : 9,
                   "name" : "move",
                   "phases" : [

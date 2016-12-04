@@ -140,6 +140,7 @@
 #include "core/randomize_sprite_system.h"
 #include "path_system.h"
 #include "core/level_selection_system.h"
+#include "pulse_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -161,6 +162,7 @@ void SystemFactory::Init()
     Bind( AutoId( "leaderboard_system" ), &CreateSystem<engine::LeaderboardSystem> );
     Bind( AutoId( "randomize_sprite_system" ), &CreateSystem<engine::RandomizeSpriteSystem> );
     Bind( AutoId( "path_system" ), &CreateSystem<engine::path::PathSystem> );
+    Bind( AutoId( "pulse_system" ), &CreateSystem<engine::PulseSystem> );
 
     Bind( AutoId( "collision_system" ), &CreateSystem<CollisionSystem> );
 
