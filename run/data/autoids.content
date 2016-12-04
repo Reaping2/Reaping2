@@ -192,10 +192,8 @@ Ping-da-ding-ding-ding
 Ping:
 Pistol
 PistolLoves
-PistolPickup
 PlasmaGun
 PlasmaLoves
-PlasmaPickup
 Play
 Pok6
 Pok_Angle_Anim
@@ -224,7 +222,6 @@ Select cell entrance!
 Shotgun
 ShotgunPickup
 Start
-TOCHECK
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
@@ -408,7 +405,6 @@ attachable_component
 audible_component
 auto_revive_text
 autoids
-autoids.old
 b
 b1
 b10
@@ -428,6 +424,7 @@ b8
 b9
 background
 background_1
+background_size
 backgrouns
 bar
 big_background
@@ -514,7 +511,6 @@ cloak_normal_item
 collision_component
 combined
 combiner
-compare
 concrete
 concrete_bottom_outer
 concrete_bottom_outer_border
@@ -833,6 +829,7 @@ particlelayers
 particles
 path_controller_component
 pickup
+pickup_background
 pickup_collision_component
 ping
 pistol
@@ -840,6 +837,7 @@ pistol_burst
 pistol_muzzle
 pistol_muzzle_particle
 pistol_muzzle_spr
+pistol_pickup
 pistol_shot
 pistol_single
 pistol_single_v1
@@ -850,6 +848,7 @@ plasma_alt
 plasma_gun
 plasma_particle
 plasma_particle2
+plasma_pickup
 plasma_projectile
 plasma_secondary
 plasma_shot
@@ -880,6 +879,7 @@ pow_projectile
 programstate.isclient
 programstate.ishost
 projectile
+pulse_component
 random
 random_controller_component
 reaping
@@ -1364,7 +1364,9 @@ textures/lucky_rocket_pickup.png
 textures/lucky_rocket_player.png
 textures/lucky_rocket_projectile.png
 textures/move_speed_buff_pickup.png
+textures/pistol_pickup.png
 textures/plasma_particle.png
+textures/plasma_pickup.png
 textures/plasma_projectile.png
 textures/platform_big.png
 textures/platform_big_color.png
@@ -1484,6 +1486,8 @@ textures/rogue/creeps/guard_plasma_particle.png
 textures/rogue/creeps/guard_plasma_projectile.png
 textures/rogue/creeps/skull_move.png
 textures/rogue/creeps/skull_rip.png
+textures/rogue/misc/pickup_background.png
+textures/rogue/objects/waypoint.png
 textures/rogue/player/pistol_muzzle.png
 textures/rogue/player/soldier_body_base.png
 textures/rogue/player/soldier_body_color.png
@@ -1601,7 +1605,6 @@ textures/soldier_body_color.png
 textures/soldier_current.png
 textures/soldier_head_base.png
 textures/soldier_head_color.png
-textures/vortex_anim.png
 textures/wall_basic_2.png
 textures/wall_bottom_border_2.png
 textures/wall_bottomleft_border.png
@@ -1770,11 +1773,14 @@ water_topleft_outer
 water_topleft_outer_border
 water_topright_outer
 water_topright_outer_border
+waypoint
 weapon
 weapon_gatling_gun
 weapon_pickup
 weapon_rocket_launcher
+weapon_rotation
 weapon_shotgun
+weapon_size
 webber_move
 webber_rip
 webber_rip1
