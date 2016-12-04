@@ -37,6 +37,7 @@
     },
     "graphics":
     {
+        "vsync":0,
         "cast_shadows":1,
         "shadow_scale":0.3,
         "sprite_phase_cache":

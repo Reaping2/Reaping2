@@ -1,4 +1,5 @@
 #include "window.h"
+#include "platform/settings.h"
 
 namespace {
 void Window_FramebufferSizeCallback( GLFWwindow* Window, int Width, int Height )
@@ -35,6 +36,8 @@ bool WindowSystem::Create( const uint32_t Width, const uint32_t Height, const st
         else
         {
             glfwSetInputMode( mWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN );
+            bool vsync = Settings::Get().GetBool( "graphics.vsync", false );
+            glfwSwapInterval( vsync ? 1 : 0 );
         }
     }
     else
