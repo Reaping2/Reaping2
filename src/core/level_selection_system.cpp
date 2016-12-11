@@ -61,10 +61,6 @@ void LevelSelectionSystem::Init()
             mLevelThumbnails.push_back( AutoId(thumbnail) );
             L1("%s successfully addded to map list as %s\n", mLevelRealNames.back().c_str(), mLevelDisplayNames.back().c_str());
         }
-        else
-        {
-            L1("%s misses description.json, so not treating as valid map\n", path.remove_filename().stem().string().c_str() );
-        }
     }
 }
 
