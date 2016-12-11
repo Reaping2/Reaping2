@@ -1,0 +1,335 @@
+[
+    {
+        "target_name":"wall",
+        "name":"wall",
+        "setters":
+        {
+            "cursor_id": "wall",
+            "actor_id": "wall"
+        }
+    },
+    {
+        "target_name": "wall_small",
+        "name": "wall_small",
+        "setters":
+        {
+            "cursor_id": "wall_small",
+            "actor_id":"wall_small"
+        }
+    },
+    {
+        "target_name":"stone_wall",
+        "name": "stone_wall",
+        "setters":
+        {
+            "cursor_id": "stone_wall",
+            "actor_id": "stone_wall"
+        }
+    },
+    {
+        "target_name": "water" ,
+        "name": "water" ,
+        "setters":
+        {
+            "cursor_id": "water" ,
+            "actor_id": "water"
+        }
+    },
+    {
+        "target_name": "concrete" ,
+        "name": "concrete" ,
+        "setters":
+        {
+            "cursor_id": "concrete" ,
+            "actor_id": "concrete"
+        }
+    },
+    {
+        "target_name": "rogue_grass200" ,
+        "name": "rogue_grass200" ,
+        "setters":
+        {
+            "cursor_id": "rogue_grass200" ,
+            "actor_id": "rogue_grass200"
+        }
+    },
+    {
+        "target_name": "rogue_wall50_background" ,
+        "name": "rogue_wall50_background" ,
+        "setters":
+        {
+            "cursor_id": "rogue_wall50_background" ,
+            "actor_id": "rogue_wall50_background"
+        }
+    },
+    {
+        "target_name": "rogue_wall100_background" ,
+        "name": "rogue_wall100_background" ,
+        "setters":
+        {
+            "cursor_id": "rogue_wall100_background" ,
+            "actor_id": "rogue_wall100_background"
+        }
+    },
+    {
+        "target_name": "rogue_wall100" ,
+        "name": "rogue_wall100" ,
+        "setters":
+        {
+            "cursor_id": "rogue_wall100" ,
+            "actor_id": "rogue_wall100"
+        }
+    },
+    {
+        "target_name": "rogue_wall50" ,
+        "name": "rogue_wall50" ,
+        "setters":
+        {
+            "cursor_id": "rogue_wall50" ,
+            "actor_id": "rogue_wall50"
+        }
+    },
+    {
+        "target_name": "guard" ,
+        "name": "guard" ,
+        "setters":
+        {
+            "cursor_id": "guard" ,
+            "actor_id": "guard"
+        }
+    },
+    {
+        "target_name": "skull" ,
+        "name": "skull" ,
+        "setters":
+        {
+            "cursor_id": "skull" ,
+            "actor_id": "skull"
+        }
+    },
+    {
+        "target_name": "grass_tile" ,
+        "name": "grass_tile" ,
+        "setters":
+        {
+            "cursor_id": "grass_tile" ,
+            "actor_id": "grass_tile"
+        }
+    },
+    {
+        "target_name": "end",
+        "name": "end",
+        "setters":
+        {
+            "cursor_id": "end",
+            "actor_id": "end"
+        }
+    },
+    {
+        "target_name":"ctf_soldier_spawn_blue",
+        "name": "ctf_soldier_spawn_blue",
+        "setters":
+        {
+            "cursor_id": "ctf_player",
+            "team": "blue"
+        }
+    },
+    {
+        "target_name":"ctf_soldier_spawn_red",
+        "name": "ctf_soldier_spawn_red",
+        "setters":
+        {
+            "cursor_id": "ctf_player",
+            "team": "red"
+        }
+    },
+    {
+        "target_name": "soldier_spawn",
+        "name": "soldier_spawn",
+        "setters":
+        {
+            "cursor_id": "player"
+        }
+    },
+    
+    {
+        "target_name": "revive_pickup",
+        "name": "flash_normal_item",
+        "setters":
+        {
+            "type_id": "normal",
+            "content_id": "flash_normal_item"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "grenade_normal_item",
+        "setters":
+        {
+            "type_id": "normal",
+            "content_id": "grenade_normal_item"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "blue_grenade_normal_item",
+        "setters":
+        {
+            "type_id": "normal",
+            "content_id": "blue_grenade_normal_item"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "cloak_normal_item",
+        "setters":
+        {
+            "type_id": "normal",
+            "content_id": "cloak_normal_item"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "pistol",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "pistol"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "plasma_gun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "plasma_gun"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "ion_gun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "ion_gun"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "lucky_rocket",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "lucky_rocket"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "gatling_gun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "gatling_gun"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "gauss_gun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "gauss_gun"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "rocket_launcher",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "rocket_launcher"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "shotgun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "shotgun"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "rusty_reaper",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "rusty_reaper"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "HealOverTimeBuff",
+        "setters":
+        {
+            "type_id": "buff",
+            "content_id": "HealOverTimeBuff"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "MoveSpeedBuff",
+        "setters":
+        {
+            "type_id": "buff",
+            "content_id": "MoveSpeedBuff"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "AccuracyBuff",
+        "setters":
+        {
+            "type_id": "buff",
+            "content_id": "AccuracyBuff"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "ArmorBuff",
+        "setters":
+        {
+            "type_id": "buff",
+            "content_id": "ArmorBuff"
+        }
+    },
+    {
+        "target_name": "revive_pickup",
+        "name": "CloakBuff",
+        "setters":
+        {
+            "type_id": "buff",
+            "content_id": "CloakBuff"
+        }
+    },
+    {
+        "target_name": "ctf_flag_spawn_blue",
+        "name": "ctf_flag_spawn_blue",
+        "setters":
+        {
+            "cursor_id": "platform",
+            "team": "blue"
+        }
+    },
+    {
+        "target_name": "ctf_flag_spawn_red",
+        "name": "ctf_flag_spawn_red",
+        "setters":
+        {
+            "cursor_id": "platform",
+            "team": "red"
+        }
+    }
+]
