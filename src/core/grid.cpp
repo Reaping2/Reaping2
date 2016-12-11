@@ -75,7 +75,16 @@ void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
     mCells.resize( mDimX * mDimY );
 }
 
-std::set<Actor*> Grid::GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask ) const
+namespace {
+
+template <typename T> int sgn(T val)
+{
+        return (T(0) < val) - (val < T(0));
+}
+
+}
+
+std::set<Actor*> Grid::GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask, glm::vec2 const* direction ) const
 {
     glm::vec4 ActorDim( position.x - radius - mMin.x, position.y - radius - mMin.y,
             position.x + radius - mMin.x, position.y + radius - mMin.y );
@@ -84,22 +93,54 @@ std::set<Actor*> Grid::GetAllNearbyActors( glm::vec2 const& position, double rad
     size_t const Ey = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.w ) / mCellSize );
     size_t const Sx = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.x ) / mCellSize );
     size_t const Sy = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.y ) / mCellSize );
+
     std::set<Actor*> rv;
-    for( size_t y = Sy, ey = std::min<size_t>( Ey + 1, mDimY ); y < ey; ++y )
+    std::set<int> done;
+
+    int dirx( 0 ), diry( 0 );
+    glm::vec2 transition;
+    if( nullptr != direction && *direction != glm::vec2() )
     {
-        for( size_t x = Sx, ex = std::min<size_t>( Ex + 1, mDimX ); x < ex; ++x )
+        dirx = sgn( direction->x );
+        diry = sgn( direction->y );
+        transition = glm::vec2( direction->x * dirx, direction->y * diry );
+        auto m = std::max( transition.x, transition.y );
+        if( 0.0 != m )
         {
-            auto const& cell = mCells[y * mDimX + x];
-            for( size_t j = 0; j < CollisionClass::Num_Classes; ++j )
+            transition /= m;
+        }
+    }
+
+    double dsx( Sx ), dsy( Sy ), dex( Ex ), dey( Ey );
+    while( dsx >= 0 && dsy >= 0 && dex <= mDimX && dey <= mDimY )
+    {
+        for( size_t y = dsy, ey = std::min<size_t>( dey + 1, mDimY ); y < ey; ++y )
+        {
+            for( size_t x = dsx, ex = std::min<size_t>( dex + 1, mDimX ); x < ex; ++x )
             {
-                if( !( collMask & ( 1 << j ) ) )
+                if( !done.insert( y * mDimX + x ).second )
                 {
                     continue;
                 }
-                rv.insert( cell.mActors[j].begin(), cell.mActors[j].end() );
+                auto const& cell = mCells[y * mDimX + x];
+                for( size_t j = 0; j < CollisionClass::Num_Classes; ++j )
+                {
+                    if( !( collMask & ( 1 << j ) ) )
+                    {
+                        continue;
+                    }
+                    rv.insert( cell.mActors[j].begin(), cell.mActors[j].end() );
+                }
             }
         }
+        if( dirx == 0 && diry == 0 )
+        {
+            break;
+        }
+        dsx += transition.x * dirx;
+        dsy += transition.y * diry;
     }
+
     return std::move( rv );
 }
 

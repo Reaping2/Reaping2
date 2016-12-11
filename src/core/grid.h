@@ -26,7 +26,7 @@ public:
     void AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC );
     void RemoveActor( Actor* A );
     PossibleCollisions_t GetPossibleCollisions()const;
-    std::set<Actor*> GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask ) const;
+    std::set<Actor*> GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask, glm::vec2 const* direction = nullptr ) const;
     std::set<Actor*> GetAllNearbyActors( Actor const* A ) const;
 private:
     static const uint32_t Collisions[];

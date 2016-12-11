@@ -723,8 +723,10 @@ collision_component.h
 collision_message.h
 collision_message_handler_sub_system
 collision_message_sender_system
+collision_model.h
 collision_sub_system
 collision_system
+collisions.enable
 collisions/aoe_collision_sub_system.h
 collisions/bounce_collision_sub_system.h
 collisions/flag_collision_sub_system.h
@@ -1299,6 +1301,7 @@ find_path.debug
 find_path.debug_log_cell_size
 find_path.debug_log_cells
 find_path.debug_neighbours
+find_path.enable
 find_path.max_box_size
 find_path.max_path_length
 fixed_ratio_container
@@ -1375,6 +1378,7 @@ graphics.sprite_phase_cache.enabled
 graphics.sprite_phase_cache.gapless
 graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
+graphics.vsync
 grass
 grass_tile
 grenade_normal_item
