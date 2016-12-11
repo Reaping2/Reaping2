@@ -4,6 +4,7 @@
 #include "platform/repository.h"
 #include "platform/singleton.h"
 #include "i_target.h"
+#include "target_factory.h"
 
 namespace map {
 
@@ -13,6 +14,7 @@ public:
     DefaultTarget();
     virtual void Update( double DeltaTime );
     virtual void PutTarget( glm::vec2 position );
+    virtual bool Load( const Json::Value& setters );
 };
 
 
@@ -21,6 +23,9 @@ class TargetRepo : public platform::Repository<ITarget>, public platform::Single
     friend class platform::Singleton<TargetRepo>;
     static DefaultTarget const mDefault;
     TargetRepo();
+private:
+    void Init();
+    TargetFactory& mTargetFactory;
 };
 
 } // namespace map
