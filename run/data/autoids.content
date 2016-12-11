@@ -192,10 +192,8 @@ Ping-da-ding-ding-ding
 Ping:
 Pistol
 PistolLoves
-PistolPickup
 PlasmaGun
 PlasmaLoves
-PlasmaPickup
 Play
 Pok6
 Pok_Angle_Anim
@@ -426,6 +424,7 @@ b8
 b9
 background
 background_1
+background_size
 backgrouns
 bar
 big_background
@@ -830,6 +829,7 @@ particlelayers
 particles
 path_controller_component
 pickup
+pickup_background
 pickup_collision_component
 ping
 pistol
@@ -837,6 +837,7 @@ pistol_burst
 pistol_muzzle
 pistol_muzzle_particle
 pistol_muzzle_spr
+pistol_pickup
 pistol_shot
 pistol_single
 pistol_single_v1
@@ -847,6 +848,7 @@ plasma_alt
 plasma_gun
 plasma_particle
 plasma_particle2
+plasma_pickup
 plasma_projectile
 plasma_secondary
 plasma_shot
@@ -877,6 +879,7 @@ pow_projectile
 programstate.isclient
 programstate.ishost
 projectile
+pulse_component
 random
 random_controller_component
 reaping
@@ -1361,7 +1364,9 @@ textures/lucky_rocket_pickup.png
 textures/lucky_rocket_player.png
 textures/lucky_rocket_projectile.png
 textures/move_speed_buff_pickup.png
+textures/pistol_pickup.png
 textures/plasma_particle.png
+textures/plasma_pickup.png
 textures/plasma_projectile.png
 textures/platform_big.png
 textures/platform_big_color.png
@@ -1481,6 +1486,7 @@ textures/rogue/creeps/guard_plasma_particle.png
 textures/rogue/creeps/guard_plasma_projectile.png
 textures/rogue/creeps/skull_move.png
 textures/rogue/creeps/skull_rip.png
+textures/rogue/misc/pickup_background.png
 textures/rogue/objects/waypoint.png
 textures/rogue/player/pistol_muzzle.png
 textures/rogue/player/soldier_body_base.png
@@ -1772,7 +1778,9 @@ weapon
 weapon_gatling_gun
 weapon_pickup
 weapon_rocket_launcher
+weapon_rotation
 weapon_shotgun
+weapon_size
 webber_move
 webber_rip
 webber_rip1

@@ -54,6 +54,7 @@
 #include "guard_controller_component.h"
 #include "static_actor_component.h"
 #include "path_controller_component.h"
+#include "pulse_component.h"
 
 using platform::AutoId;
 
@@ -67,6 +68,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "visual_box_multiplier_component" ), &CreateComponent<render::VisualBoxMultiplierComponent> );
     Bind( AutoId( "move_component" ), &CreateComponent<MoveComponent> );
     Bind( AutoId( "acceleration_component" ), &CreateComponent<AccelerationComponent> );
+    Bind( AutoId( "pulse_component" ), &CreateComponent<PulseComponent> );
 
     Bind( AutoId( "player_controller_component" ), &CreateComponent<PlayerControllerComponent> );
     Bind( AutoId( "target_player_controller_component" ), &CreateComponent<TargetPlayerControllerComponent> );

@@ -46,7 +46,7 @@
         {
             "seed":1,
             "cell_size":800,
-            "cell_count":30,
+            "cell_count":12,
             "route":
             {
                 "min_length":1,

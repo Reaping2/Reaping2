@@ -53,6 +53,7 @@
 #include "guard_controller_component.h"
 #include "static_actor_component.h"
 #include "path_controller_component.h"
+#include "pulse_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -69,6 +70,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "random_controller_component" ), &CreateComponentLoader<RandomControllerComponentLoader> );
     Bind( AutoId( "guard_controller_component" ), &CreateComponentLoader<GuardControllerComponentLoader> );
     Bind( AutoId( "path_controller_component" ), &CreateComponentLoader<PathControllerComponentLoader> );
+    Bind( AutoId( "pulse_component" ), &CreateComponentLoader<PulseComponentLoader> );
 
     Bind( AutoId( "inventory_component" ), &CreateComponentLoader<InventoryComponentLoader> );
     Bind( AutoId( "static_actor_component" ), &CreateComponentLoader<StaticActorComponentLoader> );
