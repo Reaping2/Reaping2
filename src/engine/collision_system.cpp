@@ -7,6 +7,8 @@
 #include "core/i_move_component.h"
 #include "platform/settings.h"
 #include "core/box_collision_model.h"
+#include "core/program_state.h"
+#include "core/i_renderable_component.h"
 #include <utility>
 
 namespace engine {
@@ -27,6 +29,12 @@ void CollisionSystem::Init()
             && actor.Get<IPositionComponent>().IsValid()
             && actor.Get<IMoveComponent>().IsValid(); } );
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CollisionSystem::OnActorEvent, this, _1 ) );
+    mOnMouseMoveEvent = EventServer<WorldMouseMoveEvent>::Get().Subscribe( boost::bind( &CollisionSystem::OnMouseMoveEvent, this, _1 ) );
+}
+
+void CollisionSystem::OnMouseMoveEvent( WorldMouseMoveEvent const& Evt )
+{
+    mMousePos = Evt.Pos;
 }
 
 void CollisionSystem::OnActorEvent( ActorEvent const& Evt )
@@ -49,8 +57,42 @@ void CollisionSystem::OnActorEvent( ActorEvent const& Evt )
     }
 }
 
+namespace {
+void paint( Actor* a, glm::vec4 const& col )
+{
+    if( nullptr == a )
+    {
+        return;
+    }
+    Opt<IRenderableComponent> rc = a->Get<IRenderableComponent>();
+    if( !rc.IsValid() )
+    {
+        return;
+    }
+    rc->SetColor( col );
+}
+glm::vec2 dir( Actor& a, glm::vec2 const& pt )
+{
+    Opt<IPositionComponent> pc = a.Get<IPositionComponent>();
+    if( !pc.IsValid() )
+    {
+        return glm::vec2();
+    }
+    return pt - glm::vec2( pc->GetX(), pc->GetY() );
+}
+}
+
 void CollisionSystem::Update( double DeltaTime )
 {
+    static Actor* coll = nullptr;
+    paint( coll, glm::vec4( 1,1,1,1 ) );
+    static core::ProgramState& ps( core::ProgramState::Get() );
+    Opt<Actor> player = mScene.GetActor( ps.mControlledActorGUID );
+    if( player.IsValid() )
+    {
+        coll = GetFirstCollidingActor( *player, dir( *player, mMousePos ) ).Get();
+        paint( coll, glm::vec4( 0,1,0,0.2 ) );
+    }
     static const auto enableCollision = Settings::Get().GetInt( "collisions.enable", 1 ) != 0;
     if( !enableCollision )
     {
@@ -145,15 +187,15 @@ double distance( CollisionModel::Object const& a, CollisionModel::Object const& 
 }
 }
 
-Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius ) const
+Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius, int32_t collMask ) const
 {
     CollisionModel::Object ObjA( CollisionModel::ObjectFromActor( actor ) );
     if( radius > -0.1 )
     {
         ObjA.radius = std::abs( radius );
     }
-    ObjA.speed = glm::vec2( 0, 0 );
-    std::set<Actor*> &&all( mCollisionGrid.GetAllNearbyActors( ObjA.position, ObjA.radius, 0xffffffff, &direction ) ), rv;
+    ObjA.speed = glm::normalize( direction );
+    std::set<Actor*> &&all( mCollisionGrid.GetAllNearbyActors( ObjA.position, ObjA.radius, collMask, &direction ) ), rv;
     all.erase( const_cast<Actor*>(&actor) );
     Actor* closest = nullptr;
     double dist = std::numeric_limits<double>::max();
@@ -161,10 +203,12 @@ Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec
     {
         static BoxCollisionModel collModel;
         CollisionModel::Object ObjB( CollisionModel::ObjectFromActor( *act ) );
+        ObjB.speed = glm::vec2();
         double d = distance( ObjA, ObjB );
         if( ( d < dist || nullptr == closest ) &&
-            collModel.AreActorsColliding( ObjA, ObjB, 0.0 ) )
+            collModel.AreActorsColliding( ObjA, ObjB, 10e8 ) )
         {
+            dist = d;
             closest = act;
         }
     }

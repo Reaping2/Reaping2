@@ -9,6 +9,7 @@
 #include "engine/collisions/collision_sub_system.h"
 #include "core/perf_timer.h"
 #include "core/actor_event.h"
+#include "input/mouse.h"
 
 namespace engine {
 
@@ -21,7 +22,9 @@ public:
     virtual void Update( double DeltaTime );
     std::set<Actor*> GetAllCollidingActors( glm::vec2 const& position, double radius, int32_t collMask ) const;
     bool IsColliding( Actor const& actor ) const;
-    Opt<Actor> GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius = -1.0 ) const;
+    static const int32_t VisibleMask = 1 << CollisionClass::Creep
+        | 1 << CollisionClass::Player | 1 << CollisionClass::Wall;
+    Opt<Actor> GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius = -1.0, int32_t collMask = VisibleMask ) const;
 private:
     Opt<CollisionSubSystem> GetCollisionSubSystem( int32_t id );
     Grid mCollisionGrid;
@@ -31,6 +34,9 @@ private:
     perf::Timer_t mUpdateTimer;
     AutoReg mOnActorEvent;
     void OnActorEvent( ActorEvent const& Evt );
+    AutoReg mOnMouseMoveEvent;
+    glm::vec2 mMousePos;
+    void OnMouseMoveEvent( WorldMouseMoveEvent const& Evt );
 };
 
 } // namespace engine

@@ -114,9 +114,9 @@ std::set<Actor*> Grid::GetAllNearbyActors( glm::vec2 const& position, double rad
     double dsx( Sx ), dsy( Sy ), dex( Ex ), dey( Ey );
     while( dsx >= 0 && dsy >= 0 && dex <= mDimX && dey <= mDimY )
     {
-        for( size_t y = dsy, ey = std::min<size_t>( dey + 1, mDimY ); y < ey; ++y )
+        for( size_t y = floor( dsy ), ey = std::min<size_t>( ceil( dey ) + 1, mDimY ); y < ey; ++y )
         {
-            for( size_t x = dsx, ex = std::min<size_t>( dex + 1, mDimX ); x < ex; ++x )
+            for( size_t x = floor( dsx ), ex = std::min<size_t>( ceil( dex ) + 1, mDimX ); x < ex; ++x )
             {
                 if( !done.insert( y * mDimX + x ).second )
                 {
@@ -139,6 +139,8 @@ std::set<Actor*> Grid::GetAllNearbyActors( glm::vec2 const& position, double rad
         }
         dsx += transition.x * dirx;
         dsy += transition.y * diry;
+        dex += transition.x * dirx;
+        dey += transition.y * diry;
     }
 
     return std::move( rv );
