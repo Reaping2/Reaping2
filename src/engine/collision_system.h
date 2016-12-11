@@ -9,7 +9,6 @@
 #include "engine/collisions/collision_sub_system.h"
 #include "core/perf_timer.h"
 #include "core/actor_event.h"
-#include "input/mouse.h"
 
 namespace engine {
 
@@ -34,9 +33,6 @@ private:
     perf::Timer_t mUpdateTimer;
     AutoReg mOnActorEvent;
     void OnActorEvent( ActorEvent const& Evt );
-    AutoReg mOnMouseMoveEvent;
-    glm::vec2 mMousePos;
-    void OnMouseMoveEvent( WorldMouseMoveEvent const& Evt );
 };
 
 } // namespace engine
