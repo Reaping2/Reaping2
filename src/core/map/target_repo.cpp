@@ -11,7 +11,7 @@ using platform::AutoId;
 
 namespace map {
 
-DefaultTarget const TargetRepo::mDefault = DefaultTarget();
+DefaultTarget const TargetRepo::mDefault = DefaultTarget(-1);
 
 TargetRepo::TargetRepo()
     : Repository<ITarget>( mDefault )
@@ -86,7 +86,7 @@ void DefaultTarget::Update( double DeltaTime )
 
 }
 
-DefaultTarget::DefaultTarget()
+DefaultTarget::DefaultTarget(int32_t)
     : ITarget( -1 )
 {
 

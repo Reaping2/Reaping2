@@ -11,7 +11,7 @@ namespace map {
 class DefaultTarget: public ITarget
 {
 public:
-    DefaultTarget();
+    DefaultTarget(int32_t);
     virtual void Update( double DeltaTime );
     virtual void PutTarget( glm::vec2 position );
     virtual bool Load( const Json::Value& setters );

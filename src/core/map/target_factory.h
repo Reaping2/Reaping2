@@ -19,7 +19,7 @@ protected:
 template<typename Elem_T>
 std::auto_ptr<ITarget> TargetFactory::CreateITarget( int32_t Id )
 {
-    return std::auto_ptr<ITarget>( new Elem_T() );
+    return std::auto_ptr<ITarget>( new Elem_T(Id) );
 }
 
 } // namespace map
