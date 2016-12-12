@@ -5,10 +5,10 @@
 
 class BoxCollisionModel : public CollisionModel
 {
-    bool AreActorsColliding( Actor const& Obj1, Actor const& Obj2, double Dt )const;
 public:
-    static bool AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double radiusA, double radiusB, double Dt );
-
+    using CollisionModel::AreActorsColliding;
+    static bool AreActorsColliding_static( Object const& ObjA, Object const& ObjB, double Dt );
+    bool AreActorsColliding( Object const& ObjA, Object const& ObjB, double Dt ) const;
 };
 
 #endif//INCLUDED_CORE_BOX_COLLISION_MODEL_H

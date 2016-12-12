@@ -36,7 +36,7 @@ void GridWidget::Init( Json::Value& Descriptor )
         {
             std::auto_ptr<GridElem> elem( new GridElem( AutoId( "grid_elem" ) ) );
             GridJson["x"] = x * 1.0 / cols;
-            GridJson["y"] = 1.0 - ( 1 + y ) * 1.0 / rows;
+            GridJson["y"] = y * 1.0 / rows;
             GridJson["index"] = index++;
             elem->Init( GridJson );
             AddChild( elem.release() );
