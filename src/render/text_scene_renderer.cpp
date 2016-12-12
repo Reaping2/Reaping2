@@ -58,6 +58,7 @@ void TextSceneRenderer::Draw()
         }
         for( auto& Vert : Vertices )
         {
+            Vert.Pos.x -= text.mDimensions.z / 2.0;
             Positions.push_back( Vert.Pos );
             TexCoords.push_back( Vert.TexCoord );
             Colors.push_back( Vert.Color );

@@ -1412,6 +1412,7 @@ gun
 guns
 guntarget
 h
+halign
 hat_action_renderer.h
 hblur
 hdouble_room1
@@ -1801,6 +1802,7 @@ message_handler_sub_system_holder
 message_order.h
 message_sender_system.h
 messsage_holder.h
+mid
 min_length
 min_speed
 mine
@@ -2523,6 +2525,7 @@ ui/i_ui.h
 ui/text_widget.h
 ui/ui.h
 ui/ui_model.h
+ui/widget.h
 ui/widget_factory.h
 uiProjection
 uiTexture
@@ -2532,6 +2535,7 @@ uimodel.h
 uimodel_repo.h
 use_normal
 use_shot
+valign
 vao_base.h
 variance
 vblur
