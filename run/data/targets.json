@@ -1,6 +1,6 @@
 [
     {
-        "target_name":"wall",
+        "target_name":"wall_target",
         "name":"wall",
         "setters":
         {
@@ -9,7 +9,7 @@
         }
     },
     {
-        "target_name": "wall_small",
+        "target_name": "wall_target",
         "name": "wall_small",
         "setters":
         {
@@ -18,7 +18,7 @@
         }
     },
     {
-        "target_name":"stone_wall",
+        "target_name":"wall_target",
         "name": "stone_wall",
         "setters":
         {
@@ -27,7 +27,7 @@
         }
     },
     {
-        "target_name": "water" ,
+        "target_name": "wall_target" ,
         "name": "water" ,
         "setters":
         {
@@ -36,7 +36,7 @@
         }
     },
     {
-        "target_name": "concrete" ,
+        "target_name": "wall_target" ,
         "name": "concrete" ,
         "setters":
         {
@@ -45,7 +45,7 @@
         }
     },
     {
-        "target_name": "rogue_grass200" ,
+        "target_name": "wall_target" ,
         "name": "rogue_grass200" ,
         "setters":
         {
@@ -54,7 +54,7 @@
         }
     },
     {
-        "target_name": "rogue_wall50_background" ,
+        "target_name": "wall_target" ,
         "name": "rogue_wall50_background" ,
         "setters":
         {
@@ -63,7 +63,7 @@
         }
     },
     {
-        "target_name": "rogue_wall100_background" ,
+        "target_name": "wall_target" ,
         "name": "rogue_wall100_background" ,
         "setters":
         {
@@ -72,7 +72,7 @@
         }
     },
     {
-        "target_name": "rogue_wall100" ,
+        "target_name": "wall_target" ,
         "name": "rogue_wall100" ,
         "setters":
         {
@@ -81,7 +81,7 @@
         }
     },
     {
-        "target_name": "rogue_wall50" ,
+        "target_name": "wall_target" ,
         "name": "rogue_wall50" ,
         "setters":
         {
@@ -90,7 +90,7 @@
         }
     },
     {
-        "target_name": "guard" ,
+        "target_name": "wall_target" ,
         "name": "guard" ,
         "setters":
         {
@@ -99,7 +99,7 @@
         }
     },
     {
-        "target_name": "skull" ,
+        "target_name": "wall_target" ,
         "name": "skull" ,
         "setters":
         {
@@ -108,7 +108,7 @@
         }
     },
     {
-        "target_name": "grass_tile" ,
+        "target_name": "wall_target" ,
         "name": "grass_tile" ,
         "setters":
         {
@@ -117,7 +117,7 @@
         }
     },
     {
-        "target_name": "end",
+        "target_name": "wall_target",
         "name": "end",
         "setters":
         {
@@ -126,7 +126,7 @@
         }
     },
     {
-        "target_name":"ctf_soldier_spawn_blue",
+        "target_name":"ctf_soldier_spawn_target",
         "name": "ctf_soldier_spawn_blue",
         "setters":
         {
@@ -135,7 +135,7 @@
         }
     },
     {
-        "target_name":"ctf_soldier_spawn_red",
+        "target_name":"ctf_soldier_spawn_target",
         "name": "ctf_soldier_spawn_red",
         "setters":
         {
@@ -144,7 +144,7 @@
         }
     },
     {
-        "target_name": "soldier_spawn",
+        "target_name": "soldier_spawn_target",
         "name": "soldier_spawn",
         "setters":
         {
@@ -315,7 +315,7 @@
         }
     },
     {
-        "target_name": "ctf_flag_spawn_blue",
+        "target_name": "flag_spawn_target",
         "name": "ctf_flag_spawn_blue",
         "setters":
         {
@@ -324,7 +324,7 @@
         }
     },
     {
-        "target_name": "ctf_flag_spawn_red",
+        "target_name": "flag_spawn_target",
         "name": "ctf_flag_spawn_red",
         "setters":
         {
