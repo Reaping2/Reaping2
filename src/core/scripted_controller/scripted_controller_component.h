@@ -17,8 +17,12 @@ public:
     typedef std::map<int32_t, State> States_t;
     virtual void SetStates( States_t states );
     virtual States_t& GetStates();
+    virtual void SetStateIdentifier( int32_t StateIdentifier );
+    virtual int32_t GetStateIdentifier() const;
+    virtual Opt<State> GetState();
 protected:
     States_t mStates;
+    int32_t mStateIdentifier;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -30,6 +34,7 @@ void ScriptedControllerComponent::serialize(Archive& ar, const unsigned int vers
 {
     ar& boost::serialization::base_object<ControllerComponent>(*this);
     ar& mStates;
+    ar& mStateIdentifier;
 }
 
 class ScriptedControllerComponentLoader : public ComponentLoader<ScriptedControllerComponent>

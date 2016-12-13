@@ -9,7 +9,7 @@ IAct::IAct( int32_t Id )
 }
 
 
-void IAct::Update( double Seconds )
+void IAct::Update( Actor& actor, double Seconds )
 {
     mDurationCurrent = std::min<double>( 0.0, mDurationCurrent - Seconds );
 }
@@ -21,15 +21,15 @@ void IAct::Load( Json::Value const& setters )
 }
 
 
-void IAct::Start()
+void IAct::Start( Actor& actor )
 {
     mDurationCurrent = std::max<double>( 0,
         mDuration + 2 * mDurationVariance * (RandomGenerator::global()() % 100) / 100 - mDurationVariance );
 }
 
-void IAct::Stop()
+void IAct::Stop( Actor& actor )
 {
-    mDurationCurrent = mInterruptible ? 0 : mDurationCurrent;
+    mDurationCurrent = 0.0;
 }
 
 

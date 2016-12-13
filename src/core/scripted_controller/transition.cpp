@@ -2,9 +2,12 @@
 #include "condition_factory.h"
 namespace scriptedcontroller {
 
-void Transition::Update( double Seconds )
+void Transition::Update( Actor& actor, double Seconds )
 {
-
+    for (auto&& condition : mConditions)
+    {
+        condition.Update( actor, Seconds );
+    }
 }
 
 void Transition::Load( Json::Value const& setters )
@@ -35,6 +38,31 @@ void Transition::Load( Json::Value const& setters )
             mTargetStateId = AutoId( str );
         }
     }
+}
+
+bool Transition::IsConditionsSatisfied() const
+{
+    for (auto&& condition : mConditions)
+    {
+        if (!condition.IsSatisfied())
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void Transition::Reset( Actor& actor )
+{
+    for (auto&& condition : mConditions)
+    {
+        condition.Reset( actor );
+    }
+}
+
+int32_t Transition::GetTargetStateIdentifier() const
+{
+    return mTargetStateId;
 }
 
 } // namespace scriptedcontroller

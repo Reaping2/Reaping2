@@ -9,9 +9,58 @@ State::State( int32_t Id )
 
 }
 
-void State::Update( double Seconds )
+void State::UpdateTransitions( Actor& actor, double Seconds )
 {
+    bool isActInterruptible = mCurrActIndex == -1 
+        || mActs[mCurrActIndex].IsInterruptible() 
+        || !mActs[mCurrActIndex].IsRunning();
+    for (auto&& transition : mTransitions)
+    {
+        transition.Update( actor, Seconds );
+        if (isActInterruptible&&transition.IsConditionsSatisfied())
+        {
+            mNextIdentifier = transition.GetTargetStateIdentifier();
+            break;
+        }
+    }
+}
 
+int32_t State::GetNextStateIdentifier() const
+{
+    return mNextIdentifier;
+}
+
+void State::Update( Actor& actor, double Seconds )
+{
+    if (mNextIdentifier == -1)
+    {
+        mNextIdentifier = mIdentifier;
+    }
+    if (mActs.empty())
+    {
+        return;
+    }
+    if (mCurrActIndex == -1 || !mActs[mCurrActIndex].IsRunning())
+    {
+        mActs[mCurrActIndex].Stop( actor );
+        ShuffleActIndices();
+        mCurrActIndex = *mActIndices.begin(); // guaranteed
+        mActs[mCurrActIndex].Start( actor );
+    }
+    mActs[mCurrActIndex].Update( actor, Seconds );
+}
+
+void State::Reset( Actor& actor )
+{
+    for (auto&& transition : mTransitions)
+    {
+        transition.Reset( actor );
+    }
+    if (mCurrActIndex == -1)
+    {
+        mActs[mCurrActIndex].Stop( actor );
+    }
+    mCurrActIndex = -1;
 }
 
 void State::Load( Json::Value const& setters )
@@ -55,6 +104,21 @@ void State::Load( Json::Value const& setters )
             }
         }
     }
+}
+
+bool State::IsStart()
+{
+    return mIsStart;
+}
+
+int32_t State::GetIdentifier() const
+{
+    return mIdentifier;
+}
+
+void State::ShuffleActIndices()
+{
+    std::random_shuffle( mActIndices.begin(), mActIndices.end() );
 }
 
 } // namespace scriptedcontroller

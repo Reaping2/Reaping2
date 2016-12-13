@@ -9,15 +9,20 @@ ICondition::ICondition( int32_t Id )
 }
 
 
-void ICondition::Update( double Seconds )
+void ICondition::Update( Actor& actor, double Seconds )
 {
 
 }
 
 
-bool ICondition::IsSatisfied()
+bool ICondition::IsSatisfied() const
 {
     return false;
+}
+
+void ICondition::Reset( Actor& actor )
+{
+
 }
 
 void ICondition::Load( Json::Value const& setters )

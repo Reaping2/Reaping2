@@ -3,6 +3,7 @@ namespace scriptedcontroller {
 
 ScriptedControllerComponent::ScriptedControllerComponent()
     : mStates()
+    , mStateIdentifier( -1 )
 {
 }
 
@@ -16,6 +17,20 @@ ScriptedControllerComponent::States_t& ScriptedControllerComponent::GetStates()
     return mStates;
 }
 
+void ScriptedControllerComponent::SetStateIdentifier( int32_t StateIdentifier )
+{
+    mStateIdentifier = StateIdentifier;
+}
+
+int32_t ScriptedControllerComponent::GetStateIdentifier() const
+{
+    return mStateIdentifier;
+}
+
+Opt<State> ScriptedControllerComponent::GetState()
+{
+    return Opt<State>(mStateIdentifier>=0&&mStateIdentifier<mStates.size()?&mStates[mStateIdentifier]:nullptr);
+}
 
 
 void ScriptedControllerComponentLoader::BindValues()
