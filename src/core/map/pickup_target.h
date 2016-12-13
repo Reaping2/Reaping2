@@ -15,6 +15,8 @@ public:
     virtual void Update( double DeltaTime );
     virtual int32_t GetCursorId() const;
     virtual int32_t GetActorId() const;
+    // type of pickup
+    int32_t GetTypeId() const;
     virtual void PutTarget( glm::vec2 position );
     virtual std::auto_ptr<Actor> GetCursor();
     virtual bool Load( const Json::Value& setters );

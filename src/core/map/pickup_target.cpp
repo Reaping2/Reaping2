@@ -49,6 +49,11 @@ int32_t PickupTarget::GetActorId() const
     return mActorId;
 }
 
+int32_t PickupTarget::GetTypeId() const
+{
+    return mTypeId;
+}
+
 void PickupTarget::PutTarget( glm::vec2 position )
 {
     std::auto_ptr<MapElement> mapElement( MapElementFactory::Get()( AutoId( "respawn_actor" ) ) );

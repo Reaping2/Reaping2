@@ -6,6 +6,51 @@
 #include "../i_collision_component.h"
 #include <boost/assign/std/vector.hpp>
 #include "editor_back_event.h"
+#include "target_repo.h"
+#include "pickup_target.h"
+#include "wall_target.h"
+
+
+namespace {
+
+    // helper function to collect autoids of targets based on target type
+    template <typename T>
+    static void CollectAutoids(std::vector<int32_t>& autoids)
+    {
+        using namespace map;
+        static TargetRepo::const_iterator cbegin = TargetRepo::Get().begin();
+        static TargetRepo::const_iterator cend = TargetRepo::Get().end();
+        for ( auto it = cbegin; it != cend; ++it )
+        {
+            if ( dynamic_cast<const T*>(it->second) )
+            {
+                autoids.push_back(it->first);
+            }
+        }
+    }
+    // helper function specialized for pickups, because pickups have further subtypes
+    // collects autoids of pickups based on pickup type
+    static void CollectPickupAutoids(const std::string& type, std::vector<int32_t> &autoids)
+    {
+        using namespace map;
+        IdStorage & idstorage = IdStorage::Get();
+        static TargetRepo::const_iterator cbegin = TargetRepo::Get().begin();
+        static TargetRepo::const_iterator cend = TargetRepo::Get().end();
+        for ( auto it = cbegin; it != cend; ++it )
+        {
+            if ( const PickupTarget *p = dynamic_cast<const PickupTarget*>(it->second) )
+            {
+                int32_t typeId = p->GetTypeId();
+                std::string typeName;
+                idstorage.GetName(typeId, typeName);
+                if ( typeName == type )
+                {
+                    autoids.push_back(it->first);
+                }
+            }
+        }
+    }
+}
 
 namespace map {
 
@@ -28,9 +73,11 @@ void EditorTargetSystem::Init()
     mEditorModels.push_back( new ModelValue( "pickups", &targetModel) );
     ModelValue& pickupModel = mEditorModels.back();
     // for the menus
+    // pickups
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &pickupModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &pickupModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &pickupModel ) );
+    // targets
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::MapItems, this ), "mapitems", &targetModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Spawnpoints, this ), "spawnpoints", &targetModel ) );
     // spawn point teams are ambigous, so use background colors
@@ -42,25 +89,26 @@ void EditorTargetSystem::Init()
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"buff",_2) ), "bufftarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"item",_2) ), "itemtarget", &editorModel ) );
     
-
+    /// ------ Pickups ------
+    // guns
+    CollectPickupAutoids("weapon", mGunActorIds);
     // mapping the visual ids to the actor ids
+    mGunVisualIds = mGunActorIds;
+
+    // buffs
+    CollectPickupAutoids("buff", mBuffActorIds);
+    mBuffVisualIds = mBuffActorIds;
+
+    // items
+    CollectPickupAutoids("normal", mItemActorIds);
+    mItemVisualIds = mItemActorIds;
+
+    /// ------ Targets ------
     using namespace boost::assign;
-    mGunVisualIds += AutoId("pistol"), AutoId("plasma_gun"), AutoId("rocket_launcher"), AutoId("shotgun"),AutoId("ion_gun"), AutoId("gatling_gun"), AutoId("gauss_gun");
-    mGunActorIds = mGunVisualIds;
-
-    mBuffVisualIds += AutoId("HealOverTimeBuff"),AutoId("MoveSpeedBuff"),AutoId("AccuracyBuff"),AutoId("ArmorBuff"),AutoId("CloakBuff");
-    mBuffActorIds = mBuffVisualIds;
-
-    mItemVisualIds += AutoId("flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item");
-    mItemActorIds = mItemVisualIds;
-
-    mMapitemVisualIds += AutoId("wall"), AutoId("wall_small"), AutoId("stone_wall"),
-                        AutoId("water"), AutoId("grass_tile"), AutoId("concrete"),
-                        AutoId( "end" ), AutoId( "rogue_grass200" ), AutoId( "rogue_wall100" ),
-                        AutoId( "rogue_wall50" ), AutoId( "rogue_wall100_background" ), AutoId( "rogue_wall50_background" ),
-                        AutoId( "guard" ), AutoId( "skull" );
-    mMapitemActorIds = mMapitemVisualIds;
-
+    // mapitems: wall types
+    CollectAutoids<WallTarget>(mMapitemActorIds);
+    mMapitemVisualIds = mMapitemActorIds;
+    // spawnpoints
     mSpawnpointVisualIds += mTargetRepo( AutoId("ctf_flag_spawn_red")).GetCursorId(),
                             mTargetRepo( AutoId("ctf_soldier_spawn_red")).GetCursorId(),
                             mTargetRepo( AutoId("ctf_flag_spawn_blue")).GetCursorId(),
