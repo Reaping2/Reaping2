@@ -5,3 +5,9 @@ bool EmptyCollisionModel::AreActorsColliding( Actor const& Obj1, Actor const& Ob
 {
     return false;
 }
+
+bool EmptyCollisionModel::AreActorsColliding( Object const& Obj1, Object const& Obj2, double Dt )const
+{
+    return false;
+}
+

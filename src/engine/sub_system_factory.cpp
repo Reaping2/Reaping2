@@ -36,6 +36,7 @@
 #include "items/rusty_reaper_weapon_sub_system.h"
 #include "controllers/guard_controller_sub_system.h"
 #include "controllers/path_controller_sub_system.h"
+#include "controllers/scripted_controller_sub_system.h"
 
 
 using platform::AutoId;
@@ -52,6 +53,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId( "pointer_target_controller_sub_system" ), &CreateSubSystem<PointerTargetControllerSubSystem> );
     Bind( AutoId( "guard_controller_sub_system" ), &CreateSubSystem<GuardControllerSubSystem> );
     Bind( AutoId( "path_controller_sub_system" ), &CreateSubSystem<PathControllerSubSystem> );
+    Bind( AutoId( "scripted_controller_sub_system" ), &CreateSubSystem<ScriptedControllerSubSystem> );
 
     Bind( AutoId( "normal_item_sub_system" ), &CreateSubSystem<NormalItemSubSystem> );
     Bind( AutoId( "flash_normal_item_sub_system" ), &CreateSubSystem<FlashNormalItemSubSystem> );

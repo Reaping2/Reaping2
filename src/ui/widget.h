@@ -98,6 +98,8 @@ public:
         PT_StartIdBase,
         PT_StartIdStep,
         PT_SubtreeHidden,
+        PT_VAlign,
+        PT_HAlign,
     };
     typedef WidgetIterator const_iterator;  // rename to hierarchy iterator?
     const_iterator begin()const;

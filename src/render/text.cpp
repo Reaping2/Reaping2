@@ -6,7 +6,8 @@ Text::Text( double fontSize, glm::vec4 dimensions, glm::vec4 color, std::string 
     , mDimensions( dimensions )
     , mColor( color )
     , mText( text )
-    , mAlignMiddle( alignMiddle )
+    , mHAlign( alignMiddle ? TextWidget::HAlign::Center : TextWidget::HAlign::Left )
+    , mVAlign( TextWidget::VAlign::Top )
 {
 
 }
@@ -16,7 +17,8 @@ Text::Text()
     , mDimensions( 0, 0, 500, 500 )
     , mColor( 1.0, 1.0, 1.0, 1.0 )
     , mText( "" )
-    , mAlignMiddle( true )
+    , mHAlign( TextWidget::HAlign::Center )
+    , mVAlign( TextWidget::VAlign::Top )
 {
 
 }

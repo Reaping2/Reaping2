@@ -19,6 +19,11 @@ public:
     CollisionSystem();
     virtual void Init();
     virtual void Update( double DeltaTime );
+    std::set<Actor*> GetAllCollidingActors( glm::vec2 const& position, double radius, int32_t collMask ) const;
+    bool IsColliding( Actor const& actor ) const;
+    static const int32_t VisibleMask = 1 << CollisionClass::Creep
+        | 1 << CollisionClass::Player | 1 << CollisionClass::Wall;
+    Opt<Actor> GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius = -1.0, int32_t collMask = VisibleMask ) const;
 private:
     Opt<CollisionSubSystem> GetCollisionSubSystem( int32_t id );
     Grid mCollisionGrid;

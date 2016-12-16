@@ -5,6 +5,9 @@
 #include "core/collision_model.h"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "platform/settings.h"
+#include "core/box_collision_model.h"
+#include <utility>
 
 namespace engine {
 
@@ -48,6 +51,11 @@ void CollisionSystem::OnActorEvent( ActorEvent const& Evt )
 
 void CollisionSystem::Update( double DeltaTime )
 {
+    static const auto enableCollision = Settings::Get().GetInt( "collisions.enable", 1 ) != 0;
+    if( !enableCollision )
+    {
+        return;
+    }
     mUpdateTimer.Log( "start collision" );
     mPerfTimer.Log( "pre build grid" );
     std::vector<std::pair<Opt<CollisionSubSystem>, Actor*>> collisionAndActors;
@@ -113,6 +121,82 @@ Opt<CollisionSubSystem> CollisionSystem::GetCollisionSubSystem( int32_t id )
     }
     return nullptr;
 }
+
+std::set<Actor*> CollisionSystem::GetAllCollidingActors( glm::vec2 const& position, double radius, int32_t collMask ) const
+{
+    CollisionModel::Object ObjA{ position, glm::vec2(), radius };
+    std::set<Actor*> &&all( mCollisionGrid.GetAllNearbyActors( position, radius, collMask ) ), rv;
+    for( auto actor : all )
+    {
+        static BoxCollisionModel collModel;
+        CollisionModel::Object ObjB( CollisionModel::ObjectFromActor( *actor ) );
+        if( collModel.AreActorsColliding( ObjA, ObjB, 0.0 ) )
+        {
+            rv.insert( actor );
+        }
+    }
+    return std::move( rv );
+}
+
+namespace {
+double distance( CollisionModel::Object const& a, CollisionModel::Object const& b )
+{
+    return std::max( 0.0, glm::distance( a.position, b.position ) - a.radius - b.radius );
+}
+}
+
+Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius, int32_t collMask ) const
+{
+    CollisionModel::Object ObjA( CollisionModel::ObjectFromActor( actor ) );
+    if( radius > -0.1 )
+    {
+        ObjA.radius = std::abs( radius );
+    }
+    ObjA.speed = glm::normalize( direction );
+    std::set<Actor*> &&all( mCollisionGrid.GetAllNearbyActors( ObjA.position, ObjA.radius, collMask, &direction ) );
+    all.erase( const_cast<Actor*>(&actor) );
+    Actor* closest = nullptr;
+    double dist = std::numeric_limits<double>::max();
+    for( auto act : all )
+    {
+        static BoxCollisionModel collModel;
+        CollisionModel::Object ObjB( CollisionModel::ObjectFromActor( *act ) );
+        ObjB.speed = glm::vec2();
+        double d = distance( ObjA, ObjB );
+        if( ( d < dist || nullptr == closest ) &&
+            collModel.AreActorsColliding( ObjA, ObjB, 10e8 ) )
+        {
+            dist = d;
+            closest = act;
+        }
+    }
+    return Opt<Actor>( closest );
+}
+
+bool CollisionSystem::IsColliding( Actor const& actor ) const
+{
+    Opt<ICollisionComponent> collisionC = actor.Get<ICollisionComponent>();
+    if ( !collisionC.IsValid() )
+    {
+        return false;
+    }
+    std::set<Actor*>&& all( mCollisionGrid.GetAllNearbyActors( &actor ) );
+    for( auto act : all )
+    {
+        if( act == &actor )
+        {
+            continue;
+        }
+        Opt<ICollisionComponent> ACollisionC = act->Get<ICollisionComponent>();
+        CollisionModel const& CollModel = mCollisionStore.GetCollisionModel( ACollisionC->GetCollisionClass(), collisionC->GetCollisionClass() );
+        if( CollModel.AreActorsColliding( actor, *act, 0.0 ) )
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 } // namespace engine
 

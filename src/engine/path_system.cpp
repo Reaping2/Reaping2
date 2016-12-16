@@ -123,6 +123,11 @@ void PathSystem::Init()
 void PathSystem::Update(double DeltaTime)
 {
     static const auto mDebugNeighbours = Settings::Get().GetInt( "find_path.debug_neighbours", 0 ) != 0;
+    static const auto enablePathSystem = Settings::Get().GetInt( "find_path.enable", 1 ) != 0;
+    if( !enablePathSystem )
+    {
+        return;
+    }
     static auto& programState( core::ProgramState::Get() );
     if (mDebugNeighbours)
     {

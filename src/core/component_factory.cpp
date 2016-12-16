@@ -55,6 +55,7 @@
 #include "static_actor_component.h"
 #include "path_controller_component.h"
 #include "pulse_component.h"
+#include "scripted_controller/scripted_controller_component.h"
 
 using platform::AutoId;
 
@@ -75,6 +76,8 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "random_controller_component" ), &CreateComponent<RandomControllerComponent> );
     Bind( AutoId( "guard_controller_component" ), &CreateComponent<GuardControllerComponent> );
     Bind( AutoId( "path_controller_component" ), &CreateComponent<PathControllerComponent> );
+
+    Bind( AutoId( "scripted_controller_component" ), &CreateComponent<scriptedcontroller::ScriptedControllerComponent> );
 
     Bind( AutoId( "inventory_component" ), &CreateComponent<InventoryComponent> );
     Bind( AutoId( "static_actor_component" ), &CreateComponent<StaticActorComponent> );

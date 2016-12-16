@@ -777,27 +777,6 @@
         ]
     },
     {
-        "name":"spider1",
-        "components":
-        [
-            {"name":"position_component"},
-            {"name":"move_component"},
-            {"name":"renderable_component",
-                "set":[{"layer":"creeps", "cast_shadow":1}]
-            },
-            {"name":"collision_component",
-                "set":[{"class":"creep", "radius":50}]
-            },
-            {"name":"health_component",
-                "set":[{"hp":40}]
-            },
-            {"name":"random_controller_component"},
-            {"name":"drop_on_death_component"},
-            {"name":"stop_on_death_component"},
-            {"name":"heat_source_component"}
-        ]
-    },
-    {
         "name":"spider1target",
         "components":
         [
