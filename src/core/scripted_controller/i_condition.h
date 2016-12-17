@@ -9,6 +9,12 @@
 
 namespace scriptedcontroller
 {
+#define DEFINE_CONDITION_BASE( ConditionType ) \
+    using ICondition::ICondition; \
+    virtual ICondition* clone() const \
+    { \
+        return new ConditionType( *this ); \
+    } \
 
 // currently there is no need to call any base class method when a method is overridden.
 
@@ -36,6 +42,8 @@ public:
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
+
+    virtual ICondition* clone() const;
 protected:
     int32_t mId = -1;
 };
@@ -46,10 +54,15 @@ void ICondition::serialize( Archive& ar, const unsigned int version )
     ar & mId;
 }
 
+inline ICondition* new_clone( ICondition const& other )
+{
+    return other.clone();
+}
+
 class DefaultCondition : public ICondition
 {
 public:
-    using ICondition::ICondition;
+    DEFINE_CONDITION_BASE( DefaultCondition )
 };
 
 } // namespace scriptedcontroller

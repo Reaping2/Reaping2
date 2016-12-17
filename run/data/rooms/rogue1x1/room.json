@@ -1252,7 +1252,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "skull",
+            "actor" : "spider1",
             "components" : [
                {
                   "name" : "position_component",
@@ -1268,7 +1268,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "guard",
+            "actor" : "spider1",
             "components" : [
                {
                   "name" : "position_component",

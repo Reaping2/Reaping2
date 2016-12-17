@@ -8,8 +8,9 @@
 #include "transition.h"
 #include <boost/serialization/vector.hpp>
 #include "i_act.h"
-#include "boost/ptr_container/serialize_ptr_vector.hpp"
 #include "core/actor.h"
+#include <boost/serialization/vector.hpp>
+#include "boost/ptr_container/serialize_ptr_vector.hpp"
 namespace scriptedcontroller {
 
 struct State
