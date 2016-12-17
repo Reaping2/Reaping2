@@ -11,7 +11,7 @@ namespace scriptedcontroller
 {
 #define DEFINE_ACT_BASE( ActType ) \
     using IAct::IAct; \
-    virtual ActType* clone() const \
+    virtual IAct* clone() const \
     { \
         return new ActType( *this ); \
     } \

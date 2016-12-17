@@ -1,6 +1,6 @@
 #include "freelance_act.h"
-#include "core\i_move_component.h"
-#include "core\i_position_component.h"
+#include "core/i_move_component.h"
+#include "core/i_position_component.h"
 
 namespace scriptedcontroller
 {

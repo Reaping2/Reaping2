@@ -11,7 +11,7 @@ namespace scriptedcontroller
 {
 #define DEFINE_CONDITION_BASE( ConditionType ) \
     using ICondition::ICondition; \
-    virtual ConditionType* clone() const \
+    virtual ICondition* clone() const \
     { \
         return new ConditionType( *this ); \
     } \
