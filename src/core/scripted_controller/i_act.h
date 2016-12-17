@@ -9,7 +9,12 @@
 
 namespace scriptedcontroller
 {
-
+#define DEFINE_ACT_BASE( ActType ) \
+    using IAct::IAct; \
+    virtual IAct* clone() const \
+    { \
+        return new ActType( *this ); \
+    } \
 // it's highly advised to call base class methods when a method is overridden.
 
 // an act should do some dirty things while it is active. It's lifetime depends on mDurationCurrent. 
@@ -38,6 +43,8 @@ public:
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
+
+    virtual IAct* clone() const;
 protected:
     int32_t mId = -1;
     double mDuration = 0.0;
@@ -56,10 +63,15 @@ void IAct::serialize( Archive& ar, const unsigned int version )
     ar & mInterruptible;
 }
 
+inline IAct* new_clone( IAct const& other )
+{
+    return other.clone();
+}
+
 class DefaultAct : public IAct
 {
 public:
-    using IAct::IAct;
+    DEFINE_ACT_BASE( DefaultAct );
 };
 
 } // namespace scriptedcontroller

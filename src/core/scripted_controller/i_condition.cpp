@@ -29,5 +29,11 @@ void ICondition::Load( Json::Value const& setters )
 {
 }
 
+
+ICondition* ICondition::clone() const
+{
+    return new ICondition( *this );
+}
+
 } // namespace scriptedcontroller
 

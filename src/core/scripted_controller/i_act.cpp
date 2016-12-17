@@ -11,7 +11,7 @@ IAct::IAct( int32_t Id )
 
 void IAct::Update( Actor& actor, double Seconds )
 {
-    mDurationCurrent = std::min<double>( 0.0, mDurationCurrent - Seconds );
+    mDurationCurrent = std::max<double>( 0.0, mDurationCurrent - Seconds );
 }
 
 void IAct::Load( Json::Value const& setters )
@@ -42,6 +42,12 @@ bool IAct::IsInterruptible()
 bool IAct::IsRunning()
 {
     return mDurationCurrent > 0.0;
+}
+
+
+IAct* IAct::clone() const
+{
+    return new IAct( *this );
 }
 
 } // namespace scriptedcontroller
