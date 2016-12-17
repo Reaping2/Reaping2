@@ -42,7 +42,10 @@ void State::Update( Actor& actor, double Seconds )
     }
     if (mCurrActIndex == -1 || !mActs[mCurrActIndex].IsRunning())
     {
-        mActs[mCurrActIndex].Stop( actor );
+        if (mCurrActIndex != -1)
+        {
+            mActs[mCurrActIndex].Stop( actor );
+        }
         ShuffleActIndices();
         mCurrActIndex = *mActIndices.begin(); // guaranteed
         mActs[mCurrActIndex].Start( actor );
@@ -56,11 +59,12 @@ void State::Reset( Actor& actor )
     {
         transition.Reset( actor );
     }
-    if (mCurrActIndex == -1)
+    if (mCurrActIndex != -1)
     {
         mActs[mCurrActIndex].Stop( actor );
     }
     mCurrActIndex = -1;
+    mNextIdentifier = mIdentifier;
 }
 
 void State::Load( Json::Value const& setters )
@@ -86,24 +90,31 @@ void State::Load( Json::Value const& setters )
         Json::Value const& json = setters["acts"];
         if (json.isArray())
         {
-            for (auto& part : json)
+            for (auto& group : json)
             {
-                static auto& mActFactory( ActFactory::Get() );
-                std::string str;
-                int32_t id = -1;
-                if (Json::GetStr( part["name"], str ))
+                if (group.isArray())
                 {
-                    id = AutoId( str );
-                    auto act = mActFactory( id );
-                    act->Load( part["params"] );
-                    int32_t weight = 1;
-                    Json::GetInt( part["weight"], weight );
-                    std::fill_n( std::back_inserter( mActIndices ), weight, mActs.size() );
-                    mActs.push_back( act );
+                    for (auto& part : group)
+                    {
+                        static auto& mActFactory( ActFactory::Get() );
+                        std::string str;
+                        int32_t id = -1;
+                        if (Json::GetStr( part["name"], str ))
+                        {
+                            id = AutoId( str );
+                            auto act = mActFactory( id );
+                            act->Load( part["params"] );
+                            int32_t weight = 1;
+                            Json::GetInt( part["weight"], weight );
+                            std::fill_n( std::back_inserter( mActIndices ), weight, mActs.size() );
+                            mActs.push_back( act );
+                        }
+                    }
                 }
             }
         }
     }
+    mNextIdentifier = mIdentifier;
 }
 
 bool State::IsStart()

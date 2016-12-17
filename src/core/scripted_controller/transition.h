@@ -6,14 +6,18 @@
 #include "platform/export.h"
 #include <vector>
 #include "i_condition.h"
-#include "boost/ptr_container/ptr_vector.hpp"
+#include <boost/serialization/vector.hpp>
 #include "boost/ptr_container/serialize_ptr_vector.hpp"
 #include "core/actor.h"
+#include <boost/serialization/vector.hpp>
+#include "boost/ptr_container/serialize_ptr_vector.hpp"
 
 namespace scriptedcontroller {
 
 struct Transition
 {
+    Transition() = default;
+    Transition( Transition const& other ) = default;
     void Update( Actor& actor, double Seconds );
     void Load( Json::Value const& setters );
     bool IsConditionsSatisfied() const;

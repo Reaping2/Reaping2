@@ -29,7 +29,8 @@ int32_t ScriptedControllerComponent::GetStateIdentifier() const
 
 Opt<State> ScriptedControllerComponent::GetState()
 {
-    return Opt<State>(mStateIdentifier>=0&&mStateIdentifier<mStates.size()?&mStates[mStateIdentifier]:nullptr);
+    auto found = mStates.find(mStateIdentifier);
+    return Opt<State>(found!=mStates.end()?&found->second:nullptr);
 }
 
 
