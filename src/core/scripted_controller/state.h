@@ -36,10 +36,12 @@ private:
     typedef std::vector<Transition> Transitions_t;
     Transitions_t mTransitions;
     typedef boost::ptr_vector<IAct> Acts_t;
-    Acts_t mActs;
+    typedef std::vector<Acts_t> ActGroups_t;
+    ActGroups_t mActGroups;
     typedef std::vector<int32_t> WeightedActIndices_t;
     WeightedActIndices_t mActIndices;
-    int32_t mCurrActIndex = -1;
+    typedef std::vector<int32_t> CurrentActIndices_t;
+    CurrentActIndices_t mCurrActIndices;
     int32_t mNextIdentifier = -1;
 };
 
@@ -49,7 +51,7 @@ void scriptedcontroller::State::serialize( Archive& ar, const unsigned int versi
     ar & mIdentifier;
     ar & mIsStart;
     ar & mTransitions;
-    ar & mActs;
+    ar & mActGroups;
     ar & mActIndices;
 }
 

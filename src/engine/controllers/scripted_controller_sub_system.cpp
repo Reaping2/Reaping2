@@ -2,6 +2,7 @@
 #include "engine/engine.h"
 #include "engine/controllers/scripted_controller_sub_system.h"
 #include "core/scripted_controller/scripted_controller_component.h"
+#include "core/i_health_component.h"
 
 namespace engine {
 
@@ -23,6 +24,12 @@ void ScriptedControllerSubSystem::Update(Actor& actor, double DeltaTime)
     Opt<ScriptedControllerComponent> scriptedCC=actor.Get<IControllerComponent>();
     if (!scriptedCC.IsValid()||!scriptedCC->IsEnabled()||scriptedCC->GetStates().empty())
     {
+        return;
+    }
+    auto healthC = actor.Get<IHealthComponent>();
+    if (!healthC.IsValid()||!healthC->IsAlive())
+    {
+        scriptedCC->SetEnabled( false );
         return;
     }
     auto state = scriptedCC->GetState();
