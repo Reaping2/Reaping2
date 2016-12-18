@@ -1,0 +1,9 @@
+{
+    "target_name": "wall_target" ,
+    "name": "grass_tile" ,
+    "setters":
+    {
+        "cursor_id": "grass_tile" ,
+        "actor_id": "grass_tile"
+    }
+}

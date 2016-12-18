@@ -70,21 +70,22 @@ void EditorSystem::Init()
             std::string foldername;
             idstorage.GetName(id, foldername);
 
-            std::string maptype("normal");
+            bool generated = false;
             try
             {
-                if ( !Json::GetStr(desc["type"], maptype))
+                if ( !Json::GetBool(desc["generated"], generated))
                 {
-                    L1("%s has no (map) type defined, assuming 'normal'");
+                    L1("%s has no 'generated' info assuming 'false'");
                 }
             }
             catch( const std::exception& e)
             {
-                L1("Exception caught while querying map 'type'. Assuming 'normal'.");
+                L1("Exception caught while querying 'generated' info, discaring map %s.", foldername.c_str());
+                continue;
             }
 
-            // "rogue" type maps shall not be editable with this editor
-            if ("normal" == maptype)
+            // not generated maps are ediable with this editor
+            if ( !generated )
             {
                 mLevelNames.push_back(foldername);
             }
@@ -326,8 +327,6 @@ void EditorSystem::Save()
         desc["description"] = "";
         desc["name"] = mLevelName;
         desc["thumbnail"] = "";
-        desc["type"] = "normal";// normal = non-rogue, used for filtering
-        desc["type"].setComment("possible values: normal, rogue", Json::commentAfterOnSameLine);
         Json::StyledWriter Writer;
         std::string const& JString = Writer.write( desc );
         {

@@ -1,0 +1,9 @@
+{
+    "target_name": "revive_pickup",
+    "name": "HealOverTimeBuff",
+    "setters":
+    {
+        "type_id": "buff",
+        "content_id": "HealOverTimeBuff"
+    }
+}

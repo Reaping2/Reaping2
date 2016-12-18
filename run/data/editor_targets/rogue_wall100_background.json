@@ -1,0 +1,9 @@
+{
+    "target_name": "wall_target" ,
+        "name": "rogue_wall100_background" ,
+        "setters":
+        {
+            "cursor_id": "rogue_wall100_background" ,
+            "actor_id": "rogue_wall100_background"
+        }
+}

@@ -24,49 +24,47 @@ TargetRepo::TargetRepo()
 void TargetRepo::Init()
 {
     using boost::filesystem::path;
-    const path targets("targets.json");
-    Json::Value Root;
-    // Read in targets.json
-    try
+    Filesys& FSys = Filesys::Get();
+    std::vector<boost::filesystem::path> paths;
+    FSys.GetFileNames(paths, "editor_targets" );
+    for ( auto const& path : paths )
     {
-        Filesys& FSys = Filesys::Get();
-        AutoFile JsonFile = FSys.Open( targets );
+        AutoFile JsonFile = FSys.Open( path );
+        if ( !JsonFile.get() )
+        {
+            L1("Cannot open %\n", path.string().c_str());
+            continue;
+        }
         JsonReader Reader( *JsonFile );
         if ( !Reader.IsValid() )
         {
-            throw std::string("Invalid JSON file");
+            L1("Invalid JSON file: %s\n", path.string().c_str());
+            continue;
         }
-        Root = Reader.GetRoot();
-        if (!Root.isArray())
+        Json::Value Root = Reader.GetRoot();
+        if (!Root.isObject())
         {
-            throw std::string("JSON contain an array as a root element");
+            L1("%s does not contian JSON object as root element", path.string().c_str());
+            continue;
         }
-    }
-    catch( const std::exception& e)
-    {
-        L1("Exception caught while reading %s: %s\n", targets.filename().string().c_str(), e.what());
-        throw;
-    }
 
-    // initialize all the targets from the JSON file
-    for ( auto const& item : Root )
-    {
+        // initialize target from the JSON file
         try
         {
             std::string target_name;
-            if (!Json::GetStr(item["target_name"], target_name ))
+            if (!Json::GetStr(Root["target_name"], target_name ))
             {
                 continue;
             }
             std::string name;
-            if (!Json::GetStr(item["name"], name ))
+            if (!Json::GetStr(Root["name"], name ))
             {
                 continue;
             }
             int32_t target_autoid = AutoId(target_name);
             int32_t autoid = AutoId( name );
             auto target = mTargetFactory( target_autoid );
-            const Json::Value& setters = item["setters"];
+            const Json::Value& setters = Root["setters"];
             if ( target->Load(setters) )
             {
                 mElements.insert( autoid , target.release());
