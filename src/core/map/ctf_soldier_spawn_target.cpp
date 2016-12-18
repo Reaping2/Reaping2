@@ -95,7 +95,6 @@ bool CtfSoldierSpawnTarget::Load( const Json::Value& setters )
     }
     else
     {
-        // TODO: The object will be used, need to prevent usage of invalid objets
         L1("Sytnax error. Read %s as team, valid values are 'red' or 'blue'\n", team.c_str() );
         return false;
     }
