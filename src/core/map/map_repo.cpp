@@ -12,7 +12,6 @@ MapRepo::MapRepo()
     : Repository<Json::Value>(mDefault)
 {
     Init();
-    //mElements.insert(_identifier_, new _target_)
 }
 
 void MapRepo::Init()
@@ -45,7 +44,6 @@ void MapRepo::Init()
             path.remove_filename();
             std::string foldername = path.stem().string();
 
-            // CHECK WITH AIDCOLLECTOR?
             // index map description with real map name/foldername
             int32_t id = AutoId( foldername );
             mElements.insert(id, new Json::Value(Root));
