@@ -19,6 +19,8 @@ public:
     virtual int32_t GetActorId() const;
     virtual void PutTarget( glm::vec2 position ) = 0;
     virtual void PutTarget( glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders );
+    virtual bool Load( const Json::Value& v ) = 0;
+
 protected:
     int32_t mId;
 };

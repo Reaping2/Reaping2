@@ -14,6 +14,7 @@ bool GetUInt( Json::Value const& V, uint32_t& O );
 bool GetInt( Json::Value const& V, int32_t& O );
 bool GetDouble( Json::Value const& V, double& O );
 bool GetFloat( Json::Value const& V, float& O );
+bool GetBool( Json::Value const& V, bool& O );
 bool GetColor( Json::Value const& V, int32_t& O );
 bool GetColor( Json::Value const& V, glm::vec4& O );
 } // namespace Json

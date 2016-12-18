@@ -34,5 +34,4 @@ ITarget::~ITarget()
 
 }
 
-
 } // namespace map

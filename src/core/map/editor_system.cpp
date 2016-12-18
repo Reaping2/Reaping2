@@ -22,6 +22,7 @@
 #include "editor_mode_changed_event.h"
 #include "editor_hud_state.h"
 #include "spawn_actor_map_element_system.h"
+#include "map_repo.h"
 
 namespace map {
 
@@ -52,8 +53,44 @@ void EditorSystem::Init()
     mRenderer = engine::Engine::Get().GetSystem<engine::RendererSystem>();
     mKeyId = EventServer<KeyEvent>::Get().Subscribe( boost::bind( &EditorSystem::OnKeyEvent, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &EditorSystem::OnEditorBack, this, _1 ) );
-    using namespace boost::assign;
-    mLevelNames += "level1", "level2", "level3", "level4", "level5";
+    // collect editable maps
+    {
+        IdStorage& idstorage = IdStorage::Get();
+        MapRepo::const_iterator cbegin = MapRepo::Get().begin();
+        MapRepo::const_iterator cend = MapRepo::Get().end();
+        for ( auto it = cbegin; it != cend; ++it )
+        {
+            int32_t id = it->first;
+            const Json::Value& desc = *(it->second);
+            if ( desc.isNull() )
+            {
+                continue;
+            }
+
+            std::string foldername;
+            idstorage.GetName(id, foldername);
+
+            bool generated = false;
+            try
+            {
+                if ( !Json::GetBool(desc["generated"], generated))
+                {
+                    L1("%s has no 'generated' info assuming 'false'");
+                }
+            }
+            catch( const std::exception& e)
+            {
+                L1("Exception caught while querying 'generated' info, discaring map %s.", foldername.c_str());
+                continue;
+            }
+
+            // not generated maps are ediable with this editor
+            if ( !generated )
+            {
+                mLevelNames.push_back(foldername);
+            }
+        }
+    }
 }
 
 void EditorSystem::OnEditorBack( map::EditorBackEvent const& Evt )
@@ -281,6 +318,19 @@ void EditorSystem::Save()
         std::string const& JString = Writer.write( Root );
         {
             OsFile OutJson( "data/map/" + mLevelName + "/saved_pickups.json", std::ios_base::out );
+            OutJson.Write( JString );
+        }
+    }
+    // map descriptor
+    {
+        Json::Value desc(Json::objectValue);
+        desc["description"] = "";
+        desc["name"] = mLevelName;
+        desc["thumbnail"] = "";
+        Json::StyledWriter Writer;
+        std::string const& JString = Writer.write( desc );
+        {
+            OsFile OutJson( "data/map/" + mLevelName + "/description.json", std::ios_base::out );
             OutJson.Write( JString );
         }
     }

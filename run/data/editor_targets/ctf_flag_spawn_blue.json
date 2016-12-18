@@ -1,0 +1,9 @@
+{
+    "target_name": "flag_spawn_target",
+    "name": "ctf_flag_spawn_blue",
+    "setters":
+    {
+        "cursor_id": "platform",
+        "team": "blue"
+    }
+}

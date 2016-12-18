@@ -86,6 +86,17 @@ bool GetColor( Json::Value const& Color, glm::vec4& O )
         );
     return true;
 }
+
+bool GetBool( Json::Value const &V, bool& O)
+{
+    if ( !V.isBool() )
+    {
+        return false;
+    }
+    O = V.asBool();
+    return true;
+}
+
 } // namespace Json
 
 namespace platform {

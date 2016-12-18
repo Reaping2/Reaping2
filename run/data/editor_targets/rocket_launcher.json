@@ -1,0 +1,9 @@
+{
+    "target_name": "revive_pickup",
+    "name": "rocket_launcher",
+    "setters":
+    {
+        "type_id": "weapon",
+        "content_id": "rocket_launcher"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "target_name": "revive_pickup",
+    "name": "gauss_gun",
+    "setters":
+    {
+        "type_id": "weapon",
+        "content_id": "gauss_gun"
+    }
+}
