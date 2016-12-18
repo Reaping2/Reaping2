@@ -1,5 +1,6 @@
 {
     "description":"",
     "name":"Rogue 3x3",
-    "thumbnail":"rusty_reaper"
+    "thumbnail":"rusty_reaper",
+    "type":"rogue"
 }

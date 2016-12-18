@@ -97,10 +97,12 @@ void EditorTargetSystem::Init()
 
     // buffs
     CollectPickupAutoids("buff", mBuffActorIds);
+    // mapping the visual ids to the actor ids
     mBuffVisualIds = mBuffActorIds;
 
     // items
     CollectPickupAutoids("normal", mItemActorIds);
+    // mapping the visual ids to the actor ids
     mItemVisualIds = mItemActorIds;
 
     /// ------ Targets ------
