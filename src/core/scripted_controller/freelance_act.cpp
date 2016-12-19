@@ -35,10 +35,13 @@ void FreelanceAct::Start( Actor& actor )
     {
         return;
     }
-    moveC->GetSpeed().mBase.Set( (RandomGenerator::global()() % 10) * 30 );
+    moveC->GetSpeed().mBase.Set( ((RandomGenerator::global()() % 10)+4) * 20 );
     moveC->SetMoving( moveC->GetSpeed().Get() != 0 );
 
-    moveC->SetHeadingModifier( 1 );
+    double headingmodif = (((RandomGenerator::global()() % 101) + 50.0)
+        * ((RandomGenerator::global()() % 2) == 1 ? 1.0 : -1.0))
+        / 100.0;
+    moveC->SetHeadingModifier( headingmodif );
 }
 
 void FreelanceAct::Stop( Actor& actor )
