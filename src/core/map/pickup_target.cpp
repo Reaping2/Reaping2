@@ -18,6 +18,8 @@ PickupTarget::PickupTarget(int32_t Id)
     : ITarget( Id )
     , mCursorId( Id )
     , mActorId( Id )
+    , mTypeId( -1 )
+    , mContentId( -1 )
     , mScene( Scene::Get() )
 {
 

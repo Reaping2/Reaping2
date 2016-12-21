@@ -24,7 +24,6 @@ void JungleLevelGenerator::Generate()
     auto seed = mSeed == 0 ? unsigned( std::time( 0 ) ) : mSeed;
     L2( "Jungle generator with seed: %d", seed );
     mRand.seed( seed );
-    int32_t a = mRand() % 10;
     mGData.SetDimensions( mCellCount, mCellCount );
     mFreeCellPositions.clear();
 
@@ -251,7 +250,6 @@ Opt<IRoom> JungleLevelGenerator::PlaceRandomRoom( glm::vec2 const& pos )
 {
     Opt<IRoom> r;
     mPossibleRooms.ShuffleRoomIds();
-    bool succ = false;
     for (auto&& roomId : mPossibleRooms.GetRoomIds())
     {
         auto& room = mRoomRepo( roomId.mRoomId );

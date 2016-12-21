@@ -60,9 +60,9 @@ void WindowSystem::Destroy()
 
 
 WindowSystem::WindowSystem()
-    : mWindow( NULL )
-    , mExitModel( VoidFunc( this, &WindowSystem::Close ), "game.exit", &RootModel::Get() )
+    : mExitModel( VoidFunc( this, &WindowSystem::Close ), "game.exit", &RootModel::Get() )
     , mExit( false )
+    , mWindow( NULL )
 {
 
 }

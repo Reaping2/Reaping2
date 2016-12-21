@@ -11,9 +11,9 @@ using platform::RootModel;
 
 CtfClientListDisplayingSystem::CtfClientListDisplayingSystem()
     : mCTFModel( "ctf_client_list", &RootModel::Get() )
+    , mSwitchModel( StringFunc( this, &CtfClientListDisplayingSystem::SwitchTeam ), "switch", &mCTFModel )
     , mBlueNamesModel( ( ModelValue::get_string_vec_t ) boost::bind( &CtfClientListDisplayingSystem::BlueNames, this ) , "bluenames", &mCTFModel )
     , mRedNamesModel( ( ModelValue::get_string_vec_t ) boost::bind( &CtfClientListDisplayingSystem::RedNames, this ) , "rednames", &mCTFModel )
-    , mSwitchModel( StringFunc( this, &CtfClientListDisplayingSystem::SwitchTeam ), "switch", &mCTFModel )
 {
     mOnCtfClientDatasChanged = platform::EventServer<network::CtfClientDatasChangedEvent>::Get().Subscribe( boost::bind( &CtfClientListDisplayingSystem::OnCtfClientDatasChanged, this, _1 ) );
 }

@@ -13,6 +13,7 @@ namespace map {
 
 SoldierSpawnTarget::SoldierSpawnTarget(int32_t Id)
     : ITarget( Id )
+    , mCursorId(-1)
     , mActorId( Id )
     , mScene( Scene::Get() )
 {

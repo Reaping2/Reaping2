@@ -18,9 +18,9 @@ struct Timer
 };
 
 Timer::Timer( TimerCallback Callback, double Interval )
-    : mCallback( Callback )
+    : mRemaining( Interval )
     , mInterval( Interval )
-    , mRemaining( Interval )
+    , mCallback( Callback )
 {
     assert( !mCallback.empty() );
     assert( mInterval > 0. );

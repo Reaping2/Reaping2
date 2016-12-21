@@ -189,8 +189,8 @@ void PngLoadData::EndCallback( png_structp PngPtr, png_infop InfoPtr )
 PngLoadData::PngLoadData()
     : mPngPtr( NULL )
     , mInfoPtr( NULL )
-    , mFinished( false )
     , mNeedConversion( false )
+    , mFinished( false )
 {
     mTexture.reset( new detail::TextureImpl );
 }

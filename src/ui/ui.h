@@ -5,14 +5,14 @@
 class Ui : public Singleton<Ui>
 {
     friend class Singleton<Ui>;
+    ModelValue& mUiModel;
+    ModelValue mLoad;
     Root mEmptyRoot;
     Root* mActiveRoot;
     Widget* mLastEnteredWidget;
     typedef boost::ptr_map<std::string, Root> Roots_t;
     Roots_t mRoots;
     Ui();
-    ModelValue& mUiModel;
-    ModelValue mLoad;
     AutoReg mOnPressId;
     AutoReg mOnReleaseId;
     AutoReg mOnMoveId;
