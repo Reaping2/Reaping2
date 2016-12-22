@@ -11,11 +11,11 @@
 namespace network {
 
 ServerSystem::ServerSystem()
-    : mClientId( 0 )
+    : mAddress()
+    , mServer( NULL )
+    , mClientId( 0 )
     , mMessageHolder( MessageHolder::Get() )
     , mSentMessagesSize( 0 )
-    , mServer( NULL )
-    , mAddress()
     , mRunning( false )
     , mThreaded( false )
 {

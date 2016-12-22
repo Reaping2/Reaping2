@@ -10,9 +10,9 @@ namespace engine {
 
 MouseAdapterSystem::MouseAdapterSystem()
     : mScene( Scene::Get() )
-    , mProgramState( core::ProgramState::Get() )
     , mX( 0.0 )
     , mY( 0.0 )
+    , mProgramState( core::ProgramState::Get() )
 {
 }
 

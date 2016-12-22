@@ -54,17 +54,14 @@ void DoDraw( std::vector<glm::vec2> const& Positions,
 {
     size_t CurrentOffset = 0;
     size_t CurrentSize = 0;
-    GLuint CurrentAttribIndex = 0;
     size_t CurSize = Positions.size();
 
     CurrentSize = CurSize * sizeof( glm::vec2 );
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &TexCoords[0] );
-    size_t const TexIndex = CurrentOffset;
     CurrentOffset += CurrentSize;
 
     CurrentSize = CurSize * sizeof( glm::vec2 );
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Positions[0] );
-    size_t const PosIndex = CurrentOffset;
 
     glDrawArrays( GL_TRIANGLE_STRIP, 0, CurSize );
 }

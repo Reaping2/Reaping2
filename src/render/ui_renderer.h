@@ -15,7 +15,7 @@ struct UiVertex
     UiVertex( glm::vec2 const& p, glm::vec2 const& t, glm::vec4 const& c, GLuint tid )
         : Pos( p ), TexCoord( t ), Color( c ), TexId( tid ) {}
     UiVertex( glm::vec2 const& p, glm::vec4 const& c )
-        : Pos( p ), Color( c ), TexCoord( -1. ), TexId( 0xffffffff ) {}
+        : Pos( p ), TexCoord( -1. ), Color( c ), TexId( 0xffffffff ) {}
 };
 typedef std::vector<UiVertex> UiVertices_t;
 typedef std::back_insert_iterator<UiVertices_t> UiVertexInserter_t;

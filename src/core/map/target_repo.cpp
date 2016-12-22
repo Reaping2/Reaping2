@@ -97,6 +97,7 @@ void DefaultTarget::PutTarget( glm::vec2 position )
 
 bool DefaultTarget::Load( const Json::Value& )
 {
+    return true;
 }
 
 } // namespace map

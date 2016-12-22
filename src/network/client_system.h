@@ -15,7 +15,6 @@ namespace network {
 
 class ClientSystem: public engine::System
 {
-    ENetAddress mAddress;
     ENetHost* mClient;
     ENetPeer* mPeer;
 

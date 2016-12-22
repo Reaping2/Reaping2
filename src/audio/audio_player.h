@@ -16,8 +16,6 @@ class AudioPlayer : public Singleton<AudioPlayer>
     PaStreamParameters mOutputParameters;
     PaStream* mStream;
     unsigned long mFramesPerBuffer;
-    float* mPlaybackBuffer;
-    size_t mPlaybackBufferLength;
     boost::thread mPlaybackThread;
     boost::thread mReadThread;
     AutoReg mPhaseChangeId;

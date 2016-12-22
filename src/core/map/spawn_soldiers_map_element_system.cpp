@@ -50,6 +50,7 @@ void SpawnSoldiersMapElementSystem::Update( double DeltaTime )
                     Opt<PlayerControllerComponent>playerCC(Pl->Get<IControllerComponent>());
                     playerCC->SetEnabled( true );
                     playerCC->mActive = true;
+                    // TODO: positionC?
                     auto positionC=(Pl->Get<IPositionComponent>());
                     mScene.SetPlayerModels( Opt<Actor>( Pl.get() ) );
                     mProgramState.mControlledActorGUID = clientData->mClientActorGUID;

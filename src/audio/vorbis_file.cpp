@@ -1,10 +1,10 @@
 #include "i_audio.h"
 
 VorbisFile::VorbisFile( AutoFile File )
-    : mSource( File )
-    , mStatus( St_None )
-    , mVorbisFile()
+    : mVorbisFile()
     , mInfo()
+    , mSource( File )
+    , mStatus( St_None )
 {
 }
 

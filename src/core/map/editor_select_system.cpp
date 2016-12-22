@@ -296,7 +296,6 @@ void EditorSelectSystem::OnGroupSelected( map::GroupSelectedEvent const& Evt )
     {
         return;
     }
-    auto mapSystem = MapSystem::Get();
     if (mSelectState == AddToGroup)
     {
         if (mGroupPreSelectName == Evt.mGroupName
@@ -398,7 +397,7 @@ void EditorSelectSystem::OnRemoveFromAllGroups()
     for (auto actorColor : mSelectedActors)
     {
         int32_t actorId = actorColor.first;
-        int32_t mapElementUID = EditorGroupSystem::RemoveFromAllGroups( actorColor.first );
+        int32_t mapElementUID = EditorGroupSystem::RemoveFromAllGroups( actorId );
         static int32_t spawnID = EditorTargetSystem::Get()->GetNextUID();
         EditorGroupSystem::SetMapElementIdentifier( mapElementUID, spawnID );
     }

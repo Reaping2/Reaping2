@@ -69,15 +69,15 @@ void Widget::AddChild( Widget* Child )
 }
 
 Widget::Widget( int32_t Id )
-    : mTypeId( Id )
-    , mZOrder( 0 )
+    : mZOrder( 0 )
     , mParent( NULL )
     , mNext( NULL )
     , mPrev( NULL )
     , mFirstChild( NULL )
     , mLastChild( NULL )
-    , mDimSet( false )
     , mRelativeDimensions( 0, 0, 1, 1 )
+    , mTypeId( Id )
+    , mDimSet( false )
     , mProperties( this )
 {
     operator()( PT_Highlight ) = 0;
@@ -334,9 +334,9 @@ Widget* Widget::Prop::GetOwner() const
 }
 
 Widget::Prop::Prop( Prop const& Other )
-    : Type( Other.Type )
+    : Value( Other.Value )
+    , Type( Other.Type )
     , mOwner( Other.mOwner )
-    , Value( Other.Value )
 {
     if( Type == T_Str )
     {

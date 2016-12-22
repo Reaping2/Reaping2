@@ -97,7 +97,6 @@ void PathControllerSubSystem::UpdateTarget( Actor& actor, Opt<ITargetHolderCompo
     auto positionC( actor.Get<IPositionComponent>() );
     if (currentTarget.IsValid())
     {
-        auto targetPositionC( currentTarget->Get<IPositionComponent>() );
         double const distance = mPathSystem->GetDistance( actor, *currentTarget );
         L2( "Distance to target: %f\n", distance );
         if (distance > pathCC->GetPeaceDist())

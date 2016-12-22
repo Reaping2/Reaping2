@@ -45,7 +45,6 @@ void PathBoxRenderer::Draw( TextSceneRenderer& textSceneRenderer )
         return;
     }
     //auto positionC( actor->Get<IPositionComponent>() );
-    int32_t boxInd = pathGraph.GetBoxIndex( *actor );
     auto const& nodeDistance = pathSystem->GetNodeDistance( mProgramState.mControlledActorGUID );
     for (int32_t i = 0; i < nodeDistance.size(); ++i)
     {

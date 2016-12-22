@@ -94,7 +94,9 @@ RegistryImpl::RegistryImpl( Registry& owner )
 
 } // namespace detail
 
-Registration::Registration( Registration const& O ) : mData( NULL ), mRegister( NULL )
+Registration::Registration( Registration const& O )
+    : mRegister( NULL )
+    , mData( NULL )
 {
     *this = O;
 }

@@ -19,8 +19,8 @@ RoomPlainPropertyEditorSystem::RoomPlainPropertyEditorSystem()
     : mScene( Scene::Get() )
     , mEditorPropModel( "editor_plain_prop", &RootModel::Get() )
     , mPropNamesModel( (ModelValue::get_string_vec_t) RefTo( mPropNames ), "props", &mEditorPropModel )
-    , mPropSelectedModel( StringFunc( this, &RoomPlainPropertyEditorSystem::OnPropSelected ), "prop_selected", &mEditorPropModel )
     , mPropStatesModel( (ModelValue::get_string_vec_t) RefTo( mPropStates ), "prop_states", &mEditorPropModel )
+    , mPropSelectedModel( StringFunc( this, &RoomPlainPropertyEditorSystem::OnPropSelected ), "prop_selected", &mEditorPropModel )
 {
 }
 
@@ -45,12 +45,6 @@ void RoomPlainPropertyEditorSystem::Init()
 
 void RoomPlainPropertyEditorSystem::Update(double DeltaTime)
 {
-    if (!mEnabled)
-    {
-        return;
-    }
-    static Opt<engine::KeyboardSystem> keyboard = ::engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
-    static Opt<engine::MouseSystem> mouse = ::engine::Engine::Get().GetSystem<MouseSystem>();
 }
 
 void RoomPlainPropertyEditorSystem::OnEditorModeChanged(map::EditorModeChangedEvent const& Evt)
@@ -108,7 +102,6 @@ void RoomPlainPropertyEditorSystem::LoadPropStates()
         return;
     }
     mPropStates.clear();
-    auto& idStorage = IdStorage::Get();
     for (auto idToProp : RoomProperty::Get().GetIdToRoomPropertyMap().left)
     {
         bool hasProp = mRoomDesc->GetPlainProperties().find( idToProp.second ) != mRoomDesc->GetPlainProperties().end();

@@ -16,7 +16,9 @@ namespace map {
 
 CtfSoldierSpawnTarget::CtfSoldierSpawnTarget( int32_t Id )
     : ITarget( Id )
+    , mCursorId( -1 )
     , mActorId( Id )
+    , mTeam( Team::None )
     , mScene( Scene::Get() )
 {
 
