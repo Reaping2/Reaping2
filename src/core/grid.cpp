@@ -3,6 +3,7 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"
+#include <utility>
 
 const uint32_t Grid::Collisions[] =
 {
@@ -52,7 +53,7 @@ PossibleCollisions_t Grid::GetPossibleCollisions()const
             }
         }
     }
-    return PossibleCollisions;
+    return std::move( PossibleCollisions );
 }
 
 void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
@@ -72,6 +73,112 @@ void Grid::Build( glm::vec4 const& Dimensions, float CellSize )
     mDimX = ( size_t )glm::ceil( Width / mCellSize );
     mDimY = ( size_t )glm::ceil( Height / mCellSize );
     mCells.resize( mDimX * mDimY );
+}
+
+namespace {
+
+template <typename T> int sgn(T val)
+{
+        return (T(0) < val) - (val < T(0));
+}
+
+}
+
+std::set<Actor*> Grid::GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask, glm::vec2 const* direction ) const
+{
+    glm::vec4 ActorDim( position.x - radius - mMin.x, position.y - radius - mMin.y,
+            position.x + radius - mMin.x, position.y + radius - mMin.y );
+
+    size_t const Ex = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.z ) / mCellSize );
+    size_t const Ey = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.w ) / mCellSize );
+    size_t const Sx = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.x ) / mCellSize );
+    size_t const Sy = ( size_t )glm::floor( std::max<float>( 0.0f, ActorDim.y ) / mCellSize );
+
+    std::set<Actor*> rv;
+    std::set<int> done;
+
+    int dirx( 0 ), diry( 0 );
+    glm::vec2 transition;
+    if( nullptr != direction && *direction != glm::vec2() )
+    {
+        dirx = sgn( direction->x );
+        diry = sgn( direction->y );
+        transition = glm::vec2( direction->x * dirx, direction->y * diry );
+        auto m = std::max( transition.x, transition.y );
+        if( 0.0 != m )
+        {
+            transition /= m;
+        }
+    }
+
+    double dsx( Sx ), dsy( Sy ), dex( Ex ), dey( Ey );
+    while( dsx >= 0 && dsy >= 0 && dex <= mDimX && dey <= mDimY )
+    {
+        for( size_t y = floor( dsy ), ey = std::min<size_t>( ceil( dey ) + 1, mDimY ); y < ey; ++y )
+        {
+            for( size_t x = floor( dsx ), ex = std::min<size_t>( ceil( dex ) + 1, mDimX ); x < ex; ++x )
+            {
+                if( !done.insert( y * mDimX + x ).second )
+                {
+                    continue;
+                }
+                auto const& cell = mCells[y * mDimX + x];
+                for( size_t j = 0; j < CollisionClass::Num_Classes; ++j )
+                {
+                    if( !( collMask & ( 1 << j ) ) )
+                    {
+                        continue;
+                    }
+                    rv.insert( cell.mActors[j].begin(), cell.mActors[j].end() );
+                }
+            }
+        }
+        if( dirx == 0 && diry == 0 )
+        {
+            break;
+        }
+        dsx += transition.x * dirx;
+        dsy += transition.y * diry;
+        dex += transition.x * dirx;
+        dey += transition.y * diry;
+    }
+
+    return std::move( rv );
+}
+
+std::set<Actor*> Grid::GetAllNearbyActors( Actor const* A ) const
+{
+    std::set<Actor*> rv;
+    Opt<ICollisionComponent> collisionC = A->Get<ICollisionComponent>();
+    if( !collisionC.IsValid() )
+    {
+        return std::move( rv );
+    }
+    int32_t const CC = collisionC->GetCollisionClass();
+    if( !Collisions[CC] )
+    {
+        return std::move( rv );
+    }
+    auto it = mActorInCell.find( A );
+    if( it == mActorInCell.end() )
+    {
+        return std::move( rv );
+    }
+    auto const& cells = it->second;
+    for( auto const& cell : cells )
+    {
+        for( size_t j = 0; j < CollisionClass::Num_Classes; ++j )
+        {
+            if( !( Collisions[CC] & ( 1 << j ) ) )
+            {
+                continue;
+            }
+            auto& actors = cell->mActors[ j ];
+            rv.insert( actors.begin(), actors.end() );
+        }
+    }
+    rv.erase( const_cast<Actor*>( A ) );
+    return std::move( rv );
 }
 
 void Grid::AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC )

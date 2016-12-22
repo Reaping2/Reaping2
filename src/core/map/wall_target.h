@@ -11,12 +11,14 @@ namespace map {
 class WallTarget: public ITarget
 {
 public:
+    WallTarget( int32_t Id );
     WallTarget( int32_t Id, int32_t cursorId, int32_t actorId );
     virtual void Update( double DeltaTime );
     virtual int32_t GetCursorId() const;
     virtual int32_t GetActorId() const;
     virtual void PutTarget( glm::vec2 position );
     virtual void PutTarget( glm::vec2 position, IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders );
+    virtual bool Load( const Json::Value& setters );
 
     void AddBorderLoader( IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders, Opt<SpawnActorMapElement> spawnActor );
 

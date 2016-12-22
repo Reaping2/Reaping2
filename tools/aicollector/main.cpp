@@ -176,8 +176,16 @@ int main( int argc, char** argv)
             {
                 fs::ifstream in(it->path());
                 Json::Value root;
-                in >> root;
-                parseJSON(root, autoids);
+                try
+                {
+                    in >> root;
+                    parseJSON(root, autoids);
+                }
+                catch(std::exception& e)
+                {
+                    std::cerr << "exception caught while parsing "
+                              <<  it->path().filename() << ":" << e.what() << std::endl;
+                }
             }
             else
             {

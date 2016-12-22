@@ -14,6 +14,14 @@
 #include "../i_move_component.h"
 namespace map {
 
+CtfSoldierSpawnTarget::CtfSoldierSpawnTarget( int32_t Id )
+    : ITarget( Id )
+    , mActorId( Id )
+    , mScene( Scene::Get() )
+{
+
+}
+
 CtfSoldierSpawnTarget::CtfSoldierSpawnTarget( int32_t Id, int32_t curosrId, Team::Type team )
     : ITarget( Id )
     , mCursorId( curosrId )
@@ -61,6 +69,37 @@ std::auto_ptr<Actor> CtfSoldierSpawnTarget::GetCursor()
     Opt<IMoveComponent> moveC( player->Get<IMoveComponent>() );
     moveC->SetMoving( false );
     return player;
+}
+
+bool CtfSoldierSpawnTarget::Load( const Json::Value& setters )
+{
+    std::string cursor_id;
+    if( !Json::GetStr(setters["cursor_id"], cursor_id))
+    {
+        L1("Error retrieving 'cursor_id' \n" );
+        return false;
+    }
+    std::string team;
+    if( !Json::GetStr(setters["team"], team))
+    {
+        L1("Error retrieving 'team' \n" );
+        return false;
+    }
+    if ( team == "blue" )
+    {
+        mTeam = Team::Blue;
+    }
+    else if ( team == "red" )
+    {
+        mTeam = Team::Red;
+    }
+    else
+    {
+        L1("Sytnax error. Read %s as team, valid values are 'red' or 'blue'\n", team.c_str() );
+        return false;
+    }
+    mCursorId = AutoId( cursor_id );
+    return true;
 }
 
 } // namespace map

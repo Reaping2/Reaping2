@@ -1,0 +1,9 @@
+{
+    "target_name": "revive_pickup",
+    "name": "grenade_normal_item",
+    "setters":
+    {
+        "type_id": "normal",
+        "content_id": "grenade_normal_item"
+    }
+},

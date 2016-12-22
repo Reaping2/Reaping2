@@ -4,6 +4,7 @@
 
 class EmptyCollisionModel : public CollisionModel
 {
+    bool AreActorsColliding( Object const& Obj1, Object const& Obj2, double Dt ) const;
     bool AreActorsColliding( Actor const& Obj1, Actor const& Obj2, double Dt )const;
 };
 

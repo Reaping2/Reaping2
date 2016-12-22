@@ -4,43 +4,25 @@
 #include "core/i_move_component.h"
 #include "core/i_collision_component.h"
 
-bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double Dt )const
+bool BoxCollisionModel::AreActorsColliding( Object const& ObjA, Object const& ObjB, double Dt )const
 {
-    Opt<ICollisionComponent> const objAcollisionC = ObjA.Get<ICollisionComponent>();
-    Opt<ICollisionComponent> const objBcollisionC = ObjB.Get<ICollisionComponent>();
-    if ( !objAcollisionC.IsValid() || !objBcollisionC.IsValid() )
-    {
-        //TODO: this one should not happen - later
-        //they do not collide, is some of them can't thats for sure
-        return false;
-    }
-    return AreActorsColliding( ObjA, ObjB, objAcollisionC->GetRadius(), objBcollisionC->GetRadius(), Dt );
-
+    return AreActorsColliding_static( ObjA, ObjB, Dt );
 }
 
-bool BoxCollisionModel::AreActorsColliding( Actor const& ObjA, Actor const& ObjB, double radiusA, double radiusB, double Dt )
+bool BoxCollisionModel::AreActorsColliding_static( Object const& ObjA, Object const& ObjB, double Dt )
 {
     // A: (0,0)
-    //TODO: this may change, or will be simplified, because this is kind of ugly, to gat these two positions. Time will tell
-    Opt<IPositionComponent> const objApositionC = ObjA.Get<IPositionComponent>();
-    Opt<IPositionComponent> const objBpositionC = ObjB.Get<IPositionComponent>();
-    glm::vec2 B( objBpositionC->GetX() - objApositionC->GetX(), objBpositionC->GetY() - objApositionC->GetY() );
+    glm::vec2 B( ObjB.position - ObjA.position );
     // BSize: (0,0)
-    glm::vec2 ASize( radiusA + radiusB, radiusA + radiusB );
+    glm::vec2 ASize( ObjA.radius + ObjB.radius, ObjA.radius + ObjB.radius );
     // on point check
     static const float Epsilon = std::numeric_limits<float>::epsilon() * 100;
     if( std::abs( B.x ) + Epsilon < ASize.x && std::abs( B.y ) + Epsilon < ASize.y )
     {
         return true;
     }
-    Opt<IMoveComponent> ObjAmoveC = ObjA.Get<IMoveComponent>();
-    Opt<IMoveComponent> ObjBmoveC = ObjB.Get<IMoveComponent>();
-    float const ObjASpdX = ObjAmoveC.IsValid() ? ObjAmoveC->GetSpeedX() : 0.0f;
-    float const ObjASpdY = ObjAmoveC.IsValid() ? ObjAmoveC->GetSpeedY() : 0.0f;
-    float const ObjBSpdX = ObjBmoveC.IsValid() ? ObjBmoveC->GetSpeedX() : 0.0f;
-    float const ObjBSpdY = ObjBmoveC.IsValid() ? ObjBmoveC->GetSpeedY() : 0.0f;
 
-    glm::vec2 Spd( ObjBSpdX - ObjASpdX, ObjBSpdY - ObjASpdY );
+    glm::vec2 Spd( ObjB.speed - ObjA.speed );
     glm::vec2 T1minusB = ASize - B;
     glm::vec2 T2minusB = -ASize - B;
     glm::vec2 MinTimes( std::numeric_limits<float>::max() );

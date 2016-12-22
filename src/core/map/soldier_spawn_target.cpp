@@ -11,6 +11,14 @@
 #include "../i_move_component.h"
 namespace map {
 
+SoldierSpawnTarget::SoldierSpawnTarget(int32_t Id)
+    : ITarget( Id )
+    , mActorId( Id )
+    , mScene( Scene::Get() )
+{
+
+}
+
 SoldierSpawnTarget::SoldierSpawnTarget( int32_t Id, int32_t curosrId )
     : ITarget( Id )
     , mCursorId( curosrId )
@@ -55,4 +63,15 @@ std::auto_ptr<Actor> SoldierSpawnTarget::GetCursor()
     return player;
 }
 
+bool SoldierSpawnTarget::Load( const Json::Value& setters )
+{
+    std::string cursor_id;
+    if( !Json::GetStr(setters["cursor_id"], cursor_id))
+    {
+        L1("Error retrieving 'cursor_id' \n" );
+        return false;
+    }
+    mCursorId = AutoId( cursor_id );
+    return true;
+}
 } // namespace map

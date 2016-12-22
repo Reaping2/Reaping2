@@ -11,6 +11,13 @@
 #include "../border_component.h"
 namespace map {
 
+WallTarget::WallTarget(int32_t Id)
+    : ITarget( Id )
+    , mScene( Scene::Get() )
+{
+
+}
+
 WallTarget::WallTarget( int32_t Id, int32_t cursorId, int32_t actorId )
     : ITarget( Id )
     , mCursorId( cursorId )
@@ -63,6 +70,25 @@ void WallTarget::PutTarget( glm::vec2 position, IBorderComponent::Borders_t& bor
     spawnActor->SetActorID( EditorTargetSystem::Get()->GetTarget().GetActorId() );
     mapElement->SetIdentifier( EditorTargetSystem::Get()->GetNextUID() );
     MapSystem::Get()->GetMapElementList().insert( Opt<MapElement>( mapElement.release() ) );
+}
+
+bool WallTarget::Load( const Json::Value& setters )
+{
+    std::string cursor_id;
+    if( !Json::GetStr(setters["cursor_id"], cursor_id))
+    {
+        L1("Error retrieving 'cursor_id' \n" );
+        return false;
+    }
+    std::string actor_id;
+    if( !Json::GetStr(setters["actor_id"], actor_id))
+    {
+        L1("Error retrieving 'actor_id' \n" );
+        return false;
+    }
+    mCursorId = AutoId( cursor_id );
+    mActorId = AutoId( actor_id );
+    return true;
 }
 
 void WallTarget::AddPositionLoader( glm::vec2& position, Opt<SpawnActorMapElement> spawnActor )

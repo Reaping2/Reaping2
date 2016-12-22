@@ -5,6 +5,8 @@
 #include "core/box_collision_model.h"
 #include "core/i_collision_component.h"
 #include "core/i_health_component.h"
+#include "core/i_position_component.h"
+#include "core/i_move_component.h"
 #include "explode_on_hit_system.h"
 
 namespace engine {
@@ -57,19 +59,40 @@ void DetonateOnHitSystem::Update( double DeltaTime )
         {
             continue;
         }
+        Opt<IPositionComponent> const positionC = actor->Get<IPositionComponent>();
+        if ( !positionC.IsValid() )
+        {
+            continue;
+        }
+        CollisionModel::Object exploder{ glm::vec2( positionC->GetX(), positionC->GetY() ),
+            glm::vec2(),
+            collisionC->GetRadius() + detonateOnHitC->GetAddRadius() };
+        Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
+        if( moveC.IsValid() )
+        {
+            exploder.speed = glm::vec2( moveC->GetSpeedX(), moveC->GetSpeedY() );
+        }
         for( auto explodeIt : explodeActors )
         {
             Actor& explodeActor = *explodeIt;
             Opt<ICollisionComponent> explodeCollisionC = explodeActor.Get<ICollisionComponent>();
             Opt<IExplodeOnHitComponent> explodeOnHitC = explodeActor.Get<IExplodeOnHitComponent>();
-            if ( !explodeCollisionC.IsValid() || !explodeOnHitC.IsValid() || explodeOnHitC->IsExploded() )
+            Opt<IPositionComponent> explodePositionC = explodeActor.Get<IPositionComponent>();
+            if ( !explodeCollisionC.IsValid() || !explodeOnHitC.IsValid()
+              || explodeOnHitC->IsExploded() || !explodePositionC.IsValid() )
             {
                 continue;
             }
+            CollisionModel::Object explodee{ glm::vec2( explodePositionC->GetX(), explodePositionC->GetY() ),
+                glm::vec2(),
+                explodeCollisionC->GetRadius() + explodeOnHitC->GetAddRadius() };
+            Opt<IMoveComponent> explodeMoveC = explodeActor.Get<IMoveComponent>();
+            if( explodeMoveC.IsValid() )
+            {
+                explodee.speed = glm::vec2( explodeMoveC->GetSpeedX(), explodeMoveC->GetSpeedY() );
+            }
             if ( explodeOnHitC->GetDetonatorMaterial() == detonateOnHitC->GetMaterial() &&
-                 BoxCollisionModel::AreActorsColliding( *actor, explodeActor
-                         , collisionC->GetRadius() + detonateOnHitC->GetAddRadius()
-                         , explodeCollisionC->GetRadius() + explodeOnHitC->GetAddRadius(), DeltaTime ) )
+                 BoxCollisionModel::AreActorsColliding_static( exploder, explodee, DeltaTime ) )
             {
                 explodeOnHitC->SetExploded( true );
                 if( healthC.IsValid() && detonateOnHitC->IsRemoveOnHit() )

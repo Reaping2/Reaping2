@@ -1,0 +1,8 @@
+{
+    "target_name": "soldier_spawn_target",
+    "name": "soldier_spawn",
+    "setters":
+    {
+        "cursor_id": "player"
+    }
+}

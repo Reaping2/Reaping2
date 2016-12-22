@@ -14,6 +14,15 @@
 #include "../i_position_component.h"
 namespace map {
 
+PickupTarget::PickupTarget(int32_t Id)
+    : ITarget( Id )
+    , mCursorId( Id )
+    , mActorId( Id )
+    , mScene( Scene::Get() )
+{
+
+}
+
 PickupTarget::PickupTarget( int32_t Id, int32_t typeId, int32_t contentId )
     : ITarget( Id )
     , mCursorId( Id )
@@ -38,6 +47,11 @@ int32_t PickupTarget::GetCursorId() const
 int32_t PickupTarget::GetActorId() const
 {
     return mActorId;
+}
+
+int32_t PickupTarget::GetTypeId() const
+{
+    return mTypeId;
 }
 
 void PickupTarget::PutTarget( glm::vec2 position )
@@ -78,4 +92,22 @@ std::auto_ptr<Actor> PickupTarget::GetCursor()
     return pickup;
 }
 
+bool PickupTarget::Load( const Json::Value& setters )
+{
+    std::string type_id;
+    if( !Json::GetStr(setters["type_id"], type_id))
+    {
+        L1("Error retrieving 'type_id' \n" );
+        return false;
+    }
+    std::string content_id;
+    if( !Json::GetStr(setters["content_id"], content_id))
+    {
+        L1("Error retrieving 'content_id' \n" );
+        return false;
+    }
+    mTypeId = AutoId( type_id );
+    mContentId = AutoId( content_id );
+    return true;
+}
 } // namespace map
