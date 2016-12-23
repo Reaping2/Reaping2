@@ -385,6 +385,7 @@ actors
 add
 add to existing group
 add to new group
+aggro
 all ends
 all groups
 all spawns
@@ -429,6 +430,7 @@ backgrouns
 bar
 big_background
 biggerClip
+bite
 blocked target:
 blood
 blood2
@@ -503,11 +505,13 @@ cell_entrance_hud
 cells
 center
 change fill
+chillin
 circle
 cloak_buff
 cloak_buff_pickup
 cloak_component
 cloak_normal_item
+closest
 collision_component
 combined
 combiner
@@ -540,13 +544,19 @@ ctf_client_list.bluenames#blueidx
 ctf_client_list.rednames
 ctf_client_list.rednames#redidx
 ctf_client_list.switch
+ctf_flag_spawn_blue
 ctf_flag_spawn_point
+ctf_flag_spawn_red
 ctf_head_color
 ctf_hud
 ctf_player
+ctf_soldier_spawn_blue
 ctf_soldier_spawn_point
+ctf_soldier_spawn_red
+ctf_soldier_spawn_target
 ctf_spawn_flags
 ctf_spawn_soldiers
+current
 death
 decal
 decals
@@ -556,6 +566,9 @@ description
 desert
 detonate_on_hit_component
 diamond
+distance_to_aggressor
+distance_to_players
+do_nothing
 drop_on_death_component
 dummy
 e1
@@ -648,10 +661,12 @@ flag_big
 flag_carrier_component
 flag_collision_component
 flag_receiver_component
+flag_spawn_target
 flash
 flash_normal_item
 font
 fps
+freelance
 freezePickup
 g1
 g10
@@ -760,9 +775,12 @@ ion_gun_alt_projectile
 ion_gun_explode_projectile
 ion_gun_projectile
 ion_secondary
+is_hit
+is_not_hit
 jungle
 kill_score_on_death_component
 laser_pointer_projectile
+last_hit_by
 layers
 leaderboard
 leaderboard.team_blue_death#blue_idx
@@ -803,10 +821,10 @@ map_elements
 map_start
 mapitem
 menu item
-mid
 monkey
 move
 move_component
+move_forward
 move_speed_buff_pickup
 nest_skull
 nest_skull_rip
@@ -1177,9 +1195,11 @@ score.death
 score.kill
 score.score
 score_on_death_component
+scripted_controller_component
 select
 select_game_mode
 select_level
+select_target
 set entrance
 settings
 shadows
@@ -1232,8 +1252,10 @@ soldier_properties
 soldier_properties.ready
 soldier_rip
 soldier_rip1
+soldier_spawn
 soldier_spawn_group
 soldier_spawn_point
+soldier_spawn_target
 soldier_up
 sounds/gatling_down.ogg
 sounds/gatling_loop.ogg
@@ -1291,6 +1313,7 @@ sprite2
 start
 start_nothing
 static_actor_component
+stay
 stone_wall
 stone_wall_bottom
 stone_wall_bottomleft
@@ -1301,6 +1324,7 @@ stone_wall_top
 stone_wall_topleft
 stone_wall_topright
 stop_on_death_component
+strafe
 strongerAmmo
 target
 target:
@@ -1632,6 +1656,7 @@ top
 top_entrance
 topleft
 topright
+turn_to_target
 ui
 ui.load
 vblur
@@ -1753,6 +1778,7 @@ wall_crystals_for_basic_2
 wall_left_border_2
 wall_right_border_2
 wall_small
+wall_target
 wall_top_border_2
 wall_topleft_border
 wall_topright_border

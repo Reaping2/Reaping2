@@ -46,8 +46,8 @@ void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size )
         glBindTexture(GL_TEXTURE_2D, tgt.TexId);
 
         glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, tgt.Size.x, tgt.Size.y, 0,GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glFramebufferTexture2D(GL_FRAMEBUFFER, tgt.Attachment, GL_TEXTURE_2D, tgt.TexId, 0);
 
         glBindRenderbuffer(GL_RENDERBUFFER, tgt.DepthBufferId);
