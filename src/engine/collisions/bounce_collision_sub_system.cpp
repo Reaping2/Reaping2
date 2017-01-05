@@ -110,8 +110,6 @@ void BounceCollisionSubSystem::Collide( Actor& actor, Actor& other )
     const double h = moveC->GetHeading();
     double c = cos( h );
     double s = sin( h );
-    double at = atan2( s, c );
-    double at2 = atan2( c, s );
     if( std::abs( dx ) > std::abs( dy ) )
     {
         c *= -1;

@@ -108,15 +108,13 @@ bool AudioPlayer::IsSampleRateSupported( int32_t Rate ) const
 }
 
 AudioPlayer::AudioPlayer()
-    : mPreferredSampleRate( 44100 )
-    , mFramesPerBuffer( 64 )
-    , mClosing( false )
-    , mNumChannels( 2 )
+    : mNumChannels( 2 )
     , mBuffer( mNumChannels )
+    , mPreferredSampleRate( 44100 )
     , mOutputParameters()
     , mStream( NULL )
-    , mPlaybackBuffer( NULL )
-    , mPlaybackBufferLength( 0 )
+    , mFramesPerBuffer( 64 )
+    , mClosing( false )
 {
     mSupportedSampleRates.push_back( mPreferredSampleRate ); // cd qual only, sry :(
     mPhaseChangeId = EventServer<PhaseChangedEvent>::Get().Subscribe( boost::bind( &AudioPlayer::OnPhaseChangedEvent, this, _1 ) );

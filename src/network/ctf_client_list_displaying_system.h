@@ -10,7 +10,7 @@
 namespace network {
 using platform::ModelValue;
 using platform::AutoReg;
-class CtfClientDatasChangedEvent;
+struct CtfClientDatasChangedEvent;
 
 class CtfClientListDisplayingSystem : public engine::System
 {

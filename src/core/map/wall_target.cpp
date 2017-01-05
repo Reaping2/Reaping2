@@ -13,6 +13,8 @@ namespace map {
 
 WallTarget::WallTarget(int32_t Id)
     : ITarget( Id )
+    , mCursorId( -1 )
+    , mActorId( -1 )
     , mScene( Scene::Get() )
 {
 

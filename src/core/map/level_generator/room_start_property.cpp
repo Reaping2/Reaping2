@@ -60,7 +60,6 @@ void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapEleme
 {
     if (roomDesc.HasProperty( RoomProperty::Start ) || editor)
     {
-        static int32_t componentId = AutoId( "position_component" );
         static Opt<MapSystem> mapSystem = MapSystem::Get();
         int currTargetIndex = 0;
         auto targets = mTargets;
@@ -74,7 +73,7 @@ void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapEleme
                     Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement( targetMapElement );
                     soldierSpawnPointMapElement->SetX( soldierSpawnPointMapElement->GetX() + pos.x );
                     soldierSpawnPointMapElement->SetY( soldierSpawnPointMapElement->GetY() + pos.y );
-                    MapSystem::Get()->GetMapElementList().insert( targetMapElement );
+                    mapSystem->GetMapElementList().insert( targetMapElement );
                 }
                 else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
                 {

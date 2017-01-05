@@ -4,9 +4,9 @@
 
 FixedRatioContainer::FixedRatioContainer( int32_t Id )
     : Widget( Id )
-    , mTargetRatio( 1.0 )
     , mHorizontalAlignment( HorizontalAlignment::Left )
     , mVerticalAlignment( VerticalAlignment::Bottom )
+    , mTargetRatio( 1.0 )
 {
     mWindowResizeId = EventServer<WindowResizeEvent>::Get().Subscribe( boost::bind( &FixedRatioContainer::OnWindowResizeEvent, this, _1 ) );
     int w, h;
@@ -38,7 +38,6 @@ void FixedRatioContainer::UpdateSelfDimensions()
         return;
     }
     const double Mult = mWindowRatio / mTargetRatio;
-    glm::vec4 const& ParentDim = mParent->GetDimensions();
     if( Mult >= 1. )
     {
         mContainedDimensions = glm::vec4( mDimensions.x, mDimensions.y, mDimensions.z / Mult, mDimensions.w );

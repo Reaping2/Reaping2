@@ -24,7 +24,6 @@ void NormalItemSubSystem::Init()
 void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    IInventoryComponent::ItemList_t& items = inventoryC->GetItems();
     Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
     if ( !normalItem.IsValid() )
     {

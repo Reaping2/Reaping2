@@ -46,8 +46,6 @@ void SpawnEditorSystem::Update(double DeltaTime)
     {
         return;
     }
-    static Opt<engine::KeyboardSystem> keyboard = ::engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
-    static Opt<engine::MouseSystem> mouse = ::engine::Engine::Get().GetSystem<MouseSystem>();
     HandleSpace();
 }
 
@@ -94,7 +92,6 @@ void SpawnEditorSystem::OnPropSelected( std::string groupName )
 {
     mTargetName.clear();
     mPropUID = -1;
-    static auto& idStorage = IdStorage::Get();
     try
     {
         mPropUID = std::stoi( groupName.substr( 4 ) );

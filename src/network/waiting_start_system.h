@@ -10,7 +10,7 @@ namespace network {
 using platform::AutoReg;
 using platform::ModelValue;
 
-class LoadClientlistEvent;
+struct LoadClientlistEvent;
 
 class WaitingStartSystem : public engine::System
 {

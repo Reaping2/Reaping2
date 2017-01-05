@@ -65,7 +65,6 @@ void HealthBarRenderer::Draw()
         size_t Start;
         size_t Count;
     };
-    int32_t lastVertexIndex = 0;
 
     for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
     {
@@ -124,7 +123,6 @@ void HealthBarRenderer::Draw()
     {
         return;
     }
-    SceneVertex vertex = Vertices.back();
 
     // todo: check and track changes
     for( SceneVertices_t::const_iterator i = Vertices.begin(), e = Vertices.end(); i != e; ++i )

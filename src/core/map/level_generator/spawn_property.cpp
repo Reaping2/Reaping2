@@ -89,7 +89,6 @@ void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHo
 
 void SpawnProperty::SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targets, MapElementHolder &mMapElementHolder, glm::vec2 &pos )
 {
-    static int32_t componentId = AutoId( "position_component" );
     static Opt<MapSystem> mapSystem = MapSystem::Get();
     int currTargetIndex = 0;
     while (currTargetIndex<targets.size())

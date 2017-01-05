@@ -50,7 +50,6 @@ double PathSystem::GetDirection( Actor& actor, Actor& targetActor ) const
     {
         return 0.0;
     }
-    auto const& nodeDist = targetPathDesc->second.mNodeDistance;
     auto const& actorBoxIndex = mGraph.GetBoxIndex( actor );
     if (actorBoxIndex == -1)
     {
@@ -180,7 +179,6 @@ bool PathSystem::GenerateNodeDistance( Actor& actor )
 
     int32_t currInd = startInd;
     double minLength = 0;
-    bool done = false;
     while (minLength<mMaxLength&&!nodes.empty())
     {
         nodes.erase( currInd );

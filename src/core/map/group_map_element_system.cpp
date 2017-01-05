@@ -19,9 +19,6 @@ void GroupMapElementSystem::Init()
 void GroupMapElementSystem::Update(double DeltaTime)
 {
     MapElementSystem::Update( DeltaTime );
-    for( Opt<GroupMapElement> groupMapElement : MapElementListFilter<MapSystem::All>( mMapSystem->GetMapElementList(), GroupMapElement::GetType_static() ) )
-    {
-    }
 }
 
 

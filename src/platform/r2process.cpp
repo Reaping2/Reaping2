@@ -70,7 +70,6 @@ char* Env[] = { GetPath(), NULL };
 }
 bool Start( std::string const& command, std::vector<std::string> const& arguments )
 {
-    size_t ctr = 0;
     std::vector<char*> args( 1, const_cast<char*>( command.c_str() ) );
     std::transform( arguments.begin(), arguments.end(), std::back_inserter( args ), []( std::string const& a ){ return const_cast<char*>( a.c_str() ); } );
     args.push_back( NULL );

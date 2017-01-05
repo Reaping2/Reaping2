@@ -22,7 +22,7 @@ struct SceneVertex
     SceneVertex( glm::vec2 const& p, glm::vec2 const& t, glm::vec4 const& c, GLuint tid, glm::vec2 rp )
         : Pos( p ), TexCoord( t ), Color( c ), TexId( tid ), RealPos( rp ) {}
     SceneVertex( glm::vec2 const& p, glm::vec4 const& c, glm::vec2 rp )
-        : Pos( p ), Color( c ), TexCoord( -1. ), TexId( 0xffffffff ), RealPos( rp ) {}
+        : Pos( p ), TexCoord( -1. ), Color( c ), TexId( 0xffffffff ), RealPos( rp ) {}
 };
 typedef std::vector<SceneVertex> SceneVertices_t;
 typedef std::back_insert_iterator<SceneVertices_t> SceneVertexInserter_t;

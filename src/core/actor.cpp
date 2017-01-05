@@ -17,8 +17,8 @@ using platform::AutoId;
 
 
 Actor::Actor( int32_t Id )
-    : mId( Id )
-    , ComponentHolder ()
+    : ComponentHolder ()
+    , mId( Id )
 {
     static int32_t NextGuid = 0;
     mGUID = ++NextGuid;

@@ -30,8 +30,8 @@ void Logger::Log( int Level, char const* format, ... )
 }
 
 Logger::Logger()
-    : mDisabledLevels( 0 )
-    , mLogFile()
+    : mLogFile()
+    , mDisabledLevels( 0 )
 {
     std::auto_ptr<File> f( new OsFile( "debug.json" ) );
     if( !f.get() || !f->IsValid() )
@@ -53,7 +53,6 @@ Logger::Logger()
     {
         return;
     }
-    const size_t NumDisabledLogs = DisabledLogs.size();
     for( Json::Value::iterator it = DisabledLogs.begin(), e = DisabledLogs.end(); it != e; ++it )
     {
         Json::Value const& DisLog = *it;

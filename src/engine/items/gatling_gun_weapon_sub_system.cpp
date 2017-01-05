@@ -10,10 +10,10 @@ namespace engine {
 GatlingGunWeaponSubSystem::GatlingGunWeaponSubSystem()
     : SubSystemHolder()
     , mScene( Scene::Get() )
+    , mProgramState( core::ProgramState::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
     , mShotId( AutoId( "gatling_gun_projectile" ) )
-    , mProgramState( core::ProgramState::Get() )
 {
 }
 

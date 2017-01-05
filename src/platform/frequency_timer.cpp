@@ -2,8 +2,8 @@
 namespace platform {
 
 FrequencyTimer::FrequencyTimer()
-    : mFrequency( 0.0 )
-    , mElapsedTime( 0.0 )
+    : mElapsedTime( 0.0 )
+    , mFrequency( 0.0 )
     , mElapsedTicks( 0 )
 {
 }

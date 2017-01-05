@@ -3,13 +3,11 @@
 
 #include "engine/system.h"
 #include "platform/register.h"
-#include "core/ctf_program_state.h"
-#include <vector>
 
 namespace network {
 
-class TeamSwitchRequestEvent;
-class ClientReadyEvent;
+struct TeamSwitchRequestEvent;
+struct ClientReadyEvent;
 
 using platform::AutoReg;
 

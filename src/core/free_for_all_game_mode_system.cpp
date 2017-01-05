@@ -79,22 +79,6 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
         return;
     }
 
-    struct point
-    {
-        double x;
-        double y;
-    };
-    const size_t NumPoints = 18;
-    const point points[NumPoints] =
-    {
-        { -1000, -400},                                      { 0.0, -400},
-        { -1000, -600}, { -800, -600}, { -600, -600},              { 0.0, -600},
-        { -1000, -800},                                      { 0.0, -800},
-        { -1000, -1000},                                        { 0.0, -1000},
-        { -1000, -1200},                                      { 0.0, -1200}, { 200, -1200}, { 400, -1200},
-        { -1000, -1400},            { -600, -1400}, { -400, -1400},  { 0.0, -1400},
-    };
-
     if ( ProgramState::Get().mMode != ProgramState::Local )
     {
         return;
