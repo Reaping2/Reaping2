@@ -4,6 +4,7 @@
 #include <boost/lambda/bind.hpp>
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "platform/game_clock.h"
 
 namespace network {
 
@@ -28,7 +29,7 @@ void PingMessageSenderSystem::Update( double DeltaTime )
     }
     std::auto_ptr<PingMessage> pingMsg( new PingMessage );
     pingMsg->mClientId = mProgramState.mClientId;
-    pingMsg->mCurrentTime = glfwGetTime();
+    pingMsg->mCurrentTime = platform::Clock::Now();
     mMessageHolder.AddOutgoingMessage( pingMsg );
 }
 
@@ -54,7 +55,7 @@ void PingMessageHandlerSubSystem::Execute( Message const& message )
     {
         if ( msg.mClientId == mProgramState.mClientId )
         {
-            mPing = ( glfwGetTime() - msg.mCurrentTime ) * 1000;
+            mPing = ( platform::Clock::Now() - msg.mCurrentTime ) * 1000;
             L2( "current ping: %d\n", mPing );
         }
     }

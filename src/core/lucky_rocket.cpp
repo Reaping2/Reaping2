@@ -1,6 +1,7 @@
 #include "core/lucky_rocket.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "platform/game_clock.h"
 
 LuckyRocket::LuckyRocket( int32_t Id )
     : Weapon( Id )
@@ -14,7 +15,7 @@ LuckyRocket::LuckyRocket()
 
 glm::vec3 LuckyRocket::GetMouseColor() const
 {
-    double t = glfwGetTime();
+    double t = platform::Clock::Now();
     return mReloadTime > 0.0 && mStaticReload == 0.0 ?
            glm::vec3( 1.0, 0.0, 0.0 ) : glm::vec3( sin( t ) * sin( t ) / 2., cos( t ) * cos( t ), 1 - std::abs( sin( t ) ) );
 }

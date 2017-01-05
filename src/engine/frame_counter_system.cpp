@@ -2,6 +2,7 @@
 #include "engine/frame_counter_system.h"
 #include "platform/model_value.h"
 #include "platform/event.h"
+#include "platform/game_clock.h"
 namespace engine {
 
 FrameCounterSystem::FrameCounterSystem()
@@ -16,7 +17,7 @@ FrameCounterSystem::FrameCounterSystem()
 
 void FrameCounterSystem::Init()
 {
-    mStart = glfwGetTime();
+    mStart = platform::Clock::Now();
     mPrev = mStart;
 
 }
@@ -24,7 +25,7 @@ void FrameCounterSystem::Init()
 void FrameCounterSystem::Update( double DeltaTime )
 {
     ++mFrames;
-    double const Now = glfwGetTime();
+    double const Now = platform::Clock::Now();
     double const Diff = Now - mPrev;
     if( Diff >= 2.0 )
     {

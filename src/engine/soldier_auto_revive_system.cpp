@@ -3,6 +3,7 @@
 #include "core/i_health_component.h"
 #include "core/revive_event.h"
 #include "core/player_controller_component.h"
+#include "platform/game_clock.h"
 
 namespace engine {
 
@@ -39,7 +40,7 @@ void SoldierAutoReviveSystem::Update( double DeltaTime )
     if ( mProgramState.mMode != core::ProgramState::Client )
     {
         double secsToRevive = mSoldierAutoReviveMES->GetSecsToRevive();
-        double currTime = glfwGetTime();
+        double currTime = platform::Clock::Now();
         for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )
         {
             core::ClientData& clientData = *i;
