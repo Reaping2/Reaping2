@@ -87,6 +87,7 @@
 .unknown
 .vs
 .windows
+/description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
 /saved.json
@@ -233,7 +234,6 @@ HeadingMessage
 HeadingMessageHandlerSubSystem
 HeadingMessageSenderSystem
 HealOverTimeBuff
-HealOverTimeBuff"),AutoId("MoveSpeedBuff"),AutoId("AccuracyBuff"),AutoId("ArmorBuff"),AutoId("CloakBuff
 HealOverTimeBuffSubSystem
 HealTakenMessage
 HealTakenMessageHandlerSubSystem
@@ -292,6 +292,7 @@ Item-mItem
 ItemChangedMessage
 ItemChangedMessageHandlerSubSystem
 ItemChangedMessageSenderSystem
+Json::Value
 KeyboardAdapterSystem
 KeyboardSystem
 KillScoreMessage
@@ -401,6 +402,7 @@ RotateMessageHandlerSubSystem
 RotateMessageSenderSystem
 RustyReaperWeaponSubSystem
 ScoreOnDeathSystem
+ScriptedControllerSubSystem
 SecsToReviveMessage
 SecsToReviveMessageHandlerSubSystem
 SecsToReviveMessageSenderSystem
@@ -438,6 +440,7 @@ SpawnSoldiersMapElement
 SpawnSoldiersMapElementSystem
 Spr
 State-state
+States_t-states
 StopOnDeathSystem
 SyncItemMessage
 SyncItemMessageHandlerSubSystem
@@ -484,6 +487,8 @@ accuracy_message.h
 accuracy_message_handler_sub_system
 accuracy_message_sender_system
 accuracy_press
+act_factory
+act_factory.h
 action
 action_renderer
 action_renderer.h
@@ -492,6 +497,7 @@ actor
 actor.h
 actor_event.h
 actor_factory.h
+actor_id
 actor_list
 actor_list_message.h
 actor_list_message_handler_sub_system
@@ -501,6 +507,7 @@ actor_visual
 actor_visuals
 actors
 actors_spawned
+acts
 add
 add_actor_radius
 add_item
@@ -586,6 +593,7 @@ boost/date_time/posix_time/ptime.hpp
 boost/function.hpp
 boost/ptr_container/ptr_list.hpp
 boost/ptr_container/ptr_vector.hpp
+boost/ptr_container/serialize_ptr_vector.hpp
 boost/static_assert.hpp
 border
 border_action_renderer
@@ -741,10 +749,13 @@ component
 component.h
 components
 compression.h
-concrete
+condition_factory
+condition_factory.h
+conditions
 connect
 connection_event
 content
+content_id
 controller
 controller.
 controller_adapter_system
@@ -758,6 +769,7 @@ controllers.move_null_zone
 controllers.view_null_zone
 controllers/guard_controller_sub_system.h
 controllers/path_controller_sub_system.h
+controllers/scripted_controller_sub_system.h
 controlmappings.
 core
 core-audible
@@ -973,6 +985,7 @@ core/rotate_component.h
 core/rusty_reaper.h
 core/scene.h
 core/score_on_death_component.h
+core/scripted_controller/scripted_controller_component.h
 core/shot_collision_component.h
 core/shot_event.h
 core/shotgun.h
@@ -1045,6 +1058,7 @@ ctf_soldier_spawn_point_map_elemnt
 ctf_soldier_spawn_red
 ctf_soldier_spawn_system
 ctf_soldier_spawn_system.h
+ctf_soldier_spawn_target
 ctf_soldier_spawn_target.h
 ctf_spawn_flags
 ctf_spawn_flags_map_element
@@ -1056,6 +1070,7 @@ ctf_spawn_soldiers_map_element
 ctf_spawn_soldiers_map_element.h
 ctf_spawn_soldiers_map_element_system
 ctf_spawn_soldiers_map_element_system.h
+cursor_id
 damage
 damage_once
 damage_particles.h
@@ -1080,10 +1095,13 @@ debug.json
 decal_engine.h
 decals
 default
+default_act
 default_action
 default_action_renderer
 default_actor
 default_component
+default_condition
+default_i_target
 default_item
 default_level_generator
 default_message
@@ -1109,6 +1127,7 @@ double-secsToRevive
 drop_on_death_component
 drop_on_death_system
 duration
+duration_variance
 editor
 editor/all_groups
 editor/all_plain_props
@@ -1157,6 +1176,7 @@ editor_system
 editor_system.h
 editor_target_system
 editor_target_system.h
+editor_targets
 editor_visibility
 editor_visibility_system
 editor_visiblity_system.h
@@ -1206,6 +1226,7 @@ engine/controllers/path_controller_sub_system.h
 engine/controllers/player_controller_sub_system.h
 engine/controllers/pointer_target_controller_sub_system.h
 engine/controllers/random_controller_sub_system.h
+engine/controllers/scripted_controller_sub_system.h
 engine/controllers/target_player_controller_sub_system.h
 engine/ctf_soldier_spawn_system.h
 engine/drop_on_death_system.h
@@ -1317,6 +1338,7 @@ flag_receiver_component
 flag_receiver_component.h
 flag_spawn_system
 flag_spawn_system.h
+flag_spawn_target
 flag_spawn_target.h
 flag_state_changed
 flag_state_changed_event
@@ -1329,7 +1351,6 @@ flash_message.h
 flash_message_handler_sub_system
 flash_message_sender_system
 flash_normal_item
-flash_normal_item"),AutoId("grenade_normal_item"),AutoId("cloak_normal_item"),AutoId("blue_grenade_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
 font.h
@@ -1339,10 +1360,13 @@ fps
 frame_counter_system
 free_for_all_game_mode_system
 free_for_all_game_mode_system.h
+freelance
+freelance_act.h
 from
 function_declarations.h
 g
 game.exit
+game_clock.h
 gamemode
 gamemode_selected_event
 gamemode_selected_message
@@ -1380,7 +1404,6 @@ graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
 grass
-grass_tile
 grenade_normal_item
 grenade_normal_item.h
 grenade_normal_item_sub_system
@@ -1413,6 +1436,7 @@ guns
 guntarget
 h
 halign
+has_been_hit
 hat_action_renderer.h
 hblur
 hdouble_room1
@@ -1467,6 +1491,8 @@ i_acceleration_component
 i_acceleration_component.h
 i_accuracy_component
 i_accuracy_component.h
+i_act
+i_act.h
 i_armor_component
 i_armor_component.h
 i_attachable_component
@@ -1486,6 +1512,8 @@ i_cloak_component.h
 i_collision_component
 i_collision_component.h
 i_component
+i_condition
+i_condition.h
 i_controller_component
 i_controller_component.h
 i_detonate_on_hit_component
@@ -1680,11 +1708,6 @@ leave
 left
 leg_move
 level
-level1
-level2
-level3
-level4
-level5
 level_end_component
 level_end_component.h
 level_end_system
@@ -1755,12 +1778,14 @@ map
 map-editorModeChanged
 map-levelGenerated
 map/
+map/"+foldername+"/map_elements.json
 map/editor_brush_system.h
 map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
 map/editor_system.h
 map/editor_target_system.h
 map/level_generator/room_desc.h
+map/map_repo.h
 map/room_editor_system.h
 map_element
 map_element.h
@@ -1771,6 +1796,8 @@ map_element_system
 map_element_system.h
 map_elements
 map_load_event.h
+map_repo
+map_repo.h
 map_start
 map_start_event.h
 map_start_map_element.h
@@ -1951,6 +1978,7 @@ outer_borders
 owner_component
 owner_component.h
 package.h
+params
 particle
 particle.h
 particle_engine.h
@@ -2011,6 +2039,7 @@ platform/export.h
 platform/factory.h
 platform/filesystem.h
 platform/frequency_timer.h
+platform/game_clock.h
 platform/glm_fix.h
 platform/i_platform.h
 platform/id_storage.h
@@ -2206,11 +2235,6 @@ rocket_launcher_weapon_sub_system
 rogue
 rogue_game_mode_system
 rogue_game_mode_system.h
-rogue_grass200
-rogue_wall100
-rogue_wall100_background
-rogue_wall50
-rogue_wall50_background
 room
 room_cell_editor_hud
 room_cell_editor_system
@@ -2277,6 +2301,11 @@ score_on_death_component
 score_on_death_component.h
 score_on_death_system
 score_on_death_system.h
+scripted
+scripted_controller/scripted_controller_component.h
+scripted_controller_component
+scripted_controller_sub_system
+scriptedcontroller
 secs_to_end
 secs_to_end_variance
 secs_to_respawn
@@ -2302,6 +2331,7 @@ set_team
 set_team_message.h
 set_team_message_handler_sub_system
 set_team_message_sender_system
+setters
 settings.h
 settings.json
 setup.log
@@ -2328,7 +2358,6 @@ shot_message.h
 shot_message_handler_sub_system
 shot_message_sender_system
 shotgun
-shotgun"),AutoId("ion_gun
 shotgun.h
 shotgun_alt2_projectile
 shotgun_alt_projectile
@@ -2350,7 +2379,6 @@ simple_room1
 simple_room1.h
 single_message_sender.h
 singleton.h
-skull
 soldier
 soldier_auto_revive
 soldier_auto_revive_map_element
@@ -2381,6 +2409,7 @@ soldier_spawn_point_map_element_system
 soldier_spawn_point_map_element_system.h
 soldier_spawn_system
 soldier_spawn_system.h
+soldier_spawn_target
 soldier_spawn_target.h
 sounds
 sounds/Ping-da-ding-ding-ding.ogg
@@ -2430,6 +2459,9 @@ startid
 startid_base
 startid_step
 state
+state.h
+state_id
+states
 static_actor_component
 static_actor_component.h
 static_init.h
@@ -2440,7 +2472,6 @@ std::string-mode
 std::vector<int32_t>-components
 std::vector<int32_t>-targets
 stdint.h
-stone_wall
 stop_on_death_component
 stop_on_death_component.h
 stop_on_death_system
@@ -2456,10 +2487,13 @@ sync_item_message_sender_system
 system
 system_factory.h
 target
+target_factory
+target_factory.h
 target_holder_component
 target_holder_component.h
 target_holder_system
 target_holder_system.h
+target_name
 target_player_controller_component
 target_player_controller_sub_system
 target_player_controller_sub_system.h
@@ -2515,9 +2549,12 @@ to
 top
 topleft
 topright
+transition.h
+transitions
 trigger.h
 true":"false
 type
+type_id
 ui
 ui.
 ui.h
@@ -2559,6 +2596,7 @@ wall
 wall_collision_component
 wall_collision_sub_system
 wall_small
+wall_target
 wall_target.h
 water
 water_collision_component
