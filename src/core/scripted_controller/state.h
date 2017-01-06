@@ -30,7 +30,7 @@ struct State
     void serialize( Archive& ar, const unsigned int version );
 
 private:
-    void ShuffleActIndices();
+    void ShuffleActIndices( int32_t ind );
     int32_t mIdentifier = -1;
     bool mIsStart = false;
     typedef std::vector<Transition> Transitions_t;
@@ -39,7 +39,8 @@ private:
     typedef std::vector<Acts_t> ActGroups_t;
     ActGroups_t mActGroups;
     typedef std::vector<int32_t> WeightedActIndices_t;
-    WeightedActIndices_t mActIndices;
+    typedef std::vector<WeightedActIndices_t> WeightedActIndicesGroups_t;
+    WeightedActIndicesGroups_t mWeightedActIndicesGroups;
     typedef std::vector<int32_t> CurrentActIndices_t;
     CurrentActIndices_t mCurrActIndices;
     int32_t mNextIdentifier = -1;
@@ -52,7 +53,6 @@ void scriptedcontroller::State::serialize( Archive& ar, const unsigned int versi
     ar & mIsStart;
     ar & mTransitions;
     ar & mActGroups;
-    ar & mActIndices;
 }
 
 } // namespace scriptedcontroller

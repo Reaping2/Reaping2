@@ -79,6 +79,12 @@
         "debug_log_cell_size":300,
         "debug_log_cells":0
     },
+    "item_color":
+    {
+        "normal":"0x2222ffff",
+        "weapon":"0xff0000ff",
+        "buff":"0x00ff00ff"
+    },
     "controlmappings":
     {
         "controller":

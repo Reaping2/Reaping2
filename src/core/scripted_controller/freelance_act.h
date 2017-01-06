@@ -1,11 +1,6 @@
 #ifndef INCLUDED_CORE_SCRIPTED_CONTROLLER_FREELANCE_ACT_H
 #define INCLUDED_CORE_SCRIPTED_CONTROLLER_FREELANCE_ACT_H
 
-#include "core/controller_component.h"
-#include "core/property_loader.h"
-#include "platform/export.h"
-#include <vector>
-#include "core/actor.h"
 #include "i_act.h"
 
 namespace scriptedcontroller

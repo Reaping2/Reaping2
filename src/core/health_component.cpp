@@ -21,6 +21,7 @@ HealthComponent::HealthComponent()
     , mAlive( true )
     , mTimeOfDeath( 0 )
     , mLastDamageOwnerGUID( -1 )
+    , mLastDamageTime( -1.0 )
 {
     mMaxHP.mBase.Init( 100.0, 0.0, 10000.0 );
     mMaxHP.mFlat.Init( 0.0, 0.0, 1000.0 );
@@ -110,6 +111,16 @@ void HealthComponent::SetLastDamageOwnerGUID( int32_t lastDamageOwnerGUID )
 int32_t HealthComponent::GetLastDamageOwnerGUID()const
 {
     return mLastDamageOwnerGUID;
+}
+
+void HealthComponent::SetLastDamageTime( double lastDamageTime )
+{
+    mLastDamageTime = lastDamageTime;
+}
+
+double HealthComponent::GetLastDamageTime() const
+{
+    return mLastDamageTime;
 }
 
 

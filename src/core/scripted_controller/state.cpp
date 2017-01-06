@@ -30,6 +30,12 @@ void State::UpdateTransitions( Actor& actor, double Seconds )
         if (isActInterruptible&&transition.IsConditionsSatisfied())
         {
             mNextIdentifier = transition.GetTargetStateIdentifier();
+            static IdStorage& idStorage = IdStorage::Get();
+            std::string nextState;
+            if (idStorage.GetName( mNextIdentifier, nextState ))
+            {
+                L2( "Transition hit! next state: %s, id: %d \n", nextState.c_str(), mNextIdentifier );
+            }
             break;
         }
     }
@@ -60,8 +66,8 @@ void State::Update( Actor& actor, double Seconds )
             {
                 acts[index].Stop( actor );
             }
-            ShuffleActIndices();
-            index = mActIndices.front(); // guaranteed
+            ShuffleActIndices(i);
+            index = mWeightedActIndicesGroups[i].front(); // guaranteed
             acts[index].Start( actor );
         }
         acts[index].Update( actor, Seconds );
@@ -113,9 +119,11 @@ void State::Load( Json::Value const& setters )
         {
             mActGroups.resize( json.size() );
             mCurrActIndices.resize( json.size(), -1 );
+            mWeightedActIndicesGroups.resize( json.size() );
             for (int i = 0; i < json.size();++i)
             {
                 auto& acts = mActGroups[i];
+                auto& weightedActIndices = mWeightedActIndicesGroups[i];
                 auto const& group = json[i];
                 if (group.isArray())
                 {
@@ -132,7 +140,7 @@ void State::Load( Json::Value const& setters )
                             act->Load( part["params"] );
                             int32_t weight = 1;
                             Json::GetInt( part["weight"], weight );
-                            std::fill_n( std::back_inserter( mActIndices ), weight, acts.size() );
+                            std::fill_n( std::back_inserter( weightedActIndices ), weight, acts.size() );
                             acts.push_back( act );
                         }
                     }
@@ -153,9 +161,9 @@ int32_t State::GetIdentifier() const
     return mIdentifier;
 }
 
-void State::ShuffleActIndices()
+void State::ShuffleActIndices( int32_t ind )
 {
-    std::random_shuffle( mActIndices.begin(), mActIndices.end() );
+    std::random_shuffle( mWeightedActIndicesGroups[ind].begin(), mWeightedActIndicesGroups[ind].end() );
 }
 
 } // namespace scriptedcontroller

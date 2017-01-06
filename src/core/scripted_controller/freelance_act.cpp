@@ -46,6 +46,7 @@ void FreelanceAct::Start( Actor& actor )
 
 void FreelanceAct::Stop( Actor& actor )
 {
+    IAct::Stop( actor );
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     if (!moveC.IsValid())
     {
@@ -54,7 +55,6 @@ void FreelanceAct::Stop( Actor& actor )
     moveC->GetSpeed().mBase.Set( 0.0 );
     moveC->SetMoving( false );
     moveC->SetHeadingModifier( 0.0 );
-    IAct::Stop( actor );
 }
 
 
