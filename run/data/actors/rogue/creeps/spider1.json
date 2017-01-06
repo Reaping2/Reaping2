@@ -8,6 +8,7 @@
             {"name":"renderable_component",
                 "set":[{"layer":"creeps", "cast_shadow":1}]
             },
+            {"name":"target_holder_component"},
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":50}]
             },
@@ -49,17 +50,17 @@
                         "acts":[
                             [
                                 { "name":"bite","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"chill":1.5}},
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":100,"radius":50.0}},
                                 { "name":"do_nothing","weight":1,
-                                    "params":{"duration":4.0,"duration_variance":1.0}}
+                                    "params":{"duration":1.0,"duration_variance":0.5}}
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0} },
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":300.0} },
                                 { "name":"strafe","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0} },
+                                    "params":{"duration":1.0,"duration_variance":1.0,"speed":100.0} },
                                 { "name":"stay","weight":1,
-                                    "params":{"duration":2.0,"duration_variance":1.0}}                                        
+                                    "params":{"duration":1.5,"duration_variance":1.0}}                                        
                             ],
                             [
                                 { "name":"select_target", "weight":1,
@@ -67,7 +68,7 @@
                             ],
                             [
                                 { "name":"turn_to_target","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":2.0}},
+                                    "params":{"duration":4.0,"duration_variance":2.0,"find_path":1}},
                                 { "name":"do_nothing","weight":1,
                                     "params":{"duration":4.0,"duration_variance":2.0}}
                             ]                                

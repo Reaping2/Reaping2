@@ -42,7 +42,7 @@ void DistanceToAggressorCondition::Load( Json::Value const& setters )
     mTimer.SetFrequency( frequency * 1000 );
 
     Json::GetInt( setters["less"], mLessThan );
-    Json::GetInt( setters["greater"], mGreaterThan );
+    Json::GetInt( setters["greater"], mLessThan );
 }
 
 } // namespace scriptedcontroller
