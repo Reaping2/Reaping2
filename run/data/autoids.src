@@ -809,6 +809,7 @@ core/collision_class.h
 core/collision_component.h
 core/collision_model.h
 core/collision_store.h
+core/collision_traits.h
 core/component.h
 core/component_factory.h
 core/component_loader_factory.h
@@ -1438,7 +1439,6 @@ h
 halign
 has_been_hit
 hat_action_renderer.h
-hblur
 hdouble_room1
 hdouble_room1.h
 head
@@ -2575,7 +2575,6 @@ use_shot
 valign
 vao_base.h
 variance
-vblur
 vdouble_room1
 vdouble_room1.h
 version.h

@@ -167,7 +167,7 @@ void RendererSystem::Update( double DeltaTime )
     if( castShadows != 0 )
     {
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
-        uint32_t shadowOutline = 2, shadow_1=4, shadow_2=5;
+        uint32_t shadowOutline = 2, shadow_1=4;
         auto const shadowLevels = getShadowLevels( Scen );
         for( auto shadowLevel : shadowLevels )
         {
@@ -175,27 +175,23 @@ void RendererSystem::Update( double DeltaTime )
             rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() * shadowmult );
             SetupRenderer( mWorldProjector, shadowmult );
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
-
+            // !---- shadows, actually translated, black
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
 
-
-            // !---- rt4 - shadows - with depth
             rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() * shadowmult );
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows", mWorldProjector.GetViewport().Size() * shadowmult );
-            // !---- rt5 - shadows - vblurred
-            rt.SetTargetTexture( shadow_2, mWorldProjector.GetViewport().Size() * shadowmult );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "vblur", mWorldProjector.GetViewport().Size() * shadowmult );
 
+            // !---- receivers
             rt.SelectTargetTexture( world );
             SetupRenderer( mWorldProjector );
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
+            // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
-
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_2 ), "hblur" );
+            // !---- the shadows
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "world_solid_objects" ); // , mWorldProjector.GetViewport().Size() * shadowmult );
         }
     }
     else

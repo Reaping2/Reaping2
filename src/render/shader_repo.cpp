@@ -20,6 +20,10 @@ void ShaderRepo::LoadShaders()
     {
         boost::filesystem::path Path = *i;
         Path = Path.filename();
+        if( Path.string()[0] == '.' )
+        {
+            continue;
+        }
         Path.replace_extension();
         std::string const& ShaderName = Path.string();
         if( !Loaded.insert( ShaderName ).second )
