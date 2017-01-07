@@ -6,6 +6,8 @@
 #include "do_nothing_act.h"
 #include "move_forward_act.h"
 #include "strafe_act.h"
+#include "select_target_act.h"
+#include "turn_to_target_act.h"
 
 using platform::AutoId;
 namespace scriptedcontroller {
@@ -21,6 +23,8 @@ ActFactory::ActFactory()
     Bind( AutoId( "do_nothing" ), &CreateIAct<DoNothingAct> );
     Bind( AutoId( "move_forward" ), &CreateIAct<MoveForwardAct> );
     Bind( AutoId( "strafe" ), &CreateIAct<StrafeAct> );
+    Bind( AutoId( "select_target" ), &CreateIAct<SelectTargetAct> );
+    Bind( AutoId( "turn_to_target" ), &CreateIAct<TurnToTargetAct> );
 }
 
 } // namespace scriptedcontroller

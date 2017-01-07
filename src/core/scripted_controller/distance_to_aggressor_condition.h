@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_AGGRESSOR_CONDITION_H
 
 #include "i_condition.h"
-#include "..\..\platform\frequency_timer.h"
+#include "platform/frequency_timer.h"
 
 namespace scriptedcontroller
 {

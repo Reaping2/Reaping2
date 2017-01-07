@@ -28,6 +28,7 @@
 ../../core/i_health_component.h
 ../../core/i_inventory_component.h
 ../../core/i_position_component.h
+../../engine/collision_system.h
 ../../engine/engine.h
 ../../i_position_component.h
 ../../input/keyboard.h
@@ -56,6 +57,7 @@
 ../i_move_component.h
 ../i_position_component.h
 ../i_renderable_component.h
+../i_target_holder_component.h
 ../i_team_component.h
 ../item_changed_event.h
 ../item_properties_changed_event.h
@@ -69,12 +71,17 @@
 ../pickup_collision_component.h
 ../player_controller_component.h
 ../position_component.h
+../program_state.h
 ../renderable_layer.h
 ../respawn_actor_map_element.h
 ../scene.h
 ../soldier_spawn_point_map_element.h
 ../soldier_spawn_system.h
 ../spawn_actor_map_element.h
+..\..\engine\engine.h
+..\..\engine\path_system.h
+..\i_health_component.h
+..\scene.h
 ./classgenerator
 .base
 .fs
@@ -567,6 +574,8 @@ bar_model.h
 base
 base_input.h
 base_output.h
+bite
+bite_act.h
 blocked_target
 blocked_targets
 blood_particle
@@ -723,6 +732,7 @@ cloak_normal_item_sub_system
 cloak_system
 cloak_system.h
 close_distance
+closest
 code
 collision
 collision_class.h
@@ -809,7 +819,6 @@ core/collision_class.h
 core/collision_component.h
 core/collision_model.h
 core/collision_store.h
-core/collision_traits.h
 core/component.h
 core/component_factory.h
 core/component_loader_factory.h
@@ -1071,6 +1080,7 @@ ctf_spawn_soldiers_map_element
 ctf_spawn_soldiers_map_element.h
 ctf_spawn_soldiers_map_element_system
 ctf_spawn_soldiers_map_element_system.h
+current
 cursor_id
 damage
 damage_once
@@ -1123,7 +1133,11 @@ detonate_on_hit_system
 detonate_on_hit_system.h
 detonator_material
 disabled_logs
+distance_to_aggressor
+distance_to_aggressor_condition.h
 distribution
+do_nothing
+do_nothing_act.h
 double-secsToRevive
 drop_on_death_component
 drop_on_death_system
@@ -1363,6 +1377,7 @@ free_for_all_game_mode_system
 free_for_all_game_mode_system.h
 freelance
 freelance_act.h
+frequency
 from
 function_declarations.h
 g
@@ -1405,6 +1420,7 @@ graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
 grass
+greater
 grenade_normal_item
 grenade_normal_item.h
 grenade_normal_item_sub_system
@@ -1634,6 +1650,8 @@ ion_gun_alt_projectile
 ion_gun_explode_projectile
 ion_gun_projectile
 ion_gun_weapon_sub_system
+is_hit
+is_hit_condition.h
 isclient
 ishost
 item
@@ -1696,6 +1714,7 @@ kill_score_system
 kill_score_system.h
 kvakmama
 laser_pointer_projectile
+last_hit_by
 layer
 layer_selected
 layer_selected_event
@@ -1707,6 +1726,7 @@ leaderboard_system.h
 leave
 left
 leg_move
+less
 level
 level_end_component
 level_end_component.h
@@ -1849,6 +1869,8 @@ mouse_system
 move
 move_component
 move_component.h
+move_forward
+move_forward_act.h
 move_horizontal
 move_message.h
 move_message_handler_sub_system
@@ -1969,6 +1991,7 @@ notify_parent_on_death_component.h
 notify_parent_on_death_system
 notify_parent_on_death_system.h
 opt.h
+order_of_selection
 orientation
 orientation_message.h
 orientation_message_handler_sub_system
@@ -2319,7 +2342,11 @@ seed
 select
 select_game_mode
 select_level
+select_target
+select_target_act.h
 select_weapon
+selection_type
+selection_type.h
 serialize.h
 server_system
 set
@@ -2466,6 +2493,8 @@ static_actor_component
 static_actor_component.h
 static_init.h
 static_reload
+stay
+stay_act.h
 std::string-groupName
 std::string-layerName
 std::string-mode
@@ -2476,6 +2505,8 @@ stop_on_death_component
 stop_on_death_component.h
 stop_on_death_system
 stop_on_death_system.h
+strafe
+strafe_act.h
 style
 styles
 switch
@@ -2553,6 +2584,8 @@ transition.h
 transitions
 trigger.h
 true":"false
+turn_to_target
+turn_to_target_act.h
 type
 type_id
 ui

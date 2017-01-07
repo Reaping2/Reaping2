@@ -19,7 +19,7 @@ ReviveMessageSenderSystem::ReviveMessageSenderSystem()
 void ReviveMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    SetFrequency( 10 );
+    SetFrequency( 0.01 );
 }
 
 void ReviveMessageSenderSystem::Update( double DeltaTime )

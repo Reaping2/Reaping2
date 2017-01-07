@@ -19,7 +19,14 @@ void DistanceToAggressorCondition::Update( Actor& actor, double Seconds )
     if (mTimer.IsTime() && healthC->GetLastDamageOwnerGUID() != -1)
     {
         Opt<Actor> currentTarget( mScene.GetActor( healthC->GetLastDamageOwnerGUID() ) );
-        mDistance = mPathSystem->GetDistance( actor, *currentTarget );
+        if (currentTarget.IsValid())
+        {
+            mDistance = mPathSystem->GetDistance( actor, *currentTarget );
+        }
+        else
+        {
+            mDistance = std::numeric_limits<int32_t>::max();
+        }
     }
 }
 
@@ -32,6 +39,7 @@ void DistanceToAggressorCondition::Reset( Actor& actor )
 {
     mDistance = std::numeric_limits<int32_t>::max();
     mTimer.Reset();
+    mTimer.Update( mTimer.GetFrequency() );
 }
 
 void DistanceToAggressorCondition::Load( Json::Value const& setters )
@@ -39,7 +47,7 @@ void DistanceToAggressorCondition::Load( Json::Value const& setters )
     ICondition::Load( setters );
     double frequency = 0.1;
     Json::GetDouble( setters["frequency"], frequency );
-    mTimer.SetFrequency( frequency * 1000 );
+    mTimer.SetFrequency( frequency );
 
     Json::GetInt( setters["less"], mLessThan );
     Json::GetInt( setters["greater"], mLessThan );

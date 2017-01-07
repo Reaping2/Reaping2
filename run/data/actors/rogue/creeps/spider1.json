@@ -56,21 +56,17 @@
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":300.0} },
-                                { "name":"strafe","weight":2,
-                                    "params":{"duration":1.0,"duration_variance":1.0,"speed":100.0} },
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":500.0} },
                                 { "name":"stay","weight":1,
                                     "params":{"duration":1.5,"duration_variance":1.0}}                                        
                             ],
                             [
                                 { "name":"select_target", "weight":1,
-                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "refresh_rate":1.0} }
+                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "frequency":1.0} }
                             ],
                             [
                                 { "name":"turn_to_target","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":2.0,"find_path":1}},
-                                { "name":"do_nothing","weight":1,
-                                    "params":{"duration":4.0,"duration_variance":2.0}}
+                                    "params":{"duration":0.0,"duration_variance":2.0,"speed":240}}
                             ]                                
                         ]
                     }]

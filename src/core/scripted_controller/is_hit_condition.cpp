@@ -25,7 +25,6 @@ bool IsHitCondition::IsSatisfied() const
 void IsHitCondition::Reset( Actor& actor )
 {
     mIsHit = false;
-    mLastDamageTime = -1.0;
 }
 
 void IsHitCondition::Load( Json::Value const& setters )

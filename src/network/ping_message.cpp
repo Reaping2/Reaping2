@@ -17,7 +17,7 @@ PingMessageSenderSystem::PingMessageSenderSystem()
 void PingMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    SetFrequency( 200 );
+    SetFrequency( 0.2 );
 }
 
 void PingMessageSenderSystem::Update( double DeltaTime )

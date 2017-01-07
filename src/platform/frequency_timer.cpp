@@ -1,4 +1,5 @@
 #include "platform/frequency_timer.h"
+#include "jsonreader.h"
 namespace platform {
 
 FrequencyTimer::FrequencyTimer()
@@ -37,7 +38,20 @@ bool FrequencyTimer::IsTime()
 
 void FrequencyTimer::SetFrequency( double frequency )
 {
-    mFrequency = frequency;
+    mFrequency = frequency * 1000;
+}
+
+
+double FrequencyTimer::GetFrequency() const
+{
+    return mFrequency / 1000.;
+}
+
+void FrequencyTimer::Load( Json::Value const& frequencyValue )
+{
+    double frequency = 1.0;
+    Json::GetDouble( frequencyValue, frequency );
+    SetFrequency( frequency );
 }
 
 void FrequencyTimer::Reset()

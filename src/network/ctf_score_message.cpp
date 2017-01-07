@@ -10,7 +10,7 @@ CtfScoreMessageSenderSystem::CtfScoreMessageSenderSystem()
     : MessageSenderSystem()
     , mCtfProgramState( ::ctf::ProgramState::Get() )
 {
-    SetFrequency( 300 );
+    SetFrequency( 0.3 );
 }
 
 

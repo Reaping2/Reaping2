@@ -13,19 +13,19 @@ HeadingMessageSenderSystem::HeadingMessageSenderSystem()
 void HeadingMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    SetFrequency( 10 );
+    SetFrequency( 0.01 );
     //        mSendHeadings.insert(platform::AutoId("player"));
     if ( mProgramState.mMode == ProgramState::Server )
     {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2target" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1target" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2target" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "grenade_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 100.0, platform::AutoId( "blue_grenade_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.1, platform::AutoId( "grenade_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.1, platform::AutoId( "blue_grenade_projectile" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
     }
     else if ( mProgramState.mMode == ProgramState::Client )
     {
