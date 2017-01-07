@@ -14,7 +14,7 @@ void main()
         alpha = max( alpha, c.w / ( 1.0 * i ) );
         if( alpha > 0.0 )
         {
-            alpha = clamp( e / 2.0 / ( 1. + i ), 0.15, 0.85 );
+            alpha = clamp( e / 2.0 / ( 1. + i ), 0.35, 0.85 );
             break;
         }
     }
