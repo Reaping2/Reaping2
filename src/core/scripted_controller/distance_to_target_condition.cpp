@@ -1,23 +1,24 @@
-#include "distance_to_aggressor_condition.h"
+#include "distance_to_target_condition.h"
 #include "../i_health_component.h"
 #include "../../engine/engine.h"
 #include "../../engine/path_system.h"
 #include "../scene.h"
+#include "../i_target_holder_component.h"
 namespace scriptedcontroller
 {
 
-void DistanceToAggressorCondition::Update( Actor& actor, double Seconds )
+void DistanceToTargetCondition::Update( Actor& actor, double Seconds )
 {
-    auto healthC( actor.Get<IHealthComponent>() );
-    if (!healthC.IsValid())
+    auto targetHolderC( actor.Get<ITargetHolderComponent>() );
+    if (!targetHolderC.IsValid())
     {
         return;
     }
     auto mPathSystem = engine::Engine::Get().GetSystem<engine::path::PathSystem>();
     auto& mScene = Scene::Get();
-    if ((mTimer.IsTime() || mTimer.Update( Seconds )) && healthC->GetLastDamageOwnerGUID() != -1)
+    if (mTimer.IsTime() || mTimer.Update( Seconds ))
     {
-        Opt<Actor> currentTarget( mScene.GetActor( healthC->GetLastDamageOwnerGUID() ) );
+        Opt<Actor> currentTarget( mScene.GetActor( targetHolderC->GetTargetGUID() ) );
         if (currentTarget.IsValid())
         {
             mDistance = mPathSystem->GetDistance( actor, *currentTarget );
@@ -29,19 +30,23 @@ void DistanceToAggressorCondition::Update( Actor& actor, double Seconds )
     }
 }
 
-bool DistanceToAggressorCondition::IsSatisfied() const
+bool DistanceToTargetCondition::IsSatisfied() const
 {
-    return mGreaterThan<=mDistance && mDistance<=mLessThan;
+    if (mGreaterThan <= mDistance && mDistance <= mLessThan)
+    {
+        L1( "distance_to_target satisfied\n" );
+    }
+    return mGreaterThan <= mDistance && mDistance <= mLessThan;
 }
 
-void DistanceToAggressorCondition::Reset( Actor& actor )
+void DistanceToTargetCondition::Reset( Actor& actor )
 {
     mDistance = std::numeric_limits<double>::max();
     mTimer.Reset();
     mTimer.Update( mTimer.GetFrequency() );
 }
 
-void DistanceToAggressorCondition::Load( Json::Value const& setters )
+void DistanceToTargetCondition::Load( Json::Value const& setters )
 {
     ICondition::Load( setters );
     mTimer.Load( setters["frequency"] );

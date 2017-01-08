@@ -569,6 +569,7 @@ detonate_on_hit_component
 diamond
 distance_to_aggressor
 distance_to_players
+distance_to_target
 do_nothing
 drop_on_death_component
 dummy

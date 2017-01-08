@@ -1,5 +1,5 @@
 #include "is_hit_condition.h"
-#include "..\i_health_component.h"
+#include "../i_health_component.h"
 namespace scriptedcontroller
 {
 

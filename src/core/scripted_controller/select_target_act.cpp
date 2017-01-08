@@ -12,9 +12,8 @@ namespace scriptedcontroller
 void SelectTargetAct::Update( Actor& actor, double Seconds )
 {
     IAct::Update( actor, Seconds );
-    mTimer.Update( Seconds );
-    if(!mTimer.IsTime())
-    { 
+    if (!mTimer.IsTime() && !mTimer.Update( Seconds ))
+    {
         return;
     }
     auto targetHolderC( actor.Get<ITargetHolderComponent>() );

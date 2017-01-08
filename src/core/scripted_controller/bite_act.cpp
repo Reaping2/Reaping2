@@ -53,9 +53,7 @@ void BiteAct::Update( Actor& actor, double Seconds )
 void BiteAct::Load( Json::Value const& setters )
 {
     IAct::Load( setters );
-    double frequency = 1.0;
-    Json::GetDouble( setters["frequency"], frequency );
-    mTimer.SetFrequency( frequency );
+    mTimer.Load( setters["frequency"] );
 
     Json::GetDouble( setters["damage"], mDamage );
     Json::GetDouble( setters["radius"], mRadius );

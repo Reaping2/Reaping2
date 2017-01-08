@@ -30,6 +30,7 @@
 ../../core/i_position_component.h
 ../../engine/collision_system.h
 ../../engine/engine.h
+../../engine/path_system.h
 ../../i_position_component.h
 ../../input/keyboard.h
 ../../platform/id_storage.h
@@ -78,10 +79,6 @@
 ../soldier_spawn_point_map_element.h
 ../soldier_spawn_system.h
 ../spawn_actor_map_element.h
-..\..\engine\engine.h
-..\..\engine\path_system.h
-..\i_health_component.h
-..\scene.h
 ./classgenerator
 .base
 .fs
@@ -1135,6 +1132,10 @@ detonator_material
 disabled_logs
 distance_to_aggressor
 distance_to_aggressor_condition.h
+distance_to_players
+distance_to_players_condition.h
+distance_to_target
+distance_to_target_condition.h
 distribution
 do_nothing
 do_nothing_act.h
@@ -1371,6 +1372,7 @@ flash_normal_item_sub_system
 font.h
 font.json
 fontsize
+for
 fps
 frame_counter_system
 free_for_all_game_mode_system
@@ -1652,6 +1654,8 @@ ion_gun_projectile
 ion_gun_weapon_sub_system
 is_hit
 is_hit_condition.h
+is_not_hit
+is_not_hit_condition.h
 isclient
 ishost
 item

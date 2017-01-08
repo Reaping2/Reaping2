@@ -22,12 +22,12 @@
                     "transitions":[{
                         "conditions":
                             [{ "name":"is_hit"},
-                             { "name":"distance_to_aggressor","less":2500 }],
+                             { "name":"distance_to_aggressor","less":1200 }],
                         "state_id":"aggro"
                     },
                     {
                         "conditions":
-                            [{ "name":"distance_to_players","less":1500 }],
+                            [{ "name":"distance_to_players","less":700 }],
                         "state_id":"aggro"
                     }],
                     "acts":[
@@ -43,14 +43,14 @@
                         "start":0,
                         "transitions":[{
                             "conditions":
-                                [{ "name":"is_not_hit","for":10.0 },
-                                 { "name":"distance_to_aggressor","greater":2500 }],
+                                [{ "name":"is_not_hit","for":5.0 },
+                                 { "name":"distance_to_target","greater":1500 }],
                             "state_id":"chillin"
                         }],
                         "acts":[
                             [
                                 { "name":"bite","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":100,"radius":50.0}},
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}},
                                 { "name":"do_nothing","weight":1,
                                     "params":{"duration":1.0,"duration_variance":0.5}}
                             ],

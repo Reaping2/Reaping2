@@ -1,5 +1,5 @@
-#ifndef INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_AGGRESSOR_CONDITION_H
-#define INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_AGGRESSOR_CONDITION_H
+#ifndef INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_TARGET_CONDITION_H
+#define INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_TARGET_CONDITION_H
 
 #include "i_condition.h"
 #include "platform/frequency_timer.h"
@@ -7,10 +7,10 @@
 namespace scriptedcontroller
 {
 
-class DistanceToAggressorCondition : public ICondition
+class DistanceToTargetCondition : public ICondition
 {
 public:
-    DEFINE_CONDITION_BASE( DistanceToAggressorCondition )
+    DEFINE_CONDITION_BASE( DistanceToTargetCondition )
     virtual void Update( Actor& actor, double Seconds );
     virtual bool IsSatisfied() const;
     virtual void Reset( Actor& actor );
@@ -27,7 +27,7 @@ protected:
 };
 
 template<class Archive>
-void DistanceToAggressorCondition::serialize( Archive& ar, const unsigned int version )
+void DistanceToTargetCondition::serialize( Archive& ar, const unsigned int version )
 {
     ar & boost::serialization::base_object<ICondition>( *this );
     ar & mDistance;
@@ -37,4 +37,4 @@ void DistanceToAggressorCondition::serialize( Archive& ar, const unsigned int ve
 
 } // namespace scriptedcontroller
 
-#endif//INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_AGGRESSOR_CONDITION_H
+#endif//INCLUDED_CORE_SCRIPTED_CONTROLLER_DISTANCE_TO_TARGET_CONDITION_H
