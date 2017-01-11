@@ -8,6 +8,7 @@
             {"name":"renderable_component",
                 "set":[{"layer":"creeps", "cast_shadow":1}]
             },
+            {"name":"target_holder_component"},
             {"name":"collision_component",
                 "set":[{"class":"creep", "radius":50}]
             },
@@ -21,12 +22,12 @@
                     "transitions":[{
                         "conditions":
                             [{ "name":"is_hit"},
-                             { "name":"distance_to_aggressor","less":2500 }],
+                             { "name":"distance_to_aggressor","less":1200 }],
                         "state_id":"aggro"
                     },
                     {
                         "conditions":
-                            [{ "name":"distance_to_players","less":1500 }],
+                            [{ "name":"distance_to_players","less":700 }],
                         "state_id":"aggro"
                     }],
                     "acts":[
@@ -42,34 +43,30 @@
                         "start":0,
                         "transitions":[{
                             "conditions":
-                                [{ "name":"is_not_hit","for":10.0 },
-                                 { "name":"distance_to_aggressor","greater":2500 }],
+                                [{ "name":"is_not_hit","for":5.0 },
+                                 { "name":"distance_to_target","greater":1500 }],
                             "state_id":"chillin"
                         }],
                         "acts":[
                             [
                                 { "name":"bite","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"chill":1.5}},
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}},
                                 { "name":"do_nothing","weight":1,
-                                    "params":{"duration":4.0,"duration_variance":1.0}}
+                                    "params":{"duration":1.0,"duration_variance":0.5}}
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0} },
-                                { "name":"strafe","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0} },
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":500.0} },
                                 { "name":"stay","weight":1,
-                                    "params":{"duration":2.0,"duration_variance":1.0}}                                        
+                                    "params":{"duration":1.5,"duration_variance":1.0}}                                        
                             ],
                             [
                                 { "name":"select_target", "weight":1,
-                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "refresh_rate":1.0} }
+                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "frequency":1.0} }
                             ],
                             [
                                 { "name":"turn_to_target","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":2.0}},
-                                { "name":"do_nothing","weight":1,
-                                    "params":{"duration":4.0,"duration_variance":2.0}}
+                                    "params":{"duration":0.0,"duration_variance":2.0,"speed":240}}
                             ]                                
                         ]
                     }]

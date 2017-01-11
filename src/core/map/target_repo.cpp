@@ -29,6 +29,10 @@ void TargetRepo::Init()
     FSys.GetFileNames(paths, "editor_targets" );
     for ( auto const& path : paths )
     {
+        if (path.extension().string() != ".json")
+        {
+            continue;
+        }
         AutoFile JsonFile = FSys.Open( path );
         if ( !JsonFile.get() )
         {

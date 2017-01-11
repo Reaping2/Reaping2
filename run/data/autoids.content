@@ -204,6 +204,7 @@ Pok_anim3
 Pok_anim4
 Pok_anim5
 PortalPickup
+README
 READY
 RapidPickup
 Resume
@@ -568,6 +569,7 @@ detonate_on_hit_component
 diamond
 distance_to_aggressor
 distance_to_players
+distance_to_target
 do_nothing
 drop_on_death_component
 dummy
@@ -1324,7 +1326,6 @@ stone_wall_top
 stone_wall_topleft
 stone_wall_topright
 stop_on_death_component
-strafe
 strongerAmmo
 target
 target:

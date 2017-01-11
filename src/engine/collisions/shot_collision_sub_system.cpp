@@ -7,6 +7,7 @@
 #include "core/i_position_component.h"
 #include "core/i_notify_parent_on_death_component.h"
 #include "core/i_owner_component.h"
+#include "platform/game_clock.h"
 
 namespace engine {
 
@@ -106,6 +107,7 @@ void ShotCollisionSubSystem::TakeDamage( Actor& actor, Actor& target, Opt<ShotCo
         if (ownerC.IsValid())
         {
             otherHealthC->SetLastDamageOwnerGUID( ownerC->GetOwnerGUID() );
+            otherHealthC->SetLastDamageTime( platform::Clock::Now() );
         }
     }
 }

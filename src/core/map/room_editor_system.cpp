@@ -54,7 +54,7 @@ RoomEditorSystem::RoomEditorSystem()
     , mTimer()
     , mAutoSaveOn( false )
 {
-    mTimer.SetFrequency( 25000 );
+    mTimer.SetFrequency( 25 );
 }
 
 void RoomEditorSystem::Init()

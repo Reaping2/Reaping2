@@ -5,6 +5,7 @@
 #include "platform/export.h"
 #include <boost/serialization/serialization.hpp>
 #include <boost/ptr_container/serialize_ptr_map.hpp>
+#include "json/json.h"
 
 namespace platform {
 class FrequencyTimer
@@ -18,6 +19,8 @@ public:
     bool IsTime();
     int32_t GetElapsedTicks();
     void SetFrequency( double frequency );
+    double GetFrequency() const;
+    void Load( Json::Value const& frequencyValue );
     void Reset();
     virtual ~FrequencyTimer();
 public:

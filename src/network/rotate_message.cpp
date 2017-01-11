@@ -19,7 +19,7 @@ RotateMessageSenderSystem::RotateMessageSenderSystem()
 void RotateMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    SetFrequency( 10 );
+    SetFrequency( 0.01 );
     if (mProgramState.mMode == ProgramState::Server)
     {
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "rusty_reaper_alt_projectile" ) ) );

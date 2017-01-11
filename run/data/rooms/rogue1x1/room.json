@@ -1236,7 +1236,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "skull",
+            "actor" : "spider1",
             "components" : [
                {
                   "name" : "position_component",

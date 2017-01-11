@@ -13,7 +13,7 @@ PlayerControllerMessageSenderSystem::PlayerControllerMessageSenderSystem()
 void PlayerControllerMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    SetFrequency( 10 );
+    SetFrequency( 0.01 );
 }
 
 void PlayerControllerMessageSenderSystem::Update( double DeltaTime )

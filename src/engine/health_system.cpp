@@ -11,6 +11,7 @@
 #include "core/heal_taken_event.h"
 #include "core/actor_event.h"
 #include "core/i_audible_component.h"
+#include "platform/game_clock.h"
 
 namespace engine {
 
@@ -82,7 +83,7 @@ void HealthSystem::Update( double DeltaTime )
             {
                 collisionC->SetCollisionClass( CollisionClass::No_Collision );
             }
-            healthC->SetTimeOfDeath( glfwGetTime() );
+            healthC->SetTimeOfDeath( platform::Clock::Now() );
             Scene::Get().ModifyActor( actor, RenderableComponentModifier( RenderableLayer::Corpses, healthC->GetTimeOfDeath(), 0, -1, 1 ) );
             EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( actor ), ActorEvent::Died ) );
         }

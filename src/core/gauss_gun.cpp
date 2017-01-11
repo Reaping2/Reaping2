@@ -4,6 +4,7 @@
 #include "core/i_move_component.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "platform/game_clock.h"
 
 GaussGun::GaussGun( int32_t Id )
     : Weapon( Id )
@@ -23,7 +24,7 @@ glm::vec3 GaussGun::GetMouseColor() const
 {
     if( GetCooldown() <= 0.0 && IsCharging() )
     {
-        double state = std::max( 0.0, std::min( 1.0, ( glfwGetTime() - mCurrentCharge ) / mChargeTime ) );
+        double state = std::max( 0.0, std::min( 1.0, ( platform::Clock::Now() - mCurrentCharge ) / mChargeTime ) );
         return glm::vec3( state, state, 1.0 - state );
     }
     return Weapon::GetMouseColor();
@@ -35,7 +36,7 @@ void GaussGun::StartCharge()
     {
         return;
     }
-    mCurrentCharge = glfwGetTime();
+    mCurrentCharge = platform::Clock::Now();
 }
 
 void GaussGun::EndCharge()
@@ -47,7 +48,7 @@ bool GaussGun::IsShootingAlt() const
 {
     return Weapon::IsShootingAlt() &&
            mCurrentCharge > 0.0 &&
-           glfwGetTime() - mCurrentCharge >= mChargeTime;
+           platform::Clock::Now() - mCurrentCharge >= mChargeTime;
 
 }
 

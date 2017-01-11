@@ -10,6 +10,7 @@
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
+#include "platform/game_clock.h"
 
 namespace {
 typedef std::vector<glm::vec2> Positions_t;
@@ -123,7 +124,7 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( "ui" );
-    ShaderMgr.UploadData( "time", GLfloat( glfwGetTime() ) );
+    ShaderMgr.UploadData( "time", GLfloat( platform::Clock::Now() ) );
     int w, h;
     mWindow->GetWindowSize( w, h );
     ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );

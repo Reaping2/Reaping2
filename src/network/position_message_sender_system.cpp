@@ -14,18 +14,18 @@ PositionMessageSenderSystem::PositionMessageSenderSystem()
 void PositionMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
-    SetFrequency( 10 );
+    SetFrequency( 0.01 );
     //         mSendPositions.insert(platform::AutoId("player"));
     //         mSendPositions.insert(platform::AutoId("spider1"));
     if ( mProgramState.mMode == ProgramState::Server )
     {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 600.0, platform::AutoId( "spider1" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 600.0, platform::AutoId( "spider2" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider1target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "spider2target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 300.0, platform::AutoId( "ctf_player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 1000.0, platform::AutoId( "flag" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.6, platform::AutoId( "spider1" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.6, platform::AutoId( "spider2" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1target" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2target" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "ctf_player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 1.0, platform::AutoId( "flag" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "grenade_projectile" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "blue_grenade_projectile" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "rocket_launcher_target_projectile" ) ) );

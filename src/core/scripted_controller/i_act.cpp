@@ -41,7 +41,7 @@ bool IAct::IsInterruptible()
 
 bool IAct::IsRunning()
 {
-    return mDurationCurrent > 0.0;
+    return mDurationCurrent > 0.0 || mDuration == 0;
 }
 
 

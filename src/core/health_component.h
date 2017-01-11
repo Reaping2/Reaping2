@@ -25,6 +25,8 @@ public:
     void SetHPandMaxHP( int32_t Hp );
     virtual void SetLastDamageOwnerGUID( int32_t lastDamageOwnerGUID );
     virtual int32_t GetLastDamageOwnerGUID()const;
+    virtual void SetLastDamageTime( double lastDamageTime );
+    virtual double GetLastDamageTime() const;
 
     HealthComponent();
     friend class ComponentFactory;
@@ -36,6 +38,7 @@ public:
     double mTimeOfDeath;
     Buffable<int32_t> mMaxHP;
     int32_t mLastDamageOwnerGUID;
+    double mLastDamageTime;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -54,6 +57,7 @@ void HealthComponent::serialize( Archive& ar, const unsigned int version )
     ar& mTimeOfDeath;
     ar& mMaxHP;
     ar& mLastDamageOwnerGUID;
+    ar& mLastDamageTime;
 }
 
 class HealthComponentLoader: public ComponentLoader<HealthComponent>

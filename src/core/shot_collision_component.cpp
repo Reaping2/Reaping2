@@ -116,15 +116,14 @@ void ShotCollisionComponentLoader::BindValues()
     Bind( "damage", func_int32_t( &ShotCollisionComponent::SetDamage ) );
     std::vector<CollisionClass::Type> PassThroughTypes;
     Json::Value const& json = ( *mSetters )["passthrough"];
-    if( !json.isArray() )
+    if( json.isArray() )
     {
-        return;
-    }
-    for( Json::Value::iterator i = json.begin(), e = json.end(); i != e; ++i )
-    {
-        Json::Value& part = *i;
-        CollisionClass::Type typ = CollisionClass::Get()( AutoId( part.asString() ) );
-        PassThroughTypes.push_back( typ );
+        for (Json::Value::iterator i = json.begin(), e = json.end(); i != e; ++i)
+        {
+            Json::Value& part = *i;
+            CollisionClass::Type typ = CollisionClass::Get()(AutoId( part.asString() ));
+            PassThroughTypes.push_back( typ );
+        }
     }
     Bind<std::vector<CollisionClass::Type> >( &ShotCollisionComponent::SetPassThrough, PassThroughTypes );
     Bind( "damage_once", func_bool( &ShotCollisionComponent::SetDamageOnce ) );

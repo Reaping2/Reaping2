@@ -8,6 +8,7 @@
 #include "core/buffs/heal_over_time_buff.h"
 #include "core/buffs/i_buff_holder_component.h"
 #include "core/i_owner_component.h"
+#include "platform/game_clock.h"
 
 namespace engine {
 
@@ -46,6 +47,7 @@ void AoeCollisionSubSystem::Collide( Actor& actor, Actor& other )
             if ( ownerC.IsValid() )
             {
                 otherHealthC->SetLastDamageOwnerGUID( ownerC->GetOwnerGUID() );
+                otherHealthC->SetLastDamageTime( platform::Clock::Now() );
             }
             aoeCC->AddDamagedActorId( other.GetGUID() );
         }

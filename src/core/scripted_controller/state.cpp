@@ -11,15 +11,31 @@ State::State( int32_t Id )
 
 void State::UpdateTransitions( Actor& actor, double Seconds )
 {
-    bool isActInterruptible = mCurrActIndex == -1 
-        || mActs[mCurrActIndex].IsInterruptible() 
-        || !mActs[mCurrActIndex].IsRunning();
+    bool isActInterruptible = true;
+    for (int i = 0; i < mActGroups.size(); ++i)
+    {
+        auto& index = mCurrActIndices[i];
+        auto& acts = mActGroups[i];
+        isActInterruptible |= index == -1
+            || acts[index].IsInterruptible()
+            || !acts[index].IsRunning();
+        if (!isActInterruptible)
+        {
+            break;
+        }
+    }
     for (auto&& transition : mTransitions)
     {
         transition.Update( actor, Seconds );
         if (isActInterruptible&&transition.IsConditionsSatisfied())
         {
             mNextIdentifier = transition.GetTargetStateIdentifier();
+            static IdStorage& idStorage = IdStorage::Get();
+            std::string nextState;
+            if (idStorage.GetName( mNextIdentifier, nextState ))
+            {
+                L2( "Transition hit! next state: %s, id: %d \n", nextState.c_str(), mNextIdentifier );
+            }
             break;
         }
     }
@@ -36,21 +52,27 @@ void State::Update( Actor& actor, double Seconds )
     {
         mNextIdentifier = mIdentifier;
     }
-    if (mActs.empty())
+    for (int i = 0; i < mActGroups.size(); ++i)
     {
-        return;
-    }
-    if (mCurrActIndex == -1 || !mActs[mCurrActIndex].IsRunning())
-    {
-        if (mCurrActIndex != -1)
+        auto& index = mCurrActIndices[i];
+        auto& acts = mActGroups[i];
+        if (acts.empty())
         {
-            mActs[mCurrActIndex].Stop( actor );
+            continue;
         }
-        ShuffleActIndices();
-        mCurrActIndex = *mActIndices.begin(); // guaranteed
-        mActs[mCurrActIndex].Start( actor );
+        if (index == -1 || !acts[index].IsRunning())
+        {
+            if (index != -1)
+            {
+                acts[index].Stop( actor );
+            }
+            ShuffleActIndices(i);
+            index = mWeightedActIndicesGroups[i].front(); // guaranteed
+            acts[index].Start( actor );
+        }
+        acts[index].Update( actor, Seconds );
     }
-    mActs[mCurrActIndex].Update( actor, Seconds );
+
 }
 
 void State::Reset( Actor& actor )
@@ -59,11 +81,16 @@ void State::Reset( Actor& actor )
     {
         transition.Reset( actor );
     }
-    if (mCurrActIndex != -1)
+    for (int i = 0; i < mActGroups.size(); ++i)
     {
-        mActs[mCurrActIndex].Stop( actor );
+        auto& index = mCurrActIndices[i];
+        auto& acts = mActGroups[i];
+        if (index != -1)
+        {
+            acts[index].Stop( actor );
+        }
+        index = -1;
     }
-    mCurrActIndex = -1;
     mNextIdentifier = mIdentifier;
 }
 
@@ -90,10 +117,17 @@ void State::Load( Json::Value const& setters )
         Json::Value const& json = setters["acts"];
         if (json.isArray())
         {
-            for (auto& group : json)
+            mActGroups.resize( json.size() );
+            mCurrActIndices.resize( json.size(), -1 );
+            mWeightedActIndicesGroups.resize( json.size() );
+            for (int i = 0; i < json.size();++i)
             {
+                auto& acts = mActGroups[i];
+                auto& weightedActIndices = mWeightedActIndicesGroups[i];
+                auto const& group = json[i];
                 if (group.isArray())
                 {
+                    acts.reserve( group.size() );
                     for (auto& part : group)
                     {
                         static auto& mActFactory( ActFactory::Get() );
@@ -106,8 +140,8 @@ void State::Load( Json::Value const& setters )
                             act->Load( part["params"] );
                             int32_t weight = 1;
                             Json::GetInt( part["weight"], weight );
-                            std::fill_n( std::back_inserter( mActIndices ), weight, mActs.size() );
-                            mActs.push_back( act );
+                            std::fill_n( std::back_inserter( weightedActIndices ), weight, acts.size() );
+                            acts.push_back( act );
                         }
                     }
                 }
@@ -127,9 +161,9 @@ int32_t State::GetIdentifier() const
     return mIdentifier;
 }
 
-void State::ShuffleActIndices()
+void State::ShuffleActIndices( int32_t ind )
 {
-    std::random_shuffle( mActIndices.begin(), mActIndices.end() );
+    std::random_shuffle( mWeightedActIndicesGroups[ind].begin(), mWeightedActIndicesGroups[ind].end() );
 }
 
 } // namespace scriptedcontroller
