@@ -1,5 +1,5 @@
 set(ZLIB_URL
-        "http://zlib.net/zlib-1.2.8.tar.gz"
+        "http://prdownloads.sourceforge.net/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz"
         CACHE STRING "Location of zlib source package")
 
 ExternalProject_Add(ext_zlib
