@@ -1,12 +1,12 @@
 #include "bite_act.h"
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
-#include "../../engine/collision_system.h"
-#include "../../engine/engine.h"
-#include "../i_collision_component.h"
-#include "../i_health_component.h"
-#include "../scene.h"
-#include "../program_state.h"
+#include "engine/collision_system.h"
+#include "engine/engine.h"
+#include "core/i_collision_component.h"
+#include "core/i_health_component.h"
+#include "core/scene.h"
+#include "core/program_state.h"
 
 namespace scriptedcontroller
 {

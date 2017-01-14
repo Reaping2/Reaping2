@@ -507,7 +507,6 @@ int main( int argc, char* argv[] )
     L1( "client_datas_message type: %d\n", network::ClientDatasMessage::GetType_static() );
     L1( "soldier_properties_message type: %d\n", network::SoldierPropertiesMessage::GetType_static() );
 
-    platform::Clock::Get();
     platform::Clock::Get().UpdateElapsedTime();
 
     while( IsMainRunning )
