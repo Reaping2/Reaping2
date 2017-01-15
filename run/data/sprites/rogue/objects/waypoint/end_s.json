@@ -9,7 +9,7 @@
                 "h" : 200,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
-                "scale" : 0,
+                "scale" : 2.5,
                 "secs_to_end" : 0.55
             }], "name" : "end"
         }]

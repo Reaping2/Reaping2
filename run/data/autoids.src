@@ -499,6 +499,7 @@ action_renderer.h
 action_renderer_factory.h
 actor
 actor.h
+actor_desc
 actor_event.h
 actor_factory.h
 actor_id
@@ -1422,7 +1423,6 @@ graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
 grass
-grass_01.png
 greater
 grenade_normal_item
 grenade_normal_item.h
@@ -2156,6 +2156,7 @@ receive_shadow
 recognizer
 recognizer":"move
 recognizer.h
+recognizer_desc
 recognizer_factory.h
 recognizer_repo.h
 recognizers

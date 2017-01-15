@@ -1864,7 +1864,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1880,7 +1880,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",

@@ -486,6 +486,7 @@ bullet_particle
 bush50
 bush50.png
 bush50_a
+bush50_r
 bush50_s
 bush_50
 button
@@ -582,6 +583,7 @@ dragon_stone100.png
 dragon_stone50
 dragon_stone50.png
 dragon_stone_a
+dragon_stone_r
 dragon_stone_s
 drop_on_death_component
 dummy
@@ -654,7 +656,10 @@ editor_visibility.switch_cells
 effects
 emitter_component
 end
+end_a
 end_group
+end_r
+end_s
 entrance
 entrance target:
 erase layer
@@ -740,6 +745,7 @@ grass200_1
 grass200_2
 grass200_2.png
 grass200_a
+grass200_r
 grass200_s
 grass_tile
 grass_tile_bottom_outer
@@ -779,6 +785,8 @@ guard_plasma_projectile.png
 guard_plasma_projectile_s
 guard_plasma_shot
 guard_plasma_shot_a
+guard_plasma_shot_r
+guard_r
 guard_s
 hblur
 head
@@ -885,6 +893,7 @@ mud100_left_outer_border
 mud100_left_outer_border.png
 mud100_left_outer_border_1.png
 mud100_left_outer_border_2.png
+mud100_r
 mud100_right_border.png
 mud100_right_border_1.png
 mud100_right_border_2.png
@@ -947,6 +956,7 @@ mud50_left_outer_border
 mud50_left_outer_border.png
 mud50_left_outer_border_1.png
 mud50_left_outer_border_2.png
+mud50_r
 mud50_right_border.png
 mud50_right_border_1.png
 mud50_right_border_2.png
@@ -1042,6 +1052,7 @@ ore_wall100_left_outer_border_1
 ore_wall100_left_outer_border_1.png
 ore_wall100_left_outer_border_2
 ore_wall100_left_outer_border_2.png
+ore_wall100_r
 ore_wall100_right_border
 ore_wall100_right_border.png
 ore_wall100_right_border_1
@@ -1134,6 +1145,7 @@ ore_wall50_left_outer_border_1
 ore_wall50_left_outer_border_1.png
 ore_wall50_left_outer_border_2
 ore_wall50_left_outer_border_2.png
+ore_wall50_r
 ore_wall50_right_border
 ore_wall50_right_border.png
 ore_wall50_right_border_1
@@ -1223,7 +1235,9 @@ player.hp
 player.max_hp
 player.special
 player.weapon
+player_a
 player_controller_component
+player_r
 players
 pointer_target_controller_component
 pok2_death
@@ -1245,6 +1259,7 @@ readme
 reaping
 reaping_menu_r2
 reaping_welcome
+recognizer_desc
 recognizers
 recognizers_excludes
 recreate_borders
@@ -1603,6 +1618,7 @@ skull
 skull_a
 skull_move
 skull_move.png
+skull_r
 skull_rip
 skull_rip.png
 skull_s
@@ -1618,7 +1634,6 @@ soldier.points
 soldier.speed
 soldier.speed_press
 soldier3
-soldier_a
 soldier_anim2
 soldier_anim4
 soldier_anim6
@@ -1689,6 +1704,7 @@ spider1_
 spider1_a
 spider1_move
 spider1_move.png
+spider1_r
 spider1_rip
 spider1_rip.png
 spider1_s
@@ -1730,6 +1746,7 @@ stone_wall100_left_border_wall100
 stone_wall100_left_border_wall100.png
 stone_wall100_left_outer_border
 stone_wall100_left_outer_border.png
+stone_wall100_r
 stone_wall100_right_border
 stone_wall100_right_border.png
 stone_wall100_right_border_wall100
@@ -1873,10 +1890,12 @@ top
 top_entrance
 topleft
 topright
-trap_spike
+trap_spike_off
+trap_spike_on
 tree100
 tree100.png
 tree100_a
+tree100_r
 tree100_s
 tree_wall100
 tree_wall100.png
@@ -1894,6 +1913,7 @@ tree_wall100_left_outer_border_1.png
 tree_wall100_left_outer_border_2
 tree_wall100_left_outer_border_hut
 tree_wall100_left_outer_border_hut.png
+tree_wall100_r
 tree_wall100_right_outer_border
 tree_wall100_right_outer_border.png
 tree_wall100_right_outer_border_1
@@ -1971,6 +1991,7 @@ webber_rip1
 wood_block50_a
 wood_block50_left
 wood_block50_left.png
+wood_block50_r
 wood_block50_right
 wood_block50_right.png
 wood_block50_s

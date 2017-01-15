@@ -4749,7 +4749,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4765,7 +4765,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4781,7 +4781,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4797,7 +4797,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4813,7 +4813,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4829,7 +4829,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4845,7 +4845,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4861,7 +4861,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "bush_50",
+            "actor" : "bush50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4877,7 +4877,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "wood_block_50_left",
+            "actor" : "wood_block50_left",
             "components" : [
                {
                   "name" : "position_component",
@@ -4893,7 +4893,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "wood_block_50_right",
+            "actor" : "wood_block50_right",
             "components" : [
                {
                   "name" : "position_component",
