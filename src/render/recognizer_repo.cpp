@@ -106,7 +106,7 @@ void RecognizerRepo::Init()
     {
         return;
     }
-    Json::Value Root = Reader.GetRoot();
+    auto& Root = Reader.GetRoot();
     if( !Root.isArray() )
     {
         return;
