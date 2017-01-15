@@ -16,6 +16,11 @@ bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
     {
         return false;
     }
+    std::string typeStr;
+    if (!Json::GetStr( RecognizerDesc["type"], typeStr ) || typeStr != "recognizer_desc") // mandatory
+    {
+        return true;
+    }
     int32_t actorId = AutoId( actorNameStr );
     Recognizers_t& recognizers = mRecognizersMap[actorId];
 
@@ -90,8 +95,8 @@ bool RecognizerRepo::AddRecognizerExcludesFromOneDesc( Json::Value& RecognizerEx
 
 void RecognizerRepo::Init()
 {
-    Filesys& Fsys( Filesys::Get() );
-    AutoFile F = Fsys.Open( boost::filesystem::path( "recognizers.json" ) );
+    Filesys& FSys( Filesys::Get() );
+    AutoFile F = FSys.Open( boost::filesystem::path( "recognizers.json" ) );
     if( !F.get() || !F->IsValid() )
     {
         return;
@@ -106,16 +111,62 @@ void RecognizerRepo::Init()
     {
         return;
     }
-    for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
+    for( auto& RecognizerDesc : Root )
     {
-        Json::Value& RecognizerDesc = *i;
-        if( !AddRecognizerFromOneDesc( RecognizerDesc ) )
+        try
         {
-            return;
+            if (!AddRecognizerFromOneDesc( RecognizerDesc ))
+            {
+                return;
+            }
+        }
+        catch (std::exception const& err)
+        {
+            L1( "Exception caught while parsing %s", err.what() );
         }
     }
 
-    F = Fsys.Open( boost::filesystem::path( "recognizers_excludes.json" ) );
+    PathVect_t Paths;
+    FSys.GetFileNames( Paths, "actors" );
+    for (auto const& Path : Paths)
+    {
+        if (Path.extension().string() != ".json")
+        {
+            continue;
+        }
+        AutoFile JsonFile = FSys.Open( Path );
+        if (!JsonFile.get())
+        {
+            continue;
+        }
+        JsonReader Reader( *JsonFile );
+        if (!Reader.IsValid())
+        {
+            continue;
+        }
+        Json::Value Root = Reader.GetRoot();
+        if (!Root.isArray())
+        {
+            continue;
+        }
+        for (auto& Desc : Root)
+        {
+            try
+            {
+                if (!AddRecognizerFromOneDesc( Desc ))
+                {
+                    return;
+                }
+            }
+            catch (std::exception const& err)
+            {
+                L1( "Exception caught while parsing %s : %s", Path.generic_string().c_str(), err.what() );
+            }
+        }
+    }
+
+
+    F = FSys.Open( boost::filesystem::path( "recognizers_excludes.json" ) );
     if( !F.get() || !F->IsValid() )
     {
         return;
@@ -130,9 +181,8 @@ void RecognizerRepo::Init()
     {
         return;
     }
-    for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
+    for( auto& RecognizerExcludeDesc : Root)
     {
-        Json::Value& RecognizerExcludeDesc = *i;
         if( !AddRecognizerExcludesFromOneDesc( RecognizerExcludeDesc ) )
         {
             return;
