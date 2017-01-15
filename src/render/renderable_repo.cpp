@@ -8,7 +8,7 @@ RenderableRepo::RenderableRepo()
     Init();
 }
 
-bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables )
+bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables, boost::filesystem::path const& parentPath )
 {
     std::string PathStr;
     Json::Value& ActorVisuals = TexDesc["actor_visuals"];
@@ -20,7 +20,13 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, Element
     {
         return false;
     }
-    int32_t TexId = AutoId( boost::filesystem::path( PathStr ).generic_string() );
+    auto path = boost::filesystem::path( PathStr );
+    if (!path.has_parent_path())
+    {
+        path = parentPath;
+        path.append(PathStr);
+    }
+    int32_t TexId = AutoId( path.generic_string() );
     for( Json::Value::iterator i = ActorVisuals.begin(), e = ActorVisuals.end(); i != e; ++i )
     {
         Json::Value& ActorVisualDesc = *i;
@@ -78,7 +84,7 @@ void RenderableRepo::Init()
         for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
         {
             Json::Value& TexDesc = *i;
-            if( !AddSpritesFromOneTextureDesc( TexDesc, Renderables ) )
+            if( !AddSpritesFromOneTextureDesc( TexDesc, Renderables, Path.parent_path() ) )
             {
                 return;
             }
