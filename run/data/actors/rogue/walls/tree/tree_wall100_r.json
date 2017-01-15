@@ -1,6 +1,6 @@
 [
     {
-        "name":"tree_wall100",
+        "name":"rogue_tree_wall100",
         "recognizers":
         [
             {"recognizer":"idle",

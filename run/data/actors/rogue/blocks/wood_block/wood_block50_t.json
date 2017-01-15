@@ -1,0 +1,22 @@
+[
+    {
+        "target_name":"wall_target",
+        "name":"wood_block50_right",
+        "setters":
+        {
+            "cursor_id": "wood_block50_right",
+            "actor_id": "wood_block50_right"
+        },
+        "type":"target_desc"
+    },
+    {
+        "target_name":"wall_target",
+        "name":"wood_block50_left",
+        "setters":
+        {
+            "cursor_id": "wood_block50_left",
+            "actor_id": "wood_block50_left"
+        },
+        "type":"target_desc"
+    }
+]

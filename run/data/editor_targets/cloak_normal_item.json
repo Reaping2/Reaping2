@@ -1,9 +1,0 @@
-{
-    "target_name": "revive_pickup",
-    "name": "cloak_normal_item",
-    "setters":
-    {
-        "type_id": "normal",
-        "content_id": "cloak_normal_item"
-    }
-}

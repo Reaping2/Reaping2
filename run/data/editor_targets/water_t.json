@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "water" ,
+        "setters":
+        {
+            "cursor_id": "water" ,
+            "actor_id": "water"
+        },
+        "type":"target_desc"
+    }
+]

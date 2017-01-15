@@ -14,17 +14,17 @@
          {
             "identifier" : "g1",
             "name" : "group",
-            "targets" : [ "a1", "a2", "a3", "a4", "a18", "a19", "a20", "a21" ]
+            "targets" : [ "a1", "a18", "a19", "a2", "a20", "a21", "a3", "a4" ]
          },
          {
             "identifier" : "g2",
             "name" : "group",
-            "targets" : [ "a5", "a6", "a7", "a8", "a22", "a23", "a24", "a25" ]
+            "targets" : [ "a22", "a23", "a24", "a25", "a5", "a6", "a7", "a8" ]
          },
          {
             "identifier" : "g3",
             "name" : "group",
-            "targets" : [ "a9", "a10", "a11", "a12", "a26", "a27", "a28", "a29" ]
+            "targets" : [ "a10", "a11", "a12", "a26", "a27", "a28", "a29", "a9" ]
          },
          {
             "identifier" : "g4",
@@ -84,6 +84,11 @@
             "targets" : [ "a35" ]
          },
          {
+            "identifier" : "g10",
+            "name" : "group",
+            "targets" : [ "a36" ]
+         },
+         {
             "actor" : "rogue_ore_wall100",
             "components" : [
                {
@@ -412,6 +417,54 @@
                            "left",
                            "topleft"
                         ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_tree100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 700.0,
+                        "y" : 500.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_tree100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 300.0,
+                        "y" : 100.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "dragon_stone50",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 350.0,
+                        "y" : 650.0
                      }
                   ]
                }
@@ -1237,33 +1290,13 @@
          },
          {
             "actor" : "spider1_",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 566.5240,
-                        "y" : 416.6660
-                     }
-                  ]
-               }
-            ],
+            "components" : [],
             "identifier" : "a34",
             "name" : "spawn_actor"
          },
          {
             "actor" : "spider1_",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 227.0260,
-                        "y" : 418.750
-                     }
-                  ]
-               }
-            ],
+            "components" : [],
             "identifier" : "a35",
             "name" : "spawn_actor"
          },
@@ -1274,19 +1307,14 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 410.3130,
-                        "y" : 256.250
+                        "x" : 400.460,
+                        "y" : 450.0
                      }
                   ]
                }
             ],
-            "identifier" : "a36",
+            "identifier" : "spawn_at_level_generated",
             "name" : "spawn_actor"
-         },
-         {
-            "identifier" : "g10",
-            "name" : "group",
-            "targets" : [ "a36" ]
          }
       ],
       "name" : "rogue1x1",

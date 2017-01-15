@@ -4,7 +4,9 @@
         "components":
         [
             {"name":"position_component"},
-            {"name":"move_component"},
+            {"name":"move_component",
+                "set":[{"speed":400,"moving":0}]
+            },
             {"name":"renderable_component",
                 "set":[{"layer":"creeps", "cast_shadow":1}]
             },

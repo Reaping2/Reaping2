@@ -1,9 +1,0 @@
-{
-    "target_name":"wall_target",
-        "name":"wood_block_50_right",
-        "setters":
-        {
-            "cursor_id": "wood_block_50_right",
-            "actor_id": "wood_block_50_right"
-        }
-}

@@ -1,9 +1,0 @@
-{
-    "target_name": "revive_pickup",
-    "name": "rusty_reaper",
-    "setters":
-    {
-        "type_id": "weapon",
-        "content_id": "rusty_reaper"
-    }
-}

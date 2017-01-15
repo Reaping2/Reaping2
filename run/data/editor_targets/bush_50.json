@@ -1,9 +1,0 @@
-{
-    "target_name":"wall_target",
-        "name":"bush_50",
-        "setters":
-        {
-            "cursor_id": "bush_50",
-            "actor_id": "bush_50"
-        }
-}

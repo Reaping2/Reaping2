@@ -1,6 +1,6 @@
 [
     {
-        "name":"tree100",
+        "name":"rogue_tree100",
         "components":
         [
             {"name":"static_actor_component"},

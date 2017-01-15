@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "rogue_ore_wall50" ,
+        "setters":
+        {
+            "cursor_id": "rogue_ore_wall50" ,
+            "actor_id": "rogue_ore_wall50"
+        },
+        "type":"target_desc"
+    }
+]
