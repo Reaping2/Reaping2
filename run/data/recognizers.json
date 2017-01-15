@@ -486,7 +486,7 @@
 		]
 	},
 	{
-		"name":"rogue_wall100",
+		"name":"rogue_ore_wall100",
 		"recognizers":
 		[
 			{"recognizer":"idle",
@@ -506,7 +506,7 @@
 		]
 	},
 	{
-		"name":"rogue_wall50",
+		"name":"rogue_ore_wall50",
 		"recognizers":
 		[
 			{"recognizer":"idle",

@@ -1,716 +1,716 @@
 [
     {
-        "texture_path":"wall50.png",
+        "texture_path":"ore_wall100.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50"
+            }], "name" : "rogue_ore_wall100"
         }]
     },
     {
-        "texture_path":"wall50_1.png",
+        "texture_path":"ore_wall100_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_1"
+            }], "name" : "rogue_ore_wall100_1"
         }]
     },
     {
-        "texture_path":"wall50_2.png",
+        "texture_path":"ore_wall100_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_2"
+            }], "name" : "rogue_ore_wall100_2"
         }]
     },
     {
-        "texture_path":"wall50_top_border.png",
+        "texture_path":"ore_wall100_top_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_top"
+            }], "name" : "rogue_ore_wall100_top"
         }]
     },
 	{
-        "texture_path":"wall50_top_border_1.png",
+        "texture_path":"ore_wall100_top_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_top_1"
+            }], "name" : "rogue_ore_wall100_top_1"
         }]
     },
 	{
-        "texture_path":"wall50_top_border_2.png",
+        "texture_path":"ore_wall100_top_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_top_2"
+            }], "name" : "rogue_ore_wall100_top_2"
         }]
     },
     {
-        "texture_path":"wall50_right_border.png",
+        "texture_path":"ore_wall100_right_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_right"
+            }], "name" : "rogue_ore_wall100_right"
         }]
     },
 	{
-        "texture_path":"wall50_right_border_1.png",
+        "texture_path":"ore_wall100_right_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_right_1"
+            }], "name" : "rogue_ore_wall100_right_1"
         }]
     },
     {
-        "texture_path":"wall50_right_border_2.png",
+        "texture_path":"ore_wall100_right_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_right_2"
+            }], "name" : "rogue_ore_wall100_right_2"
         }]
     },
     {
-        "texture_path":"wall50_bottom_border.png",
+        "texture_path":"ore_wall100_bottom_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottom"
+            }], "name" : "rogue_ore_wall100_bottom"
         }]
     },
 	{
-        "texture_path":"wall50_bottom_border_1.png",
+        "texture_path":"ore_wall100_bottom_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottom_1"
+            }], "name" : "rogue_ore_wall100_bottom_1"
         }]
     },
 	{
-        "texture_path":"wall50_bottom_border_2.png",
+        "texture_path":"ore_wall100_bottom_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottom_2"
+            }], "name" : "rogue_ore_wall100_bottom_2"
         }]
     },
     {
-        "texture_path":"wall50_left_border.png",
+        "texture_path":"ore_wall100_left_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_left"
+            }], "name" : "rogue_ore_wall100_left"
         }]
     },
 	{
-        "texture_path":"wall50_left_border_1.png",
+        "texture_path":"ore_wall100_left_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_left_1"
+            }], "name" : "rogue_ore_wall100_left_1"
         }]
     },
 	{
-        "texture_path":"wall50_left_border_2.png",
+        "texture_path":"ore_wall100_left_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_left_2"
+            }], "name" : "rogue_ore_wall100_left_2"
         }]
     },
     {
-        "texture_path":"wall50_topright_border.png",
+        "texture_path":"ore_wall100_topright_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topright"
+            }], "name" : "rogue_ore_wall100_topright"
         }]
     },
 	{
-        "texture_path":"wall50_topright_border_1.png",
+        "texture_path":"ore_wall100_topright_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topright_1"
+            }], "name" : "rogue_ore_wall100_topright_1"
         }]
     },
 	{
-        "texture_path":"wall50_topright_border_2.png",
+        "texture_path":"ore_wall100_topright_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topright_2"
+            }], "name" : "rogue_ore_wall100_topright_2"
         }]
     },
     {
-        "texture_path":"wall50_bottomright_border.png",
+        "texture_path":"ore_wall100_bottomright_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomright"
+            }], "name" : "rogue_ore_wall100_bottomright"
         }]
     },
 	{
-        "texture_path":"wall50_bottomright_border_1.png",
+        "texture_path":"ore_wall100_bottomright_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomright_1"
+            }], "name" : "rogue_ore_wall100_bottomright_1"
         }]
     },
 	{
-        "texture_path":"wall50_bottomright_border_2.png",
+        "texture_path":"ore_wall100_bottomright_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomright_2"
+            }], "name" : "rogue_ore_wall100_bottomright_2"
         }]
     },
     {
-        "texture_path":"wall50_bottomleft_border.png",
+        "texture_path":"ore_wall100_bottomleft_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomleft"
+            }], "name" : "rogue_ore_wall100_bottomleft"
         }]
     },
 	{
-        "texture_path":"wall50_bottomleft_border_1.png",
+        "texture_path":"ore_wall100_bottomleft_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomleft_1"
+            }], "name" : "rogue_ore_wall100_bottomleft_1"
         }]
     },
 	{
-        "texture_path":"wall50_bottomleft_border_2.png",
+        "texture_path":"ore_wall100_bottomleft_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomleft_2"
+            }], "name" : "rogue_ore_wall100_bottomleft_2"
         }]
     },
     {
-        "texture_path":"wall50_topleft_border.png",
+        "texture_path":"ore_wall100_topleft_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topleft"
+            }], "name" : "rogue_ore_wall100_topleft"
         }]
     },
 	{
-        "texture_path":"wall50_topleft_border_1.png",
+        "texture_path":"ore_wall100_topleft_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topleft_1"
+            }], "name" : "rogue_ore_wall100_topleft_1"
         }]
     },
 	{
-        "texture_path":"wall50_topleft_border_2.png",
+        "texture_path":"ore_wall100_topleft_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topleft_2"
+            }], "name" : "rogue_ore_wall100_topleft_2"
         }]
     },
     {
-        "texture_path":"wall50_top_outer_border.png",
+        "texture_path":"ore_wall100_top_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_top_outer"
+            }], "name" : "rogue_ore_wall100_top_outer"
         }]
     },
 	{
-        "texture_path":"wall50_top_outer_border_1.png",
+        "texture_path":"ore_wall100_top_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_top_outer_1"
+            }], "name" : "rogue_ore_wall100_top_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_top_outer_border_2.png",
+        "texture_path":"ore_wall100_top_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_top_outer_2"
+            }], "name" : "rogue_ore_wall100_top_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_right_outer_border.png",
+        "texture_path":"ore_wall100_right_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_right_outer"
+            }], "name" : "rogue_ore_wall100_right_outer"
         }]
     },
 	{
-        "texture_path":"wall50_right_outer_border_1.png",
+        "texture_path":"ore_wall100_right_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_right_outer_1"
+            }], "name" : "rogue_ore_wall100_right_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_right_outer_border_2.png",
+        "texture_path":"ore_wall100_right_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_right_outer_2"
+            }], "name" : "rogue_ore_wall100_right_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_bottom_outer_border.png",
+        "texture_path":"ore_wall100_bottom_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottom_outer"
+            }], "name" : "rogue_ore_wall100_bottom_outer"
         }]
     },
 	{
-        "texture_path":"wall50_bottom_outer_border_1.png",
+        "texture_path":"ore_wall100_bottom_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottom_outer_1"
+            }], "name" : "rogue_ore_wall100_bottom_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_bottom_outer_border_2.png",
+        "texture_path":"ore_wall100_bottom_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottom_outer_2"
+            }], "name" : "rogue_ore_wall100_bottom_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_left_outer_border.png",
+        "texture_path":"ore_wall100_left_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_left_outer"
+            }], "name" : "rogue_ore_wall100_left_outer"
         }]
     },
 	{
-        "texture_path":"wall50_left_outer_border_1.png",
+        "texture_path":"ore_wall100_left_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_left_outer_1"
+            }], "name" : "rogue_ore_wall100_left_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_left_outer_border_2.png",
+        "texture_path":"ore_wall100_left_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_left_outer_2"
+            }], "name" : "rogue_ore_wall100_left_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_topright_outer_border.png",
+        "texture_path":"ore_wall100_topright_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topright_outer"
+            }], "name" : "rogue_ore_wall100_topright_outer"
         }]
     },
 	{
-        "texture_path":"wall50_topright_outer_border_1.png",
+        "texture_path":"ore_wall100_topright_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topright_outer_1"
+            }], "name" : "rogue_ore_wall100_topright_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_topright_outer_border_2.png",
+        "texture_path":"ore_wall100_topright_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topright_outer_2"
+            }], "name" : "rogue_ore_wall100_topright_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_bottomright_outer_border.png",
+        "texture_path":"ore_wall100_bottomright_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomright_outer"
+            }], "name" : "rogue_ore_wall100_bottomright_outer"
         }]
     },
 	{
-        "texture_path":"wall50_bottomright_outer_border_1.png",
+        "texture_path":"ore_wall100_bottomright_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomright_outer_1"
+            }], "name" : "rogue_ore_wall100_bottomright_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_bottomright_outer_border_2.png",
+        "texture_path":"ore_wall100_bottomright_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomright_outer_2"
+            }], "name" : "rogue_ore_wall100_bottomright_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_bottomleft_outer_border.png",
+        "texture_path":"ore_wall100_bottomleft_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomleft_outer"
+            }], "name" : "rogue_ore_wall100_bottomleft_outer"
         }]
     },
 	{
-        "texture_path":"wall50_bottomleft_outer_border_1.png",
+        "texture_path":"ore_wall100_bottomleft_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomleft_outer_1"
+            }], "name" : "rogue_ore_wall100_bottomleft_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_bottomleft_outer_border_2.png",
+        "texture_path":"ore_wall100_bottomleft_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_bottomleft_outer_2"
+            }], "name" : "rogue_ore_wall100_bottomleft_outer_2"
         }]
     },
     {
-        "texture_path":"wall50_topleft_outer_border.png",
+        "texture_path":"ore_wall100_topleft_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topleft_outer"
+            }], "name" : "rogue_ore_wall100_topleft_outer"
         }]
     },
 	{
-        "texture_path":"wall50_topleft_outer_border_1.png",
+        "texture_path":"ore_wall100_topleft_outer_border_1.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topleft_outer_1"
+            }], "name" : "rogue_ore_wall100_topleft_outer_1"
         }]
     },
 	{
-        "texture_path":"wall50_topleft_outer_border_2.png",
+        "texture_path":"ore_wall100_topleft_outer_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
             [{
-                "w" : 50,
-                "h" : 50,
+                "w" : 100,
+                "h" : 100,
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
-            }], "name" : "rogue_wall50_topleft_outer_2"
+            }], "name" : "rogue_ore_wall100_topleft_outer_2"
         }]
     }
 ]

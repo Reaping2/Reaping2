@@ -170,7 +170,7 @@
             "targets" : [ "a146", "a147", "a148", "a149", "a150", "a151", "a152" ]
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -195,7 +195,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -220,7 +220,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -245,7 +245,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -270,7 +270,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -295,7 +295,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -320,7 +320,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -345,7 +345,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1371,7 +1371,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1396,7 +1396,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1421,7 +1421,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1446,7 +1446,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1471,7 +1471,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1496,7 +1496,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1521,7 +1521,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1546,7 +1546,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1571,7 +1571,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1596,7 +1596,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1621,7 +1621,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1646,7 +1646,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -1671,7 +1671,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3417,7 +3417,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3442,7 +3442,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3467,7 +3467,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3492,7 +3492,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3517,7 +3517,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3542,7 +3542,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3567,7 +3567,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3592,7 +3592,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3617,7 +3617,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3642,7 +3642,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3667,7 +3667,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3692,7 +3692,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3717,7 +3717,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3742,7 +3742,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3767,7 +3767,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3792,7 +3792,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3817,7 +3817,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3842,7 +3842,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3867,7 +3867,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -3892,7 +3892,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4149,7 +4149,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4174,7 +4174,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4199,7 +4199,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4224,7 +4224,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4249,7 +4249,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4399,7 +4399,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4424,7 +4424,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4449,7 +4449,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4474,7 +4474,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4624,7 +4624,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4649,7 +4649,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4674,7 +4674,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4699,7 +4699,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4824,7 +4824,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4849,7 +4849,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4874,7 +4874,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4899,7 +4899,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -4924,7 +4924,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5074,7 +5074,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5099,7 +5099,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5124,7 +5124,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5149,7 +5149,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5174,7 +5174,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5199,7 +5199,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5224,7 +5224,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5249,7 +5249,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5274,7 +5274,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5299,7 +5299,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5324,7 +5324,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5349,7 +5349,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5374,7 +5374,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5399,7 +5399,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5424,7 +5424,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5449,7 +5449,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5474,7 +5474,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5499,7 +5499,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5524,7 +5524,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5549,7 +5549,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5574,7 +5574,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5599,7 +5599,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5624,7 +5624,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5649,7 +5649,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5674,7 +5674,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5699,7 +5699,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5724,7 +5724,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5749,7 +5749,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5774,7 +5774,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5799,7 +5799,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5824,7 +5824,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5849,7 +5849,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5874,7 +5874,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5899,7 +5899,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5924,7 +5924,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5949,7 +5949,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5974,7 +5974,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -5999,7 +5999,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6024,7 +6024,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6049,7 +6049,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6074,7 +6074,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6099,7 +6099,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6124,7 +6124,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6149,7 +6149,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6174,7 +6174,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6199,7 +6199,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6224,7 +6224,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6249,7 +6249,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6274,7 +6274,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6299,7 +6299,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6324,7 +6324,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6349,7 +6349,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6374,7 +6374,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6399,7 +6399,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6424,7 +6424,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",
@@ -6449,7 +6449,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_wall50",
+            "actor" : "rogue_ore_wall50",
             "components" : [
                {
                   "name" : "position_component",

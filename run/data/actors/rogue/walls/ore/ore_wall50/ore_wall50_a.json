@@ -1,6 +1,6 @@
 [
     {
-        "name":"rogue_wall50",
+        "name":"rogue_ore_wall50",
         "components":
         [
             {"name":"static_actor_component"},

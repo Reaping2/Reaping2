@@ -133,61 +133,48 @@
                   ],
                   "scale" : 2.0,
                   "w" : 30
-               },
-               {
-                  "h" : 90,
-                  "name" : "death",
-                  "phases" : [
-                     {
-                        "x" : 522,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 616,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 710,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 2,
-                        "y" : 776
-                     },
-                     {
-                        "x" : 804,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 898,
-                        "y" : 672
-                     },
-                     {
-                        "x" : 96,
-                        "y" : 776
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 90,
-                  "secs_to_end" : 1 
-               },
-               {
-                  "h" : 90,
-                  "name" : "corpse",
-                  "phases" : [
-                     {
-                        "x" : 96,
-                        "y" : 776
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 90,
-                  "secs_to_end" : 1 
                }
             ],
             "name" : "guard"
          }
       ],
       "texture_path" : "textures/combined.tga"
+    },
+    {
+        "texture_path":"sprites/rogue/player/soldier_rip.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "death",
+                      "phases":[
+                            {"x":0,"y":0},
+                            {"x":90,"y":0},
+                            {"x":180,"y":0},
+                            {"x":270,"y":0},
+                            {"x":360,"y":0},
+                            {"x":450,"y":0},
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0,
+                      "secs_to_end": 0.35
+                    },
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "corpse",
+                      "phases":[
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0
+                   }
+                ]
+            }
+        ]
     }
 ]
