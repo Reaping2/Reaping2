@@ -1,0 +1,1 @@
+Everything nonfunctional, helper image should go here. Like pickup background, a bubble (maybe).

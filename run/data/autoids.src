@@ -1422,6 +1422,7 @@ graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
 grass
+grass_01.png
 greater
 grenade_normal_item
 grenade_normal_item.h
