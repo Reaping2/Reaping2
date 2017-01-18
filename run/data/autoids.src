@@ -1976,6 +1976,7 @@ network/team_switch_request_message.h
 network/waiting_start_system.h
 new_group
 new_prop
+new_room
 next_attack_timer
 next_move_timer
 next_move_timer_variance
@@ -2265,6 +2266,7 @@ rogue
 rogue_game_mode_system
 rogue_game_mode_system.h
 room
+room_base
 room_cell_editor_hud
 room_cell_editor_system
 room_cell_editor_system.h

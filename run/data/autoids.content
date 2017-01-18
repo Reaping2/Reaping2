@@ -183,13 +183,13 @@ IonLoves
 IonPickup
 K:
 Kill
-Level 1
 Level 2
 Level 3
 Level 4
 Level 5
 MoveSpeedBuff
 MoveSpeedBuff_t
+NEW ROOM
 Name
 Nest
 POINTS:
@@ -755,6 +755,7 @@ gauss_secondary
 gauss_shot
 generator
 glow
+grafics_test
 grass
 grass2
 grass200
@@ -856,6 +857,7 @@ level.images#levelidx
 level.names
 level.names#levelidx
 level.select
+level1
 level_generated
 level_generator
 lifecycle.host
@@ -1023,6 +1025,7 @@ new end
 new group
 new spawn
 new start
+new_room1
 no_collision
 normal
 normal_item_background
@@ -1565,11 +1568,13 @@ rogue_tree_wall100_top_outer_2
 rogue_wall100
 room
 room prop
+room_base
 room_cell_editor_hud
 room_editor.levels
 room_editor.levels#levelidx
 room_editor.load
 room_editor.mode
+room_editor.new_room
 room_editor.save
 room_editor.start
 room_editor_base_hud

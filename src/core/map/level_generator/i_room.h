@@ -28,6 +28,10 @@ public:
     Properties_t& GetProperties();
     Opt<IProperty> GetProperty( int32_t propUID );
     void AddProperty( std::auto_ptr<IProperty> prop );
+
+
+    // don't use
+    void _SetRoomDesc( RoomDesc const& roomDesc );
 protected:
     NeighbourCells_t mNeighbourCells;
     RoomDesc mRoomDesc;

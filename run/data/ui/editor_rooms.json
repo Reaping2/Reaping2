@@ -87,9 +87,9 @@
 					"type":"button",
 					"color":"0x22222277",
 					"highlight_color":"0xaaaaaa77",
-					"x":0.8,
+					"x":0.4,
 					"y":0.8,
-					"w":0.1,
+					"w":0.4,
 					"h":0.1,
 					"visible":1,
 					"enabled":1,
@@ -109,7 +109,34 @@
 							"fontsize":5
 						}
 					]
-				}
+				},
+				{
+					"type":"button",
+					"color":"0x22222277",
+					"highlight_color":"0xaaaaaa77",
+					"x":0.8,
+					"y":0.9,
+					"w":0.1,
+					"h":0.1,
+					"visible":1,
+					"enabled":1,
+					"action":[["room_editor.new_room"]],
+					"children":
+					[
+						{
+							"type":"text_widget",
+							"color":"0xaa0000",
+							"x":0.0,
+							"y":0.0,
+							"w":1.0,
+							"h":1.0,
+							"visible":1,
+							"enabled":0,
+							"text":"NEW ROOM",
+							"fontsize":5
+						}
+					]
+				}                
             ]
         }
     ]

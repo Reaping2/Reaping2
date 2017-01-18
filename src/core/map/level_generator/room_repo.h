@@ -22,6 +22,7 @@ class RoomRepo : public platform::Repository<IRoom>, public platform::Singleton<
     void Init();
 public:
     platform::Repository<IRoom>::ElementMap_t const& GetElements();
+    void AddRoom( std::unique_ptr<IRoom> iRoom );
 };
 
 } // namespace map

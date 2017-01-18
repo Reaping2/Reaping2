@@ -83,6 +83,12 @@ void IRoom::AddProperty( std::auto_ptr<IProperty> prop )
     mProperties.push_back( prop );
 }
 
+
+void IRoom::_SetRoomDesc( RoomDesc const& roomDesc )
+{
+    mRoomDesc = roomDesc;
+}
+
 void IRoom::AddNeighbourCell( glm::vec2 pos )
 {
     if (std::find( mNeighbourCells.begin(), mNeighbourCells.end(), pos ) == mNeighbourCells.end()

@@ -23,8 +23,7 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, Element
     auto path = boost::filesystem::path( PathStr );
     if (!path.has_parent_path())
     {
-        path = parentPath;
-        path.append(PathStr);
+        path = parentPath / PathStr;
     }
     int32_t TexId = AutoId( path.generic_string() );
     for( Json::Value::iterator i = ActorVisuals.begin(), e = ActorVisuals.end(); i != e; ++i )
