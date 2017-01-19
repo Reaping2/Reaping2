@@ -1,0 +1,28 @@
+[
+    {
+        "name":"map_start",
+        "identifier":"map_start"
+    },
+    {
+        "name":"soldier_spawn_point",
+        "position":{"x":-550,"y":150}
+    },
+    {
+        "name":"spawn_soldiers",
+        "identifier":"spawn_soldiers"
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":0},
+        "to":{"identifier":"spawn_soldiers","node":0}
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":0},
+        "to":{"identifier":"spawn_at_start","node":0}
+    },
+    {
+        "name":"soldier_auto_revive",
+        "secs_to_revive":4.0
+    }    
+]

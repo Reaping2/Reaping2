@@ -1,0 +1,1 @@
+Objects are interactive objects. Like traps, buttons, chests waypoints, keys etc. Anything with a special functionality.

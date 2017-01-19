@@ -29,7 +29,7 @@ protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 
-    void SitchToModeSelect();
+    void SwitchToModeSelect();
 
 private:
     Scene& mScene;
@@ -39,6 +39,7 @@ private:
     ModelValue mLoadModel;
     ModelValue mModeModel;
     ModelValue mSaveModel;
+    ModelValue mNewRoomModel;
     double mX;
     double mY;
     double const& GetX() const;
@@ -52,6 +53,7 @@ private:
     void Start();
     void Load( std::string const& room );
     void Save();
+    void NewRoom();
     void ModeSelect( std::string const& mode );
 
     std::string mEditorMode;

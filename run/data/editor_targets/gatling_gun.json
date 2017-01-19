@@ -1,9 +1,0 @@
-{
-    "target_name": "revive_pickup",
-    "name": "gatling_gun",
-    "setters":
-    {
-        "type_id": "weapon",
-        "content_id": "gatling_gun"
-    }
-}

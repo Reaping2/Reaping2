@@ -102,9 +102,11 @@
 0x00ff00
 0xffffff00
 :
+:/
 ::network::ctf::ClientDatasMessage
 ::network::ctf::ClientDatasMessageHandlerSubSystem
 ::network::ctf::ClientDatasMessageSenderSystem
+:\\
 =
 AccelerationSystem
 AccuracyBuff
@@ -499,6 +501,7 @@ action_renderer.h
 action_renderer_factory.h
 actor
 actor.h
+actor_desc
 actor_event.h
 actor_factory.h
 actor_id
@@ -1975,6 +1978,7 @@ network/team_switch_request_message.h
 network/waiting_start_system.h
 new_group
 new_prop
+new_room
 next_attack_timer
 next_move_timer
 next_move_timer_variance
@@ -2155,6 +2159,7 @@ receive_shadow
 recognizer
 recognizer":"move
 recognizer.h
+recognizer_desc
 recognizer_factory.h
 recognizer_repo.h
 recognizers
@@ -2263,6 +2268,7 @@ rogue
 rogue_game_mode_system
 rogue_game_mode_system.h
 room
+room_base
 room_cell_editor_hud
 room_cell_editor_system
 room_cell_editor_system.h
@@ -2522,6 +2528,7 @@ sync_item_message_sender_system
 system
 system_factory.h
 target
+target_desc
 target_factory
 target_factory.h
 target_holder_component

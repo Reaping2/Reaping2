@@ -1,6 +1,6 @@
 [
 	{
-		"texture_path":"textures/IonGun.png",
+		"texture_path":":/textures/IonGun.png",
 		"actor_visuals":
 		[
 			{
@@ -19,7 +19,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/IonGun.png",
+		"texture_path":":/textures/IonGun.png",
 		"actor_visuals":
 		[
 			{
@@ -38,7 +38,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/IonPickup.png",
+		"texture_path":":/textures/IonPickup.png",
 		"actor_visuals":
 		[
 			{
@@ -57,7 +57,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/IonLoves.png",
+		"texture_path":":/textures/IonLoves.png",
 		"actor_visuals":
 		[
 			{
@@ -76,7 +76,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/Ion2Loves.png",
+		"texture_path":":/textures/Ion2Loves.png",
 		"actor_visuals":
 		[
 			{

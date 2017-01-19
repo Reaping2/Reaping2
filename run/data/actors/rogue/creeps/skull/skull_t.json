@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "skull" ,
+        "setters":
+        {
+            "cursor_id": "skull" ,
+            "actor_id": "skull"
+        },
+        "type":"target_desc"
+    }
+]

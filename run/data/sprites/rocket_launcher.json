@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/weapon_rocket_launcher.png",
+        "texture_path":":/textures/weapon_rocket_launcher.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/weapon_rocket_launcher.png",
+        "texture_path":":/textures/weapon_rocket_launcher.png",
         "actor_visuals":
         [
             {
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "texture_path":"textures/rocket_launcher_pickup.png",
+        "texture_path":":/textures/rocket_launcher_pickup.png",
         "actor_visuals":
         [
             {
@@ -57,7 +57,7 @@
         ]
     },
     {
-        "texture_path":"textures/rocket_launcher_projectile_new.png",
+        "texture_path":":/textures/rocket_launcher_projectile_new.png",
         "actor_visuals":
         [
             {
@@ -90,7 +90,7 @@
     },
     
     {
-        "texture_path":"textures/weapon_shotgun.png",
+        "texture_path":":/textures/weapon_shotgun.png",
         "actor_visuals":
         [
             {
@@ -109,7 +109,7 @@
         ]
     },
     {
-        "texture_path":"textures/weapon_shotgun.png",
+        "texture_path":":/textures/weapon_shotgun.png",
         "actor_visuals":
         [
             {
@@ -128,7 +128,7 @@
         ]
     },
     {
-        "texture_path":"textures/ShotgunPickup.png",
+        "texture_path":":/textures/ShotgunPickup.png",
         "actor_visuals":
         [
             {
@@ -147,7 +147,7 @@
         ]
     },
     {
-        "texture_path":"textures/PistolLoves.png",
+        "texture_path":":/textures/PistolLoves.png",
         "actor_visuals":
         [
             {
@@ -166,7 +166,7 @@
         ]
     },
     {
-        "texture_path":"textures/PistolLoves.png",
+        "texture_path":":/textures/PistolLoves.png",
         "actor_visuals":
         [
             {
@@ -185,7 +185,7 @@
         ]
     },
     {
-        "texture_path":"textures/face.png",
+        "texture_path":":/textures/face.png",
         "actor_visuals":
         [
             {

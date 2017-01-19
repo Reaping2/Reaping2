@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target",
+        "name": "end",
+        "setters":
+        {
+            "cursor_id": "end",
+            "actor_id": "end"
+        },
+        "type":"target_desc"
+    }
+]

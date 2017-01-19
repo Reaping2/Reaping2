@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":":/textures/gauss_gun_player.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"gauss_gun",
+                        "w":30,
+                        "h":17,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]

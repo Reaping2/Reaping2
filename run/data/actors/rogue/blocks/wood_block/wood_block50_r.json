@@ -1,0 +1,20 @@
+[
+    {
+        "name":"wood_block50_left",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"wood_block50_right",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

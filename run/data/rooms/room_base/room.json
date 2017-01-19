@@ -1,0 +1,27 @@
+[
+   {
+      "cell_count" : 1,
+      "cell_size" : 800,
+      "cells" : [
+         {
+            "entrances" : [ "top", "right", "bottom", "left" ],
+            "name" : "cell",
+            "x" : 0.0,
+            "y" : 0.0
+         }
+      ],
+      "map_elements" : [
+        {
+        }
+      ],
+      "name" : "room_base",
+      "plain_properties" : [ "start", "end" ],
+      "properties" : [
+         {
+            "chance" : 100,
+            "name" : "spawn",
+            "targets" : [ "spawn_at_level_generated" ]
+         }
+      ]
+   }
+]

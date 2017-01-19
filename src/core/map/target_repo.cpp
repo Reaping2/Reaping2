@@ -45,40 +45,89 @@ void TargetRepo::Init()
             L1("Invalid JSON file: %s\n", path.string().c_str());
             continue;
         }
-        Json::Value Root = Reader.GetRoot();
-        if (!Root.isObject())
+        auto& Root = Reader.GetRoot();
+        if (!Root.isArray())
         {
-            L1("%s does not contian JSON object as root element", path.string().c_str());
+            L1("%s does not contain JSON array as root element", path.string().c_str());
             continue;
         }
 
         // initialize target from the JSON file
-        try
+        for (auto& Desc : Root)
         {
-            std::string target_name;
-            if (!Json::GetStr(Root["target_name"], target_name ))
+            try
             {
-                continue;
+                AddTargetFromOneDesc( Desc );
             }
-            std::string name;
-            if (!Json::GetStr(Root["name"], name ))
+            catch (const std::exception& e)
             {
+                L1( "Exception caught while initializing targets: %s\n", e.what() );
                 continue;
-            }
-            int32_t target_autoid = AutoId(target_name);
-            int32_t autoid = AutoId( name );
-            auto target = mTargetFactory( target_autoid );
-            const Json::Value& setters = Root["setters"];
-            if ( target->Load(setters) )
-            {
-                mElements.insert( autoid , target.release());
             }
         }
-        catch( const std::exception& e )
+    }
+
+    PathVect_t Paths;
+    FSys.GetFileNames( Paths, "actors" );
+    for (auto const& Path : Paths)
+    {
+        if (Path.extension().string() != ".json")
         {
-            L1("Exception caught while initializing targets: %s\n", e.what());
             continue;
         }
+        AutoFile JsonFile = FSys.Open( Path );
+        if (!JsonFile.get())
+        {
+            continue;
+        }
+        JsonReader Reader( *JsonFile );
+        if (!Reader.IsValid())
+        {
+            continue;
+        }
+        Json::Value Root = Reader.GetRoot();
+        if (!Root.isArray())
+        {
+            continue;
+        }
+        for (auto& Desc : Root)
+        {
+            try
+            {
+                AddTargetFromOneDesc( Desc );
+            }
+            catch (std::exception const& err)
+            {
+                L1( "Exception caught while parsing %s : %s", Path.generic_string().c_str(), err.what() );
+            }
+        }
+    }
+}
+
+void TargetRepo::AddTargetFromOneDesc( Json::Value& TargetDesc )
+{
+    std::string typeStr;
+    if (!Json::GetStr( TargetDesc["type"], typeStr ) || typeStr != "target_desc") // mandatory
+    {
+        return;
+    }
+    std::string target_name;
+    if (!Json::GetStr( TargetDesc["target_name"], target_name ))
+    {
+        return;
+    }
+    std::string name;
+    if (!Json::GetStr( TargetDesc["name"], name ))
+    {
+        return;
+    }
+    int32_t target_autoid = AutoId( target_name );
+    int32_t autoid = AutoId( name );
+    auto target = mTargetFactory( target_autoid );
+    const Json::Value& setters = TargetDesc["setters"];
+    if (target->Load( setters ))
+    {
+        mElements.insert( autoid, target.release() );
     }
 }
 

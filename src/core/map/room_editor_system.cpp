@@ -35,6 +35,7 @@
 #include "editor_group_system.h"
 #include "room_editor_loaded_event.h"
 #include "cell_entrance_editor_system.h"
+#include "level_generator/spawn_property.h"
 
 namespace map {
 
@@ -46,6 +47,7 @@ RoomEditorSystem::RoomEditorSystem()
     , mLoadModel( StringFunc( this, &RoomEditorSystem::Load ), "load", &mEditorModel )
     , mModeModel( StringFunc( this, &RoomEditorSystem::ModeSelect ), "mode", &mEditorModel )
     , mSaveModel( VoidFunc( this, &RoomEditorSystem::Save ), "save", &mEditorModel )
+    , mNewRoomModel( VoidFunc( this, &RoomEditorSystem::NewRoom ), "new_room", &mEditorModel )
     , mX( 0 )
     , mY( 0 )
     , mRoomName()
@@ -153,7 +155,7 @@ void RoomEditorSystem::Load( std::string const& room )
     mAutoSaveOn = true;
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::TerrainGenerated ) );
     EventServer<RoomEditorLoadedEvent>::Get().SendEvent( RoomEditorLoadedEvent(&mRoomDesc) );
-    SitchToModeSelect();
+    SwitchToModeSelect();
 }
 
 double const& RoomEditorSystem::GetX() const
@@ -208,7 +210,7 @@ void RoomEditorSystem::Update( double DeltaTime )
     }
     if (mKeyboard->GetKey( GLFW_KEY_M ).State == KeyState::Typed)
     {
-        SitchToModeSelect();
+        SwitchToModeSelect();
     }
 }
 void RoomEditorSystem::OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt )
@@ -304,12 +306,51 @@ void RoomEditorSystem::OnPhaseChanged( PhaseChangedEvent const& Evt )
     }
 }
 
-void RoomEditorSystem::SitchToModeSelect()
+void RoomEditorSystem::SwitchToModeSelect()
 {
     EditorHudState::Get().SetHudShown( true );
     Ui::Get().Load( "room_editor_hud" );
     EventServer<EditorModeChangedEvent>::Get().SendEvent( EditorModeChangedEvent( "mode_select", mEditorMode ) );
     mEditorMode = "mode_select";
+}
+
+void RoomEditorSystem::NewRoom()
+{
+    static std::string const NEW_ROOM = "new_room";
+    int max = 0;
+    for (auto& levelName : mLevelNames)
+    {
+        try
+        {
+            if (boost::starts_with( levelName, NEW_ROOM ))
+            {
+                max = std::max( std::stoi( levelName.substr( NEW_ROOM.size() ) ), max );
+            }
+        }
+        catch (...) {}
+    }
+    ++max;
+    std::string newRoomName = NEW_ROOM + std::to_string( max );
+    auto& roomBase = RoomRepo::Get()(AutoId( "room_base" ));
+    std::unique_ptr<IRoom> jsonRoom( new JsonRoom( AutoId( newRoomName ) ) );
+
+    jsonRoom->_SetRoomDesc( roomBase.GetRoomDesc() );
+    {
+        static auto& propertyFactory = PropertyFactory::Get();
+        static int32_t propertyId = AutoId( "spawn" );
+        auto prop = propertyFactory( propertyId );
+        Opt<SpawnProperty> spawnProp( dynamic_cast<SpawnProperty*>(prop.get()) );
+        spawnProp->SetTargets( { AutoId( "spawn_at_level_generated" ) } );
+        jsonRoom->AddProperty( prop );
+    }
+    RoomRepo::Get().AddRoom( std::move(jsonRoom) );
+    auto& fs = Filesys::Get();
+    boost::filesystem::path dir( "data/rooms/"+newRoomName );
+    if (boost::filesystem::create_directory( dir ))
+    {
+        Load( newRoomName );
+        Save();
+    }
 }
 
 

@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/blue_grenade.png",
+        "texture_path":":/textures/blue_grenade.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/Ion2Loves.png",
+        "texture_path":":/textures/Ion2Loves.png",
         "actor_visuals":
         [
             {
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "texture_path":"textures/blue_grenade_projectile.png",
+        "texture_path":":/textures/blue_grenade_projectile.png",
         "actor_visuals":
         [
             {

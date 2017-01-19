@@ -1,0 +1,19 @@
+[
+    {
+        "name":"rogue_mud50",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"background_1", "receive_blood": 1, "receive_shadow": 1,
+                    "random_sprites":[1]}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"no_collision", "radius":50}]
+            },
+            {"name":"border_component",
+                "set":[{"random_sprites":[1]}]
+            }
+        ]
+    }
+]

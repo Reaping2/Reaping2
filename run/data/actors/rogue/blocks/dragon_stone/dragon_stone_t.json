@@ -1,0 +1,22 @@
+[
+    {
+        "target_name":"wall_target",
+        "name":"dragon_stone50",
+        "setters":
+        {
+            "cursor_id": "dragon_stone50",
+            "actor_id": "dragon_stone50"
+        },
+        "type":"target_desc"
+    },
+    {
+        "target_name":"wall_target",
+        "name":"dragon_stone100",
+        "setters":
+        {
+            "cursor_id": "dragon_stone100",
+            "actor_id": "dragon_stone100"
+        },
+        "type":"target_desc"
+    }
+]

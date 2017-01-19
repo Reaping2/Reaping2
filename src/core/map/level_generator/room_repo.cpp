@@ -77,6 +77,12 @@ platform::Repository<IRoom>::ElementMap_t const& RoomRepo::GetElements()
     return mElements;
 }
 
+void RoomRepo::AddRoom( std::unique_ptr<IRoom> iRoom )
+{
+    int32_t id = iRoom->GetId();
+    mElements.insert( id, iRoom.release() );
+}
+
 DefaultRoom::DefaultRoom()
     : IRoom( -1 )
 {

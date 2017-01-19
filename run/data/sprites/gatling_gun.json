@@ -1,6 +1,6 @@
 [
 	{
-		"texture_path":"textures/weapon_gatling_gun.png",
+		"texture_path":":/textures/weapon_gatling_gun.png",
 		"actor_visuals":
 		[
 			{
@@ -19,7 +19,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/weapon_gatling_gun.png",
+		"texture_path":":/textures/weapon_gatling_gun.png",
 		"actor_visuals":
 		[
 			{
@@ -38,7 +38,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/GatlingGunPickup.png",
+		"texture_path":":/textures/GatlingGunPickup.png",
 		"actor_visuals":
 		[
 			{
@@ -57,7 +57,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/PistolLoves.png",
+		"texture_path":":/textures/PistolLoves.png",
 		"actor_visuals":
 		[
 			{
@@ -76,7 +76,7 @@
 		]
 	},
 	{
-		"texture_path":"textures/PistolLoves.png",
+		"texture_path":":/textures/PistolLoves.png",
 		"actor_visuals":
 		[
 			{

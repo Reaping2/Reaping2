@@ -10,7 +10,7 @@ class RenderableRepo : public Repository<SpriteCollection>, public Singleton<Ren
     friend class Singleton<RenderableRepo>;
     RenderableRepo();
     void Init();
-    bool AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables );
+    bool AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables, boost::filesystem::path const& parentPath );
 };
 
 #endif//INCLUDED_RENDER_RENDERABLE_REPO_H

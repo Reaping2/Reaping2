@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/wall_basic_2.png",
+        "texture_path":":/textures/wall_basic_2.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -14,7 +14,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_top_border_2.png",
+        "texture_path":":/textures/wall_top_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -28,7 +28,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_right_border_2.png",
+        "texture_path":":/textures/wall_right_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -42,7 +42,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_bottom_border_2.png",
+        "texture_path":":/textures/wall_bottom_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -56,7 +56,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_left_border_2.png",
+        "texture_path":":/textures/wall_left_border_2.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -70,7 +70,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_topright_border.png",
+        "texture_path":":/textures/wall_topright_border.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -84,7 +84,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_bottomright_border.png",
+        "texture_path":":/textures/wall_bottomright_border.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -98,7 +98,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_bottomleft_border.png",
+        "texture_path":":/textures/wall_bottomleft_border.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -112,7 +112,7 @@
         }]
     },
     {
-        "texture_path":"textures/wall_topleft_border.png",
+        "texture_path":":/textures/wall_topleft_border.png",
         "actor_visuals":
         [{
             "animations" : 

@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/rusty_reaper_weapon.png",
+        "texture_path":":/textures/rusty_reaper_weapon.png",
         "actor_visuals":
         [{
             "name":"player",
@@ -17,7 +17,7 @@
         }]
     },
     {
-        "texture_path":"textures/rusty_reaper_weapon.png",
+        "texture_path":":/textures/rusty_reaper_weapon.png",
         "actor_visuals":
         [{
             "name":"ctf_player",
@@ -34,7 +34,7 @@
         }]
     },
     {
-        "texture_path":"textures/rusty_reaper_pickup.png",
+        "texture_path":":/textures/rusty_reaper_pickup.png",
         "actor_visuals":
         [{
             "name":"rusty_reaper",
@@ -51,7 +51,7 @@
         }]
     },
     {
-        "texture_path":"textures/rusty_reaper_projectile.png",
+        "texture_path":":/textures/rusty_reaper_projectile.png",
         "actor_visuals":
         [{
             "name":"rusty_reaper_projectile",
@@ -68,7 +68,7 @@
         }]
     },
     {
-        "texture_path":"textures/rusty_reaper_alt_projectile.png",
+        "texture_path":":/textures/rusty_reaper_alt_projectile.png",
         "actor_visuals":
         [{
             "name":"rusty_reaper_alt_projectile",

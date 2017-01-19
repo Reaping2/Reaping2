@@ -1,0 +1,12 @@
+[
+	{
+		"name":"rogue_grass200",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		],
+        "type":"recognizer_desc"
+	}
+]
+

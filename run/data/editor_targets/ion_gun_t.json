@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "revive_pickup",
+        "name": "ion_gun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "ion_gun"
+        },
+        "type":"target_desc"
+    }
+]

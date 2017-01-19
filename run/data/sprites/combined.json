@@ -815,6 +815,6 @@
             "name" : "blood_particle16"
          }
       ],
-      "texture_path" : "textures/combined.tga"
+      "texture_path" : ":/textures/combined.tga"
    }
 ]

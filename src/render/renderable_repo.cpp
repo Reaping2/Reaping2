@@ -8,7 +8,7 @@ RenderableRepo::RenderableRepo()
     Init();
 }
 
-bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables )
+bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables, boost::filesystem::path const& parentPath )
 {
     std::string PathStr;
     Json::Value& ActorVisuals = TexDesc["actor_visuals"];
@@ -20,7 +20,19 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, Element
     {
         return false;
     }
-    int32_t TexId = AutoId( boost::filesystem::path( PathStr ).generic_string() );
+    bool isAbsolute = PathStr.size()>1 && (PathStr.substr(0,2) == ":/" || PathStr.substr( 0, 2 ) == ":\\");
+    boost::filesystem::path path;
+    if (!isAbsolute)
+    {
+        L2( "Path is not absolute %s, %s\n", path.generic_string().c_str(),PathStr.c_str() );
+        path = parentPath / PathStr;
+    }
+    else
+    {
+        path = boost::filesystem::path( PathStr.substr( 2 ) );
+        L2( "Path is absolute %s\n", path.generic_string().c_str() );
+    }
+    int32_t TexId = AutoId( path.generic_string() );
     for( Json::Value::iterator i = ActorVisuals.begin(), e = ActorVisuals.end(); i != e; ++i )
     {
         Json::Value& ActorVisualDesc = *i;
@@ -78,7 +90,7 @@ void RenderableRepo::Init()
         for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
         {
             Json::Value& TexDesc = *i;
-            if( !AddSpritesFromOneTextureDesc( TexDesc, Renderables ) )
+            if( !AddSpritesFromOneTextureDesc( TexDesc, Renderables, Path.parent_path() ) )
             {
                 return;
             }
