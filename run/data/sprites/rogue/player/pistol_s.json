@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/pistol_pickup.png",
+        "texture_path":":/textures/pistol_pickup.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/rogue/player/pistol_muzzle.png",
+        "texture_path":":/textures/rogue/player/pistol_muzzle.png",
         "actor_visuals":
         [
             {
@@ -38,7 +38,7 @@
         ]
     },
     {
-		"texture_path":"textures/rogue/player/soldier_pistol.png",
+		"texture_path":":/textures/rogue/player/soldier_pistol.png",
 		"actor_visuals":
 		[
 			{

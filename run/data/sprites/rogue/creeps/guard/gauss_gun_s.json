@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/gauss_gun_player.png",
+        "texture_path":":/textures/gauss_gun_player.png",
         "actor_visuals":
         [
             {

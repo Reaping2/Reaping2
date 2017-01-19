@@ -20,10 +20,17 @@ bool RenderableRepo::AddSpritesFromOneTextureDesc( Json::Value& TexDesc, Element
     {
         return false;
     }
-    auto path = boost::filesystem::path( PathStr );
-    if (!path.has_parent_path())
+    bool isAbsolute = PathStr.size()>1 && (PathStr.substr(0,2) == ":/" || PathStr.substr( 0, 2 ) == ":\\");
+    boost::filesystem::path path;
+    if (!isAbsolute)
     {
+        L2( "Path is not absolute %s, %s\n", path.generic_string().c_str(),PathStr.c_str() );
         path = parentPath / PathStr;
+    }
+    else
+    {
+        path = boost::filesystem::path( PathStr.substr( 2 ) );
+        L2( "Path is absolute %s\n", path.generic_string().c_str() );
     }
     int32_t TexId = AutoId( path.generic_string() );
     for( Json::Value::iterator i = ActorVisuals.begin(), e = ActorVisuals.end(); i != e; ++i )

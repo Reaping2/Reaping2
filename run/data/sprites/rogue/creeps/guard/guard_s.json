@@ -138,10 +138,10 @@
             "name" : "guard"
          }
       ],
-      "texture_path" : "textures/combined.tga"
+      "texture_path" : ":/textures/combined.tga"
     },
     {
-        "texture_path":"sprites/rogue/player/soldier_rip.png",
+        "texture_path":":/sprites/rogue/player/soldier_rip.png",
         "actor_visuals":
         [
             {

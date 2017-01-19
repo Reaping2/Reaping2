@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/concrete.png",
+        "texture_path":":/textures/concrete.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -14,7 +14,7 @@
         }]
     },
     {
-        "texture_path":"textures/concrete_top_outer_border.png",
+        "texture_path":":/textures/concrete_top_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -28,7 +28,7 @@
         }]
     },
     {
-        "texture_path":"textures/concrete_right_outer_border.png",
+        "texture_path":":/textures/concrete_right_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -42,7 +42,7 @@
         }]
     },
     {
-        "texture_path":"textures/concrete_bottom_outer_border.png",
+        "texture_path":":/textures/concrete_bottom_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -56,7 +56,7 @@
         }]
     },
     {
-        "texture_path":"textures/concrete_left_outer_border.png",
+        "texture_path":":/textures/concrete_left_outer_border.png",
         "actor_visuals":
         [{
             "animations" : 

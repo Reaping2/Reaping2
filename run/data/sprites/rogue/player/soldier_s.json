@@ -151,6 +151,6 @@
             "name" : "player"
          }
       ],
-      "texture_path" : "textures/combined.tga"
+      "texture_path" : ":/textures/combined.tga"
     }
 ]
