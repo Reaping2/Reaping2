@@ -2,6 +2,8 @@
 #define INCLUDED_CORE_RENDERABLE_LAYER_H
 #include "platform/singleton.h"
 #include <map>
+#include "json/json.h"
+#include "platform/i_platform.h"
 
 class RenderableLayer : public platform::Singleton<RenderableLayer>
 {
@@ -9,21 +11,14 @@ protected:
     friend class platform::Singleton<RenderableLayer>;
     RenderableLayer();
 public:
-    enum Type
-    {
-        Background = 0,
-        Background_1,
-        Corpses,
-        Creeps,
-        Players,
-        Buildings,
-        Num_Layers
-    };
-    RenderableLayer::Type operator()( int32_t Id ) const;
-    typedef std::map<int32_t, RenderableLayer::Type> IdToRendLayerMap_t;
-    IdToRendLayerMap_t const& GetIdToRenderLayerMap();
+    int32_t operator()( std::string const& Name ) const;
+    typedef std::map<std::string, int32_t> NameToPriority_t;
+    NameToPriority_t const& GetNameToPriorityMap() const;
 private:
-    IdToRendLayerMap_t mIdToRendLayerMap;
+    NameToPriority_t mNameToPriority;
+    void Init();
+    void AddLayerFromOneDesc( Json::Value const& Desc );
+    int32_t mNextPrio = 0;
 };
 
 

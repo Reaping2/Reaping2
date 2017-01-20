@@ -6,7 +6,7 @@
 #include <limits>
 
 RenderableComponent::RenderableComponent()
-    : mLayer( RenderableLayer::Background )
+    : mLayerPriority( 0 )
     , mZOrder( 0 )
     , mCastShadow( 0 )
     , mReceiveBlood( 0 )
@@ -17,14 +17,14 @@ RenderableComponent::RenderableComponent()
 {
 }
 
-RenderableLayer::Type const& RenderableComponent::GetLayer() const
+int32_t const& RenderableComponent::GetLayerPriority() const
 {
-    return mLayer;
+    return mLayerPriority;
 }
 
-void RenderableComponent::SetLayer( RenderableLayer::Type Lay )
+void RenderableComponent::SetLayerPriority( int32_t Lay )
 {
-    mLayer = Lay;
+    mLayerPriority = Lay;
 }
 
 int32_t const& RenderableComponent::GetZOrder() const
@@ -97,8 +97,8 @@ int32_t RenderableComponent::GetSpriteIndex() const
     return mSpriteIndex;
 }
 
-RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow )
-    : mLayer( Lay )
+RenderableComponentModifier::RenderableComponentModifier( int32_t Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow )
+    : mLayerPriority( Lay )
     , mZOrder( ZOrder )
     , mCastShadow( CastShadow )
     , mReceiveBlood( ReceiveBlood )
@@ -109,7 +109,7 @@ RenderableComponentModifier::RenderableComponentModifier( RenderableLayer::Type 
 void RenderableComponentModifier::operator()( Opt<Actor>& Obj )
 {
     IRenderableComponent& rend = *Obj->Get<IRenderableComponent>();
-    rend.SetLayer( mLayer );
+    rend.SetLayerPriority( mLayerPriority );
     rend.SetZOrder( mZOrder );
     if( mCastShadow != -1 )
     {
@@ -131,7 +131,7 @@ void RenderableComponentLoader::BindValues()
     std::string istr;
     if( Json::GetStr( ( *mSetters )["layer"], istr ) )
     {
-        Bind<RenderableLayer::Type>( &RenderableComponent::SetLayer, mRenderableLayer( AutoId( istr ) ) );
+        Bind<int32_t>( func_int32_t(&RenderableComponent::SetLayerPriority), mRenderableLayer( istr ) );
     }
     Bind( "cast_shadow", func_int32_t( &RenderableComponent::SetCastShadow ) );
     Bind( "receive_blood", func_int32_t( &RenderableComponent::SetReceiveBlood ) );

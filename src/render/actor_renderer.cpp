@@ -361,8 +361,8 @@ bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const&
 {
     Opt<IRenderableComponent> Rs1RenderableC = Rs1.Obj->Get<IRenderableComponent>();
     Opt<IRenderableComponent> Rs2RenderableC = Rs2.Obj->Get<IRenderableComponent>();
-    return Rs1RenderableC->GetLayer() < Rs2RenderableC->GetLayer() ||
-           ( Rs1RenderableC->GetLayer() == Rs2RenderableC->GetLayer() &&
+    return Rs1RenderableC->GetLayerPriority() < Rs2RenderableC->GetLayerPriority() ||
+           ( Rs1RenderableC->GetLayerPriority() == Rs2RenderableC->GetLayerPriority() &&
              ( Rs1RenderableC->GetZOrder() < Rs2RenderableC->GetZOrder() ||
                ( Rs1RenderableC->GetZOrder() == Rs2RenderableC->GetZOrder() &&
                  ( Rs1.ActId < Rs2.ActId ||

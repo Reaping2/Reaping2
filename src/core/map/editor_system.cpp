@@ -238,7 +238,7 @@ void EditorSystem::Save()
                     Opt<IRenderableComponent> renderableC( actor->Get<IRenderableComponent>() );
                     if ( renderableC.IsValid() )
                     {
-                        if( renderableC->GetLayer() == RenderableLayer::Background )
+                        if( renderableC->GetLayerPriority() == RenderableLayer::Get()("background") )
                         {
                             ( *i )->Save( Element );
                             if ( Element.size() > 0 )

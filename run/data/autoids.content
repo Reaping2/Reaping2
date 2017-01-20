@@ -1395,6 +1395,7 @@ remove from specific group
 remove_components_on_death_component
 remove_on_death_component
 renderable_component
+renderable_layers
 respawn_actor
 revive_pickup
 right

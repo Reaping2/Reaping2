@@ -29,13 +29,9 @@ void EditorRenderableLayerSystem::Init()
     mOnEditorModeChanged = EventServer<map::EditorModeChangedEvent>::Get().Subscribe( boost::bind( &EditorRenderableLayerSystem::OnEditorModeChanged, this, _1 ) );
     mOnEditorBack = EventServer<map::EditorBackEvent>::Get().Subscribe( boost::bind( &EditorRenderableLayerSystem::OnEditorBack, this, _1 ) );
     auto& idStorage = IdStorage::Get();
-    for (auto idToLayer : RenderableLayer::Get().GetIdToRenderLayerMap())
+    for (auto&& NameToPriority : RenderableLayer::Get().GetNameToPriorityMap())
     {
-        std::string name;
-        if (idStorage.GetName( idToLayer.first, name ))
-        {
-            mLayerNames.push_back( name );
-        }
+        mLayerNames.push_back( NameToPriority.first );
     }
 }
 

@@ -568,7 +568,6 @@ auto_revive_text
 autoids.content
 autoids.src
 background
-background_1
 backtrace.h
 bar
 bar.h
@@ -647,7 +646,6 @@ buffs_engine/heal_over_time_buff_sub_system.h
 buffs_engine/max_health_buff_sub_system.h
 buffs_engine/move_speed_buff_sub_system.h
 bufftarget
-buildings
 bullets
 button
 button.h
@@ -1021,7 +1019,6 @@ create_actor_message_handler_sub_system
 create_actor_message_handler_sub_system.h
 create_actor_message_sender_system
 creep
-creeps
 cross
 ctf
 ctf-flagStateChanged
@@ -1862,6 +1859,7 @@ misc/font.json
 misc/particlelayers
 misc/recognizers.json
 misc/recognizers_excludes.json
+misc/renderable_layers.json
 misc/settings.json
 mixer.h
 mode
@@ -2098,7 +2096,6 @@ player_controller_message_sender_system
 player_controller_sub_system
 player_model_system
 player_model_system.h
-players
 pngtexture.h
 pointer_target_controller_component
 pointer_target_controller_component.h

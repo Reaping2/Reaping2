@@ -1,26 +1,64 @@
 #include "core/renderable_layer.h"
-#include "platform/auto_id.h"
+
 
 using platform::AutoId;
 
 RenderableLayer::RenderableLayer()
 {
-    mIdToRendLayerMap[AutoId( "background" )] = RenderableLayer::Background;
-    mIdToRendLayerMap[AutoId( "background_1" )] = RenderableLayer::Background_1;
-    mIdToRendLayerMap[AutoId( "corpses" )] = RenderableLayer::Corpses;
-    mIdToRendLayerMap[AutoId( "creeps" )] = RenderableLayer::Creeps;
-    mIdToRendLayerMap[AutoId( "players" )] = RenderableLayer::Players;
-    mIdToRendLayerMap[AutoId( "buildings" )] = RenderableLayer::Buildings;
+    Init();
 }
 
-RenderableLayer::Type RenderableLayer::operator()( int32_t Id ) const
+int32_t RenderableLayer::operator()( std::string const& Name ) const
 {
-    IdToRendLayerMap_t::const_iterator i = mIdToRendLayerMap.find( Id );
-    BOOST_ASSERT( i != mIdToRendLayerMap.end() );
-    return ( i != mIdToRendLayerMap.end() ) ? i->second : RenderableLayer::Background;
+    NameToPriority_t::const_iterator i = mNameToPriority.find( Name );
+    BOOST_ASSERT( i != mNameToPriority.end() );
+    return ( i != mNameToPriority.end() ) ? i->second : 0;
 }
 
-RenderableLayer::IdToRendLayerMap_t const& RenderableLayer::GetIdToRenderLayerMap()
+void RenderableLayer::Init()
 {
-    return mIdToRendLayerMap;
+    Filesys& FSys( Filesys::Get() );
+    AutoFile F = FSys.Open( boost::filesystem::path( "misc/renderable_layers.json" ) );
+    if (!F.get() || !F->IsValid())
+    {
+        return;
+    }
+    JsonReader Reader( *F );
+    if (!Reader.IsValid())
+    {
+        return;
+    }
+    auto& Root = Reader.GetRoot();
+    if (!Root.isArray())
+    {
+        return;
+    }
+    mNextPrio = 0;
+    for (auto& desc : Root)
+    {
+        try
+        {
+            AddLayerFromOneDesc( desc );
+        }
+        catch (std::exception const& err)
+        {
+            L1( "Exception caught while parsing %s", err.what() );
+        }
+    }
+
+}
+
+void RenderableLayer::AddLayerFromOneDesc( Json::Value const& Desc )
+{
+    std::string layerName;
+    if (!Json::GetStr( Desc["name"], layerName ))
+    {
+        return;
+    }
+    mNameToPriority[layerName] = mNextPrio++;
+}
+
+RenderableLayer::NameToPriority_t const& RenderableLayer::GetNameToPriorityMap() const
+{
+    return mNameToPriority;
 }

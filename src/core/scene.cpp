@@ -42,7 +42,7 @@ bool ActorHolder::IsRenderable::operator ()( const Opt<Actor>& Obj )const
 
 int32_t ActorHolder::GetLayer::operator ()( const Opt<Actor>& Obj )const
 {
-    return Obj->Get<IRenderableComponent>().IsValid() ? Obj->Get<IRenderableComponent>()->GetLayer() : 0;
+    return Obj->Get<IRenderableComponent>().IsValid() ? Obj->Get<IRenderableComponent>()->GetLayerPriority() : 0;
 }
 
 int32_t ActorHolder::GetZOrder::operator ()( const Opt<Actor>& Obj )const
