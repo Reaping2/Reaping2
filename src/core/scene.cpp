@@ -26,6 +26,7 @@
 #include "engine/soldier_spawn_system.h"
 #include "map_load_event.h"
 #include "map_start_event.h"
+#include "map/map_repo.h"
 
 using core::ProgramState;
 
@@ -148,7 +149,7 @@ int32_t Scene::GetTypeId() const
 
 void Scene::Load( std::string const& Level )
 {
-    EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( "map/" + Level ) );
+    EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::MAP_DIR+"/" + Level ) );
     mPaused = false;
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )

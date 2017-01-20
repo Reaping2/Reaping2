@@ -91,6 +91,8 @@
 .unknown
 .vs
 .windows
+/
+/"+foldername+"/map_elements.json
 /description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
@@ -1371,7 +1373,6 @@ flash_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
 font.h
-font.json
 fontsize
 for
 fps
@@ -1802,8 +1803,6 @@ mandatory_rooms
 map
 map-editorModeChanged
 map-levelGenerated
-map/
-map/"+foldername+"/map_elements.json
 map/editor_brush_system.h
 map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
@@ -1834,6 +1833,7 @@ mapitem
 mapitems
 mapitemtarget
 mapping.h
+maps
 material
 matrix
 matrix","absolute
@@ -1858,6 +1858,11 @@ mid
 min_length
 min_speed
 mine
+misc/font.json
+misc/particlelayers
+misc/recognizers.json
+misc/recognizers_excludes.json
+misc/settings.json
 mixer.h
 mode
 mode_select
@@ -2015,7 +2020,6 @@ particle_layer_repo.h
 particle_system
 particle_system.h
 particle_template_repo.h
-particlelayers
 particles
 passthrough
 path
@@ -2161,8 +2165,6 @@ recognizer_desc
 recognizer_factory.h
 recognizer_repo.h
 recognizers
-recognizers.json
-recognizers_excludes.json
 recreate
 recreate_borders
 recreate_borders_map_element
