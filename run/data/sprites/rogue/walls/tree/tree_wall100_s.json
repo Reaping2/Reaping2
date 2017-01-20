@@ -7,7 +7,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100"
@@ -21,7 +21,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_top_outer"
@@ -35,7 +35,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_top_outer_1"
@@ -49,7 +49,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_top_outer_2"
@@ -64,7 +64,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_right_outer"
@@ -78,7 +78,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_right_outer_1"
@@ -92,7 +92,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_right_outer_2"
@@ -106,7 +106,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_bottom_outer"
@@ -120,7 +120,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_bottom_outer_1"
@@ -134,7 +134,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_bottom_outer_2"
@@ -148,7 +148,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_left_outer"
@@ -162,7 +162,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_left_outer_1"
@@ -176,7 +176,7 @@
             [{
                 "w" : 100,
                 "h" : 100,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "rogue_tree_wall100_left_outer_2"

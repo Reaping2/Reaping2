@@ -8,7 +8,7 @@ CtfFlagActionRenderer::CtfFlagActionRenderer( int32_t Id )
     : ActionRenderer( Id )
     , mColorRepo( ColorRepo::Get() )
 {
-    mCtfFlagId = AutoId( "body_idle" );
+    mCtfFlagId = AutoId( "idle" );
 }
 
 

@@ -37,7 +37,7 @@
                             "h":0.8,
                             "enabled": 0,
                             "actor_visual": "%player.buffs#buffs",
-                            "animation": "%%body_idle",
+                            "animation": "%%idle",
                             "fontsize": 3
                         }
                     ]
@@ -115,7 +115,7 @@
                     "enabled": 0,
                     "comment_actor_visual": "TODO: create player_inventory actor, add the possible weapons and buffs as animations",
                     "actor_visual": "%player.special",
-                    "animation": "%%body_idle"
+                    "animation": "%%idle"
                 },
                 {
                     "type": "text_widget",

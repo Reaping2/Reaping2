@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"grass200_2.png",
+        "texture_path":"blue_grass200.png",
         "actor_visuals":
         [{
             "animations" : 
@@ -10,7 +10,7 @@
                 "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
-            }], "name" : "rogue_grass200"
+            }], "name" : "blue_grass200"
         }]
     }
 ]

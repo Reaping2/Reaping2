@@ -1,18 +1,18 @@
-#include "render/body_move_action_renderer.h"
+#include "render/move_action_renderer.h"
 #include "platform/auto_id.h"
 namespace render {
 
 
-BodyMoveActionRenderer::BodyMoveActionRenderer( int32_t Id )
+MoveActionRenderer::MoveActionRenderer( int32_t Id )
     : ActionRenderer( Id )
 {
 
 }
 
-void BodyMoveActionRenderer::Init( const Actor& actor )
+void MoveActionRenderer::Init( const Actor& actor )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    static int32_t aid = AutoId( "body_move" );
+    static int32_t aid = AutoId( "move" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {
@@ -20,10 +20,10 @@ void BodyMoveActionRenderer::Init( const Actor& actor )
     }
 }
 
-void BodyMoveActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
+void MoveActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    static int32_t aid = AutoId( "body_move" );
+    static int32_t aid = AutoId( "move" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {

@@ -587,8 +587,6 @@ blue_grenade_normal_item_sub_system
 blue_grenade_projectile
 bluenames
 body_color
-body_idle
-body_move
 bool-active
 bool-applied
 bool-hudShown
@@ -2192,8 +2190,6 @@ removed_actors_system
 removed_actors_system.h
 render/action_renderer.h
 render/action_renderer_factory.h
-render/body_move_action_renderer.h
-render/body_move_recognizer.h
 render/border_action_renderer.h
 render/border_recognizer.h
 render/camera.h
@@ -2218,6 +2214,8 @@ render/idle_action_renderer.h
 render/idle_recognizer.h
 render/leg_move_action_renderer.h
 render/leg_move_recognizer.h
+render/move_action_renderer.h
+render/move_recognizer.h
 render/particle_system.h
 render/pickup_action_renderer.h
 render/pickup_recognizer.h

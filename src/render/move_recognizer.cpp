@@ -1,14 +1,14 @@
-#include "render/body_move_recognizer.h"
+#include "render/move_recognizer.h"
 #include "core/i_move_component.h"
 namespace render {
 
-BodyMoveRecognizer::BodyMoveRecognizer( int32_t Id )
+MoveRecognizer::MoveRecognizer( int32_t Id )
     : Recognizer( Id )
 {
 
 }
 
-bool BodyMoveRecognizer::Recognize( Actor const& actor ) const
+bool MoveRecognizer::Recognize( Actor const& actor ) const
 {
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     if ( !moveC.IsValid() )

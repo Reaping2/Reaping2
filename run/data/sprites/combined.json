@@ -5,7 +5,7 @@
             "animations" : [
                {
                   "h" : 200,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 2,
@@ -344,7 +344,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -462,7 +462,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -571,7 +571,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -664,7 +664,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,

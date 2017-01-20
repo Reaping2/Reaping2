@@ -7,7 +7,7 @@
             [{
                 "w" : 200,
                 "h" : 200,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
             }], "name" : "grass_tile"
@@ -21,7 +21,7 @@
             [{
                 "w" : 200,
                 "h" : 200,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
             }], "name" : "grass_tile_top_outer"
@@ -35,7 +35,7 @@
             [{
                 "w" : 200,
                 "h" : 200,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
             }], "name" : "grass_tile_right_outer"
@@ -49,7 +49,7 @@
             [{
                 "w" : 200,
                 "h" : 200,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
             }], "name" : "grass_tile_bottom_outer"
@@ -63,7 +63,7 @@
             [{
                 "w" : 200,
                 "h" : 200,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
             }], "name" : "grass_tile_left_outer"

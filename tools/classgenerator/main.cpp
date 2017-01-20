@@ -2533,7 +2533,7 @@ class WeaponGenerator : public Generator
             fprintf(file.mFile, "            \"animations\":\n");
             fprintf(file.mFile, "            [\n");
             fprintf(file.mFile, "                {\n");
-            fprintf(file.mFile, "                    \"name\":\"body_idle\",\n");
+            fprintf(file.mFile, "                    \"name\":\"idle\",\n");
             fprintf(file.mFile, "                    \"w\":32,\n");
             fprintf(file.mFile, "                    \"h\":32,\n");
             fprintf(file.mFile, "                    \"scale\":1,\n");

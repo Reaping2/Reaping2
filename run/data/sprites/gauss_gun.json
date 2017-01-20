@@ -46,7 +46,7 @@
                 "animations":
                 [
                     {
-                        "name":"body_idle",
+                        "name":"idle",
                         "w":64,
                         "h":64,
                         "scale":1.0,
