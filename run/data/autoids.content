@@ -240,6 +240,7 @@ Any
 ArmorBuff
 ArmorBuff_t
 Away
+CANDIDATES
 CELL COUNT:
 CELL SIZE:
 CTF
@@ -271,6 +272,7 @@ IonLoves
 IonPickup
 K:
 Kill
+Level 1
 Level 2
 Level 3
 Level 4
@@ -316,6 +318,7 @@ Select cell entrance!
 Shotgun
 ShotgunPickup
 Start
+TOCHECK
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
@@ -498,6 +501,7 @@ attachable_component
 audible_component
 auto_revive_text
 autoids
+autoids.old
 b
 b1
 b10
@@ -548,6 +552,7 @@ blood_particle8
 blood_particle9
 blood_particles
 blue
+blue_grass200
 blue_grenade
 blue_grenade_explode_projectile
 blue_grenade_normal_item
@@ -616,6 +621,7 @@ closest
 collision_component
 combined
 combiner
+compare
 concrete
 concrete_bottom_outer
 concrete_bottom_outer_border
@@ -945,7 +951,6 @@ level.images#levelidx
 level.names
 level.names#levelidx
 level.select
-level1
 level_generated
 level_generator
 lifecycle.host
@@ -1925,6 +1930,7 @@ textures/lucky_rocket_pickup.png
 textures/lucky_rocket_player.png
 textures/lucky_rocket_projectile.png
 textures/rogue/player/soldier_pistol.png
+tgts.json
 tile_water
 top
 top_entrance
