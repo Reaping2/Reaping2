@@ -76,6 +76,36 @@ PossibleCollisions_t GridTemplate<Traits>::GetPossibleCollisions( glm::vec4 cons
 }
 
 template<typename Traits>
+void GridTemplate<Traits>::CollectActorsWithMaskAndAround( int32_t mask, CollectorFunction const& func )const
+{
+    for( auto& C : mCells )
+    {
+        for (size_t k = 0; k < Traits::NumClasses; ++k)
+        {
+            if( (mask & (1 << k)) == 0 )
+            {
+                continue;
+            }
+            Actors_t const& Actors = C.mActors[k];
+            if( Actors.empty() )
+            {
+                continue;
+            }
+            for( size_t j = k; j < Traits::NumClasses; ++j )
+            {
+                if( !Traits::AreCorrelated( k, j ) )
+                {
+                    continue;
+                }
+                Actors_t const& Actors2 = C.mActors[j];
+                func( Actors2.begin(), Actors2.end() );
+            }
+            func( Actors.begin(), Actors.end() );
+        }
+    }
+}
+
+template<typename Traits>
 void GridTemplate<Traits>::Build( glm::vec4 const& Dimensions, float CellSize )
 {
     mDims = Dimensions;
@@ -303,5 +333,7 @@ void GridTemplate<Traits>::RemoveActor( Actor* A )
     template void GridTemplate<BASE>::RemoveActor( Actor* A ); \
     template PossibleCollisions_t const& GridTemplate<BASE>::GetPossibleCollisions()const; \
     template std::set<Actor*> GridTemplate<BASE>::GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask, glm::vec2 const* direction = nullptr ) const; \
-    template std::set<Actor*> GridTemplate<BASE>::GetAllNearbyActors( Actor const* A ) const;
+    template std::set<Actor*> GridTemplate<BASE>::GetAllNearbyActors( Actor const* A ) const; \
+    template void GridTemplate<BASE>::CollectActorsWithMaskAndAround( int32_t mask, CollectorFunction const& func )const;
+
 

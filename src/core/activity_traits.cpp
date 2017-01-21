@@ -5,13 +5,6 @@
 #include "platform/settings.h"
 
 namespace core {
-namespace {
-enum Types {
-    Active = 0,
-    Passive,
-    NumTypes
-};
-}
 
 ActivityTraits::ActorScaleFunc ActivityTraits::mScaleFunc;
 ActivityTraits::ActiveSizeFunc ActivityTraits::mActiveSize;

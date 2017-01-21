@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <functional>
 
 struct CollPair
 {
@@ -26,10 +27,12 @@ public:
     void RemoveActor( Actor* A );
     PossibleCollisions_t const& GetPossibleCollisions()const;
     PossibleCollisions_t GetPossibleCollisions( glm::vec4 const& rect )const;
+    typedef std::vector<Actor*> Actors_t;
+    typedef std::function<void( typename Actors_t::const_iterator, typename Actors_t::const_iterator )> CollectorFunction;
+    void CollectActorsWithMaskAndAround( int32_t collMask, CollectorFunction const& func ) const;
     std::set<Actor*> GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask, glm::vec2 const* direction = nullptr ) const;
     std::set<Actor*> GetAllNearbyActors( Actor const* A ) const;
 private:
-    typedef std::vector<Actor*> Actors_t;
     struct Cell
     {
         Actors_t mActors[Traits::NumClasses];

@@ -110,14 +110,13 @@ ActivitySystem::OrderedActors_t const& ActivitySystem::GetActiveActors()
         double maxx = std::numeric_limits<double>::min();
         double miny = std::numeric_limits<double>::max();
         double maxy = std::numeric_limits<double>::min();
-        auto const& PossibleActivitys = mActivityGrid.GetPossibleCollisions();
         mActiveActors.clear();
-        for( auto i = PossibleActivitys.begin(), e = PossibleActivitys.end(); i != e; ++i )
+        auto funptr = static_cast<void(OrderedActors_t::*)(ActivityGrid::Actors_t::const_iterator,ActivityGrid::Actors_t::const_iterator)>( &OrderedActors_t::insert );
+        auto insertfun = std::bind( funptr, &mActiveActors, std::placeholders::_1, std::placeholders::_2 );
+        mActivityGrid.CollectActorsWithMaskAndAround( 1 << core::ActivityTraits::Active, insertfun );
+        for( auto a : mActiveActors )
         {
-            mActiveActors.insert( i->A1 );
-            mActiveActors.insert( i->A2 );
-            adjust( minx, miny, maxx, maxy, *(i->A1) );
-            adjust( minx, miny, maxx, maxy, *(i->A2) );
+            adjust( minx, miny, maxx, maxy, *a );
         }
         mActiveRegion = glm::vec4( minx, miny, maxx, maxy );
     }

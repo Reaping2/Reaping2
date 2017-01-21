@@ -6,7 +6,12 @@
 
 namespace core {
 struct ActivityTraits {
-    static size_t constexpr NumClasses = 2;
+    enum Types {
+        Active = 0,
+        Passive,
+        NumTypes
+    };
+    static size_t constexpr NumClasses = NumTypes;
     static bool AreCorrelated( int32_t CC1, int32_t CC2 );
     static int32_t GetTrait( Actor const& actor );
     static double GetRadius( Actor const& actor );
