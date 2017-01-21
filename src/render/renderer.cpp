@@ -6,9 +6,19 @@
 #include "render_target.h"
 #include "platform/settings.h"
 #include "sprite_phase_cache.h"
+#include "engine/engine.h"
+#include "engine/activity_system.h"
 #include <boost/assign.hpp>
 
 namespace engine {
+namespace {
+double GetCamSize( Camera* cam )
+{
+    static float const activityMult = Settings::Get().GetFloat( "activity.camera_multiplier", 0.5 );
+    auto const& view = cam->VisibleRegion();
+    return std::max( view.z - view.x, view.w - view.y ) * activityMult;
+}
+}
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )
     , mUiProjector( 100.0f, 0.0f, Projection::VM_Fixed )
@@ -23,6 +33,8 @@ RendererSystem::RendererSystem()
     mMouseMoveId = EventServer<ScreenMouseMoveEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMouseMoveEvent, this, _1 ) );
     mMousePressId = EventServer<ScreenMousePressEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMousePressEvent, this, _1 ) );
     mMouseReleaseId = EventServer<ScreenMouseReleaseEvent>::Get().Subscribe( boost::bind( &RendererSystem::OnMouseReleaseEvent, this, _1 ) );
+    core::ActivityTraits::SetActorScaleFunc( std::bind( &RenderableRepo::GetMaxScale, &RenderableRepo::Get(), std::placeholders::_1 ) );
+    core::ActivityTraits::SetActiveSizeFunc( std::bind( &GetCamSize, &mCamera ) );
     Init();
 }
 
@@ -102,12 +114,12 @@ void RendererSystem::Init()
 }
 
 namespace {
-std::set<int32_t> getShadowLevels( Scene const& scene )
+std::set<int32_t> getShadowLevels()
 {
     std::set<int32_t> rv;
-    auto const& Lst = scene.GetActors();
-    ActorListFilter<Scene::RenderableActors> wrp( Lst );
-    for( auto i = wrp.begin(), e = wrp.end(); i != e; ++i )
+    static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
+    auto const& Lst = activityS->GetActiveActors();
+    for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
         Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
@@ -168,7 +180,7 @@ void RendererSystem::Update( double DeltaTime )
     {
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         uint32_t shadowOutline = 2, shadow_1=4;
-        auto const shadowLevels = getShadowLevels( Scen );
+        auto const shadowLevels = getShadowLevels();
         for( auto shadowLevel : shadowLevels )
         {
             // !---- rt - shadows outline

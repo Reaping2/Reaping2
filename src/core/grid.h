@@ -1,48 +1,9 @@
 #ifndef INCLUDED_CORE_GRID_H
 #define INCLUDED_CORE_GRID_H
-#include "core/actor.h"
-#include "collision_class.h"
-#include "i_collision_component.h"
-#include <map>
-#include <set>
-#include <vector>
 
-struct CollPair
-{
-    Actor* A1;
-    Actor* A2;
-    CollPair( Actor* a1, Actor* a2 );
-};
-struct CollPairCmp
-{
-    bool operator ()( CollPair const& a, CollPair const& b )const;
-};
-typedef std::set<CollPair, CollPairCmp> PossibleCollisions_t;
+#include "grid_template.h"
+#include "collision_traits.h"
 
-class Grid
-{
-public:
-    void Build( glm::vec4 const& Dimensions, float CellSize );
-    void AddActor( Actor* A, double Dt, Opt<ICollisionComponent> collisionC );
-    void RemoveActor( Actor* A );
-    PossibleCollisions_t GetPossibleCollisions()const;
-    std::set<Actor*> GetAllNearbyActors( glm::vec2 const& position, double radius, int32_t collMask, glm::vec2 const* direction = nullptr ) const;
-    std::set<Actor*> GetAllNearbyActors( Actor const* A ) const;
-private:
-    static const uint32_t Collisions[];
-    typedef std::vector<Actor*> Actors_t;
-    struct Cell
-    {
-        Actors_t mActors[CollisionClass::Num_Classes];
-    };
-    typedef std::vector<Cell> Cells_t;
-    std::map<Actor const*,std::vector<Cell*> > mActorInCell;
-    float mCellSize;
-    size_t mDimX;
-    size_t mDimY;
-    glm::vec2 mMin;
-    Cells_t mCells;
-    glm::vec4 Box( Actor const& Obj, double Dt )const;
-};
+typedef GridTemplate<core::CollisionTraits> Grid;
 
-#endif//INCLUDED_CORE_GRID_H
+#endif // INCLUDED_CORE_GRID_H

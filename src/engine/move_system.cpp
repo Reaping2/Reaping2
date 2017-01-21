@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
+#include "engine/engine.h"
 #include "engine/move_system.h"
+#include "engine/activity_system.h"
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
 #include "core/i_collision_component.h"
@@ -21,7 +23,8 @@ void MoveSystem::Init()
 
 void MoveSystem::Update( double DeltaTime )
 {
-    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    static auto activityS = engine::Engine::Get().GetSystem<ActivitySystem>();
+    for (auto actor : activityS->GetActiveActors() )
     {
         Opt<IMoveComponent> moveC = actor->Get<IMoveComponent>();
         if ( !moveC.IsValid() )

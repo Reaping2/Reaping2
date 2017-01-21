@@ -13,12 +13,15 @@ public:
     virtual void SetRadius( double Radius );
     virtual bool IsClipScene()const;
     virtual void SetClipScene( bool clipScene );
+    virtual bool IsDynamicRadius() const;
+    virtual void SetDynamicRadius( bool dyn );
 protected:
     CollisionComponent();
     friend class ComponentFactory;
     CollisionClass::Type mCollisionClassType;
     double mRadius;
     bool mClipScene;
+    bool mDynamicRadius;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -33,13 +36,14 @@ void CollisionComponent::serialize( Archive& ar, const unsigned int version )
     ar& mCollisionClassType;
     ar& mRadius;
     ar& mClipScene;
+    ar& mDynamicRadius;
 }
 
 class CollisionComponentLoader: public ComponentLoader<CollisionComponent>
 {
 public:
     DEFINE_COMPONENT_LOADER_BASE( CollisionComponentLoader )
-private:
+    virtual void FillProperties( ComponentHolder& actor )const;
     virtual void BindValues();
 protected:
     friend class ComponentLoaderFactory;

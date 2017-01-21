@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "engine/controllers/controller_system.h"
 #include "engine/engine.h"
+#include "engine/activity_system.h"
 #include "platform/auto_id.h"
 #include "core/i_controller_component.h"
 namespace engine {
@@ -22,7 +23,8 @@ void ControllerSystem::Init()
 
 void ControllerSystem::Update( double DeltaTime )
 {
-    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    static auto activityS = engine::Engine::Get().GetSystem<ActivitySystem>();
+    for (auto actor : activityS->GetActiveActors() )
     {
         Opt<IControllerComponent> controllerC = actor->Get<IControllerComponent>();
         if ( !controllerC.IsValid() || !controllerC->IsEnabled() )

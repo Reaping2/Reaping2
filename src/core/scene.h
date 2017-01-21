@@ -7,6 +7,9 @@
 #include "core/actor.h"
 #include "collision_class.h"
 #include "program_state.h"
+#include <vector>
+#include <memory>
+
 class ActorHolder
 {
 public:
@@ -194,6 +197,7 @@ private:
     ModelValue mSelectGameModeModel;
     int32_t mMaxHP;
     core::ProgramState& mProgramState;
+    std::vector<std::unique_ptr<Actor> > mRemovedActors;
 public:
     enum ActorIndex
     {

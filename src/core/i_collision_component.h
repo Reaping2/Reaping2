@@ -14,6 +14,8 @@ public:
     virtual void SetRadius( double Radius ) = 0;
     virtual bool IsClipScene()const = 0;
     virtual void SetClipScene( bool clipScene ) = 0;
+    virtual bool IsDynamicRadius() const = 0;
+    virtual void SetDynamicRadius( bool dyn ) = 0;
 protected:
     friend class ComponentFactory;
 public:

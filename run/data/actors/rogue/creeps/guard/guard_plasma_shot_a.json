@@ -10,6 +10,9 @@
             {"name":"renderable_component",
                 "set":[{"layer":"creeps"}]
             },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
 
             {"name":"shot_collision_component",
                 "set":[{"class":"projectile", "radius":15, "damage":10 }]

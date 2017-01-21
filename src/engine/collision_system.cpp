@@ -1,5 +1,7 @@
 #include "platform/i_platform.h"
 #include "engine/collision_system.h"
+#include "engine/activity_system.h"
+#include "engine/engine.h"
 #include "core/i_collision_component.h"
 #include "boost/assert.hpp"
 #include "core/collision_model.h"
@@ -21,11 +23,13 @@ CollisionSystem::CollisionSystem()
 void CollisionSystem::Init()
 {
     SubSystemHolder::Init();
-    mCollisionGrid.Build( mScene.GetDimensions(), 400.0f );
+    static const auto gridsize = Settings::Get().GetDouble( "collisions.gridsize", 400.0 );
+    mCollisionGrid.Build( mScene.GetDimensions(), gridsize );
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<ICollisionComponent>().IsValid()
             && actor.Get<IPositionComponent>().IsValid()
-            && actor.Get<IMoveComponent>().IsValid(); } );
+            && ( actor.Get<IMoveComponent>().IsValid()
+              || actor.Get<ICollisionComponent>()->IsDynamicRadius() ); } );
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CollisionSystem::OnActorEvent, this, _1 ) );
 }
 
@@ -38,9 +42,9 @@ void CollisionSystem::OnActorEvent( ActorEvent const& Evt )
         {
             return;
         }
-        if ( !Evt.mActor->Get<IMoveComponent>().IsValid() )
+        if ( !Evt.mActor->Get<IMoveComponent>().IsValid() && !collisionC->IsDynamicRadius() )
         {
-            mCollisionGrid.AddActor( Evt.mActor.Get(), 0, collisionC );
+            mCollisionGrid.AddActor( Evt.mActor.Get(), 0 );
         }
     }
     else
@@ -59,22 +63,31 @@ void CollisionSystem::Update( double DeltaTime )
     mUpdateTimer.Log( "start collision" );
     mPerfTimer.Log( "pre build grid" );
     std::vector<std::pair<Opt<CollisionSubSystem>, Actor*>> collisionAndActors;
-    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
+    auto const& myactors = mScene.GetActorsFromMap( GetType_static() );
+    for (auto actor : myactors)
     {
-        Opt<ICollisionComponent> collisionC = actor->Get<ICollisionComponent>();
-        if ( collisionC.IsValid() )
+        auto collisionC( actor->Get<ICollisionComponent>() );
+        if ( !collisionC.IsValid() )
         {
-            Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
-            if ( collisionSS.IsValid() )
-            {
-                collisionAndActors.push_back( std::make_pair( collisionSS, actor ) );
-                collisionSS->ClipScene( *actor );
-            }
-            mCollisionGrid.AddActor( actor, DeltaTime, collisionC );
+            continue;
         }
+        auto pc( actor->Get<IPositionComponent>() );
+        if( !pc.IsValid() )
+        {
+            continue;
+        }
+        Opt<CollisionSubSystem> collisionSS = GetCollisionSubSystem( collisionC->GetId() );
+        if ( collisionSS.IsValid() )
+        {
+            collisionAndActors.push_back( std::make_pair( collisionSS, actor ) );
+            collisionSS->ClipScene( *actor );
+        }
+        mCollisionGrid.AddActor( actor, DeltaTime );
     }
     mPerfTimer.Log( "post build grid" );
-    PossibleCollisions_t const& PossibleCollisions = mCollisionGrid.GetPossibleCollisions();
+    glm::vec4 const& activeRegion = activityS->GetActiveRegion();
+    PossibleCollisions_t const& PossibleCollisions = mCollisionGrid.GetPossibleCollisions( activeRegion );
     for( PossibleCollisions_t::const_iterator i = PossibleCollisions.begin(), e = PossibleCollisions.end(); i != e; ++i )
     {
         Actor& A = *( i->A1 );

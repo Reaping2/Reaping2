@@ -10,6 +10,7 @@
 #include <boost/timer.hpp>
 #include "engine/engine.h"
 #include "engine/collision_system.h"
+#include "engine/activity_system.h"
 #include "engine/controllers/controller_system.h"
 #include "core/opt.h"
 #include "engine/items/inventory_system.h"
@@ -454,6 +455,7 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "explosion_system" ) );
     Eng.AddSystem( AutoId( "acceleration_system" ) );
     Eng.AddSystem( AutoId( "collision_system" ) );
+    Eng.AddSystem( AutoId( "activity_system" ) );
     Opt<engine::CollisionSystem> collisionSS( Eng.GetSystem<engine::CollisionSystem>() );
     collisionSS->AddSubSystem( AutoId( "wall_collision_component" ), AutoId( "wall_collision_sub_system" ) );
     collisionSS->AddSubSystem( AutoId( "water_collision_component" ), AutoId( "wall_collision_sub_system" ) );

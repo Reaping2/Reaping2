@@ -168,6 +168,10 @@
                     }
                 ]
             },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"audible_component",
                 "set": [
                     {
@@ -195,6 +199,10 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"remove_on_death_component"},
             {
                 "name":"emitter_component",
@@ -228,6 +236,10 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"remove_on_death_component"},
             {
                 "name":"emitter_component",
@@ -266,6 +278,10 @@
             {"name":"health_component"},
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"emitter_component","set":[{
                 "emit_descs":[{
                     "delay": 0.0,
@@ -301,6 +317,10 @@
             {"name":"health_component"},
             {"name":"owner_component"},
             {"name":"remove_on_death_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"emitter_component","set":[{
                 "emit_descs":[{
                     "delay": 0.0,
@@ -436,6 +456,10 @@
             },
             {"name":"health_component"},
             {"name":"owner_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"remove_on_death_component"},
             {"name":"emitter_component","set":[{
                 "emit_descs":[{
@@ -669,6 +693,10 @@
         [
             {"name":"notify_parent_on_death_component"},
             {"name":"position_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
             {"name":"move_component",
                 "set":[{"speed":8500}]
             },

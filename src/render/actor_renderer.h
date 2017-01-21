@@ -21,11 +21,6 @@ public:
     typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
     typedef boost::function<bool( IRenderableComponent const& )> RenderFilter;
 private:
-    struct RenderableSpriteCompare
-    {
-        bool operator()( RenderableSprite const& Rs1, RenderableSprite const& Rs2 );
-    };
-
     void Init();
     VaoBase mVAO;
     RecognizerRepo& mRecognizerRepo;

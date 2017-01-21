@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include "core/pickup_collision_component.h"
 #include "core/i_position_component.h"
+#include "engine/engine.h"
+#include "engine/activity_system.h"
 
 namespace engine {
 
@@ -27,7 +29,8 @@ void DropOnDeathSystem::Init()
 
 void DropOnDeathSystem::Update( double DeltaTime )
 {
-    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
+    for (auto actor : activityS->GetActiveActors())
     {
         Opt<IDropOnDeathComponent> dropOnDeathC = actor->Get<IDropOnDeathComponent>();
         if ( !dropOnDeathC.IsValid() )
