@@ -1,0 +1,12 @@
+[
+    {
+        "target_name":"wall_target",
+        "name": "stone_wall",
+        "setters":
+        {
+            "cursor_id": "stone_wall",
+            "actor_id": "stone_wall"
+        },
+        "type":"target_desc"
+    }
+]

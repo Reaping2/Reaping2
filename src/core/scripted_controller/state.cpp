@@ -11,7 +11,7 @@ State::State( int32_t Id )
 
 void State::UpdateTransitions( Actor& actor, double Seconds )
 {
-    bool isActInterruptible = true;
+    bool isActInterruptible = false;
     for (int i = 0; i < mActGroups.size(); ++i)
     {
         auto& index = mCurrActIndices[i];

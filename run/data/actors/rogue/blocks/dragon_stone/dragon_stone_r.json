@@ -1,0 +1,20 @@
+[
+    {
+        "name":"dragon_stone50",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"dragon_stone100",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

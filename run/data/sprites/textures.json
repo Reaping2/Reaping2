@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/grass2.png",
+        "texture_path":":/textures/grass2.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/cross.png",
+        "texture_path":":/textures/cross.png",
         "actor_visuals":
         [
             {
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "texture_path":"textures/flag_big.png",
+        "texture_path":":/textures/flag_big.png",
         "actor_visuals":
         [
             {
@@ -57,7 +57,7 @@
         ]
     },
     {
-        "texture_path":"textures/platform_big.png",
+        "texture_path":":/textures/platform_big.png",
         "actor_visuals":
         [
             {
@@ -76,7 +76,7 @@
         ]
     },
     {
-        "texture_path":"textures/platform_big_color.png",
+        "texture_path":":/textures/platform_big_color.png",
         "actor_visuals":
         [
             {
@@ -95,7 +95,7 @@
         ]
     },
     {
-        "texture_path":"textures/grenade.png",
+        "texture_path":":/textures/grenade.png",
         "actor_visuals":
         [
             {
@@ -114,7 +114,7 @@
         ]
     },
     {
-        "texture_path":"textures/flash.png",
+        "texture_path":":/textures/flash.png",
         "actor_visuals":
         [
             {
@@ -133,7 +133,7 @@
         ]
     },
     {
-        "texture_path":"textures/cloak_normal_item.png",
+        "texture_path":":/textures/cloak_normal_item.png",
         "actor_visuals":
         [
             {
@@ -152,7 +152,7 @@
         ]
     },
     {
-        "texture_path":"textures/pow_projectile.png",
+        "texture_path":":/textures/pow_projectile.png",
         "actor_visuals":
         [
             {
@@ -197,7 +197,7 @@
         ]
     },
     {
-        "texture_path":"textures/grenade_projectile.png",
+        "texture_path":":/textures/grenade_projectile.png",
         "actor_visuals":
         [
             {
@@ -216,7 +216,7 @@
         ]
     },
     {
-        "texture_path":"textures/heal_over_time_buff_pickup.png",
+        "texture_path":":/textures/heal_over_time_buff_pickup.png",
         "actor_visuals":
         [
             {
@@ -235,7 +235,7 @@
         ]
     },
     {
-        "texture_path":"textures/move_speed_buff_pickup.png",
+        "texture_path":":/textures/move_speed_buff_pickup.png",
         "actor_visuals":
         [
             {
@@ -254,7 +254,7 @@
         ]
     },
     {
-        "texture_path":"textures/accuracy_buff_pickup.png",
+        "texture_path":":/textures/accuracy_buff_pickup.png",
         "actor_visuals":
         [
             {
@@ -273,7 +273,7 @@
         ]
     },
     {
-        "texture_path":"textures/armor_buff_pickup.png",
+        "texture_path":":/textures/armor_buff_pickup.png",
         "actor_visuals":
         [
             {
@@ -292,7 +292,7 @@
         ]
     },
     {
-        "texture_path":"textures/cloak_buff_pickup.png",
+        "texture_path":":/textures/cloak_buff_pickup.png",
         "actor_visuals":
         [
             {
@@ -311,7 +311,7 @@
         ]
     },
     {
-        "texture_path":"textures/brickwall1.png",
+        "texture_path":":/textures/brickwall1.png",
         "actor_visuals":
         [
             {
@@ -330,7 +330,7 @@
         ]
     },
     {
-        "texture_path":"textures/rocket_flame.png",
+        "texture_path":":/textures/rocket_flame.png",
         "actor_visuals":
         [
             {
@@ -349,7 +349,7 @@
         ]
     },
     {
-        "texture_path":"textures/rocket_smoke.png",
+        "texture_path":":/textures/rocket_smoke.png",
         "actor_visuals":
         [
             {
@@ -368,7 +368,7 @@
         ]
     },
     {
-        "texture_path":"textures/bullet3_particle.png",
+        "texture_path":":/textures/bullet3_particle.png",
         "actor_visuals":
         [
             {
@@ -387,7 +387,7 @@
         ]
     },
     {
-        "texture_path":"textures/bullet3_particle.png",
+        "texture_path":":/textures/bullet3_particle.png",
         "actor_visuals":
         [
             {
@@ -406,7 +406,7 @@
         ]
     },
     {
-        "texture_path":"textures/bullet3_particle.png",
+        "texture_path":":/textures/bullet3_particle.png",
         "actor_visuals":
         [
             {
@@ -425,7 +425,7 @@
         ]
     },
     {
-        "texture_path":"textures/face.png",
+        "texture_path":":/textures/face.png",
         "actor_visuals":
         [
             {
@@ -444,7 +444,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_particle.png",
+        "texture_path":":/textures/gauss_particle.png",
         "actor_visuals":
         [
             {
@@ -463,7 +463,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_alt_particle.png",
+        "texture_path":":/textures/gauss_alt_particle.png",
         "actor_visuals":
         [
             {
@@ -482,7 +482,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_alt_particle2.png",
+        "texture_path":":/textures/gauss_alt_particle2.png",
         "actor_visuals":
         [
             {
@@ -501,7 +501,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_alt_particle3.png",
+        "texture_path":":/textures/gauss_alt_particle3.png",
         "actor_visuals":
         [
             {
@@ -520,7 +520,7 @@
         ]
     },
     {
-        "texture_path":"textures/plasma_particle.png",
+        "texture_path":":/textures/plasma_particle.png",
         "actor_visuals":
         [
             {

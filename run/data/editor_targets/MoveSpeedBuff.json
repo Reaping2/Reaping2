@@ -1,9 +1,0 @@
-{
-    "target_name": "revive_pickup",
-    "name": "MoveSpeedBuff",
-    "setters":
-    {
-        "type_id": "buff",
-        "content_id": "MoveSpeedBuff"
-    }
-}

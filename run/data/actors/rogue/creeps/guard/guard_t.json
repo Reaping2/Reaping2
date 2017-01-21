@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "guard" ,
+        "setters":
+        {
+            "cursor_id": "guard" ,
+            "actor_id": "guard"
+        },
+        "type":"target_desc"
+    }
+]

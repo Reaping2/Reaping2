@@ -28,6 +28,11 @@ bool ActorFactory::AddActorCreatorFromOneDesc( Json::Value& ActorsDesc, ActorCre
     {
         return false;
     }
+    std::string typeStr;
+    if (Json::GetStr( ActorsDesc["type"], typeStr ) && typeStr!="actor_desc") // currently not mandatory. by default it's an actor
+    {
+        return true;
+    }
     actorCreator->SetId( AutoId( nameStr ) );
     Json::Value& components = ActorsDesc["components"];
     if ( !components.isArray() )
@@ -59,14 +64,13 @@ void ActorFactory::Init()
     PathVect_t Paths;
     Filesys& FSys = Filesys::Get();
     FSys.GetFileNames( Paths, "actors" );
-    for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
+    for( auto const& Path : Paths )
     {
-        boost::filesystem::path const& Path = *i;
         if( Path.extension().string() != ".json" )
         {
             continue;
         }
-        AutoFile JsonFile = FSys.Open( *i );
+        AutoFile JsonFile = FSys.Open( Path );
         if( !JsonFile.get() )
         {
             continue;
@@ -81,9 +85,8 @@ void ActorFactory::Init()
         {
             continue;
         }
-        for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
+        for( auto& ActorsDesc : Root )
         {
-            Json::Value& ActorsDesc = *i;
             try
             {
                 if( !AddActorCreatorFromOneDesc( ActorsDesc, mActorCreators ) )

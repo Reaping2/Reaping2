@@ -1,9 +1,0 @@
-{
-    "target_name": "revive_pickup",
-    "name": "pistol",
-    "setters":
-    {
-        "type_id": "weapon",
-        "content_id": "pistol"
-    }
-}

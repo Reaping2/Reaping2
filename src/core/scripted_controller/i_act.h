@@ -50,7 +50,7 @@ protected:
     double mDuration = 0.0;
     double mDurationVariance = 0.0;
     double mDurationCurrent = 0.0;
-    bool mInterruptible = false;
+    bool mInterruptible = true;
 };
 
 template<class Archive>

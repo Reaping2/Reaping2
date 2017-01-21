@@ -46,7 +46,7 @@
         {
             "seed":1,
             "cell_size":800,
-            "cell_count":3,
+            "cell_count":15,
             "route":
             {
                 "min_length":1,
@@ -75,8 +75,10 @@
             ],
             "possible_rooms":
             [
-                { "room_id":"rogue1x1","base":1,"weight":3 },
-                { "room_id":"rogue1x3","base":1,"weight":1 }
+                { "room_id":"rogue1x1","base":1,"weight":1 },
+                { "room_id":"rogue1x3","base":1,"weight":1 },
+                { "room_id":"rogue2x2","base":1,"weight":1 },
+                { "room_id":"rogue2x2wallstone","base":1,"weight":6 }
             ]
         },        
         "identifier":"generator"

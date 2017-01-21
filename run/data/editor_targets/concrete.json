@@ -1,9 +1,0 @@
-{
-    "target_name": "wall_target" ,
-        "name": "concrete" ,
-        "setters":
-        {
-            "cursor_id": "concrete" ,
-            "actor_id": "concrete"
-        }
-}

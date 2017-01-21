@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/plasma_pickup.png",
+        "texture_path":":/textures/plasma_pickup.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
 	{
-		"texture_path":"textures/plasma_projectile.png",
+		"texture_path":":/textures/plasma_projectile.png",
 		"actor_visuals":
 		[
 			{

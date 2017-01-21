@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "revive_pickup",
+        "name": "shotgun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "shotgun"
+        },
+        "type":"target_desc"
+    }
+]

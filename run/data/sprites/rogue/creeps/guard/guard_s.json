@@ -1,0 +1,180 @@
+[
+    {
+        "texture_path":"guard_body_color.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"body_color",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_head_color.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"head_color",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_head_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"head",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_body_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 100,
+                      "h" : 100,
+                      "name" : "body_idle",
+                      "phases":[{"x":0,"y":0}],
+                      "scale" : 2.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_body_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 100,
+                      "h" : 100,
+                      "name" : "body_move",
+                      "phases":[{"x":0,"y":0}],
+                      "scale" : 2.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+      "actor_visuals" : [
+         {
+            "animations" : [
+               {
+                  "h" : 17,
+                  "name" : "pistol",
+                  "phases" : [
+                     {
+                        "x" : 546,
+                        "y" : 156
+                     }
+                  ],
+                  "scale" : 2.0,
+                  "w" : 30
+               },
+               {
+                  "h" : 17,
+                  "name" : "plasma_gun",
+                  "phases" : [
+                     {
+                        "x" : 580,
+                        "y" : 156
+                     }
+                  ],
+                  "scale" : 2.0,
+                  "w" : 30
+               },
+               {
+                  "h" : 17,
+                  "name" : "guard_plasma_gun",
+                  "phases" : [
+                     {
+                        "x" : 580,
+                        "y" : 156
+                     }
+                  ],
+                  "scale" : 2.0,
+                  "w" : 30
+               }
+            ],
+            "name" : "guard"
+         }
+      ],
+      "texture_path" : ":/textures/combined.tga"
+    },
+    {
+        "texture_path":":/sprites/rogue/player/soldier_rip.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "death",
+                      "phases":[
+                            {"x":0,"y":0},
+                            {"x":90,"y":0},
+                            {"x":180,"y":0},
+                            {"x":270,"y":0},
+                            {"x":360,"y":0},
+                            {"x":450,"y":0},
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0,
+                      "secs_to_end": 0.35
+                    },
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "corpse",
+                      "phases":[
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0
+                   }
+                ]
+            }
+        ]
+    }
+]

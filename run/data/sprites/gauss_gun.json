@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/gauss_gun_player.png",
+        "texture_path":":/textures/gauss_gun_player.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_gun_player.png",
+        "texture_path":":/textures/gauss_gun_player.png",
         "actor_visuals":
         [
             {
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_gun.png",
+        "texture_path":":/textures/gauss_gun.png",
         "actor_visuals":
         [
             {
@@ -57,7 +57,7 @@
         ]
     },
     {
-        "texture_path":"textures/gauss_shot.png",
+        "texture_path":":/textures/gauss_shot.png",
         "actor_visuals":
         [
             {

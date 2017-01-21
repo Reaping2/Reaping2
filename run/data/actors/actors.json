@@ -43,6 +43,7 @@
         "name":"water",
         "components":
         [
+            {"name":"static_actor_component"},
             {"name":"position_component"},
             {"name":"renderable_component",
                 "set":[{"layer":"corpses", "receive_shadow":1}]
@@ -76,25 +77,24 @@
                     "pulse_descs":[
                             {
                                 "duration": 1.0,
-                                "variance": 0.5,
-                                "speed": 50,
+                                "variance": 0.2,
+                                "speed": 5,
                                 "comment": "background_size"
                             },
                             {
-                                "duration": 1.0,
-                                "variance": 0.5,
-                                "speed": 50,
+                                "duration": 1.5,
+                                "variance": 0.2,
+                                "speed": 10,
                                 "comment": "weapon_size"
                             },
                             {
                                 "duration": 1.0,
-                                "variance": 0.5,
-                                "speed": 0.75,
+                                "variance": 0.05,
+                                "speed": 0.4,
                                 "comment": "weapon_rotation"
                             }
                     ]
                 }]
-                
             }
         ]
     },

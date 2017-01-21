@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"textures/soldier_head_color.png",
+        "texture_path":":/textures/soldier_head_color.png",
         "actor_visuals":
         [
             {
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"textures/soldier_head_base.png",
+        "texture_path":":/textures/soldier_head_base.png",
         "actor_visuals":
         [
             {
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "texture_path":"textures/soldier_body_color.png",
+        "texture_path":":/textures/soldier_body_color.png",
         "actor_visuals":
         [
             {
@@ -57,7 +57,7 @@
         ]
     },
     {
-        "texture_path":"textures/soldier_body_base.png",
+        "texture_path":":/textures/soldier_body_base.png",
         "actor_visuals":
         [
             {
@@ -76,7 +76,7 @@
         ]
     },
     {
-        "texture_path":"textures/soldier_body_base.png",
+        "texture_path":":/textures/soldier_body_base.png",
         "actor_visuals":
         [
             {
@@ -95,7 +95,7 @@
         ]
     },
     {
-        "texture_path":"textures/soldier_current.png",
+        "texture_path":":/textures/soldier_current.png",
         "actor_visuals":
         [
             {
@@ -114,7 +114,7 @@
         ]
     },
     {
-        "texture_path" : "textures/combined.tga",
+        "texture_path" : ":/textures/combined.tga",
         "actor_visuals":
         [
             {

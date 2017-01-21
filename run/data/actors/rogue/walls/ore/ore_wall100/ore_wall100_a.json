@@ -1,0 +1,20 @@
+[
+    {
+        "name":"rogue_ore_wall100",
+        "components":
+        [
+            {"name":"static_actor_component"},
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings", "cast_shadow":1,
+                    "random_sprites":[3,1,3]}]
+            },
+            {"name":"wall_collision_component",
+                "set":[{"class":"wall", "radius":100}]
+            },
+            {"name":"border_component",
+                "set":[{"random_sprites":[1,1,1]}]
+            }
+        ]
+    }
+]

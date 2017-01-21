@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "rogue_mud100" ,
+        "setters":
+        {
+            "cursor_id": "rogue_mud100" ,
+            "actor_id": "rogue_mud100"
+        },
+        "type":"target_desc"
+    }
+]

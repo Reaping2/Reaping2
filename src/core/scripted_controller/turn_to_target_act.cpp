@@ -57,16 +57,12 @@ void TurnToTargetAct::Update( Actor& actor, double Seconds )
     {
         direction = mPathSystem->GetDirection( actor, *target );
     }
+
+    static double const pi = boost::math::constants::pi<double>();
+
     double rads = direction - positionC->GetOrientation();
-    static const double pi = boost::math::constants::pi<double>();
-    while (rads < -pi)
-    {
-        rads += pi * 2;
-    }
-    while (rads > pi)
-    {
-        rads -= pi * 2;
-    }
+    rads = fmod( rads + pi, pi * 2 );
+    rads += pi * (rads<0 ? 1 : -1);
     
     if (std::abs( rads ) > 0.1)
     {

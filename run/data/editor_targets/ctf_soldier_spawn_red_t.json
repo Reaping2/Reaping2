@@ -1,0 +1,12 @@
+[
+    {
+        "target_name":"ctf_soldier_spawn_target",
+        "name": "ctf_soldier_spawn_red",
+        "setters":
+        {
+            "cursor_id": "ctf_player",
+            "team": "red"
+        },
+        "type":"target_desc"
+    }
+]
