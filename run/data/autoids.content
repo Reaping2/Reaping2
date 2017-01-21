@@ -150,6 +150,7 @@ Actor
 Any
 ArmorBuff
 Away
+CANDIDATES
 CELL COUNT:
 CELL SIZE:
 CTF
@@ -223,6 +224,7 @@ Select cell entrance!
 Shotgun
 ShotgunPickup
 Start
+TOCHECK
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
@@ -407,6 +409,7 @@ attachable_component
 audible_component
 auto_revive_text
 autoids
+autoids.old
 b
 b1
 b10
@@ -516,6 +519,7 @@ closest
 collision_component
 combined
 combiner
+compare
 concrete
 concrete_bottom_outer
 concrete_bottom_outer_border
@@ -1652,6 +1656,7 @@ textures/water_topright_outer_border.png
 textures/weapon_gatling_gun.png
 textures/weapon_rocket_launcher.png
 textures/weapon_shotgun.png
+tgts.json
 tile_water
 top
 top_entrance

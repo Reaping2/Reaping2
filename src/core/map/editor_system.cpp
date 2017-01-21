@@ -6,9 +6,7 @@
 #include "json/json.h"
 #include "map_system.h"
 #include "spawn_actor_map_element.h"
-#include "editor_grid_system.h"
 #include "editor_target_system.h"
-#include "editor_brush_system.h"
 #include "engine/collision_system.h"
 #include "ctf_soldier_spawn_point_map_element.h"
 #include "respawn_actor_map_element.h"
@@ -16,7 +14,6 @@
 #include "ctf_flag_spawn_point_map_element.h"
 #include "../i_renderable_component.h"
 #include "input/keyboard_adapter_system.h"
-#include <boost/assign/std/vector.hpp>
 #include "editor_back_event.h"
 #include "room_editor_system.h"
 #include "editor_mode_changed_event.h"
@@ -70,22 +67,27 @@ void EditorSystem::Init()
             std::string foldername;
             idstorage.GetName(id, foldername);
 
-            bool generated = false;
+            // ffa and ctf compliant maps are editable
+            bool isEditable = false;
             try
             {
-                if ( !Json::GetBool(desc["generated"], generated))
+                if ( desc["maptype"].isArray() )
                 {
-                    L1("%s has no 'generated' info assuming 'false'");
+                    for ( const auto& type : desc["maptype"] )
+                    {
+                        std::string s;
+                        isEditable |= Json::GetStr( type, s ) && ((s == "ffa") || (s == "ctf"));
+                    }
                 }
             }
             catch( const std::exception& e)
             {
-                L1("Exception caught while querying 'generated' info, discaring map %s.", foldername.c_str());
+                L1("Exception caught while querying 'generated' info, discarding map %s.", foldername.c_str());
                 continue;
             }
 
             // not generated maps are ediable with this editor
-            if ( !generated )
+            if (isEditable)
             {
                 mLevelNames.push_back(foldername);
             }
@@ -223,6 +225,10 @@ void EditorSystem::OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt )
 
 void EditorSystem::Save()
 {
+    // flags to indicate map types in map description
+    bool hasFFAitems = false;
+    bool hasCTFitems = false;
+    // regular spawn points and background elements
     {
         Json::Value Root( Json::arrayValue );
         Json::Value RootBackground( Json::arrayValue );
@@ -253,6 +259,7 @@ void EditorSystem::Save()
                 if ( Element.size() > 0 )
                 {
                     Root.append( Element );
+                    hasFFAitems = true;
                 }
             }
         }
@@ -274,6 +281,7 @@ void EditorSystem::Save()
             }
         }
     }
+    // save CTF specific items: soldier and flag spawn points
     {
         Json::Value Root( Json::arrayValue );
         MapElementList_t& mapElementList = MapSystem::Get()->GetMapElementList();
@@ -287,6 +295,7 @@ void EditorSystem::Save()
                 if ( Element.size() > 0 )
                 {
                     Root.append( Element );
+                    hasCTFitems = true;
                 }
             }
         }
@@ -298,6 +307,7 @@ void EditorSystem::Save()
             OutJson.Write( JString );
         }
     }
+    // pickups
     {
         Json::Value Root( Json::arrayValue );
         MapElementList_t& mapElementList = MapSystem::Get()->GetMapElementList();
@@ -327,6 +337,16 @@ void EditorSystem::Save()
         desc["description"] = "";
         desc["name"] = mLevelName;
         desc["thumbnail"] = "";
+        if ( hasFFAitems )
+        {
+            Json::Value type("ffa");
+            desc["maptype"].append(type);
+        }
+        if ( hasCTFitems )
+        {
+            Json::Value type("ctf");
+            desc["maptype"].append(type);
+        }
         Json::StyledWriter Writer;
         std::string const& JString = Writer.write( desc );
         {

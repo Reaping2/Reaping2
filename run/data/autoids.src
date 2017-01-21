@@ -1802,7 +1802,6 @@ map
 map-editorModeChanged
 map-levelGenerated
 map/
-map/"+foldername+"/map_elements.json
 map/editor_brush_system.h
 map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
@@ -1833,6 +1832,7 @@ mapitem
 mapitems
 mapitemtarget
 mapping.h
+maptype
 material
 matrix
 matrix","absolute
