@@ -530,7 +530,6 @@ aoe
 aoe_collision_component
 aoe_collision_component.h
 aoe_collision_sub_system
-archived
 armor
 armor_buff
 armor_buff.h
