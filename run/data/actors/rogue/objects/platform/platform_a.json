@@ -1,0 +1,18 @@
+[
+    {
+        "name":"platform",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"corpses", "receive_shadow":1}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"flag", "radius":50}]
+            },
+            {"name":"team_component"},
+            {"name":"flag_receiver_component"}
+        ]
+    }
+]
+

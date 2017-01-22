@@ -1857,7 +1857,6 @@ min_speed
 mine
 misc/font.json
 misc/particlelayers
-misc/recognizers.json
 misc/recognizers_excludes.json
 misc/renderable_layers.json
 misc/settings.json
@@ -2577,7 +2576,6 @@ texture.h
 texture_base.h
 texture_path
 texture_repo.h
-textures
 textures.json
 tgatexture.h
 thumbnail

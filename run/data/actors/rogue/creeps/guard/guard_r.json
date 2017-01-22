@@ -22,5 +22,14 @@
                 
         ],
         "type":"recognizer_desc"
-    }
+    },
+    {
+        "name":"guard_plasma_shot",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }    
  ]
