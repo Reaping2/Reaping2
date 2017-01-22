@@ -4,6 +4,8 @@
 #include "platform/model_value.h"
 #include "engine/system.h"
 #include "core/gamemode_selected_event.h"
+#include "core/gamemodes.h"
+
 using platform::ModelValue;
 using platform::AutoReg;
 
@@ -17,21 +19,21 @@ class LevelSelectionSystem : public engine::System
     ModelValue mLevelThumbnailsModel;
     std::string mSelectedLevel;
     // caches selected game mode from ProgramState
-    std::string mGameMode;
+    GameModes::GameMode mGameMode;
     // mappings
     // game mode to display names of available maps
-    std::map<std::string,std::vector<std::string>> mLevelDisplayNames;
+    std::map<GameModes::GameMode ,std::vector<std::string>> mLevelDisplayNames;
     // game mode to real names of available maps
-    std::map<std::string,std::vector<std::string>> mLevelRealNames;
+    std::map<GameModes::GameMode ,std::vector<std::string>> mLevelRealNames;
     // game mode to thimbnail id of available maps
-    std::map<std::string,std::vector<int32_t>> mLevelThumbnails;
+    std::map<GameModes::GameMode ,std::vector<int32_t>> mLevelThumbnails;
 public:
     DEFINE_SYSTEM_BASE(LevelSelectionSystem)
     LevelSelectionSystem();
     // used by the UI
     void SelectLevelByIdx( int32_t idx );
     // used by other other Systems
-    void SelectLevelByName( std::string const& gameMode, std::string const& realName );
+    void SelectLevelByName( core::GameModes::GameMode gameMode, std::string const& realName );
     std::string GetSelectedLevel();
 
     std::vector<std::string> DisplayNames();

@@ -530,6 +530,7 @@ aoe
 aoe_collision_component
 aoe_collision_component.h
 aoe_collision_sub_system
+archived
 armor
 armor_buff
 armor_buff.h
@@ -841,6 +842,7 @@ core/flag_state_changed_event.h
 core/flash_normal_item.h
 core/free_for_all_game_mode_system.h
 core/gamemode_selected_event.h
+core/gamemodes.h
 core/gatling_gun.h
 core/gauss_gun.h
 core/grenade_normal_item.h
@@ -1394,6 +1396,7 @@ gamemode_selected_message
 gamemode_selected_message.h
 gamemode_selected_message_handler_sub_system
 gamemode_selected_message_sender_system
+gamemodes.h
 gatling_down
 gatling_gun
 gatling_gun.h
@@ -2614,6 +2617,7 @@ ui_model.h
 ui_renderer.h
 uimodel.h
 uimodel_repo.h
+unknown
 use_normal
 use_shot
 valign

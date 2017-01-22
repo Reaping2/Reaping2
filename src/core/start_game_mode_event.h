@@ -2,13 +2,14 @@
 #define INCLUDED_CORE_START_GAME_MODE_EVENT_H
 
 #include "platform/event.h"
+#include "core/gamemodes.h"
 
 namespace core {
 
 struct StartGameModeEvent : public platform::Event
 {
-    std::string mMode;
-    StartGameModeEvent( std::string mode )
+    GameModes::GameMode mMode;
+    StartGameModeEvent( GameModes::GameMode mode )
         : mMode( mode ) {}
 };
 

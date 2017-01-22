@@ -21,7 +21,7 @@ public:
         SelectLevel
     };
     State mState;
-    std::string mGameMode;
+    core::GameModes::GameMode mGameMode;
     std::string mSelectedLevel;
     int32_t mClientId;
     LifecycleMessage()

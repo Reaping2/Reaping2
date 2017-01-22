@@ -12,7 +12,7 @@ LevelSelectionSystem::LevelSelectionSystem()
     , mLevelDisplayNamesModel( (ModelValue::get_string_vec_t)boost::bind( &LevelSelectionSystem::DisplayNames, this), "names", &mLevelModel )
     , mLevelThumbnailsModel( (ModelValue::get_int_vec_t)boost::bind(&LevelSelectionSystem::Thumbnails, this ), "images", &mLevelModel )
     , mSelectedLevel( "" )
-    , mGameMode("")
+    , mGameMode( GameModes::Unknown )
 {
 }
 
@@ -38,14 +38,15 @@ void LevelSelectionSystem::Init()
             continue;
         }
         // store map for all the gamemodes it's available for
-        std::vector<std::string> gamemodes;
+        std::vector<GameModes::GameMode> gamemodes;
         if ( desc["maptype"].isArray() )
         {
             for ( const auto& type : desc["maptype"] )
             {
                 std::string t;
                 Json::GetStr( type, t );
-                gamemodes.push_back(t);
+                GameModes::GameMode m = GameModes::FromString( t );
+                gamemodes.push_back(m);
             }
         }
 
@@ -84,7 +85,7 @@ void LevelSelectionSystem::SelectLevelByIdx( int32_t idx )
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
 
-void LevelSelectionSystem::SelectLevelByName( std::string const& gameMode, std::string const& realName )
+void LevelSelectionSystem::SelectLevelByName( GameModes::GameMode gameMode, std::string const& realName )
 {
     mGameMode = gameMode;
     std::vector<std::string> const& realNames = mLevelRealNames[mGameMode];

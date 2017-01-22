@@ -14,7 +14,7 @@ class GamemodeSelectedMessage: public Message
     friend class ::boost::serialization::access;
 public:
     DEFINE_MESSAGE_BASE( GamemodeSelectedMessage )
-    std::string mGameMode;
+    core::GameModes::GameMode mGameMode;
     int32_t mOriginator;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
