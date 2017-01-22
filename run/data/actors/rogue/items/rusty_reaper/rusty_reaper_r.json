@@ -1,0 +1,20 @@
+[
+    {
+        "name":"rusty_reaper_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"rusty_reaper_alt_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+]

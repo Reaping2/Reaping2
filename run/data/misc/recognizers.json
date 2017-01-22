@@ -105,196 +105,7 @@
         "type":"recognizer_desc"
     },
     {
-        "name":"rocket_launcher",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"lucky_rocket",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"pistol_shot",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"plasma_shot",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
         "name":"guard_plasma_shot",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"rocket_launcher_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"lucky_rocket_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"lucky_rocket_alt_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"shotgun_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"shotgun_alt2_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"shotgun_alt_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"rusty_reaper_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"rusty_reaper_alt_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"ion_gun_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"ion_gun_alt_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"gatling_gun_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"gauss_shot",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"gatling_gun_alt_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"ion_gun_explode_projectile",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"blue_grenade_explode_projectile",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"blue_grenade_projectile",
-        "recognizers":
-        [
-            {"recognizer":"move",
-                "renderer":"move"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"rocket_launcher_target_projectile",
         "recognizers":
         [
             {"recognizer":"move",
@@ -322,15 +133,6 @@
     },
     {
         "name":"rocket_pow_projectile",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"lucky_rocket_explosion_projectile",
         "recognizers":
         [
             {"recognizer":"idle",
@@ -387,26 +189,6 @@
         "type":"recognizer_desc"
     },
     {
-        "name":"grass_tile",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"},
-            {"recognizer":"border",
-                "renderer":"border"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"big_background",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
         "name":"cell",
         "recognizers":
         [
@@ -430,17 +212,6 @@
         [
             {"recognizer":"idle",
                 "renderer":"idle"}
-        ],
-        "type":"recognizer_desc"
-    },
-    {
-        "name":"concrete",
-        "recognizers":
-        [
-            {"recognizer":"idle",
-                "renderer":"idle"},
-            {"recognizer":"border",
-                "renderer":"border"}
         ],
         "type":"recognizer_desc"
     }

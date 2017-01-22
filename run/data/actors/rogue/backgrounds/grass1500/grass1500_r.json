@@ -1,0 +1,12 @@
+[
+	{
+		"name":"grass1500",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"}
+		],
+        "type":"recognizer_desc"
+	}
+]
+

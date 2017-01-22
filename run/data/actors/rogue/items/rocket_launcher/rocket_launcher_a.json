@@ -1,0 +1,138 @@
+[
+    {
+        "name":"rocket_launcher_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":400}]
+            },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":2000,"max_speed":2600}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "cast_shadow":1}]
+            },
+
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":8, "damage":25 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"explode_on_death_component",
+                "set":[{"explosion_projectile":"rocket_pow_projectile"}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+            {
+                "name":"emitter_component",
+                "set": [{
+                    "emit_descs":[
+                        {
+                            "delay": 0.0,
+                            "probability": 1.0,
+                            "emit_type": "rocket_smoke"
+                        },
+                        {
+                            "delay": 0.0,
+                            "probability": 1.0,
+                            "emit_type": "rocket_flame"
+                        },
+                        {
+                            "delay": 0.01,
+                            "probability": 0.1,
+                            "emit_type": "rocket_alt_flame"
+                        }
+                    ]
+                }]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "rocket" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"rocket_launcher_target_projectile",
+        "components":
+        [
+            {"name":"pointer_target_controller_component"},
+            {"name":"listen_child_death_component"},
+            {"name":"target_holder_component"},
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":400}]
+            },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":1200,"max_speed":1500}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "cast_shadow":1}]
+            },
+
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":8, "damage":50 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"explode_on_death_component",
+                "set":[{"explosion_projectile":"rocket_target_pow_projectile"}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":8.0}]
+            },
+            {
+                "name":"emitter_component",
+                "set": [
+                    {
+                        "emit_descs":[
+                            {
+                                "delay": 0.001,
+                                "emit_type": "rocket_alt_flame"
+                            },
+                            {
+                                "delay": 0.0,
+                                "probability": 0.7,
+                                "emit_type": "rocket_smoke"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "rocket" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"laser_pointer_projectile",
+        "components":
+        [
+            {"name":"notify_parent_on_death_component"},
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":8500}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":10, "damage":0 }]
+            },
+            {"name":"health_component"},
+            {"name":"remove_on_death_component"}
+        ]
+    }
+]

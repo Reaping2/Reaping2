@@ -1,6 +1,6 @@
 [
     {
-      "actor" : "big_background",
+      "actor" : "grass1500",
       "components" : [
          {
             "name" : "position_component",
@@ -16,7 +16,7 @@
       "name" : "spawn_actor"
     },
     {
-      "actor" : "big_background",
+      "actor" : "grass1500",
       "components" : [
          {
             "name" : "position_component",
@@ -32,7 +32,7 @@
       "name" : "spawn_actor"
     },
     {
-      "actor" : "big_background",
+      "actor" : "grass1500",
       "components" : [
          {
             "name" : "position_component",
@@ -48,7 +48,7 @@
       "name" : "spawn_actor"
     },
     {
-      "actor" : "big_background",
+      "actor" : "grass1500",
       "components" : [
          {
             "name" : "position_component",

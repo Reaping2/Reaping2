@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "revive_pickup",
+        "name": "plasma_gun",
+        "setters":
+        {
+            "type_id": "weapon",
+            "content_id": "plasma_gun"
+        },
+        "type":"target_desc"
+    }
+]

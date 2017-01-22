@@ -121,18 +121,6 @@
                 "name" : "ctf_player",
                 "animations" : [
                     {
-                        "h" : 17,
-                        "name" : "plasma_gun",
-                        "phases" : [
-                            {
-                                "x" : 580,
-                                "y" : 156
-                            }
-                        ],
-                        "scale" : 2.0,
-                        "w" : 30
-                    },
-                    {
                         "h" : 90,
                         "name" : "death",
                         "phases" : [

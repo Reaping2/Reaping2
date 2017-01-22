@@ -130,27 +130,5 @@
                 ]
             }
         ]
-    },
-    {
-      "actor_visuals" : [
-         {
-            "animations" : [
-               {
-                  "h" : 17,
-                  "name" : "plasma_gun",
-                  "phases" : [
-                     {
-                        "x" : 580,
-                        "y" : 156
-                     }
-                  ],
-                  "scale" : 2.0,
-                  "w" : 30
-               }
-            ],
-            "name" : "player"
-         }
-      ],
-      "texture_path" : ":/textures/combined.tga"
     }
 ]

@@ -1648,7 +1648,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1673,7 +1673,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1698,7 +1698,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1723,7 +1723,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1748,7 +1748,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1773,7 +1773,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1798,7 +1798,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1823,7 +1823,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1848,7 +1848,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1873,7 +1873,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",
@@ -1898,7 +1898,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "stone_wall",
+      "actor" : "brick_wall100",
       "components" : [
          {
             "name" : "position_component",

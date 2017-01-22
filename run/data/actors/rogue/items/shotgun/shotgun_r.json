@@ -1,0 +1,29 @@
+[
+    {
+        "name":"shotgun_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"shotgun_alt2_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"shotgun_alt_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+]
