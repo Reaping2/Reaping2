@@ -7,7 +7,7 @@
             [{
                 "w" : 50,
                 "h" : 50,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "wood_block50_right"
@@ -21,7 +21,7 @@
             [{
                 "w" : 50,
                 "h" : 50,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.00
             }], "name" : "wood_block50_left"

@@ -1,0 +1,128 @@
+[
+    {
+        "texture_path":"brick_wall100.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_top_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_top"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_right_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_right"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_bottom_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_bottom"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_left_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_left"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_topright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_topright"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_bottomright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_bottomright"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_bottomleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_bottomleft"
+        }]
+    },
+    {
+        "texture_path":"brick_wall100_topleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "brick_wall100_topleft"
+        }]
+    }
+]

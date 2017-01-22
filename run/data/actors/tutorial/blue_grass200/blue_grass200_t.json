@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "blue_grass200" ,
+        "setters":
+        {
+            "cursor_id": "blue_grass200" ,
+            "actor_id": "blue_grass200"
+        },
+        "type":"target_desc"
+    }
+]

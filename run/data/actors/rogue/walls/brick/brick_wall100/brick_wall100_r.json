@@ -1,0 +1,13 @@
+[
+    {
+        "name":"brick_wall100",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"},
+            {"recognizer":"border",
+                "renderer":"border"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

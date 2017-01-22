@@ -13,7 +13,7 @@ LegMoveActionRenderer::LegMoveActionRenderer( int32_t Id )
 void LegMoveActionRenderer::Init( const Actor& actor )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    static int32_t aid = AutoId( "move" );
+    static int32_t aid = AutoId( "leg_move" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {
@@ -24,7 +24,7 @@ void LegMoveActionRenderer::Init( const Actor& actor )
 void LegMoveActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
     SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    static int32_t aid = AutoId( "move" );
+    static int32_t aid = AutoId( "leg_move" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {

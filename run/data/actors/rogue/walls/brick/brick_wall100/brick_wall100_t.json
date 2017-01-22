@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "brick_wall100" ,
+        "setters":
+        {
+            "cursor_id": "brick_wall100" ,
+            "actor_id": "brick_wall100"
+        },
+        "type":"target_desc"
+    }
+]

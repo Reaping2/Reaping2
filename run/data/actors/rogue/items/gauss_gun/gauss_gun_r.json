@@ -1,0 +1,21 @@
+[
+    {
+        "name":"gauss_shot",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"gauss_alt_shot",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+]
+

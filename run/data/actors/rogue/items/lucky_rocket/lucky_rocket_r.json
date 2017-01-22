@@ -1,0 +1,30 @@
+[
+    {
+        "name":"lucky_rocket_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"lucky_rocket_alt_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"lucky_rocket_explosion_projectile",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+]
+

@@ -8,7 +8,7 @@
                 [
                     {
                         "h" : 32,
-                        "name" : "body_idle",
+                        "name" : "idle",
                         "phases":[{"x":0,"y":0}],
                         "scale" : 1.0,
                         "w" : 32

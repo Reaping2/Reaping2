@@ -1,0 +1,102 @@
+[
+    {
+        "name":"ion_gun_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":4000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":12, "damage":30 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"detonate_on_hit_component",
+                "set":[{"material":"ion",
+                    "add_radius":20,
+                    "remove_on_hit":1}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "ion"
+                            }]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"ion_gun_alt_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":1000}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":10, "damage":20 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"explode_on_hit_component",
+                "set":[{"explosion_projectile":"ion_gun_explosion_projectile",
+                    "detonator_material":"ion",
+                    "add_radius":40}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+            {"name":"audible_component",
+                "set": [
+                    {
+                        "sounds":[
+                            { "name": "ion_secondary",
+                            "loop_until_death": 1
+                            }]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"ion_gun_explosion_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"aoe_collision_component",
+                "set":[{"class":"aoe", "radius":14, "damage":65, "damage_once":1 }]
+            },
+            {"name":"explosion_component",
+                "set":[{"scale_speed":1500.0, "max_radius":350.0}]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"detonate_on_hit_component",
+                "set":[{"material":"ion",
+                    "add_radius":125,
+                    "remove_on_hit":0}]
+            },
+            {"name":"remove_on_death_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":0.325}]
+            }
+        ]
+    }
+]

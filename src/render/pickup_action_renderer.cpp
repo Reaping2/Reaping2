@@ -8,7 +8,7 @@ namespace render {
 PickupActionRenderer::PickupActionRenderer( int32_t Id )
     : ActionRenderer( Id )
 {
-    mActionId = AutoId( "body_idle" );
+    mActionId = AutoId( "idle" );
 }
 
 void PickupActionRenderer::Init( const Actor& actor )

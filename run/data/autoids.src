@@ -91,6 +91,8 @@
 .unknown
 .vs
 .windows
+/
+/"+foldername+"/map_elements.json
 /description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
@@ -566,7 +568,6 @@ auto_revive_text
 autoids.content
 autoids.src
 background
-background_1
 backtrace.h
 bar
 bar.h
@@ -587,8 +588,6 @@ blue_grenade_normal_item_sub_system
 blue_grenade_projectile
 bluenames
 body_color
-body_idle
-body_move
 bool-active
 bool-applied
 bool-hudShown
@@ -647,7 +646,6 @@ buffs_engine/heal_over_time_buff_sub_system.h
 buffs_engine/max_health_buff_sub_system.h
 buffs_engine/move_speed_buff_sub_system.h
 bufftarget
-buildings
 bullets
 button
 button.h
@@ -1021,7 +1019,6 @@ create_actor_message_handler_sub_system
 create_actor_message_handler_sub_system.h
 create_actor_message_sender_system
 creep
-creeps
 cross
 ctf
 ctf-flagStateChanged
@@ -1373,7 +1370,6 @@ flash_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
 font.h
-font.json
 fontsize
 for
 fps
@@ -1804,8 +1800,6 @@ mandatory_rooms
 map
 map-editorModeChanged
 map-levelGenerated
-map/
-map/"+foldername+"/map_elements.json
 map/editor_brush_system.h
 map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
@@ -1836,6 +1830,7 @@ mapitem
 mapitems
 mapitemtarget
 mapping.h
+maps
 material
 matrix
 matrix","absolute
@@ -1860,6 +1855,12 @@ mid
 min_length
 min_speed
 mine
+misc/font.json
+misc/particlelayers
+misc/recognizers.json
+misc/recognizers_excludes.json
+misc/renderable_layers.json
+misc/settings.json
 mixer.h
 mode
 mode_select
@@ -2017,7 +2018,6 @@ particle_layer_repo.h
 particle_system
 particle_system.h
 particle_template_repo.h
-particlelayers
 particles
 passthrough
 path
@@ -2096,7 +2096,6 @@ player_controller_message_sender_system
 player_controller_sub_system
 player_model_system
 player_model_system.h
-players
 pngtexture.h
 pointer_target_controller_component
 pointer_target_controller_component.h
@@ -2163,8 +2162,6 @@ recognizer_desc
 recognizer_factory.h
 recognizer_repo.h
 recognizers
-recognizers.json
-recognizers_excludes.json
 recreate
 recreate_borders
 recreate_borders_map_element
@@ -2192,8 +2189,6 @@ removed_actors_system
 removed_actors_system.h
 render/action_renderer.h
 render/action_renderer_factory.h
-render/body_move_action_renderer.h
-render/body_move_recognizer.h
 render/border_action_renderer.h
 render/border_recognizer.h
 render/camera.h
@@ -2218,6 +2213,8 @@ render/idle_action_renderer.h
 render/idle_recognizer.h
 render/leg_move_action_renderer.h
 render/leg_move_recognizer.h
+render/move_action_renderer.h
+render/move_recognizer.h
 render/particle_system.h
 render/pickup_action_renderer.h
 render/pickup_recognizer.h

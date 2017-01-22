@@ -7,7 +7,7 @@
             [{
                 "w" : 50,
                 "h" : 50,
-                "name" : "body_idle",
+                "name" : "idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 2.00
             }], "name" : "bush50"

@@ -1,0 +1,33 @@
+[
+	{
+		"name":"death",
+		"excludes":
+		["idle","move","leg_move","weapon","body_color","ctf_body_color","pickup","soldier_current","head","head_color","ctf_head_color"]
+	},
+	{
+		"name":"move",
+		"excludes":
+		["idle"]
+	},
+	{
+		"name":"leg_move",
+		"excludes":
+		["idle"]
+	},
+	{
+		"name":"move",
+		"excludes":
+		["idle"]
+	},
+	{
+		"name":"idle",
+		"excludes":
+		["move","leg_move"]
+	},
+	{
+		"name":"weapon"
+	},
+	{
+		"name":"pickup"
+	}
+]

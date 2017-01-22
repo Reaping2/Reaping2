@@ -5,7 +5,7 @@
             "animations" : [
                {
                   "h" : 200,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 2,
@@ -120,23 +120,6 @@
             ],
             "name" : "pistol_shot"
          },
-         {
-            "animations" : [
-               {
-                  "h" : 9,
-                  "name" : "move",
-                  "phases" : [
-                     {
-                        "x" : 976,
-                        "y" : 142
-                     }
-                  ],
-                  "scale" : 0.5,
-                  "w" : 15
-               }
-            ],
-            "name" : "laser_pointer_projectile"
-         },		 
          {
             "animations" : [
                {
@@ -344,7 +327,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -462,7 +445,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -571,7 +554,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,
@@ -664,7 +647,7 @@
                },
                {
                   "h" : 100,
-                  "name" : "body_idle",
+                  "name" : "idle",
                   "phases" : [
                      {
                         "x" : 834,

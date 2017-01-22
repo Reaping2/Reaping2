@@ -1,0 +1,72 @@
+[
+    {
+        "texture_path":"jungle_grass200.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "grass_tile"
+        }]
+    },
+    {
+        "texture_path":"jungle_grass200_top_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "grass_tile_top_outer"
+        }]
+    },
+    {
+        "texture_path":"jungle_grass200_right_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "grass_tile_right_outer"
+        }]
+    },
+    {
+        "texture_path":"jungle_grass200_bottom_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "grass_tile_bottom_outer"
+        }]
+    },
+    {
+        "texture_path":"jungle_grass200_left_outer_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "grass_tile_left_outer"
+        }]
+    }
+]

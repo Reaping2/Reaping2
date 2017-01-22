@@ -96,7 +96,7 @@ bool RecognizerRepo::AddRecognizerExcludesFromOneDesc( Json::Value& RecognizerEx
 void RecognizerRepo::Init()
 {
     Filesys& FSys( Filesys::Get() );
-    AutoFile F = FSys.Open( boost::filesystem::path( "recognizers.json" ) );
+    AutoFile F = FSys.Open( boost::filesystem::path( "misc/recognizers.json" ) );
     if( !F.get() || !F->IsValid() )
     {
         return;
@@ -166,7 +166,7 @@ void RecognizerRepo::Init()
     }
 
 
-    F = FSys.Open( boost::filesystem::path( "recognizers_excludes.json" ) );
+    F = FSys.Open( boost::filesystem::path( "misc/recognizers_excludes.json" ) );
     if( !F.get() || !F->IsValid() )
     {
         return;
