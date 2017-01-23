@@ -16,11 +16,6 @@ bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
     {
         return false;
     }
-    std::string typeStr;
-    if (!Json::GetStr( RecognizerDesc["type"], typeStr ) || typeStr != "recognizer_desc") // mandatory
-    {
-        return true;
-    }
     int32_t actorId = AutoId( actorNameStr );
     Recognizers_t& recognizers = mRecognizersMap[actorId];
 
@@ -101,7 +96,7 @@ void RecognizerRepo::Init()
     FSys.GetFileNames( Paths, "actors" );
     for (auto const& Path : Paths)
     {
-        if (Path.extension().string() != ".json")
+        if (Path.extension().string() != ".render")
         {
             continue;
         }

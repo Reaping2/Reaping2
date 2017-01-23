@@ -1,0 +1,191 @@
+[
+    {
+        "texture_path":"guard_body_color.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"body_color",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_head_color.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"head_color",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_head_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"head",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_body_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 100,
+                      "h" : 100,
+                      "name" : "idle",
+                      "phases":[{"x":0,"y":0}],
+                      "scale" : 2.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_body_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 100,
+                      "h" : 100,
+                      "name" : "move",
+                      "phases":[{"x":0,"y":0}],
+                      "scale" : 2.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_rip.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "death",
+                      "phases":[
+                            {"x":0,"y":0},
+                            {"x":90,"y":0},
+                            {"x":180,"y":0},
+                            {"x":270,"y":0},
+                            {"x":360,"y":0},
+                            {"x":450,"y":0},
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0,
+                      "secs_to_end": 0.35
+                    },
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "corpse",
+                      "phases":[
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"guard_plasma_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "guard_plasma_particle"
+            }
+        ]
+    },
+	{
+		"texture_path":"guard_plasma_projectile.png",
+		"actor_visuals":
+		[
+			{
+				"name":"guard_plasma_shot",
+				"animations":
+				[
+					{
+						"name":"move",
+						"w":300,
+						"h":300,
+						"scale":10.0,
+						"phases":[{"x":0,"y":0}]
+					}
+				]
+			}			
+		]
+	},
+    {
+        "texture_path":"plasma_gun_guard.png",
+        "actor_visuals":
+        [
+            {
+                "name":"guard",
+                "animations":
+                [
+                    {
+                        "name":"plasma_gun",
+                        "w":30,
+                        "h":17,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }       
+]
