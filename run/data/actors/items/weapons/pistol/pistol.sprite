@@ -42,7 +42,7 @@
         "actor_visuals":
         [
             {
-                "name":"pistol_shot",
+                "name":"pistol_projectile",
                 "animations":
                 [
                     {

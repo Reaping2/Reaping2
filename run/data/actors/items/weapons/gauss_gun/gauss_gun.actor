@@ -1,6 +1,6 @@
 [
     {
-        "name":"gauss_shot",
+        "name":"gauss_gun_projectile",
         "components":
         [
             {"name":"position_component"},
@@ -32,7 +32,7 @@
         ]
     },
     {
-        "name":"gauss_alt_shot",
+        "name":"gauss_gun_alt_projectile",
         "components":
         [
             {"name":"position_component"},

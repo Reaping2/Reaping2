@@ -14,7 +14,9 @@
             "scatter_chill":40,
             "scatter_magic_number":100,
             "position_x":50.0,
-            "position_y":12.0
+            "position_y":12.0,
+            "shot":"ion_gun_projectile",
+            "shot_alt":"ion_gun_alt_projectile"
         }]
     }
 ]

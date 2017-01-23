@@ -835,7 +835,6 @@ gauss_gun_projectile
 gauss_gun_projectile.png
 gauss_particle
 gauss_secondary
-gauss_shot
 generator
 glow
 grafics_test
@@ -1341,8 +1340,8 @@ plasma_gun_projectile
 plasma_gun_projectile.png
 plasma_particle
 plasma_particle2
+plasma_projectile
 plasma_secondary
-plasma_shot
 plasmagun
 plasmagunSecondary
 platform
@@ -1406,6 +1405,7 @@ right_entrance
 rocket
 rocket_launcher
 rocket_launcher_alt_flame_particle
+rocket_launcher_alt_projectile
 rocket_launcher_explosion_projectile
 rocket_launcher_explosion_projectile.png
 rocket_launcher_flame_particle
@@ -1421,7 +1421,6 @@ rocket_launcher_projectile.png
 rocket_launcher_smoke_particle
 rocket_launcher_smoke_particle.png
 rocket_launcher_target_explosion_projectile
-rocket_launcher_target_projectile
 rocket_smoke
 rogue
 rogue1x1
@@ -1742,7 +1741,6 @@ shooter_move
 shooter_rip
 shot_collision_component
 shotgun
-shotgun - Copy
 shotgun_alt2_particle
 shotgun_alt2_projectile
 shotgun_alt2_projectile.png

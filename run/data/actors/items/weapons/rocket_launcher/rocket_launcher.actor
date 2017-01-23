@@ -59,7 +59,7 @@
         ]
     },
     {
-        "name":"rocket_launcher_target_projectile",
+        "name":"rocket_launcher_alt_projectile",
         "components":
         [
             {"name":"pointer_target_controller_component"},

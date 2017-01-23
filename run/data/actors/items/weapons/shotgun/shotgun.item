@@ -24,7 +24,9 @@
             "muzzle":"shotgun_muzzle",
             "muzzle_alt":"shotgun_muzzle_alt",
             "position_x":80.0,
-            "position_y":20.0
+            "position_y":20.0,
+            "shot":"shotgun_projectile",
+            "shot_alt":"shotgun_alt_projectile"
         }]
     }
 ]

@@ -1,6 +1,6 @@
 [
     {
-        "name":"gauss_shot",
+        "name":"gauss_gun_projectile",
         "recognizers":
         [
             {"recognizer":"move",
@@ -9,7 +9,7 @@
         "type":"recognizer_desc"
     },
     {
-        "name":"gauss_alt_shot",
+        "name":"gauss_gun_alt_projectile",
         "recognizers":
         [
             {"recognizer":"move",

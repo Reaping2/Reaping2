@@ -27,7 +27,7 @@
         "type":"recognizer_desc"
     },
     {
-        "name":"rocket_launcher_target_projectile",
+        "name":"rocket_launcher_alt_projectile",
         "recognizers":
         [
             {"recognizer":"move",

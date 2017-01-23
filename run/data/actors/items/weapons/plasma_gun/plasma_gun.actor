@@ -1,6 +1,6 @@
 [
     {
-        "name":"plasma_shot",
+        "name":"plasma_projectile",
         "components":
         [
             {"name":"position_component"},

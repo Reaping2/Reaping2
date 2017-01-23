@@ -1,6 +1,6 @@
 [
     {
-        "name":"pistol_shot",
+        "name":"pistol_projectile",
         "recognizers":
         [
             {"recognizer":"move",

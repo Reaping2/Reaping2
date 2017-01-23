@@ -14,7 +14,9 @@
             "scatter_chill":31,
             "scatter_magic_number":100,
             "position_x":70.0,
-            "position_y":15.0
+            "position_y":15.0,
+            "shot":"rocket_launcher_projectile",
+            "shot_alt":"rocket_launcher_alt_projectile"
         }]
     }
 ]

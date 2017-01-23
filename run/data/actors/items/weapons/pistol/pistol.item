@@ -16,7 +16,9 @@
             "muzzle":"pistol_muzzle",
             "muzzle_alt":"pistol_muzzle",
             "position_x":65.0,
-            "position_y":20.0
+            "position_y":20.0,
+            "shot":"pistol_projectile",
+            "shot_alt":"pistol_projectile"
         }]
     }
 ]

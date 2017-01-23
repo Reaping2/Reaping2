@@ -16,7 +16,9 @@
             "windup_time":1.0,
             "deploy_time":1.0,
             "position_x":110.0,
-            "position_y":16.0
+            "position_y":16.0,
+            "shot":"gatling_gun_projectile",
+            "shot_alt":"gatling_gun_alt_projectile"
         }]
     }
 ]

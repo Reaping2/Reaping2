@@ -17,7 +17,6 @@ private:
     Scene& mScene;
     Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
     ActorFactory& mActorFactory;
-    int32_t mShotId;
 };
 
 } // namespace engine

@@ -61,7 +61,7 @@
 		"actor_visuals":
 		[
 			{
-				"name":"plasma_shot",
+				"name":"plasma_projectile",
 				"animations":
 				[
 					{

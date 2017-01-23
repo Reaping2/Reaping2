@@ -61,7 +61,7 @@
         "actor_visuals":
         [
             {
-                "name":"gauss_shot",
+                "name":"gauss_gun_projectile",
                 "animations":
                 [
                     {
@@ -80,7 +80,7 @@
         "actor_visuals":
         [
             {
-                "name":"gauss_alt_shot",
+                "name":"gauss_gun_alt_projectile",
                 "animations":
                 [
                     {

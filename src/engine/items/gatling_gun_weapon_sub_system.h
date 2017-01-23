@@ -18,7 +18,6 @@ private:
     core::ProgramState& mProgramState;
     Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
     ActorFactory& mActorFactory;
-    int32_t mShotId;
 };
 
 } // namespace engine

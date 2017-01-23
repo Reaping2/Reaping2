@@ -7,7 +7,6 @@ PistolWeaponSubSystem::PistolWeaponSubSystem()
     , mScene( Scene::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mShotId( AutoId( "pistol_shot" ) )
 {
 }
 
@@ -28,7 +27,7 @@ void PistolWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotId() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
 
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );
@@ -37,7 +36,7 @@ void PistolWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotAltId() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
 
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
