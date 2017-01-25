@@ -14,8 +14,6 @@ layout(location=2) in vec2 SpriteCenter;
 layout(location=3) in float Heading;
 layout(location=4) in vec2 Size;
 layout(location=5) in vec4 color;
-layout(location=6) in vec4 procTexCoord;
-layout(location=7) in vec4 proccolor;
 smooth out vec2 inTexCoord;
 smooth out vec4 inColor;
 vec2[4] corners=vec2[4](vec2(-1,-1),

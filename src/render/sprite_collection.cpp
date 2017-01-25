@@ -6,6 +6,7 @@ SpriteCollection::SpriteCollection()
     : RepoBase( mDefaultSprite )
     , mDefaultSprite( 0, Json::Value() )
     , mId( 0 )
+    , mJointId( -1 )
 {
 
 }
@@ -15,12 +16,22 @@ int32_t SpriteCollection::Id() const
     return mId;
 }
 
+int32_t SpriteCollection::JointId() const
+{
+    return mJointId;
+}
+
 bool SpriteCollection::Load( int32_t TexId, Json::Value& Root )
 {
     std::string NameStr;
     if( !Json::GetStr( Root["name"], NameStr ) )
     {
         return false;
+    }
+    std::string JointCollection;
+    if( Json::GetStr( Root["joint_sprite_collection"], JointCollection ) )
+    {
+        mJointId = AutoId( JointCollection );
     }
     Json::Value Anims = Root["animations"];
     if( !Anims.isArray() )

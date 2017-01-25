@@ -72,6 +72,9 @@ void BorderActionRenderer::Init( Actor const& actor )
         if( Spr.IsValid() )
         {
             mSprites.emplace_back( glm::vec2(), Spr );
+            std::tie( mSprites.back().SecondarySpr,
+                    mSprites.back().MaskSpr )=
+                IdleActionRenderer::GetJointAndMaskSprites( *i, mActionId );
         }
     }
     IBorderComponent::Borders_t::const_iterator outer_i = mOuterBorders.begin();
@@ -83,6 +86,9 @@ void BorderActionRenderer::Init( Actor const& actor )
         {
             glm::vec2 pos = mBorderType.GetNeighborDirs()[*outer_i];
             mSprites.emplace_back( glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize ), Spr );
+            std::tie( mSprites.back().SecondarySpr,
+                    mSprites.back().MaskSpr )=
+                IdleActionRenderer::GetJointAndMaskSprites( *i, mActionId );
         }
     }
     mActorColor = GetColor( actor );
@@ -97,9 +103,18 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
     }
     for( auto const& data : mSprites )
     {
-        SpritePhase const& Phase = data.Spr( ( int32_t )GetState() );
+        int32_t st( GetState() );
+        SpritePhase const& Phase = data.Spr( st );
         RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &data.Spr, &Phase, mActorColor );
         renderableSprite.RelativePosition = data.RelativePosition;
+        if( nullptr != data.SecondarySpr )
+        {
+            renderableSprite.AdditionalSprs.push_back( &(*data.SecondarySpr)( st ) );
+        }
+        if( nullptr != data.MaskSpr )
+        {
+            renderableSprite.MaskSpr = &(*data.MaskSpr)( st );
+        }
         renderableSprites.push_back( renderableSprite );
     }
 }

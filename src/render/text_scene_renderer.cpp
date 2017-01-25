@@ -18,7 +18,8 @@ void TextSceneRenderer::Init()
 {
     mVAO.Init();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "text_scene" );
+    static int32_t def( AutoId( "text_scene" ) );
+    ShaderMgr.ActivateShader( def );
     glActiveTexture( GL_TEXTURE0 + 4 );
     glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     ShaderMgr.UploadData( "uiTexture", GLuint( 4 ) );
@@ -97,7 +98,8 @@ void TextSceneRenderer::Draw()
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )CurrentOffset );
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "text_scene" );
+    static int32_t def( AutoId( "text_scene" ) );
+    ShaderMgr.ActivateShader( def );
     glActiveTexture( GL_TEXTURE0 + 4 );
     glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     glDrawArrays( GL_TRIANGLES, 0, CurSize );

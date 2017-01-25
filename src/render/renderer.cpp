@@ -114,20 +114,20 @@ void RendererSystem::Init()
 }
 
 namespace {
-std::set<int32_t> getShadowLevels()
+void getActiveActorProps( std::set<int32_t>& shadowLevels, std::set<int32_t>& postprocessorIds )
 {
-    std::set<int32_t> rv;
     static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
     auto const& Lst = activityS->GetActiveActors();
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
         Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
-        rv.insert( renderableC->GetCastShadow() );
-        rv.insert( renderableC->GetReceiveShadow() );
+        shadowLevels.insert( renderableC->GetCastShadow() );
+        shadowLevels.insert( renderableC->GetReceiveShadow() );
+        auto const& procs = renderableC->GetPostProcessIds();
+        postprocessorIds.insert( procs.begin(), procs.end() );
     }
-    rv.erase( 0 );
-    return rv;
+    shadowLevels.erase( 0 );
 }
 bool selectBloodReceivers( IRenderableComponent const& renderableC )
 {
@@ -141,6 +141,7 @@ bool selectShadowReceivers( IRenderableComponent const& renderableC, int32_t sha
 {
     return renderableC.GetReceiveBlood() == 0 && renderableC.GetReceiveShadow() == shadowLevel;
 }
+
 bool selectShadowCasters( IRenderableComponent const& renderableC, int32_t shadowLevel )
 {
     return renderableC.GetReceiveBlood() == 0 && renderableC.GetCastShadow() == shadowLevel;
@@ -176,11 +177,14 @@ void RendererSystem::Update( double DeltaTime )
 
     static bool const castShadows = Settings::Get().GetInt( "graphics.cast_shadows", 1 );
     mPerfTimer.Log( "pre shadow" );
+    std::set<int32_t> shadowLevels, postProcessorIds;
+    getActiveActorProps( shadowLevels, postProcessorIds );
+    static int32_t shid( AutoId( "shadows" ) );
+    static int32_t solidid( AutoId( "world_solid_objects" ) );
     if( castShadows != 0 )
     {
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         uint32_t shadowOutline = 2, shadow_1=4;
-        auto const shadowLevels = getShadowLevels();
         for( auto shadowLevel : shadowLevels )
         {
             // !---- rt - shadows outline
@@ -192,7 +196,7 @@ void RendererSystem::Update( double DeltaTime )
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
 
             rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() * shadowmult );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), "shadows", mWorldProjector.GetViewport().Size() * shadowmult );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), shid, mWorldProjector.GetViewport().Size() * shadowmult );
 
             // !---- receivers
             rt.SelectTargetTexture( world );
@@ -203,7 +207,7 @@ void RendererSystem::Update( double DeltaTime )
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
             // !---- the shadows
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), "world_solid_objects" ); // , mWorldProjector.GetViewport().Size() * shadowmult );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
         }
     }
     else
@@ -222,8 +226,28 @@ void RendererSystem::Update( double DeltaTime )
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
     glBlendFunc( GL_ONE, GL_ONE );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), "world_solid_objects" );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), solidid );
 
+    static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
+    static uint32_t world_pp = 18;
+    if( enablePostprocessing )
+    {
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        for( auto id : postProcessorIds )
+        {
+            // TODO: downscale
+            rt.SetTargetTexture( world_pp, mWorldProjector.GetViewport().Size() );
+            SetupRenderer( mWorldProjector );
+            mActorRenderer.Draw( id );
+
+            GLuint srcTexture = rt.GetTextureId( world );
+            GLuint maskTexture = rt.GetTextureId( world_pp );
+            rt.SelectTargetTexture( worldEffects );
+            mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
+            mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+            mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
+        }
+    }
     // set painting to screen
     rt.SetTargetScreen();
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
@@ -233,8 +257,11 @@ void RendererSystem::Update( double DeltaTime )
     glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     // paint the previous textures to screen with custom additional effects
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), "world_solid_objects" );
-//    mWorldRenderer.Draw( DeltaTime, cache.mTargetTexId, "world_solid_objects" );
+    // actually we could skip this by painting directly to screen in prev. step
+    // but we can possibly upscale here for sweet sweet fps
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );
+//    mWorldRenderer.Draw( DeltaTime, cache.mTargetTexId, solidid );
+//    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world_pp ), solidid );
     SetupRenderer( mWorldProjector );
     render::ParticleEngine::Get().Draw();
 

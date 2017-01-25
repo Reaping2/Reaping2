@@ -3,6 +3,7 @@
 #include "core/opt.h"
 #include "main/window.h"
 #include "engine/engine.h"
+#include "platform/game_clock.h"
 #include <boost/assign/list_of.hpp>
 
 namespace render {
@@ -42,26 +43,30 @@ WorldRenderer::~WorldRenderer()
 {
 }
 
-void WorldRenderer::Draw( double dt, GLuint texture, std::string const& shader, glm::vec2 const& size )
+void WorldRenderer::Draw( double dt, GLuint texture, int32_t shader, glm::vec2 const& size, GLuint secondaryTexture )
 {
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( shader );
     ShaderMgr.UploadData( "texture", GLuint( 1 ) );
+    ShaderMgr.UploadData( "secondaryTexture", GLuint( 2 ) );
     ShaderMgr.UploadData( "resolution", size );
-    glActiveTexture( GL_TEXTURE0 + 1 );
+    ShaderMgr.UploadData( "time", GLfloat( platform::Clock::Now() ) );
     mVAO.Bind();
+    glActiveTexture( GL_TEXTURE0 + 1 );
     glBindTexture( GL_TEXTURE_2D, texture );
+    glActiveTexture( GL_TEXTURE0 + 2 );
+    glBindTexture( GL_TEXTURE_2D, secondaryTexture );
     glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
-    mVAO.Unbind();
     glActiveTexture( GL_TEXTURE0 );
+    mVAO.Unbind();
 }
 
-void WorldRenderer::Draw( double dt, GLuint texture, std::string const& shader )
+void WorldRenderer::Draw( double dt, GLuint texture, int32_t shader, GLuint secondaryTexture )
 {
     int w, h;
     static Opt<engine::WindowSystem> window( engine::Engine::Get().GetSystem<engine::WindowSystem>() );
     window->GetWindowSize( w, h );
-    Draw( dt, texture, shader, glm::vec2( w, h ) );
+    Draw( dt, texture, shader, glm::vec2( w, h ), secondaryTexture );
 }
 
 }

@@ -23,7 +23,8 @@ void HealthBarRenderer::Init()
 {
     mVAO.Init();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "health_bar" );
+    static int32_t def( AutoId( "health_bar" ) );
+    ShaderMgr.ActivateShader( def );
     mWindow = engine::Engine::Get().GetSystem<engine::WindowSystem>();
     mSize = glm::vec2(mSettings.GetInt("health_bar.size.width", 150)
         , mSettings.GetInt("health_bar.size.height", 14));
@@ -171,7 +172,8 @@ void HealthBarRenderer::Draw()
 
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "health_bar" );
+    static int32_t def( AutoId( "health_bar" ) );
+    ShaderMgr.ActivateShader( def );
     int w, h;
     mWindow->GetWindowSize( w, h );
     glDrawArrays( GL_TRIANGLES, 0, CurSize );

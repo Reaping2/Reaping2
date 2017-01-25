@@ -7,9 +7,6 @@
 #include "uimodel.h"
 #include "font.h"
 #include "counter.h"
-#include <boost/lambda/bind.hpp>
-#include <boost/lambda/lambda.hpp>
-#include <boost/ref.hpp>
 #include "platform/game_clock.h"
 
 namespace {
@@ -17,7 +14,7 @@ typedef std::vector<glm::vec2> Positions_t;
 typedef std::vector<glm::vec4> Colors_t;
 bool getNextTextId( UiVertices_t::const_iterator& i, UiVertices_t::const_iterator e,
                     Positions_t& Positions, Colors_t& Colors, Positions_t& TexCoords,
-                    GLuint& TexId )
+                    render::RenderBatch& batch )
 {
     if( i == e )
     {
@@ -27,7 +24,7 @@ bool getNextTextId( UiVertices_t::const_iterator& i, UiVertices_t::const_iterato
     Positions.push_back( Vert.Pos );
     TexCoords.push_back( Vert.TexCoord );
     Colors.push_back( Vert.Color );
-    TexId = Vert.TexId;
+    batch.TexId = Vert.TexId;
     ++i;
     return true;
 }
@@ -90,9 +87,9 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     // todo: check and track changes
     UiVertices_t::const_iterator i = Vertices.begin();
     render::Counts_t const& Counts = render::count(
-                                         boost::lambda::bind( &getNextTextId, boost::ref( i ), Vertices.end(),
-                                                 boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
-                                                 boost::lambda::_1 )
+                                         std::bind( &getNextTextId, std::ref( i ), Vertices.end(),
+                                                 std::ref( Positions ), std::ref( Colors ), std::ref( TexCoords ),
+                                                 std::placeholders::_1 )
                                      );
 
     mVAO.Bind();
@@ -123,7 +120,8 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
     size_t const ColorIndex = CurrentOffset;
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "ui" );
+    static int32_t def( AutoId( "ui" ) );
+    ShaderMgr.ActivateShader( def );
     ShaderMgr.UploadData( "time", GLfloat( platform::Clock::Now() ) );
     int w, h;
     mWindow->GetWindowSize( w, h );
@@ -140,9 +138,9 @@ void UiRenderer::Draw( Root const& UiRoot, const glm::mat4& projMatrix  )
         glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( TexIndex + sizeof( glm::vec2 )*Part.Start ) );
         ++CurrentAttribIndex;
         glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( ColorIndex + sizeof( glm::vec4 )*Part.Start ) );
-        if( Part.TexId != GLuint( -1 ) )
+        if( Part.Batch.TexId != -1 )
         {
-            glBindTexture( GL_TEXTURE_2D, Part.TexId );
+            glBindTexture( GL_TEXTURE_2D, Part.Batch.TexId );
         }
         glDrawArrays( GL_TRIANGLES, 0, Part.Count );
     }
@@ -157,7 +155,8 @@ void UiRenderer::Init()
 {
     mVAO.Init();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "ui" );
+    static int32_t def( AutoId( "ui" ) );
+    ShaderMgr.ActivateShader( def );
     glActiveTexture( GL_TEXTURE0 + 4 );
     glBindTexture( GL_TEXTURE_2D, Font::Get().GetTexId() );
     ShaderMgr.UploadData( "uiTexture", GLuint( 4 ) );

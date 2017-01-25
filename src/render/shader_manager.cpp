@@ -22,15 +22,27 @@ void ShaderManager::InitGlobalUniforms()
     glBindBufferRange( GL_UNIFORM_BUFFER, 0, mGlobalsUBO, 0, sizeof( glm::mat4 ) * 2 );
 }
 
-void ShaderManager::ActivateShader( std::string const& Name )
+void ShaderManager::ActivateShader( int32_t id )
 {
-    if( mActiveShader != NULL && mActiveShaderName == Name )
+    if( mActiveShader != NULL && mActiveShaderId == id )
     {
         return;
     }
-    mActiveShaderName = Name;
-    mActiveShader = &ShaderRepo::Get()( AutoId( Name ) );
+    mActiveShaderId = id;
+    if( mActiveShaderId == -1 )
+    {
+        mActiveShader = mDefaultShader = &ShaderRepo::Get()( mDefaultShaderId );
+    }
+    else
+    {
+        mActiveShader = &ShaderRepo::Get()( id );
+    }
     mActiveShader->Bind();
+}
+
+void ShaderManager::SetDefaultShader( int32_t id )
+{
+    mDefaultShaderId = id;
 }
 
 ShaderManager::~ShaderManager()

@@ -475,6 +475,7 @@ YES
 \t\ta
 \t\tb
 _
+_mask
 _no_name_
 _outer
 a
@@ -1431,6 +1432,7 @@ generator_name
 glm_fix.h
 graphics.cast_shadows
 graphics.gl.max_allowed_texture_size
+graphics.postprocess
 graphics.shadow_scale
 graphics.sprite_phase_cache.downsample
 graphics.sprite_phase_cache.enabled
@@ -1711,6 +1713,7 @@ items/weapon_item_sub_system.h
 itemtarget
 iteration
 iteration_variance
+joint_sprite_collection
 json/json.h
 json_room.h
 jsonreader.h
@@ -1884,6 +1887,7 @@ modify_audible_component
 modify_audible_component_message.h
 modify_audible_component_message_handler_sub_system
 modify_audible_component_message_sender_system
+mouse
 mouse.h
 mouse_adapter_system
 mouse_adapter_system.h
@@ -2131,6 +2135,8 @@ position_x
 position_y
 possible_rooms
 possible_rooms.h
+postprocessor_select
+postprocessors
 pow_projectile
 probability
 program_phases.h
@@ -2355,6 +2361,8 @@ scripted_controller/scripted_controller_component.h
 scripted_controller_component
 scripted_controller_sub_system
 scriptedcontroller
+secondarySpriteTexture
+secondaryTexture
 secs_to_end
 secs_to_end_variance
 secs_to_respawn
@@ -2389,6 +2397,7 @@ settings.h
 settings.json
 setup.log
 shader.h
+shader_id
 shader_manager.h
 shader_repo.h
 shaders

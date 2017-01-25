@@ -25,7 +25,10 @@ public:
     virtual RandomSprites_t const& GetRandomSprites()const = 0;
     virtual void SetSpriteIndex( int32_t spriteIndex ) = 0;
     virtual int32_t GetSpriteIndex()const = 0;
-
+    virtual void SetShaderId( int32_t id ) = 0;
+    virtual int32_t GetShaderId()const = 0;
+    virtual void SetPostProcessIds( std::vector<int32_t> const& ids ) =0;
+    virtual std::vector<int32_t>const& GetPostProcessIds() const=0;
 protected:
     friend class ComponentFactory;
 public:

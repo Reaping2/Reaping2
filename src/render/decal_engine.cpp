@@ -17,7 +17,8 @@ DecalEngine::DecalEngine()
     mMaxDecalsPerType = 10000;
     mVAO.Init();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "decals" );
+    static int32_t def( AutoId( "decals" ) );
+    ShaderMgr.ActivateShader( def );
     ShaderMgr.UploadData( "spriteTexture", GLuint( 3 ) );
 }
 
@@ -38,7 +39,7 @@ typedef std::vector<GLfloat> Floats_t;
 bool getNextTextId( Decals_t::const_iterator& i, Decals_t::const_iterator e,
                     Vec2s_t& Positions, Floats_t& Alphas, Vec4s_t& TexCoords,
                     Floats_t& Headings, Floats_t& Radii,
-                    GLuint& TexId )
+                    render::RenderBatch& batch )
 {
     if( i == e )
     {
@@ -50,7 +51,7 @@ bool getNextTextId( Decals_t::const_iterator& i, Decals_t::const_iterator e,
     Headings.push_back( p.mHeading );
     Radii.push_back( p.mRadius );
     Alphas.push_back( p.mAlpha );
-    TexId = p.mTexId;
+    batch.TexId = p.mTexId;
     ++i;
     return true;
 }
@@ -77,10 +78,10 @@ void DecalEngine::UpdateBuffers()
 
     Decals_t::const_iterator i = mDecals.begin();
     mCounts = render::count(
-                  boost::lambda::bind( &getNextTextId, boost::ref( i ), mDecals.end(),
-                                       boost::ref( Positions ), boost::ref( Alphas ), boost::ref( TexCoords ),
-                                       boost::ref( Headings ), boost::ref( Radii ),
-                                       boost::lambda::_1 )
+                  std::bind( &getNextTextId, std::ref( i ), mDecals.end(),
+                           std::ref( Positions ), std::ref( Alphas ), std::ref( TexCoords ),
+                           std::ref( Headings ), std::ref( Radii ),
+                           std::placeholders::_1 )
               );
 
 
@@ -144,7 +145,8 @@ void DecalEngine::Draw()
     }
     mVAO.Bind();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "decals" );
+    static int32_t def( AutoId( "decals" ) );
+    ShaderMgr.ActivateShader( def );
     glActiveTexture( GL_TEXTURE0 + 3 );
     for( render::Counts_t::const_iterator i = mCounts.begin(), e = mCounts.end(); i != e; ++i )
     {
@@ -164,9 +166,9 @@ void DecalEngine::Draw()
         ++CurrentAttribIndex;
         glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mRadiusIndex + sizeof( GLfloat )*Part.Start ) );
         glVertexAttribDivisor( CurrentAttribIndex, 1 );
-        if( Part.TexId != GLuint( -1 ) )
+        if( Part.Batch.TexId != -1 )
         {
-            glBindTexture( GL_TEXTURE_2D, Part.TexId );
+            glBindTexture( GL_TEXTURE_2D, Part.Batch.TexId );
         }
         glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
     }
