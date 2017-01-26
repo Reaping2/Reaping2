@@ -10,7 +10,22 @@
                 "name" : "body_idle",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.02
-            }], "name" : "stone_wall"
+            }], "name" : "stone_wall",
+            "joint_sprite_collection":"stone_wall_normal"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_basic_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_normal"
         }]
     },
     {

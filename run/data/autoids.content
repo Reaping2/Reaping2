@@ -111,10 +111,12 @@
 -a1
 -a3
 -a4
+.actors.json
+.bump_map.fs
 .map_elements.json
 .water.fs
+.water.json
 .water.vs
-.water_postprocess.fs
 0x00000000
 0x00000044
 0x00007777
@@ -215,6 +217,7 @@
 :/textures/soldier_head_base.png
 :/textures/soldier_head_color.png
 :/textures/wall_basic_2.png
+:/textures/wall_basic_2_normal.png
 :/textures/wall_bottom_border_2.png
 :/textures/wall_bottomleft_border.png
 :/textures/wall_bottomright_border.png
@@ -233,6 +236,7 @@
 :/textures/water_left_outer_border.png
 :/textures/water_left_outer_border_mask.png
 :/textures/water_mask.png
+:/textures/water_normal.png
 :/textures/water_right_outer_border.png
 :/textures/water_right_outer_border_mask.png
 :/textures/water_secondary.png
@@ -592,6 +596,7 @@ buildings
 bullet2_particle
 bullet3_particle
 bullet_particle
+bump_map
 bush50
 bush50.png
 bush50_a
@@ -1913,6 +1918,7 @@ stone_wall_bottom
 stone_wall_bottomleft
 stone_wall_bottomright
 stone_wall_left
+stone_wall_normal
 stone_wall_right
 stone_wall_t
 stone_wall_top
@@ -2003,6 +2009,7 @@ w3
 waiting_start
 wall
 wall_basic_2
+wall_basic_2_normal
 wall_bottom_border_2
 wall_bottomleft_border
 wall_bottomright_border
@@ -2037,6 +2044,7 @@ water_left_outer_border
 water_left_outer_border_mask
 water_left_outer_mask
 water_mask
+water_normal
 water_postprocess
 water_right_outer
 water_right_outer_border

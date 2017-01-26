@@ -11,7 +11,21 @@
                 "phases":[{"x":0,"y":0}],
                 "scale" : 1.0
             }], "name" : "water",
-            "joint_sprite_collection":"water_secondary"
+            "joint_sprite_collection":"water_normal"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_normal"
         }]
     },
     {
