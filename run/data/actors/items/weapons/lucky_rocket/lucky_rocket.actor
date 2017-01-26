@@ -1,0 +1,117 @@
+[
+    {
+        "name":"lucky_rocket_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":250}]
+            },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":1500,"max_speed":2300}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":10, "damage":22 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"explode_on_death_component",
+                "set":[{"explosion_projectile":"lucky_rocket_explosion_projectile"}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+            {
+                "name":"emitter_component",
+                "set": [{
+                    "emit_descs":[
+                        {
+                            "delay": 0.0,
+                            "probability": 1.0,
+                            "emit_type": "lucky_rocket_particle"
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        "name":"lucky_rocket_alt_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":520}]
+            },
+            {"name":"acceleration_component",
+                "set":[{"acceleration":1500,"max_speed":2300}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":5, "damage":66 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"explode_on_death_component",
+                "set":[{"explosion_projectile":"lucky_rocket_explosion_projectile"}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":5.0}]
+            },
+            {
+                "name":"emitter_component",
+                "set": [{
+                    "emit_descs":[
+                        {
+                            "delay": 0.0,
+                            "probability": 1.0,
+                            "emit_type": "lucky_rocket_particle"
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        "name":"lucky_rocket_explosion_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"aoe_collision_component",
+                "set":[{"class":"aoe", "radius":2, "damage":12, "damage_once":1 }]
+            },
+            {"name":"explosion_component",
+                "set":[{"scale_speed":1000.0, "max_radius":56.0}]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"drop_on_death_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":0.200}]
+            },
+            {
+                "name":"emitter_component",
+                "set": [{
+                    "emit_descs":[
+                        {
+                            "delay": 0.0,
+                            "probability": 1.0,
+                            "emit_type": "lucky_rocket_explosion_particle"
+                        }
+                    ]
+                }]
+            }
+        ]
+    }
+]

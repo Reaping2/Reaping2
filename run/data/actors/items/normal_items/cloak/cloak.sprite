@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"cloak_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"cloak_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]

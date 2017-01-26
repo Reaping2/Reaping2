@@ -3,6 +3,7 @@
 #include "boost/assert.hpp"
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
+#include "core/i_static_actor_component.h"
 #include "platform/settings.h"
 #include <utility>
 
@@ -20,7 +21,8 @@ void ActivitySystem::Init()
     mActivityGrid.Build( mScene.GetDimensions(), gridsize );
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IPositionComponent>().IsValid()
-            && actor.Get<IMoveComponent>().IsValid(); } );
+            && actor.Get<IMoveComponent>().IsValid()
+            && !actor.Get<IStaticActorComponent>().IsValid(); } );
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &ActivitySystem::OnActorEvent, this, _1 ) );
 }
 
@@ -33,7 +35,8 @@ void ActivitySystem::OnActorEvent( ActorEvent const& Evt )
         {
             return;
         }
-        if ( !Evt.mActor->Get<IMoveComponent>().IsValid() )
+        if ( !Evt.mActor->Get<IMoveComponent>().IsValid() ||
+             Evt.mActor->Get<IStaticActorComponent>().IsValid() )
         {
             mActivityGrid.AddActor( Evt.mActor.Get(), 0 );
             mDirty = true;
@@ -94,8 +97,8 @@ bool ActivitySystem::ActorOrderer::operator()( Actor const* a, Actor const* b ) 
     {
         return true;
     }
-    return arC->GetLayer() < brC->GetLayer() ||
-        ( arC->GetLayer() == brC->GetLayer() &&
+    return arC->GetLayerPriority() < brC->GetLayerPriority() ||
+        ( arC->GetLayerPriority() == brC->GetLayerPriority() &&
           ( arC->GetZOrder() < brC->GetZOrder() ||
             ( arC->GetZOrder() == brC->GetZOrder() &&
               ( arC->GetReceiveShadow() > brC->GetReceiveShadow() ||

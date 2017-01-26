@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"pickup_background.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 32,
+                        "name" : "idle",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 32
+                    }
+                ],
+                "name" : "pickup_background"
+            }
+        ]
+    }
+]

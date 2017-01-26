@@ -16,11 +16,6 @@ bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
     {
         return false;
     }
-    std::string typeStr;
-    if (!Json::GetStr( RecognizerDesc["type"], typeStr ) || typeStr != "recognizer_desc") // mandatory
-    {
-        return true;
-    }
     int32_t actorId = AutoId( actorNameStr );
     Recognizers_t& recognizers = mRecognizersMap[actorId];
 
@@ -96,41 +91,12 @@ bool RecognizerRepo::AddRecognizerExcludesFromOneDesc( Json::Value& RecognizerEx
 void RecognizerRepo::Init()
 {
     Filesys& FSys( Filesys::Get() );
-    AutoFile F = FSys.Open( boost::filesystem::path( "recognizers.json" ) );
-    if( !F.get() || !F->IsValid() )
-    {
-        return;
-    }
-    JsonReader Reader( *F );
-    if( !Reader.IsValid() )
-    {
-        return;
-    }
-    auto& Root = Reader.GetRoot();
-    if( !Root.isArray() )
-    {
-        return;
-    }
-    for( auto& RecognizerDesc : Root )
-    {
-        try
-        {
-            if (!AddRecognizerFromOneDesc( RecognizerDesc ))
-            {
-                return;
-            }
-        }
-        catch (std::exception const& err)
-        {
-            L1( "Exception caught while parsing %s", err.what() );
-        }
-    }
 
     PathVect_t Paths;
     FSys.GetFileNames( Paths, "actors" );
     for (auto const& Path : Paths)
     {
-        if (Path.extension().string() != ".json")
+        if (Path.extension().string() != ".render")
         {
             continue;
         }
@@ -166,17 +132,17 @@ void RecognizerRepo::Init()
     }
 
 
-    F = FSys.Open( boost::filesystem::path( "recognizers_excludes.json" ) );
+    AutoFile F = FSys.Open( boost::filesystem::path( "misc/recognizers_excludes.json" ) );
     if( !F.get() || !F->IsValid() )
     {
         return;
     }
-    JsonReader Reader2( *F );
-    if( !Reader2.IsValid() )
+    JsonReader Reader( *F );
+    if( !Reader.IsValid() )
     {
         return;
     }
-    Root = Reader2.GetRoot();
+    Json::Value Root = Reader.GetRoot();
     if( !Root.isArray() )
     {
         return;

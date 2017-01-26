@@ -1,0 +1,14 @@
+[
+	{
+		"name":"jungle_grass200",
+		"recognizers":
+		[
+			{"recognizer":"idle",
+				"renderer":"idle"},
+            {"recognizer":"border",
+                "renderer":"border"}
+		],
+        "type":"recognizer_desc"
+	}
+]
+

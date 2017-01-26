@@ -1,0 +1,11 @@
+[
+    {
+        "name":"flag",
+        "recognizers":
+        [
+            {"recognizer":"flag",
+                "renderer":"flag"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

@@ -1,0 +1,12 @@
+[
+    {
+        "name":"plasma_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+]
+

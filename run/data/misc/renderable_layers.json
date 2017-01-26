@@ -1,0 +1,20 @@
+[
+    {
+        "name":"background"
+    },
+    {
+        "name":"background_1"
+    },
+    {
+        "name":"corpses"
+    },
+    {
+        "name":"creeps"
+    },
+    {
+        "name":"players"
+    },
+    {
+        "name":"buildings"
+    }
+]

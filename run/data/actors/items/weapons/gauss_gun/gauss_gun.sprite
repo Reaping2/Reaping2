@@ -1,0 +1,173 @@
+[
+    {
+        "texture_path":"gauss_gun_player.png",
+        "actor_visuals":
+        [
+            {
+                "name":"player",
+                "animations":
+                [
+                    {
+                        "name":"gauss_gun",
+                        "w":30,
+                        "h":17,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_player.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                        "name":"gauss_gun",
+                        "w":30,
+                        "h":17,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"gauss_gun",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":64,
+                        "h":64,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_projectile.png",
+        "actor_visuals":
+        [
+            {
+                "name":"gauss_gun_projectile",
+                "animations":
+                [
+                    {
+                        "name":"move",
+                        "w":15,
+                        "h":9,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_alt_projectile.png",
+        "actor_visuals":
+        [
+            {
+                "name":"gauss_gun_alt_projectile",
+                "animations":
+                [
+                    {
+                        "name":"move",
+                        "w":15,
+                        "h":9,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "gauss_gun_particle"
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_alt_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "gauss_gun_alt_particle"
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_alt_particle_1.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 40,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 40
+                    }
+                ],
+                "name" : "gauss_gun_alt_particle_1"
+            }
+        ]
+    },
+    {
+        "texture_path":"gauss_gun_alt_particle_2.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "gauss_gun_alt_particle_2"
+            }
+        ]
+    }	
+]

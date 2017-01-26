@@ -1,0 +1,33 @@
+[
+    {
+        "name":"plasma_projectile",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":1700}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":10.0}]
+            },
+
+
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":15, "damage":20 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "plasma_gun_particle"
+                }]
+            }]
+            }
+        ]
+    }
+]

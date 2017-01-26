@@ -63,12 +63,12 @@ void RenderableRepo::Init()
 {
     PathVect_t Paths;
     Filesys& FSys = Filesys::Get();
-    FSys.GetFileNames( Paths, "sprites" );
+    FSys.GetFileNames( Paths, "actors" );
     ElementMap_t Renderables;
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
-        if( Path.extension().string() != ".json" )
+        if( Path.extension().string() != ".sprite" )
         {
             continue;
         }

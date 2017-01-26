@@ -88,7 +88,7 @@ public:
         PT_Progress,
         PT_MaxProgress,
         PT_ActorVisual, // name of the actor visual
-        PT_Animation,   // name of the animation of the actor visual, defaults to body_idle
+        PT_Animation,   // name of the animation of the actor visual, defaults to idle
         PT_State,       // current state of the animation, defaults to 0
         PT_Index,
         PT_Columns,

@@ -9,7 +9,7 @@ namespace render {
 
 BorderActionRenderer::BorderActionRenderer( int32_t Id )
     : ActionRenderer( Id )
-    , mActionId( AutoId( "body_idle" ) )
+    , mActionId( AutoId( "idle" ) )
     , mActorSize( 1.0 )
     , mBorderType( BorderType::Get() )
 {

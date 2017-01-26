@@ -15,7 +15,7 @@ void ParticleLayerRepo::LoadParticleLayers()
 {
     Filesys& FSys = Filesys::Get();
     PathVect_t Paths;
-    FSys.GetFileNames( Paths, "particlelayers" );
+    FSys.GetFileNames( Paths, "misc/particlelayers" );
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;

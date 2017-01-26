@@ -18,8 +18,7 @@ void IdleActionRenderer::Init( const Actor& actor )
     actorId = GetSpriteId( renderableC->GetSpriteIndex(), actorId );
 
     SpriteCollection const& Sprites = mRenderableRepo( actorId );
-
-    static int32_t aid = AutoId( "body_idle" );
+    static int32_t aid = AutoId( "idle" );
     Sprite const& Spr = Sprites( aid );
     if( Spr.IsValid() )
     {
@@ -36,7 +35,7 @@ void IdleActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableC
         int32_t st( GetState() );
         SpritePhase const& Phase = (*mSpr)( st );
         glm::vec4 col = GetCloakColor( actor ) * GetColor( actor );
-        static int32_t aid = AutoId( "body_idle" );
+        static int32_t aid = AutoId( "idle" );
         RenderableSprite rs( &actor, &renderableC, aid, mSpr, &Phase, col );
         if( nullptr != mJointSpr )
         {

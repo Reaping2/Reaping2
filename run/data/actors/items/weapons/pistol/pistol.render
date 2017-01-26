@@ -1,0 +1,11 @@
+[
+    {
+        "name":"pistol_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+]

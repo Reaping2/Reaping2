@@ -1,0 +1,368 @@
+[
+   {
+        "texture_path" : "blood_particles.png",
+        "actor_visuals" : 
+        [
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle1"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 150,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle2"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 300,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle3"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 450,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle4"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 300,
+                            "y" : 150
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle5"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 450,
+                            "y" : 150
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle6"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 300
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle7"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 150,
+                            "y" : 300
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle8"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 300,
+                            "y" : 300
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle9"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 150,
+                        "h" : 150,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 450,
+                            "y" : 300
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle10"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 50,
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 150
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle11"
+            },            
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 50,
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 50,
+                            "y" : 150
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle12"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 50,
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 100,
+                            "y" : 150
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle13"
+            }, 
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 50,
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 200
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle14"
+            },             
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 50,
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 50,
+                            "y" : 200
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle15"
+            },
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 50,
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 100,
+                            "y" : 200
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle16"
+            }
+        ]
+    },
+    {
+        "texture_path" : "blood100.png",
+        "actor_visuals" : 
+        [
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 100,
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle0"
+            }
+        ]
+    },
+    {
+        "texture_path" : "blood100_1.png",
+        "actor_visuals" : 
+        [
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 100,
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle17"
+            }
+        ]
+    },
+    {
+        "texture_path" : "blood100_2.png",
+        "actor_visuals" : 
+        [
+            {
+                "animations" : 
+                [
+                    {
+                        "w" : 100,
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases" : [
+                        {
+                            "x" : 0,
+                            "y" : 0
+                        }
+                      ],
+                      "scale" : 1.0
+                    }
+                ],
+                "name" : "blood_particle18"
+            }
+        ]
+    }       
+]

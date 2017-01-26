@@ -10,7 +10,7 @@ Font::Font()
     , mTexId( 0 )
     , mMaxHeight( 0 )
 {
-    Load( "font.json" );
+    Load( "misc/font.json" );
 }
 
 void Font::Load( std::string const& Path )

@@ -25,53 +25,11 @@ void TargetRepo::Init()
 {
     using boost::filesystem::path;
     Filesys& FSys = Filesys::Get();
-    std::vector<boost::filesystem::path> paths;
-    FSys.GetFileNames(paths, "editor_targets" );
-    for ( auto const& path : paths )
-    {
-        if (path.extension().string() != ".json")
-        {
-            continue;
-        }
-        AutoFile JsonFile = FSys.Open( path );
-        if ( !JsonFile.get() )
-        {
-            L1("Cannot open %\n", path.string().c_str());
-            continue;
-        }
-        JsonReader Reader( *JsonFile );
-        if ( !Reader.IsValid() )
-        {
-            L1("Invalid JSON file: %s\n", path.string().c_str());
-            continue;
-        }
-        auto& Root = Reader.GetRoot();
-        if (!Root.isArray())
-        {
-            L1("%s does not contain JSON array as root element", path.string().c_str());
-            continue;
-        }
-
-        // initialize target from the JSON file
-        for (auto& Desc : Root)
-        {
-            try
-            {
-                AddTargetFromOneDesc( Desc );
-            }
-            catch (const std::exception& e)
-            {
-                L1( "Exception caught while initializing targets: %s\n", e.what() );
-                continue;
-            }
-        }
-    }
-
     PathVect_t Paths;
     FSys.GetFileNames( Paths, "actors" );
     for (auto const& Path : Paths)
     {
-        if (Path.extension().string() != ".json")
+        if (Path.extension().string() != ".target")
         {
             continue;
         }
@@ -106,11 +64,6 @@ void TargetRepo::Init()
 
 void TargetRepo::AddTargetFromOneDesc( Json::Value& TargetDesc )
 {
-    std::string typeStr;
-    if (!Json::GetStr( TargetDesc["type"], typeStr ) || typeStr != "target_desc") // mandatory
-    {
-        return;
-    }
     std::string target_name;
     if (!Json::GetStr( TargetDesc["target_name"], target_name ))
     {

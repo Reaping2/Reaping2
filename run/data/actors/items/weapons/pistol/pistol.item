@@ -1,0 +1,24 @@
+[
+    {
+        "name":"pistol",
+        "set":[{
+            "shoot_cooldown":1.2,
+            "shoot_alt_cooldown":0.3,
+            "bullets":26.0,
+            "shot_cost":1,
+            "shot_cost_alt":1,
+            "reload_time":1.3,
+            "static_reload":0,
+            "scatter_increase":20,
+            "scatter_alt_increase":20,
+            "scatter_chill":30,
+            "scatter_magic_number":100,
+            "muzzle":"pistol_muzzle",
+            "muzzle_alt":"pistol_muzzle",
+            "position_x":65.0,
+            "position_y":20.0,
+            "shot":"pistol_projectile",
+            "shot_alt":"pistol_projectile"
+        }]
+    }
+]

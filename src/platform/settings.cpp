@@ -27,7 +27,7 @@ Json::Value getMountedSettings()
 }
 Json::Value getUserSettings()
 {
-    AutoFile userSettings( new OsFile( "settings.json" ) );
+    AutoFile userSettings( new OsFile( "misc/settings.json" ) );
     return parseFile( userSettings );
 }
 }
