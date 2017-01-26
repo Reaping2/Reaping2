@@ -1,0 +1,27 @@
+[
+    {
+        "name":"ctf_player",
+        "recognizers":
+        [
+            {"recognizer":"death",
+                "renderer":"death"},
+            {"recognizer":"ctf_body_color",
+                "renderer":"soldier_current"},                
+            {"recognizer":"leg_move",
+                "renderer":"leg_move"},
+            {"recognizer":"ctf_body_color",
+                "renderer":"ctf_body_color"},                
+            {"recognizer":"idle",
+                "renderer":"idle"},
+            {"recognizer":"move",
+                "renderer":"move"},
+            {"recognizer":"weapon",
+                "renderer":"weapon"},
+            {"recognizer":"ctf_body_color",
+                "renderer":"ctf_head_color"},
+            {"recognizer":"head",
+                "renderer":"head"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

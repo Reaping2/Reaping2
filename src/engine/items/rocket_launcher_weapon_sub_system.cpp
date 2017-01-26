@@ -7,9 +7,6 @@ RocketLauncherWeaponSubSystem::RocketLauncherWeaponSubSystem()
     , mScene( Scene::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mShotId( AutoId( "rocket_launcher_primary" ) )
-    , mAltShotId( AutoId( "rocket_launcher_target_projectile" ) )
-    , mRocketId( AutoId( "rocket_launcher_projectile" ) )
 {
 }
 
@@ -31,25 +28,19 @@ void RocketLauncherWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         return;
     }
 
-    int32_t IdToSend;
     WeaponItemSubSystem::Projectiles_t projectiles;
-    std::auto_ptr<Actor> rocket = mActorFactory( mRocketId );
 
     if( weapon->IsShooting() )
     {
-        IdToSend = mShotId;
+        std::auto_ptr<Actor> rocket = mActorFactory( weapon->GetShotId() );
+        projectiles.push_back( rocket.release() );
     }
     else if( weapon->IsShootingAlt() )
     {
-        IdToSend = mAltShotId;
-        rocket = mActorFactory( mAltShotId );
-    }
-    else
-    {
-        BOOST_ASSERT( false );
+        std::auto_ptr<Actor> rocket = mActorFactory( weapon->GetShotAltId() );
+        projectiles.push_back( rocket.release() );
     }
 
-    projectiles.push_back( rocket.release() );
     mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), weapon->IsShootingAlt() );
 }
 

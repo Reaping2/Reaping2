@@ -1,0 +1,32 @@
+[
+    {
+        "name":"gatling_gun_particle",
+        "Color":"0xaaaaaaaa",
+        "ColorVariance":"0x00000000",
+        "PosVariance":0,
+        "AbsSpeed":0,
+        "AbsSpeedVariance":0,
+        "MinSpeed":0,
+        "MaxSpeed":100,
+        "AbsAcceleration":0,
+        "AbsAccelerationVariance":0,
+        "RotationSpeed":0,
+        "MinRotationSpeed":0,
+        "MaxRotationSpeed":1,
+        "RotationSpeedVariance":0,
+        "RotDir":"=",
+        "RotAccelerationDir":"=",
+        "SpeedDir":"Away",
+        "AccelerationDir":"Away",
+        "RotationAcceleration":0,
+        "RotationAccelerationVariance":0,
+        "Lifetime":0.3,
+        "LifetimeVariance":0,
+        "Radius":37.5,
+        "RadiusVariance":0,
+        "Spr":"gatling_gun_particle",
+        "Num":1,
+        "NumVariance":0,
+        "Heading":"Actor"
+    }
+]

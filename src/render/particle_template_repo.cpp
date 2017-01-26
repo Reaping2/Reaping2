@@ -16,11 +16,11 @@ void ParticleTemplateRepo::LoadParticleTemplates()
 {
     Filesys& FSys = Filesys::Get();
     PathVect_t Paths;
-    FSys.GetFileNames( Paths, "particles" );
+    FSys.GetFileNames( Paths, "actors" );
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
-        if( Path.extension().string() != ".json" )
+        if( Path.extension().string() != ".particle" )
         {
             continue;
         }

@@ -13,8 +13,9 @@ class MapRepo : public platform::Repository<Json::Value>, public platform::Singl
     friend class platform::Singleton<MapRepo>;
     static Json::Value const mDefault;
     MapRepo();
-private:
     void Init();
+public:
+    static std::string const MAP_DIR;
 };
 
 } // namespace map

@@ -341,4 +341,3 @@ void ActorRenderer::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
     mY = Event.Pos.y;
 }
 
-

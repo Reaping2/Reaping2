@@ -1,0 +1,13 @@
+[
+    {
+        "name":"platform",
+        "recognizers":
+        [
+            {"recognizer":"ctf_body_color",
+                "renderer":"ctf_body_color"},
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

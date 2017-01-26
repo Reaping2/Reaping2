@@ -1,0 +1,22 @@
+[
+    {
+        "target_name": "flag_spawn_target",
+        "name": "ctf_flag_spawn_blue",
+        "setters":
+        {
+            "cursor_id": "platform",
+            "team": "blue"
+        },
+        "type":"target_desc"
+    },
+    {
+        "target_name": "flag_spawn_target",
+        "name": "ctf_flag_spawn_red",
+        "setters":
+        {
+            "cursor_id": "platform",
+            "team": "red"
+        },
+        "type":"target_desc"
+    }    
+]

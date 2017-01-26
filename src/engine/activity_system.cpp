@@ -94,8 +94,8 @@ bool ActivitySystem::ActorOrderer::operator()( Actor const* a, Actor const* b ) 
     {
         return true;
     }
-    return arC->GetLayer() < brC->GetLayer() ||
-        ( arC->GetLayer() == brC->GetLayer() &&
+    return arC->GetLayerPriority() < brC->GetLayerPriority() ||
+        ( arC->GetLayerPriority() == brC->GetLayerPriority() &&
           ( arC->GetZOrder() < brC->GetZOrder() ||
             ( arC->GetZOrder() == brC->GetZOrder() &&
               a->GetGUID() < b->GetGUID() ) ) );

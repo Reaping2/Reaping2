@@ -88,6 +88,7 @@ bool WallTarget::Load( const Json::Value& setters )
         L1("Error retrieving 'actor_id' \n" );
         return false;
     }
+    L1( "WallTarget loaded: actorId:%s,cursorId:%s\n", actor_id.c_str(), cursor_id.c_str() );
     mCursorId = AutoId( cursor_id );
     mActorId = AutoId( actor_id );
     return true;

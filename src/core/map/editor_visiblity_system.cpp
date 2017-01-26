@@ -90,14 +90,13 @@ void EditorVisibilitySystem::OnLayerSelected( map::LayerSelectedEvent const& Evt
     {
         return;
     }
-    int32_t layerId = AutoId( Evt.mLayerName );
-    if (mInvisibleLayers.find( layerId ) == mInvisibleLayers.end())
+    if (mInvisibleLayers.find( Evt.mLayerName ) == mInvisibleLayers.end())
     {
-        mInvisibleLayers.insert( layerId );
+        mInvisibleLayers.insert( Evt.mLayerName );
     }
     else
     {
-        mInvisibleLayers.erase( layerId );
+        mInvisibleLayers.erase( Evt.mLayerName );
     }
     UpdateInvisibleActors();
 }
@@ -151,13 +150,13 @@ void EditorVisibilitySystem::UpdateInvisibleActors()
         }
     }
     auto& renderableLayer = RenderableLayer::Get();
-    for (auto layerId : mInvisibleLayers)
+    for (auto layerName : mInvisibleLayers)
     {
-        auto layerType = renderableLayer(layerId);
+        auto layerPriority = renderableLayer( layerName );
         for (auto actor : mScene.GetActors())
         {
             auto renderableC( actor->Get<IRenderableComponent>() );
-            if (renderableC.IsValid() && renderableC->GetLayer() == layerType)
+            if (renderableC.IsValid() && renderableC->GetLayerPriority() == layerPriority)
             {
                 EditorSelectSystem::AddToActorColors( actor->GetGUID(), actorColors, &mInvisibleActors );
             }

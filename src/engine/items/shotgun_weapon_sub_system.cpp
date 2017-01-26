@@ -12,8 +12,6 @@ ShotgunWeaponSubSystem::ShotgunWeaponSubSystem()
     , mScene( Scene::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mShotId( AutoId( "shotgun_projectile" ) )
-    , mShotAltId( AutoId( "shotgun_alt_projectile" ) )
 {
 }
 
@@ -44,21 +42,21 @@ void ShotgunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         }
         if( ac.IsValid() )
         {
-            ac->AddOneShotEffect( mShotId );
+            ac->AddOneShotEffect( weapon->GetShotId() );
         }
     }
     else if ( weapon->IsShootingAlt() )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory( mShotAltId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotAltId() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
 
 
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
         if( ac.IsValid() )
         {
-            ac->AddOneShotEffect( mShotAltId );
+            ac->AddOneShotEffect( weapon->GetShotAltId() );
         }
     }
 }

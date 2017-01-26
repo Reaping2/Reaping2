@@ -1,0 +1,19 @@
+[
+    {
+        "name":"flag",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings"}]
+            },
+            {"name":"flag_collision_component",
+                "set":[{"class":"flag", "radius":40}]
+            },
+            {"name":"team_component"},
+            {"name":"attachable_component",
+                "set":[{"position_x":10,"position_y":10}]}
+        ]
+    }
+]
+

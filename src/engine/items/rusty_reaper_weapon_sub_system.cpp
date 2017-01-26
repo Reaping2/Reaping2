@@ -13,8 +13,6 @@ RustyReaperWeaponSubSystem::RustyReaperWeaponSubSystem()
     , mProgramState( core::ProgramState::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mProjectileId( AutoId( "rusty_reaper_projectile" ) )
-    , mProjectileAltId( AutoId( "rusty_reaper_alt_projectile" ) )
     , mWeaponId( AutoId( "rusty_reaper" ) )
 {
 }
@@ -33,7 +31,7 @@ void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     if (weapon->GetSawGUID() == -1)
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
-        std::auto_ptr<Actor> ps = mActorFactory( mProjectileAltId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotAltId() );
         Opt<ctf::IAttachableComponent> attachableC( ps->Get<ctf::IAttachableComponent>() );
         BOOST_ASSERT( attachableC.IsValid() );
         attachableC->SetAttachedGUID( actor.GetGUID() );
@@ -57,7 +55,7 @@ void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
     if (weapon->IsShooting())
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
-        std::auto_ptr<Actor> ps = mActorFactory( mProjectileId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotId() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );
     }

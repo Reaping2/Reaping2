@@ -8,8 +8,8 @@ class IRenderableComponent : public Component
 {
 public:
     DEFINE_COMPONENT_BASE( IRenderableComponent )
-    virtual RenderableLayer::Type const& GetLayer()const = 0;
-    virtual void SetLayer( RenderableLayer::Type Lay ) = 0;
+    virtual int32_t const& GetLayerPriority()const = 0;
+    virtual void SetLayerPriority( int32_t Lay ) = 0;
     virtual int32_t const& GetZOrder()const = 0;
     virtual void SetZOrder( int32_t ZOrder ) = 0;
     virtual int32_t GetCastShadow() const = 0;

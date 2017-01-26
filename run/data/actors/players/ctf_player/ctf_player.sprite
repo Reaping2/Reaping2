@@ -1,0 +1,134 @@
+[
+    {
+        "texture_path":"ctf_player_body_color.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                        "name":"body_color",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"ctf_player_head_color.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                        "name":"head_color",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"ctf_player_head_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                        "name":"head",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"ctf_player_body_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                      "w" : 100,
+                      "h" : 100,
+                      "name" : "idle",
+                      "phases":[{"x":0,"y":0}],
+                      "scale" : 2.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"ctf_player_body_base.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                      "w" : 100,
+                      "h" : 100,
+                      "name" : "move",
+                      "phases":[{"x":0,"y":0}],
+                      "scale" : 2.0
+                   }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"ctf_player_rip.png",
+        "actor_visuals":
+        [
+            {
+                "name":"ctf_player",
+                "animations":
+                [
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "death",
+                      "phases":[
+                            {"x":0,"y":0},
+                            {"x":90,"y":0},
+                            {"x":180,"y":0},
+                            {"x":270,"y":0},
+                            {"x":360,"y":0},
+                            {"x":450,"y":0},
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0,
+                      "secs_to_end": 0.35
+                    },
+                    {
+                      "w" : 90,
+                      "h" : 90,
+                      "name" : "corpse",
+                      "phases":[
+                            {"x":540,"y":0}
+                      ],
+                      "scale" : 4.0
+                   }
+                ]
+            }
+        ]
+    }
+]
