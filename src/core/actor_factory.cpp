@@ -28,11 +28,6 @@ bool ActorFactory::AddActorCreatorFromOneDesc( Json::Value& ActorsDesc, ActorCre
     {
         return false;
     }
-    std::string typeStr;
-    if (Json::GetStr( ActorsDesc["type"], typeStr ) && typeStr!="actor_desc") // currently not mandatory. by default it's an actor
-    {
-        return true;
-    }
     actorCreator->SetId( AutoId( nameStr ) );
     Json::Value& components = ActorsDesc["components"];
     if ( !components.isArray() )
@@ -66,7 +61,7 @@ void ActorFactory::Init()
     FSys.GetFileNames( Paths, "actors" );
     for( auto const& Path : Paths )
     {
-        if( Path.extension().string() != ".json" )
+        if( Path.extension().string() != ".actor" )
         {
             continue;
         }

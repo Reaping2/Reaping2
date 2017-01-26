@@ -5,7 +5,6 @@
 void TextureRepo::Init()
 {
     PathVect_t Paths;
-    mFilesys.GetFileNames( Paths, "textures" );
     mFilesys.GetFileNames( Paths, "sprites" );
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {

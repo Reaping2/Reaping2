@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"move_speed_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"MoveSpeedBuff",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":32,
+                        "h":32,
+                        "scale":0.75,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]

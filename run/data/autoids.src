@@ -80,13 +80,19 @@
 ../soldier_spawn_system.h
 ../spawn_actor_map_element.h
 ./classgenerator
+.actor
 .base
 .fs
+.item
 .json
 .linux
 .mac
+.particle
 .png
+.render
+.sprite
 .step
+.target
 .tga
 .unknown
 .vs
@@ -503,7 +509,6 @@ action_renderer.h
 action_renderer_factory.h
 actor
 actor.h
-actor_desc
 actor_event.h
 actor_factory.h
 actor_id
@@ -1192,7 +1197,6 @@ editor_system
 editor_system.h
 editor_target_system
 editor_target_system.h
-editor_targets
 editor_visibility
 editor_visibility_system
 editor_visiblity_system.h
@@ -1857,7 +1861,6 @@ min_speed
 mine
 misc/font.json
 misc/particlelayers
-misc/recognizers.json
 misc/recognizers_excludes.json
 misc/renderable_layers.json
 misc/settings.json
@@ -2018,7 +2021,6 @@ particle_layer_repo.h
 particle_system
 particle_system.h
 particle_template_repo.h
-particles
 passthrough
 path
 path_box_renderer.h
@@ -2158,7 +2160,6 @@ receive_shadow
 recognizer
 recognizer":"move
 recognizer.h
-recognizer_desc
 recognizer_factory.h
 recognizer_repo.h
 recognizers
@@ -2525,7 +2526,6 @@ sync_item_message_sender_system
 system
 system_factory.h
 target
-target_desc
 target_factory
 target_factory.h
 target_holder_component
@@ -2577,7 +2577,6 @@ texture.h
 texture_base.h
 texture_path
 texture_repo.h
-textures
 textures.json
 tgatexture.h
 thumbnail

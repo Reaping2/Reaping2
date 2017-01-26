@@ -1,0 +1,22 @@
+[
+    {
+        "name":"rocket_launcher",
+        "set":[{
+            "shoot_cooldown":0.35,
+            "shoot_alt_cooldown":1.5,
+            "bullets":12.0,
+            "shot_cost":1,
+            "shot_cost_alt":2,
+            "reload_time":3.0,
+            "static_reload":0,
+            "scatter_increase":22,
+            "scatter_alt_increase":5,
+            "scatter_chill":31,
+            "scatter_magic_number":100,
+            "position_x":70.0,
+            "position_y":15.0,
+            "shot":"rocket_launcher_projectile",
+            "shot_alt":"rocket_launcher_alt_projectile"
+        }]
+    }
+]

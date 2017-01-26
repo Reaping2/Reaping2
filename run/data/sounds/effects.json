@@ -65,11 +65,11 @@
         "mode": 1
     },
     {
-        "id": "gauss_shot",
+        "id": "gauss_gun_projectile",
         "file": "sounds/gauss.ogg"
     },
     {
-        "id": "gauss_alt_shot",
+        "id": "gauss_gun_alt_projectile",
         "file": "sounds/gauss.ogg"
     },
     {
