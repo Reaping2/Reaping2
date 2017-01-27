@@ -30,7 +30,7 @@ private:
     AutoReg mOnEditorModeChanged;
     ActorColors_t mInvisibleActors;
     std::set<int32_t> mInvisibleGroups;
-    std::set<int32_t> mInvisibleLayers;
+    std::set<std::string> mInvisibleLayers;
     void OnEditorModeChanged(map::EditorModeChangedEvent const& Evt);
     void EnableSubsystems( bool enable );
     AutoReg mOnEditorBack;

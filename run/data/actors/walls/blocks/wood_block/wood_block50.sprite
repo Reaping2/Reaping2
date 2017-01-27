@@ -1,0 +1,30 @@
+[
+    {
+        "texture_path":"wood_block50_right.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "wood_block50_right"
+        }]
+    },
+    {
+        "texture_path":"wood_block50_left.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "wood_block50_left"
+        }]
+    }
+]

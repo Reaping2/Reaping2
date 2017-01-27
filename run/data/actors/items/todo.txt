@@ -1,0 +1,1 @@
+- guass gun és társainál a lövéseket átnevezni, és beállítani a fegyvernek projectile néven contentbõl felszívva!

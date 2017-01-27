@@ -10,6 +10,7 @@
 #include "shader_manager.h"
 #include "input/mouse.h"
 #include "engine/engine.h"
+#include "engine/activity_system.h"
 #include "core/program_state.h"
 #include "core/scene.h"
 #include "renderable_repo.h"
@@ -75,23 +76,8 @@ bool isVisible( Actor const& actor, Camera const& camera )
     {
         return false;
     }
-    static std::map<int32_t, float> scaleMap;
-    auto it = scaleMap.find( actor.GetId() );
-    if( scaleMap.end() == it )
-    {
-        float& f = scaleMap[ actor.GetId() ];
-        static RenderableRepo& renderables( RenderableRepo::Get() );
-        SpriteCollection const& Sprites = renderables( actor.GetId() );
-        for( auto i = Sprites.begin(), e = Sprites.end(); i != e; ++i )
-        {
-            if( i->second->GetScale() > f )
-            {
-                f = i->second->GetScale();
-            }
-        }
-        it = scaleMap.find( actor.GetId() );
-    }
-    float scale = it->second;
+    static RenderableRepo& renderables( RenderableRepo::Get() );
+    float scale = renderables.GetMaxScale( actor.GetId() );
     Opt<ICollisionComponent> const collisionC = actor.Get<ICollisionComponent>();
     glm::vec2 const& visMulti = visMultiplier( actor );
     float vmult = std::max<float>( visMulti.x, visMulti.y );
@@ -130,9 +116,10 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 }
 }
 
-void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double DeltaTime )
+void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTime )
 {
-    ActorList_t const& Lst = Object.GetActors();
+    static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
+    auto const& Lst = activityS->GetActiveActors();
     if( Lst.empty() )
     {
         mRenderableSprites.clear(); // renderable sprites still can contain obsolete sprites, so render nothing instead of invalid object
@@ -141,9 +128,7 @@ void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double D
     }
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( mRenderableSprites.size() );
-    //the template version works well with '=' i just dont know is it really needed, maybe this one is more self explaining
-    ActorListFilter<Scene::RenderableActors> wrp( Lst ); //=Object.GetActors<Scene::RenderableComponents>();
-    for( ActorListFilter<Scene::RenderableActors>::const_iterator i = wrp.begin(), e = wrp.end(); i != e; ++i )
+    for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
         if( !isVisible( Object, camera ) )
@@ -202,7 +187,6 @@ void ActorRenderer::Prepare( Scene const& Object, Camera const& camera, double D
             actionRenderer.Update( DeltaTime );
         }
     }
-
     std::swap( RenderableSprites, mRenderableSprites );
     size_t CurSize = mRenderableSprites.size();
     if( CurSize == 0 )
@@ -357,15 +341,3 @@ void ActorRenderer::OnMouseMoveEvent( const WorldMouseMoveEvent& Event )
     mY = Event.Pos.y;
 }
 
-bool ActorRenderer::RenderableSpriteCompare::operator()( RenderableSprite const& Rs1, RenderableSprite const& Rs2 )
-{
-    Opt<IRenderableComponent> Rs1RenderableC = Rs1.Obj->Get<IRenderableComponent>();
-    Opt<IRenderableComponent> Rs2RenderableC = Rs2.Obj->Get<IRenderableComponent>();
-    return Rs1RenderableC->GetLayer() < Rs2RenderableC->GetLayer() ||
-           ( Rs1RenderableC->GetLayer() == Rs2RenderableC->GetLayer() &&
-             ( Rs1RenderableC->GetZOrder() < Rs2RenderableC->GetZOrder() ||
-               ( Rs1RenderableC->GetZOrder() == Rs2RenderableC->GetZOrder() &&
-                 ( Rs1.ActId < Rs2.ActId ||
-                   ( Rs1.ActId == Rs2.ActId &&
-                     Rs1.Spr->TexId < Rs2.Spr->TexId ) ) ) ) );
-}

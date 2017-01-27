@@ -13,8 +13,6 @@ GaussGunWeaponSubSystem::GaussGunWeaponSubSystem()
     , mScene( Scene::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mShotId( AutoId( "gauss_shot" ) )
-    , mAltShotId( AutoId( "gauss_alt_shot" ) )
     , mProgramState( core::ProgramState::Get() )
 {
 }
@@ -88,26 +86,26 @@ void GaussGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory( mShotId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotId() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
 
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), false );
         if( ac.IsValid() )
         {
-            ac->AddOneShotEffect( mShotId );
+            ac->AddOneShotEffect( weapon->GetShotId() );
         }
     }
     else if ( weapon->IsShootingAlt() )
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
 
-        std::auto_ptr<Actor> ps = mActorFactory( mAltShotId );
+        std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotAltId() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
 
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
         if( ac.IsValid() )
         {
-            ac->AddOneShotEffect( mAltShotId );
+            ac->AddOneShotEffect( weapon->GetShotAltId() );
         }
     }
 }

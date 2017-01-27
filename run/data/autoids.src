@@ -80,17 +80,25 @@
 ../soldier_spawn_system.h
 ../spawn_actor_map_element.h
 ./classgenerator
+.actor
 .base
 .fs
+.item
 .json
 .linux
 .mac
+.particle
 .png
+.render
+.sprite
 .step
+.target
 .tga
 .unknown
 .vs
 .windows
+/
+/"+foldername+"/map_elements.json
 /description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
@@ -114,6 +122,7 @@ AccuracyBuffSubSystem
 AccuracyMessage
 AccuracyMessageHandlerSubSystem
 AccuracyMessageSenderSystem
+ActivitySystem
 Actor
 Actor&-actor
 ActorListMessage
@@ -499,9 +508,14 @@ action
 action_renderer
 action_renderer.h
 action_renderer_factory.h
+activity.camera_multiplier
+activity.default_active_size
+activity.gridsize
+activity_grid.h
+activity_system
+activity_traits.h
 actor
 actor.h
-actor_desc
 actor_event.h
 actor_factory.h
 actor_id
@@ -566,7 +580,6 @@ auto_revive_text
 autoids.content
 autoids.src
 background
-background_1
 backtrace.h
 bar
 bar.h
@@ -587,8 +600,6 @@ blue_grenade_normal_item_sub_system
 blue_grenade_projectile
 bluenames
 body_color
-body_idle
-body_move
 bool-active
 bool-applied
 bool-hudShown
@@ -647,7 +658,6 @@ buffs_engine/heal_over_time_buff_sub_system.h
 buffs_engine/max_health_buff_sub_system.h
 buffs_engine/move_speed_buff_sub_system.h
 bufftarget
-buildings
 bullets
 button
 button.h
@@ -744,7 +754,9 @@ collision_message_sender_system
 collision_model.h
 collision_sub_system
 collision_system
+collision_traits.h
 collisions.enable
+collisions.gridsize
 collisions/aoe_collision_sub_system.h
 collisions/bounce_collision_sub_system.h
 collisions/flag_collision_sub_system.h
@@ -788,6 +800,7 @@ core-shot
 core-startGameMode
 core/acceleration_component.h
 core/accuracy_component.h
+core/activity_grid.h
 core/actor.h
 core/actor_event.h
 core/actor_factory.h
@@ -819,6 +832,7 @@ core/collision_class.h
 core/collision_component.h
 core/collision_model.h
 core/collision_store.h
+core/collision_traits.h
 core/component.h
 core/component_factory.h
 core/component_loader_factory.h
@@ -841,11 +855,11 @@ core/flag_state_changed_event.h
 core/flash_normal_item.h
 core/free_for_all_game_mode_system.h
 core/gamemode_selected_event.h
-core/gamemodes.h
 core/gatling_gun.h
 core/gauss_gun.h
 core/grenade_normal_item.h
 core/grid.h
+core/grid_template.h
 core/guard_controller_component.h
 core/heal_taken_event.h
 core/health_changed_event.h
@@ -1022,7 +1036,6 @@ create_actor_message_handler_sub_system
 create_actor_message_handler_sub_system.h
 create_actor_message_sender_system
 creep
-creeps
 cross
 ctf
 ctf-flagStateChanged
@@ -1148,6 +1161,7 @@ drop_on_death_component
 drop_on_death_system
 duration
 duration_variance
+dynamic_radius
 editor
 editor/all_groups
 editor/all_plain_props
@@ -1196,7 +1210,6 @@ editor_system
 editor_system.h
 editor_target_system
 editor_target_system.h
-editor_targets
 editor_visibility
 editor_visibility_system
 editor_visiblity_system.h
@@ -1219,6 +1232,7 @@ engine-showText
 engine-soldierCreated
 engine.h
 engine/acceleration_system.h
+engine/activity_system.h
 engine/buffs_engine/accuracy_buff_sub_system.h
 engine/buffs_engine/armor_buff_sub_system.h
 engine/buffs_engine/buff_holder_system.h
@@ -1374,7 +1388,6 @@ flash_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
 font.h
-font.json
 fontsize
 for
 fps
@@ -1395,7 +1408,6 @@ gamemode_selected_message
 gamemode_selected_message.h
 gamemode_selected_message_handler_sub_system
 gamemode_selected_message_sender_system
-gamemodes.h
 gatling_down
 gatling_gun
 gatling_gun.h
@@ -1438,6 +1450,8 @@ grid.h
 grid_elem
 grid_repo
 grid_repo.h
+grid_template.h
+grid_template_instantiate.h
 grid_uimodel.h
 group
 group_map_element
@@ -1806,7 +1820,6 @@ mandatory_rooms
 map
 map-editorModeChanged
 map-levelGenerated
-map/
 map/editor_brush_system.h
 map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
@@ -1837,7 +1850,7 @@ mapitem
 mapitems
 mapitemtarget
 mapping.h
-maptype
+maps
 material
 matrix
 matrix","absolute
@@ -1862,6 +1875,11 @@ mid
 min_length
 min_speed
 mine
+misc/font.json
+misc/particlelayers
+misc/recognizers_excludes.json
+misc/renderable_layers.json
+misc/settings.json
 mixer.h
 mode
 mode_select
@@ -2019,8 +2037,6 @@ particle_layer_repo.h
 particle_system
 particle_system.h
 particle_template_repo.h
-particlelayers
-particles
 passthrough
 path
 path_box_renderer.h
@@ -2098,7 +2114,6 @@ player_controller_message_sender_system
 player_controller_sub_system
 player_model_system
 player_model_system.h
-players
 pngtexture.h
 pointer_target_controller_component
 pointer_target_controller_component.h
@@ -2161,12 +2176,9 @@ receive_shadow
 recognizer
 recognizer":"move
 recognizer.h
-recognizer_desc
 recognizer_factory.h
 recognizer_repo.h
 recognizers
-recognizers.json
-recognizers_excludes.json
 recreate
 recreate_borders
 recreate_borders_map_element
@@ -2194,8 +2206,6 @@ removed_actors_system
 removed_actors_system.h
 render/action_renderer.h
 render/action_renderer_factory.h
-render/body_move_action_renderer.h
-render/body_move_recognizer.h
 render/border_action_renderer.h
 render/border_recognizer.h
 render/camera.h
@@ -2220,6 +2230,8 @@ render/idle_action_renderer.h
 render/idle_recognizer.h
 render/leg_move_action_renderer.h
 render/leg_move_recognizer.h
+render/move_action_renderer.h
+render/move_recognizer.h
 render/particle_system.h
 render/pickup_action_renderer.h
 render/pickup_recognizer.h
@@ -2530,7 +2542,6 @@ sync_item_message_sender_system
 system
 system_factory.h
 target
-target_desc
 target_factory
 target_factory.h
 target_holder_component
@@ -2582,7 +2593,6 @@ texture.h
 texture_base.h
 texture_path
 texture_repo.h
-textures
 textures.json
 tgatexture.h
 thumbnail
@@ -2616,7 +2626,6 @@ ui_model.h
 ui_renderer.h
 uimodel.h
 uimodel_repo.h
-unknown
 use_normal
 use_shot
 valign

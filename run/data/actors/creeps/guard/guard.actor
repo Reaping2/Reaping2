@@ -1,0 +1,65 @@
+[
+    {
+        "name":"guard",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":250,"moving":0}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"players", "cast_shadow":1}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"creep", "radius":30}]
+            },
+            {"name":"guard_controller_component"},
+            {"name":"target_holder_component"},
+            {"name":"inventory_component",
+                "set":[{"add_item":"guard_plasma_gun",
+                        "select_weapon":"guard_plasma_gun",
+                        "pickup_items":0}]
+            },
+            {"name":"health_component",
+                "set":[{"hp":65}]
+            },
+            {"name":"accuracy_component",
+                "set":[{"accuracy":0}]
+            },
+            {"name":"armor_component"},
+            {"name":"cloak_component"},
+            {"name":"stop_on_death_component"},
+            {"name":"heat_source_component"},
+            {"name":"audible_component"},
+            {"name":"remove_on_death_component",
+                "set":[{"delay":5.0}] }
+        ]
+    },
+    {
+        "name":"guard_plasma_shot",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":1400}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps"}]
+            },
+
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":15, "damage":10 }]
+            },
+            {"name":"health_component"},
+            {"name":"owner_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"emitter_component","set":[{
+                "emit_descs":[{
+                    "delay": 0.0,
+                    "emit_type": "guard_plasma_particle"
+                }]
+            }]
+            }
+        ]
+    }    
+]

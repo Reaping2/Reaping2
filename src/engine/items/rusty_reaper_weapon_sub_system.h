@@ -18,8 +18,6 @@ private:
     core::ProgramState& mProgramState;
     Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
     ActorFactory& mActorFactory;
-    int32_t mProjectileId;
-    int32_t mProjectileAltId;
     int32_t mWeaponId;
     AutoReg mOnItemDropped;
     void OnItemDropped( core::ItemDroppedEvent const& Evt );

@@ -1,0 +1,21 @@
+[
+    {
+        "name":"grenade_explosion_projectile",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"grenade_projectile",
+        "recognizers":
+        [
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+]
+

@@ -36,7 +36,7 @@ ItemLoaderRepo::ItemLoaderRepo()
     mElements.insert( id, new GaussGunLoader() );
     id = AutoId( "lucky_rocket" );
     mElements.insert( id, new LuckyRocketLoader() );
-    id = AutoId("rusty_reaper"); 
+    id = AutoId( "rusty_reaper"); 
     mElements.insert(id, new RustyReaperLoader());
     Init();
 }
@@ -45,11 +45,11 @@ void ItemLoaderRepo::Init()
 {
     PathVect_t Paths;
     Filesys& FSys = Filesys::Get();
-    FSys.GetFileNames( Paths, "items" );
+    FSys.GetFileNames( Paths, "actors" );
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
-        if( Path.extension().string() != ".json" )
+        if( Path.extension().string() != ".item" )
         {
             continue;
         }

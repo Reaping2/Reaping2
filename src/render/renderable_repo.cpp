@@ -63,12 +63,12 @@ void RenderableRepo::Init()
 {
     PathVect_t Paths;
     Filesys& FSys = Filesys::Get();
-    FSys.GetFileNames( Paths, "sprites" );
+    FSys.GetFileNames( Paths, "actors" );
     ElementMap_t Renderables;
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
-        if( Path.extension().string() != ".json" )
+        if( Path.extension().string() != ".sprite" )
         {
             continue;
         }
@@ -96,8 +96,27 @@ void RenderableRepo::Init()
             }
         }
     }
+    for( auto i = Renderables.begin(), e = Renderables.end(); i != e; ++i )
+    {
+        auto const& spriteColl = *i->second;
+        float max = 0.0f;
+        for( auto ii = spriteColl.begin(), ee = spriteColl.end(); ii != ee; ++ii)
+        {
+            if( max < ii->second->GetScale() )
+            {
+                max = ii->second->GetScale();
+            }
+        }
+        mMaxScaleMap[i->first] = max;
+    }
     // all done
     using std::swap;
     swap( mElements, Renderables );
+}
+
+float RenderableRepo::GetMaxScale( int32_t actorId ) const
+{
+    auto it = mMaxScaleMap.find( actorId );
+    return it == mMaxScaleMap.end() ? 1.0 : it->second;
 }
 

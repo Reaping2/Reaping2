@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "grass1500" ,
+        "setters":
+        {
+            "cursor_id": "grass1500" ,
+            "actor_id": "grass1500"
+        },
+        "type":"target_desc"
+    }
+]

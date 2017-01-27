@@ -41,7 +41,7 @@ std::vector<int32_t> IBrush::GetActorsToRemove()
                 && ( editorLayer == EditorLayer::Any
                    || ( editorLayer == EditorLayer::Target
                       && cursorRenderableC.IsValid()
-                      && renderableC->GetLayer() == cursorRenderableC->GetLayer() ) ) )
+                      && renderableC->GetLayerPriority() == cursorRenderableC->GetLayerPriority() ) ) )
             {
                 r.push_back( actor.GetGUID() );
             }

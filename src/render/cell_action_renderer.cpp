@@ -8,7 +8,7 @@ namespace render {
 CellActionRenderer::CellActionRenderer(int32_t Id)
     : ActionRenderer(Id)
 {
-    mCellId=AutoId("body_idle");
+    mCellId=AutoId("idle");
 }
 
 

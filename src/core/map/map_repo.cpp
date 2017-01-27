@@ -19,7 +19,7 @@ void MapRepo::Init()
     platform::Filesys& Fs = platform::Filesys::Get();
     // list of available levels/maps
     std::vector<boost::filesystem::path> paths;
-    Fs.GetFileNames(paths, "map");
+    Fs.GetFileNames(paths, MAP_DIR );
     for ( auto path : paths )
     {
         if ( path.filename() == "description.json")
@@ -50,6 +50,8 @@ void MapRepo::Init()
         }
     }
 }
+
+std::string const MapRepo::MAP_DIR = "maps";
 
 } // namespace map
 

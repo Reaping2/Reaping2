@@ -9,8 +9,6 @@ LuckyRocketWeaponSubSystem::LuckyRocketWeaponSubSystem()
     , mScene( Scene::Get() )
     , mWeaponItemSubSystem( WeaponItemSubSystem::Get() )
     , mActorFactory( ActorFactory::Get() )
-    , mShotId( AutoId( "lucky_rocket_projectile" ) )
-    , mAltShotId( AutoId( "lucky_rocket_alt_projectile" ) )
 {
 }
 
@@ -83,7 +81,7 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     }
     else
     {
-        int32_t id = alt ? mAltShotId : mShotId;
+        int32_t id = alt ? weapon->GetShotAltId() : weapon->GetShotId();
         std::auto_ptr<Actor> rocket = mActorFactory( id );
         WeaponItemSubSystem::Projectiles_t projectiles;
         projectiles.push_back( rocket.release() );

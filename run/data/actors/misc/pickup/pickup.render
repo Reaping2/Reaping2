@@ -1,0 +1,22 @@
+[
+    {
+        "name":"pickup",
+        "recognizers":
+        [
+            {"recognizer":"pickup",
+                "renderer":"pickup"}
+        ],
+        "type":"recognizer_desc"
+    },
+    {
+        "name":"revive_pickup",
+        "recognizers":
+        [
+            {"recognizer":"death",
+                "renderer":"death"},
+            {"recognizer":"pickup",
+                "renderer":"pickup"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

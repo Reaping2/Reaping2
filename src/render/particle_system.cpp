@@ -5,6 +5,8 @@
 #include "engine/system_factory.h"
 #include "particle_engine.h"
 #include "core/i_move_component.h"
+#include "engine/engine.h"
+#include "engine/activity_system.h"
 
 namespace render {
 
@@ -24,7 +26,8 @@ void ParticleSystem::Init()
 
 void ParticleSystem::Update( double DeltaTime )
 {
-    for( auto actor: mScene.GetActorsFromMap( GetType_static() ) )
+    static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
+    for( auto actor: activityS->GetActiveActors() )
     {
         Opt<IEmitterComponent> emitterC = actor->Get<IEmitterComponent>();
         if (!emitterC.IsValid())
