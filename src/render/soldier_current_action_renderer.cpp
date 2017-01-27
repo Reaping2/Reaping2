@@ -8,48 +8,22 @@ namespace render {
 namespace ctf {
 
 SoldierCurrentActionRenderer::SoldierCurrentActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
+    : ActionRenderer( Id, AutoId( "soldier_current" ) )
     , mColorRepo( ColorRepo::Get() )
     , mColor( 0.29, 0.05, 0.4, 0.8 )
 {
-    mCurrentId = AutoId( "soldier_current" );
 }
 
-
-void SoldierCurrentActionRenderer::Init( Actor const& actor )
+glm::vec4 SoldierCurrentActionRenderer::GetRenderableColor( Actor const& actor ) const
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mCurrentId );
-    if( Spr.IsValid() )
-    {
-        mSecsToEnd = Spr.GetSecsToEnd();
-    }
+    return mColor;
 }
-
 
 void SoldierCurrentActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mCurrentId );
-    if( Spr.IsValid() )
+    if ( actor.GetGUID() == core::ProgramState::Get().mControlledActorGUID )
     {
-        //         Opt<PlayerControllerComponent> playerCC=actor.Get<IControllerComponent>();
-        //         if (playerCC.IsValid())
-        //         {
-        //             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));
-        //             if (ctfClientData.IsValid())
-        //             {
-        //        Opt<ITeamComponent> teamC(actor.Get<ITeamComponent>());
-        if ( actor.GetGUID() == core::ProgramState::Get().mControlledActorGUID )
-            //        if (teamC.IsValid())
-        {
-            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            renderableSprites.push_back(
-                RenderableSprite( &actor, &renderableC, mCurrentId, &Spr, &Phase, mColor ) );
-        }
-        //             }
-        //
-        //         }
+        ActionRenderer::FillRenderableSprites( actor, renderableC, renderableSprites );
     }
 }
 

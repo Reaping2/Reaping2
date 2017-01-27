@@ -111,7 +111,6 @@
 -a1
 -a3
 -a4
-.map_elements.json
 .water.fs
 .water.vs
 0x00007777
@@ -126,12 +125,33 @@
 0xaa0000
 0xaaaaaa
 0xaaaaaa77
+0xff0000ff
 0xffffff
 0xffffff00
 0xffffffff
 1
 3leggedMonkey_brown
 3leggedMonkey_brown1
+:/textures/wall_basic_2.png
+:/textures/wall_basic_2_normal.png
+:/textures/wall_bottom_border_2.png
+:/textures/wall_bottomleft_border.png
+:/textures/wall_bottomright_border.png
+:/textures/wall_left_border_2.png
+:/textures/wall_right_border_2.png
+:/textures/wall_top_border_2.png
+:/textures/wall_topleft_border.png
+:/textures/wall_topright_border.png
+:/textures/water_bottom_outer_border_mask.png
+:/textures/water_bottomleft_outer_border_mask.png
+:/textures/water_bottomright_outer_border_mask.png
+:/textures/water_left_outer_border_mask.png
+:/textures/water_mask.png
+:/textures/water_right_outer_border_mask.png
+:/textures/water_secondary.png
+:/textures/water_top_outer_border_mask.png
+:/textures/water_topleft_outer_border_mask.png
+:/textures/water_topright_outer_border_mask.png
 ACCUR:
 AccuracyBuff
 ArmorBuff
@@ -187,7 +207,6 @@ RapidPickup
 Resume
 Rogue
 Rogue 1
-Rogue 2
 Rogue 3x3
 Rolling_Switch
 Room Editor
@@ -203,6 +222,7 @@ ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
 Unispace
 Waiting for Host...
+Ye Olde Rogue 2
 Zap_Beat
 _save_weapon_rocket_launcher
 a0
@@ -349,8 +369,10 @@ a96
 a97
 a98
 a99
+acceleration_component
 accuracy
 accuracy_buff
+accuracy_component
 accuracy_pickup
 actor
 actors
@@ -368,10 +390,15 @@ all_plain_props
 all_room_ends
 all_room_starts
 all_spawns
+aoe
+aoe_collision_component
 armor
 armor_buff
+armor_component
 armor_pickup
 arrow
+attachable_component
+audible_component
 auto_revive_text
 autoids
 b1
@@ -392,6 +419,7 @@ b8
 b9
 background
 background_1
+background_size
 bar
 big_background
 biggerClip
@@ -430,6 +458,7 @@ blue_water50_top_outer_border
 blue_water50_topleft_outer_border
 blue_water50_topright_outer_border
 body_color
+body_idle
 border_component
 bordertrap_right
 bottom
@@ -437,6 +466,7 @@ bottom_entrance
 bottom_group
 bottomleft
 bottomright
+bounce_collision_component
 brick1
 brick_wall100
 brick_wall100_bottom_border
@@ -451,11 +481,13 @@ brickwall1
 brush
 buff
 buff_background
+buff_holder_component
 bug_move
 bug_rip
 buildings
 bullet2_particle
 bullet_particle
+bump_map
 bush50
 button
 c
@@ -480,6 +512,7 @@ change fill
 circle
 cloak
 cloak_buff
+cloak_component
 cloak_normal_item
 cloak_pickup
 collision_component
@@ -490,6 +523,7 @@ corpses
 crack50
 crack50_1
 cracks
+creep
 creeps
 cross
 cross2
@@ -524,10 +558,12 @@ decals
 default
 description
 desert
+detonate_on_hit_component
 diamond
 dragon_stone
 dragon_stone100
 dragon_stone50
+drop_on_death_component
 dummy
 e1
 editor.brush
@@ -596,12 +632,17 @@ editor_target_select
 editor_visibility.show_all
 editor_visibility.switch_cells
 effects
+emitter_component
 end
 end_group
 entrance
 entrance target:
 erase layer
 example_1
+explode_on_death_component
+explode_on_hit_component
+explosion_component
+fade_out_component
 ffa
 ffa_client_list
 ffa_client_list.clients
@@ -610,6 +651,9 @@ fill
 fixed_ratio_container
 flag
 flag_big
+flag_carrier_component
+flag_collision_component
+flag_receiver_component
 flash
 flash_normal_item
 flash_pickup
@@ -657,6 +701,7 @@ gatling_up
 gatling_wind_loop
 gauss
 gauss_alt_charge
+gauss_alt_particle
 gauss_alt_particle2
 gauss_alt_particle3
 gauss_alt_shot
@@ -671,6 +716,7 @@ gauss_gun_player
 gauss_gun_projectile
 gauss_particle
 gauss_secondary
+gauss_shot
 generator
 glow
 grafics_test
@@ -707,14 +753,18 @@ heal_over_time_pickup
 healthBorder
 healthTick
 health_bar
+health_component
 heart
+heat_source_component
 horizontal
 hud
 idle
 image
+inventory_component
 ion
 ion_gun
 ion_gun_alt_projectile
+ion_gun_explode_projectile
 ion_gun_pickup
 ion_gun_player
 ion_gun_projectile
@@ -725,6 +775,8 @@ jungle_grass200_bottom_outer_border
 jungle_grass200_left_outer_border
 jungle_grass200_right_outer_border
 jungle_grass200_top_outer_border
+kill_score_on_death_component
+laser_pointer_projectile
 layers
 leaderboard
 leaderboard.team_blue_death#blue_idx
@@ -749,6 +801,7 @@ level_generated
 level_generator
 lifecycle.host
 link
+listen_child_death_component
 local.start
 lucky_particle
 lucky_rocket
@@ -763,7 +816,9 @@ map_start
 mapitem
 menu item
 monkey
+mouse
 move
+move_component
 move_speed
 move_speed_buff_pickup
 move_speed_pickup
@@ -801,6 +856,7 @@ new_room1
 no_collision
 normal
 normal_item_background
+notify_parent_on_death_component
 ore_wall100
 ore_wall100_1
 ore_wall100_2
@@ -880,6 +936,7 @@ ore_wall50_topleft_border_2
 ore_wall50_topright_border
 ore_wall50_topright_border_1
 ore_wall50_topright_border_2
+owner_component
 particle
 particlelayers
 pickup
@@ -909,6 +966,7 @@ plasma_gun_projectile
 plasma_particle
 plasma_particle2
 plasma_secondary
+plasma_shot
 plasmagun
 plasmagunSecondary
 platform
@@ -923,20 +981,27 @@ player.special
 player.weapon
 player_body_base
 player_body_color
+player_controller_component
 player_head_base
 player_head_color
 player_rip
 players
+pointer_target_controller_component
 pok2_death
 pok2_move
 poks
 position_component
 positioning
+postprocessor_select
 pow
 pow_projectile
 programstate.isclient
 programstate.ishost
+projectile
+pulse_component
 purple_flowers50
+random
+random_controller_component
 read_me
 readme
 reaping
@@ -949,6 +1014,8 @@ red
 remove
 remove from all groups
 remove from specific group
+remove_components_on_death_component
+remove_on_death_component
 renderable_component
 renderable_layers
 respawn_actor
@@ -956,6 +1023,8 @@ revive_pickup
 right
 right_entrance
 rocket
+rocket_alt_flame
+rocket_flame
 rocket_launcher
 rocket_launcher_explosion_projectile
 rocket_launcher_flame_particle
@@ -964,6 +1033,10 @@ rocket_launcher_pickup
 rocket_launcher_player
 rocket_launcher_projectile
 rocket_launcher_smoke_particle
+rocket_launcher_target_projectile
+rocket_pow_projectile
+rocket_smoke
+rocket_target_pow_projectile
 rogue
 rogue1x1
 rogue1x1nostart
@@ -1035,6 +1108,7 @@ scene.resume
 score.death
 score.kill
 score.score
+score_on_death_component
 select
 select_game_mode
 select_level
@@ -1044,8 +1118,11 @@ shadows
 shooter_Loves
 shooter_move
 shooter_rip
+shot_collision_component
 shotgun
+shotgun_alt2_particle
 shotgun_alt2_projectile
+shotgun_alt_particle
 shotgun_alt_projectile
 shotgun_particle
 shotgun_pickup
@@ -1128,6 +1205,9 @@ spider1
 spider1_
 spider1_move
 spider1_rip
+spider1target
+spider2
+spider2target
 splider_move_blue
 splider_move_green
 splider_move_red
@@ -1142,6 +1222,7 @@ sprite
 sprite2
 start
 start_nothing
+static_actor_component
 stone_wall
 stone_wall100
 stone_wall100_bottom_border
@@ -1162,11 +1243,24 @@ stone_wall100_top_border_wall100
 stone_wall100_top_outer_border
 stone_wall100_topleft_border
 stone_wall100_topright_border
+stone_wall_bottom
+stone_wall_bottomleft
+stone_wall_bottomright
+stone_wall_left
+stone_wall_normal
+stone_wall_right
+stone_wall_top
+stone_wall_topleft
+stone_wall_topright
 stones50
+stop_on_death_component
 strongerAmmo
 target
 target:
 target_desc
+target_holder_component
+target_player_controller_component
+team_component
 test_l
 test_room
 test_simple_room
@@ -1210,26 +1304,33 @@ w2
 w3
 waiting_start
 wall
+wall_collision_component
 wall_crystals_for_basic
 wall_crystals_for_basic_2
 wall_small
 wall_target
 water
 water_bottom_outer_border
-water_bottom_outer_border_normal
-water_bottomleft_outer_border_normal
-water_bottomright_outer_border_normal
+water_bottom_outer_mask
+water_bottomleft_outer_mask
+water_bottomright_outer_mask
+water_collision_component
 water_left_outer_border
-water_left_outer_border_normal
-water_right_outer_border_normal
-water_top_outer_border_normal
+water_left_outer_mask
+water_mask
+water_postprocess
+water_right_outer_mask
+water_secondary
+water_top_outer_mask
 water_topleft_outer_border
-water_topleft_outer_border_normal
-water_topright_outer_border_normal
+water_topleft_outer_mask
+water_topright_outer_mask
 waypoint_off
 waypoint_on
 weapon
 weapon_pickup
+weapon_rotation
+weapon_size
 webber_move
 webber_rip
 webber_rip1

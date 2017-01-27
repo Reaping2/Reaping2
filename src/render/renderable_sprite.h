@@ -18,6 +18,7 @@ struct RenderableSprite
     int32_t ActId;
     SpritePhase const* Spr;
     SpritePhase const* MaskSpr = nullptr;
+    SpritePhase const* NormalSpr = nullptr;
     Sprite const* Anim;
     std::vector<SpritePhase const*> AdditionalSprs;
     glm::vec4 Color;

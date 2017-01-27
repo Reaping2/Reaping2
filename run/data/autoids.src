@@ -485,6 +485,7 @@ YES
 _
 _mask
 _no_name_
+_normal
 _outer
 a
 a-a
@@ -1630,7 +1631,6 @@ id
 id_storage.h
 identifier
 idle
-idle_action_renderer.h
 ifile.h
 image
 image.h

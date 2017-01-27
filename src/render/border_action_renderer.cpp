@@ -3,13 +3,11 @@
 #include "core/i_border_component.h"
 #include "platform/id_storage.h"
 #include "core/i_collision_component.h"
-#include "idle_action_renderer.h"
 
 namespace render {
 
 BorderActionRenderer::BorderActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
-    , mActionId( AutoId( "idle" ) )
+    : ActionRenderer( Id, AutoId( "idle" ) )
     , mActorSize( 1.0 )
     , mBorderType( BorderType::Get() )
 {
@@ -18,6 +16,7 @@ BorderActionRenderer::BorderActionRenderer( int32_t Id )
 
 void BorderActionRenderer::Init( Actor const& actor )
 {
+    ActionRenderer::Init( actor );
     mSprites.clear();
     mBorders.clear();
     mBorderIds.clear();
@@ -41,8 +40,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         std::string borderName;
         if( mIdStorage.GetName( mBorderType( *i ), borderName ) )
         {
-            mBorderIds.push_back( 
-                IdleActionRenderer::GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName ) ) );
+            mBorderIds.push_back(
+                GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName ) ) );
         }
     }
     mOuterBorders = borderC->GetOuterBorders();
@@ -51,8 +50,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         std::string borderName;
         if( mIdStorage.GetName( mBorderType( *i ), borderName ) )
         {
-            mOuterBorderIds.push_back( 
-                IdleActionRenderer::GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName + "_outer") ) );
+            mOuterBorderIds.push_back(
+                GetSpriteId( borderC->GetSpriteIndex(), mIdStorage.GetId( actorName + "_" + borderName + "_outer") ) );
         }
     }
     double scale = 1.0;
@@ -72,9 +71,11 @@ void BorderActionRenderer::Init( Actor const& actor )
         if( Spr.IsValid() )
         {
             mSprites.emplace_back( glm::vec2(), Spr );
-            std::tie( mSprites.back().SecondarySpr,
-                    mSprites.back().MaskSpr )=
-                IdleActionRenderer::GetJointAndMaskSprites( *i, mActionId );
+            auto companions = GetCompanionSprites( *i, mActionId );
+            auto& spr = mSprites.back();
+            spr.MaskSpr = companions.MaskSpr;
+            spr.NormalSpr = companions.NormalSpr;
+            std::swap( spr.AdditionalSprs, companions.AdditionalSprs );
         }
     }
     IBorderComponent::Borders_t::const_iterator outer_i = mOuterBorders.begin();
@@ -86,12 +87,14 @@ void BorderActionRenderer::Init( Actor const& actor )
         {
             glm::vec2 pos = mBorderType.GetNeighborDirs()[*outer_i];
             mSprites.emplace_back( glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize ), Spr );
-            std::tie( mSprites.back().SecondarySpr,
-                    mSprites.back().MaskSpr )=
-                IdleActionRenderer::GetJointAndMaskSprites( *i, mActionId );
+            auto companions = GetCompanionSprites( *i, mActionId );
+            auto& spr = mSprites.back();
+            spr.MaskSpr = companions.MaskSpr;
+            spr.NormalSpr = companions.NormalSpr;
+            std::swap( spr.AdditionalSprs, companions.AdditionalSprs );
         }
     }
-    mActorColor = GetColor( actor );
+    mActorColor = GetRenderableColor( actor );
 }
 
 
@@ -104,16 +107,20 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
     for( auto const& data : mSprites )
     {
         int32_t st( GetState() );
-        SpritePhase const& Phase = data.Spr( st );
+        auto const& Phase = data.Spr( st );
         RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &data.Spr, &Phase, mActorColor );
         renderableSprite.RelativePosition = data.RelativePosition;
-        if( nullptr != data.SecondarySpr )
+        for( auto const& spr : data.AdditionalSprs )
         {
-            renderableSprite.AdditionalSprs.push_back( &(*data.SecondarySpr)( st ) );
+            renderableSprite.AdditionalSprs.push_back( &(*spr)( st ) );
         }
         if( nullptr != data.MaskSpr )
         {
             renderableSprite.MaskSpr = &(*data.MaskSpr)( st );
+        }
+        if( nullptr != mNormalSpr )
+        {
+            renderableSprite.NormalSpr = &(*data.NormalSpr)( st );
         }
         renderableSprites.push_back( renderableSprite );
     }

@@ -10,7 +10,6 @@ namespace render {
 
 class PickupActionRenderer: public ActionRenderer
 {
-    int32_t mActionId;
 public:
     PickupActionRenderer( int32_t Id );
     virtual void Init( const Actor& actor );

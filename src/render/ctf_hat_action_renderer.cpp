@@ -7,50 +7,29 @@ namespace render {
 namespace ctf {
 
 CtfHatActionRenderer::CtfHatActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
+    : ActionRenderer( Id, AutoId( "ctf_body_color" ) )
     , mColorRepo( ColorRepo::Get() )
 {
-    mCtfHatId = AutoId( "ctf_body_color" );
 }
 
-
-void CtfHatActionRenderer::Init( Actor const& actor )
+glm::vec4 CtfHatActionRenderer::GetRenderableColor( Actor const& actor ) const
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mCtfHatId );
-    if( Spr.IsValid() )
+    Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+    if ( !teamC.IsValid() )
     {
-        mSecsToEnd = Spr.GetSecsToEnd();
+        return glm::vec4( 1,0,1,1 );
     }
+    return mColorRepo( teamC->GetTeam() )*GetColor( actor )*GetCloakColor( actor );
 }
-
 
 void CtfHatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mCtfHatId );
-    if( Spr.IsValid() )
+    Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+    if ( !teamC.IsValid() )
     {
-        //         Opt<PlayerControllerComponent> playerCC=actor.Get<IControllerComponent>();
-        //         if (playerCC.IsValid())
-        //         {
-        //             Opt< ::ctf::ClientData> ctfClientData(::ctf::ProgramState::Get().FindClientDataByClientId(playerCC->mControllerId));
-        //             if (ctfClientData.IsValid())
-        //             {
-        Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
-        if ( teamC.IsValid() )
-        {
-            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
-            col.a = GetCloakColor( actor ).a;
-            col = col * GetColor( actor );
-            renderableSprites.push_back(
-                RenderableSprite( &actor, &renderableC, mCtfHatId, &Spr, &Phase, col ) );
-        }
-        //             }
-        //
-        //         }
+        return;
     }
+    ActionRenderer::FillRenderableSprites( actor, renderableC, renderableSprites );
 }
 
 } // namespace ctf

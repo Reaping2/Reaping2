@@ -11,12 +11,8 @@ namespace render {
 
 class HeadActionRenderer : public ActionRenderer
 {
-    int32_t mHeadId;
 public:
     HeadActionRenderer( int32_t Id );
-    virtual void Init( const Actor& actor );
-    virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
-private:
 };
 
 } // namespace render
