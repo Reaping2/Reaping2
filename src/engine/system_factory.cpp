@@ -3,6 +3,7 @@
 #include "engine/system_factory.h"
 #include "engine/system.h"
 #include "engine/collision_system.h"
+#include "engine/activity_system.h"
 #include "platform/auto_id.h"
 #include "input/keyboard.h"
 #include "engine/controllers/player_controller_sub_system.h"
@@ -165,6 +166,7 @@ void SystemFactory::Init()
     Bind( AutoId( "pulse_system" ), &CreateSystem<engine::PulseSystem> );
 
     Bind( AutoId( "collision_system" ), &CreateSystem<CollisionSystem> );
+    Bind( AutoId( "activity_system" ), &CreateSystem<ActivitySystem> );
 
     Bind( AutoId( "keyboard_system" ), &CreateSystem<KeyboardSystem> );
     Bind( AutoId( "mouse_system" ), &CreateSystem<MouseSystem> );

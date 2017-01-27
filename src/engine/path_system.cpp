@@ -278,15 +278,6 @@ void PathSystem::CreateGrid()
         / mCellSize );
     mGrid.clear();
     mGrid.resize( mGridSize*mGridSize );
-    for (auto actor : mScene.GetActors())
-    {
-        auto staticActorComp( actor->Get<IStaticActorComponent>() );
-        if (staticActorComp.IsValid())
-        {
-            auto positionC( actor->Get<IPositionComponent>() );
-            auto collisionC( actor->Get<ICollisionComponent>() );
-        }
-    }
     for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
         auto positionC( actor->Get<IPositionComponent>() );

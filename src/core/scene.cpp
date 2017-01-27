@@ -202,7 +202,7 @@ void Scene::RemoveActor( ActorList_t::iterator it )
     L2( "removeActor it (GUID:%d)\n", ( *it )->GetGUID() );
     RemoveFromActorMap( it->Get() );
     EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Removed ) );
-    delete ( *it ).Get();
+    mRemovedActors.emplace_back( it->Get() );
     mActorHolder.mAllActors.erase( it );
 }
 
@@ -222,7 +222,7 @@ void Scene::RemoveActor( int32_t guid )
             if ( ( *i )->GetGUID() == guid )
             {
                 L1( "removeActor from new actors (GUID:%d)\n", ( *i )->GetGUID() );
-                delete ( *i ).Get();
+                mRemovedActors.emplace_back( i->Get() );
                 mNewActors.erase( i );
                 return;
             }
@@ -324,6 +324,8 @@ void Scene::SetPlayerModels( Opt<Actor> actor )
 
 void Scene::InsertNewActors()
 {
+    // do the deletion in cycles so potential dangling Actor*s don't wrak havoc
+    mRemovedActors.clear();
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
     {
         EventServer<ActorEvent>::Get().SendEvent( ActorEvent( ( *it ), ActorEvent::Added ) );
@@ -439,3 +441,4 @@ Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )
     static Actors_t emptyActors;
     return ( found != mActorMap.end() ? found->second : emptyActors );
 }
+
