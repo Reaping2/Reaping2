@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":"grass200_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "rogue_grass200_normal"
+        }]
+    }
+]

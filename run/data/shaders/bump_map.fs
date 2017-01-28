@@ -1,12 +1,9 @@
 #version 330
 
-uniform sampler2D spriteTexture;
-uniform sampler2D secondarySpriteTexture;
+uniform sampler2D texture;
+uniform sampler2D secondaryTexture;
 out vec4 outputColor;
 smooth in vec2 inTexCoord;
-smooth in vec2 inSecondaryTexCoord;
-smooth in vec4 inColor;
-in vec4 limits;
 
 uniform float time;
 uniform vec2 resolution;
@@ -23,8 +20,8 @@ void main(void)
     lightDir.x *= resolution.x / resolution.y;
     float D = length( lightDir );
 
-    vec4 color = texture2D( spriteTexture, inTexCoord );
-    vec4 normalColor = texture2D( secondarySpriteTexture, inSecondaryTexCoord );
+    vec4 color = texture2D( texture, inTexCoord );
+    vec4 normalColor = texture2D( secondaryTexture, inTexCoord );
     vec3 normal = normalColor.rgb * 2.0 - vec3( 1,1,1 );
 
     vec3 N = normalize( normal );
@@ -38,6 +35,15 @@ void main(void)
     vec3 intensity = ambient + diffuse * attenuation;
     vec3 finalColor = color.rgb * intensity;
 
-    outputColor = inColor * vec4( finalColor, color.a );
+    if( normalColor.x == 1 &&
+        normalColor.y == 1 &&
+        normalColor.z == 1 )
+    {
+        outputColor = color;
+    }
+    else
+    {
+        outputColor = vec4( finalColor, color.a );
+    }
 }
 

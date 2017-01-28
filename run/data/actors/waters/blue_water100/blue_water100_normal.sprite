@@ -1,0 +1,128 @@
+[
+    {
+        "texture_path":"blue_water100_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_top_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_top_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_right_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_right_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_bottom_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_bottom_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_left_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_left_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_topright_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_topright_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_bottomright_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_bottomright_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_bottomleft_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_bottomleft_outer_normal"
+        }]
+    },
+    {
+        "texture_path":"blue_water100_topleft_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" :"blue_water100_topleft_outer_normal"
+        }]
+    }
+]

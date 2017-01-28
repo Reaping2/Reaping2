@@ -166,7 +166,7 @@ void RendererSystem::Update( double DeltaTime )
     // paint solid objects to texture target 1
     // !---- rt 1
     uint32_t world = 1;
-    rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size() );
+    rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size(), 1 );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
     mPerfTimer.Log( "pre prepare" );
@@ -220,13 +220,19 @@ void RendererSystem::Update( double DeltaTime )
     // so we can't simply render the particles to their own FBO
     // we render the background with effects, render the particles to a new FBO
     // and at last render the results onto the screen with another layer of effects
-    uint32_t worldEffects = 16;
+    uint32_t worldBumped = 15;
     SetupRenderer( mWorldProjector );
-    rt.SetTargetTexture( worldEffects, mWorldProjector.GetViewport().Size() );
+    rt.SetTargetTexture( worldBumped, mWorldProjector.GetViewport().Size() );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
     glBlendFunc( GL_ONE, GL_ONE );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), solidid );
+    static int32_t bumpid = AutoId( "bump_map" );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
+            rt.GetTextureId( world, 1) );
+
+    uint32_t worldEffects = 16;
+    rt.SetTargetTexture( worldEffects, mWorldProjector.GetViewport().Size() );
+    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
 
     static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
     static uint32_t world_pp = 18;
@@ -240,7 +246,7 @@ void RendererSystem::Update( double DeltaTime )
             SetupRenderer( mWorldProjector );
             mActorRenderer.Draw( id );
 
-            GLuint srcTexture = rt.GetTextureId( world );
+            GLuint srcTexture = rt.GetTextureId( worldBumped );
             GLuint maskTexture = rt.GetTextureId( world_pp );
             rt.SelectTargetTexture( worldEffects );
             mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );

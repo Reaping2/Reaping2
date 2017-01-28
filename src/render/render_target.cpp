@@ -1,5 +1,6 @@
 #include "render_target.h"
 #include "platform/settings.h"
+#include <numeric>
 
 namespace render {
 
@@ -25,17 +26,18 @@ uint32_t RenderTarget::GetCurrentTarget() const
     return mCurrentId;
 }
 
-void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size )
+void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size, size_t numExtraAttachments )
 {
     TargetTexture& tgt = mTargets[ id ];
-    if( tgt.TexId == 0 )
+    if( tgt.TexIds.size() != 1 + numExtraAttachments )
     {
         glBindTexture(GL_TEXTURE_2D, 0);
+        tgt.TexIds.resize( 1 + numExtraAttachments );
+        tgt.Attachments.resize( 1 + numExtraAttachments );
 
-        static GLenum attach = GL_COLOR_ATTACHMENT0;
-        tgt.Attachment = attach++;
+        std::iota( tgt.Attachments.begin(), tgt.Attachments.end(), GL_COLOR_ATTACHMENT0 );
         glGenFramebuffers( 1, &tgt.FramebufferId );
-        glGenTextures( 1, &tgt.TexId );
+        glGenTextures( tgt.TexIds.size(), &tgt.TexIds[0] );
         glGenRenderbuffers(1, &tgt.DepthBufferId);
     }
     if( tgt.Size != size )
@@ -43,12 +45,16 @@ void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size )
         tgt.Size = size;
 
         glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
-        glBindTexture(GL_TEXTURE_2D, tgt.TexId);
-
-        glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, tgt.Size.x, tgt.Size.y, 0,GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, tgt.Attachment, GL_TEXTURE_2D, tgt.TexId, 0);
+        auto tit = tgt.TexIds.begin(), tet = tgt.TexIds.end();
+        auto ait = tgt.Attachments.begin(), aet = tgt.Attachments.end();
+        for( ; tit != tet && ait != aet; ++tit, ++ait )
+        {
+            glBindTexture(GL_TEXTURE_2D, *tit);
+            glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, tgt.Size.x, tgt.Size.y, 0,GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, *ait, GL_TEXTURE_2D, *tit, 0);
+        }
 
         glBindRenderbuffer(GL_RENDERBUFFER, tgt.DepthBufferId);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, tgt.Size.x, tgt.Size.y);
@@ -56,8 +62,7 @@ void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size )
     }
     glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
     glBindRenderbuffer( GL_RENDERBUFFER, tgt.DepthBufferId );
-    GLenum drawBuffers[1] = { tgt.Attachment };
-    glDrawBuffers(1, drawBuffers);
+    glDrawBuffers(tgt.Attachments.size(), &tgt.Attachments[0]);
     bool succ = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     BOOST_ASSERT( succ );
     glClearColor( 0, 0, 0, 0);
@@ -75,8 +80,7 @@ void RenderTarget::SelectTargetTexture( uint32_t id ) const
     TargetTexture const& tgt = mTargets.at( id );
     glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
     glBindRenderbuffer( GL_RENDERBUFFER, tgt.DepthBufferId );
-    GLenum drawBuffers[1] = { tgt.Attachment };
-    glDrawBuffers(1, drawBuffers);
+    glDrawBuffers(tgt.Attachments.size(), &tgt.Attachments[0]);
     bool succ = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     BOOST_ASSERT( succ );
     mCurrentId = id;
@@ -90,9 +94,11 @@ void RenderTarget::SetTargetScreen() const
     mCurrentId = ScreenId;
 }
 
-GLuint RenderTarget::GetTextureId( uint32_t id )
+GLuint RenderTarget::GetTextureId( uint32_t id, size_t attachment )
 {
-    return mTargets[ id ].TexId;
+    auto const& ids = mTargets[ id ].TexIds;
+    size_t which = attachment >= ids.size() ? 0 : attachment;
+    return ids[ which ];
 }
 
 glm::vec2 RenderTarget::GetMaxTextureSize() const

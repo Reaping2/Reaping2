@@ -199,6 +199,7 @@ void SpritePhaseCache::Request( SpritePhase const& sprphase, float size )
         freeRegion.y == 0 &&
         freeRegion.w == 0 )
     {
+        L1( "sprite cache filled, we need improvements here\n" );
         return;
     }
     auto const& scaledRegion = ScaleRegion( freeRegion, size / mMaxCellSize );

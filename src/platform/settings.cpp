@@ -22,12 +22,12 @@ Json::Value parseFile( AutoFile& F )
 Json::Value getMountedSettings()
 {
     Filesys& Fsys(Filesys::Get());
-    AutoFile F = Fsys.Open(boost::filesystem::path("settings.json"));
+    AutoFile F = Fsys.Open(boost::filesystem::path("misc/settings.json"));
     return parseFile( F );
 }
 Json::Value getUserSettings()
 {
-    AutoFile userSettings( new OsFile( "misc/settings.json" ) );
+    AutoFile userSettings( new OsFile( "settings.json" ) );
     return parseFile( userSettings );
 }
 }

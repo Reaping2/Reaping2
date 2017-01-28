@@ -89,7 +89,10 @@ bool isVisible( Actor const& actor, Camera const& camera )
         && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
 }
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
-                    glm::vec2*& Positions, GLfloat*& Headings, glm::vec4*& TexCoords, glm::vec4*& SecondaryTexCoords, glm::vec4*& MaskTexCoords, glm::vec2*& Sizes, glm::vec4*& Colors,
+                    glm::vec2*& Positions, GLfloat*& Headings,
+                    glm::vec4*& TexCoords, glm::vec4*& SecondaryTexCoords,
+                    glm::vec4*& MaskTexCoords, glm::vec4*& NormalTexCoords,
+                    glm::vec2*& Sizes, glm::vec4*& Colors,
                     std::map<int32_t, std::vector<glm::vec4> >& postprocColors, size_t& cnt,
                     render::RenderBatch& batch )
 {
@@ -100,6 +103,8 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     batch.TexId = i->Spr->TexId;
     // mask id is by default the tex id ( if no additional alpha masking is necessary )
     batch.MaskId = batch.TexId;
+    static int32_t prevNormalId = -1;
+    batch.NormalId = prevNormalId;
     // we don't swap back from a valid sec. tex id to -1
     // so there are less RenderBatch changes in render::count
     static int32_t prevsecid = -1;
@@ -127,9 +132,17 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     (*TexCoords++) = coords;
     if( i->MaskSpr != nullptr )
     {
+        batch.MaskId = i->MaskSpr->TexId;
         coords = glm::vec4( i->MaskSpr->Left, i->MaskSpr->Right, i->MaskSpr->Bottom, i->MaskSpr->Top );
     }
     (*MaskTexCoords++) = coords;
+    coords = glm::vec4( -1, -1, -1, -1 );
+    if( i->NormalSpr != nullptr )
+    {
+        prevNormalId = batch.NormalId = i->NormalSpr->TexId;
+        coords = glm::vec4( i->NormalSpr->Left, i->NormalSpr->Right, i->NormalSpr->Bottom, i->NormalSpr->Top );
+    }
+    (*NormalTexCoords++) = coords;
     (*Colors++) = i->Color;
     {   // move to cache
         static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
@@ -141,6 +154,10 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
         if( i->MaskSpr != nullptr )
         {
             cache.Request( *i->MaskSpr, std::max( size.x, size.y ) );
+        }
+        if( i->NormalSpr != nullptr )
+        {
+            cache.Request( *i->NormalSpr, std::max( size.x, size.y ) );
         }
     }
     for( auto id : i->RenderableComp->GetPostProcessIds() )
@@ -240,6 +257,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     TexCoords_t TexCoords( CurSize );
     TexCoords_t SecondaryTexCoords( CurSize );
     TexCoords_t MaskTexCoords( CurSize );
+    TexCoords_t NormalTexCoords( CurSize );
     Colors_t Colors( CurSize );
     postprocids.insert( -1 );
     for( auto id : postprocids )
@@ -253,14 +271,15 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     glm::vec4* tptr = &TexCoords[0];
     glm::vec4* stptr = &SecondaryTexCoords[0];
     glm::vec4* mtptr = &MaskTexCoords[0];
+    glm::vec4* ntptr = &NormalTexCoords[0];
     glm::vec4* cptr = &Colors[0];
     size_t cnt = 0;
     RenderableSprites_t::const_iterator i = mRenderableSprites.begin();
     mCounts = render::count(
         std::bind( &getNextTextId, std::ref( i ), mRenderableSprites.end(),
         std::ref( posptr ), std::ref( hptr ), std::ref( tptr ),
-        std::ref( stptr ), std::ref(mtptr), std::ref( sptr ),
-        std::ref( cptr ), std::ref( mPostprocessColors ),
+        std::ref( stptr ), std::ref(mtptr), std::ref(ntptr),
+        std::ref( sptr ), std::ref( cptr ), std::ref( mPostprocessColors ),
         std::ref( cnt ),
         std::placeholders::_1 )
     );
@@ -269,7 +288,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     if( CurSize > mPrevSize )
     {
         mPrevSize = CurSize;
-        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + 3 * sizeof( glm::vec4 ) );
+        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + 4 * sizeof( glm::vec4 ) );
         glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
     }
 
@@ -321,6 +340,13 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &MaskTexCoords[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     mMaskTexCoordIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &NormalTexCoords[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mNormalTexCoordIndex = CurrentOffset;
     ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
@@ -380,11 +406,17 @@ void ActorRenderer::Draw( RenderFilter filter )
         glActiveTexture( GL_TEXTURE0 + 1 );
         glBindTexture( GL_TEXTURE_2D, BigPart.Batch.TexId );
         ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
-        if( BigPart.Batch.SecondaryTexId != -1 )
+        if( BigPart.Batch.NormalId != -1 )
         {
             glActiveTexture( GL_TEXTURE0 + 2 );
+            glBindTexture( GL_TEXTURE_2D, BigPart.Batch.NormalId );
+            ShaderMgr.UploadData( "normalTexture", GLuint( 2 ) );
+        }
+        if( BigPart.Batch.SecondaryTexId != -1 )
+        {
+            glActiveTexture( GL_TEXTURE0 + 3 );
             glBindTexture( GL_TEXTURE_2D, BigPart.Batch.SecondaryTexId );
-            ShaderMgr.UploadData( "secondarySpriteTexture", GLuint( 2 ) );
+            ShaderMgr.UploadData( "secondarySpriteTexture", GLuint( 3 ) );
         }
         ShaderMgr.UploadData( "time", GLfloat( platform::Clock::Now() ) );
         int w, h;
@@ -443,6 +475,9 @@ void ActorRenderer::DrawOnePart( render::CountByTexId const& Part ) const
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mMaskTexCoordIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mNormalTexCoordIndex + sizeof( glm::vec4 )*Part.Start ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPostprocessColorIndex + sizeof( glm::vec4 )*Part.Start ) );

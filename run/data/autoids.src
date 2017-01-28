@@ -661,6 +661,7 @@ buffs_engine/max_health_buff_sub_system.h
 buffs_engine/move_speed_buff_sub_system.h
 bufftarget
 bullets
+bump_map
 button
 button.h
 c:/setuplogfile.log
@@ -2011,6 +2012,7 @@ no_collision
 node
 none
 normal
+normalTexture
 normal_brush.h
 normal_collision_sub_system
 normal_item

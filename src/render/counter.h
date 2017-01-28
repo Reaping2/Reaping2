@@ -11,12 +11,14 @@ struct RenderBatch
 {
     int32_t TexId;
     int32_t MaskId;
+    int32_t NormalId;
     int32_t SecondaryTexId;
     int32_t ShaderId;
     bool operator==(RenderBatch const& o) const
     {
         return TexId == o.TexId
             && MaskId == o.MaskId
+            && NormalId == o.NormalId
             && SecondaryTexId == o.SecondaryTexId
             && ShaderId == o.ShaderId;
     }

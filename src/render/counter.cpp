@@ -5,8 +5,8 @@ namespace render {
 Counts_t count( GeneratorFunc f )
 {
     Counts_t Counts;
-    RenderBatch Batch{-1,-1,-1,-1};
-    RenderBatch NextBatch{-1,-1,-1,-1};
+    RenderBatch Batch{-1,-1,-1,-1,-1};
+    RenderBatch NextBatch{-1,-1,-1,-1,-1};
     size_t Count = 0;
     size_t Start = 0;
     while( f ( NextBatch ) )

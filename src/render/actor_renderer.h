@@ -58,6 +58,7 @@ private:
     size_t mColorIndex;
     size_t mPostprocessColorIndex;
     size_t mMaskTexCoordIndex;
+    size_t mNormalTexCoordIndex;
     std::map<int32_t,std::vector<glm::vec4> > mPostprocessColors;
     render::Counts_t mCounts;
     RenderableSprites_t mRenderableSprites;

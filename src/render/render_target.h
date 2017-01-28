@@ -10,9 +10,10 @@ class RenderTarget : public platform::Singleton<RenderTarget>
     RenderTarget();
     struct TargetTexture
     {
-        GLenum Attachment;
+        // parallel vectors
+        std::vector<GLenum> Attachments;
+        std::vector<GLuint> TexIds;
         GLuint FramebufferId;
-        GLuint TexId;
         GLuint DepthBufferId;
         glm::vec2 Size;
     };
@@ -23,11 +24,11 @@ public:
     static uint32_t const ScreenId = uint32_t( -1 );
     uint32_t GetFreeId() const;
     glm::vec2 GetMaxTextureSize() const;
-    void SetTargetTexture( uint32_t id, glm::vec2 const& size );
+    void SetTargetTexture( uint32_t id, glm::vec2 const& size, size_t numExtraAttachments = 0 );
     void SelectTargetTexture( uint32_t id ) const;
     void SetTargetScreen() const;
     uint32_t GetCurrentTarget() const;
-    GLuint GetTextureId( uint32_t id );
+    GLuint GetTextureId( uint32_t id, size_t attachment = 0 );
 };
 }
 
