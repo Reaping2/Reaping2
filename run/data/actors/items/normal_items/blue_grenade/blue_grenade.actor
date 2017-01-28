@@ -38,7 +38,7 @@
         [
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings"}]
+                "set":[{"layer":"buildings","postprocessors":["warp_postprocess"]}]
             },
             {"name":"aoe_collision_component",
                 "set":[{"class":"aoe", "radius":14, "damage":45, "damage_once":1 }]

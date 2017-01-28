@@ -97,8 +97,7 @@ void RenderTarget::SetTargetScreen() const
 GLuint RenderTarget::GetTextureId( uint32_t id, size_t attachment )
 {
     auto const& ids = mTargets[ id ].TexIds;
-    size_t which = attachment >= ids.size() ? 0 : attachment;
-    return ids[ which ];
+    return attachment < ids.size() ? ids[ attachment ] : 0;
 }
 
 glm::vec2 RenderTarget::GetMaxTextureSize() const

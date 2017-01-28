@@ -1,0 +1,33 @@
+{
+    "texture_path":"ion_gun_alt_projectile_mask.png",
+    "actor_visuals":
+        [
+        {
+            "name":"ion_gun_alt_projectile_mask",
+            "animations":
+                [
+                {
+                    "name":"move",
+                    "w":100,
+                    "h":100,
+                    "scale":12.0,
+                    "phases":[{"x":0,"y":0}]
+                }
+                ]
+        },
+        {
+            "name":"ion_gun_explosion_projectile_mask",
+            "animations":
+                [
+                {
+                    "name":"idle",
+                    "w":100,
+                    "h":100,
+                    "scale":2.0,
+                    "phases":[{"x":0,"y":0}]
+                }
+                ]
+        }
+    ]
+}
+

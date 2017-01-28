@@ -44,7 +44,7 @@
                 "set":[{"speed":1000}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps"}]
+                "set":[{"layer":"creeps","postprocessors":["warp_postprocess"]}]
             },
             {"name":"shot_collision_component",
                 "set":[{"class":"projectile", "radius":10, "damage":20 }]

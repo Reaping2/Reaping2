@@ -111,6 +111,9 @@
 -a1
 -a3
 -a4
+.ion_gun.actor
+.warp_postprocess.fs
+.warp_postprocess.vs
 .water.fs
 .water.vs
 0x00007777
@@ -436,6 +439,8 @@ blue_grass200_s
 blue_grass200_t
 blue_grenade
 blue_grenade_explosion_projectile
+blue_grenade_explosion_projectile_mask
+blue_grenade_mask
 blue_grenade_normal_item
 blue_grenade_pickup
 blue_grenade_projectile
@@ -812,7 +817,9 @@ inventory_component
 ion
 ion_gun
 ion_gun_alt_projectile
+ion_gun_alt_projectile_mask
 ion_gun_explode_projectile
+ion_gun_mask
 ion_gun_pickup
 ion_gun_player
 ion_gun_projectile
@@ -1386,6 +1393,7 @@ wall_crystals_for_basic
 wall_crystals_for_basic_2
 wall_small
 wall_target
+warp_postprocess
 water
 water_bottom_outer_border
 water_bottom_outer_mask
