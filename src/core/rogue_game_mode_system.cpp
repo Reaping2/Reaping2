@@ -37,7 +37,7 @@ void RogueGameModeSystem::Update(double DeltaTime)
 
 void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
 {
-    if (Evt.mMode != "rogue")
+    if (Evt.mMode != GameModes::Rogue )
     {
         return;
     }
@@ -74,7 +74,7 @@ void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
 
 void RogueGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
 {
-    if ("rogue" != mProgramState.mGameMode)
+    if ( GameModes::Rogue != mProgramState.mGameMode)
     {
         return;
     }

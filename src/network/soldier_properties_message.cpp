@@ -121,7 +121,7 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute( Message const& message )
         }
         else
         {
-            if ( mProgramState.mGameMode.empty() )
+            if ( mProgramState.mGameMode == core::GameModes::Unknown )
             {
                 std::auto_ptr<LifecycleMessage> lifecycleMsg( new LifecycleMessage );
                 lifecycleMsg->mClientId = msg.mSenderId;

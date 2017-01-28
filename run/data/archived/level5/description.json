@@ -1,5 +1,6 @@
 {
     "description":"",
     "name":"Level 5",
-    "thumbnail":"shotgun"
+    "thumbnail":"shotgun",
+    "maptype":["ffa","ctf"]
 }

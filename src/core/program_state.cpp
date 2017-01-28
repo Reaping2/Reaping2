@@ -16,7 +16,7 @@ ProgramState::ProgramState()
     , mClientId( -1 )
     , mControlledActorGUID( -1 )
     , mServerIp( "" )
-    , mGameMode( "" )
+    , mGameMode( GameModes::Unknown )
     , mIsHost( 0 )
 {
 }
@@ -90,7 +90,6 @@ ClientData::ClientData( int32_t clientId, std::string const& clientName, int32_t
     , mReady( false )
     , mConnected( true )
 {
-
 }
 
 } // namespace core

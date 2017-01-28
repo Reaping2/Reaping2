@@ -92,7 +92,7 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
             auto levelSelectionSystem = engine::Engine::Get().GetSystem<core::LevelSelectionSystem>();
             if ( levelSelectionSystem.IsValid() )
             {
-                levelSelectionSystem->SelectLevelByName(msg.mSelectedLevel);
+                levelSelectionSystem->SelectLevelByName(msg.mGameMode, msg.mSelectedLevel);
             }
             else
             {
