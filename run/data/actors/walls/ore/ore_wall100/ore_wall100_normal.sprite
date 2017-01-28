@@ -1,0 +1,44 @@
+[
+    {
+        "texture_path":"ore_wall100_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_ore_wall100_normal"
+        }]
+    },
+    {
+        "texture_path":"ore_wall100_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_ore_wall100_1_normal"
+        }]
+    },
+    {
+        "texture_path":"ore_wall100_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_ore_wall100_2_normal"
+        }]
+    }
+]

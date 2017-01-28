@@ -1,0 +1,17 @@
+[
+    {
+        "texture_path":"waypoint_off_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 2.5,
+                "secs_to_end" : 0.55
+            }], "name" : "end_normal"
+        }]
+    }
+]

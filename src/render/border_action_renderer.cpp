@@ -118,7 +118,7 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
         {
             renderableSprite.MaskSpr = &(*data.MaskSpr)( st );
         }
-        if( nullptr != mNormalSpr )
+        if( nullptr != data.NormalSpr )
         {
             renderableSprite.NormalSpr = &(*data.NormalSpr)( st );
         }

@@ -1,6 +1,6 @@
 [
     {
-        "texture_path":"platform.png",
+        "texture_path":"platform256.png",
         "actor_visuals":
         [
             {
@@ -9,8 +9,8 @@
                 [
                     {
                         "name":"idle",
-                        "w":1441,
-                        "h":1441,
+                        "w":256,
+                        "h":256,
                         "scale":4.0,
                         "phases":[{"x":0,"y":0}]
                     }
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "texture_path":"platform_color.png",
+        "texture_path":"platform_color256.png",
         "actor_visuals":
         [
             {
@@ -28,8 +28,8 @@
                 [
                     {
                         "name":"ctf_body_color",
-                        "w":1441,
-                        "h":1441,
+                        "w":256,
+                        "h":256,
                         "scale":4.0,
                         "phases":[{"x":0,"y":0}]
                     }

@@ -599,7 +599,13 @@ detonate_on_hit_component
 diamond
 dragon_stone
 dragon_stone100
+dragon_stone100_mask
+dragon_stone100_normal
 dragon_stone50
+dragon_stone50_mask
+dragon_stone50_normal
+dragon_stone_mask
+dragon_stone_normal
 drop_on_death_component
 dummy
 e1
@@ -672,6 +678,7 @@ effects
 emitter_component
 end
 end_group
+end_normal
 entrance
 entrance target:
 erase layer
@@ -918,8 +925,11 @@ normal_item_background
 notify_parent_on_death_component
 ore_wall100
 ore_wall100_1
+ore_wall100_1_normal
 ore_wall100_2
+ore_wall100_2_normal
 ore_wall100_3
+ore_wall100_3_normal
 ore_wall100_bottom_border
 ore_wall100_bottom_border_1
 ore_wall100_bottom_border_2
@@ -938,6 +948,7 @@ ore_wall100_left_border_2
 ore_wall100_left_outer_border
 ore_wall100_left_outer_border_1
 ore_wall100_left_outer_border_2
+ore_wall100_normal
 ore_wall100_right_border
 ore_wall100_right_border_1
 ore_wall100_right_border_2
@@ -958,7 +969,9 @@ ore_wall100_topright_border_1
 ore_wall100_topright_border_2
 ore_wall50
 ore_wall50_1
+ore_wall50_1_normal
 ore_wall50_2
+ore_wall50_2_normal
 ore_wall50_bottom_border
 ore_wall50_bottom_border_1
 ore_wall50_bottom_border_2
@@ -977,6 +990,7 @@ ore_wall50_left_border_2
 ore_wall50_left_outer_border
 ore_wall50_left_outer_border_1
 ore_wall50_left_outer_border_2
+ore_wall50_normal
 ore_wall50_right_border
 ore_wall50_right_border_1
 ore_wall50_right_border_2
@@ -1030,7 +1044,11 @@ plasmagun
 plasmagunSecondary
 platform
 platform2
+platform256
+platform256_normal
 platform_color
+platform_color256
+platform_normal
 player
 player.buffs
 player.buffs#buffs
@@ -1385,7 +1403,11 @@ water_topleft_outer_border
 water_topleft_outer_mask
 water_topright_outer_mask
 waypoint_off
+waypoint_off_mask
+waypoint_off_normal
 waypoint_on
+waypoint_on_mask
+waypoint_on_normal
 weapon
 weapon_pickup
 weapon_rotation

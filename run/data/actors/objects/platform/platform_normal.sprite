@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"platform256_normal.png",
+        "actor_visuals":
+        [
+            {
+                "name":"platform_normal",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":256,
+                        "h":256,
+                        "scale":4.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]
