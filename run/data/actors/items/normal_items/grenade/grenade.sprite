@@ -19,6 +19,44 @@
         ]
     },
     {
+        "texture_path":"grenade_pickup_cover.png",
+        "actor_visuals":
+        [
+            {
+                "name":"grenade_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"cover",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"grenade_pickup_background.png",
+        "actor_visuals":
+        [
+            {
+                "name":"grenade_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"background",
+                        "w":32,
+                        "h":32,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "texture_path":"grenade_explosion_projectile.png",
         "actor_visuals":
         [

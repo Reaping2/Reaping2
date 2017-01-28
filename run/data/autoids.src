@@ -483,6 +483,7 @@ YES
 \t\ta
 \t\tb
 _
+_background
 _no_name_
 _outer
 a
@@ -508,6 +509,10 @@ action
 action_renderer
 action_renderer.h
 action_renderer_factory.h
+action_renderer_loader
+action_renderer_loader.h
+action_renderer_loader_repo
+action_renderer_loader_repo.h
 activity.camera_multiplier
 activity.default_active_size
 activity.gridsize
@@ -1030,6 +1035,7 @@ corpses
 corpses.h
 count
 counter.h
+cover
 create_actor
 create_actor_message.h
 create_actor_message_handler_sub_system
@@ -1692,7 +1698,7 @@ item_dropped_event.h
 item_loader
 item_loader.h
 item_loader_factory
-item_loader_factory.h
+item_loader_repo.h
 item_properties_changed_event
 item_type
 item_type.h
@@ -2054,6 +2060,7 @@ performance.limit_frames
 performance.sleep
 phases
 pickup
+pickup_
 pickup_background
 pickup_collision_component
 pickup_collision_sub_system
@@ -2204,6 +2211,7 @@ remove_on_hit
 remove_when_used
 removed_actors_system
 removed_actors_system.h
+render
 render/action_renderer.h
 render/action_renderer_factory.h
 render/border_action_renderer.h
