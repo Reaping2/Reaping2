@@ -2,13 +2,13 @@
 #define INCLUDED_CORE_GAMEMODE_SELECTED_EVENT_H
 
 #include "platform/event.h"
-#include "gamemodes.h"
+#include "game_modes.h"
 
 namespace core {
 
 struct GamemodeSelectedEvent : public platform::Event
 {
-    GameModes::GameMode mGameMode;
+    GameModes::Type mGameMode;
     GamemodeSelectedEvent() {}
 };
 

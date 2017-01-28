@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "soldier_properties.h"
 #include "platform/export.h"
-#include "gamemodes.h"
+#include "game_modes.h"
 
 namespace core {
 struct ClientData
@@ -86,7 +86,7 @@ public:
     // target servers ip
     std::string mServerIp;
     // a representation of game mode. ("ctf" or "ffa" or any later extension)
-    GameModes::GameMode mGameMode;
+    GameModes::Type mGameMode;
     typedef std::vector<ClientData> ClientDatas_t;
     // currently connected clients to server
     ClientDatas_t mClientDatas;

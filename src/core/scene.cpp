@@ -403,7 +403,7 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
 
 void Scene::SelectGameMode( std::string const& GameMode )
 {
-    core::GameModes::GameMode mode = core::GameModes::FromString( GameMode );
+    core::GameModes::Type mode = core::GameModes::Get()( AutoId(GameMode) );
     mProgramState.mGameMode = mode;
     core::GamemodeSelectedEvent event;
     event.mGameMode = mode;

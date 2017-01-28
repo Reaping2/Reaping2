@@ -23,7 +23,7 @@ void LevelSelectionSystem::Init()
 
     // collect available maps:
     // - displayed names
-    // - icon.thumbnail
+    // - icon/thumbnail
     // - folder name (for loading)
     using namespace map;
     IdStorage & idstorage = IdStorage::Get();
@@ -38,14 +38,14 @@ void LevelSelectionSystem::Init()
             continue;
         }
         // store map for all the gamemodes it's available for
-        std::vector<GameModes::GameMode> gamemodes;
+        std::vector<GameModes::Type> gamemodes;
         if ( desc["maptype"].isArray() )
         {
             for ( const auto& type : desc["maptype"] )
             {
                 std::string t;
                 Json::GetStr( type, t );
-                GameModes::GameMode m = GameModes::FromString( t );
+                GameModes::Type m = GameModes::Get()( AutoId(t) );
                 gamemodes.push_back(m);
             }
         }
@@ -85,7 +85,7 @@ void LevelSelectionSystem::SelectLevelByIdx( int32_t idx )
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
 
-void LevelSelectionSystem::SelectLevelByName( GameModes::GameMode gameMode, std::string const& realName )
+void LevelSelectionSystem::SelectLevelByName( GameModes::Type gameMode, std::string const& realName )
 {
     mGameMode = gameMode;
     std::vector<std::string> const& realNames = mLevelRealNames[mGameMode];
