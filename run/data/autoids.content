@@ -173,6 +173,7 @@ HealOverTimeBuff
 Host
 K:
 Kill
+Level 1
 Level 2
 Level 3
 Level 4
@@ -212,6 +213,7 @@ SPEED:
 Score
 Select cell entrance!
 Start
+TOCHECK
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
@@ -398,6 +400,7 @@ attachable_component
 audible_component
 auto_revive_text
 autoids
+autoids.old
 b1
 b10
 b11
@@ -952,7 +955,6 @@ level.images#levelidx
 level.names
 level.names#levelidx
 level.select
-level1
 level_generated
 level_generator
 lifecycle.host
@@ -1923,6 +1925,7 @@ test_simple_room
 test_vert
 text_scene
 text_widget
+tgts.json
 tile_water
 todo
 top

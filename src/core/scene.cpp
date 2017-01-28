@@ -403,9 +403,10 @@ void Scene::ClearActors( bool withEvents/*=true*/ )
 
 void Scene::SelectGameMode( std::string const& GameMode )
 {
-    mProgramState.mGameMode = GameMode;
+    core::GameModes::Type mode = core::GameModes::Get()( AutoId(GameMode) );
+    mProgramState.mGameMode = mode;
     core::GamemodeSelectedEvent event;
-    event.mGameMode = GameMode;
+    event.mGameMode = mode;
     EventServer<core::GamemodeSelectedEvent>::Get().SendEvent( event );
 }
 

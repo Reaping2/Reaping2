@@ -1,4 +1,3 @@
-#include "platform/i_platform.h"
 #include "editor_grid_system.h"
 #include "engine/engine.h"
 #include "editor_target_system.h"

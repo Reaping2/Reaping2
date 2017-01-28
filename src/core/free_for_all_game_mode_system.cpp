@@ -46,7 +46,7 @@ void FreeForAllGameModeSystem::Update( double DeltaTime )
 
 void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
 {
-    if ( Evt.mMode != "ffa" )
+    if ( Evt.mMode != GameModes::FFA )
     {
         return;
     }
@@ -107,7 +107,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
 
 void FreeForAllGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
 {
-    if ( "ffa" != mProgramState.mGameMode )
+    if ( GameModes::FFA != mProgramState.mGameMode )
     {
         return;
     }
