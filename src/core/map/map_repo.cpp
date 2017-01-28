@@ -19,7 +19,7 @@ void MapRepo::Init()
     platform::Filesys& Fs = platform::Filesys::Get();
     // list of available levels/maps
     std::vector<boost::filesystem::path> paths;
-    Fs.GetFileNames(paths, MAP_DIR );
+    Fs.GetFileNames(paths, mMapDir );
     for ( auto path : paths )
     {
         if ( path.filename() == "description.json")
@@ -48,7 +48,7 @@ void MapRepo::Init()
             {
                 // default value
                 Root["generated"] = false;
-                AutoFile MapElementsFile = Fs.Open( MAP_DIR +"/"+foldername+"/map_elements.json");
+                AutoFile MapElementsFile = Fs.Open( mMapDir +"/"+foldername+"/map_elements.json");
                 if (!MapElementsFile.get())
                 {
                     L1("Cannot open file %s/map_elements.json", foldername.c_str());
@@ -85,7 +85,7 @@ void MapRepo::Init()
     }
 }
 
-std::string const MapRepo::MAP_DIR = "maps";
+std::string const MapRepo::mMapDir = "maps";
 
 } // namespace map
 
