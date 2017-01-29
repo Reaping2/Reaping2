@@ -6,7 +6,7 @@
             {"name":"static_actor_component"},
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings", "cast_shadow":1}]
+                "set":[{"layer":"buildings", "cast_shadow":1,"postprocessors":["dragon_postprocess"]}]
             },
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":50}]
@@ -20,7 +20,7 @@
             {"name":"static_actor_component"},
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"buildings", "cast_shadow":1}]
+                "set":[{"layer":"buildings", "cast_shadow":1,"postprocessors":["dragon_postprocess"]}]
             },
             {"name":"wall_collision_component",
                 "set":[{"class":"wall", "radius":100}]

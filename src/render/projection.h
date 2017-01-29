@@ -24,6 +24,7 @@ public:
     const glm::mat4& GetMatrix()const;
     const glm::vec4& GetVisibleRegion()const;
     const Viewport& GetViewport()const;
+    const glm::mat4& GetInverseMatrix()const;
     float GetRatio()const;
     glm::vec3 Unproject( glm::vec3& Vec ) const;
     Projection( float bottom, float top, ViewMode vm = VM_DynamicRatio, float nearVal = 1.0f, float farVal = -1.0f );

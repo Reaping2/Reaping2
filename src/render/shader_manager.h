@@ -9,7 +9,8 @@ struct GlobalShaderData
     {
         WorldProjection,
         WorldCamera,
-        UiProjection,
+        InverseProjection,
+        Resolution,
         // keep at end
         TotalSize,
         NumData,

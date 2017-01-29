@@ -8,6 +8,11 @@ const glm::mat4& Projection::GetMatrix() const
     return mMatrix;
 }
 
+const glm::mat4& Projection::GetInverseMatrix() const
+{
+    return mInverseMatrix;
+}
+
 glm::vec3 Projection::Unproject( glm::vec3& Vec ) const
 {
     glm::vec3 V( Vec.x, mViewport.Height - Vec.y, Vec.z );
@@ -59,7 +64,7 @@ void Projection::SetupMatrices()
 {
     mViewportTransf = glm::vec4( mViewport.X, mViewport.Y, mViewport.Width, mViewport.Height );
     mMatrix = glm::ortho( mVisibleRegion.x, mVisibleRegion.z, mVisibleRegion.y, mVisibleRegion.w, mNearVal, mFarVal );
-    mInverseMatrix = glm::transpose( mMatrix );
+    mInverseMatrix = glm::inverse( mMatrix );
 }
 
 Projection::Projection( float bottom, float top, ViewMode vm/*=VM_DynamicRatio*/, float nearVal/*=1.0f*/, float farVal/*=-1.0f*/ )

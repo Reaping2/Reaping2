@@ -14,12 +14,13 @@ void ShaderManager::InitGlobalUniforms()
     mGlobalOffsets[0] = 0;
     mGlobalOffsets[GlobalShaderData::WorldProjection + 1] = mGlobalOffsets[GlobalShaderData::WorldProjection] + sizeof( glm::mat4 );
     mGlobalOffsets[GlobalShaderData::WorldCamera + 1] = mGlobalOffsets[GlobalShaderData::WorldCamera] + sizeof( glm::mat4 );
-    mGlobalOffsets[GlobalShaderData::UiProjection + 1] = mGlobalOffsets[GlobalShaderData::UiProjection] + sizeof( glm::mat4 );
+    mGlobalOffsets[GlobalShaderData::InverseProjection + 1] = mGlobalOffsets[GlobalShaderData::InverseProjection] + sizeof( glm::mat4 );
+    mGlobalOffsets[GlobalShaderData::Resolution + 1] = mGlobalOffsets[GlobalShaderData::Resolution] + sizeof( glm::vec2 );
     glGenBuffers( 1, &mGlobalsUBO );
     glBindBuffer( GL_UNIFORM_BUFFER, mGlobalsUBO );
     glBufferData( GL_UNIFORM_BUFFER, mGlobalOffsets[GlobalShaderData::TotalSize], NULL, GL_STREAM_DRAW );
     glBindBuffer( GL_UNIFORM_BUFFER, 0 );
-    glBindBufferRange( GL_UNIFORM_BUFFER, 0, mGlobalsUBO, 0, sizeof( glm::mat4 ) * 2 );
+    glBindBufferRange( GL_UNIFORM_BUFFER, 0, mGlobalsUBO, 0, mGlobalOffsets[ GlobalShaderData::TotalSize ] );
 }
 
 void ShaderManager::ActivateShader( int32_t id )

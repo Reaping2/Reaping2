@@ -111,11 +111,18 @@
 -a1
 -a3
 -a4
-.ion_gun.actor
+.dragon_postprocess.fs
+.dragon_postprocess.vs
+.dragon_stone.actor
+.sprite.fs
+.sprite2.fs
+.sprite2.vs
 .warp_postprocess.fs
 .warp_postprocess.vs
 .water.fs
 .water.vs
+.world_solid_objects.fs
+.world_solid_objects.vs
 0x00007777
 0x0000aa
 0x00aa00
@@ -602,6 +609,7 @@ description
 desert
 detonate_on_hit_component
 diamond
+dragon_postprocess
 dragon_stone
 dragon_stone100
 dragon_stone100_mask

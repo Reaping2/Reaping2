@@ -5,6 +5,8 @@ layout(std140) uniform GlobalMatrices
 {
     mat4 cameraToClipMatrix;
     mat4 worldToCameraMatrix;
+    mat4 inverseProjection;
+    vec2 resolution;
 };
 
 //---shader spec

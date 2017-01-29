@@ -43,6 +43,14 @@ RendererSystem::~RendererSystem()
 
 }
 
+void RendererSystem::SetupIdentity()
+{
+    static glm::mat4 const id(1.0);
+    mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, id );
+    mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, id );
+    mShaderManager.UploadGlobalData( GlobalShaderData::InverseProjection, id );
+}
+
 void RendererSystem::SetupRenderer( const Projection& Proj, float Scale )
 {
     Viewport const& Vp = Proj.GetViewport();
@@ -50,7 +58,8 @@ void RendererSystem::SetupRenderer( const Projection& Proj, float Scale )
 
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, mWorldProjector.GetMatrix() );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, mCamera.GetView() );
-    //mShaderManager.UploadGlobalData( GlobalShaderData::UiProjection, mUiProjector.GetMatrix() );
+    mShaderManager.UploadGlobalData( GlobalShaderData::InverseProjection, glm::inverse( mCamera.GetView() ) * glm::inverse( mWorldProjector.GetMatrix() ) );
+    mShaderManager.UploadGlobalData( GlobalShaderData::Resolution, glm::vec2( Vp.Width * Scale, Vp.Height * Scale ) );
 }
 
 bool RendererSystem::BeginRender()
@@ -192,8 +201,7 @@ void RendererSystem::Update( double DeltaTime )
             SetupRenderer( mWorldProjector, shadowmult );
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
             // !---- shadows, actually translated, black
-            mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-            mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+            SetupIdentity();
 
             rt.SetTargetTexture( shadow_1, mWorldProjector.GetViewport().Size() * shadowmult );
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), shid, mWorldProjector.GetViewport().Size() * shadowmult );
@@ -204,8 +212,7 @@ void RendererSystem::Update( double DeltaTime )
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
             // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
-            mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-            mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+            SetupIdentity();
             // !---- the shadows
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadow_1 ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
         }
@@ -223,8 +230,7 @@ void RendererSystem::Update( double DeltaTime )
     uint32_t worldBumped = 15;
     SetupRenderer( mWorldProjector );
     rt.SetTargetTexture( worldBumped, mWorldProjector.GetViewport().Size() );
-    mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-    mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+    SetupIdentity();
     glBlendFunc( GL_ONE, GL_ONE );
     static int32_t bumpid = AutoId( "bump_map" );
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
@@ -249,16 +255,14 @@ void RendererSystem::Update( double DeltaTime )
             GLuint srcTexture = rt.GetTextureId( worldBumped );
             GLuint maskTexture = rt.GetTextureId( world_pp );
             rt.SelectTargetTexture( worldEffects );
-            mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-            mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+            SetupIdentity();
             mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
         }
     }
     // set painting to screen
     rt.SetTargetScreen();
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, glm::mat4( 1.0 ) );
-    mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, glm::mat4( 1.0 )  );
+    SetupIdentity();
 
     glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
