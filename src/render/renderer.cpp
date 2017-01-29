@@ -48,7 +48,7 @@ void RendererSystem::SetupIdentity()
     static glm::mat4 const id(1.0);
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldProjection, id );
     mShaderManager.UploadGlobalData( GlobalShaderData::WorldCamera, id );
-    mShaderManager.UploadGlobalData( GlobalShaderData::InverseProjection, id );
+//    mShaderManager.UploadGlobalData( GlobalShaderData::InverseProjection, id );
 }
 
 void RendererSystem::SetupRenderer( const Projection& Proj, float Scale )
