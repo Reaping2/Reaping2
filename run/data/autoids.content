@@ -2004,6 +2004,7 @@ wood_block50_right.png
 wooden_chest_closed_50
 wooden_chest_open_50
 world_solid_objects
+worm200
 worm200_body
 worm200_body.png
 worm200_head
@@ -2012,6 +2013,5 @@ worm200_tail
 worm200_tail.png
 worm_body_component
 worm_head_component
-worrm200
 xpider_move
 xpider_rip

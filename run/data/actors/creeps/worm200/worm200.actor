@@ -12,7 +12,7 @@
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":200}]
             },
             {"name":"health_component",
                 "set":[{"hp":400}]
@@ -58,7 +58,7 @@
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":300.0} },
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":450.0} },
                                 { "name":"stay","weight":1,
                                     "params":{"duration":1.0,"duration_variance":0.5}},
                                 { "name":"freelance","weight":3,
@@ -81,7 +81,7 @@
             {"name":"heat_source_component"},
             {"name":"worm_head_component",
                 "set":[{
-                    "length":10,
+                    "length":30,
                     "length_decrease":2,
                     "body":"worm200_body",
                     "tail":"worm200_tail",
@@ -102,10 +102,10 @@
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":200}]
             },
             {"name":"health_component",
-                "set":[{"hp":400}]
+                "set":[{"hp":20}]
             },
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
@@ -113,7 +113,7 @@
             {"name":"worm_body_component",
                 "set":[{
                     "body":1,
-                    "distance_percent":0.7
+                    "distance_percent":0.6
                     }]
             }
         ]
@@ -131,10 +131,10 @@
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":100}]
+                "set":[{"class":"creep", "radius":200}]
             },
             {"name":"health_component",
-                "set":[{"hp":400}]
+                "set":[{"hp":20}]
             },
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
@@ -142,7 +142,7 @@
             {"name":"worm_body_component",
                 "set":[{
                     "body":0,
-                    "distance_percent":0.7
+                    "distance_percent":0.6
                     }]
             }
         ]
