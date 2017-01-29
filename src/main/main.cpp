@@ -239,6 +239,8 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "capture_the_flag_game_mode_system" ) );
     Eng.AddSystem( AutoId( "rogue_game_mode_system" ) );
     Eng.AddSystem( AutoId( "leaderboard_system" ) );
+
+    Eng.AddSystem( AutoId( "worm_head_system" ) );
     if (programState.mMode != ProgramState::Client)
     {
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );

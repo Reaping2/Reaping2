@@ -1,0 +1,44 @@
+#ifndef INCLUDED_CORE_I_WORM_HEAD_COMPONENT_H
+#define INCLUDED_CORE_I_WORM_HEAD_COMPONENT_H
+
+#include "component.h"
+#include <vector>
+
+class IWormHeadComponent : public Component
+{
+public:
+    DEFINE_COMPONENT_BASE(IWormHeadComponent)
+    virtual void SetLength(int32_t length)=0;
+    virtual int32_t GetLength()const=0;
+    virtual void SetLengthDecrease(int32_t lengthDecrease)=0;
+    virtual int32_t GetLengthDecrease()const=0;
+    virtual void SetBodyId(int32_t bodyId)=0;
+    virtual int32_t GetBodyId()const=0;
+    virtual void SetTailId(int32_t tailId)=0;
+    virtual int32_t GetTailId()const=0;
+    virtual void SetSpawnDelay(double spawnDelay)=0;
+    virtual double GetSpawnDelay()const=0;
+    virtual void SetSpawnDelayMax(double spawnDelayMax)=0;
+    virtual double GetSpawnDelayMax()const=0;
+    virtual void SetSpawnCount(int32_t spawnCount)=0;
+    virtual int32_t GetSpawnCount()const=0;
+    virtual void SetFirstBuild(bool firstBuild)=0;
+    virtual bool IsFirstBuild()const=0;
+    typedef std::vector<int32_t> BodyParts_t;
+    virtual void SetBodyParts(BodyParts_t const& bodyParts)=0;
+    virtual BodyParts_t& GetBodyParts()=0;
+public:
+    friend class ::boost::serialization::access;
+    template<class Archive>
+    void serialize( Archive& ar, const unsigned int version );
+};
+
+template<class Archive>
+void IWormHeadComponent::serialize(Archive& ar, const unsigned int version)
+{
+    ar& boost::serialization::base_object<Component>(*this);
+}
+
+#endif//INCLUDED_CORE_I_WORM_HEAD_COMPONENT_H
+
+//command:  "classgenerator.exe" -g "component" -c "worm_head_component" -m "int32_t-length int32_t-lengthDecrease int32_t-bodyId int32_t-tailId double-spawnDelay double-spawnDelayMax int32_t-spawnCount bool-firstBuild BodyParts_t-bodyParts"
