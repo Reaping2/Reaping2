@@ -2,6 +2,7 @@
 #include "worm_head_system.h"
 #include "core/i_worm_head_component.h"
 #include "core/i_position_component.h"
+#include "core/i_worm_body_component.h"
 
 namespace engine {
 
@@ -64,6 +65,14 @@ void WormHeadSystem::InitWormPart( Actor& head, Actor& part )
     partPositionC->SetY( positionC->GetY() );
     auto wormHeadC( head.Get<IWormHeadComponent>() );
     auto& bodyParts = wormHeadC->GetBodyParts();
+
+    auto partBodyC( part.Get<IWormBodyComponent>() );
+    partBodyC->SetHeadGUID( head.GetGUID() );
+    partBodyC->SetFollowedGUID( bodyParts.empty()?head.GetGUID():bodyParts.back() );
+    partBodyC->GetPrevPositions().push_front(
+        {glm::vec2(positionC->GetX(),positionC->GetY())
+            ,positionC->GetOrientation()} );
+
     bodyParts.push_back( part.GetGUID() );
 }
 

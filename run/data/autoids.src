@@ -98,6 +98,7 @@
 .vs
 .windows
 /
+/"+foldername+"/map_elements.json
 /description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
@@ -296,6 +297,8 @@ IStaticActorComponent
 IStopOnDeathComponent
 ITargetHolderComponent
 ITeamComponent
+IWormBodyComponent
+IWormHeadComponent
 InputState&-inputState
 InputSystem
 Interpolate
@@ -475,6 +478,8 @@ WaitingStartSystem
 WallCollisionSubSystem
 WeaponItemSubSystem
 WindowSystem
+WormBodySystem
+WormHeadSystem
 YES
 [%f]
 \n
@@ -603,6 +608,7 @@ blue_grenade_normal_item.h
 blue_grenade_normal_item_sub_system
 blue_grenade_projectile
 bluenames
+body
 body_color
 bool-active
 bool-applied
@@ -909,6 +915,8 @@ core/i_static_actor_component.h
 core/i_stop_on_death_component.h
 core/i_target_holder_component.h
 core/i_team_component.h
+core/i_worm_body_component.h
+core/i_worm_head_component.h
 core/inventory_component.h
 core/ion_gun.h
 core/item.h
@@ -1030,6 +1038,8 @@ core/trigger.h
 core/wall_collision_component.h
 core/water_collision_component.h
 core/weapon.h
+core/worm_body_component.h
+core/worm_head_component.h
 corpse
 corpses
 corpses.h
@@ -1153,6 +1163,7 @@ detonate_on_hit_system
 detonate_on_hit_system.h
 detonator_material
 disabled_logs
+distance_percent
 distance_to_aggressor
 distance_to_aggressor_condition.h
 distance_to_players
@@ -1632,6 +1643,8 @@ i_team_component
 i_team_component.h
 i_ui.h
 i_visual_box_multiplier_component.h
+i_worm_body_component.h
+i_worm_head_component.h
 id
 id_storage.h
 identifier
@@ -1757,6 +1770,8 @@ leaderboard_system.h
 leave
 left
 leg_move
+length
+length_decrease
 less
 level
 level_end_component
@@ -2487,6 +2502,7 @@ spawn_actor_map_element_system
 spawn_actor_map_element_system.h
 spawn_at_level_generated
 spawn_at_start
+spawn_delay
 spawn_editor_system
 spawn_editor_system.h
 spawn_property.h
@@ -2553,6 +2569,7 @@ sync_item_message_handler_sub_system
 sync_item_message_sender_system
 system
 system_factory.h
+tail
 target
 target_factory
 target_factory.h
@@ -2684,6 +2701,14 @@ windup_time
 wnd
 world_renderer.h
 world_solid_objects
+worm_body_component
+worm_body_component.h
+worm_body_system
+worm_body_system.h
+worm_head_component
+worm_head_component.h
+worm_head_system
+worm_head_system.h
 x
 x.x.x.x
 y

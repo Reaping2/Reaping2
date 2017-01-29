@@ -57,6 +57,7 @@
 #include "pulse_component.h"
 #include "scripted_controller/scripted_controller_component.h"
 #include "worm_head_component.h"
+#include "worm_body_component.h"
 
 using platform::AutoId;
 
@@ -125,6 +126,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "flag_receiver_component" ), &CreateComponent<ctf::FlagReceiverComponent> );
 
     Bind( AutoId( "worm_head_component" ), &CreateComponent<WormHeadComponent> );
+    Bind( AutoId( "worm_body_component" ), &CreateComponent<WormBodyComponent> );
 
     Bind( AutoId( "emitter_component" ), &CreateComponent<EmitterComponent> );
     Bind( AutoId( "explode_on_hit_component" ), &CreateComponent<ExplodeOnHitComponent> );

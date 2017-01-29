@@ -213,7 +213,6 @@ SPEED:
 Score
 Select cell entrance!
 Start
-TOCHECK
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
@@ -400,7 +399,6 @@ attachable_component
 audible_component
 auto_revive_text
 autoids
-autoids.old
 b1
 b10
 b11
@@ -1925,7 +1923,6 @@ test_simple_room
 test_vert
 text_scene
 text_widget
-tgts.json
 tile_water
 todo
 top
@@ -2008,9 +2005,13 @@ wooden_chest_closed_50
 wooden_chest_open_50
 world_solid_objects
 worm200_body
+worm200_body.png
 worm200_head
 worm200_head.png
 worm200_tail
+worm200_tail.png
+worm_body_component
+worm_head_component
 worrm200
 xpider_move
 xpider_rip
