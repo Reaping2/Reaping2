@@ -1111,8 +1111,8 @@ damage_taken_message_handler_sub_system
 damage_taken_message_sender_system
 data
 data.pkg
+data/
 data/Ping-da-ding-ding-ding.ogg
-data/map/
 data/rooms/
 data/rooms/test_save/test_save.json
 data_checksum
@@ -1833,6 +1833,7 @@ map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
 map/editor_system.h
 map/editor_target_system.h
+map/level_generator/level_generated_event.h
 map/level_generator/room_desc.h
 map/map_repo.h
 map/room_editor_system.h

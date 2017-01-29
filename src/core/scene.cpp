@@ -171,7 +171,6 @@ void Scene::Load( std::string const& Level )
     SetType( "grass" );
 
     EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent() );
-
 }
 
 void Scene::AddTestCreep( double X, double Y )

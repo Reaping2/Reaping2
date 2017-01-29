@@ -56,7 +56,7 @@
     },
     "performance":
     {
-        "sleep":10,
+        "sleep":0,
         "frame_rate":100,
         "limit_frames":0
     },
@@ -81,9 +81,9 @@
     },
     "item_color":
     {
-        "normal":"0x2222ffff",
-        "weapon":"0xff0000ff",
-        "buff":"0x00ff00ff"
+        "normal":"0xffffffff",
+        "weapon":"0xffffffff",
+        "buff":"0xffffffff"
     },
     "controlmappings":
     {
