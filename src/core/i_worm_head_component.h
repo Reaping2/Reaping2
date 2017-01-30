@@ -3,11 +3,32 @@
 
 #include "component.h"
 #include <vector>
+#include "platform/i_platform.h"
+#include "platform/serialize_vec4.h"
 
 class IWormHeadComponent : public Component
 {
 public:
     DEFINE_COMPONENT_BASE(IWormHeadComponent)
+    struct PrevPosition
+    {
+        PrevPosition( glm::vec2 position, double orientation, double distance )
+            : mPosition( position )
+            , mOrientation( orientation )
+            , mDistance( distance )
+        {}
+        PrevPosition() = default;
+        glm::vec2 mPosition;
+        double mOrientation = 0.0;
+        double mDistance = 0.0;
+
+        friend class ::boost::serialization::access;
+        template<class Archive>
+        void serialize( Archive& ar, const unsigned int version );
+    };
+    typedef std::list<PrevPosition> PrevPositions_t;
+    virtual void SetPrevPositions( PrevPositions_t const& prevPositions ) = 0;
+    virtual PrevPositions_t& GetPrevPositions() = 0;
     virtual void SetLength(int32_t length)=0;
     virtual int32_t GetLength()const=0;
     virtual void SetLengthDecrease(int32_t lengthDecrease)=0;
@@ -37,6 +58,14 @@ template<class Archive>
 void IWormHeadComponent::serialize(Archive& ar, const unsigned int version)
 {
     ar& boost::serialization::base_object<Component>(*this);
+}
+
+template<class Archive>
+void IWormHeadComponent::PrevPosition::serialize( Archive& ar, const unsigned int version )
+{
+    ar&mPosition;
+    ar&mOrientation;
+    ar&mDistance;
 }
 
 #endif//INCLUDED_CORE_I_WORM_HEAD_COMPONENT_H

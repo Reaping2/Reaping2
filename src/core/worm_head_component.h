@@ -5,11 +5,14 @@
 #include "core/property_loader.h"
 #include "platform/export.h"
 #include <boost/serialization/vector.hpp>
+#include <boost/serialization/list.hpp>
 
 class WormHeadComponent : public IWormHeadComponent
 {
 public:
     WormHeadComponent();
+    virtual void SetPrevPositions( PrevPositions_t const& prevPositions );
+    virtual IWormHeadComponent::PrevPositions_t& GetPrevPositions();
     virtual void SetLength( int32_t length );
     virtual int32_t GetLength() const;
     virtual void SetLengthDecrease( int32_t lengthDecrease );
@@ -39,6 +42,8 @@ protected:
     int32_t mSpawnCount;
     bool mFirstBuild;
     BodyParts_t mBodyParts;
+    PrevPositions_t mPrevPositions;
+
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -58,6 +63,7 @@ void WormHeadComponent::serialize(Archive& ar, const unsigned int version)
     ar& mSpawnCount;
     ar& mFirstBuild;
     ar& mBodyParts;
+    ar& mPrevPositions;
 }
 
 class WormHeadComponentLoader : public ComponentLoader<WormHeadComponent>

@@ -4,6 +4,9 @@
 #include "core/scene.h"
 #include "engine/system.h"
 #include "core/actor_factory.h"
+class Actor;
+class IWormHeadComponent;
+class IPositionComponent;
 
 namespace engine {
 
@@ -15,6 +18,11 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    void SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
+
+    void AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC );
+
 private:
     Scene& mScene;
     ActorFactory& mActorFactory=ActorFactory::Get();

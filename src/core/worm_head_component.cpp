@@ -103,6 +103,17 @@ IWormHeadComponent::BodyParts_t& WormHeadComponent::GetBodyParts()
     return mBodyParts;
 }
 
+
+void WormHeadComponent::SetPrevPositions( PrevPositions_t const& prevPositions )
+{
+    mPrevPositions = prevPositions;
+}
+
+IWormHeadComponent::PrevPositions_t& WormHeadComponent::GetPrevPositions()
+{
+    return mPrevPositions;
+}
+
 void WormHeadComponentLoader::BindValues()
 {
     Bind( "length", func_int32_t(&WormHeadComponent::SetLength));

@@ -11,13 +11,15 @@ public:
     DEFINE_COMPONENT_BASE( IWormBodyComponent )
     struct PrevPosition
     {
-        PrevPosition(glm::vec2 position, double orientation)
+        PrevPosition(glm::vec2 position, double orientation, double distance)
             : mPosition(position)
             , mOrientation(orientation)
+            , mDistance(distance)
         {}
         PrevPosition() = default;
         glm::vec2 mPosition;
         double mOrientation = 0.0;
+        double mDistance = 0.0;
 
         friend class ::boost::serialization::access;
         template<class Archive>
@@ -54,6 +56,7 @@ void IWormBodyComponent::PrevPosition::serialize( Archive& ar, const unsigned in
 {
     ar&mPosition;
     ar&mOrientation;
+    ar&mDistance;
 }
 
 
