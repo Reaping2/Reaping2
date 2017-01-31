@@ -4,9 +4,6 @@ WormBodyComponent::WormBodyComponent()
     : mHeadGUID(-1)
     , mBody(true)
     , mFollowedGUID(-1)
-    , mPrevPositions()
-    , mWaitFullDistance(true)
-    , mDistancePercent(1.0)
 {
 }
 
@@ -40,40 +37,9 @@ int32_t WormBodyComponent::GetFollowedGUID() const
     return mFollowedGUID;
 }
 
-void WormBodyComponent::SetPrevPositions( PrevPositions_t const& prevPositions )
-{
-    mPrevPositions = prevPositions;
-}
-
-IWormBodyComponent::PrevPositions_t& WormBodyComponent::GetPrevPositions()
-{
-    return mPrevPositions;
-}
-
-void WormBodyComponent::SetWaitFullDistance( bool waitFullDistance )
-{
-    mWaitFullDistance = waitFullDistance;
-}
-
-bool WormBodyComponent::IsWaitFullDistance() const
-{
-    return mWaitFullDistance;
-}
-
-void WormBodyComponent::SetDistancePercent( double distancePercent )
-{
-    mDistancePercent = distancePercent;
-}
-
-double WormBodyComponent::GetDistancePercent() const
-{
-    return mDistancePercent;
-}
-
 void WormBodyComponentLoader::BindValues()
 {
     Bind( "body", func_bool( &WormBodyComponent::SetBody ) );
-    Bind( "distance_percent", func_double( &WormBodyComponent::SetDistancePercent ) );
 }
 
 WormBodyComponentLoader::WormBodyComponentLoader()

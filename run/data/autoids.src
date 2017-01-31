@@ -1163,7 +1163,6 @@ detonate_on_hit_system
 detonate_on_hit_system.h
 detonator_material
 disabled_logs
-distance_percent
 distance_to_aggressor
 distance_to_aggressor_condition.h
 distance_to_players
@@ -1427,6 +1426,7 @@ gamemode_selected_message
 gamemode_selected_message.h
 gamemode_selected_message_handler_sub_system
 gamemode_selected_message_sender_system
+gap_percent
 gatling_down
 gatling_gun
 gatling_gun.h

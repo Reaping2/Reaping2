@@ -18,15 +18,17 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-
-    void SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
-
-    void AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC );
-
 private:
     Scene& mScene;
     ActorFactory& mActorFactory=ActorFactory::Get();
     void InitWormPart( Actor& head, Actor& part );
+    void InitNewHead( Actor& oldHead, Actor& newHead );
+    void HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, double DeltaTime );
+
+    void SyncMove( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
+    void SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
+    double GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC ) const;
+    void AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC );
 };
 
 } // namespace engine

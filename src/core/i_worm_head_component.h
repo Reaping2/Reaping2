@@ -48,6 +48,12 @@ public:
     typedef std::vector<int32_t> BodyParts_t;
     virtual void SetBodyParts(BodyParts_t const& bodyParts)=0;
     virtual BodyParts_t& GetBodyParts()=0;
+    virtual void SetWaitDistance( double waitDistance ) = 0;
+    virtual double GetWaitDistance()const = 0;
+    virtual void SetGapPercent( double gapPercent ) = 0;
+    virtual double GetGapPercent()const = 0;
+    virtual void Copy(IWormHeadComponent* iHeadC) = 0;
+public:
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

@@ -31,6 +31,11 @@ public:
     virtual bool IsFirstBuild() const;
     virtual void SetBodyParts( BodyParts_t const& bodyParts );
     virtual IWormHeadComponent::BodyParts_t& GetBodyParts();
+    virtual void SetWaitDistance( double waitDistance );
+    virtual double GetWaitDistance() const;
+    virtual void SetGapPercent( double gapPercent );
+    virtual double GetGapPercent() const;
+    virtual void Copy( IWormHeadComponent* iHeadC );
 protected:
     friend class ComponentFactory;
     int32_t mLength;
@@ -43,7 +48,8 @@ protected:
     bool mFirstBuild;
     BodyParts_t mBodyParts;
     PrevPositions_t mPrevPositions;
-
+    double mWaitDistance;
+    double mGapPercent;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -64,6 +70,8 @@ void WormHeadComponent::serialize(Archive& ar, const unsigned int version)
     ar& mFirstBuild;
     ar& mBodyParts;
     ar& mPrevPositions;
+    ar& mWaitDistance;
+    ar& mGapPercent;
 }
 
 class WormHeadComponentLoader : public ComponentLoader<WormHeadComponent>

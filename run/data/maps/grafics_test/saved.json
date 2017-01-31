@@ -16,7 +16,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "worm200_head",
+      "actor" : "worm200_head_",
       "components" : [
          {
             "name" : "position_component",
@@ -32,7 +32,7 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "worm200_head",
+      "actor" : "worm200_head_",
       "components" : [
          {
             "name" : "position_component",

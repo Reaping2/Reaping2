@@ -5,6 +5,7 @@
 #include "core/i_worm_body_component.h"
 #include "core/i_collision_component.h"
 #include "core/i_move_component.h"
+#include "core/i_health_component.h"
 
 namespace engine {
 
@@ -50,32 +51,41 @@ void WormHeadSystem::Update(double DeltaTime)
            wormHeadC->SetFirstBuild( false );
            wormHeadC->SetSpawnCount( 0 );
        }
-       wormHeadC->SetSpawnCount( std::max( wormHeadC->GetSpawnCount() - 1, 0 ) );
+       //wormHeadC->SetSpawnCount( std::max( wormHeadC->GetSpawnCount() - 1, 0 ) );
+
+       HandleDeath( actor, wormHeadC, DeltaTime );
 
        AddPrevPositions( positionC, wormHeadC );
-
        SetBodyPartPositions( actor, wormHeadC );
+       SyncMove( actor, wormHeadC );
 
-
-       for (auto& partGUID : wormHeadC->GetBodyParts())
-       {
-           auto part( mScene.GetActor( partGUID ) );
-           auto moveC( actor->Get<IMoveComponent>() );
-           auto partMoveC( part->Get<IMoveComponent>() );
-           if (partMoveC.IsValid())
-           {
-               partMoveC->SetMoving( moveC->GetMoving() );
-               partMoveC->SetSpeed( 0.0 );
-           }
-       }
     }
 }
 
 
+void WormHeadSystem::SyncMove( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC )
+{
+    for (auto& partGUID : wormHeadC->GetBodyParts())
+    {
+        auto part( mScene.GetActor( partGUID ) );
+        auto moveC( actor->Get<IMoveComponent>() );
+        auto partMoveC( part->Get<IMoveComponent>() );
+        if (partMoveC.IsValid())
+        {
+            partMoveC->SetMoving( moveC->GetMoving() );
+            partMoveC->SetSpeed( 0.0 );
+        }
+    }
+}
+
 void WormHeadSystem::SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC )
 {
-    auto collisionC( actor->Get<ICollisionComponent>() );
-    double const maxDist = (collisionC->GetRadius() + collisionC->GetRadius())*0.8;/*wormHeadC->GetDistancePercent();*/
+    auto healthC( actor->Get<IHealthComponent>() );
+    if (healthC->IsAlive() && wormHeadC->GetWaitDistance() > 0.0)
+    {
+        return;
+    }
+    double const gapSize = GetGapSize( actor, wormHeadC );
 
     auto posE = wormHeadC->GetPrevPositions().end();
     auto posIt = wormHeadC->GetPrevPositions().begin();
@@ -89,7 +99,7 @@ void WormHeadSystem::SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadCompon
     while (posIt != posE && bodyPartsIt != bodyPartsE)
     {
         dist += posIt->mDistance;
-        if (dist >= maxDist)
+        if (dist >= gapSize)
         {
             auto actor( mScene.GetActor( *bodyPartsIt ) );
             if (actor.IsValid())
@@ -100,13 +110,20 @@ void WormHeadSystem::SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadCompon
                 partPositionC->SetOrientation( prevPosIt->mOrientation );
             }
             ++bodyPartsIt;
-            dist -= maxDist;
+            dist -= gapSize;
         }
         prevPosIt = posIt++;
     }
     L1( "PrevPositions length: %d\n", wormHeadC->GetPrevPositions().size() );
     wormHeadC->GetPrevPositions().erase( posIt, wormHeadC->GetPrevPositions().end() );
 
+}
+
+
+double WormHeadSystem::GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC ) const
+{
+    auto collisionC( actor->Get<ICollisionComponent>() );
+    return (collisionC->GetRadius() * 2)*wormHeadC->GetGapPercent();
 }
 
 void WormHeadSystem::AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC )
@@ -129,6 +146,7 @@ void WormHeadSystem::AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IW
             frontV += normV;
             orientation += orientationAdd;
             wormHeadC->GetPrevPositions().push_front( { frontV, orientation, minDist } );
+            wormHeadC->SetWaitDistance( std::max(wormHeadC->GetWaitDistance() - minDist, 0.0) );
         }
     }
     else
@@ -154,11 +172,79 @@ void WormHeadSystem::InitWormPart( Actor& head, Actor& part )
     auto partBodyC( part.Get<IWormBodyComponent>() );
     partBodyC->SetHeadGUID( head.GetGUID() );
     partBodyC->SetFollowedGUID( bodyParts.empty()?head.GetGUID():bodyParts.back() );
-    partBodyC->GetPrevPositions().push_front(
-        {glm::vec2(positionC->GetX(),positionC->GetY())
-            , positionC->GetOrientation(), 0.0 } );
 
     bodyParts.push_back( part.GetGUID() );
+}
+
+
+void WormHeadSystem::InitNewHead( Actor& oldHead, Actor& newHead )
+{
+    auto oldWormHeadC( oldHead.Get<IWormHeadComponent>() );
+    auto newWormHeadC( newHead.Get<IWormHeadComponent>() );
+    auto newGUID = newHead.GetGUID();
+    
+    newWormHeadC->Copy( oldWormHeadC.Get() );
+    newWormHeadC->SetActorGUID( newGUID );
+
+    if (!newWormHeadC->GetBodyParts().empty())
+    {
+        auto front(mScene.GetActor(newWormHeadC->GetBodyParts().front()));
+        auto wormBodyC( front->Get<IWormBodyComponent>() );
+        if (wormBodyC.IsValid())
+        {
+            wormBodyC->SetFollowedGUID( newGUID );
+        }
+        auto frontPositionC( front->Get<IPositionComponent>() );
+        auto newPositionC( newHead.Get<IPositionComponent>() );
+        newPositionC->SetX( frontPositionC->GetX() );
+        newPositionC->SetY( frontPositionC->GetY() );
+    }
+    for (auto partGUID : newWormHeadC->GetBodyParts())
+    {
+        auto actor( mScene.GetActor( partGUID ) );
+        if (actor.IsValid())
+        {
+            auto wormBodyC( actor->Get<IWormBodyComponent>() );
+            if (wormBodyC.IsValid())
+            {
+                wormBodyC->SetHeadGUID( newGUID );
+            }
+        }
+    }
+
+    double const gapSize = newWormHeadC->GetWaitDistance();
+    double dist = 0;
+    auto posIt = newWormHeadC->GetPrevPositions().begin();
+    auto posE = newWormHeadC->GetPrevPositions().end();
+    while (dist < gapSize && posIt != posE)
+    {
+        dist += posIt->mDistance;
+        ++posIt;
+    }
+    newWormHeadC->GetPrevPositions().erase( newWormHeadC->GetPrevPositions().begin(), posIt );
+}
+
+void WormHeadSystem::HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, double DeltaTime )
+{
+    auto healthC(actor->Get<IHealthComponent>());
+    if (!healthC->IsAlive() && wormHeadC->GetSpawnDelay() <= 0.0)
+    {
+        wormHeadC->SetSpawnDelay( wormHeadC->GetSpawnDelayMax() );
+    }
+    else
+    {
+        wormHeadC->SetSpawnDelay( std::max( wormHeadC->GetSpawnDelay() - DeltaTime, 0.0 ) );
+    }
+
+    if (!healthC->IsAlive() && wormHeadC->GetSpawnDelay() <= 0.0)
+    {
+        wormHeadC->SetWaitDistance( GetGapSize( actor, wormHeadC ) );
+        auto newHead( mActorFactory( actor->GetId() ) );
+        InitNewHead( *actor, *newHead );
+        mScene.AddActor( newHead.release() );
+        mScene.RemoveActor( actor->GetGUID() );
+
+    }
 }
 
 } // namespace engine

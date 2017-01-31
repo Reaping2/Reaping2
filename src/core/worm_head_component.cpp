@@ -10,6 +10,8 @@ WormHeadComponent::WormHeadComponent()
     , mSpawnCount(0)
     , mFirstBuild(true)
     , mBodyParts()
+    , mWaitDistance(0.0)
+    , mGapPercent(1.0)
 {
 }
 
@@ -114,6 +116,36 @@ IWormHeadComponent::PrevPositions_t& WormHeadComponent::GetPrevPositions()
     return mPrevPositions;
 }
 
+void WormHeadComponent::SetWaitDistance( double waitDistance )
+{
+    mWaitDistance = waitDistance;
+}
+
+double WormHeadComponent::GetWaitDistance() const
+{
+    return mWaitDistance;
+}
+
+void WormHeadComponent::SetGapPercent( double gapPercent )
+{
+    mGapPercent = gapPercent;
+}
+
+double WormHeadComponent::GetGapPercent() const
+{
+    return mGapPercent;
+}
+
+
+void WormHeadComponent::Copy( IWormHeadComponent* iHeadC )
+{
+    auto* headC = dynamic_cast<WormHeadComponent*>(iHeadC);
+    if (headC)
+    {
+        *this = *headC;
+    }
+}
+
 void WormHeadComponentLoader::BindValues()
 {
     Bind( "length", func_int32_t(&WormHeadComponent::SetLength));
@@ -130,6 +162,7 @@ void WormHeadComponentLoader::BindValues()
     Bind( "spawn_delay", func_int32_t( &WormHeadComponent::SetSpawnDelayMax ) );
     Bind( "spawn_delay", func_int32_t( &WormHeadComponent::SetSpawnDelay ) );
     Bind( "length", func_int32_t( &WormHeadComponent::SetSpawnCount ) );
+    Bind( "gap_percent", func_double( &WormHeadComponent::SetGapPercent ) );
 }
 
 WormHeadComponentLoader::WormHeadComponentLoader()

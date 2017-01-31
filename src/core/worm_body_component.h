@@ -16,21 +16,12 @@ public:
     virtual bool IsBody() const;
     virtual void SetFollowedGUID( int32_t followedGUID );
     virtual int32_t GetFollowedGUID() const;
-    virtual void SetPrevPositions( PrevPositions_t const& prevPositions );
-    virtual IWormBodyComponent::PrevPositions_t& GetPrevPositions();
-    virtual void SetWaitFullDistance( bool waitFullDistance );
-    virtual bool IsWaitFullDistance() const;
-    virtual void SetDistancePercent( double distancePercent );
-    virtual double GetDistancePercent() const;
 
 protected:
     friend class ComponentFactory;
     int32_t mHeadGUID;
     bool mBody;
     int32_t mFollowedGUID;
-    PrevPositions_t mPrevPositions;
-    bool mWaitFullDistance;
-    double mDistancePercent;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -44,9 +35,6 @@ void WormBodyComponent::serialize(Archive& ar, const unsigned int version)
     ar& mHeadGUID;
     ar& mBody;
     ar& mFollowedGUID;
-    ar& mPrevPositions;
-    ar& mWaitFullDistance;
-    ar& mDistancePercent;
 }
 
 class WormBodyComponentLoader : public ComponentLoader<WormBodyComponent>

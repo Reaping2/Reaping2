@@ -15,7 +15,7 @@
                 "set":[{"class":"creep", "radius":200}]
             },
             {"name":"health_component",
-                "set":[{"hp":400}]
+                "set":[{"hp":100}]
             },
             {"name":"scripted_controller_component",
                 "set":[{"states":[{
@@ -81,10 +81,11 @@
             {"name":"heat_source_component"},
             {"name":"worm_head_component",
                 "set":[{
-                    "length":30,
+                    "length":12,
                     "length_decrease":2,
                     "body":"worm200_body",
                     "tail":"worm200_tail",
+                    "gap_percent":0.8,
                     "spawn_delay":2.0}]
             }
         ]
@@ -105,15 +106,14 @@
                 "set":[{"class":"creep", "radius":200}]
             },
             {"name":"health_component",
-                "set":[{"hp":20}]
+                "set":[{"hp":2000}]
             },
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
             {"name":"heat_source_component"},
             {"name":"worm_body_component",
                 "set":[{
-                    "body":1,
-                    "distance_percent":0.6
+                    "body":1
                     }]
             }
         ]
@@ -134,15 +134,14 @@
                 "set":[{"class":"creep", "radius":200}]
             },
             {"name":"health_component",
-                "set":[{"hp":20}]
+                "set":[{"hp":2000}]
             },
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
             {"name":"heat_source_component"},
             {"name":"worm_body_component",
                 "set":[{
-                    "body":0,
-                    "distance_percent":0.6
+                    "body":0
                     }]
             }
         ]
