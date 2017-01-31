@@ -1436,6 +1436,7 @@ graphics.cast_shadows
 graphics.gl.max_allowed_texture_size
 graphics.postprocess
 graphics.shadow_scale
+graphics.shown_layer
 graphics.sprite_phase_cache.downsample
 graphics.sprite_phase_cache.enabled
 graphics.sprite_phase_cache.gapless
@@ -2030,6 +2031,7 @@ orientation
 orientation_message.h
 orientation_message_handler_sub_system
 orientation_message_sender_system
+original
 osfile.h
 outer_borders
 owner_component
@@ -2138,6 +2140,7 @@ position_x
 position_y
 possible_rooms
 possible_rooms.h
+postprocess_mask
 postprocessor_select
 postprocessors
 pow_projectile
@@ -2508,6 +2511,7 @@ spider2target
 sprite.h
 sprite2
 spriteTexture
+sprite_cache
 sprite_collection.h
 sprite_phase.h
 sprite_phase_cache.h

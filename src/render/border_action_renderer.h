@@ -23,9 +23,7 @@ class BorderActionRenderer : public ActionRenderer
     struct SpriteData {
         glm::vec2 RelativePosition;
         Sprite const& Spr;
-        Sprite const* NormalSpr = nullptr;
-        Sprite const* MaskSpr = nullptr;
-        std::vector<Sprite const*> AdditionalSprs;
+        CompanionSprites Companions;
         SpriteData( glm::vec2 const& rp, Sprite const& sp ) : RelativePosition( rp ), Spr( sp ) {}
     };
     std::vector<SpriteData> mSprites;

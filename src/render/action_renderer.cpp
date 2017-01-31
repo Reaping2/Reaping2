@@ -35,10 +35,7 @@ void ActionRenderer::Init( const Actor& actor )
         mSpr = &Spr;
         mSecsToEnd = Spr.GetSecsToEnd();
     }
-    auto companions = GetCompanionSprites( actorId, mActionId );
-    mMaskSpr = companions.MaskSpr;
-    mNormalSpr = companions.NormalSpr;
-    std::swap( mAdditionalSprs, companions.AdditionalSprs );
+    mCompanionSprites = GetCompanionSprites( actorId, mActionId );
 }
 
 glm::vec4 ActionRenderer::GetRenderableColor( Actor const& actor ) const
@@ -56,19 +53,24 @@ void ActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableCompo
     auto const& Phase = (*mSpr)( st );
     auto const& col = GetRenderableColor( actor );
     RenderableSprite rs( &actor, &renderableC, mActionId, mSpr, &Phase, col );
-    for( auto const& spr : mAdditionalSprs )
+    FillRenderableSprite( rs, mCompanionSprites, st );
+    renderableSprites.push_back( rs );
+}
+
+void FillRenderableSprite( RenderableSprite& rs, CompanionSprites const& data, int32_t st )
+{
+    for( auto const& spr : data.AdditionalSprs )
     {
         rs.AdditionalSprs.push_back( &(*spr)( st ) );
     }
-    if( nullptr != mMaskSpr )
+    if( nullptr != data.MaskSpr )
     {
-        rs.MaskSpr = &(*mMaskSpr)( st );
+        rs.MaskSpr = &(*data.MaskSpr)( st );
     }
-    if( nullptr != mNormalSpr )
+    if( nullptr != data.NormalSpr )
     {
-        rs.NormalSpr = &(*mNormalSpr)( st );
+        rs.NormalSpr = &(*data.NormalSpr)( st );
     }
-    renderableSprites.push_back( rs );
 }
 
 void ActionRenderer::Update( double DeltaTime )

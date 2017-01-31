@@ -13,11 +13,8 @@ uint32_t RenderTarget::GetFreeId() const
 {
     // temp: start from high enough, as we use hardcoded values in renderer
     // todo: use GetFreeId in renderer as well
-    uint32_t freeId = 1000;
-    while( mTargets.find( freeId ) != mTargets.end() )
-    {
-        ++freeId;
-    }
+    static uint32_t freeId = 1000;
+    while( mTargets.find( ++freeId ) != mTargets.end() );
     return freeId;
 }
 

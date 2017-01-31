@@ -8,6 +8,12 @@
 
 namespace render {
 
+struct CompanionSprites
+{
+    Sprite const* MaskSpr = nullptr;
+    Sprite const* NormalSpr = nullptr;
+    std::vector<Sprite const*> AdditionalSprs;
+};
 class ActionRenderer
 {
 public:
@@ -25,9 +31,7 @@ protected:
     double mState = 0.0;
 
     Sprite const* mSpr = nullptr;
-    Sprite const* mMaskSpr = nullptr;
-    Sprite const* mNormalSpr = nullptr;
-    std::vector<Sprite const*> mAdditionalSprs;
+    CompanionSprites mCompanionSprites;
 
     RenderableRepo& mRenderableRepo;
     int32_t mOrder = -1;
@@ -64,12 +68,7 @@ public:
 glm::vec4 GetCloakColor( const Actor& actor );
 glm::vec4 GetColor( const Actor& actor );
 int32_t GetSpriteId( int32_t spriteIndex, int32_t actorId );
-struct CompanionSprites
-{
-    Sprite const* MaskSpr = nullptr;
-    Sprite const* NormalSpr = nullptr;
-    std::vector<Sprite const*> AdditionalSprs;
-};
 CompanionSprites GetCompanionSprites( int32_t actorId, int32_t actionId );
+void FillRenderableSprite( RenderableSprite& rs, CompanionSprites const& data, int32_t state );
 } // namespace render
 #endif //INCLUDED_RENDER_ACTION_RENDERER_H

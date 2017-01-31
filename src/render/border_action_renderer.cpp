@@ -71,11 +71,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         if( Spr.IsValid() )
         {
             mSprites.emplace_back( glm::vec2(), Spr );
-            auto companions = GetCompanionSprites( *i, mActionId );
             auto& spr = mSprites.back();
-            spr.MaskSpr = companions.MaskSpr;
-            spr.NormalSpr = companions.NormalSpr;
-            std::swap( spr.AdditionalSprs, companions.AdditionalSprs );
+            spr.Companions = GetCompanionSprites( *i, mActionId );
         }
     }
     IBorderComponent::Borders_t::const_iterator outer_i = mOuterBorders.begin();
@@ -87,11 +84,8 @@ void BorderActionRenderer::Init( Actor const& actor )
         {
             glm::vec2 pos = mBorderType.GetNeighborDirs()[*outer_i];
             mSprites.emplace_back( glm::vec2( 2 * pos.x * mActorSize, 2 * pos.y * mActorSize ), Spr );
-            auto companions = GetCompanionSprites( *i, mActionId );
             auto& spr = mSprites.back();
-            spr.MaskSpr = companions.MaskSpr;
-            spr.NormalSpr = companions.NormalSpr;
-            std::swap( spr.AdditionalSprs, companions.AdditionalSprs );
+            spr.Companions = GetCompanionSprites( *i, mActionId );
         }
     }
     mActorColor = GetRenderableColor( actor );
@@ -110,18 +104,7 @@ void BorderActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
         auto const& Phase = data.Spr( st );
         RenderableSprite renderableSprite( &actor, &renderableC, mActionId, &data.Spr, &Phase, mActorColor );
         renderableSprite.RelativePosition = data.RelativePosition;
-        for( auto const& spr : data.AdditionalSprs )
-        {
-            renderableSprite.AdditionalSprs.push_back( &(*spr)( st ) );
-        }
-        if( nullptr != data.MaskSpr )
-        {
-            renderableSprite.MaskSpr = &(*data.MaskSpr)( st );
-        }
-        if( nullptr != data.NormalSpr )
-        {
-            renderableSprite.NormalSpr = &(*data.NormalSpr)( st );
-        }
+        FillRenderableSprite( renderableSprite, data.Companions, st );
         renderableSprites.push_back( renderableSprite );
     }
 }

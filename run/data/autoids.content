@@ -111,9 +111,6 @@
 -a1
 -a3
 -a4
-.dragon_postprocess.fs
-.map_elements.json
-.ui.fs
 .water.fs
 .water.vs
 0x00007777
