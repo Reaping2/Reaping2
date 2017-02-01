@@ -9,7 +9,7 @@
 
 namespace platform {
 class File;
-class Package;
+class IPackage;
 namespace detail {
 class FilesysImpl;
 } // namespace detail
@@ -21,7 +21,7 @@ class Filesys : public Singleton<Filesys>
     std::auto_ptr<detail::FilesysImpl> mImpl;
 public:
     ~Filesys();
-    void Mount( std::auto_ptr<Package> Pack );
+    void Mount( std::auto_ptr<IPackage> Pack );
     std::auto_ptr<File> Open( const boost::filesystem::path& Path );
     void GetFileNames( std::vector<boost::filesystem::path>& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
 };

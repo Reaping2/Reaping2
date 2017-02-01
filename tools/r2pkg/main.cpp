@@ -76,7 +76,7 @@ void ExtractPackage( const std::string& PackageName, std::string FolderName )
     for( paths_t::const_iterator i = IncludedFiles.begin(), e = IncludedFiles.end(); i != e; ++i )
     {
         fs::path p = ( *i );
-        AutoFile f = Pkg.Open( p );
+        std::unique_ptr<File> f = std::move( Pkg.Open( p ) );
         p = FolderName / p;
         fs::create_directories( p.parent_path() );
         OsFile o( p, std::ios_base::out | std::ios_base::trunc );

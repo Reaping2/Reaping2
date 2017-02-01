@@ -198,7 +198,8 @@ int main( int argc, char* argv[] )
 
 
     bool calibrateController = vm.count( "calibrate" );
-    Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
+    Filesys::Get().Mount( std::auto_ptr<IPackage>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
+    Filesys::Get().Mount( std::auto_ptr<IPackage>( new FolderPackage( "." ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
     IsMainRunning = true;

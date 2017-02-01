@@ -1387,6 +1387,7 @@ flash_message_sender_system
 flash_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
+folder_package.h
 font.h
 fontsize
 for
@@ -1673,6 +1674,7 @@ ion_gun_alt_projectile
 ion_gun_explode_projectile
 ion_gun_projectile
 ion_gun_weapon_sub_system
+ipackage.h
 is_hit
 is_hit_condition.h
 is_not_hit
