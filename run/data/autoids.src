@@ -2092,6 +2092,7 @@ platform/event.h
 platform/export.h
 platform/factory.h
 platform/filesystem.h
+platform/folder_package.h
 platform/frequency_timer.h
 platform/game_clock.h
 platform/glm_fix.h

@@ -61,6 +61,7 @@
 #include <chrono>
 #include "platform/settings.h"
 #include "platform/game_clock.h"
+#include "platform/folder_package.h"
 
 using engine::Engine;
 namespace {

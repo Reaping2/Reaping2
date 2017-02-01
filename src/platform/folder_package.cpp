@@ -12,7 +12,7 @@ bool contains( boost::filesystem::path const& container, boost::filesystem::path
 {
     auto containerlen = std::distance( container.begin(), container.end() );
     auto containedlen = std::distance( contained.begin(), contained.end() );
-    if( containedlen >= containerlen )
+    if( containedlen <= containerlen )
     {
         return false;
     }

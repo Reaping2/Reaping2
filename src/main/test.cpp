@@ -61,7 +61,7 @@ struct Tester_t
 
     void TestJson()
     {
-        AutoFile JsonFile = mPackage->Open( "textures.json" );
+        std::unique_ptr<File> JsonFile = std::move( mPackage->Open( "textures.json" ) );
         if( !JsonFile.get() )
         {
             return;
