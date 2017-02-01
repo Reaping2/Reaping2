@@ -35,7 +35,7 @@ public:
     virtual double GetWaitDistance() const;
     virtual void SetGapPercent( double gapPercent );
     virtual double GetGapPercent() const;
-    virtual void Copy( IWormHeadComponent* iHeadC );
+    virtual void CopyFrom( IWormHeadComponent* iHeadC );
 protected:
     friend class ComponentFactory;
     int32_t mLength;

@@ -137,13 +137,15 @@ double WormHeadComponent::GetGapPercent() const
 }
 
 
-void WormHeadComponent::Copy( IWormHeadComponent* iHeadC )
+void WormHeadComponent::CopyFrom( IWormHeadComponent* iHeadC )
 {
+    int32_t actorGUID = mActorGUID;
     auto* headC = dynamic_cast<WormHeadComponent*>(iHeadC);
     if (headC)
     {
         *this = *headC;
     }
+    mActorGUID = actorGUID;
 }
 
 void WormHeadComponentLoader::BindValues()

@@ -15,20 +15,23 @@ class WormHeadSystem : public System
 public:
     DEFINE_SYSTEM_BASE(WormHeadSystem)
     WormHeadSystem();
+    static void InitNewHead( Actor& newHead );
+    static void ErasePrevPositions( Opt<IWormHeadComponent> wormHeadC, double eraseDistance );
+    static double GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
     Scene& mScene;
     ActorFactory& mActorFactory=ActorFactory::Get();
+
     void InitWormPart( Actor& head, Actor& part );
-    void InitNewHead( Actor& oldHead, Actor& newHead );
+
     void HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, double DeltaTime );
 
     void SyncMove( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
     void SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
-    double GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC ) const;
-    void AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC );
+    void AddPrevPositions( Opt<Actor> actor, Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC );
 };
 
 } // namespace engine

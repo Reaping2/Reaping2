@@ -12,10 +12,10 @@
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":200}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
-                "set":[{"hp":100}]
+                "set":[{"hp":200}]
             },
             {"name":"scripted_controller_component",
                 "set":[{"states":[{
@@ -103,10 +103,10 @@
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":200}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
-                "set":[{"hp":2000}]
+                "set":[{"hp":80}]
             },
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
@@ -131,7 +131,7 @@
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
-                "set":[{"class":"creep", "radius":200}]
+                "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
                 "set":[{"hp":2000}]

@@ -1493,6 +1493,7 @@ guns
 guntarget
 h
 halign
+handled
 has_been_hit
 hat_action_renderer.h
 hdouble_room1
@@ -1537,6 +1538,7 @@ heat_source_component
 heat_source_component.h
 height
 help
+hide
 highlight_color
 hit_closest
 hit_count_to_kill

@@ -55,7 +55,7 @@ void WormHeadSystem::Update(double DeltaTime)
 
        HandleDeath( actor, wormHeadC, DeltaTime );
 
-       AddPrevPositions( positionC, wormHeadC );
+       AddPrevPositions( actor, positionC, wormHeadC );
        SetBodyPartPositions( actor, wormHeadC );
        SyncMove( actor, wormHeadC );
 
@@ -81,7 +81,7 @@ void WormHeadSystem::SyncMove( Opt<Actor> actor, Opt<IWormHeadComponent> wormHea
 void WormHeadSystem::SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC )
 {
     auto healthC( actor->Get<IHealthComponent>() );
-    if (healthC->IsAlive() && wormHeadC->GetWaitDistance() > 0.0)
+    if (/*healthC->IsAlive() &&*/ wormHeadC->GetWaitDistance() > 0.0)
     {
         return;
     }
@@ -120,14 +120,19 @@ void WormHeadSystem::SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadCompon
 }
 
 
-double WormHeadSystem::GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC ) const
+double WormHeadSystem::GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC )
 {
     auto collisionC( actor->Get<ICollisionComponent>() );
     return (collisionC->GetRadius() * 2)*wormHeadC->GetGapPercent();
 }
 
-void WormHeadSystem::AddPrevPositions( Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC )
+void WormHeadSystem::AddPrevPositions( Opt<Actor> actor, Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC )
 {
+    auto healthC( actor->Get<IHealthComponent>() );
+    if (!healthC->IsAlive())
+    {
+        return;
+    }
     auto const posV = glm::vec2( positionC->GetX(), positionC->GetY() );
     if (!wormHeadC->GetPrevPositions().empty())
     {
@@ -177,15 +182,13 @@ void WormHeadSystem::InitWormPart( Actor& head, Actor& part )
 }
 
 
-void WormHeadSystem::InitNewHead( Actor& oldHead, Actor& newHead )
+void WormHeadSystem::InitNewHead( Actor& newHead )
 {
-    auto oldWormHeadC( oldHead.Get<IWormHeadComponent>() );
-    auto newWormHeadC( newHead.Get<IWormHeadComponent>() );
-    auto newGUID = newHead.GetGUID();
-    
-    newWormHeadC->Copy( oldWormHeadC.Get() );
-    newWormHeadC->SetActorGUID( newGUID );
+    static auto& mScene = Scene::Get();
 
+    auto newWormHeadC( newHead.Get<IWormHeadComponent>() );
+
+    auto newGUID = newHead.GetGUID();
     if (!newWormHeadC->GetBodyParts().empty())
     {
         auto front(mScene.GetActor(newWormHeadC->GetBodyParts().front()));
@@ -211,17 +214,6 @@ void WormHeadSystem::InitNewHead( Actor& oldHead, Actor& newHead )
             }
         }
     }
-
-    double const gapSize = newWormHeadC->GetWaitDistance();
-    double dist = 0;
-    auto posIt = newWormHeadC->GetPrevPositions().begin();
-    auto posE = newWormHeadC->GetPrevPositions().end();
-    while (dist < gapSize && posIt != posE)
-    {
-        dist += posIt->mDistance;
-        ++posIt;
-    }
-    newWormHeadC->GetPrevPositions().erase( newWormHeadC->GetPrevPositions().begin(), posIt );
 }
 
 void WormHeadSystem::HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, double DeltaTime )
@@ -238,13 +230,33 @@ void WormHeadSystem::HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> worm
 
     if (!healthC->IsAlive() && wormHeadC->GetSpawnDelay() <= 0.0)
     {
-        wormHeadC->SetWaitDistance( GetGapSize( actor, wormHeadC ) );
-        auto newHead( mActorFactory( actor->GetId() ) );
-        InitNewHead( *actor, *newHead );
-        mScene.AddActor( newHead.release() );
-        mScene.RemoveActor( actor->GetGUID() );
+        if (!wormHeadC->GetBodyParts().empty())
+        {
+            auto newWormHead( mActorFactory( actor->GetId() ) );
+            auto newWormHeadC( newWormHead->Get<IWormHeadComponent>() );
+            newWormHeadC->CopyFrom( wormHeadC.Get() );
+            InitNewHead( *newWormHead );
+            newWormHeadC->SetWaitDistance( GetGapSize( newWormHead.get(), newWormHeadC ) );
+            ErasePrevPositions( newWormHeadC, newWormHeadC->GetWaitDistance() );
+            mScene.AddActor( newWormHead.release() );
+        }
+        mScene.RemoveActor( actor->GetGUID() ); // TODO: handle by setting a "handled" flag + remove_on_death comp! or hack with a spawn_on_death comp + actor with fade_out for rendering death
 
     }
+}
+
+void WormHeadSystem::ErasePrevPositions( Opt<IWormHeadComponent> wormHeadC, double eraseDistance )
+{
+    double dist = 0;
+    auto posIt = wormHeadC->GetPrevPositions().begin();
+    auto posE = wormHeadC->GetPrevPositions().end();
+    while (dist < eraseDistance && posIt != posE)
+    {
+        dist += posIt->mDistance;
+        ++posIt;
+    }
+
+    wormHeadC->GetPrevPositions().erase( wormHeadC->GetPrevPositions().begin(), posIt );
 }
 
 } // namespace engine

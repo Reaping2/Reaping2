@@ -52,7 +52,7 @@ public:
     virtual double GetWaitDistance()const = 0;
     virtual void SetGapPercent( double gapPercent ) = 0;
     virtual double GetGapPercent()const = 0;
-    virtual void Copy(IWormHeadComponent* iHeadC) = 0;
+    virtual void CopyFrom(IWormHeadComponent* iHeadC) = 0;
 public:
 public:
     friend class ::boost::serialization::access;

@@ -3,6 +3,8 @@
 
 #include "core/scene.h"
 #include "engine/system.h"
+#include "core/actor_factory.h"
+#include "core/i_worm_head_component.h"
 
 namespace engine {
 
@@ -14,8 +16,12 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
+
+    void CreateNewHead( Opt<Actor> wormHead, Opt<IWormHeadComponent> wormHeadC, Opt<Actor> actor );
+
 private:
     Scene& mScene;
+    ActorFactory& mActorFactory = ActorFactory::Get();
 };
 
 } // namespace engine
