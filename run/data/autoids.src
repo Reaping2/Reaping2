@@ -98,7 +98,6 @@
 .vs
 .windows
 /
-/"+foldername+"/map_elements.json
 /description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
@@ -857,6 +856,7 @@ core/flag_receiver_component.h
 core/flag_state_changed_event.h
 core/flash_normal_item.h
 core/free_for_all_game_mode_system.h
+core/game_modes.h
 core/gamemode_selected_event.h
 core/gatling_gun.h
 core/gauss_gun.h
@@ -1405,6 +1405,8 @@ function_declarations.h
 g
 game.exit
 game_clock.h
+game_modes
+game_modes.h
 gamemode
 gamemode_selected_event
 gamemode_selected_message
@@ -1856,6 +1858,7 @@ mapitems
 mapitemtarget
 mapping.h
 maps
+maptype
 material
 matrix
 matrix","absolute
@@ -2641,6 +2644,7 @@ ui_model.h
 ui_renderer.h
 uimodel.h
 uimodel_repo.h
+unknown
 use_normal
 use_shot
 valign

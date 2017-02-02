@@ -76,7 +76,7 @@ void CaptureTheFlagGameModeSystem::Update( double DeltaTime )
 
 void CaptureTheFlagGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
 {
-    if ( Evt.mMode != "ctf" )
+    if ( Evt.mMode != GameModes::CTF )
     {
         return;
     }
@@ -202,7 +202,7 @@ void CaptureTheFlagGameModeSystem::OnScore( engine::ScoreEvent const& Evt )
 
 void CaptureTheFlagGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
 {
-    if ( "ctf" != mProgramState.mGameMode )
+    if ( GameModes::CTF != mProgramState.mGameMode )
     {
         return;
     }

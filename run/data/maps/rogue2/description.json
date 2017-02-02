@@ -1,5 +1,6 @@
 {
     "description":"",
-    "name":"Ye Olde Rogue 2",
-    "thumbnail":"rusty_reaper"
+    "name":"Rogue 2",
+    "thumbnail":"rusty_reaper",
+    "maptype":["rogue"]
 }

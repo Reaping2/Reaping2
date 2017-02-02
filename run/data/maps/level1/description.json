@@ -1,5 +1,6 @@
 {
-   "description" : "",
-   "name" : "level1",
-   "thumbnail" : ""
+    "description":"",
+    "name":"Level 1",
+    "thumbnail":"pistol",
+    "maptype":[ "ffa" ]
 }

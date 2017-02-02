@@ -1,10 +1,7 @@
 #ifndef INCLUDED_CORE_MAP_BORDER_BRUSH_H
 #define INCLUDED_CORE_MAP_BORDER_BRUSH_H
-#include "platform/i_platform.h"
 #include "i_brush.h"
-#include "../scene.h"
 #include "neighbors.h"
-#include "../i_border_component.h"
 
 namespace map {
 

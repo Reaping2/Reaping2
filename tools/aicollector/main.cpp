@@ -132,6 +132,16 @@ int main( int argc, char** argv)
             ext.push_back(".json");
         }
     }
+    // extension handling magic: content files are stored in JSON bu with different extensions: .actor, .render, ... so extend this list
+    if ( enableJSON )
+    {
+        ext.push_back("actor");
+        ext.push_back("render");
+        ext.push_back("sprite");
+        ext.push_back("target");
+        ext.push_back("item");
+        ext.push_back("particle");
+    }
     //std::cout << "supported extensions:" << std::endl;
     // auto prepend '.' : cpp -> .cpp
     for ( std::string& s : ext )
