@@ -1150,6 +1150,8 @@ default_message_handler_sub_system
 default_recognizer
 default_sub_system
 default_system
+degree
+degree_variance
 delay
 delay_variance
 deploy_time
@@ -2075,6 +2077,7 @@ path_system.h
 pause
 peace_distance
 pending
+percent
 perf_timer.h
 performance.frame_rate
 performance.limit_frames
@@ -2192,6 +2195,7 @@ r2uploader.exe
 radius
 random
 random.h
+random_condition.h
 random_controller_component
 random_controller_sub_system
 random_sprites
@@ -2638,6 +2642,8 @@ transition.h
 transitions
 trigger.h
 true":"false
+turn_away
+turn_away_act.h
 turn_to_target
 turn_to_target_act.h
 type

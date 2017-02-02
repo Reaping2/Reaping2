@@ -15,54 +15,25 @@
                 "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
-                "set":[{"hp":200}]
+                "set":[{"hp":120}]
             },
             {"name":"scripted_controller_component",
                 "set":[{"states":[{
-                    "identifier":"chillin",
-                    "start":1,
-                    "transitions":[{
-                        "conditions":
-                            [{ "name":"is_hit"},
-                             { "name":"distance_to_aggressor","less":2000 }],
-                        "state_id":"aggro"
-                    },
-                    {
-                        "conditions":
-                            [{ "name":"distance_to_players","less":1500 }],
-                        "state_id":"aggro"
-                    }],
-                    "acts":[
-                        [
-                            { "name":"freelance","weight":3,
-                                "params":{"duration":4.0,"duration_variance":1.0}},
-                                { "name":"stay","weight":1,
-                                    "params":{"duration":1.5,"duration_variance":0.5}}   
-                        ]
-                    ]
-                    },{
                     "identifier":"aggro",
-                        "start":0,
+                        "start":1,
                         "transitions":[{
                             "conditions":
-                                [{ "name":"is_not_hit","for":5.0 },
-                                 { "name":"distance_to_target","greater":2500 }],
-                            "state_id":"chillin"
+                                [{ "name":"random","percent":20.0,"frequency":1.0 }],
+                            "state_id":"move_away"
                         }],
                         "acts":[
                             [
                                 { "name":"bite","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}},
-                                { "name":"do_nothing","weight":1,
-                                    "params":{"duration":1.0,"duration_variance":0.5}}
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}}
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":450.0} },
-                                { "name":"stay","weight":1,
-                                    "params":{"duration":1.0,"duration_variance":0.5}},
-                                { "name":"freelance","weight":3,
-                                    "params":{"duration":2.0,"duration_variance":1.0}}   
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":450.0} }   
                             ],
                             [
                                 { "name":"select_target", "weight":1,
@@ -70,10 +41,40 @@
                             ],
                             [
                                 { "name":"turn_to_target","weight":2,
-                                    "params":{"duration":0.0,"duration_variance":2.0,"speed":240}}
+                                    "params":{"duration":8.0,"duration_variance":4.0,"speed":240}}
                             ]                                
                         ]
-                    }]
+                    },
+                    {
+                        "identifier":"move_away",
+                        "start":0,
+                        "transitions":[{
+                            "conditions":
+                                [{ "name":"random","percent":20.0,"frequency":1.0 }],
+                            "state_id":"aggro"
+                        }],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}}
+                            ],
+                            [
+                                { "name":"move_forward","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":450.0} }   
+                            ],
+                            [
+                                { "name":"select_target", "weight":1,
+                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "frequency":1.0} }
+                            ],
+                            [
+                                { "name":"turn_away","weight":2,
+                                    "params":{"duration":8.0,"duration_variance":4.0,"speed":240,"degree":90,"degree_variance":50}},
+                                { "name":"do_nothing","weight":2,
+                                    "params":{"duration":2.0,"duration_variance":1.0}}
+                            ]   
+                        ]
+                    }
+                    ]
                 }]
             },
             {"name":"drop_on_death_component"},
@@ -81,8 +82,8 @@
             {"name":"heat_source_component"},
             {"name":"worm_head_component",
                 "set":[{
-                    "length":12,
-                    "length_decrease":2,
+                    "length":10,
+                    "length_decrease":3,
                     "body":"worm200_body",
                     "tail":"worm200_tail",
                     "gap_percent":0.8,
@@ -134,7 +135,7 @@
                 "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
-                "set":[{"hp":2000}]
+                "set":[{"hp":80}]
             },
             {"name":"drop_on_death_component"},
             {"name":"stop_on_death_component"},
