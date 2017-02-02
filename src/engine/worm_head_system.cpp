@@ -96,7 +96,7 @@ void WormHeadSystem::HandleLengthIncrease( Opt<Actor> actor, Opt<IPositionCompon
         {
             posC = mScene.GetActor( wormHeadC->GetBodyParts().back() )->Get<IPositionComponent>();
         }
-        auto tailPart( mActorFactory( wormHeadC->GetTailId() ) );
+        auto tailPart( mActorFactory( wormHeadC->GetSpawnCount()>1 ? wormHeadC->GetBodyId() : wormHeadC->GetTailId() ) );
         InitWormPart( *actor, *tailPart, posC );
         mScene.AddActor( tailPart.release() );
         wormHeadC->SetSpawnCount( wormHeadC->GetSpawnCount() - 1 );
@@ -157,7 +157,6 @@ void WormHeadSystem::SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadCompon
         }
         prevPosIt = posIt++;
     }
-    L1( "PrevPositions length: %d\n", wormHeadC->GetPrevPositions().size() );
     wormHeadC->GetPrevPositions().erase( posIt, wormHeadC->GetPrevPositions().end() );
 
 }

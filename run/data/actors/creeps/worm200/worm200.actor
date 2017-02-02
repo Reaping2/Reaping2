@@ -15,7 +15,7 @@
                 "set":[{"class":"creep", "radius":100}]
             },
             {"name":"health_component",
-                "set":[{"hp":120}]
+                "set":[{"hp":280}]
             },
             {"name":"scripted_controller_component",
                 "set":[{"states":[{
@@ -33,7 +33,7 @@
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":450.0} }   
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":550.0} }   
                             ],
                             [
                                 { "name":"select_target", "weight":1,
@@ -56,11 +56,11 @@
                         "acts":[
                             [
                                 { "name":"bite","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}}
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":20,"radius":50.0}}
                             ],
                             [
                                 { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":450.0} }   
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":550.0} }   
                             ],
                             [
                                 { "name":"select_target", "weight":1,
@@ -82,7 +82,7 @@
             {"name":"heat_source_component"},
             {"name":"worm_head_component",
                 "set":[{
-                    "length":10,
+                    "length":12,
                     "length_decrease":3,
                     "body":"worm200_body",
                     "tail":"worm200_tail",
@@ -116,7 +116,22 @@
                 "set":[{
                     "body":1
                     }]
-            }
+            },
+            {"name":"scripted_controller_component",
+                "set":[{"states":[{
+                    "identifier":"aggro",
+                        "start":1,
+                        "transitions":[],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":1,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":10,"radius":100.0,"center":1}}
+                            ]              
+                        ]
+                    }
+                    ]
+                }]
+            }            
         ]
     },
     {
@@ -144,7 +159,22 @@
                 "set":[{
                     "body":0
                     }]
-            }
+            },
+            {"name":"scripted_controller_component",
+                "set":[{"states":[{
+                    "identifier":"aggro",
+                        "start":1,
+                        "transitions":[],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":1,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":10,"radius":100.0,"center":1}}
+                            ]              
+                        ]
+                    }
+                    ]
+                }]
+            }                
         ]
     }
     

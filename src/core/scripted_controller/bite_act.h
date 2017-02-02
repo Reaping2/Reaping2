@@ -23,6 +23,7 @@ private:
     platform::FrequencyTimer mTimer;
     double mDamage = 10.0;
     double mRadius = 50.0;
+    bool mCenter = false;
 };
 
 template<class Archive>
@@ -31,6 +32,7 @@ void BiteAct::serialize( Archive& ar, const unsigned int version )
     ar& boost::serialization::base_object<IAct>( *this );
     ar& mDamage;
     ar& mRadius;
+    ar& mCenter;
 }
 
 
