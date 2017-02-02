@@ -9,7 +9,8 @@ namespace core {
 struct GamemodeSelectedEvent : public platform::Event
 {
     GameModes::Type mGameMode;
-    GamemodeSelectedEvent() {}
+    GamemodeSelectedEvent() 
+        : mGameMode(GameModes::Unknown) {}
 };
 
 } // namespace core

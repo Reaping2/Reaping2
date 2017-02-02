@@ -463,7 +463,6 @@ blue_grenade_explosion_projectile.png
 blue_grenade_normal_item
 blue_grenade_pickup.png
 blue_grenade_pickup_cover
-blue_grenade_pickup_cover.png
 blue_grenade_projectile
 blue_grenade_projectile.png
 blue_water100
@@ -766,7 +765,6 @@ flash
 flash_normal_item
 flash_pickup.png
 flash_pickup_cover
-flash_pickup_cover.png
 font
 fps
 freelance
