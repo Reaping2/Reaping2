@@ -20,7 +20,7 @@ void main(void)
     vec2 disp = vec2(sin(uFreqY*uv.y + uFreqX*uv.x + uSpeed*time) * uAmplitude);
     vec4 col = texture2D(texture,uv );
     float secColor = 1.0;
-    vec2 brightestPoint;
+    vec2 brightestPoint = uv;
     float brightestValue = -1.0;
     for( int i = -3; i <=3 && secColor > 0.01; ++i )
     {

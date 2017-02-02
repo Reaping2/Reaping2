@@ -15,7 +15,7 @@ const float uAmplitude = 0.00075;
 
 void main(void)
 {
-    vec2 uv = inTexCoord; // gl_FragCoord.xy / resolution.xy;
+    vec2 uv = inTexCoord;
     vec2 disp = vec2(sin(uFreqY*uv.y + uFreqX*uv.x + uSpeed*time) * uAmplitude);
     vec4 col = texture2D(texture,uv );
     float secColor = 1.0;
@@ -23,7 +23,7 @@ void main(void)
     {
         for( int j = -3; j <=3 && secColor > 0.1; ++j )
         {
-             secColor *= texture2D(secondaryTexture, (gl_FragCoord.xy + 1 * vec2(i,j)) / resolution.xy).r;// * col.a;
+             secColor *= texture2D(secondaryTexture, (gl_FragCoord.xy + 1 * vec2(i,j)) / resolution.xy).r;
         }
     }
     if( secColor <= 0.11 )
