@@ -134,7 +134,6 @@
 0xaaaaaa77
 0xaaaaaaaa
 0xaaaaaaff
-0xff0000ff
 0xffaa2255
 0xffaa22aa
 0xffaa22ff
@@ -959,7 +958,6 @@ gatling_up
 gatling_wind_loop
 gauss
 gauss_alt_charge
-gauss_alt_particle
 gauss_alt_particle2
 gauss_alt_particle3
 gauss_alt_shot
@@ -982,7 +980,6 @@ gauss_gun_projectile
 gauss_gun_projectile.png
 gauss_particle
 gauss_secondary
-gauss_shot
 generator
 glow
 grafics_test
@@ -1058,7 +1055,6 @@ ion_gun_alt_projectile
 ion_gun_alt_projectile.png
 ion_gun_alt_projectile_mask
 ion_gun_alt_projectile_mask.png
-ion_gun_explode_projectile
 ion_gun_explosion_projectile
 ion_gun_explosion_projectile_mask
 ion_gun_mask
@@ -1634,7 +1630,6 @@ plasma_particle
 plasma_particle2
 plasma_projectile
 plasma_secondary
-plasma_shot
 plasmagun
 plasmagunSecondary
 platform
@@ -1681,7 +1676,6 @@ projectile
 pulse_component
 purple_flowers50
 random
-random_controller_component
 read_me
 readme
 reaping
@@ -1703,8 +1697,6 @@ revive_pickup
 right
 right_entrance
 rocket
-rocket_alt_flame
-rocket_flame
 rocket_launcher
 rocket_launcher_alt_flame_particle
 rocket_launcher_alt_projectile
@@ -1723,10 +1715,7 @@ rocket_launcher_projectile.png
 rocket_launcher_smoke_particle
 rocket_launcher_smoke_particle.png
 rocket_launcher_target_explosion_projectile
-rocket_launcher_target_projectile
-rocket_pow_projectile
 rocket_smoke
-rocket_target_pow_projectile
 rogue
 rogue1x1
 rogue1x1nostart
@@ -2256,9 +2245,6 @@ spider1_move
 spider1_move.png
 spider1_rip
 spider1_rip.png
-spider1target
-spider2
-spider2target
 splider_move_blue
 splider_move_green
 splider_move_red
@@ -2329,7 +2315,6 @@ target
 target:
 target_desc
 target_holder_component
-target_player_controller_component
 team_component
 test_l
 test_room
