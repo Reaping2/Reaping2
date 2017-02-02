@@ -36,29 +36,9 @@ void WormHeadSystem::Update(double DeltaTime)
        {
            continue;
        }
-       if (wormHeadC->IsFirstBuild())
-       {
-           for (int i = 0; i < wormHeadC->GetSpawnCount()-1; ++i)
-           {
-               auto bodyPart(mActorFactory( wormHeadC->GetBodyId() ));
-               InitWormPart( *actor, *bodyPart, positionC );
-               mScene.AddActor( bodyPart.release() );
-           }
-           auto tailPart(mActorFactory( wormHeadC->GetTailId() ));
-           InitWormPart( *actor, *tailPart, positionC );
-           mScene.AddActor( tailPart.release() );
-
-           wormHeadC->SetFirstBuild( false );
-           wormHeadC->SetSpawnCount( 0 );
-           wormHeadC->SetLength( std::max(wormHeadC->GetLength() - wormHeadC->GetLengthDecrease(),0) );
-       }
-
+       HandleFirstBuild( actor, wormHeadC, positionC );
        HandleDeath( actor, wormHeadC, DeltaTime );
-
-       HandleLengthIncrease( actor, positionC, wormHeadC, DeltaTime );
-
-
-
+       HandleLengthIncrease( actor, wormHeadC, positionC, DeltaTime );
        AddPrevPositions( actor, positionC, wormHeadC );
        SetBodyPartPositions( actor, wormHeadC );
        SyncMove( actor, wormHeadC );
@@ -67,7 +47,27 @@ void WormHeadSystem::Update(double DeltaTime)
 }
 
 
-void WormHeadSystem::HandleLengthIncrease( Opt<Actor> actor, Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC, double DeltaTime )
+void WormHeadSystem::HandleFirstBuild( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, Opt<IPositionComponent> positionC )
+{
+    if (wormHeadC->IsFirstBuild())
+    {
+        for (int i = 0; i < wormHeadC->GetSpawnCount() - 1; ++i)
+        {
+            auto bodyPart( mActorFactory( wormHeadC->GetBodyId() ) );
+            InitWormPart( actor, bodyPart.get(), positionC );
+            mScene.AddActor( bodyPart.release() );
+        }
+        auto tailPart( mActorFactory( wormHeadC->GetTailId() ) );
+        InitWormPart( actor, tailPart.get(), positionC );
+        mScene.AddActor( tailPart.release() );
+
+        wormHeadC->SetFirstBuild( false );
+        wormHeadC->SetSpawnCount( 0 );
+        wormHeadC->SetLength( std::max( wormHeadC->GetLength() - wormHeadC->GetLengthDecrease(), 0 ) );
+    }
+}
+
+void WormHeadSystem::HandleLengthIncrease( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, Opt<IPositionComponent> positionC, double DeltaTime )
 {
     auto healthC( actor->Get<IHealthComponent>() );
     if (!healthC->IsAlive())
@@ -97,7 +97,7 @@ void WormHeadSystem::HandleLengthIncrease( Opt<Actor> actor, Opt<IPositionCompon
             posC = mScene.GetActor( wormHeadC->GetBodyParts().back() )->Get<IPositionComponent>();
         }
         auto tailPart( mActorFactory( wormHeadC->GetSpawnCount()>1 ? wormHeadC->GetBodyId() : wormHeadC->GetTailId() ) );
-        InitWormPart( *actor, *tailPart, posC );
+        InitWormPart( actor, tailPart.get(), posC );
         mScene.AddActor( tailPart.release() );
         wormHeadC->SetSpawnCount( wormHeadC->GetSpawnCount() - 1 );
         if (wormHeadC->GetSpawnCount() == 0)
@@ -202,9 +202,9 @@ void WormHeadSystem::AddPrevPositions( Opt<Actor> actor, Opt<IPositionComponent>
     }
 }
 
-void WormHeadSystem::InitWormPart( Actor& head, Actor& part, Opt<IPositionComponent> positionC )
+void WormHeadSystem::InitWormPart( Opt<Actor> head, Opt<Actor> part, Opt<IPositionComponent> positionC )
 {
-    auto partPositionC( part.Get<IPositionComponent>() );
+    auto partPositionC( part->Get<IPositionComponent>() );
     if (!partPositionC.IsValid())
     {
         return;
@@ -213,24 +213,24 @@ void WormHeadSystem::InitWormPart( Actor& head, Actor& part, Opt<IPositionCompon
     partPositionC->SetX( positionC->GetX() );
     partPositionC->SetY( positionC->GetY() );
     partPositionC->SetOrientation( positionC->GetOrientation() );
-    auto wormHeadC( head.Get<IWormHeadComponent>() );
+    auto wormHeadC( head->Get<IWormHeadComponent>() );
     auto& bodyParts = wormHeadC->GetBodyParts();
 
-    auto partBodyC( part.Get<IWormBodyComponent>() );
-    partBodyC->SetHeadGUID( head.GetGUID() );
-    partBodyC->SetFollowedGUID( bodyParts.empty()?head.GetGUID():bodyParts.back() );
+    auto partBodyC( part->Get<IWormBodyComponent>() );
+    partBodyC->SetHeadGUID( head->GetGUID() );
+    partBodyC->SetFollowedGUID( bodyParts.empty()?head->GetGUID():bodyParts.back() );
 
-    bodyParts.push_back( part.GetGUID() );
+    bodyParts.push_back( part->GetGUID() );
 }
 
 
-void WormHeadSystem::InitNewHead( Actor& newHead )
+void WormHeadSystem::InitNewHead( Opt<Actor> newHead )
 {
     static auto& mScene = Scene::Get();
 
-    auto newWormHeadC( newHead.Get<IWormHeadComponent>() );
+    auto newWormHeadC( newHead->Get<IWormHeadComponent>() );
 
-    auto newGUID = newHead.GetGUID();
+    auto newGUID = newHead->GetGUID();
     if (!newWormHeadC->GetBodyParts().empty())
     {
         auto front(mScene.GetActor(newWormHeadC->GetBodyParts().front()));
@@ -240,7 +240,7 @@ void WormHeadSystem::InitNewHead( Actor& newHead )
             wormBodyC->SetFollowedGUID( newGUID );
         }
         auto frontPositionC( front->Get<IPositionComponent>() );
-        auto newPositionC( newHead.Get<IPositionComponent>() );
+        auto newPositionC( newHead->Get<IPositionComponent>() );
         newPositionC->SetX( frontPositionC->GetX() );
         newPositionC->SetY( frontPositionC->GetY() );
     }
@@ -277,7 +277,7 @@ void WormHeadSystem::HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> worm
             auto newWormHead( mActorFactory( actor->GetId() ) );
             auto newWormHeadC( newWormHead->Get<IWormHeadComponent>() );
             newWormHeadC->CopyFrom( wormHeadC.Get() );
-            InitNewHead( *newWormHead );
+            InitNewHead( newWormHead.get() );
             newWormHeadC->SetWaitDistance( GetGapSize( newWormHead.get(), newWormHeadC ) );
             ErasePrevPositions( newWormHeadC, newWormHeadC->GetWaitDistance() );
             mScene.AddActor( newWormHead.release() );

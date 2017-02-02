@@ -71,7 +71,7 @@ void WormBodySystem::CreateNewHead( Opt<Actor> wormHead, Opt<IWormHeadComponent>
             newWormHeadC, 
             newWormHeadC->GetWaitDistance() * distance );
         newWormHeadC->GetBodyParts().erase( newWormHeadC->GetBodyParts().begin(), foundBodyIt );
-        WormHeadSystem::InitNewHead( *newWormHead );
+        WormHeadSystem::InitNewHead( newWormHead.get() );
         auto newHealthC( newWormHead->Get<IHealthComponent>() );
         newHealthC->SetAlive( false );
         auto collisionC = newWormHead->Get<ICollisionComponent>();

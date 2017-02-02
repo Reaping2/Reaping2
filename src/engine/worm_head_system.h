@@ -15,22 +15,21 @@ class WormHeadSystem : public System
 public:
     DEFINE_SYSTEM_BASE(WormHeadSystem)
     WormHeadSystem();
-    static void InitNewHead( Actor& newHead );
+    static void InitNewHead( Opt<Actor> newHead );
     static void ErasePrevPositions( Opt<IWormHeadComponent> wormHeadC, double eraseDistance );
     static double GetGapSize( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-
-
 private:
     Scene& mScene;
     ActorFactory& mActorFactory=ActorFactory::Get();
 
-    void InitWormPart( Actor& head, Actor& part, Opt<IPositionComponent> positionC );
+    void InitWormPart( Opt<Actor> head, Opt<Actor> part, Opt<IPositionComponent> positionC );
 
+    void HandleFirstBuild( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, Opt<IPositionComponent> positionC );
     void HandleDeath( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, double DeltaTime );
-    void HandleLengthIncrease( Opt<Actor> actor, Opt<IPositionComponent> positionC, Opt<IWormHeadComponent> wormHeadC, double DeltaTime );
+    void HandleLengthIncrease( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC, Opt<IPositionComponent> positionC, double DeltaTime );
 
     void SyncMove( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
     void SetBodyPartPositions( Opt<Actor> actor, Opt<IWormHeadComponent> wormHeadC );
