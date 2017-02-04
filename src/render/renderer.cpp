@@ -171,6 +171,7 @@ bool selectShadowCasters( IRenderableComponent const& renderableC, int32_t shado
 
 void RendererSystem::Update( double DeltaTime )
 {
+    using render::RenderTargetProps;
     perf::Timer_t method;
     method.Log( "start render" );
     static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
@@ -189,7 +190,8 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const worldEffects = rt.GetFreeId();
     static uint32_t const worldPostProcess = rt.GetFreeId();
 
-    rt.SetTargetTexture( world, mWorldProjector.GetViewport().Size(), 1 );
+    RenderTargetProps worldProps( mWorldProjector.GetViewport().Size(), {GL_RGBA, GL_RGB } );
+    rt.SetTargetTexture( world, worldProps);
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
     mPerfTimer.Log( "pre prepare" );
@@ -210,13 +212,13 @@ void RendererSystem::Update( double DeltaTime )
         for( auto shadowLevel : shadowLevels )
         {
             // !---- rt - shadows outline
-            rt.SetTargetTexture( shadowOutline, mWorldProjector.GetViewport().Size() * shadowmult );
+            rt.SetTargetTexture( shadowOutline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
             SetupRenderer( mWorldProjector, shadowmult );
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
             // !---- shadows, actually translated, black
             SetupIdentity();
 
-            rt.SetTargetTexture( shadows, mWorldProjector.GetViewport().Size() * shadowmult );
+            rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), shid, mWorldProjector.GetViewport().Size() * shadowmult );
 
             // !---- receivers
@@ -238,25 +240,26 @@ void RendererSystem::Update( double DeltaTime )
 
     // render the world to the worldBumped texture using the bump mapping shader
     SetupRenderer( mWorldProjector );
-    rt.SetTargetTexture( worldBumped, mWorldProjector.GetViewport().Size() );
+    rt.SetTargetTexture( worldBumped, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
     SetupIdentity();
     glBlendFunc( GL_ONE, GL_ONE );
     static int32_t bumpid = AutoId( "bump_map" );
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
             rt.GetTextureId( world, 1) );
 
-    rt.SetTargetTexture( worldEffects, mWorldProjector.GetViewport().Size() );
+    rt.SetTargetTexture( worldEffects, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
 
     static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
     if( enablePostprocessing )
     {
+        RenderTargetProps worldPPProps( mWorldProjector.GetViewport().Size(), { GL_RED } );
         // render the per-actor effects
         glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
         for( auto id : postProcessorIds )
         {
             // TODO: downscale
-            rt.SetTargetTexture( worldPostProcess, mWorldProjector.GetViewport().Size() );
+            rt.SetTargetTexture( worldPostProcess, worldPPProps );
             SetupRenderer( mWorldProjector );
             mActorRenderer.Draw( id );
 

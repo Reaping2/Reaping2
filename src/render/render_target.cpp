@@ -4,6 +4,42 @@
 
 namespace render {
 
+namespace {
+GLenum internalFormatToType( GLenum fmt )
+{
+    static std::map<GLenum,GLenum> const typemap = 
+    {
+        { GL_RGBA, GL_UNSIGNED_BYTE },
+        { GL_RED, GL_UNSIGNED_BYTE },
+        { GL_RGBA4, GL_UNSIGNED_SHORT_4_4_4_4 },
+        { GL_R3_G3_B2, GL_UNSIGNED_BYTE_3_3_2 },
+    };
+    auto i = typemap.find( fmt );
+    return i == typemap.end() ? GL_UNSIGNED_BYTE : i->second;
+}
+GLenum internalFormatToFormat( GLenum fmt )
+{
+    static std::map<GLenum,GLenum> const typemap = 
+    {
+        { GL_RGBA, GL_RGBA },
+        { GL_RGB, GL_RGB },
+        { GL_RED, GL_RED },
+        { GL_RGBA4, GL_RGBA },
+        { GL_RGB4, GL_RGB },
+        { GL_R3_G3_B2, GL_RGB },
+    };
+    auto i = typemap.find( fmt );
+    return i == typemap.end() ? GL_RGBA : i->second;
+}
+}
+
+RenderTargetProps::RenderTargetProps( glm::vec2 const& s,
+        std::vector<GLenum> const& types )
+    : Size( s )
+    , AttachmentTypes( types )
+{
+}
+
 RenderTarget::RenderTarget()
     : mCurrentId( ScreenId )
 {
@@ -23,31 +59,35 @@ uint32_t RenderTarget::GetCurrentTarget() const
     return mCurrentId;
 }
 
-void RenderTarget::SetTargetTexture( uint32_t id, glm::vec2 const& size, size_t numExtraAttachments )
+void RenderTarget::SetTargetTexture( uint32_t id, RenderTargetProps const& props )
 {
     TargetTexture& tgt = mTargets[ id ];
-    if( tgt.TexIds.size() != 1 + numExtraAttachments )
+    bool recreate = tgt.Size != props.Size;
+    if( tgt.TexIds.size() != props.AttachmentTypes.size() )
     {
+        recreate = true;
         glBindTexture(GL_TEXTURE_2D, 0);
-        tgt.TexIds.resize( 1 + numExtraAttachments );
-        tgt.Attachments.resize( 1 + numExtraAttachments );
+        tgt.TexIds.resize( props.AttachmentTypes.size() );
+        tgt.Attachments.resize( props.AttachmentTypes.size() );
+        tgt.AttachmentTypes = props.AttachmentTypes;
 
         std::iota( tgt.Attachments.begin(), tgt.Attachments.end(), GL_COLOR_ATTACHMENT0 );
         glGenFramebuffers( 1, &tgt.FramebufferId );
         glGenTextures( tgt.TexIds.size(), &tgt.TexIds[0] );
         glGenRenderbuffers(1, &tgt.DepthBufferId);
     }
-    if( tgt.Size != size )
+    if( recreate )
     {
-        tgt.Size = size;
+        tgt.Size = props.Size;
 
         glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
         auto tit = tgt.TexIds.begin(), tet = tgt.TexIds.end();
         auto ait = tgt.Attachments.begin(), aet = tgt.Attachments.end();
-        for( ; tit != tet && ait != aet; ++tit, ++ait )
+        auto atit = tgt.AttachmentTypes.begin(), atet = tgt.AttachmentTypes.end();
+        for( ; tit != tet && ait != aet && atit != atet; ++tit, ++ait, ++atit )
         {
             glBindTexture(GL_TEXTURE_2D, *tit);
-            glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, tgt.Size.x, tgt.Size.y, 0,GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, *atit, tgt.Size.x, tgt.Size.y, 0, internalFormatToFormat( *atit ), internalFormatToType( *atit ), NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glFramebufferTexture2D(GL_FRAMEBUFFER, *ait, GL_TEXTURE_2D, *tit, 0);

@@ -4,6 +4,13 @@
 #include "platform/i_platform.h"
 
 namespace render {
+struct RenderTargetProps
+{
+    glm::vec2 Size;
+    std::vector<GLenum> AttachmentTypes = { GL_RGBA };
+    RenderTargetProps( glm::vec2 const& size = glm::vec2(),
+            std::vector<GLenum> const& types = { GL_RGBA} );
+};
 class RenderTarget : public platform::Singleton<RenderTarget>
 {
     friend class platform::Singleton<RenderTarget>;
@@ -12,6 +19,7 @@ class RenderTarget : public platform::Singleton<RenderTarget>
     {
         // parallel vectors
         std::vector<GLenum> Attachments;
+        std::vector<GLenum> AttachmentTypes;
         std::vector<GLuint> TexIds;
         GLuint FramebufferId;
         GLuint DepthBufferId;
@@ -24,7 +32,7 @@ public:
     static uint32_t const ScreenId = uint32_t( -1 );
     uint32_t GetFreeId() const;
     glm::vec2 GetMaxTextureSize() const;
-    void SetTargetTexture( uint32_t id, glm::vec2 const& size, size_t numExtraAttachments = 0 );
+    void SetTargetTexture( uint32_t id, RenderTargetProps const& props );
     void SelectTargetTexture( uint32_t id ) const;
     void SetTargetScreen() const;
     uint32_t GetCurrentTarget() const;
