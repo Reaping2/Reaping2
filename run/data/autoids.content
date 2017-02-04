@@ -1,4 +1,3 @@
-
 #blue_idx
 #blueidx
 #blueidx.add
@@ -461,8 +460,8 @@ blue_grenade
 blue_grenade_explosion_projectile
 blue_grenade_explosion_projectile.png
 blue_grenade_normal_item
+blue_grenade_pickup
 blue_grenade_pickup.png
-blue_grenade_pickup_cover
 blue_grenade_projectile
 blue_grenade_projectile.png
 blue_water100
@@ -604,7 +603,6 @@ combiner
 concrete
 corpse
 corpses
-cover
 crack50
 crack50_1
 cracks
@@ -763,8 +761,8 @@ flag_receiver_component
 flag_spawn_target
 flash
 flash_normal_item
+flash_pickup
 flash_pickup.png
-flash_pickup_cover
 font
 fps
 freelance
@@ -858,10 +856,6 @@ grenade_explosion_projectile.png
 grenade_normal_item
 grenade_pickup
 grenade_pickup.png
-grenade_pickup_background
-grenade_pickup_background.png
-grenade_pickup_cover
-grenade_pickup_cover.png
 grenade_projectile
 grenade_projectile.png
 grenade_projectiole
@@ -899,7 +893,6 @@ health_bar
 health_component
 heart
 heat_source_component
-hide
 horizontal
 hud
 idle
@@ -979,7 +972,6 @@ mapitem
 menu item
 monkey
 move
-move_away
 move_component
 move_forward
 move_speed
@@ -1311,13 +1303,7 @@ path_controller_component
 pickup
 pickup_background
 pickup_background.png
-pickup_buff_background
-pickup_buff_background.png
 pickup_collision_component
-pickup_normal_background
-pickup_normal_background.png
-pickup_weapon_background
-pickup_weapon_background.png
 ping
 pistol
 pistol_alt_projectile
@@ -1960,7 +1946,6 @@ tree_wall100_top_outer_border_1
 tree_wall100_top_outer_border_1.png
 tree_wall100_top_outer_border_2
 tree_wall100_top_outer_border_2.png
-turn_away
 turn_to_target
 ui
 ui.load
@@ -2005,15 +1990,5 @@ wood_block50_right.png
 wooden_chest_closed_50
 wooden_chest_open_50
 world_solid_objects
-worm200
-worm200_body
-worm200_body.png
-worm200_head
-worm200_head.png
-worm200_head_
-worm200_tail
-worm200_tail.png
-worm_body_component
-worm_head_component
 xpider_move
 xpider_rip

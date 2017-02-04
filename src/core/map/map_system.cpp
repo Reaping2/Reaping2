@@ -61,8 +61,6 @@ void MapSystem::OnMapLoad( core::MapLoadEvent const& Evt )
     for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
     {
         boost::filesystem::path const& Path = *i;
-        PathVect_t LevelPaths;
-        FSys.GetFileNames( LevelPaths, Path );
         if( Path.extension().string() != ".json" )
         {
             continue;

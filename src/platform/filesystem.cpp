@@ -1,6 +1,6 @@
 #include "filesystem.h"
 #include "ifile.h"
-#include "package.h"
+#include "ipackage.h"
 
 #include <boost/ptr_container/ptr_map.hpp>
 #include "rstdint.h"
@@ -12,18 +12,18 @@ namespace detail {
 
 class FilesysImpl
 {
-    typedef boost::ptr_map<int32_t, Package> PackageMap_t;
+    typedef boost::ptr_map<int32_t, IPackage> PackageMap_t;
     PackageMap_t mPackages;
     int32_t mNextPrio;  //todo
     boost::mutex mOpenMutex;
 public:
     FilesysImpl();
-    void Mount( std::auto_ptr<Package> Pack );
+    void Mount( std::auto_ptr<IPackage> Pack );
     std::auto_ptr<File> Open( const boost::filesystem::path& Path );
     void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
 };
 
-void FilesysImpl::Mount( std::auto_ptr<Package> Pack )
+void FilesysImpl::Mount( std::auto_ptr<IPackage> Pack )
 {
     boost::mutex::scoped_lock Lock( mOpenMutex );
     //todo: priority?
@@ -43,7 +43,7 @@ std::auto_ptr<File> FilesysImpl::Open( const boost::filesystem::path& Path )
     std::auto_ptr<File> Ret;
     for( PackageMap_t::iterator i = mPackages.begin(), e = mPackages.end(); i != e && !Ret.get(); ++i )
     {
-        Ret = i->second->Open( Path );
+        Ret = std::auto_ptr<File>( i->second->Open( Path ).release() );
     }
     return Ret;
 }
@@ -68,7 +68,7 @@ Filesys::~Filesys()
 {
 }
 
-void Filesys::Mount( std::auto_ptr<Package> Pack )
+void Filesys::Mount( std::auto_ptr<IPackage> Pack )
 {
     mImpl->Mount( Pack );
 }

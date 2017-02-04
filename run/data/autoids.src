@@ -14,6 +14,7 @@
 -c
 -d
 -h
+-m
 -n
 -r
 -s
@@ -98,7 +99,6 @@
 .vs
 .windows
 /
-/"+foldername+"/map_elements.json
 /description.json
 /reaping2-\%\%\%\%-\%\%\%\%-\%\%\%\%-\%\%\%\%.txt
 /room.json
@@ -297,8 +297,6 @@ IStaticActorComponent
 IStopOnDeathComponent
 ITargetHolderComponent
 ITeamComponent
-IWormBodyComponent
-IWormHeadComponent
 InputState&-inputState
 InputSystem
 Interpolate
@@ -478,8 +476,6 @@ WaitingStartSystem
 WallCollisionSubSystem
 WeaponItemSubSystem
 WindowSystem
-WormBodySystem
-WormHeadSystem
 YES
 [%f]
 \n
@@ -487,7 +483,6 @@ YES
 \t\ta
 \t\tb
 _
-_background
 _no_name_
 _outer
 a
@@ -513,10 +508,6 @@ action
 action_renderer
 action_renderer.h
 action_renderer_factory.h
-action_renderer_loader
-action_renderer_loader.h
-action_renderer_loader_repo
-action_renderer_loader_repo.h
 activity.camera_multiplier
 activity.default_active_size
 activity.gridsize
@@ -608,7 +599,6 @@ blue_grenade_normal_item.h
 blue_grenade_normal_item_sub_system
 blue_grenade_projectile
 bluenames
-body
 body_color
 bool-active
 bool-applied
@@ -915,8 +905,6 @@ core/i_static_actor_component.h
 core/i_stop_on_death_component.h
 core/i_target_holder_component.h
 core/i_team_component.h
-core/i_worm_body_component.h
-core/i_worm_head_component.h
 core/inventory_component.h
 core/ion_gun.h
 core/item.h
@@ -1038,14 +1026,11 @@ core/trigger.h
 core/wall_collision_component.h
 core/water_collision_component.h
 core/weapon.h
-core/worm_body_component.h
-core/worm_head_component.h
 corpse
 corpses
 corpses.h
 count
 counter.h
-cover
 create_actor
 create_actor_message.h
 create_actor_message_handler_sub_system
@@ -1121,8 +1106,8 @@ damage_taken_message_handler_sub_system
 damage_taken_message_sender_system
 data
 data.pkg
-data/
 data/Ping-da-ding-ding-ding.ogg
+data/map/
 data/rooms/
 data/rooms/test_save/test_save.json
 data_checksum
@@ -1150,8 +1135,6 @@ default_message_handler_sub_system
 default_recognizer
 default_sub_system
 default_system
-degree
-degree_variance
 delay
 delay_variance
 deploy_time
@@ -1405,6 +1388,7 @@ flash_message_sender_system
 flash_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
+folder_package.h
 font.h
 fontsize
 for
@@ -1428,7 +1412,6 @@ gamemode_selected_message
 gamemode_selected_message.h
 gamemode_selected_message_handler_sub_system
 gamemode_selected_message_sender_system
-gap_percent
 gatling_down
 gatling_gun
 gatling_gun.h
@@ -1495,7 +1478,6 @@ guns
 guntarget
 h
 halign
-handled
 has_been_hit
 hat_action_renderer.h
 hdouble_room1
@@ -1540,7 +1522,6 @@ heat_source_component
 heat_source_component.h
 height
 help
-hide
 highlight_color
 hit_closest
 hit_count_to_kill
@@ -1647,8 +1628,6 @@ i_team_component
 i_team_component.h
 i_ui.h
 i_visual_box_multiplier_component.h
-i_worm_body_component.h
-i_worm_head_component.h
 id
 id_storage.h
 identifier
@@ -1696,6 +1675,7 @@ ion_gun_alt_projectile
 ion_gun_explode_projectile
 ion_gun_projectile
 ion_gun_weapon_sub_system
+ipackage.h
 is_hit
 is_hit_condition.h
 is_not_hit
@@ -1717,7 +1697,7 @@ item_dropped_event.h
 item_loader
 item_loader.h
 item_loader_factory
-item_loader_repo.h
+item_loader_factory.h
 item_properties_changed_event
 item_type
 item_type.h
@@ -1774,8 +1754,6 @@ leaderboard_system.h
 leave
 left
 leg_move
-length
-length_decrease
 less
 level
 level_end_component
@@ -1852,7 +1830,6 @@ map/editor_grid_system.h
 map/editor_soldier_spawn_system.h
 map/editor_system.h
 map/editor_target_system.h
-map/level_generator/level_generated_event.h
 map/level_generator/room_desc.h
 map/map_repo.h
 map/room_editor_system.h
@@ -2077,14 +2054,12 @@ path_system.h
 pause
 peace_distance
 pending
-percent
 perf_timer.h
 performance.frame_rate
 performance.limit_frames
 performance.sleep
 phases
 pickup
-pickup_
 pickup_background
 pickup_collision_component
 pickup_collision_sub_system
@@ -2118,6 +2093,7 @@ platform/event.h
 platform/export.h
 platform/factory.h
 platform/filesystem.h
+platform/folder_package.h
 platform/frequency_timer.h
 platform/game_clock.h
 platform/glm_fix.h
@@ -2195,7 +2171,6 @@ r2uploader.exe
 radius
 random
 random.h
-random_condition.h
 random_controller_component
 random_controller_sub_system
 random_sprites
@@ -2236,7 +2211,6 @@ remove_on_hit
 remove_when_used
 removed_actors_system
 removed_actors_system.h
-render
 render/action_renderer.h
 render/action_renderer_factory.h
 render/border_action_renderer.h
@@ -2508,7 +2482,6 @@ spawn_actor_map_element_system
 spawn_actor_map_element_system.h
 spawn_at_level_generated
 spawn_at_start
-spawn_delay
 spawn_editor_system
 spawn_editor_system.h
 spawn_property.h
@@ -2575,7 +2548,6 @@ sync_item_message_handler_sub_system
 sync_item_message_sender_system
 system
 system_factory.h
-tail
 target
 target_factory
 target_factory.h
@@ -2642,8 +2614,6 @@ transition.h
 transitions
 trigger.h
 true":"false
-turn_away
-turn_away_act.h
 turn_to_target
 turn_to_target_act.h
 type
@@ -2709,14 +2679,6 @@ windup_time
 wnd
 world_renderer.h
 world_solid_objects
-worm_body_component
-worm_body_component.h
-worm_body_system
-worm_body_system.h
-worm_head_component
-worm_head_component.h
-worm_head_system
-worm_head_system.h
 x
 x.x.x.x
 y
