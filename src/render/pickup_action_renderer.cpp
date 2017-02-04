@@ -6,9 +6,8 @@ namespace render {
 
 
 PickupActionRenderer::PickupActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
+    : ActionRenderer( Id, AutoId( "idle" ) )
 {
-    mActionId = AutoId( "idle" );
     mCoverId = AutoId( "cover" );
     mBackgroundId = AutoId( "background" );
 }

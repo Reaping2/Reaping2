@@ -6,22 +6,9 @@
 namespace render {
 
 CellActionRenderer::CellActionRenderer(int32_t Id)
-    : ActionRenderer(Id)
+    : ActionRenderer(Id, AutoId("idle"))
 {
-    mCellId=AutoId("idle");
 }
-
-
-void CellActionRenderer::Init(Actor const& actor)
-{
-    SpriteCollection const& Sprites=mRenderableRepo(actor.GetId());
-    Sprite const& Spr=Sprites(mCellId);
-    if( Spr.IsValid() )
-    {
-        mSecsToEnd=Spr.GetSecsToEnd();
-    }
-}
-
 
 void CellActionRenderer::FillRenderableSprites(const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites)
 {
@@ -31,15 +18,14 @@ void CellActionRenderer::FillRenderableSprites(const Actor& actor, IRenderableCo
     {
         return;
     }
-    Sprite const& Spr = Sprites( mCellId );
-    if (Spr.IsValid())
+    if (mSpr != nullptr)
     {
-        SpritePhase const& Phase = Spr( (int32_t)GetState() );
+        SpritePhase const& Phase = (*mSpr)( (int32_t)GetState() );
 
         glm::vec4 col = CellC->GetRoomDesc()->IsFilled(CellC->GetX(),CellC->GetY()) 
             ? glm::vec4( 1, 1, 0, 1 ) : glm::vec4( 1, 1, 1, 1 );
         renderableSprites.push_back(
-            RenderableSprite( &actor, &renderableC, mCellId, &Spr, &Phase, col ) );
+            RenderableSprite( &actor, &renderableC, mActionId, mSpr, &Phase, col ) );
 
     }
     static int32_t entranceId = AutoId( "entrance" );

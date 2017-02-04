@@ -1,0 +1,128 @@
+[
+    {
+        "texture_path":":/textures/water_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_top_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_top_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_right_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_right_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_bottom_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_bottom_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_left_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_left_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_topright_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_topright_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_bottomright_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_bottomright_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_bottomleft_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_bottomleft_outer_mask"
+        }]
+    },
+    {
+        "texture_path":":/textures/water_topleft_outer_border_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_topleft_outer_mask"
+        }]
+    }
+]

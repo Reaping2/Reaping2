@@ -14,6 +14,7 @@ RenderableComponent::RenderableComponent()
     , mColor( glm::vec4(1.0) )
     , mRandomSprites( )
     , mSpriteIndex( -1 )
+    , mShaderId( -1 )
 {
 }
 
@@ -97,6 +98,26 @@ int32_t RenderableComponent::GetSpriteIndex() const
     return mSpriteIndex;
 }
 
+void RenderableComponent::SetShaderId( int32_t id )
+{
+    mShaderId = id;
+}
+
+int32_t RenderableComponent::GetShaderId() const
+{
+    return mShaderId;
+}
+
+void RenderableComponent::SetPostProcessIds( std::vector<int32_t> const& ids )
+{
+    mPostprocessorIds = ids;
+}
+
+std::vector<int32_t>const& RenderableComponent::GetPostProcessIds() const
+{
+    return mPostprocessorIds;
+}
+
 RenderableComponentModifier::RenderableComponentModifier( int32_t Lay, int32_t ZOrder, int32_t CastShadow, int32_t ReceiveBlood, int32_t ReceiveShadow )
     : mLayerPriority( Lay )
     , mZOrder( ZOrder )
@@ -133,6 +154,10 @@ void RenderableComponentLoader::BindValues()
     {
         Bind<int32_t>( func_int32_t(&RenderableComponent::SetLayerPriority), mRenderableLayer( istr ) );
     }
+    if( Json::GetStr( ( *mSetters )["shader_id"], istr ) )
+    {
+        Bind<int32_t>( &RenderableComponent::SetShaderId, AutoId( istr ) );
+    }
     Bind( "cast_shadow", func_int32_t( &RenderableComponent::SetCastShadow ) );
     Bind( "receive_blood", func_int32_t( &RenderableComponent::SetReceiveBlood ) );
     int32_t iv;
@@ -152,6 +177,20 @@ void RenderableComponentLoader::BindValues()
             randomSprites.push_back( chance.asInt() );
         }
         Bind<IRenderableComponent::RandomSprites_t>( &RenderableComponent::SetRandomSprites, randomSprites );
+    }
+    auto const& postprocessors = (*mSetters)["postprocessors"];
+    if (postprocessors.isArray())
+    {
+        std::vector<int32_t> ids;
+        for( auto const& proc : postprocessors )
+        {
+            std::string procname;
+            if( Json::GetStr( proc, procname ) )
+            {
+                ids.push_back( AutoId( procname ) );
+            }
+        }
+        Bind<std::vector<int32_t> >( &RenderableComponent::SetPostProcessIds, ids );
     }
 }
 

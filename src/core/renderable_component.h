@@ -42,6 +42,10 @@ public:
     virtual RandomSprites_t const& GetRandomSprites() const;
     virtual void SetSpriteIndex( int32_t spriteIndex );
     virtual int32_t GetSpriteIndex() const;
+    virtual void SetShaderId( int32_t id );
+    virtual int32_t GetShaderId()const;
+    virtual void SetPostProcessIds( std::vector<int32_t> const& ids );
+    virtual std::vector<int32_t>const& GetPostProcessIds() const;
 protected:
     RenderableComponent();
     friend class ComponentFactory;
@@ -53,6 +57,8 @@ protected:
     glm::vec4 mColor;
     RandomSprites_t mRandomSprites;
     int32_t mSpriteIndex;
+    int32_t mShaderId;
+    std::vector<int32_t> mPostprocessorIds;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -72,6 +78,8 @@ void RenderableComponent::serialize( Archive& ar, const unsigned int version )
     ar& mColor;
     ar& mRandomSprites;
     ar& mSpriteIndex;
+    ar& mShaderId;
+    ar& mPostprocessorIds;
 }
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>

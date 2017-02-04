@@ -20,8 +20,10 @@ class ActorRenderer
 public:
     typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
     typedef boost::function<bool( IRenderableComponent const& )> RenderFilter;
+    typedef std::function<glm::vec4( IRenderableComponent const& )> ColorFilter;
 private:
     void Init();
+    void DrawOnePart( render::CountByTexId const& Part ) const;
     VaoBase mVAO;
     RecognizerRepo& mRecognizerRepo;
     ActionRendererFactory& mActionRendererFactory;
@@ -49,10 +51,15 @@ private:
     double mX;
     double mY;
     size_t mTexIndex;
+    size_t mSecondaryTexIndex;
     size_t mPosIndex;
     size_t mHeadingIndex;
     size_t mSizeIndex;
     size_t mColorIndex;
+    size_t mPostprocessColorIndex;
+    size_t mMaskTexCoordIndex;
+    size_t mNormalTexCoordIndex;
+    std::map<int32_t,std::vector<glm::vec4> > mPostprocessColors;
     render::Counts_t mCounts;
     RenderableSprites_t mRenderableSprites;
 public:
@@ -60,7 +67,7 @@ public:
     ~ActorRenderer();
     void Prepare( Scene const& scene, Camera const& camera, double deltaTime );
     void Draw( RenderFilter filter );
-
+    void Draw( int32_t postprocess );
 };
 
 #endif//INCLUDED_RENDER_ACTOR_RENDERER_H

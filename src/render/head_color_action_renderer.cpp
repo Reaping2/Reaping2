@@ -5,37 +5,19 @@
 namespace render {
 
 HeadColorActionRenderer::HeadColorActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
+    : ActionRenderer( Id, AutoId( "head_color" ) )
 {
-    mHeadColorId = AutoId( "head_color" );
 }
 
-
-void HeadColorActionRenderer::Init( Actor const& actor )
+glm::vec4 HeadColorActionRenderer::GetRenderableColor( Actor const& actor ) const
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mHeadColorId );
-    if( Spr.IsValid() )
-    {
-        mSecsToEnd = Spr.GetSecsToEnd();
-    }
+    Opt<PlayerControllerComponent> playerCC = actor.Get<IControllerComponent>();
+    glm::vec4 col = (playerCC.IsValid() ? ColorRepo::Get()(playerCC->mControllerId) : glm::vec4( 1, 1, 1, 1 ))*GetColor( actor );
+    col.a = GetCloakColor( actor ).a;
+    col = col * GetColor( actor );
+    return col;
 }
 
-
-void HeadColorActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
-{
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mHeadColorId );
-    if( Spr.IsValid() )
-    {
-        SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        Opt<PlayerControllerComponent> playerCC = actor.Get<IControllerComponent>();
-        glm::vec4 col = ColorRepo::Get()( playerCC->mControllerId )*GetColor( actor );
-        col.a = GetCloakColor( actor ).a;
-        renderableSprites.push_back(
-            RenderableSprite( &actor, &renderableC, mHeadColorId, &Spr, &Phase, col ) );
-    }
-}
 
 } // namespace render
 

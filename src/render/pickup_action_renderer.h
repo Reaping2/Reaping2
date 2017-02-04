@@ -10,7 +10,6 @@ namespace render {
 
 class PickupActionRenderer: public ActionRenderer
 {
-    int32_t mActionId;
     int32_t mCoverId;
     int32_t mBackgroundId;
     int32_t mPickupBackgroundId = -1;

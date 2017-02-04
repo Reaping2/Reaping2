@@ -5,40 +5,29 @@
 namespace render {
 
 CtfHeadColorActionRenderer::CtfHeadColorActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
+    : ActionRenderer( Id, AutoId( "ctf_head_color" ) )
 {
-    mCtfHeadColorId = AutoId( "ctf_head_color" );
 }
 
-
-void CtfHeadColorActionRenderer::Init( Actor const& actor )
+glm::vec4 CtfHeadColorActionRenderer::GetRenderableColor( Actor const& actor ) const
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mCtfHeadColorId );
-    if( Spr.IsValid() )
+    Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+    if ( !teamC.IsValid() )
     {
-        mSecsToEnd = Spr.GetSecsToEnd();
+        return glm::vec4( 1,0,1,1 );
     }
+    static auto& mColorRepo( ColorRepo::Get() );
+    return mColorRepo( teamC->GetTeam() )*GetColor( actor )*GetCloakColor( actor );
 }
-
 
 void CtfHeadColorActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mCtfHeadColorId );
-    if( Spr.IsValid() )
+    Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
+    if ( !teamC.IsValid() )
     {
-        Opt<ITeamComponent> teamC( actor.Get<ITeamComponent>() );
-        if ( teamC.IsValid() )
-        {
-            SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-            glm::vec4 col = ColorRepo::Get()( teamC->GetTeam() );
-            col.a = GetCloakColor( actor ).a;
-            col = col * GetColor( actor );
-            renderableSprites.push_back(
-                RenderableSprite( &actor, &renderableC, mCtfHeadColorId, &Spr, &Phase, col ) );
-        }
+        return;
     }
+    ActionRenderer::FillRenderableSprites( actor, renderableC, renderableSprites );
 }
 
 } // namespace render

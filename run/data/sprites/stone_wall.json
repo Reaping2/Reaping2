@@ -1,0 +1,143 @@
+[
+    {
+        "texture_path":":/textures/wall_basic_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall",
+            "joint_sprite_collection":"stone_wall_normal"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_basic_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_normal"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_top_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_top"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_right_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_right"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_bottom_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_bottom"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_left_border_2.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_left"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_topright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_topright"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_bottomright_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_bottomright"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_bottomleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_bottomleft"
+        }]
+    },
+    {
+        "texture_path":":/textures/wall_topleft_border.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 721,
+                "h" : 721,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.02
+            }], "name" : "stone_wall_topleft"
+        }]
+    }
+]

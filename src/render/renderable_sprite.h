@@ -17,7 +17,10 @@ struct RenderableSprite
     ICollisionComponent const* CollisionC;
     int32_t ActId;
     SpritePhase const* Spr;
+    SpritePhase const* MaskSpr = nullptr;
+    SpritePhase const* NormalSpr = nullptr;
     Sprite const* Anim;
+    std::vector<SpritePhase const*> AdditionalSprs;
     glm::vec4 Color;
     glm::vec2 RelativePosition; //relative position of the sprite to actor
     //added to the actual orientation

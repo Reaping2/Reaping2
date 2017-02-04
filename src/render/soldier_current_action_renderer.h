@@ -13,14 +13,13 @@ namespace ctf {
 
 class SoldierCurrentActionRenderer : public ActionRenderer
 {
-    int32_t mCurrentId;
     ColorRepo& mColorRepo;
     glm::vec4 mColor;
 public:
     SoldierCurrentActionRenderer( int32_t Id );
-    virtual void Init( const Actor& actor );
     virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
-private:
+protected:
+    virtual glm::vec4 GetRenderableColor( Actor const& actor ) const;
 };
 
 } // namespace ctf

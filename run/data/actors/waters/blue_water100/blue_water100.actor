@@ -6,7 +6,7 @@
             {"name":"static_actor_component"},
             {"name":"position_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"corpses", "receive_shadow":1}]
+                "set":[{"layer":"corpses", "receive_shadow":1,"postprocessors":["water_postprocess"]}]
             },
             {"name":"water_collision_component",
                 "set":[{"class":"water", "radius":100, "clip_scene":0}]

@@ -37,9 +37,8 @@ ColorRepo::ColorRepo()
 }
 
 HatActionRenderer::HatActionRenderer( int32_t Id )
-    : ActionRenderer( Id )
+    : ActionRenderer( Id, AutoId("body_color") )
 {
-    mHatId = AutoId( "body_color" );
 }
 
 void HatActionRenderer::Init( const Actor& actor )
@@ -49,30 +48,16 @@ void HatActionRenderer::Init( const Actor& actor )
     {
         return;
     }
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mHatId );
-    if( Spr.IsValid() )
-    {
-        mSecsToEnd = Spr.GetSecsToEnd();
-    }
+    ActionRenderer::Init( actor );
 }
 
-void HatActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
+glm::vec4 HatActionRenderer::GetRenderableColor( Actor const& actor ) const
 {
-    SpriteCollection const& Sprites = mRenderableRepo( actor.GetId() );
-    Sprite const& Spr = Sprites( mHatId );
-    if( Spr.IsValid() )
-    {
-        SpritePhase const& Phase = Spr( ( int32_t )GetState() );
-        Opt<PlayerControllerComponent> playerCC = actor.Get<IControllerComponent>();
-        glm::vec4 col = (playerCC.IsValid() ? ColorRepo::Get()(playerCC->mControllerId) : glm::vec4( 1, 1, 1, 1 ))*GetColor( actor );
-        col.a = GetCloakColor( actor ).a;
-        col = col * GetColor( actor );
-        renderableSprites.push_back(
-            RenderableSprite( &actor, &renderableC, mHatId, &Spr, &Phase, col ) );
-    }
+    Opt<PlayerControllerComponent> playerCC = actor.Get<IControllerComponent>();
+    glm::vec4 col = (playerCC.IsValid() ? ColorRepo::Get()(playerCC->mControllerId) : glm::vec4( 1, 1, 1, 1 ))*GetColor( actor );
+    col.a = GetCloakColor( actor ).a;
+    col = col * GetColor( actor );
+    return col;
 }
-
-
 
 } // namespace render

@@ -7,9 +7,6 @@
 #include "sprite.h"
 #include "particle_template_repo.h"
 #include "particle_layer_repo.h"
-#include <boost/lambda/bind.hpp>
-#include <boost/lambda/lambda.hpp>
-#include <boost/ref.hpp>
 #include <boost/algorithm/clamp.hpp>
 
 namespace render {
@@ -96,7 +93,7 @@ typedef std::vector<GLfloat> Floats_t;
 bool getNextTextId( Particles::const_iterator& i, Particles::const_iterator e,
                     Vec2s_t& Positions, Vec4s_t& Colors, Vec4s_t& TexCoords,
                     Floats_t& Headings, Floats_t& Radii, Floats_t& Lifetimes,
-                    GLuint& TexId )
+                    render::RenderBatch& batch )
 {
     // skip dead particles
     while( i != e && i->Lifetime < 0.0f )
@@ -116,7 +113,7 @@ bool getNextTextId( Particles::const_iterator& i, Particles::const_iterator e,
     Radii.push_back( p.Radius );
     float lifetimeDivisor = p.InitialLifetime <= std::numeric_limits<float>::epsilon() ? 1.0f : p.InitialLifetime;
     Lifetimes.push_back( p.InitialLifetime >= 1.0f ? std::min( 1.0f, p.Lifetime ) : ( p.Lifetime / lifetimeDivisor ) );
-    TexId = Phase.TexId;
+    batch.TexId = Phase.TexId;
     ++i;
     return true;
 }
@@ -142,7 +139,8 @@ ParticleEngineImpl::ParticleEngineImpl()
 {
     mVAO.Init();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "particle" );
+    static int32_t def( AutoId( "particle" ) );
+    ShaderMgr.ActivateShader( def );
     ShaderMgr.UploadData( "spriteTexture", GLuint( 3 ) );
 }
 
@@ -173,7 +171,7 @@ void ParticleEngineImpl::Update( float dt )
         if( mCycle >= 10.f )
         {
             mCycle = 0.0f;
-            particles.erase( std::remove_if( particles.begin(), particles.end(), boost::lambda::bind( &Particle::Lifetime, boost::lambda::_1 ) < 0. ), particles.end() );
+            particles.erase( std::remove_if( particles.begin(), particles.end(), [](Particle const& part){ return part.Lifetime < 0.; }), particles.end() );
         }
     }
 }
@@ -226,10 +224,10 @@ void ParticleEngineImpl::Draw( Particles const& particles ) const
 
     Particles::const_iterator i = particles.begin();
     render::Counts_t const& Counts = render::count(
-                                         boost::lambda::bind( &getNextTextId, boost::ref( i ), particles.end(),
-                                                 boost::ref( Positions ), boost::ref( Colors ), boost::ref( TexCoords ),
-                                                 boost::ref( Headings ), boost::ref( Radii ), boost::ref( Lifetimes ),
-                                                 boost::lambda::_1 )
+                                         std::bind( &getNextTextId, std::ref( i ), particles.end(),
+                                                 std::ref( Positions ), std::ref( Colors ), std::ref( TexCoords ),
+                                                 std::ref( Headings ), std::ref( Radii ), std::ref( Lifetimes ),
+                                                 std::placeholders::_1 )
                                      );
 
     CurSize = Positions.size();
@@ -294,7 +292,8 @@ void ParticleEngineImpl::Draw( Particles const& particles ) const
     CurrentOffset += CurrentSize;
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "particle" );
+    static int32_t def( AutoId( "particle" ) );
+    ShaderMgr.ActivateShader( def );
     glActiveTexture( GL_TEXTURE0 + 3 );
     for( render::Counts_t::const_iterator i = Counts.begin(), e = Counts.end(); i != e; ++i )
     {
@@ -317,9 +316,9 @@ void ParticleEngineImpl::Draw( Particles const& particles ) const
         ++CurrentAttribIndex;
         glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( LifeIndex + sizeof( GLfloat )*Part.Start ) );
         glVertexAttribDivisor( CurrentAttribIndex, 1 );
-        if( Part.TexId != GLuint( -1 ) )
+        if( Part.Batch.TexId != -1 )
         {
-            glBindTexture( GL_TEXTURE_2D, Part.TexId );
+            glBindTexture( GL_TEXTURE_2D, Part.Batch.TexId );
         }
         glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
     }

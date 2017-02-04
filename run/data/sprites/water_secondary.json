@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":":/textures/water_secondary.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "body_idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "water_secondary"
+        }]
+    }
+]

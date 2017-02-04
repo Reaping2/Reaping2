@@ -9,7 +9,8 @@ struct GlobalShaderData
     {
         WorldProjection,
         WorldCamera,
-        UiProjection,
+        InverseProjection,
+        Resolution,
         // keep at end
         TotalSize,
         NumData,
@@ -24,7 +25,9 @@ class ShaderManager : public Singleton<ShaderManager>
     friend class Singleton<ShaderManager>;
     ShaderManager();
     Shader const* mActiveShader;
-    std::string mActiveShaderName;
+    int32_t mActiveShaderId = -1;
+    Shader const* mDefaultShader = nullptr;
+    int32_t mDefaultShaderId = -1;
     typedef std::map<std::string, GLuint> LocMap_t;
     typedef std::map<GLuint, LocMap_t> ShaderMap_t;
     ShaderMap_t mShaderLocs;
@@ -33,7 +36,8 @@ public:
     ~ShaderManager();
     template<typename T>
     void UploadGlobalData( GlobalShaderData::Type GlobalType, T const& Mat )const;
-    void ActivateShader( std::string const& Name );
+    void ActivateShader( int32_t id );
+    void SetDefaultShader( int32_t id );
     template<typename T>
     void UploadData( std::string const& Name, T const& Data );
 };

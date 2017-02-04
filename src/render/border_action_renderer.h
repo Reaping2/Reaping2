@@ -16,7 +16,6 @@ class BorderActionRenderer : public ActionRenderer
     typedef std::vector<int32_t> BorderIds_t;
     BorderIds_t mBorderIds;
     BorderIds_t mOuterBorderIds;
-    int32_t mActionId;
     double mActorSize;
     BorderType& mBorderType;
     IBorderComponent::Borders_t mBorders;
@@ -24,6 +23,7 @@ class BorderActionRenderer : public ActionRenderer
     struct SpriteData {
         glm::vec2 RelativePosition;
         Sprite const& Spr;
+        CompanionSprites Companions;
         SpriteData( glm::vec2 const& rp, Sprite const& sp ) : RelativePosition( rp ), Spr( sp ) {}
     };
     std::vector<SpriteData> mSprites;

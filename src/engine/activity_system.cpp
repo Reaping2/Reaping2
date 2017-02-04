@@ -101,7 +101,11 @@ bool ActivitySystem::ActorOrderer::operator()( Actor const* a, Actor const* b ) 
         ( arC->GetLayerPriority() == brC->GetLayerPriority() &&
           ( arC->GetZOrder() < brC->GetZOrder() ||
             ( arC->GetZOrder() == brC->GetZOrder() &&
-              a->GetGUID() < b->GetGUID() ) ) );
+              ( arC->GetReceiveShadow() > brC->GetReceiveShadow() ||
+                ( arC->GetReceiveShadow() == brC->GetReceiveShadow() &&
+                  ( a->GetId() < b->GetId() ||
+                    ( a->GetId() == b->GetId() &&
+                      a->GetGUID() < b->GetGUID() ) ) ) ) ) ) );
 }
 
 ActivitySystem::OrderedActors_t const& ActivitySystem::GetActiveActors()

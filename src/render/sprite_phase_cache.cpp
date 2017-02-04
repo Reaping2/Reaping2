@@ -199,6 +199,7 @@ void SpritePhaseCache::Request( SpritePhase const& sprphase, float size )
         freeRegion.y == 0 &&
         freeRegion.w == 0 )
     {
+        L1( "sprite cache filled, we need improvements here\n" );
         return;
     }
     auto const& scaledRegion = ScaleRegion( freeRegion, size / mMaxCellSize );
@@ -219,7 +220,8 @@ void SpritePhaseCache::ProcessPending()
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glViewport( 0, 0, mTargetSize.x, mTargetSize.y );
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "combiner" );
+    static int32_t def( AutoId( "combiner" ) );
+    ShaderMgr.ActivateShader( def );
     ShaderMgr.UploadData( "texture", GLuint( 1 ) );
     glActiveTexture( GL_TEXTURE0 + 1 );
     mVAO.Bind();

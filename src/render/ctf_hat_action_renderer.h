@@ -13,13 +13,12 @@ namespace ctf {
 
 class CtfHatActionRenderer : public ActionRenderer
 {
-    int32_t mCtfHatId;
     ColorRepo& mColorRepo;
 public:
     CtfHatActionRenderer( int32_t Id );
-    virtual void Init( const Actor& actor );
     virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
-private:
+protected:
+    virtual glm::vec4 GetRenderableColor( Actor const& actor ) const;
 };
 
 } // namespace ctf

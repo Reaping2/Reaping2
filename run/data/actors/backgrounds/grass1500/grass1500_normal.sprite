@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":"grass1500_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 1500,
+                "h" : 1401,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "grass1500_normal"
+        }]
+    }
+]

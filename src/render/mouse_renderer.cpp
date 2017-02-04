@@ -120,6 +120,8 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     glEnableVertexAttribArray( CurrentAttribIndex );
     size_t const TexIndex = CurrentOffset;
     ++CurrentAttribIndex;
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
     CurrentSize = CurSize * sizeof( glm::vec2 );
@@ -150,10 +152,14 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
 
 
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "sprite2" );
+    static int32_t def( AutoId( "mouse" ) );
+    ShaderMgr.ActivateShader( def );
     ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
     glActiveTexture( GL_TEXTURE0 + 1 );
     CurrentAttribIndex = 0;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( TexIndex ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( TexIndex ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;

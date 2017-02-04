@@ -11,8 +11,10 @@ class SpriteCollection : public Repository<Sprite>
     friend class RenderableRepo;
     SpriteCollection();
     int32_t mId;
+    int32_t mJointId;
 public:
     int32_t Id()const;
+    int32_t JointId()const;
     bool Load( int32_t TexId, Json::Value& Root );
     void Merge( SpriteCollection& Other );
 };

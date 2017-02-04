@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"blue_grenade_explosion_projectile_mask.png",
+        "actor_visuals":
+        [
+            {
+                "name":"blue_grenade_explosion_projectile_mask",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":100,
+                        "h":100,
+                        "scale":2.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]

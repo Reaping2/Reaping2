@@ -16,8 +16,8 @@
 #include "renderable_repo.h"
 #include "i_visual_box_multiplier_component.h"
 #include "sprite_phase_cache.h"
-#include <boost/lambda/bind.hpp>
-#include <boost/lambda/lambda.hpp>
+#include "platform/game_clock.h"
+#include "main/window.h"
 #include <boost/ref.hpp>
 #include "action_renderer_loader_repo.h"
 
@@ -47,6 +47,7 @@ ActorRenderer::ActorRenderer()
     , mX(0)
     , mY(0)
     , mTexIndex(0)
+    , mSecondaryTexIndex(0)
     , mPosIndex(0)
     , mHeadingIndex(0)
     , mSizeIndex(0)
@@ -89,14 +90,27 @@ bool isVisible( Actor const& actor, Camera const& camera )
         && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
 }
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
-                    glm::vec2*& Positions, GLfloat*& Headings, glm::vec4*& TexCoords, glm::vec2*& Sizes, glm::vec4*& Colors,
-                    GLuint& TexId )
+                    glm::vec2*& Positions, GLfloat*& Headings,
+                    glm::vec4*& TexCoords, glm::vec4*& SecondaryTexCoords,
+                    glm::vec4*& MaskTexCoords, glm::vec4*& NormalTexCoords,
+                    glm::vec2*& Sizes, glm::vec4*& Colors,
+                    std::map<int32_t, std::vector<glm::vec4> >& postprocColors, size_t& cnt,
+                    render::RenderBatch& batch )
 {
     if( i == e )
     {
         return false;
     }
-    TexId = i->Spr->TexId;
+    batch.TexId = i->Spr->TexId;
+    // mask id is by default the tex id ( if no additional alpha masking is necessary )
+    batch.MaskId = batch.TexId;
+    static int32_t prevNormalId = -1;
+    batch.NormalId = prevNormalId;
+    // we don't swap back from a valid sec. tex id to -1
+    // so there are less RenderBatch changes in render::count
+    static int32_t prevsecid = -1;
+    batch.SecondaryTexId = prevsecid;
+    batch.ShaderId = i->RenderableComp->GetShaderId();
     (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
     (*Headings++) = ( GLfloat )i->PositionC->GetOrientation() + i->RelativeOrientation;
 
@@ -106,13 +120,53 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     (*Sizes) = size;
     ++Sizes;
 
-    (*TexCoords++) = glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top );
+    glm::vec4 secondaryTexCoord(-1,-1,-1,-1);
+    SpritePhase const* Spr = nullptr;
+    if( !i->AdditionalSprs.empty() )
+    {
+        Spr = i->AdditionalSprs.front();
+        secondaryTexCoord = glm::vec4( Spr->Left, Spr->Right, Spr->Bottom, Spr->Top );
+        prevsecid = batch.SecondaryTexId = Spr->TexId;
+    }
+    (*SecondaryTexCoords++) = secondaryTexCoord;
+    auto coords = glm::vec4( i->Spr->Left, i->Spr->Right, i->Spr->Bottom, i->Spr->Top );
+    (*TexCoords++) = coords;
+    if( i->MaskSpr != nullptr )
+    {
+        batch.MaskId = i->MaskSpr->TexId;
+        coords = glm::vec4( i->MaskSpr->Left, i->MaskSpr->Right, i->MaskSpr->Bottom, i->MaskSpr->Top );
+    }
+    (*MaskTexCoords++) = coords;
+    coords = glm::vec4( -1, -1, -1, -1 );
+    if( i->NormalSpr != nullptr )
+    {
+        prevNormalId = batch.NormalId = i->NormalSpr->TexId;
+        coords = glm::vec4( i->NormalSpr->Left, i->NormalSpr->Right, i->NormalSpr->Bottom, i->NormalSpr->Top );
+    }
+    (*NormalTexCoords++) = coords;
     (*Colors++) = i->Color;
     {   // move to cache
         static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
         cache.Request( *i->Spr, std::max( size.x, size.y ) );
+        if( Spr != nullptr )
+        {
+            cache.Request( *Spr, std::max( size.x, size.y ) );
+        }
+        if( i->MaskSpr != nullptr )
+        {
+            cache.Request( *i->MaskSpr, std::max( size.x, size.y ) );
+        }
+        if( i->NormalSpr != nullptr )
+        {
+            cache.Request( *i->NormalSpr, std::max( size.x, size.y ) );
+        }
+    }
+    for( auto id : i->RenderableComp->GetPostProcessIds() )
+    {
+        postprocColors[ id ][cnt] = glm::vec4(1,1,1,1);
     }
     ++i;
+    ++cnt;
     return true;
 }
 }
@@ -129,6 +183,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     }
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( mRenderableSprites.size() );
+    std::set<int32_t> postprocids;
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
@@ -137,11 +192,13 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
             continue;
         }
         auto recogptr = mRecognizerRepo.GetRecognizers( Object.GetId() );
-        if( nullptr == recogptr )
+        if( nullptr == recogptr || recogptr->empty() )
         {
             continue;
         }
         Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
+        auto const& pp = renderableC->GetPostProcessIds();
+        postprocids.insert( pp.begin(), pp.end() );
         auto const& recognizers = *recogptr;
         RecognizerRepo::ExcludedRecognizers_t excluded;
 
@@ -202,25 +259,40 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     Floats_t Headings( CurSize );
     Positions_t Sizes( CurSize );
     TexCoords_t TexCoords( CurSize );
+    TexCoords_t SecondaryTexCoords( CurSize );
+    TexCoords_t MaskTexCoords( CurSize );
+    TexCoords_t NormalTexCoords( CurSize );
     Colors_t Colors( CurSize );
+    postprocids.insert( -1 );
+    for( auto id : postprocids )
+    {
+        mPostprocessColors[ id ] = Colors_t( CurSize, glm::vec4(0,0,0,1) );
+    }
 
     glm::vec2* posptr = &Positions[0];
     GLfloat* hptr = &Headings[0];
     glm::vec2* sptr = &Sizes[0];
     glm::vec4* tptr = &TexCoords[0];
+    glm::vec4* stptr = &SecondaryTexCoords[0];
+    glm::vec4* mtptr = &MaskTexCoords[0];
+    glm::vec4* ntptr = &NormalTexCoords[0];
     glm::vec4* cptr = &Colors[0];
+    size_t cnt = 0;
     RenderableSprites_t::const_iterator i = mRenderableSprites.begin();
     mCounts = render::count(
-        boost::lambda::bind( &getNextTextId, boost::ref( i ), mRenderableSprites.end(),
-        boost::ref( posptr ), boost::ref( hptr ), boost::ref( tptr ), boost::ref( sptr ), boost::ref( cptr ),
-        boost::lambda::_1 )
+        std::bind( &getNextTextId, std::ref( i ), mRenderableSprites.end(),
+        std::ref( posptr ), std::ref( hptr ), std::ref( tptr ),
+        std::ref( stptr ), std::ref(mtptr), std::ref(ntptr),
+        std::ref( sptr ), std::ref( cptr ), std::ref( mPostprocessColors ),
+        std::ref( cnt ),
+        std::placeholders::_1 )
     );
     mVAO.Bind();
 
     if( CurSize > mPrevSize )
     {
         mPrevSize = CurSize;
-        size_t TotalSize = CurSize * ( sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + sizeof( glm::vec4 ) );
+        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + 4 * sizeof( glm::vec4 ) );
         glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
     }
 
@@ -230,6 +302,13 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &TexCoords[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     mTexIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &SecondaryTexCoords[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mSecondaryTexIndex = CurrentOffset;
     ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
@@ -258,6 +337,28 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &Colors[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     mColorIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &MaskTexCoords[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mMaskTexCoordIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &NormalTexCoords[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mNormalTexCoordIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( glm::vec4 );
+//    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &mPostprocessColors[-1][0] ); no need to actually upload this, random mem is just fine
+//    although it might be faster to just upload everything at prepare time
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mPostprocessColorIndex = CurrentOffset;
     mVAO.Unbind();
 }
 
@@ -300,38 +401,92 @@ void ActorRenderer::Draw( RenderFilter filter )
 {
     mVAO.Bind();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
-    ShaderMgr.ActivateShader( "sprite2" );
-    ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
-    glActiveTexture( GL_TEXTURE0 + 1 );
-    GLuint CurrentAttribIndex = 0;
+    static int32_t def = AutoId( "sprite2" );
+    ShaderMgr.SetDefaultShader( def );
     for( render::Counts_t::const_iterator i = mCounts.begin(), e = mCounts.end(); i != e; ++i )
     {
         render::CountByTexId const& BigPart = *i;
-        glBindTexture( GL_TEXTURE_2D, BigPart.TexId );
+        ShaderMgr.ActivateShader( BigPart.Batch.ShaderId );
+        glActiveTexture( GL_TEXTURE0 + 1 );
+        glBindTexture( GL_TEXTURE_2D, BigPart.Batch.TexId );
+        ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
+        if( BigPart.Batch.NormalId != -1 )
+        {
+            glActiveTexture( GL_TEXTURE0 + 2 );
+            glBindTexture( GL_TEXTURE_2D, BigPart.Batch.NormalId );
+            ShaderMgr.UploadData( "normalTexture", GLuint( 2 ) );
+        }
+        if( BigPart.Batch.SecondaryTexId != -1 )
+        {
+            glActiveTexture( GL_TEXTURE0 + 3 );
+            glBindTexture( GL_TEXTURE_2D, BigPart.Batch.SecondaryTexId );
+            ShaderMgr.UploadData( "secondarySpriteTexture", GLuint( 3 ) );
+        }
+        ShaderMgr.UploadData( "time", GLfloat( platform::Clock::Now() ) );
+        int w, h;
+        static auto Window = engine::Engine::Get().GetSystem<engine::WindowSystem>();
+        Window->GetWindowSize( w, h );
+        ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
         static render::Counts_t parts;
         partitionByFilter( parts, mRenderableSprites, BigPart, filter );
         for( auto const& Part : parts )
         {
-            CurrentAttribIndex = 0;
-            glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mTexIndex + sizeof( glm::vec4 )*Part.Start ) );
-            glVertexAttribDivisor( CurrentAttribIndex, 1 );
-            ++CurrentAttribIndex;
-            glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPosIndex + sizeof( glm::vec2 )*Part.Start ) );
-            glVertexAttribDivisor( CurrentAttribIndex, 1 );
-            ++CurrentAttribIndex;
-            glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mHeadingIndex + sizeof( GLfloat )*Part.Start ) );
-            glVertexAttribDivisor( CurrentAttribIndex, 1 );
-            ++CurrentAttribIndex;
-            glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mSizeIndex + sizeof( glm::vec2 )*Part.Start ) );
-            glVertexAttribDivisor( CurrentAttribIndex, 1 );
-            ++CurrentAttribIndex;
-            glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mColorIndex + sizeof( glm::vec4 )*Part.Start ) );
-            glVertexAttribDivisor( CurrentAttribIndex, 1 );
-            glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
+            DrawOnePart( Part );
         }
     }
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();
+}
+
+void ActorRenderer::Draw( int32_t postprocid )
+{
+    mVAO.Bind();
+    ShaderManager& ShaderMgr( ShaderManager::Get() );
+    static int32_t def = AutoId( "postprocessor_select" );
+    ShaderMgr.ActivateShader( def );
+    glBufferSubData( GL_ARRAY_BUFFER, mPostprocessColorIndex, sizeof(glm::vec4) * mPrevSize, &mPostprocessColors[postprocid][0] );
+    for( auto const& BigPart : mCounts )
+    {
+        glActiveTexture( GL_TEXTURE0 + 1 );
+        glBindTexture( GL_TEXTURE_2D, BigPart.Batch.MaskId );
+        ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
+        DrawOnePart( BigPart );
+    }
+    glActiveTexture( GL_TEXTURE0 );
+    mVAO.Unbind();
+}
+
+void ActorRenderer::DrawOnePart( render::CountByTexId const& Part ) const
+{
+    GLuint CurrentAttribIndex = 0;
+    CurrentAttribIndex = 0;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mTexIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mSecondaryTexIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPosIndex + sizeof( glm::vec2 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mHeadingIndex + sizeof( GLfloat )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 2, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mSizeIndex + sizeof( glm::vec2 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mColorIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mMaskTexCoordIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mNormalTexCoordIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPostprocessColorIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
 }
 
 ActorRenderer::~ActorRenderer()

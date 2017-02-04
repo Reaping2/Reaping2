@@ -12,8 +12,6 @@ class DeathActionRenderer: public ActionRenderer
 {
 public:
     DeathActionRenderer( int32_t Id );
-    virtual void Init( const Actor& actor );
-    virtual void FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites );
     virtual void Update( double DeltaTime );
 
 };

@@ -1,0 +1,30 @@
+[
+    {
+        "texture_path":"dragon_stone50_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "dragon_stone50_mask"
+        }]
+    },
+    {
+        "texture_path":"dragon_stone100_mask.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "dragon_stone100_mask"
+        }]
+    }
+]

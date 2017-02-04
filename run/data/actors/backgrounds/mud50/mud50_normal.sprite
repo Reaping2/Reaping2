@@ -1,0 +1,716 @@
+[
+    {
+        "texture_path":"mud50_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_1_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_top_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_top_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_top_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_top_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_top_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_top_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_right_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_right_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_right_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_right_1_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_right_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_right_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_bottom_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottom_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottom_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottom_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottom_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottom_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_left_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_left_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_left_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_left_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_left_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_left_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_topright_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topright_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topright_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topright_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topright_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topright_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_bottomright_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomright_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomright_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomright_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomright_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomright_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_bottomleft_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomleft_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomleft_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomleft_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomleft_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomleft_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_topleft_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topleft_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topleft_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topleft_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topleft_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topleft_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_top_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_top_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_top_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_top_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_top_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_top_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_right_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_right_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_right_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_right_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_right_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_right_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_bottom_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottom_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottom_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottom_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottom_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottom_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_left_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_left_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_left_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_left_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_left_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_left_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_topright_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topright_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topright_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topright_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topright_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topright_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_bottomright_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomright_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomright_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomright_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomright_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomright_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_bottomleft_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomleft_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomleft_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomleft_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_bottomleft_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_bottomleft_outer_2_normal"
+        }]
+    },
+    {
+        "texture_path":"mud50_topleft_outer_border_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topleft_outer_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topleft_outer_border_1_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topleft_outer_1_normal"
+        }]
+    },
+	{
+        "texture_path":"mud50_topleft_outer_border_2_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 100,
+                "h" : 100,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "rogue_mud50_topleft_outer_2_normal"
+        }]
+    }
+]
