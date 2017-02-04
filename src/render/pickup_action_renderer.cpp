@@ -8,6 +8,8 @@ namespace render {
 PickupActionRenderer::PickupActionRenderer( int32_t Id )
     : ActionRenderer( Id, AutoId( "idle" ) )
 {
+    mCoverId = AutoId( "cover" );
+    mBackgroundId = AutoId( "background" );
 }
 
 void PickupActionRenderer::Init( const Actor& actor )
@@ -20,6 +22,15 @@ void PickupActionRenderer::Init( const Actor& actor )
     {
         mSecsToEnd = Spr.GetSecsToEnd();
     }
+    std::string str;
+    if (IdStorage::Get().GetName( ItemType::Get()(pickupCC->GetItemType()), str ))
+    {
+        mPickupBackgroundId = AutoId( "pickup_" + str + "_background" );
+    }
+    else
+    {
+        mPickupBackgroundId = AutoId( "pickup_background" );
+    }
 }
 
 void PickupActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
@@ -27,15 +38,21 @@ void PickupActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
     Opt<PickupCollisionComponent> pickupCC( actor.Get<ICollisionComponent>() );
     auto pulseC( actor.Get<IPulseComponent>() );
     static auto& mItemColorRepo( ItemColorRepo::Get() );
+    int32_t pickupContent = pickupCC->GetPickupContent();
+    SpriteCollection const& contentSprites = mRenderableRepo( pickupContent );
     auto col = GetColor( actor );
     {
-        static const int32_t mPickupBackgroundId = AutoId( "pickup_background" );
+        bool hasUniqueBackground = contentSprites.HasElem( mBackgroundId );
+
         SpriteCollection const& Sprites = mRenderableRepo( mPickupBackgroundId );
-        Sprite const& Spr = Sprites( mActionId );
+        Sprite const& Spr = hasUniqueBackground ? contentSprites( mBackgroundId ): Sprites( mActionId );
         if (Spr.IsValid())
         {
             SpritePhase const& Phase = Spr( (int32_t)GetState() );
-            auto renderableSprite = RenderableSprite( &actor, &renderableC, mActionId, &Spr, &Phase, col*mItemColorRepo( pickupCC->GetItemType() ) );
+            auto renderableSprite = RenderableSprite( &actor, &renderableC
+                , hasUniqueBackground?mBackgroundId:mActionId
+                , &Spr, &Phase
+                , hasUniqueBackground ? col : col*mItemColorRepo( pickupCC->GetItemType() ) );
             if (pulseC.IsValid())
             {
                 auto& pulses = pulseC->GetPulses();
@@ -49,9 +66,26 @@ void PickupActionRenderer::FillRenderableSprites( const Actor& actor, IRenderabl
         }
     }
     {
-        int32_t pickupContent = pickupCC->GetPickupContent();
-        SpriteCollection const& Sprites = mRenderableRepo( pickupContent );
-        Sprite const& Spr = Sprites( mActionId );
+
+        Sprite const& Spr = contentSprites( mCoverId );
+        if (Spr.IsValid())
+        {
+            SpritePhase const& Phase = Spr( (int32_t)GetState() );
+            auto renderableSprite = RenderableSprite( &actor, &renderableC, mCoverId, &Spr, &Phase, col );
+            if (pulseC.IsValid())
+            {
+                auto& pulses = pulseC->GetPulses();
+                if (pulses.size() > 0)
+                {
+                    auto& backSizePulse = pulses[0];
+                    renderableSprite.RelativeRadius = backSizePulse.mSpeed * (backSizePulse.mDurationCurrent - backSizePulse.mDuration / 2);
+                }
+            }
+            renderableSprites.push_back( renderableSprite );
+        }
+    }
+    {
+        Sprite const& Spr = contentSprites( mActionId );
         if (Spr.IsValid())
         {
             SpritePhase const& Phase = Spr( (int32_t)GetState() );

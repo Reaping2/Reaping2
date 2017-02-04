@@ -149,7 +149,7 @@ int32_t Scene::GetTypeId() const
 
 void Scene::Load( std::string const& Level )
 {
-    EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::MAP_DIR+"/" + Level ) );
+    EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::mMapDir+"/" + Level ) );
     mPaused = false;
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
@@ -171,7 +171,6 @@ void Scene::Load( std::string const& Level )
     SetType( "grass" );
 
     EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent() );
-
 }
 
 void Scene::AddTestCreep( double X, double Y )

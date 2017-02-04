@@ -17,5 +17,63 @@
                 "name" : "pickup_background"
             }
         ]
+    },
+    {
+        "texture_path":"pickup_normal_background.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 32,
+                        "name" : "idle",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 32
+                    }
+                ],
+                "name" : "pickup_normal_background"
+            }
+        ]
+    },
+    {
+        "texture_path":"pickup_weapon_background.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 32,
+                        "name" : "idle",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 32
+                    }
+                ],
+                "name" : "pickup_weapon_background"
+            }
+        ]
+    },
+    {
+        "texture_path":"pickup_buff_background.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 32,
+                        "name" : "idle",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 32
+                    }
+                ],
+                "name" : "pickup_buff_background"
+            }
+        ]
     }
+
 ]

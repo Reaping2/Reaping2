@@ -15,7 +15,7 @@ ItemColorRepo::ItemColorRepo()
     col = settings.GetColor( "item_color.normal", glm::vec4( 0, 0, 1, 1 ) );
     mElements.insert( i, new glm::vec4(col) );
     i = ItemType::Weapon;
-    col = settings.GetColor( "item_color.weapon", glm::vec4( 1, 0, 0, 1 ) );
+    col = settings.GetColor( "item_color.weapon", glm::vec4( 1, 1, 1, 1 ) );
     mElements.insert( i, new glm::vec4( col ) );
     i = ItemType::Buff;
     col = settings.GetColor( "item_color.buff", glm::vec4( 0, 1, 0, 1 ) );

@@ -84,6 +84,36 @@ void ActionRenderer::Update( double DeltaTime )
     mState = nextState;
 }
 
+
+double ActionRenderer::GetState() const
+{
+    return mState;
+}
+
+
+void ActionRenderer::SetState( double S )
+{
+    mState = S;
+}
+
+
+int32_t ActionRenderer::GetId() const
+{
+    return mId;
+}
+
+
+int32_t ActionRenderer::GetOrder() const
+{
+    return mOrder;
+}
+
+
+void ActionRenderer::SetOrder( int32_t order )
+{
+    mOrder = order;
+}
+
 bool ActionRenderer::operator<( const render::ActionRenderer& r ) const
 {
     return mOrder < r.GetOrder();
@@ -162,6 +192,11 @@ int32_t GetSpriteId( int32_t spriteIndex, int32_t actorId )
         actorId = idStorage.GetId( actorName );
     }
     return actorId;
+}
+
+void DefaultActionRendererLoader::BindValues()
+{
+
 }
 
 } // namespace render
