@@ -3,7 +3,7 @@
 
 #include "platform/factory.h"
 #include "platform/singleton.h"
-#include "item_loader_factory.h"
+#include "item_loader_repo.h"
 #include "item_loader.h"
 
 class Item;

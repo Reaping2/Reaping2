@@ -39,6 +39,36 @@ void ActionRenderer::Update( double DeltaTime )
     mState = nextState;
 }
 
+
+double ActionRenderer::GetState() const
+{
+    return mState;
+}
+
+
+void ActionRenderer::SetState( double S )
+{
+    mState = S;
+}
+
+
+int32_t ActionRenderer::GetId() const
+{
+    return mId;
+}
+
+
+int32_t ActionRenderer::GetOrder() const
+{
+    return mOrder;
+}
+
+
+void ActionRenderer::SetOrder( int32_t order )
+{
+    mOrder = order;
+}
+
 bool ActionRenderer::operator<( const render::ActionRenderer& r ) const
 {
     return mOrder < r.GetOrder();
@@ -74,6 +104,12 @@ glm::vec4 GetColor( const Actor& actor )
         return renderableC->GetColor();
     }
     return glm::vec4( 1.0 );
+}
+
+
+void DefaultActionRendererLoader::BindValues()
+{
+
 }
 
 } // namespace render

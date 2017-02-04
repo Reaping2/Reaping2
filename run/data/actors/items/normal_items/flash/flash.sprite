@@ -17,5 +17,25 @@
                 ]
             }
         ]
+    },
+    {
+        "texture_path":"flash_pickup_cover.png",
+        "actor_visuals":
+        [
+            {
+                "name":"flash_normal_item",
+                "animations":
+                [
+                    {
+                        "name":"cover",
+                        "w":32,
+                        "h":32,
+                        "scale":0.75,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
     }
+    
 ]

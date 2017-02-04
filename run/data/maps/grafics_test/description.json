@@ -1,5 +1,6 @@
 {
    "description" : "",
+   "maptype" : [ "ffa" ],
    "name" : "grafics_test",
    "thumbnail" : ""
 }

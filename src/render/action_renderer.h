@@ -5,6 +5,7 @@
 #include "renderable_sprite.h"
 #include "renderable_repo.h"
 #include "sprite_collection.h"
+#include "action_renderer_loader.h"
 
 namespace render {
 
@@ -25,26 +26,11 @@ protected:
     RenderableRepo& mRenderableRepo;
     int32_t mOrder;
 public:
-    double GetState()const
-    {
-        return mState;
-    }
-    void SetState( double S )
-    {
-        mState = S;
-    }
-    int32_t GetId() const
-    {
-        return mId;
-    }
-    int32_t GetOrder() const
-    {
-        return mOrder;
-    }
-    void SetOrder( int32_t order )
-    {
-        mOrder = order;
-    }
+    double GetState()const;
+    void SetState( double S );
+    int32_t GetId() const;
+    int32_t GetOrder() const;
+    void SetOrder( int32_t order );
     bool operator<( const render::ActionRenderer& r ) const;
 };
 
@@ -52,6 +38,13 @@ class DefaultActionRenderer : public ActionRenderer
 {
 public:
     DefaultActionRenderer( int32_t Id );
+};
+
+class DefaultActionRendererLoader : public ActionRendererLoader<DefaultActionRenderer>
+{
+public:
+    virtual void BindValues();
+    DefaultActionRendererLoader() = default;
 };
 
 glm::vec4 GetCloakColor( const Actor& actor );
