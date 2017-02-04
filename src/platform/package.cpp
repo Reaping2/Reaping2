@@ -37,11 +37,11 @@ public:
     PackageImpl( std::auto_ptr<File> F );
     bool LoadHeader();
     bool WriteHeader();
-    std::auto_ptr<File> Open( const boost::filesystem::path& Path );
+    std::unique_ptr<File> Open( const boost::filesystem::path& Path );
     void GetFileNames( PathVect_t& Paths, boost::filesystem::path const& Dir = boost::filesystem::path() );
     void Add( const boost::filesystem::path& Path, const boost::filesystem::path& PathInArchive );
     bool Save();
-    boost::uint32_t Checksum() const;
+    uint32_t Checksum() const;
 };
 
 bool PackageImpl::LoadHeader()
@@ -118,33 +118,33 @@ bool PackageImpl::LoadHeader()
     return true;
 }
 
-std::auto_ptr<File> PackageImpl::Open( const boost::filesystem::path& Path )
+std::unique_ptr<File> PackageImpl::Open( const boost::filesystem::path& Path )
 {
     FilesMap::const_iterator it = mFiles.find( Path );
     if( it == mFiles.end() )
     {
-        return std::auto_ptr<File>();
+        return std::unique_ptr<File>();
     }
 
     // ez nem igy lesz kesobb, de egyelore ezzel mar lehet dolgozni
     if( !mFile->SetPosition( it->second.Offset ) )
     {
-        return std::auto_ptr<File>();
+        return std::unique_ptr<File>();
     }
     std::string Buffer;
     if( !mFile->Read( Buffer, it->second.FileSize ) )
     {
-        return std::auto_ptr<File>();
+        return std::unique_ptr<File>();
     }
     if( !Compression::Get().Inflate( Buffer, Buffer ) )
     {
-        return std::auto_ptr<File>();
+        return std::unique_ptr<File>();
     }
     MemoryFile* M = new MemoryFile;
-    std::auto_ptr<File> F( M );
+    std::unique_ptr<File> F( M );
     if( !M->Write( Buffer ) )
     {
-        return std::auto_ptr<File>();
+        return std::unique_ptr<File>();
     }
     M->Rewind();
     return F;
@@ -268,7 +268,7 @@ PackageImpl::PackageImpl( std::auto_ptr<File> F )
 
 }
 
-boost::uint32_t PackageImpl::Checksum() const
+uint32_t PackageImpl::Checksum() const
 {
     return mHeader.Checksum;
 }
@@ -285,12 +285,12 @@ Package::~Package()
 {
 }
 
-std::auto_ptr<File> Package::Open( boost::filesystem::path const& path )
+std::unique_ptr<File> Package::Open( boost::filesystem::path const& path )
 {
-    return mImpl->Open( path );
+    return std::move( mImpl->Open( path ) );
 }
 
-boost::uint32_t Package::Checksum() const
+uint32_t Package::Checksum() const
 {
     return mImpl->Checksum();
 }

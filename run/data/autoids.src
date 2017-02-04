@@ -14,6 +14,7 @@
 -c
 -d
 -h
+-m
 -n
 -r
 -s
@@ -491,6 +492,7 @@ _background
 _mask
 _no_name_
 _normal
+_no_name_
 _outer
 a
 a-a
@@ -1126,6 +1128,8 @@ data
 data.pkg
 data/
 data/Ping-da-ding-ding-ding.ogg
+data/Ping-da-ding-ding-ding.ogg
+data/map/
 data/rooms/
 data/rooms/test_save/test_save.json
 data_checksum
@@ -1408,6 +1412,7 @@ flash_message_sender_system
 flash_normal_item
 flash_normal_item.h
 flash_normal_item_sub_system
+folder_package.h
 font.h
 fontsize
 for
@@ -1458,6 +1463,7 @@ graphics.gl.max_allowed_texture_size
 graphics.postprocess
 graphics.shadow_scale
 graphics.shown_layer
+graphics.shadow_scale
 graphics.sprite_phase_cache.downsample
 graphics.sprite_phase_cache.enabled
 graphics.sprite_phase_cache.gapless
@@ -1658,6 +1664,7 @@ id
 id_storage.h
 identifier
 idle
+idle_action_renderer.h
 ifile.h
 image
 image.h
@@ -1700,6 +1707,7 @@ ion_gun_alt_projectile
 ion_gun_explode_projectile
 ion_gun_projectile
 ion_gun_weapon_sub_system
+ipackage.h
 is_hit
 is_hit_condition.h
 is_not_hit
@@ -1722,6 +1730,7 @@ item_loader
 item_loader.h
 item_loader_factory
 item_loader_repo.h
+item_loader_factory.h
 item_properties_changed_event
 item_type
 item_type.h
@@ -2126,6 +2135,7 @@ platform/event.h
 platform/export.h
 platform/factory.h
 platform/filesystem.h
+platform/folder_package.h
 platform/frequency_timer.h
 platform/game_clock.h
 platform/glm_fix.h

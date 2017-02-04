@@ -61,6 +61,7 @@
 #include <chrono>
 #include "platform/settings.h"
 #include "platform/game_clock.h"
+#include "platform/folder_package.h"
 
 using engine::Engine;
 namespace {
@@ -137,6 +138,7 @@ int main( int argc, char* argv[] )
     namespace po = boost::program_options;
     po::options_description desc( "Allowed options" );
     std::string deviceConfig;
+    std::string datadir;
     desc.add_options()
     ( "help", "produce help message" )
     ( "-c", po::value<std::string>( &programState.mServerIp ), "client" )
@@ -146,6 +148,7 @@ int main( int argc, char* argv[] )
     ( "-h", po::value<std::string>( &programState.mServerIp )->implicit_value( std::string( "localhost" ) ), "connect as a client to localhost with Host privileges" )
     ( "-r", "connect as a random named soldier to localhost." )
     ( "-d", po::value<std::string>( &deviceConfig ), "set device configuration, format: player1:controller:1,player2:keyboard_and_mouse" )
+    ( "-m", po::value<std::string>( &datadir ), "mount folder as data dir in addition to data.pkg" )
     ( "calibrate", "print values read from detected controllers" )
     ;
 
@@ -198,7 +201,11 @@ int main( int argc, char* argv[] )
 
 
     bool calibrateController = vm.count( "calibrate" );
-    Filesys::Get().Mount( std::auto_ptr<Package>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
+    if( !datadir.empty() )
+    {
+        Filesys::Get().Mount( std::auto_ptr<IPackage>( new FolderPackage( datadir ) ) );
+    }
+    Filesys::Get().Mount( std::auto_ptr<IPackage>( new Package( AutoFile( new OsFile( "data.pkg" ) ) ) ) );
     platform::IdStorage::Get().Init();
     platform::Init::Get().Execute();
     IsMainRunning = true;

@@ -1,24 +1,20 @@
 #ifndef INCLUDED_PLATFORM_PACKAGE_H
 #define INCLUDED_PLATFORM_PACKAGE_H
 
-#include <boost/filesystem/path.hpp>
-#include <memory>
+#include "ipackage.h"
 
 namespace platform {
-class File;
 
 namespace detail {
 class PackageImpl;
 } // namespace detail
 
-typedef std::vector<boost::filesystem::path> PathVect_t;
-
-class Package
+class Package : public IPackage
 {
 public:
     Package( std::auto_ptr<File> source );
     ~Package();
-    std::auto_ptr<File> Open( boost::filesystem::path const& path );
+    std::unique_ptr<File> Open( boost::filesystem::path const& path );
     void GetFileNames( PathVect_t& paths, boost::filesystem::path const& dir = boost::filesystem::path() );
     uint32_t Checksum() const;
 private:
