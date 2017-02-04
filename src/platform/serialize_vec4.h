@@ -14,6 +14,21 @@ namespace boost {
             ar & g.z;
             ar & g.w;
         }
+        
+        template<class Archive>
+        void serialize( Archive & ar, glm::vec3 & g, const unsigned int version )
+        {
+            ar & g.x;
+            ar & g.y;
+            ar & g.z;
+        }
+
+        template<class Archive>
+        void serialize( Archive & ar, glm::vec2 & g, const unsigned int version )
+        {
+            ar & g.x;
+            ar & g.y;
+        }
 
     } // namespace serialization
 } // namespace boost

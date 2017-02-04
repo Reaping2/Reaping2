@@ -2120,6 +2120,22 @@
             "identifier" : "spawn_at_level_generated",
             "name" : "spawn_actor"
          },
+            {
+      "actor" : "worm200_head",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 500.0,
+                  "y" : 1000.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_level_generated",
+      "name" : "spawn_actor"
+   },
          {
             "actor" : "rogue_stone_wall100",
             "components" : [

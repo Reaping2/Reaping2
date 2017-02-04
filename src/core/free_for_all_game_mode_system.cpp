@@ -22,6 +22,7 @@
 #include "map/editor_brush_system.h"
 #include "map/room_editor_system.h"
 #include "level_selection_system.h"
+#include "map/level_generator/level_generated_event.h"
 
 namespace core {
 
@@ -103,6 +104,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
         Pl->Get<IMoveComponent>()->SetMoving( false );
         mScene.AddActor( Pl.release() );
     }
+    EventServer<map::LevelGeneratedEvent>::Get().SendEvent( map::LevelGeneratedEvent( map::LevelGeneratedEvent::ActorsSpawned ) );
 }
 
 void FreeForAllGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )

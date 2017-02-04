@@ -1,0 +1,181 @@
+[
+    {
+        "name":"worm200_head",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":400,"moving":0}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "cast_shadow":1}]
+            },
+            {"name":"target_holder_component"},
+            {"name":"collision_component",
+                "set":[{"class":"creep", "radius":100}]
+            },
+            {"name":"health_component",
+                "set":[{"hp":280}]
+            },
+            {"name":"scripted_controller_component",
+                "set":[{"states":[{
+                    "identifier":"aggro",
+                        "start":1,
+                        "transitions":[{
+                            "conditions":
+                                [{ "name":"random","percent":20.0,"frequency":1.0 }],
+                            "state_id":"move_away"
+                        }],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":25,"radius":50.0}}
+                            ],
+                            [
+                                { "name":"move_forward","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":550.0} }   
+                            ],
+                            [
+                                { "name":"select_target", "weight":1,
+                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "frequency":1.0} }
+                            ],
+                            [
+                                { "name":"turn_to_target","weight":2,
+                                    "params":{"duration":8.0,"duration_variance":4.0,"speed":240}}
+                            ]                                
+                        ]
+                    },
+                    {
+                        "identifier":"move_away",
+                        "start":0,
+                        "transitions":[{
+                            "conditions":
+                                [{ "name":"random","percent":20.0,"frequency":1.0 }],
+                            "state_id":"aggro"
+                        }],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":20,"radius":50.0}}
+                            ],
+                            [
+                                { "name":"move_forward","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":550.0} }   
+                            ],
+                            [
+                                { "name":"select_target", "weight":1,
+                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "frequency":1.0} }
+                            ],
+                            [
+                                { "name":"turn_away","weight":2,
+                                    "params":{"duration":8.0,"duration_variance":4.0,"speed":240,"degree":90,"degree_variance":50}},
+                                { "name":"do_nothing","weight":2,
+                                    "params":{"duration":2.0,"duration_variance":1.0}}
+                            ]   
+                        ]
+                    }
+                    ]
+                }]
+            },
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"},
+            {"name":"heat_source_component"},
+            {"name":"worm_head_component",
+                "set":[{
+                    "length":12,
+                    "length_decrease":3,
+                    "body":"worm200_body",
+                    "tail":"worm200_tail",
+                    "gap_percent":0.8,
+                    "spawn_delay":2.0}]
+            }
+        ]
+    },
+    {
+        "name":"worm200_body",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":400,"moving":0}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "cast_shadow":1}]
+            },
+            {"name":"target_holder_component"},
+            {"name":"collision_component",
+                "set":[{"class":"creep", "radius":100}]
+            },
+            {"name":"health_component",
+                "set":[{"hp":80}]
+            },
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"},
+            {"name":"heat_source_component"},
+            {"name":"worm_body_component",
+                "set":[{
+                    "body":1
+                    }]
+            },
+            {"name":"scripted_controller_component",
+                "set":[{"states":[{
+                    "identifier":"aggro",
+                        "start":1,
+                        "transitions":[],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":1,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":10,"radius":100.0,"center":1}}
+                            ]              
+                        ]
+                    }
+                    ]
+                }]
+            }            
+        ]
+    },
+    {
+        "name":"worm200_tail",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":400,"moving":0}]
+            },
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "cast_shadow":1}]
+            },
+            {"name":"target_holder_component"},
+            {"name":"collision_component",
+                "set":[{"class":"creep", "radius":100}]
+            },
+            {"name":"health_component",
+                "set":[{"hp":80}]
+            },
+            {"name":"drop_on_death_component"},
+            {"name":"stop_on_death_component"},
+            {"name":"heat_source_component"},
+            {"name":"worm_body_component",
+                "set":[{
+                    "body":0
+                    }]
+            },
+            {"name":"scripted_controller_component",
+                "set":[{"states":[{
+                    "identifier":"aggro",
+                        "start":1,
+                        "transitions":[],
+                        "acts":[
+                            [
+                                { "name":"bite","weight":1,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"frequency":1.5,"damage":10,"radius":100.0,"center":1}}
+                            ]              
+                        ]
+                    }
+                    ]
+                }]
+            }                
+        ]
+    }
+    
+]

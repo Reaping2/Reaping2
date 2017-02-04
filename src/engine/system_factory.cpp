@@ -142,6 +142,8 @@
 #include "path_system.h"
 #include "core/level_selection_system.h"
 #include "pulse_system.h"
+#include "worm_head_system.h"
+#include "worm_body_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -302,6 +304,9 @@ void SystemFactory::Init()
     Bind( AutoId( "spawn_editor_system" ), &CreateSystem<map::SpawnEditorSystem> );
     Bind( AutoId( "cell_entrance_editor_system" ), &CreateSystem<map::CellEntranceEditorSystem> );
     Bind( AutoId( "room_plain_property_editor_system" ), &CreateSystem<map::RoomPlainPropertyEditorSystem> );
+
+    Bind( AutoId( "worm_head_system" ), &CreateSystem<engine::WormHeadSystem> );
+    Bind( AutoId( "worm_body_system" ), &CreateSystem<engine::WormBodySystem> );
 
     Bind( AutoId( "detonate_on_hit_system" ), &CreateSystem<engine::DetonateOnHitSystem> );
     Bind( AutoId( "explode_on_hit_system" ), &CreateSystem<engine::ExplodeOnHitSystem> );

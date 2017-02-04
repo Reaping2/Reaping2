@@ -19,6 +19,7 @@
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/ref.hpp>
+#include "action_renderer_loader_repo.h"
 
 void ActorRenderer::Init()
 {
@@ -159,9 +160,12 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
                     std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( actionRendererId ) );
                 if ( foundActionRendererIt == actionRenderers.end() )
                 {
+                    static auto& mActionRendererLoaderRepo( render::ActionRendererLoaderRepo::Get() );
                     std::auto_ptr<ActionRenderer> actionRenderer( mActionRendererFactory( actionRendererId ) );
                     actionRenderer->SetOrder( recognizer.GetOrder() );
                     actionRenderer->Init( Object );
+                    auto const& loader = mActionRendererLoaderRepo(Object.GetId(), actionRendererId );
+                    actionRenderer = loader.FillProperties( actionRenderer );
                     actionRenderers.insert( actionRenderer );
                 }
                 auto excludedRecognizers = mRecognizerRepo.GetExcludedRecognizers( recognizer.GetId() );

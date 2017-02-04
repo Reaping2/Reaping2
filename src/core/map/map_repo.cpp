@@ -19,7 +19,7 @@ void MapRepo::Init()
     platform::Filesys& Fs = platform::Filesys::Get();
     // list of available levels/maps
     std::vector<boost::filesystem::path> paths;
-    Fs.GetFileNames(paths, MAP_DIR );
+    Fs.GetFileNames(paths, mMapDir );
     for ( auto path : paths )
     {
         if ( path.filename() == "description.json")
@@ -43,6 +43,40 @@ void MapRepo::Init()
             }
             path.remove_filename();
             std::string foldername = path.stem().string();
+            // query 'generated' info, this distinguishes regular maps from rogue maps
+            // info is available in map_elements.json
+            {
+                // default value
+                Root["generated"] = false;
+                AutoFile MapElementsFile = Fs.Open( mMapDir +"/"+foldername+"/map_elements.json");
+                if (!MapElementsFile.get())
+                {
+                    L1("Cannot open file %s/map_elements.json", foldername.c_str());
+                    continue;
+                }
+                JsonReader MapElementsReader( *MapElementsFile );
+                if (!MapElementsReader.IsValid())
+                {
+                    L1("%s/map_elements.json is not a valid JSON file", foldername.c_str());
+                    continue;
+                }
+                const Json::Value& MapElementsRoot = MapElementsReader.GetRoot();
+                if (MapElementsRoot.isArray())
+                {
+                    for ( auto const& item: MapElementsRoot )
+                    {
+                        std::string name;
+                        if (Json::GetStr(item["name"], name))
+                        {
+                            if ("level_generated" == name)
+                            {
+                                Root["generated"] = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
             // index map description with real map name/foldername
             int32_t id = AutoId( foldername );
@@ -51,7 +85,7 @@ void MapRepo::Init()
     }
 }
 
-std::string const MapRepo::MAP_DIR = "maps";
+std::string const MapRepo::mMapDir = "maps";
 
 } // namespace map
 

@@ -30,11 +30,13 @@ void BiteAct::Update( Actor& actor, double Seconds )
     {
         return;
     }
-    auto const headPosition = glm::vec2( 
-        positionC->GetX() + cos( positionC->GetOrientation() )*collisionC->GetRadius()
-        , positionC->GetY() + sin( positionC->GetOrientation() )*collisionC->GetRadius() );
-    Opt<Actor> oldActor = Scene::Get().GetActor( core::ProgramState::Get().mControlledActorGUID );
-    auto playerPositionC( oldActor->Get<IPositionComponent>() );
+    auto headPosition = glm::vec2( positionC->GetX(), positionC->GetY() );
+    if (!mCenter)
+    {
+        headPosition = glm::vec2(
+            positionC->GetX() + cos( positionC->GetOrientation() )*collisionC->GetRadius()
+            , positionC->GetY() + sin( positionC->GetOrientation() )*collisionC->GetRadius() );
+    }
     auto&& players(collisionSystem->GetAllCollidingActors( headPosition,mRadius,1<<CollisionClass::Player ));
     if (players.size() > 0)
     {
@@ -57,6 +59,7 @@ void BiteAct::Load( Json::Value const& setters )
 
     Json::GetDouble( setters["damage"], mDamage );
     Json::GetDouble( setters["radius"], mRadius );
+    Json::GetBool( setters["center"], mCenter );
 }
 
 

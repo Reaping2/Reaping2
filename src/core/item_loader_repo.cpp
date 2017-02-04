@@ -1,5 +1,5 @@
 #include "platform/i_platform.h"
-#include "item_loader_factory.h"
+#include "item_loader_repo.h"
 #include "property_loader.h"
 #include "item.h"
 #include "plasma_gun.h"

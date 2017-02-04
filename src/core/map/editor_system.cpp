@@ -225,6 +225,7 @@ void EditorSystem::OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt )
 
 void EditorSystem::Save()
 {
+	static std::string const mDataMapDir = "data/" + MapRepo::mMapDir;
     // flags to indicate map types in map description
     bool hasFFAitems = false;
     bool hasCTFitems = false;
@@ -268,7 +269,7 @@ void EditorSystem::Save()
             Json::StyledWriter Writer;
             std::string const& JString = Writer.write( Root );
             {
-                OsFile OutJson( "data/map/" + mLevelName + "/saved.json", std::ios_base::out );
+                OsFile OutJson( mDataMapDir + "/" + mLevelName + "/saved.json", std::ios_base::out );
                 OutJson.Write( JString );
             }
         }
@@ -276,7 +277,7 @@ void EditorSystem::Save()
             Json::StyledWriter Writer;
             std::string const& JString = Writer.write( RootBackground );
             {
-                OsFile OutJson( "data/map/" + mLevelName + "/saved_background.json", std::ios_base::out );
+                OsFile OutJson( mDataMapDir + "/" + mLevelName + "/saved_background.json", std::ios_base::out );
                 OutJson.Write( JString );
             }
         }
@@ -303,7 +304,7 @@ void EditorSystem::Save()
         Json::StyledWriter Writer;
         std::string const& JString = Writer.write( Root );
         {
-            OsFile OutJson( "data/map/" + mLevelName + "/saved_start_points.json", std::ios_base::out );
+            OsFile OutJson( mDataMapDir + "/" + mLevelName + "/saved_start_points.json", std::ios_base::out );
             OutJson.Write( JString );
         }
     }
@@ -327,7 +328,7 @@ void EditorSystem::Save()
         Json::StyledWriter Writer;
         std::string const& JString = Writer.write( Root );
         {
-            OsFile OutJson( "data/map/" + mLevelName + "/saved_pickups.json", std::ios_base::out );
+            OsFile OutJson( mDataMapDir + "/" + mLevelName + "/saved_pickups.json", std::ios_base::out );
             OutJson.Write( JString );
         }
     }
@@ -350,7 +351,7 @@ void EditorSystem::Save()
         Json::StyledWriter Writer;
         std::string const& JString = Writer.write( desc );
         {
-            OsFile OutJson( "data/map/" + mLevelName + "/description.json", std::ios_base::out );
+            OsFile OutJson( mDataMapDir + "/" + mLevelName + "/description.json", std::ios_base::out );
             OutJson.Write( JString );
         }
     }
