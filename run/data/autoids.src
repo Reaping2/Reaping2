@@ -492,7 +492,6 @@ _background
 _mask
 _no_name_
 _normal
-_no_name_
 _outer
 a
 a-a
@@ -1128,8 +1127,6 @@ data
 data.pkg
 data/
 data/Ping-da-ding-ding-ding.ogg
-data/Ping-da-ding-ding-ding.ogg
-data/map/
 data/rooms/
 data/rooms/test_save/test_save.json
 data_checksum
@@ -1461,9 +1458,10 @@ glm_fix.h
 graphics.cast_shadows
 graphics.gl.max_allowed_texture_size
 graphics.postprocess
+graphics.pp_blacklist
 graphics.shadow_scale
 graphics.shown_layer
-graphics.shadow_scale
+graphics.shown_layer_pp_id
 graphics.sprite_phase_cache.downsample
 graphics.sprite_phase_cache.enabled
 graphics.sprite_phase_cache.gapless
@@ -1664,7 +1662,6 @@ id
 id_storage.h
 identifier
 idle
-idle_action_renderer.h
 ifile.h
 image
 image.h
@@ -1730,7 +1727,6 @@ item_loader
 item_loader.h
 item_loader_factory
 item_loader_repo.h
-item_loader_factory.h
 item_properties_changed_event
 item_type
 item_type.h
