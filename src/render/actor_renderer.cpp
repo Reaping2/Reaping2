@@ -78,6 +78,11 @@ bool isVisible( Actor const& actor, Camera const& camera )
     {
         return false;
     }
+    Opt<IRenderableComponent> const renderableC = actor.Get<IRenderableComponent>();
+    if( !renderableC.IsValid() )
+    {
+        return false;
+    }
     static RenderableRepo& renderables( RenderableRepo::Get() );
     float scale = renderables.GetMaxScale( actor.GetId() );
     Opt<ICollisionComponent> const collisionC = actor.Get<ICollisionComponent>();
@@ -97,18 +102,20 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
                     std::map<int32_t, std::vector<glm::vec4> >& postprocColors, size_t& cnt,
                     render::RenderBatch& batch )
 {
+    static int32_t prevNormalId = -1;
+    static int32_t prevsecid = -1;
     if( i == e )
     {
+        prevNormalId = -1;
+        prevsecid = -1;
         return false;
     }
     batch.TexId = i->Spr->TexId;
     // mask id is by default the tex id ( if no additional alpha masking is necessary )
     batch.MaskId = batch.TexId;
-    static int32_t prevNormalId = -1;
     batch.NormalId = prevNormalId;
     // we don't swap back from a valid sec. tex id to -1
     // so there are less RenderBatch changes in render::count
-    static int32_t prevsecid = -1;
     batch.SecondaryTexId = prevsecid;
     batch.ShaderId = i->RenderableComp->GetShaderId();
     (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
@@ -264,6 +271,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     TexCoords_t NormalTexCoords( CurSize );
     Colors_t Colors( CurSize );
     postprocids.insert( -1 );
+    mPostprocessColors.clear();
     for( auto id : postprocids )
     {
         mPostprocessColors[ id ] = Colors_t( CurSize, glm::vec4(0,0,0,1) );
@@ -355,8 +363,9 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
 
     CurrentOffset += CurrentSize;
     CurrentSize = CurSize * sizeof( glm::vec4 );
-//    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &mPostprocessColors[-1][0] ); no need to actually upload this, random mem is just fine
-//    although it might be faster to just upload everything at prepare time
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &mPostprocessColors[-1][0] );
+    // no need to actually upload this, random mem is just fine
+    // although it might be faster to just upload everything at prepare time
     glEnableVertexAttribArray( CurrentAttribIndex );
     mPostprocessColorIndex = CurrentOffset;
     mVAO.Unbind();
@@ -427,7 +436,7 @@ void ActorRenderer::Draw( RenderFilter filter )
         static auto Window = engine::Engine::Get().GetSystem<engine::WindowSystem>();
         Window->GetWindowSize( w, h );
         ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
-        static render::Counts_t parts;
+        render::Counts_t parts;
         partitionByFilter( parts, mRenderableSprites, BigPart, filter );
         for( auto const& Part : parts )
         {
@@ -440,6 +449,10 @@ void ActorRenderer::Draw( RenderFilter filter )
 
 void ActorRenderer::Draw( int32_t postprocid )
 {
+    if( mPostprocessColors.find( postprocid ) == mPostprocessColors.end() )
+    {
+        return;
+    }
     mVAO.Bind();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     static int32_t def = AutoId( "postprocessor_select" );
