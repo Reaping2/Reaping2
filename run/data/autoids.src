@@ -2444,7 +2444,9 @@ shader_manager.h
 shader_repo.h
 shaders
 shaders/
+shadow_unwrap
 shadows
+shadows2
 shoot
 shoot_alt
 shoot_alt_cooldown

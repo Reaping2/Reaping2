@@ -24,6 +24,8 @@ enum ShownLayer
     SpriteCache,
     BumpMap,
     PostprocessMask,
+    ShadowUnwrap,
+    Shadows,
 };
 ShownLayer shownLayer()
 {
@@ -33,6 +35,8 @@ ShownLayer shownLayer()
         { "sprite_cache", SpriteCache },
         { "bump_map", BumpMap },
         { "postprocess_mask", PostprocessMask },
+        { "shadow_unwrap", ShadowUnwrap },
+        { "shadows", Shadows },
     };
     auto i = layers.find( layer );
     return i == layers.end() ? Normal : i->second;
@@ -212,6 +216,9 @@ void RendererSystem::Update( double DeltaTime )
     // allocate render target ids
     static uint32_t const world = rt.GetFreeId();
     static uint32_t const shadowOutline = rt.GetFreeId();
+    static uint32_t const shadowDedicatedOutline = rt.GetFreeId();
+    static uint32_t const shadowUnwrap = rt.GetFreeId();
+    static uint32_t const shadowDedicatedUnwrap = rt.GetFreeId();
     static uint32_t const shadows = rt.GetFreeId();
     static uint32_t const worldBumped = rt.GetFreeId();
     static uint32_t const worldEffects = rt.GetFreeId();
@@ -233,21 +240,30 @@ void RendererSystem::Update( double DeltaTime )
     std::set<int32_t> shadowLevels, postProcessorIds;
     getActiveActorProps( shadowLevels, postProcessorIds );
     static int32_t shid( AutoId( "shadows" ) );
+    static int32_t sh2id( AutoId( "shadows2" ) );
+    static int32_t unwrapid( AutoId( "shadow_unwrap" ) );
     static int32_t solidid( AutoId( "world_solid_objects" ) );
     if( castShadows != 0 )
     {
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         for( auto shadowLevel : shadowLevels )
         {
+            bool topmost = shadowLevel == std::numeric_limits<int32_t>::max();
+            uint32_t outline = topmost ? shadowOutline : shadowDedicatedOutline;
+            uint32_t unwrap = topmost ? shadowUnwrap : shadowDedicatedUnwrap;
             // !---- rt - shadows outline
-            rt.SetTargetTexture( shadowOutline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
+            rt.SetTargetTexture( outline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
             SetupRenderer( mWorldProjector, shadowmult );
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
             // !---- shadows, actually translated, black
             SetupIdentity();
 
-            rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), shid, mWorldProjector.GetViewport().Size() * shadowmult );
+            glm::vec2 uwsize( ( mWorldProjector.GetViewport().Size() * shadowmult ).x, 1 );
+            rt.SetTargetTexture( unwrap, RenderTargetProps( uwsize, { GL_RGBA } ) );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( outline ), unwrapid, mWorldProjector.GetViewport().Size() * shadowmult );
+
+            rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), sh2id, mWorldProjector.GetViewport().Size() * shadowmult );
 
             // !---- receivers
             rt.SelectTargetTexture( world );
@@ -320,6 +336,12 @@ void RendererSystem::Update( double DeltaTime )
             break;
         case BumpMap:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world, 1 ), solidid );
+            break;
+        case ShadowUnwrap:
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedUnwrap ), solidid );
+            break;
+        case Shadows:
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedOutline ), solidid );
             break;
         default:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );

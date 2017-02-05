@@ -8,7 +8,7 @@
                 "set":[{"speed":750}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"players", "cast_shadow":1}]
+                "set":[{"layer":"players", "cast_shadow":0}]
             },
             {"name":"collision_component",
                 "set":[{"class":"player", "radius":30}]
