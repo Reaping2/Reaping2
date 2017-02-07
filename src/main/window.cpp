@@ -1,4 +1,5 @@
 #include "window.h"
+#include "window_settings.h"
 #include "platform/settings.h"
 
 namespace {
@@ -15,60 +16,15 @@ bool WindowSystem::Create( const std::string& Title )
         LOG( "glfwInit failed!\n" );
         return false;
     }
-    uint32_t Width = 1280;
-    uint32_t Height = 960;
-    Width = Settings::Get().GetUInt( "graphics.width", Width );
-    Height = Settings::Get().GetUInt( "graphics.height", Height );
-    std::string windowMode = Settings::Get().GetStr( "graphics.window_mode", "windowed" );
+
+    WindowSettings& ws( WindowSettings::Get() );
     glfwDefaultWindowHints();
-    // possible modes: fullscreen_native_res, fullscreen, borderless_windowed, windowed
-    std::map<std::string,std::map<int,int> > hints = {
-        { "windowed", {
-                          { GLFW_RESIZABLE, GL_TRUE },
-                          { GLFW_DECORATED, GL_TRUE },
-                          { GLFW_VISIBLE, GL_TRUE },
-                      } },
-        { "fullscreen", {
-                          { GLFW_RESIZABLE, GL_FALSE },
-                          { GLFW_DECORATED, GL_FALSE },
-                          { GLFW_REFRESH_RATE, 0 },
-                      } },
-    };
-    auto it = hints.find( windowMode );
-    auto const& selectedHints = it == hints.end() ? hints[ "windowed" ] : it->second;
-    for( auto const& hint : selectedHints )
+    for( auto const& hint : ws.GetHints() )
     {
         glfwWindowHint( hint.first, hint.second );
     }
 
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 );
-    glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
-
-    GLFWmonitor* monitor = nullptr;
-    if( windowMode == "fullscreen" )
-    {
-        monitor = glfwGetPrimaryMonitor();
-        if( monitor == nullptr )
-        {
-            int count = 0;
-            auto** monitors = glfwGetMonitors( &count );
-            if( count > 0 )
-            {
-                monitor = monitors[0];
-            }
-        }
-        if( monitor != nullptr )
-        {
-            auto* mode = glfwGetVideoMode( monitor );
-            if( mode != nullptr )
-            {
-                Width = mode->width;
-                Height = mode->height;
-            }
-        }
-    }
-    mWindow = glfwCreateWindow( Width, Height, Title.c_str(), monitor, nullptr );
+    mWindow = glfwCreateWindow( ws.GetSize().x, ws.GetSize().y, Title.c_str(), ws.GetPreferredMonitor(), nullptr );
     if( mWindow )
     {
         LOG( "Window creation succeeded!\n" );
