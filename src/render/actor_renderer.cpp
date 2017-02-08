@@ -259,6 +259,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     size_t CurSize = mRenderableSprites.size();
     if( CurSize == 0 )
     {
+        mCounts.clear();
         return;
     }
 
@@ -408,6 +409,10 @@ void partitionByFilter( render::Counts_t& rv, RenderableSprites_t const& sprites
 
 void ActorRenderer::Draw( RenderFilter filter )
 {
+    if( mRenderableSprites.empty() )
+    {
+        return;
+    }
     mVAO.Bind();
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     static int32_t def = AutoId( "sprite2" );
@@ -449,6 +454,10 @@ void ActorRenderer::Draw( RenderFilter filter )
 
 void ActorRenderer::Draw( int32_t postprocid )
 {
+    if( mRenderableSprites.empty() )
+    {
+        return;
+    }
     if( mPostprocessColors.find( postprocid ) == mPostprocessColors.end() )
     {
         return;
