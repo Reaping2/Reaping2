@@ -111,6 +111,11 @@
 -a1
 -a3
 -a4
+.postprocessor_select.fs
+.postprocessor_select.vs
+.sprite2.vs
+.water.fs
+.water.vs
 0x00000000
 0x00000044
 0x00007777
@@ -694,6 +699,7 @@ buildings
 bullet2_particle
 bullet_particle
 bump_map
+bump_map_single
 bush50
 bush50.png
 button
@@ -2150,9 +2156,7 @@ select_level
 select_target
 set entrance
 settings
-shadow_unwrap
 shadows
-shadows2
 shooter_Loves
 shooter_move
 shooter_rip

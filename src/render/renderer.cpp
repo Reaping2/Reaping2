@@ -135,20 +135,47 @@ void RendererSystem::Init()
 }
 
 namespace {
+std::set<int32_t> blacklistedPostprocessors()
+{
+    static bool inited = false;
+    static std::set<int32_t> rv;
+    if( inited )
+    {
+        return rv;
+    }
+    inited = true;
+    Json::Value bl = Settings::Get().Resolve( "graphics.pp_blacklist" );
+    if( !bl.isArray() )
+    {
+        return rv;
+    }
+    for( auto it : bl )
+    {
+        rv.insert( AutoId( it.asString() ) );
+    }
+    return rv;
+}
 void getActiveActorProps( std::set<int32_t>& shadowLevels, std::set<int32_t>& postprocessorIds )
 {
     static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
     auto const& Lst = activityS->GetActiveActors();
+    std::set<int32_t> pps;
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
         Opt<IRenderableComponent> renderableC( Object.Get<IRenderableComponent>() );
+        if( !renderableC.IsValid() )
+        {
+            continue;
+        }
         shadowLevels.insert( renderableC->GetCastShadow() );
         shadowLevels.insert( renderableC->GetReceiveShadow() );
         auto const& procs = renderableC->GetPostProcessIds();
-        postprocessorIds.insert( procs.begin(), procs.end() );
+        pps.insert( procs.begin(), procs.end() );
     }
     shadowLevels.erase( 0 );
+    static auto const bls = blacklistedPostprocessors();
+    std::set_difference( pps.begin(), pps.end(), bls.begin(), bls.end(), std::inserter( postprocessorIds, postprocessorIds.end() ) );
 }
 bool selectBloodReceivers( IRenderableComponent const& renderableC )
 {
@@ -189,6 +216,7 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const worldBumped = rt.GetFreeId();
     static uint32_t const worldEffects = rt.GetFreeId();
     static uint32_t const worldPostProcess = rt.GetFreeId();
+    static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
 
     RenderTargetProps worldProps( mWorldProjector.GetViewport().Size(), {GL_RGBA, GL_RGB } );
     rt.SetTargetTexture( world, worldProps);
@@ -259,12 +287,14 @@ void RendererSystem::Update( double DeltaTime )
         for( auto id : postProcessorIds )
         {
             // TODO: downscale
-            rt.SetTargetTexture( worldPostProcess, worldPPProps );
+            static int32_t debuggedPP = AutoId( Settings::Get().GetStr( "graphics.shown_layer_pp_id", "" ) );
+            uint32_t pp = id == debuggedPP ? worldDedicatedPostProcess : worldPostProcess;
+            rt.SetTargetTexture( pp, worldPPProps );
             SetupRenderer( mWorldProjector );
             mActorRenderer.Draw( id );
 
             GLuint srcTexture = rt.GetTextureId( worldBumped );
-            GLuint maskTexture = rt.GetTextureId( worldPostProcess );
+            GLuint maskTexture = rt.GetTextureId( pp );
             rt.SelectTargetTexture( worldEffects );
             SetupIdentity();
             mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
@@ -275,8 +305,6 @@ void RendererSystem::Update( double DeltaTime )
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     SetupIdentity();
 
-    glClear( GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
     // paint the previous textures to screen with custom additional effects
     // actually we could skip this by painting directly to screen in prev. step
     // but we can possibly upscale here for sweet sweet fps
@@ -285,7 +313,7 @@ void RendererSystem::Update( double DeltaTime )
     switch( layer )
     {
         case PostprocessMask:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldPostProcess ), solidid );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldDedicatedPostProcess ), solidid );
             break;
         case SpriteCache:
             mWorldRenderer.Draw( DeltaTime, cache.mTargetTexId, solidid );
