@@ -8,6 +8,8 @@
 #include "sprite_phase_cache.h"
 #include "engine/engine.h"
 #include "engine/activity_system.h"
+#include "core/i_light_component.h"
+#include "core/i_position_component.h"
 #include <boost/assign.hpp>
 
 namespace engine {
@@ -136,9 +138,20 @@ void RendererSystem::Init()
     glEnable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
+    Scene::Get().AddValidator( AutoId("lights"),
+        []( Actor const& actor )->bool {
+            return actor.Get<ILightComponent>().IsValid() && actor.Get<IPositionComponent>().IsValid();
+        }
+        );
 }
 
 namespace {
+Scene::Actors_t getLights()
+{
+    static int32_t id( AutoId( "lights" ) );
+    static Scene& scen( Scene::Get() );
+    return scen.GetActorsFromMap( id );
+}
 std::set<int32_t> blacklistedPostprocessors()
 {
     static bool inited = false;
@@ -245,35 +258,48 @@ void RendererSystem::Update( double DeltaTime )
     static int32_t solidid( AutoId( "world_solid_objects" ) );
     if( castShadows != 0 )
     {
+        auto const& lights = getLights();
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         for( auto shadowLevel : shadowLevels )
         {
             bool topmost = shadowLevel == std::numeric_limits<int32_t>::max();
             uint32_t outline = topmost ? shadowOutline : shadowDedicatedOutline;
             uint32_t unwrap = topmost ? shadowUnwrap : shadowDedicatedUnwrap;
-            // !---- rt - shadows outline
+
             rt.SetTargetTexture( outline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
             SetupRenderer( mWorldProjector, shadowmult );
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
-            // !---- shadows, actually translated, black
-            SetupIdentity();
 
-            glm::vec2 uwsize( ( mWorldProjector.GetViewport().Size() * shadowmult ).x, 1 );
-            rt.SetTargetTexture( unwrap, RenderTargetProps( uwsize, { GL_RGBA } ) );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( outline ), unwrapid, mWorldProjector.GetViewport().Size() * shadowmult );
-
-            rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), sh2id, mWorldProjector.GetViewport().Size() * shadowmult );
-
-            // !---- receivers
             rt.SelectTargetTexture( world );
             SetupRenderer( mWorldProjector );
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
-            // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
-            SetupIdentity();
-            // !---- the shadows
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadows ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
+            for( auto light : lights )
+            {
+                double radius = light->Get<ILightComponent>()->GetRadius();
+                auto positionC = light->Get<IPositionComponent>();
+                glm::vec2 pos( positionC->GetX(), positionC->GetY() );
+                // create camera with max light range range, pos center
+                // use that cam + world to render outline to small shadow map
+                // use small shadow map to create 1d map
+                // use that map + pos to render shadow layer
+                SetupRenderer( mWorldProjector, shadowmult );   // needed for resolution
+                SetupIdentity();
+
+                glm::vec2 uwsize( ( mWorldProjector.GetViewport().Size() * shadowmult ).x, 1 );
+                rt.SetTargetTexture( unwrap, RenderTargetProps( uwsize, { GL_RGBA } ) );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( outline ), unwrapid, mWorldProjector.GetViewport().Size() * shadowmult );
+
+                rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), sh2id, mWorldProjector.GetViewport().Size() * shadowmult );
+
+                rt.SelectTargetTexture( world );
+                SetupRenderer( mWorldProjector ); // needed for resolution
+                // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
+                SetupIdentity();
+                // !---- the shadows
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadows ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
+            }
         }
     }
     else

@@ -57,6 +57,7 @@
 #include "scripted_controller/scripted_controller_component.h"
 #include "worm_head_component.h"
 #include "worm_body_component.h"
+#include "light_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -131,6 +132,9 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "remove_components_on_death_component" ), &CreateComponentLoader<RemoveComponentsOnDeathComponentLoader> );
     Bind( AutoId( "cell_component" ), &CreateComponentLoader<CellComponentLoader> );
     Bind( AutoId( "level_end_component" ), &CreateComponentLoader<LevelEndComponentLoader> );
+
+
+    Bind( AutoId("light_component"), &CreateComponentLoader<LightComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

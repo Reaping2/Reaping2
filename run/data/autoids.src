@@ -23,6 +23,7 @@
 ...
 ../../../Reaping2_build/build/tools/classgenerator/classgenerator
 ../../actor_factory.h
+../../build-reap-release/bin/relwithdebinfo/classgenerator
 ../../build-reap/bin/classgenerator
 ../../build-reaping/bin/debug/classgenerator
 ../../build/tools/classgenerator/classgenerator
@@ -283,6 +284,7 @@ IHeatSourceComponent
 IInventoryComponent
 IKillScoreOnDeathComponent
 ILevelEndComponent
+ILightComponent
 IListenChildDeathComponent
 IMoveComponent
 INotifyParentOnDeathComponent
@@ -679,6 +681,7 @@ c:/setuplogfile.log
 cache.h
 calibrate
 camera.h
+camera.pin_center_to_player
 capture_the_flag_game_mode_system
 capture_the_flag_game_mode_system.h
 cast_shadow
@@ -904,6 +907,7 @@ core/i_heat_source_component.h
 core/i_inventory_component.h
 core/i_kill_score_on_death_component.h
 core/i_level_end_component.h
+core/i_light_component.h
 core/i_listen_child_death_component.h
 core/i_move_component.h
 core/i_notify_parent_on_death_component.h
@@ -931,6 +935,7 @@ core/kill_score_on_death_component.h
 core/level_end_component.h
 core/level_selected_event.h
 core/level_selection_system.h
+core/light_component.h
 core/listen_child_death_component.h
 core/lucky_rocket.h
 core/map/base_input.h
@@ -1158,6 +1163,7 @@ degree
 degree_variance
 delay
 delay_variance
+deltaTime
 deploy_time
 description
 description.json
@@ -1178,6 +1184,7 @@ distance_to_target_condition.h
 distribution
 do_nothing
 do_nothing_act.h
+double-radius
 double-secsToRevive
 drop_on_death_component
 drop_on_death_system
@@ -1618,6 +1625,7 @@ i_kill_score_on_death_component
 i_kill_score_on_death_component.h
 i_level_end_component.h
 i_level_generator.h
+i_light_component.h
 i_listen_child_death_component
 i_listen_child_death_component.h
 i_move_component
@@ -1827,6 +1835,9 @@ lifecycle_message.h
 lifecycle_message_handler_sub_system
 lifecycle_message_handler_sub_system.h
 lifecycle_sender_system
+light_component
+light_component.h
+lights
 link
 link_map_element.h
 link_map_element_system
@@ -2150,6 +2161,7 @@ platform/singleton.h
 platform/timer.h
 player
 player_c
+player_camera.h
 player_control_device.h
 player_controller_component
 player_controller_component.h

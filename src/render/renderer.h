@@ -4,7 +4,7 @@
 #include "render/i_render.h"
 #include "name_renderer.h"
 #include "text_scene_renderer.h"
-#include "camera.h"
+#include "player_camera.h"
 #include "projection.h"
 #include "actor_renderer.h"
 #include "decal_engine.h"
@@ -22,7 +22,7 @@ class RendererSystem : public System
 
     Projection mWorldProjector;
     Projection mUiProjector;
-    Camera mCamera;
+    PlayerCamera mCamera;
     Ui& mUi;
     ActorRenderer mActorRenderer;
     UiRenderer mUiRenderer;

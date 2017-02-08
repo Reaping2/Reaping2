@@ -4,11 +4,14 @@
         "components":
         [
             {"name":"position_component"},
+            {"name":"light_component",
+                "set":[{"radius":30}]
+            },
             {"name":"move_component",
                 "set":[{"speed":750}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"players", "cast_shadow":0}]
+                "set":[{"layer":"players", "cast_shadow":1}]
             },
             {"name":"collision_component",
                 "set":[{"class":"player", "radius":30}]

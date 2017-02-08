@@ -10,9 +10,11 @@ void main()
     vec2 uv = -1 * ( inTexCoord * 2.0 - 1 );
     float theta = clamp( atan( uv.y, uv.x ) / 3.14159 * 0.5 + 0.5, 0, 1 );
     float rad = length( uv );
+    uv.y *= resolution.y / resolution.x;
+    float falloffDist = length( uv );
     float firstOccluder = texture2D( texture, vec2( theta, 0.5 ) ).r;
-    float alpha = smoothstep( 0.3, 0.9, rad ) * maxshadow;
-    if( firstOccluder < rad )
+    float alpha = smoothstep( 0.3, 0.9, falloffDist ) * maxshadow;
+    if( 1 > firstOccluder && firstOccluder < rad )
     {
         alpha = max( alpha, maxshadow );
     }
