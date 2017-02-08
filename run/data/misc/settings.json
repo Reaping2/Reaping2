@@ -18,6 +18,14 @@
         "size":76,
         "y":70
     },
+    "graphics":
+    {
+        "preferred_monitor":"",
+        "window_mode":"windowed",
+        "possible_window_modes_comment":"fullscreen,windowed,borderless_windowed",
+        "width":1280,
+        "height":960
+    },
     "controlmappings":
     {
         "controller":
