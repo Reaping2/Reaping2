@@ -111,9 +111,8 @@
 -a1
 -a3
 -a4
-.lightmap.fs
-.water.fs
-.water.vs
+.bump_map_mp.fs
+.bump_map_mp.vs
 0x00000000
 0x00000044
 0x00007777
@@ -697,7 +696,7 @@ buildings
 bullet2_particle
 bullet_particle
 bump_map
-bump_map_single
+bump_map_mp
 bush50
 bush50.png
 button

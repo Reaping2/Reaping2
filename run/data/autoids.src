@@ -675,6 +675,7 @@ buffs_engine/move_speed_buff_sub_system.h
 bufftarget
 bullets
 bump_map
+bump_map_mp
 button
 button.h
 c:/setuplogfile.log

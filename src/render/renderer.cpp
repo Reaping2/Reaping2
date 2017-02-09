@@ -262,9 +262,9 @@ void RendererSystem::Update( double DeltaTime )
     static int32_t unwrapid( AutoId( "shadow_unwrap" ) );
     static int32_t solidid( AutoId( "world_solid_objects" ) );
     static int32_t lightmap( AutoId( "lightmap" ) );
+    auto const& lights = getLights();
     if( castShadows != 0 )
     {
-        auto const& lights = getLights();
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         for( auto shadowLevel : shadowLevels )
         {
@@ -336,9 +336,28 @@ void RendererSystem::Update( double DeltaTime )
     rt.SetTargetTexture( worldBumped, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
     SetupIdentity();
     glBlendFunc( GL_ONE, GL_ONE );
-    static int32_t bumpid = AutoId( "bump_map" );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
-            rt.GetTextureId( world, 1) );
+    glBlendEquation( GL_MAX );
+    static int32_t bumpid = AutoId( "bump_map_mp" );
+    glDepthFunc( GL_LEQUAL );
+    for( auto light : lights )
+    {
+        auto positionC = light->Get<IPositionComponent>();
+        glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
+        auto lightPos4 =  mWorldProjector.GetMatrix() * mCamera.GetView() * pos;
+        glm::vec2 lightPos = glm::vec2( lightPos4.x + 1, lightPos4.y + 1 ) / 2.0;
+
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
+            [&](ShaderManager& ShaderMgr)->void{
+                ShaderMgr.UploadData( "secondaryTexture", GLuint( 2 ) );
+                ShaderMgr.UploadData( "resolution", mWorldProjector.GetViewport().Size() );
+                ShaderMgr.UploadData( "lightPosition", lightPos );
+                glActiveTexture( GL_TEXTURE0 + 2 );
+                glBindTexture( GL_TEXTURE_2D, rt.GetTextureId( world, 1 ) );
+            } );
+    }
+    glBlendFunc( GL_ONE, GL_ONE );
+    glBlendEquation( GL_FUNC_ADD );
+    glDepthFunc( GL_LESS );
 
     rt.SetTargetTexture( worldEffects, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
     mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
