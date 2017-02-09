@@ -1839,6 +1839,7 @@ lightPosition
 lightSize
 light_component
 light_component.h
+lightmap
 lights
 link
 link_map_element.h

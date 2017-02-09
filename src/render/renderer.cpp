@@ -28,6 +28,7 @@ enum ShownLayer
     PostprocessMask,
     ShadowUnwrap,
     Shadows,
+    Lights,
 };
 ShownLayer shownLayer()
 {
@@ -39,6 +40,7 @@ ShownLayer shownLayer()
         { "postprocess_mask", PostprocessMask },
         { "shadow_unwrap", ShadowUnwrap },
         { "shadows", Shadows },
+        { "lights", Lights },
     };
     auto i = layers.find( layer );
     return i == layers.end() ? Normal : i->second;
@@ -233,6 +235,8 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const shadowUnwrap = rt.GetFreeId();
     static uint32_t const shadowDedicatedUnwrap = rt.GetFreeId();
     static uint32_t const shadows = rt.GetFreeId();
+    static uint32_t const lightsLayer = rt.GetFreeId();
+    static uint32_t const lightsDedicated = rt.GetFreeId();
     static uint32_t const worldBumped = rt.GetFreeId();
     static uint32_t const worldEffects = rt.GetFreeId();
     static uint32_t const worldPostProcess = rt.GetFreeId();
@@ -254,8 +258,10 @@ void RendererSystem::Update( double DeltaTime )
     getActiveActorProps( shadowLevels, postProcessorIds );
     static int32_t shid( AutoId( "shadows" ) );
     static int32_t sh2id( AutoId( "shadows2" ) );
+    static int32_t lightsid( AutoId( "lights" ) );
     static int32_t unwrapid( AutoId( "shadow_unwrap" ) );
     static int32_t solidid( AutoId( "world_solid_objects" ) );
+    static int32_t lightmap( AutoId( "lightmap" ) );
     if( castShadows != 0 )
     {
         auto const& lights = getLights();
@@ -265,6 +271,7 @@ void RendererSystem::Update( double DeltaTime )
             bool topmost = shadowLevel == std::numeric_limits<int32_t>::max();
             uint32_t outline = topmost ? shadowOutline : shadowDedicatedOutline;
             uint32_t unwrap = topmost ? shadowUnwrap : shadowDedicatedUnwrap;
+            uint32_t lightrl = topmost ? lightsLayer : lightsDedicated;
 
             rt.SetTargetTexture( outline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
             SetupRenderer( mWorldProjector, shadowmult );
@@ -274,6 +281,7 @@ void RendererSystem::Update( double DeltaTime )
             SetupRenderer( mWorldProjector );
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
+            rt.SetTargetTexture( lightrl, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
             for( auto light : lights )
             {
                 double radius = light->Get<ILightComponent>()->GetRadius();
@@ -300,22 +308,21 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "lightSize", lightSize );
                     } );
 
-                rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
-                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), sh2id,
+                rt.SelectTargetTexture( lightrl );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), lightsid,
                     [&](ShaderManager& ShaderMgr)->void{
                         ShaderMgr.UploadData( "resolution", shadowsize );
                         ShaderMgr.UploadData( "lightPosition", lightPos );
                         ShaderMgr.UploadData( "lightSize", lightSize );
                     } );
-
-
-                rt.SelectTargetTexture( world );
-                SetupRenderer( mWorldProjector ); // needed for resolution
-                // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
-                SetupIdentity();
-                // !---- the shadows
-                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadows ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
             }
+
+            rt.SelectTargetTexture( world );
+            SetupRenderer( mWorldProjector ); // needed for resolution
+            // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
+            SetupIdentity();
+            // !---- lights/shadows
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), lightmap ); // , mWorldProjector.GetViewport().Size() * shadowmult );
         }
     }
     else
@@ -384,6 +391,9 @@ void RendererSystem::Update( double DeltaTime )
             break;
         case Shadows:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedOutline ), solidid );
+            break;
+        case Lights:
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsDedicated ), solidid );
             break;
         default:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );

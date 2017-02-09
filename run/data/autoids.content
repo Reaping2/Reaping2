@@ -111,8 +111,7 @@
 -a1
 -a3
 -a4
-.shadow_unwrap.fs
-.shadows2.fs
+.lightmap.fs
 .water.fs
 .water.vs
 0x00000000
@@ -1114,6 +1113,8 @@ level_generated
 level_generator
 lifecycle.host
 light_component
+lightmap
+lights
 link
 listen_child_death_component
 local.start
