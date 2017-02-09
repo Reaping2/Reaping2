@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"fire.png",
+        "actor_visuals":
+        [
+            {
+                "name":"fire",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":512,
+                        "h":512,
+                        "scale":1.25,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]

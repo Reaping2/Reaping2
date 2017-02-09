@@ -282,6 +282,7 @@ void RendererSystem::Update( double DeltaTime )
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
             rt.SetTargetTexture( lightrl, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
+            glBlendEquation( GL_MAX );
             for( auto light : lights )
             {
                 double radius = light->Get<ILightComponent>()->GetRadius();
@@ -316,6 +317,7 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "lightSize", lightSize );
                     } );
             }
+            glBlendEquation( GL_FUNC_ADD );
 
             rt.SelectTargetTexture( world );
             SetupRenderer( mWorldProjector ); // needed for resolution
