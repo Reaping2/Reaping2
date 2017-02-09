@@ -1835,6 +1835,8 @@ lifecycle_message.h
 lifecycle_message_handler_sub_system
 lifecycle_message_handler_sub_system.h
 lifecycle_sender_system
+lightPosition
+lightSize
 light_component
 light_component.h
 lights

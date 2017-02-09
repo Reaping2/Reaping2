@@ -277,8 +277,10 @@ void RendererSystem::Update( double DeltaTime )
             for( auto light : lights )
             {
                 double radius = light->Get<ILightComponent>()->GetRadius();
+                glm::vec2 lightSize( radius, radius );  // not done yet
                 auto positionC = light->Get<IPositionComponent>();
-                glm::vec2 pos( positionC->GetX(), positionC->GetY() );
+                glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
+                auto lightPos4 =  mWorldProjector.GetMatrix() * mCamera.GetView() * pos;
                 // create camera with max light range range, pos center
                 // use that cam + world to render outline to small shadow map
                 // use small shadow map to create 1d map
@@ -286,12 +288,26 @@ void RendererSystem::Update( double DeltaTime )
                 SetupRenderer( mWorldProjector, shadowmult );   // needed for resolution
                 SetupIdentity();
 
-                glm::vec2 uwsize( ( mWorldProjector.GetViewport().Size() * shadowmult ).x, 1 );
+                glm::vec2 shadowsize( mWorldProjector.GetViewport().Size() * shadowmult );
+                glm::vec2 uwsize( shadowsize.x, 1 );
+                glm::vec2 lightPos = glm::vec2( lightPos4.x + 1, lightPos4.y + 1 ) / 2.0;
+                // lightpos: 0..1 ^2 ( vagy screenen kivul )
                 rt.SetTargetTexture( unwrap, RenderTargetProps( uwsize, { GL_RGBA } ) );
-                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( outline ), unwrapid, mWorldProjector.GetViewport().Size() * shadowmult );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( outline ), unwrapid,
+                    [&](ShaderManager& ShaderMgr)->void{
+                        ShaderMgr.UploadData( "resolution", shadowsize );
+                        ShaderMgr.UploadData( "lightPosition", lightPos );
+                        ShaderMgr.UploadData( "lightSize", lightSize );
+                    } );
 
                 rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
-                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), sh2id, mWorldProjector.GetViewport().Size() * shadowmult );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), sh2id,
+                    [&](ShaderManager& ShaderMgr)->void{
+                        ShaderMgr.UploadData( "resolution", shadowsize );
+                        ShaderMgr.UploadData( "lightPosition", lightPos );
+                        ShaderMgr.UploadData( "lightSize", lightSize );
+                    } );
+
 
                 rt.SelectTargetTexture( world );
                 SetupRenderer( mWorldProjector ); // needed for resolution

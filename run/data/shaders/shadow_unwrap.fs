@@ -1,6 +1,8 @@
 #version 330
 
 uniform vec2 resolution;
+uniform vec2 lightPosition;
+uniform vec2 lightSize;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
 out vec4 outputColor;
@@ -18,8 +20,12 @@ void main()
         float r = y / rays;
 
         //coord which we will sample from occlude map
-        vec2 coord = vec2( cos( theta ), sin( theta ) ) * r / 2.0 + 0.5;
-
+        vec2 coord = vec2( cos( theta ), sin( theta ) ) * r / 2.0 + lightPosition;
+        if( coord.x < 0.0 || coord.y < 0.0 ||
+            coord.x > 1.0 || coord.y > 1.0 )
+        {
+            continue;
+        }
         //sample the occlusion map
         vec4 data = texture2D(texture, coord);
 
