@@ -111,11 +111,6 @@
 -a1
 -a3
 -a4
-.blue_grenade.actor
-.fire.actor
-.ion_gun.actor
-.water.fs
-.water.vs
 0x00000000
 0x00000044
 0x00007777
@@ -198,6 +193,7 @@ HealOverTimeBuff
 Host
 K:
 Kill
+Level 1
 Level 2
 Level 3
 Level 4
@@ -699,7 +695,6 @@ bullet2_particle
 bullet_particle
 bump_map
 bump_map_mp
-bump_map_single
 bush50
 bush50.png
 button
@@ -1113,7 +1108,6 @@ level.images#levelidx
 level.names
 level.names#levelidx
 level.select
-level1
 level_generated
 level_generator
 lifecycle.host
