@@ -14,7 +14,7 @@ void main()
     uv.y *= resolution.y / resolution.x;
     float falloffDist = length( uv );
     float firstOccluder = texture2D( texture, vec2( theta, 0.5 ) ).r;
-    float alpha = smoothstep( 0.3, 0.9, falloffDist ) * maxshadow;
+    float alpha = smoothstep( 0.05, 0.65, falloffDist ) * maxshadow;
     if( 1 > firstOccluder && firstOccluder < rad )
     {
         alpha = max( alpha, maxshadow );

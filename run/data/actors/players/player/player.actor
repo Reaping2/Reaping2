@@ -4,9 +4,6 @@
         "components":
         [
             {"name":"position_component"},
-            {"name":"light_component",
-                "set":[{"radius":30}]
-            },
             {"name":"move_component",
                 "set":[{"speed":750}]
             },
