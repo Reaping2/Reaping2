@@ -1,0 +1,12 @@
+[
+    {
+        "target_name":"wall_target",
+        "name":"light_active_dummy",
+        "setters":
+        {
+            "cursor_id": "light_active_dummy",
+            "actor_id": "light_active_dummy"
+        },
+        "type":"target_desc"
+    }
+]

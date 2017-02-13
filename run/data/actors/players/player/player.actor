@@ -4,6 +4,7 @@
         "components":
         [
             {"name":"position_component"},
+            {"name":"activity_component"},
             {"name":"move_component",
                 "set":[{"speed":750}]
             },

@@ -111,6 +111,9 @@
 -a1
 -a3
 -a4
+.player.actor
+.water.fs
+.water.vs
 0x00000000
 0x00000044
 0x00007777
@@ -390,6 +393,7 @@ accuracy_buff
 accuracy_component
 accuracy_pickup
 accuracy_pickup.png
+activity_component
 actor
 actors
 actors/misc/font/font.png
@@ -695,6 +699,7 @@ bullet2_particle
 bullet_particle
 bump_map
 bump_map_mp
+bump_map_single
 bush50
 bush50.png
 button
@@ -1111,6 +1116,8 @@ level.select
 level_generated
 level_generator
 lifecycle.host
+light_active_dummy
+light_active_dummy.png
 light_component
 lightmap
 lights

@@ -261,6 +261,7 @@ HealthMessageSenderSystem
 HealthSystem
 IAccelerationComponent
 IAccuracyComponent
+IActivityComponent
 IArmorComponent
 IAttachableComponent
 IAudibleComponent
@@ -330,6 +331,7 @@ LevelSelectionSystem
 LifecycleMessage
 LifecycleMessageHandlerSubSystem
 LifecycleSenderSystem
+LightSystem
 LinkMapElement
 LinkMapElementSystem
 ListenChildDeathSystem
@@ -525,6 +527,8 @@ action_renderer_loader_repo.h
 activity.camera_multiplier
 activity.default_active_size
 activity.gridsize
+activity_component
+activity_component.h
 activity_grid.h
 activity_system
 activity_traits.h
@@ -818,6 +822,7 @@ core-shot
 core-startGameMode
 core/acceleration_component.h
 core/accuracy_component.h
+core/activity_component.h
 core/activity_grid.h
 core/actor.h
 core/actor_event.h
@@ -1570,6 +1575,7 @@ i_accuracy_component
 i_accuracy_component.h
 i_act
 i_act.h
+i_activity_component.h
 i_armor_component
 i_armor_component.h
 i_attachable_component
@@ -1836,10 +1842,14 @@ lifecycle_message.h
 lifecycle_message_handler_sub_system
 lifecycle_message_handler_sub_system.h
 lifecycle_sender_system
+light
 lightPosition
 lightSize
+light_active_dummy
 light_component
 light_component.h
+light_system
+light_system.h
 lightmap
 lights
 link
@@ -2296,6 +2306,7 @@ render/idle_action_renderer.h
 render/idle_recognizer.h
 render/leg_move_action_renderer.h
 render/leg_move_recognizer.h
+render/light_system.h
 render/move_action_renderer.h
 render/move_recognizer.h
 render/particle_system.h

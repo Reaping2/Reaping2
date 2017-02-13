@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":"light_active_dummy.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "light_active_dummy"
+        }]
+    }
+]

@@ -58,6 +58,7 @@
 #include "worm_head_component.h"
 #include "worm_body_component.h"
 #include "light_component.h"
+#include "activity_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -135,6 +136,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
 
 
     Bind( AutoId("light_component"), &CreateComponentLoader<LightComponentLoader>);
+    Bind( AutoId("activity_component"), &CreateComponentLoader<ActivityComponentLoader>);
 }
 
 void DefaultComponentLoader::BindValues()

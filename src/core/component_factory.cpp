@@ -59,6 +59,7 @@
 #include "worm_head_component.h"
 #include "worm_body_component.h"
 #include "light_component.h"
+#include "activity_component.h"
 
 using platform::AutoId;
 
@@ -138,4 +139,5 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "level_end_component" ), &CreateComponent<LevelEndComponent> );
 
     Bind( AutoId("light_component"), &CreateComponent<LightComponent>);
+    Bind( AutoId("activity_component"), &CreateComponent<ActivityComponent>);
 }
