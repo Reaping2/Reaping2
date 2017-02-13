@@ -80,6 +80,11 @@ void LightSystem::Update(double DeltaTime)
     std::swap( activeLights, mActiveLights );
 }
 
+std::vector<Actor*> const& LightSystem::GetActiveLights() const
+{
+    return mActiveLights;
+}
+
 REGISTER_SYSTEM( LightSystem );
 
 } // namespace render

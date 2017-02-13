@@ -71,7 +71,7 @@ glm::vec2 visMultiplier( Actor const& actor )
     }
     return glm::vec2( 1.0, 1.0 );
 }
-bool isVisible( Actor const& actor, Camera const& camera )
+bool isVisible( Actor const& actor, std::vector<Camera const*> const& cameras )
 {
     Opt<IPositionComponent> const positionC = actor.Get<IPositionComponent>();
     if( !positionC.IsValid() )
@@ -90,9 +90,16 @@ bool isVisible( Actor const& actor, Camera const& camera )
     float vmult = std::max<float>( visMulti.x, visMulti.y );
     // 2.0 multiplier: safety
     float size = ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale * 2.0 * vmult;
-    glm::vec4 const& region = camera.VisibleRegion();
-    return region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
-        && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
+    for( auto camera : cameras )
+    {
+        glm::vec4 const& region = camera->VisibleRegion();
+        if( region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
+            && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size )
+        {
+            return true;
+        }
+    }
+    return false;
 }
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
                     glm::vec2*& Positions, GLfloat*& Headings,
@@ -178,7 +185,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 }
 }
 
-void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTime )
+void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& cameras, double DeltaTime )
 {
     static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
     auto const& Lst = activityS->GetActiveActors();
@@ -194,7 +201,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
-        if( !isVisible( Object, camera ) )
+        if( !isVisible( Object, cameras ) )
         {
             continue;
         }

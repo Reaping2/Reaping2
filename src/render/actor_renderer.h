@@ -65,7 +65,7 @@ private:
 public:
     ActorRenderer();
     ~ActorRenderer();
-    void Prepare( Scene const& scene, Camera const& camera, double deltaTime );
+    void Prepare( Scene const& scene, std::vector<Camera const*> const& cameras, double deltaTime );
     void Draw( RenderFilter filter );
     void Draw( int32_t postprocess );
 };

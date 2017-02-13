@@ -8,6 +8,7 @@
 #include "sprite_phase_cache.h"
 #include "engine/engine.h"
 #include "engine/activity_system.h"
+#include "light_system.h"
 #include "core/i_light_component.h"
 #include "core/i_position_component.h"
 #include <boost/assign.hpp>
@@ -148,12 +149,6 @@ void RendererSystem::Init()
 }
 
 namespace {
-Scene::Actors_t getLights()
-{
-    static int32_t id( AutoId( "lights" ) );
-    static Scene& scen( Scene::Get() );
-    return scen.GetActorsFromMap( id );
-}
 std::set<int32_t> blacklistedPostprocessors()
 {
     static bool inited = false;
@@ -242,12 +237,19 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const worldPostProcess = rt.GetFreeId();
     static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
 
+    static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
+    auto const& lights = lightS->GetActiveLights();
+
+    std::vector<Camera const*> cameras;
+    cameras.push_back( &mCamera );
+    // add cameras for lights
+
     RenderTargetProps worldProps( mWorldProjector.GetViewport().Size(), {GL_RGBA, GL_RGB } );
     rt.SetTargetTexture( world, worldProps);
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     Scene& Scen( Scene::Get() );
     mPerfTimer.Log( "pre prepare" );
-    mActorRenderer.Prepare( Scen, mCamera, DeltaTime );
+    mActorRenderer.Prepare( Scen, cameras, DeltaTime );
     mPerfTimer.Log( "post prepare" );
     mActorRenderer.Draw( &selectBloodReceivers );
     mDecalEngine.Draw();
@@ -262,7 +264,6 @@ void RendererSystem::Update( double DeltaTime )
     static int32_t unwrapid( AutoId( "shadow_unwrap" ) );
     static int32_t solidid( AutoId( "world_solid_objects" ) );
     static int32_t lightmap( AutoId( "lightmap" ) );
-    auto const& lights = getLights();
     if( castShadows != 0 )
     {
         static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
