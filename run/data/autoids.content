@@ -111,6 +111,12 @@
 -a1
 -a3
 -a4
+.fire.actor
+.fire.particle
+.fire.sprite
+.particlelayers.json
+.rocket_launcher.actor
+.rocket_launcher.sprite
 .water.fs
 .water.vs
 0x00000000
@@ -902,6 +908,10 @@ ffa_client_list.clients#clientidx
 fill
 fire
 fire.png
+fire_flame_particle
+fire_particle
+fire_particle.png
+fire_smoke_particle
 fixed_ratio_container
 flag
 flag.png
@@ -2197,6 +2207,8 @@ skull_rip
 skull_rip.png
 small_fount100
 small_hill50
+smoke_particle
+smoke_particle.png
 snow2
 soldier
 soldier.accuracy

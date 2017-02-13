@@ -12,5 +12,43 @@
                 "scale" : 1.00
             }], "name" : "fire"
         }]
+    },
+    {
+        "texture_path":"fire_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "fire_flame_particle"
+            }
+        ]
+    },
+    {
+        "texture_path":"smoke_particle.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 100,
+                        "name" : "default_action",
+                        "phases":[{"x":0,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 100
+                    }
+                ],
+                "name" : "fire_smoke_particle"
+            }
+        ]
     }
 ]

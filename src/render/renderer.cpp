@@ -241,8 +241,19 @@ void RendererSystem::Update( double DeltaTime )
     auto const& lights = lightS->GetActiveLights();
 
     std::vector<Camera const*> cameras;
+    Projection lightCamProjection( 500, 500 );
+    std::vector<std::unique_ptr<Camera> > tempCameras;
     cameras.push_back( &mCamera );
     // add cameras for lights
+    for( auto light : lights )
+    {
+        std::unique_ptr<Camera> cam( new Camera( lightCamProjection ) );
+        auto posC = light->Get<IPositionComponent>();
+        glm::vec2 center( posC->GetX(), posC->GetY() );
+        cam->SetCenter( center );
+        cameras.push_back( cam.get() );
+        tempCameras.push_back( std::move( cam ) );
+    }
 
     RenderTargetProps worldProps( mWorldProjector.GetViewport().Size(), {GL_RGBA, GL_RGB } );
     rt.SetTargetTexture( world, worldProps);
