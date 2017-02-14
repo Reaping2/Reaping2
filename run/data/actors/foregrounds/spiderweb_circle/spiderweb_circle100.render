@@ -1,0 +1,11 @@
+[
+    {
+        "name":"spiderweb_circle100",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

@@ -1,0 +1,17 @@
+[
+    {
+        "name":"spiderweb_corner_bottom50",
+        "components":
+        [
+            {"name":"static_actor_component"},
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings", "cast_shadow":0}]
+            },
+            {"name":"wall_collision_component",
+                "set":[{"class":"no_collision", "radius":50}]
+            }
+        ]
+    }
+
+]

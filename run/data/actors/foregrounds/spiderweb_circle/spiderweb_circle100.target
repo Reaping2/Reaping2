@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "spiderweb_circle100" ,
+        "setters":
+        {
+            "cursor_id": "spiderweb_circle100" ,
+            "actor_id": "spiderweb_circle100"
+        },
+        "type":"target_desc"
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "name":"spiderweb_corner_top50",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

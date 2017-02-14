@@ -1,0 +1,32 @@
+[
+    {
+      "actor_visuals" : [
+         {
+            "animations" : [
+               {
+                  "name" : "move",
+                  "phases" : [
+                     {"x" : 0,"y" : 0}
+                  ],
+                  "scale" : 1.0,
+                  "w" : 100,
+                  "h" : 100,
+                  "secs_to_end" : 1 
+               },
+               {
+                  "name" : "idle",
+                  "phases" : [
+                     {"x" : 0,"y" : 0}
+                     ],
+                  "scale" : 1.0,
+                  "w" : 100,
+                  "h" : 100,
+                  "secs_to_end" : 1 
+               }
+            ],
+            "name" : "vendor"
+         }
+      ],
+      "texture_path" : "vendor.png"
+    }       
+]
