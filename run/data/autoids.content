@@ -111,11 +111,7 @@
 -a1
 -a3
 -a4
-.postprocessor_select.fs
-.postprocessor_select.vs
-.sprite2.vs
-.water.fs
-.water.vs
+.settings.json
 0x00000000
 0x00000044
 0x00007777
@@ -699,7 +695,6 @@ buildings
 bullet2_particle
 bullet_particle
 bump_map
-bump_map_single
 bush50
 bush50.png
 button
@@ -918,6 +913,7 @@ font
 fps
 freelance
 freezePickup
+fullscreen,windowed,borderless_windowed
 g1
 g10
 g11
@@ -2431,6 +2427,7 @@ weapon_size
 webber_move
 webber_rip
 webber_rip1
+windowed
 wood_block50
 wood_block50_left
 wood_block50_left.png
