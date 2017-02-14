@@ -111,6 +111,7 @@
 -a1
 -a3
 -a4
+.settings.json
 0x00000000
 0x00000044
 0x00007777
@@ -913,6 +914,7 @@ font
 fps
 freelance
 freezePickup
+fullscreen,windowed,borderless_windowed
 g1
 g10
 g11
@@ -2426,6 +2428,7 @@ weapon_size
 webber_move
 webber_rip
 webber_rip1
+windowed
 wood_block50
 wood_block50_left
 wood_block50_left.png

@@ -643,6 +643,7 @@ border_recognizer
 border_recognizer.h
 border_type
 border_type.h
+borderless_windowed
 borders
 bottom
 bottomleft
@@ -1424,6 +1425,7 @@ freelance
 freelance_act.h
 frequency
 from
+fullscreen
 function_declarations.h
 g
 game.exit
@@ -1460,8 +1462,10 @@ generator_name
 glm_fix.h
 graphics.cast_shadows
 graphics.gl.max_allowed_texture_size
+graphics.height
 graphics.postprocess
 graphics.pp_blacklist
+graphics.preferred_monitor
 graphics.shadow_scale
 graphics.shown_layer
 graphics.shown_layer_pp_id
@@ -1471,6 +1475,8 @@ graphics.sprite_phase_cache.gapless
 graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
+graphics.width
+graphics.window_mode
 grass
 greater
 grenade_normal_item
@@ -2731,7 +2737,9 @@ widget.h
 widget_factory.h
 width
 window.h
+window_settings.h
 window_system
+windowed
 windup_time
 wnd
 world_renderer.h
