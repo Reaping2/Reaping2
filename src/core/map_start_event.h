@@ -7,7 +7,12 @@ namespace core {
 
 struct MapStartEvent : public platform::Event
 {
-    MapStartEvent() {}
+    enum State
+    {
+        Started,
+        Ready
+    } mState;
+    MapStartEvent(State state):mState(state) {}
 };
 
 } // namespace core

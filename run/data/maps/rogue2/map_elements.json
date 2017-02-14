@@ -31,6 +31,11 @@
         "to":{"identifier":"spawn_at_start","node":0}
     },
     {
+        "name":"link",
+        "from":{"identifier":"level_generated","node":1},
+        "to":{"identifier":"map_start","node":1}
+    },
+    {
         "name":"soldier_auto_revive",
         "secs_to_revive":4.0
     },
@@ -46,7 +51,7 @@
         {
             "seed":1,
             "cell_size":800,
-            "cell_count":12,
+            "cell_count":35,
             "route":
             {
                 "min_length":16,

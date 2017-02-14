@@ -15,7 +15,6 @@ CtfSoldierSpawnPointMapElementSystem::CtfSoldierSpawnPointMapElementSystem()
 void CtfSoldierSpawnPointMapElementSystem::Init()
 {
     MapElementSystem::Init();
-    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &CtfSoldierSpawnPointMapElementSystem::OnMapStart, this, _1 ) );
 }
 
 
@@ -27,10 +26,6 @@ void CtfSoldierSpawnPointMapElementSystem::Update( double DeltaTime )
     //     {
     //         Opt<CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement(*ctfSoldierSpawnPointMapElementIt);
     //     }
-}
-
-void CtfSoldierSpawnPointMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
-{
 }
 
 SpawnPoints_t CtfSoldierSpawnPointMapElementSystem::GetActiveSpawnPoints( Team::Type team )

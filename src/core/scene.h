@@ -9,6 +9,7 @@
 #include "program_state.h"
 #include <vector>
 #include <memory>
+#include "map_start_event.h"
 
 class ActorHolder
 {
@@ -182,6 +183,9 @@ private:
     ActorMap_t mActorMap;
     void AddToActorMap( Actor* actor );
     void RemoveFromActorMap( Actor* actor );
+    AutoReg mOnMapStart;
+    void OnMapStart( core::MapStartEvent const& Evt );
+
     glm::vec4 mDimensions;
     int32_t mTypeId;
     friend class platform::Singleton<Scene>;

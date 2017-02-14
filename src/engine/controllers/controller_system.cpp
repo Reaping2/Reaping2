@@ -4,6 +4,7 @@
 #include "engine/activity_system.h"
 #include "platform/auto_id.h"
 #include "core/i_controller_component.h"
+#include "../system_suppressor.h"
 namespace engine {
 
 ControllerSystem::ControllerSystem()
@@ -15,6 +16,8 @@ ControllerSystem::ControllerSystem()
 
 void ControllerSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     SubSystemHolder::Init();
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IControllerComponent>().IsValid(); } );

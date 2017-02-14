@@ -32,7 +32,7 @@ bool Start( std::string const& command, std::vector<std::string> const& argument
 }
 bool Start( std::wstring const& command, std::vector<std::wstring> const& arguments )
 {
-    std::wstring commandline = std::accumulate( arguments.begin(), arguments.end(), command, []( std::wstring const& accu, std::wstring const& elem ){ return accu + L" " + elem; } );
+    std::wstring commandline = std::accumulate( arguments.begin(), arguments.end(), command, []( std::wstring const& accu, std::wstring const& elem ){ return accu.c_str() + (L" " + elem); } );
 
     PROCESS_INFORMATION     pi;
     STARTUPINFOW            si;

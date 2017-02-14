@@ -80,6 +80,7 @@
 ../soldier_spawn_point_map_element.h
 ../soldier_spawn_system.h
 ../spawn_actor_map_element.h
+../system_suppressor.h
 ./classgenerator
 .actor
 .base
@@ -419,6 +420,7 @@ RotateMessage
 RotateMessageHandlerSubSystem
 RotateMessageSenderSystem
 RustyReaperWeaponSubSystem
+SceneLoad-MapLoad
 ScoreOnDeathSystem
 ScriptedControllerSubSystem
 SecsToReviveMessage
@@ -1330,6 +1332,7 @@ engine/sub_system_factory.h
 engine/sub_system_holder.h
 engine/system.h
 engine/system_factory.h
+engine/system_suppressor.h
 enter
 entrance
 entrance_targets
@@ -2219,6 +2222,7 @@ random_sprites
 randomize_sprite_system
 randomize_sprite_system.h
 ratio
+ready
 realScatter:%f\n
 receive_blood
 receive_shadow
@@ -2596,6 +2600,8 @@ sync_item_message_handler_sub_system
 sync_item_message_sender_system
 system
 system_factory.h
+system_suppressor
+system_suppressor.h
 tail
 target
 target_factory

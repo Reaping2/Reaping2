@@ -7,6 +7,7 @@
 #include "core/i_health_component.h"
 #include "core/i_worm_head_component.h"
 #include "worm_head_system.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -18,6 +19,8 @@ WormBodySystem::WormBodySystem()
 
 void WormBodySystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IWormBodyComponent>().IsValid(); } );
 }

@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "pulse_system.h"
 #include "core/i_pulse_component.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -12,6 +13,8 @@ PulseSystem::PulseSystem()
 
 void PulseSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IPulseComponent>().IsValid(); } );
 }

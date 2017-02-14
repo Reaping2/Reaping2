@@ -16,7 +16,10 @@ std::chrono::high_resolution_clock::time_point const& Clock::GetCurrentTime() co
 void Clock::UpdateElapsedTime()
 {
     mCurrentTime = std::chrono::high_resolution_clock::now();
-    mNow = std::chrono::duration<double>( mCurrentTime - mStartTime ).count();
+    if (!mSuppressed)
+    {
+        mNow = std::chrono::duration<double>( mCurrentTime - mStartTime ).count();
+    }
 }
 
 std::chrono::high_resolution_clock::time_point const& Clock::GetStartTime() const
@@ -32,6 +35,19 @@ double Clock::Now()
 void Clock::OnCycleEvent( CycleEvent const& evt )
 {
     UpdateElapsedTime();
+}
+
+void Clock::OnSuppressEvent( engine::SuppressEvent const& evt )
+{
+    mSuppressed = evt.mSuppressed;
+    if (evt.mSuppressed)
+    {
+        mSuppressedTime = std::chrono::high_resolution_clock::now();
+    }
+    else
+    {
+        mStartTime += mCurrentTime - mSuppressedTime;
+    }
 }
 
 } // platform
