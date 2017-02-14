@@ -2,6 +2,7 @@
 #include "explosion_system.h"
 #include "core/i_explosion_component.h"
 #include "core/i_collision_component.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -13,6 +14,8 @@ ExplosionSystem::ExplosionSystem()
 
 void ExplosionSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IExplosionComponent>().IsValid()
             && actor.Get<ICollisionComponent>().IsValid(); } );

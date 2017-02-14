@@ -8,6 +8,7 @@
 #include "platform/i_platform.h"
 #include "system_factory.h"
 #include "core/opt.h"
+#include "system_suppressor.h"
 
 using namespace ::boost::multi_index;
 namespace engine {
@@ -130,6 +131,9 @@ class Engine : public platform::Singleton<Engine>
         All,
         EnabledSystems
     };
+    AutoReg mOnSuppressEvent;
+    void OnSuppressEvent( SuppressEvent const& evt );
+    bool mSuppressed = false;
 public:
     Engine();
     ~Engine();
@@ -142,8 +146,18 @@ public:
     Opt<System_t> GetSystem();
     template<typename System_t>
     void SetEnabled( bool enabled );
+    void SetEnabled( int32_t systemType, bool enabled );
+    template<typename System_t>
+    bool IsEnabled() const;
+    bool IsEnabled( int32_t systemType ) const;
     void OnPhaseChangedEvent( PhaseChangedEvent const& Evt );
 };
+
+template<typename System_t>
+bool engine::Engine::IsEnabled() const
+{
+    return IsEnabled( Systems_t::GetType_static() );
+}
 
 template<typename System_t>
 Opt<System_t> Engine::GetSystem() const
@@ -161,11 +175,7 @@ Opt<System_t> Engine::GetSystem()
 template<typename System_t>
 void Engine::SetEnabled( bool enabled )
 {
-    Systems_t::iterator it = mSystemHolder.mSystems.find( System_t::GetType_static() );
-    if ( it != mSystemHolder.mSystems.end() )
-    {
-        mSystemHolder.mSystems.modify( it, SystemEnableModifier( enabled ) );
-    }
+    SetEnabled( System_t::GetType_static(), enabled );
 }
 
 } // namespace engine

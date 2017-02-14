@@ -9,6 +9,7 @@
 #include "engine/engine.h"
 #include "engine/activity_system.h"
 #include <boost/assign.hpp>
+#include "engine/system_suppressor.h"
 
 namespace engine {
 namespace {
@@ -132,6 +133,7 @@ void RendererSystem::Init()
     glEnable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
+    engine::SystemSuppressor::Get().Add( engine::SystemSuppressor::SceneLoad, GetType_static() );
 }
 
 namespace {
@@ -201,117 +203,120 @@ void RendererSystem::Update( double DeltaTime )
     using render::RenderTargetProps;
     perf::Timer_t method;
     method.Log( "start render" );
+    bool const isSuppressed = engine::SystemSuppressor::Get().IsSuppressed();
     static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
-    render::ParticleEngine::Get().Update( DeltaTime );
     SendWorldMouseMoveEvent();
 
-    mCamera.Update();
-    SetupRenderer( mWorldProjector );
-    // render world
-    render::RenderTarget& rt( render::RenderTarget::Get() );
-    // allocate render target ids
-    static uint32_t const world = rt.GetFreeId();
-    static uint32_t const shadowOutline = rt.GetFreeId();
-    static uint32_t const shadows = rt.GetFreeId();
-    static uint32_t const worldBumped = rt.GetFreeId();
-    static uint32_t const worldEffects = rt.GetFreeId();
-    static uint32_t const worldPostProcess = rt.GetFreeId();
-    static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
-
-    RenderTargetProps worldProps( mWorldProjector.GetViewport().Size(), {GL_RGBA, GL_RGB } );
-    rt.SetTargetTexture( world, worldProps);
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    Scene& Scen( Scene::Get() );
-    mPerfTimer.Log( "pre prepare" );
-    mActorRenderer.Prepare( Scen, mCamera, DeltaTime );
-    mPerfTimer.Log( "post prepare" );
-    mActorRenderer.Draw( &selectBloodReceivers );
-    mDecalEngine.Draw();
-
-    static bool const castShadows = Settings::Get().GetInt( "graphics.cast_shadows", 1 );
-    mPerfTimer.Log( "pre shadow" );
-    std::set<int32_t> shadowLevels, postProcessorIds;
-    getActiveActorProps( shadowLevels, postProcessorIds );
-    static int32_t shid( AutoId( "shadows" ) );
-    static int32_t solidid( AutoId( "world_solid_objects" ) );
-    if( castShadows != 0 )
+    if (!isSuppressed)
     {
-        static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
-        for( auto shadowLevel : shadowLevels )
-        {
-            // !---- rt - shadows outline
-            rt.SetTargetTexture( shadowOutline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
-            SetupRenderer( mWorldProjector, shadowmult );
-            mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
-            // !---- shadows, actually translated, black
-            SetupIdentity();
+        render::ParticleEngine::Get().Update( DeltaTime );
+        mCamera.Update();
+        SetupRenderer( mWorldProjector );
+        // render world
+        render::RenderTarget& rt( render::RenderTarget::Get() );
+        // allocate render target ids
+        static uint32_t const world = rt.GetFreeId();
+        static uint32_t const shadowOutline = rt.GetFreeId();
+        static uint32_t const shadows = rt.GetFreeId();
+        static uint32_t const worldBumped = rt.GetFreeId();
+        static uint32_t const worldEffects = rt.GetFreeId();
+        static uint32_t const worldPostProcess = rt.GetFreeId();
+        static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
 
-            rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), shid, mWorldProjector.GetViewport().Size() * shadowmult );
-
-            // !---- receivers
-            rt.SelectTargetTexture( world );
-            SetupRenderer( mWorldProjector );
-            mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
-
-            // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
-            SetupIdentity();
-            // !---- the shadows
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadows ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
-        }
-    }
-    else
-    {
-        mActorRenderer.Draw( &selectNonBloodReceivers );
-    }
-    mPerfTimer.Log( "post shadow" );
-
-    // render the world to the worldBumped texture using the bump mapping shader
-    SetupRenderer( mWorldProjector );
-    rt.SetTargetTexture( worldBumped, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
-    SetupIdentity();
-    glBlendFunc( GL_ONE, GL_ONE );
-    static int32_t bumpid = AutoId( "bump_map" );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
-            rt.GetTextureId( world, 1) );
-
-    rt.SetTargetTexture( worldEffects, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
-    mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
-
-    static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
-    if( enablePostprocessing )
-    {
-        RenderTargetProps worldPPProps( mWorldProjector.GetViewport().Size(), { GL_RED } );
-        // render the per-actor effects
+        RenderTargetProps worldProps( mWorldProjector.GetViewport().Size(), { GL_RGBA, GL_RGB } );
+        rt.SetTargetTexture( world, worldProps );
         glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-        for( auto id : postProcessorIds )
+        Scene& Scen( Scene::Get() );
+        mPerfTimer.Log( "pre prepare" );
+        mActorRenderer.Prepare( Scen, mCamera, DeltaTime );
+        mPerfTimer.Log( "post prepare" );
+        mActorRenderer.Draw( &selectBloodReceivers );
+        mDecalEngine.Draw();
+
+        static bool const castShadows = Settings::Get().GetInt( "graphics.cast_shadows", 1 );
+        mPerfTimer.Log( "pre shadow" );
+        std::set<int32_t> shadowLevels, postProcessorIds;
+        getActiveActorProps( shadowLevels, postProcessorIds );
+        static int32_t shid( AutoId( "shadows" ) );
+        static int32_t solidid( AutoId( "world_solid_objects" ) );
+        if (castShadows != 0)
         {
-            // TODO: downscale
-            static int32_t debuggedPP = AutoId( Settings::Get().GetStr( "graphics.shown_layer_pp_id", "" ) );
-            uint32_t pp = id == debuggedPP ? worldDedicatedPostProcess : worldPostProcess;
-            rt.SetTargetTexture( pp, worldPPProps );
-            SetupRenderer( mWorldProjector );
-            mActorRenderer.Draw( id );
+            static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
+            for (auto shadowLevel : shadowLevels)
+            {
+                // !---- rt - shadows outline
+                rt.SetTargetTexture( shadowOutline, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
+                SetupRenderer( mWorldProjector, shadowmult );
+                mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel ) );
+                // !---- shadows, actually translated, black
+                SetupIdentity();
 
-            GLuint srcTexture = rt.GetTextureId( worldBumped );
-            GLuint maskTexture = rt.GetTextureId( pp );
-            rt.SelectTargetTexture( worldEffects );
-            SetupIdentity();
-            mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
+                rt.SetTargetTexture( shadows, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult ) );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowOutline ), shid, mWorldProjector.GetViewport().Size() * shadowmult );
+
+                // !---- receivers
+                rt.SelectTargetTexture( world );
+                SetupRenderer( mWorldProjector );
+                mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
+
+                // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
+                SetupIdentity();
+                // !---- the shadows
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadows ), solidid ); // , mWorldProjector.GetViewport().Size() * shadowmult );
+            }
         }
-    }
-    // set painting to screen
-    rt.SetTargetScreen();
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    SetupIdentity();
+        else
+        {
+            mActorRenderer.Draw( &selectNonBloodReceivers );
+        }
+        mPerfTimer.Log( "post shadow" );
 
-    // paint the previous textures to screen with custom additional effects
-    // actually we could skip this by painting directly to screen in prev. step
-    // but we can possibly upscale here for sweet sweet fps
+        // render the world to the worldBumped texture using the bump mapping shader
+        SetupRenderer( mWorldProjector );
+        rt.SetTargetTexture( worldBumped, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
+        SetupIdentity();
+        glBlendFunc( GL_ONE, GL_ONE );
+        static int32_t bumpid = AutoId( "bump_map" );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
+            rt.GetTextureId( world, 1 ) );
 
-    static auto const layer = shownLayer();
-    switch( layer )
-    {
+        rt.SetTargetTexture( worldEffects, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
+
+        static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
+        if (enablePostprocessing)
+        {
+            RenderTargetProps worldPPProps( mWorldProjector.GetViewport().Size(), { GL_RED } );
+            // render the per-actor effects
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+            for (auto id : postProcessorIds)
+            {
+                // TODO: downscale
+                static int32_t debuggedPP = AutoId( Settings::Get().GetStr( "graphics.shown_layer_pp_id", "" ) );
+                uint32_t pp = id == debuggedPP ? worldDedicatedPostProcess : worldPostProcess;
+                rt.SetTargetTexture( pp, worldPPProps );
+                SetupRenderer( mWorldProjector );
+                mActorRenderer.Draw( id );
+
+                GLuint srcTexture = rt.GetTextureId( worldBumped );
+                GLuint maskTexture = rt.GetTextureId( pp );
+                rt.SelectTargetTexture( worldEffects );
+                SetupIdentity();
+                mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
+            }
+        }
+        // set painting to screen
+        rt.SetTargetScreen();
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        SetupIdentity();
+
+        // paint the previous textures to screen with custom additional effects
+        // actually we could skip this by painting directly to screen in prev. step
+        // but we can possibly upscale here for sweet sweet fps
+
+        static auto const layer = shownLayer();
+        switch (layer)
+        {
         case PostprocessMask:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldDedicatedPostProcess ), solidid );
             break;
@@ -323,18 +328,21 @@ void RendererSystem::Update( double DeltaTime )
             break;
         default:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );
+        }
+
+        SetupRenderer( mWorldProjector );
+        render::ParticleEngine::Get().Draw();
     }
-
-    SetupRenderer( mWorldProjector );
-    render::ParticleEngine::Get().Draw();
-
     SetupRenderer( mUiProjector );
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
-    mNameRenderer.Draw( mTextSceneRenderer );
-    mPathBoxRenderer.Draw( mTextSceneRenderer );
-    mHealthBarRenderer.Draw();
+    if (!isSuppressed)
+    {
+        mNameRenderer.Draw( mTextSceneRenderer );
+        mPathBoxRenderer.Draw( mTextSceneRenderer );
+        mHealthBarRenderer.Draw();
+        mTextSceneRenderer.Draw();
+    }
     mMouseRenderer.Draw( mTextSceneRenderer );
-    mTextSceneRenderer.Draw();
     method.Log( "end draw" );
     cache.ProcessPending();
     method.Log( "end process pending" );

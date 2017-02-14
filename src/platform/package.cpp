@@ -159,7 +159,10 @@ void PackageImpl::GetFileNames( PathVect_t& Paths, boost::filesystem::path const
         boost::filesystem::path const& Path = i->first;
         if( DirStr.empty() || Path.parent_path().string().find( DirStr ) == 0 )
         {
-            Paths.push_back( Path );
+            if (std::find( Paths.begin(), Paths.end(), Path ) == Paths.end())
+            {
+                Paths.push_back( Path );
+            }
         }
     }
 }

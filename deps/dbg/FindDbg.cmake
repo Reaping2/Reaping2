@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 find_path(DBG_INCLUDE_DIR dbg/debugger.hpp)
 
-set(DBG_NAMES ${DBG_NAMES} dbg libdbg)
+set(DBG_NAMES ${DBG_NAMES} dbg libdbg dbgd libdbgd)
 find_library(DBG_LIBRARY NAMES ${DBG_NAMES} PATH)
 
 if(DBG_INCLUDE_DIR AND DBG_LIBRARY)

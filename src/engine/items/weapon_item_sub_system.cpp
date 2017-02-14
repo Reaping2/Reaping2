@@ -13,6 +13,7 @@
 #include "core/shot_event.h"
 #include "core/i_owner_component.h"
 #include "../item_properties_changed_event.h"
+#include "../system_suppressor.h"
 
 namespace engine {
 
@@ -27,6 +28,8 @@ WeaponItemSubSystem::WeaponItemSubSystem()
 
 void WeaponItemSubSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     SubSystemHolder::Init();
     mOnShot = EventServer<core::ShotEvent>::Get().Subscribe( boost::bind( &WeaponItemSubSystem::OnShot, this, _1 ) );
 }

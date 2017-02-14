@@ -4,6 +4,7 @@
 #include "platform/auto_id.h"
 #include "core/i_inventory_component.h"
 #include "core/i_health_component.h"
+#include "../system_suppressor.h"
 namespace engine {
 
 InventorySystem::InventorySystem()
@@ -15,6 +16,8 @@ InventorySystem::InventorySystem()
 
 void InventorySystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     SubSystemHolder::Init();
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IInventoryComponent>().IsValid()

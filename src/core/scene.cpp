@@ -27,6 +27,7 @@
 #include "map_load_event.h"
 #include "map_start_event.h"
 #include "map/map_repo.h"
+#include "engine/system_suppressor.h"
 
 using core::ProgramState;
 
@@ -109,6 +110,7 @@ Scene::Scene()
     , mMaxHP( 0 )
     , mProgramState( core::ProgramState::Get() )
 {
+    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &Scene::OnMapStart, this, _1 ) );
 }
 
 glm::vec4 const& Scene::GetDimensions()
@@ -149,7 +151,9 @@ int32_t Scene::GetTypeId() const
 
 void Scene::Load( std::string const& Level )
 {
+    L2( "Scene load started %s\n", Level.c_str() );
     EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::mMapDir+"/" + Level ) );
+    bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
     mPaused = false;
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
@@ -170,7 +174,8 @@ void Scene::Load( std::string const& Level )
     mActorMap.clear();
     SetType( "grass" );
 
-    EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent() );
+    EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
+    L2( "Scene load ended %s\n", Level.c_str() );
 }
 
 void Scene::AddTestCreep( double X, double Y )
@@ -440,5 +445,15 @@ Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )
     auto found = mActorMap.find( Id );
     static Actors_t emptyActors;
     return ( found != mActorMap.end() ? found->second : emptyActors );
+}
+
+void Scene::OnMapStart( core::MapStartEvent const& Evt )
+{
+    L2( "Scene Maps start\n" );
+    if (Evt.mState == core::MapStartEvent::Ready)
+    {
+        L2( "Scene Maps start READY\n" );
+        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+    }
 }
 

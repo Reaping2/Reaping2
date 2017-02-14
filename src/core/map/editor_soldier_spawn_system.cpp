@@ -28,7 +28,10 @@ void EditorSoldierSpawnSystem::Update( double DeltaTime )
 
 void EditorSoldierSpawnSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
-    SpawnPlayers();
+    if (Evt.mState == core::MapStartEvent::Started)
+    {
+        SpawnPlayers();
+    }
 }
 
 void EditorSoldierSpawnSystem::Spawn( Opt<ctf::CtfSoldierSpawnPointMapElement> ctfSoldierSpawnPointMapElement )

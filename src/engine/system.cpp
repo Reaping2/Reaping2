@@ -14,6 +14,11 @@ void System::SetEnabled( bool enabled )
 }
 
 
+bool System::IsEnabled() const
+{
+    return mEnabled;
+}
+
 void DefaultSystem::Init()
 {
 

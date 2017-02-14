@@ -20,11 +20,21 @@ void MapStartMapElementSystem::Init()
 void MapStartMapElementSystem::Update( double DeltaTime )
 {
     MapElementSystem::Update( DeltaTime );
-    //     MapElementListFilter<MapSystem::All> mapElementListFilter(mMapSystem->GetMapElementList(),MapStartMapElement::GetType_static());
-    //     for( MapElementListFilter<MapSystem::All>::const_iterator mapStartMapElementIt = mapElementListFilter.begin(), mapStartMapElementE = mapElementListFilter.end(); mapStartMapElementIt != mapStartMapElementE; ++mapStartMapElementIt )
-    //     {
-    //         Opt<MapStartMapElement> mapStartMapElement(*mapStartMapElementIt);
-    //     }
+    for (Opt<MapStartMapElement> mapStartMapElement : MapElementListFilter<MapSystem::All>( mMapSystem->GetMapElementList(), MapStartMapElement::GetType_static() ))
+    {
+        if (mapStartMapElement->GetValueId( MapStartMapElement::StartInputNodeId() ) > 0)
+        {
+            L2( "MapStart element started\n" );
+            EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
+            mapStartMapElement->ResetValueId( MapStartMapElement::StartInputNodeId() );
+        }
+        else if (mapStartMapElement->GetValueId( MapStartMapElement::ReadyInputNodeId() ) > 0)
+        {
+            L2( "MapStart element ready\n" );
+            EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Ready ) );
+            mapStartMapElement->ResetValueId( MapStartMapElement::ReadyInputNodeId() );
+        }
+    }
 }
 
 void MapStartMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
@@ -33,7 +43,14 @@ void MapStartMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
     for( MapElementListFilter<MapSystem::All>::const_iterator mapStartMapElementIt = mapElementListFilter.begin(), mapStartMapElementE = mapElementListFilter.end(); mapStartMapElementIt != mapStartMapElementE; ++mapStartMapElementIt )
     {
         Opt<MapStartMapElement> mapStartMapElement( *mapStartMapElementIt );
-        mapStartMapElement->DoOutputId( MapStartMapElement::StartNodeId(), 1 );
+        if (Evt.mState == core::MapStartEvent::Started)
+        {
+            mapStartMapElement->DoOutputId( MapStartMapElement::StartOutputNodeId(), 1 );
+        }
+        else if (Evt.mState == core::MapStartEvent::Ready)
+        {
+            mapStartMapElement->DoOutputId( MapStartMapElement::ReadyOutputNodeId(), 1 );
+        }
     }
 }
 

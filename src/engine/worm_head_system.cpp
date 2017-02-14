@@ -6,6 +6,7 @@
 #include "core/i_collision_component.h"
 #include "core/i_move_component.h"
 #include "core/i_health_component.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -17,6 +18,8 @@ WormHeadSystem::WormHeadSystem()
 
 void WormHeadSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IWormHeadComponent>().IsValid(); } );
 }

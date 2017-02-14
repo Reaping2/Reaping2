@@ -3,6 +3,7 @@
 #include "platform/i_platform.h"
 #include <vector>
 #include <chrono>
+#include "engine/system_suppressor.h"
 
 namespace platform {
 
@@ -23,6 +24,10 @@ private:
     double mNow = 0.0;
     AutoReg mOnCycleEvent;
     void OnCycleEvent( CycleEvent const& evt );
+    AutoReg mOnSuppressEvent;
+    void OnSuppressEvent( engine::SuppressEvent const& evt );
+    std::chrono::high_resolution_clock::time_point mSuppressedTime;
+    bool mSuppressed = false;
 };
 } // platform
 

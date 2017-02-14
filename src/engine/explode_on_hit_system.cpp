@@ -4,6 +4,7 @@
 #include "explode_on_death_system.h"
 #include "core/i_health_component.h"
 #include "items/weapon_item_sub_system.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -15,6 +16,8 @@ ExplodeOnHitSystem::ExplodeOnHitSystem()
 
 void ExplodeOnHitSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IExplodeOnHitComponent>().IsValid(); } );
 }
