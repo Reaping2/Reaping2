@@ -156,7 +156,7 @@ public:
 template<typename System_t>
 bool engine::Engine::IsEnabled() const
 {
-    return IsEnabled( Systems_t::GetType_static() );
+    return IsEnabled( System_t::GetType_static() );
 }
 
 template<typename System_t>
