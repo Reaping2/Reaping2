@@ -698,6 +698,7 @@ bullet2_particle
 bullet_particle
 bump_map
 bump_map_mp
+bump_map_nolight
 bush50
 bush50.png
 button

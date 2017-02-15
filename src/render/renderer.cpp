@@ -242,8 +242,8 @@ void RendererSystem::Update( double DeltaTime )
     auto const& lights = lightS->GetActiveLights();
 
     std::vector<Camera const*> cameras;
-    // TODO for some reason, i get incorrect images with smaller size, we'd prefer 500*500-ish window
-    Projection lightCamProjection( -1000, 1000 );
+    Projection lightCamProjection( -500, 500 );
+    float distanceMult = mWorldProjector.GetVisibleRegion().y * 1.0f / lightCamProjection.GetVisibleRegion().y;
     std::vector<std::unique_ptr<Camera> > tempCameras;
     cameras.push_back( &mCamera );
     // add cameras for lights
@@ -292,6 +292,9 @@ void RendererSystem::Update( double DeltaTime )
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
             rt.SetTargetTexture( lightrl, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
+            float maxShadow = 0.6;  // todo: get from map props
+            glClearColor( 1,1,1, 1 - maxShadow );
+            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
             glBlendEquation( GL_MAX );
             auto lightCamIt = tempCameras.begin();
             for( auto light : lights )
@@ -301,7 +304,8 @@ void RendererSystem::Update( double DeltaTime )
                 glm::vec2 lightSize( radius, radius );  // not done yet
                 auto positionC = light->Get<IPositionComponent>();
                 glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
-                auto lightPos4 =  mWorldProjector.GetMatrix() * mCamera.GetView() * pos;
+                // lightPos4 is in player view space
+                auto lightPos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * pos;
                 // create camera with max light range range, pos center
                 // use that cam + world to render outline to small shadow map
                 // use small shadow map to create 1d map
@@ -328,9 +332,11 @@ void RendererSystem::Update( double DeltaTime )
                 rt.SelectTargetTexture( lightrl );
                 mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), lightsid,
                     [&](ShaderManager& ShaderMgr)->void{
-                        ShaderMgr.UploadData( "resolution", lightCam.GetProjection().GetViewport().Size() * shadowmult );
+                        ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
                         ShaderMgr.UploadData( "lightPosition", lightPos );
                         ShaderMgr.UploadData( "lightSize", lightSize );
+                        ShaderMgr.UploadData( "distanceMult", distanceMult );
+                        ShaderMgr.UploadData( "maxShadow", maxShadow );
                     } );
             }
             glBlendEquation( GL_FUNC_ADD );
@@ -356,6 +362,7 @@ void RendererSystem::Update( double DeltaTime )
     glBlendFunc( GL_ONE, GL_ONE );
     glBlendEquation( GL_MAX );
     static int32_t bumpid = AutoId( "bump_map_mp" );
+    static int32_t bumpnolightid = AutoId( "bump_map_nolight" );
     glDepthFunc( GL_LEQUAL );
     for( auto light : lights )
     {
@@ -372,6 +379,10 @@ void RendererSystem::Update( double DeltaTime )
                 glActiveTexture( GL_TEXTURE0 + 2 );
                 glBindTexture( GL_TEXTURE_2D, rt.GetTextureId( world, 1 ) );
             } );
+    }
+    if( lights.empty() )
+    {
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpnolightid );
     }
     glBlendFunc( GL_ONE, GL_ONE );
     glBlendEquation( GL_FUNC_ADD );

@@ -680,6 +680,7 @@ bufftarget
 bullets
 bump_map
 bump_map_mp
+bump_map_nolight
 button
 button.h
 c:/setuplogfile.log
@@ -1181,6 +1182,7 @@ detonate_on_hit_system
 detonate_on_hit_system.h
 detonator_material
 disabled_logs
+distanceMult
 distance_to_aggressor
 distance_to_aggressor_condition.h
 distance_to_players
@@ -1919,6 +1921,7 @@ material
 matrix
 matrix","absolute
 matrix_grid.h
+maxShadow
 max_health_buff
 max_health_buff.h
 max_health_buff_sub_system
