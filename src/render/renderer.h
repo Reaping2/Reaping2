@@ -41,7 +41,7 @@ class RendererSystem : public System
     glm::vec3 mMouseRawPos;
     glm::vec3 mMouseWorldPos;
 
-    void SetupRenderer( const Projection& Proj, float Scale = 1.0f );
+    void SetupRenderer( const Camera& cam, float Scale = 1.0f );
     void SetupIdentity();
 
     void OnMouseMoveEvent( const ScreenMouseMoveEvent& Event );

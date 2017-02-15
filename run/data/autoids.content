@@ -111,14 +111,8 @@
 -a1
 -a3
 -a4
-.fire.actor
-.fire.particle
-.fire.sprite
-.particlelayers.json
-.rocket_launcher.actor
-.rocket_launcher.sprite
-.water.fs
-.water.vs
+.lights.fs
+.shadow_unwrap.fs
 0x00000000
 0x00000044
 0x00007777
@@ -704,7 +698,6 @@ bullet2_particle
 bullet_particle
 bump_map
 bump_map_mp
-bump_map_single
 bush50
 bush50.png
 button

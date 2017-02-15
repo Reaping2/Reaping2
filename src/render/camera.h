@@ -14,6 +14,7 @@ protected:
 public:
     Camera( Projection const& Proj );
     glm::vec2 GetCenter() const;
+    Projection const& GetProjection() const;
     glm::vec4 VisibleRegion() const;
     void SetCenter( glm::vec2 const& center );
     glm::mat4 const& GetView()const;

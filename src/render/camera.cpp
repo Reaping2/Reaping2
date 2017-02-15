@@ -38,3 +38,8 @@ glm::vec2 Camera::GetCenter() const
     return mCenter;
 }
 
+Projection const& Camera::GetProjection() const
+{
+    return mProjection;
+}
+
