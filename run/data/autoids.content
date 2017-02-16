@@ -111,6 +111,8 @@
 -a1
 -a3
 -a4
+.bump_map_mp.fs
+.bump_map_nolight.fs
 .lights.fs
 .shadow_unwrap.fs
 0x00000000

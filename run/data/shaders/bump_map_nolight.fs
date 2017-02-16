@@ -14,6 +14,6 @@ void main(void)
     vec4 color = texture2D( texture, inTexCoord );
     vec3 ambient = ambientColor.rgb * ambientColor.a;
 
-    outputColor = vec4(color.rgb * ambient, 1);
+    outputColor = vec4(color.rgb * ambient, color.a);
 }
 
