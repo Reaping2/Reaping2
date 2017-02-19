@@ -1847,6 +1847,7 @@ lifecycle_sender_system
 light
 lightPosition
 lightSize
+lightVec
 light_active_dummy
 light_component
 light_component.h
@@ -2620,6 +2621,7 @@ strafe
 strafe_act.h
 style
 styles
+sunlight
 switch
 switch_cells
 sync_item

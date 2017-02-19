@@ -237,6 +237,7 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const worldEffects = rt.GetFreeId();
     static uint32_t const worldPostProcess = rt.GetFreeId();
     static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
+    static uint32_t const sunDedicatedOutline = rt.GetFreeId();
 
     static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
     auto const& lights = lightS->GetActiveLights();
@@ -276,6 +277,7 @@ void RendererSystem::Update( double DeltaTime )
     static int32_t lightsid( AutoId( "lights" ) );
     static int32_t unwrapid( AutoId( "shadow_unwrap" ) );
     static int32_t solidid( AutoId( "world_solid_objects" ) );
+    static int32_t sunlight( AutoId( "sunlight" ) );
     static int32_t lightmap( AutoId( "lightmap" ) );
     if( castShadows != 0 )
     {
@@ -286,6 +288,7 @@ void RendererSystem::Update( double DeltaTime )
             uint32_t outline = topmost ? shadowOutline : shadowDedicatedOutline;
             uint32_t unwrap = topmost ? shadowUnwrap : shadowDedicatedUnwrap;
             uint32_t lightrl = topmost ? lightsLayer : lightsDedicated;
+            uint32_t sunline = topmost ? shadowOutline : sunDedicatedOutline;
 
             rt.SelectTargetTexture( world );
             SetupRenderer( mCamera );
@@ -296,6 +299,29 @@ void RendererSystem::Update( double DeltaTime )
             glClearColor( 1,1,1, 1 - maxShadow );
             glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
             glBlendEquation( GL_MAX );
+
+            // -- direct sunlight to outline
+            glm::vec2 lightVec( 50,-70 );
+            int numsteps = ceil( std::max( std::abs( lightVec.x ), std::abs( lightVec.y ) ) / 30.0 );
+            rt.SetTargetTexture( sunline, RenderTargetProps( mCamera.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
+            SetupRenderer( mCamera, shadowmult );
+            mActorRenderer.Draw(
+                std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel),
+                [&](ShaderManager& ShaderMgr)->void{
+                    ShaderMgr.UploadData( "lightVec", lightVec );
+                },
+                numsteps
+            );
+            // fill lights except outline
+            SetupIdentity();
+            rt.SelectTargetTexture( lightrl );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( sunline ), sunlight,
+                [&](ShaderManager& ShaderMgr)->void{
+                    ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
+                    ShaderMgr.UploadData( "maxShadow", maxShadow );
+                } );
+            // direct sunlight end
+
             auto lightCamIt = tempCameras.begin();
             for( auto light : lights )
             {

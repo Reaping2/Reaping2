@@ -22,18 +22,45 @@ layout(location=8) in vec4 proccolor;
 smooth out vec2 inTexCoord;
 smooth out vec4 inColor;
 smooth out vec2 inNormalTexCoord;
-vec2[4] corners=vec2[4](vec2(-1,-1),
-        vec2(1,-1),
-        vec2(-1,1),
-        vec2(1,1));
+
+uniform vec2 lightVec;
+
+vec2[4] corners=vec2[](
+        vec2(-1,-1)
+        ,vec2(1,-1)
+        ,vec2(-1,1)
+        ,vec2(1,1)
+);
+
+int[4] ucord=int[](
+    0
+    ,1
+    ,0
+    ,1
+);
+
+int[4] vcord=int[](
+    2
+    ,2
+    ,3
+    ,3
+);
+
 void main()
 {
-    inTexCoord=vec2(TexCoord[int(floor(mod(gl_VertexID,2.0)))],TexCoord[2+int(floor(gl_VertexID/2.0))]);
-    inNormalTexCoord=vec2(normalTexCoord[int(floor(mod(gl_VertexID,2.0)))],normalTexCoord[2+int(floor(gl_VertexID/2.0))]);
+    int vid = int(floor(mod(gl_VertexID,4.0)));
+    inTexCoord=vec2(TexCoord[ucord[vid]],TexCoord[vcord[vid]]);
+    inNormalTexCoord=vec2(normalTexCoord[ucord[vid]],normalTexCoord[vcord[vid]]);
     inColor=color;
-    vec2 position=corners[gl_VertexID];
+    vec2 position=corners[vid];
     position.x *= Size.x;
     position.y *= Size.y;
     mat2 ScaleMatrix=mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
-    gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(ScaleMatrix*position+SpriteCenter,0,1);
+    float numsteps=ceil(max(abs(lightVec.x),abs(lightVec.y))/30.0);
+    vec2 displace=vec2(0,0);
+    if( numsteps > 0.5 )
+    {
+        displace = lightVec / numsteps * ( 1.0 + floor(gl_VertexID/4.0) );
+    }
+    gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(ScaleMatrix*position+SpriteCenter+displace,0,1);
 }

@@ -3,6 +3,7 @@
 #include "platform/i_platform.h"
 #include "core/scene.h"
 #include "recognizer_repo.h"
+#include "shader_manager.h"
 #include "action_renderer.h"
 #include "action_renderer_factory.h"
 #include "renderable_sprite.h"
@@ -21,9 +22,10 @@ public:
     typedef ActionRenderer::RenderableSprites_t RenderableSprites_t;
     typedef boost::function<bool( IRenderableComponent const& )> RenderFilter;
     typedef std::function<glm::vec4( IRenderableComponent const& )> ColorFilter;
+    typedef std::function<void(ShaderManager&)> SetupFunction;
 private:
     void Init();
-    void DrawOnePart( render::CountByTexId const& Part ) const;
+    void DrawOnePart( render::CountByTexId const& Part, size_t instances ) const;
     VaoBase mVAO;
     RecognizerRepo& mRecognizerRepo;
     ActionRendererFactory& mActionRendererFactory;
@@ -66,7 +68,7 @@ public:
     ActorRenderer();
     ~ActorRenderer();
     void Prepare( Scene const& scene, std::vector<Camera const*> const& cameras, double deltaTime );
-    void Draw( RenderFilter filter );
+    void Draw( RenderFilter filter, SetupFunction setup = SetupFunction(), size_t extraInstances = 0 );
     void Draw( int32_t postprocess );
 };
 

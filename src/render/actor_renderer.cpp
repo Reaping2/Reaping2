@@ -414,7 +414,7 @@ void partitionByFilter( render::Counts_t& rv, RenderableSprites_t const& sprites
 }
 }
 
-void ActorRenderer::Draw( RenderFilter filter )
+void ActorRenderer::Draw( RenderFilter filter, SetupFunction setup, size_t extraInstances )
 {
     if( mRenderableSprites.empty() )
     {
@@ -448,11 +448,15 @@ void ActorRenderer::Draw( RenderFilter filter )
         static auto Window = engine::Engine::Get().GetSystem<engine::WindowSystem>();
         Window->GetWindowSize( w, h );
         ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
+        if( setup )
+        {
+            setup( ShaderMgr );
+        }
         render::Counts_t parts;
         partitionByFilter( parts, mRenderableSprites, BigPart, filter );
         for( auto const& Part : parts )
         {
-            DrawOnePart( Part );
+            DrawOnePart( Part, 4 + extraInstances * 4 );
         }
     }
     glActiveTexture( GL_TEXTURE0 );
@@ -479,13 +483,13 @@ void ActorRenderer::Draw( int32_t postprocid )
         glActiveTexture( GL_TEXTURE0 + 1 );
         glBindTexture( GL_TEXTURE_2D, BigPart.Batch.MaskId );
         ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
-        DrawOnePart( BigPart );
+        DrawOnePart( BigPart, 4 );
     }
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();
 }
 
-void ActorRenderer::DrawOnePart( render::CountByTexId const& Part ) const
+void ActorRenderer::DrawOnePart( render::CountByTexId const& Part, size_t instances ) const
 {
     GLuint CurrentAttribIndex = 0;
     CurrentAttribIndex = 0;
@@ -515,7 +519,7 @@ void ActorRenderer::DrawOnePart( render::CountByTexId const& Part ) const
     ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPostprocessColorIndex + sizeof( glm::vec4 )*Part.Start ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
-    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
+    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, instances, Part.Count );
 }
 
 ActorRenderer::~ActorRenderer()

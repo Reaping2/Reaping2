@@ -111,10 +111,10 @@
 -a1
 -a3
 -a4
-.bump_map_mp.fs
-.bump_map_nolight.fs
 .lights.fs
-.shadow_unwrap.fs
+.settings.json
+.sunlight.fs
+.sunlight.vs
 0x00000000
 0x00000044
 0x00007777
@@ -2345,6 +2345,7 @@ stone_wall_topright
 stones50
 stop_on_death_component
 strongerAmmo
+sunlight
 target
 target:
 target_desc
