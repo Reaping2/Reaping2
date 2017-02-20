@@ -112,9 +112,7 @@
 -a3
 -a4
 .lights.fs
-.settings.json
-.sunlight.fs
-.sunlight.vs
+.shadow_unwrap.fs
 0x00000000
 0x00000044
 0x00007777

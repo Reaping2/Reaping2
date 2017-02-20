@@ -58,7 +58,7 @@ void main()
     mat2 ScaleMatrix=mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
     float numsteps=ceil(max(abs(lightVec.x),abs(lightVec.y))/30.0);
     vec2 displace=vec2(0,0);
-    if( numsteps > 0.5 )
+    if( numsteps > 0.5 && gl_VertexID >= 4 )
     {
         displace = lightVec / numsteps * ( 1.0 + floor(gl_VertexID/4.0) );
     }
