@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":"spiderweb_corner_top50.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "spiderweb_corner_top50"
+        }]
+    }
+]

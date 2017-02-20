@@ -111,7 +111,6 @@
 -a1
 -a3
 -a4
-.settings.json
 0x00000000
 0x00000044
 0x00007777
@@ -788,6 +787,8 @@ default
 default_action
 description
 desert
+desk100
+desk100.png
 detonate_on_hit_component
 diamond
 distance_to_aggressor
@@ -897,6 +898,8 @@ ffa_client_list
 ffa_client_list.clients
 ffa_client_list.clients#clientidx
 fill
+fire60
+fire60.png
 fixed_ratio_container
 flag
 flag.png
@@ -999,10 +1002,6 @@ grass200_2_normal
 grass200_2_normal.png
 grass200_normal
 grass_tile
-grass_tile_bottom_outer
-grass_tile_left_outer
-grass_tile_right_outer
-grass_tile_top_outer
 green_flowers50
 grenade
 grenade_explosion_projectile
@@ -1078,12 +1077,16 @@ is_not_hit
 jungle
 jungle_grass200
 jungle_grass200.png
+jungle_grass200_bottom_outer
 jungle_grass200_bottom_outer_border
 jungle_grass200_bottom_outer_border.png
+jungle_grass200_left_outer
 jungle_grass200_left_outer_border
 jungle_grass200_left_outer_border.png
+jungle_grass200_right_outer
 jungle_grass200_right_outer_border
 jungle_grass200_right_outer_border.png
+jungle_grass200_top_outer
 jungle_grass200_top_outer_border
 jungle_grass200_top_outer_border.png
 kill_score_on_death_component
@@ -1400,6 +1403,11 @@ no_collision
 normal
 normal_item_background
 notify_parent_on_death_component
+orchinatid
+orchinatid_move
+orchinatid_move.png
+orchinatid_rip
+orchinatid_rip.png
 ore_wall100
 ore_wall100.png
 ore_wall100_1
@@ -2157,6 +2165,8 @@ shadows
 shooter_Loves
 shooter_move
 shooter_rip
+shopkeeper
+shopkeeper.png
 shot_collision_component
 shotgun
 shotgun_alt2_particle
@@ -2260,6 +2270,12 @@ spider1_move
 spider1_move.png
 spider1_rip
 spider1_rip.png
+spiderweb_circle100
+spiderweb_circle100.png
+spiderweb_corner_bottom50
+spiderweb_corner_bottom50.png
+spiderweb_corner_top50
+spiderweb_corner_top50.png
 splider_move_blue
 splider_move_green
 splider_move_red
@@ -2379,6 +2395,9 @@ turn_to_target
 ui
 ui.load
 vblur
+vendor
+vendor.png
+vendor_test
 visibility
 visibility_hud
 visiblity

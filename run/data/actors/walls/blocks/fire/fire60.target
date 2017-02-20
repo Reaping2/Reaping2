@@ -1,0 +1,12 @@
+[
+    {
+        "target_name":"wall_target",
+        "name":"fire60",
+        "setters":
+        {
+            "cursor_id": "fire60",
+            "actor_id": "fire60"
+        },
+        "type":"target_desc"
+    }
+]

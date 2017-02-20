@@ -1,0 +1,15 @@
+[
+    {
+        "name":"orchinatid",
+        "recognizers":
+        [
+            {"recognizer":"death",
+                "renderer":"death"},
+            {"recognizer":"idle",
+                "renderer":"idle"},
+            {"recognizer":"move",
+                "renderer":"move"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

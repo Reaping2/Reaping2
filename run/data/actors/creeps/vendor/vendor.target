@@ -1,0 +1,11 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "vendor" ,
+        "setters":
+        {
+            "cursor_id": "vendor" ,
+            "actor_id": "vendor"
+        }
+    }
+]
