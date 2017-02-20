@@ -30,6 +30,7 @@ enum ShownLayer
     ShadowUnwrap,
     Shadows,
     Lights,
+    AllLights,
 };
 ShownLayer shownLayer()
 {
@@ -42,6 +43,7 @@ ShownLayer shownLayer()
         { "shadow_unwrap", ShadowUnwrap },
         { "shadows", Shadows },
         { "lights", Lights },
+        { "all_lights", AllLights },
     };
     auto i = layers.find( layer );
     return i == layers.end() ? Normal : i->second;
@@ -238,6 +240,7 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const worldPostProcess = rt.GetFreeId();
     static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
     static uint32_t const sunDedicatedOutline = rt.GetFreeId();
+    static uint32_t const cumulativeLight = rt.GetFreeId();
 
     static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
     auto const& lights = lightS->GetActiveLights();
@@ -279,9 +282,14 @@ void RendererSystem::Update( double DeltaTime )
     static int32_t solidid( AutoId( "world_solid_objects" ) );
     static int32_t sunlight( AutoId( "sunlight" ) );
     static int32_t lightmap( AutoId( "lightmap" ) );
+    static int32_t mergelights( AutoId( "mergelights" ) );
+    static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
+    rt.SetTargetTexture( cumulativeLight, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
+    float maxShadow = 0.6;  // todo: get from map props
+    glClearColor( 1,1,1, 1 );
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
     if( castShadows != 0 )
     {
-        static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
         for( auto shadowLevel : shadowLevels )
         {
             bool topmost = shadowLevel == std::numeric_limits<int32_t>::max();
@@ -290,37 +298,15 @@ void RendererSystem::Update( double DeltaTime )
             uint32_t lightrl = topmost ? lightsLayer : lightsDedicated;
             uint32_t sunline = topmost ? shadowOutline : sunDedicatedOutline;
 
+            glBlendEquation( GL_FUNC_ADD );
             rt.SelectTargetTexture( world );
             SetupRenderer( mCamera );
             mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
 
             rt.SetTargetTexture( lightrl, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
-            float maxShadow = 0.6;  // todo: get from map props
             glClearColor( 1,1,1, 1 - maxShadow );
             glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
             glBlendEquation( GL_MAX );
-
-            // -- direct sunlight to outline
-            glm::vec2 lightVec( 50,-70 );
-            int numsteps = ceil( std::max( std::abs( lightVec.x ), std::abs( lightVec.y ) ) / 30.0 );
-            rt.SetTargetTexture( sunline, RenderTargetProps( mCamera.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
-            SetupRenderer( mCamera, shadowmult );
-            mActorRenderer.Draw(
-                std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel),
-                [&](ShaderManager& ShaderMgr)->void{
-                    ShaderMgr.UploadData( "lightVec", lightVec );
-                },
-                numsteps
-            );
-            // fill lights except outline
-            SetupIdentity();
-            rt.SelectTargetTexture( lightrl );
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( sunline ), sunlight,
-                [&](ShaderManager& ShaderMgr)->void{
-                    ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
-                    ShaderMgr.UploadData( "maxShadow", maxShadow );
-                } );
-            // direct sunlight end
 
             auto lightCamIt = tempCameras.begin();
             for( auto light : lights )
@@ -365,8 +351,44 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "maxShadow", maxShadow );
                     } );
             }
-            glBlendEquation( GL_FUNC_ADD );
 
+            // !---- cumulative lights for normal maps
+            glBlendEquation( GL_MIN );
+            rt.SelectTargetTexture( cumulativeLight );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), mergelights,
+                     [&](ShaderManager& ShaderMgr)->void{
+                        ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() );
+                        ShaderMgr.UploadData( "maxShadow", maxShadow );
+                    } );
+            glBlendEquation( GL_FUNC_ADD );
+            SetupRenderer( mCamera, shadowmult );
+            mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
+            glBlendEquation( GL_MAX );
+            // remove self-cast shadows from the normal map mask
+
+            // -- direct sunlight to outline
+            glm::vec2 lightVec( 50,-70 );
+            int numsteps = ceil( std::max( std::abs( lightVec.x ), std::abs( lightVec.y ) ) / 30.0 );
+            rt.SetTargetTexture( sunline, RenderTargetProps( mCamera.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
+            SetupRenderer( mCamera, shadowmult );
+            mActorRenderer.Draw(
+                std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel),
+                [&](ShaderManager& ShaderMgr)->void{
+                    ShaderMgr.UploadData( "lightVec", lightVec );
+                },
+                numsteps
+            );
+            // fill lights except outline
+            SetupIdentity();
+            rt.SelectTargetTexture( lightrl );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( sunline ), sunlight,
+                [&](ShaderManager& ShaderMgr)->void{
+                    ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
+                    ShaderMgr.UploadData( "maxShadow", maxShadow );
+                } );
+            // direct sunlight end
+
+            glBlendEquation( GL_FUNC_ADD );
             rt.SelectTargetTexture( world );
             SetupRenderer( mCamera ); // needed for resolution
             // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
@@ -400,10 +422,13 @@ void RendererSystem::Update( double DeltaTime )
         mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
             [&](ShaderManager& ShaderMgr)->void{
                 ShaderMgr.UploadData( "secondaryTexture", GLuint( 2 ) );
+                ShaderMgr.UploadData( "lightTexture", GLuint( 3 ) );
                 ShaderMgr.UploadData( "resolution", mWorldProjector.GetViewport().Size() );
                 ShaderMgr.UploadData( "lightPosition", lightPos );
                 glActiveTexture( GL_TEXTURE0 + 2 );
                 glBindTexture( GL_TEXTURE_2D, rt.GetTextureId( world, 1 ) );
+                glActiveTexture( GL_TEXTURE0 + 3 );
+                glBindTexture( GL_TEXTURE_2D, rt.GetTextureId( cumulativeLight ) );
             } );
     }
     if( lights.empty() )
@@ -468,6 +493,9 @@ void RendererSystem::Update( double DeltaTime )
             break;
         case Lights:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsDedicated ), solidid );
+            break;
+        case AllLights:
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( cumulativeLight ), solidid );
             break;
         default:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );

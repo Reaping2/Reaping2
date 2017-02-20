@@ -555,6 +555,7 @@ aggro_alt_distance
 aggro_distance
 align_h
 align_v
+all_lights
 animation
 animations
 any
@@ -1847,6 +1848,7 @@ lifecycle_sender_system
 light
 lightPosition
 lightSize
+lightTexture
 lightVec
 light_active_dummy
 light_component
@@ -1931,6 +1933,7 @@ max_progress
 max_radius
 max_speed
 memoryfile.h
+mergelights
 message
 message.h
 message_handler_sub_system.h

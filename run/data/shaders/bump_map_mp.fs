@@ -2,6 +2,7 @@
 
 uniform sampler2D texture;
 uniform sampler2D secondaryTexture;
+uniform sampler2D lightTexture;
 uniform vec2 lightPosition;
 out vec4 outputColor;
 smooth in vec2 inTexCoord;
@@ -22,6 +23,8 @@ void main(void)
     float D = length( lightDir );
 
     vec4 color = texture2D( texture, inTexCoord );
+    vec4 lighttcol = texture2D( lightTexture, inTexCoord );
+
     vec4 normalColor = texture2D( secondaryTexture, inTexCoord );
     vec3 normal = normalColor.rgb * 2.0 - vec3( 1,1,1 );
 
@@ -33,7 +36,7 @@ void main(void)
 
     float attenuation = 1.0 / ( falloff.x + falloff.y * D + falloff.z * D * D );
 
-    vec3 intensity = ambient + diffuse * attenuation;
+    vec3 intensity = ambient + diffuse * lighttcol.rgb * attenuation * ( lighttcol.a - 0.6 ) / 0.4;
     vec3 finalColor = color.rgb * intensity;
 
     if( normalColor.x == 1 &&

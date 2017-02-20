@@ -111,8 +111,14 @@
 -a1
 -a3
 -a4
+.bump_map_mp.fs
+.bump_map_mp.vs
 .lights.fs
+.mergelights.fs
+.mergelights.vs
 .shadow_unwrap.fs
+.shadows.fs
+.shadows2.fs
 0x00000000
 0x00000044
 0x00007777
@@ -1146,6 +1152,7 @@ map_elements
 map_start
 mapitem
 menu item
+mergelights
 monkey
 mouse
 move
