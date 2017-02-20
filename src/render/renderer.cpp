@@ -362,6 +362,7 @@ void RendererSystem::Update( double DeltaTime )
                     } );
             glBlendEquation( GL_FUNC_ADD );
             SetupRenderer( mCamera, shadowmult );
+            // note: we use the alpha channel only from the cumul. lights map, so we can simply use the default draw shader. yay.
             mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
             glBlendEquation( GL_MAX );
             // remove self-cast shadows from the normal map mask
@@ -394,7 +395,7 @@ void RendererSystem::Update( double DeltaTime )
             // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
             SetupIdentity();
             // !---- lights/shadows
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), lightmap ); // , mWorldProjector.GetViewport().Size() * shadowmult );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), lightmap );
         }
     }
     else
