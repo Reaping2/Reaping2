@@ -26,6 +26,6 @@ void main(void)
 	color=1.0-color;
 	color*=color;
 
-	outputColor = inColor * ((inTexCoord.s<0.0)?vec4(1,1,1,1):texture2D(uiTexture,inTexCoord.st)) * vec4(color,color,color,1.0);
+	outputColor = inColor * ((inTexCoord.s<0.0)?vec4(1,1,1,1):texture2D(uiTexture,inTexCoord.st));// * vec4(color,color,color,1.0);
 }
 

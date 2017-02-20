@@ -112,6 +112,15 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     {
         playerControllerC->mUseNormalItem.Deactivate();
     }
+    if (inputState.mActivate)
+    {
+        playerControllerC->mActivate.Activate();
+    }
+    else
+    {
+        playerControllerC->mActivate.Deactivate();
+        playerControllerC->mActivate.Handled();
+    }
     if (inputState.mReload)
     {
         playerControllerC->mUseReload.Activate();

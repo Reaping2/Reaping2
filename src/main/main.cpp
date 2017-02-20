@@ -253,6 +253,7 @@ int main( int argc, char* argv[] )
 
     if (programState.mMode != ProgramState::Client)
     {
+        Eng.AddSystem( AutoId( "waypoint_system" ) );
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
         Eng.AddSystem( AutoId( "path_system" ) );
     }

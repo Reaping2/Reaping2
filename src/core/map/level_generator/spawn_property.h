@@ -21,7 +21,7 @@ public:
     Targets_t const& GetTargets() const;
     void SetChance( int32_t chance );
     int32_t GetChance() const;
-    virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor = false );
+    virtual void Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor = false );
     static void SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targets, MapElementHolder &mMapElementHolder, glm::vec2 &pos );
 
     static void SpawnActor( Opt<SpawnActorMapElement> spawnActorMapElement, glm::vec2 &pos );

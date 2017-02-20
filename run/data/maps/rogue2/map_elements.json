@@ -49,14 +49,14 @@
         "generator_name":"jungle",
         "properties":
         {
-            "seed":1,
+            "seed":0,
             "cell_size":800,
-            "cell_count":35,
+            "cell_count":15,
             "route":
             {
-                "min_length":16,
+                "min_length":2,
                 "end_chance":30,
-                "chance_increase":10
+                "chance_increase":30
             },
             "side_route":
             {
@@ -66,17 +66,7 @@
             },
             "mandatory_rooms":
             [
-                [
-                    { "room_id":"rogue3x3a","base":1,"weight":3 },
-                    { "room_id":"rogue3x3b","base":0,"weight":6 }
-                ],
-                [
-                    { "room_id":"rogue3x3a","base":1,"weight":3 },
-                    { "room_id":"rogue3x3b","base":0,"weight":6 }
-                ],
-                [
-                    { "room_id":"rogue2x2","base":0,"weight":1 }
-                ]
+
             ],
             "possible_rooms":
             [

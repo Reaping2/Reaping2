@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":"black_background.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 10,
+                "h" : 10,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "black_background"
+        }]
+    }
+]

@@ -140,7 +140,7 @@ CellEntranceProperty::Targets_t const& CellEntranceProperty::GetEntranceTargets(
 }
 
 
-void CellEntranceProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
+void CellEntranceProperty::Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
     bool hasEntrance = roomDesc.GetCell( mX, mY ).HasEntrance( mEntranceType );
     if (hasEntrance || editor)

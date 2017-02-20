@@ -3,7 +3,7 @@
 #include <random>
 namespace map {
 
-static std::default_random_engine mRand;
+extern std::default_random_engine mRand;
 
 } // namespace map
 

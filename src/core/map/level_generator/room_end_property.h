@@ -17,7 +17,7 @@ public:
     typedef std::vector<int32_t> Targets_t;
     void SetTargets( Targets_t blockedTargets );
     Targets_t const& GetTargets() const;
-    virtual void Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor = false );
+    virtual void Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor = false );
 private:
     Targets_t mTargets;
 };

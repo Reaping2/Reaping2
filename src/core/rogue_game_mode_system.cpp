@@ -27,6 +27,7 @@ void RogueGameModeSystem::Init()
 {
     mOnStartGameMode = EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnStartGameMode, this, _1 ) );
     mOnLevelSelected = EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnLevelSelected, this, _1 ) );
+    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnMapStart, this, _1 ) );
 }
 
 
@@ -64,7 +65,7 @@ void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
         return;
     }
     //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
-    Ui::Get().Load( "hud" );
+    Ui::Get().Load( "waiting_load" );
     if (ProgramState::Get().mMode == ProgramState::Client)
     {
         return;
@@ -80,6 +81,18 @@ void RogueGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& Evt )
     }
     // the host did the last step in config, redirect it to the client list
     Ui::Get().Load( "ffa_client_list" );
+}
+
+void RogueGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
+{
+    if (GameModes::Rogue != mProgramState.mGameMode)
+    {
+        return;
+    }
+    if (Evt.mState == core::MapStartEvent::Ready)
+    {
+        Ui::Get().Load( "hud" );
+    }
 }
 
 } // namespace engine

@@ -14,6 +14,7 @@ struct InputState
     bool mMoving;
     bool mShowLeaderboard;
     bool mPause;
+    bool mActivate;
     double mCursorX;
     double mCursorY;
     InputState();

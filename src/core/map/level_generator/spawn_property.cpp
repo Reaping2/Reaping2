@@ -78,7 +78,7 @@ int32_t SpawnProperty::GetChance() const
 }
 
 
-void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
+void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
     if (mRand() % 100 < mChance || editor)
     {
@@ -98,21 +98,21 @@ void SpawnProperty::SpawnTargets( RoomDesc &roomDesc, std::vector<int32_t> targe
         {
             if (targetMapElement->GetType() == SpawnActorMapElement::GetType_static())
             {
-                Opt<SpawnActorMapElement> spawnActorMapElement( targetMapElement );
+                Opt<SpawnActorMapElement> spawnActorMapElement( Opt<map::MapElement>( targetMapElement->clone() ) );
                 SpawnActor( spawnActorMapElement, pos );
-                mapSystem->GetMapElementList().insert( targetMapElement );
+                mapSystem->GetMapElementList().insert( spawnActorMapElement );
             }
             else if (targetMapElement->GetType() == RespawnActorMapElement::GetType_static())
             {
-                Opt<RespawnActorMapElement> respawnActorMapElement( targetMapElement );
+                Opt<RespawnActorMapElement> respawnActorMapElement( Opt<map::MapElement>( targetMapElement->clone() ) );
                 RespawnActor( respawnActorMapElement, pos );
-                mapSystem->GetMapElementList().insert( targetMapElement );
+                mapSystem->GetMapElementList().insert( respawnActorMapElement );
             }
             else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
             {
-                Opt<GroupMapElement> groupMapElement( targetMapElement );
+                Opt<GroupMapElement> groupMapElement( Opt<map::MapElement>( targetMapElement->clone() ) );
                 targets.insert( targets.end(), groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
-                mapSystem->GetMapElementList().insert( targetMapElement );
+                mapSystem->GetMapElementList().insert( groupMapElement );
             }
         }
         ++currTargetIndex;

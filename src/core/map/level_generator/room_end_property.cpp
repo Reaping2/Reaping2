@@ -54,7 +54,7 @@ RoomEndProperty::Targets_t const& RoomEndProperty::GetTargets() const
 
 
 
-void RoomEndProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
+void RoomEndProperty::Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
     if (roomDesc.HasProperty( RoomProperty::End ) || editor)
     {

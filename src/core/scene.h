@@ -202,6 +202,7 @@ private:
     int32_t mMaxHP;
     core::ProgramState& mProgramState;
     std::vector<std::unique_ptr<Actor> > mRemovedActors;
+    bool mSendMapStarted = false;
 public:
     enum ActorIndex
     {

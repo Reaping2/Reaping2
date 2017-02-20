@@ -21,8 +21,10 @@
 #redidx
 #redidx.add
 #spawnptidx
+%%black_background
 %%idle
 %%player
+%%reaping_resurr_splash
 %auto_revive_text
 %cell_editor.cell_count
 %cell_editor.cell_size
@@ -122,6 +124,7 @@
 0x22222277
 0x3333ffff
 0x44440044
+0x660000
 0x77000077
 0x777777
 0x888888cc
@@ -234,6 +237,7 @@ Score
 Select cell entrance!
 Start
 TODO: create player_inventory actor, add the possible weapons and buffs as animations
+Teleportin'...
 ThreeLeggedMonkeyInteractive03
 ThreeLeggedMonkeyInteractive1
 Unispace
@@ -443,6 +447,8 @@ bar
 big_background
 biggerClip
 bite
+black_background
+black_background.png
 blocked target:
 blood100
 blood100.png
@@ -1703,6 +1709,8 @@ read_me
 readme
 reaping
 reaping_menu_r2
+reaping_resurr_splash
+reaping_resurr_splash.png
 reaping_welcome
 recognizer_desc
 recognizers_excludes
@@ -2408,6 +2416,7 @@ vortex_rip
 w1
 w2
 w3
+waiting_load
 waiting_start
 wall
 wall_collision_component
@@ -2432,6 +2441,7 @@ water_top_outer_mask
 water_topleft_outer_border
 water_topleft_outer_mask
 water_topright_outer_mask
+waypoint_component
 waypoint_off
 waypoint_off.png
 waypoint_off_mask

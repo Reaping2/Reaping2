@@ -28,6 +28,8 @@
 #include "map_start_event.h"
 #include "map/map_repo.h"
 #include "engine/system_suppressor.h"
+#include "engine/engine.h"
+#include "render/renderer.h"
 
 using core::ProgramState;
 
@@ -70,7 +72,11 @@ void Scene::AddActor( Actor* Object )
 
 void Scene::Update( double DeltaTime )
 {
-
+    if (mSendMapStarted)
+    {
+        mSendMapStarted = false;
+        EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
+    }
     if( IsPaused() )
     {
         return;
@@ -172,9 +178,7 @@ void Scene::Load( std::string const& Level )
     }
     mActorHolder.mAllActors.clear();
     mActorMap.clear();
-    SetType( "grass" );
-
-    EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
+    mSendMapStarted = true;
     L2( "Scene load ended %s\n", Level.c_str() );
 }
 
