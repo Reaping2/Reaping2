@@ -186,6 +186,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     {
         mRenderableSprites.clear(); // renderable sprites still can contain obsolete sprites, so render nothing instead of invalid object
         mCounts.clear();
+        mPostprocessColors.clear();
         return;
     }
     RenderableSprites_t RenderableSprites;
@@ -260,6 +261,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     if( CurSize == 0 )
     {
         mCounts.clear();
+        mPostprocessColors.clear();
         return;
     }
 
@@ -454,11 +456,17 @@ void ActorRenderer::Draw( RenderFilter filter )
 
 void ActorRenderer::Draw( int32_t postprocid )
 {
-    if( mRenderableSprites.empty() )
+    if( mRenderableSprites.empty() || mCounts.empty() )
     {
         return;
     }
-    if( mPostprocessColors.find( postprocid ) == mPostprocessColors.end() )
+    auto ppcit = mPostprocessColors.find( postprocid );
+    if( ppcit == mPostprocessColors.end() )
+    {
+        return;
+    }
+    auto const& ppc = ppcit->second;
+    if( ppc.empty() )
     {
         return;
     }
@@ -466,7 +474,7 @@ void ActorRenderer::Draw( int32_t postprocid )
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     static int32_t def = AutoId( "postprocessor_select" );
     ShaderMgr.ActivateShader( def );
-    glBufferSubData( GL_ARRAY_BUFFER, mPostprocessColorIndex, sizeof(glm::vec4) * mPrevSize, &mPostprocessColors[postprocid][0] );
+    glBufferSubData( GL_ARRAY_BUFFER, mPostprocessColorIndex, sizeof(glm::vec4) * ppc.size(), &ppc[0] );
     for( auto const& BigPart : mCounts )
     {
         glActiveTexture( GL_TEXTURE0 + 1 );
