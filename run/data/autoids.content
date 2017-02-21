@@ -111,7 +111,11 @@
 -a1
 -a3
 -a4
-.sunlight.fs
+.lights.fs
+.player.actor
+.shadow_unwrap.fs
+.spider1.actor
+.worm200.actor
 0x00000000
 0x00000044
 0x00007777

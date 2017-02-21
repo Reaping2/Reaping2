@@ -106,7 +106,9 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
                     glm::vec4*& TexCoords, glm::vec4*& SecondaryTexCoords,
                     glm::vec4*& MaskTexCoords, glm::vec4*& NormalTexCoords,
                     glm::vec2*& Sizes, glm::vec4*& Colors,
-                    std::map<int32_t, std::vector<glm::vec4> >& postprocColors, size_t& cnt,
+                    std::map<int32_t, std::vector<glm::vec4> >& postprocColors,
+                    GLfloat*& ShadowLenScales,
+                    size_t& cnt,
                     render::RenderBatch& batch )
 {
     static int32_t prevNormalId = -1;
@@ -127,6 +129,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     batch.ShaderId = i->RenderableComp->GetShaderId();
     (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
     (*Headings++) = ( GLfloat )i->PositionC->GetOrientation() + i->RelativeOrientation;
+    (*ShadowLenScales++) = (GLfloat)i->RenderableComp->GetShadowLenScale();
 
     float const radius = (( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )
                             + i->RelativeRadius) *i->Anim->GetScale();
@@ -274,6 +277,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
 
     Positions_t Positions( CurSize );
     Floats_t Headings( CurSize );
+    Floats_t ShadowLenScales( CurSize );
     Positions_t Sizes( CurSize );
     TexCoords_t TexCoords( CurSize );
     TexCoords_t SecondaryTexCoords( CurSize );
@@ -289,6 +293,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
 
     glm::vec2* posptr = &Positions[0];
     GLfloat* hptr = &Headings[0];
+    GLfloat* shadowlenscaleptr = &ShadowLenScales[0];
     glm::vec2* sptr = &Sizes[0];
     glm::vec4* tptr = &TexCoords[0];
     glm::vec4* stptr = &SecondaryTexCoords[0];
@@ -302,6 +307,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
         std::ref( posptr ), std::ref( hptr ), std::ref( tptr ),
         std::ref( stptr ), std::ref(mtptr), std::ref(ntptr),
         std::ref( sptr ), std::ref( cptr ), std::ref( mPostprocessColors ),
+        std::ref( shadowlenscaleptr ),
         std::ref( cnt ),
         std::placeholders::_1 )
     );
@@ -310,7 +316,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
     if( CurSize > mPrevSize )
     {
         mPrevSize = CurSize;
-        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + 4 * sizeof( glm::vec4 ) );
+        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + 4 * sizeof( glm::vec4 ) );
         glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
     }
 
@@ -369,6 +375,13 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &NormalTexCoords[0] );
     glEnableVertexAttribArray( CurrentAttribIndex );
     mNormalTexCoordIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( GLfloat );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &ShadowLenScales[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mShadowLenScaleIndex = CurrentOffset;
     ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
@@ -523,6 +536,9 @@ void ActorRenderer::DrawOnePart( render::CountByTexId const& Part, size_t instan
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mNormalTexCoordIndex + sizeof( glm::vec4 )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mShadowLenScaleIndex + sizeof( GLfloat )*Part.Start ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPostprocessColorIndex + sizeof( glm::vec4 )*Part.Start ) );

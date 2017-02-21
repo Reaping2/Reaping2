@@ -2478,6 +2478,7 @@ shader_manager.h
 shader_repo.h
 shaders
 shaders/
+shadow_len_scale
 shadow_unwrap
 shadows
 shadows2

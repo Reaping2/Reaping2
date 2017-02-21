@@ -18,7 +18,8 @@ layout(location=4) in vec2 Size;
 layout(location=5) in vec4 color;
 layout(location=6) in vec4 procTexCoord;
 layout(location=7) in vec4 normalTexCoord;
-layout(location=8) in vec4 proccolor;
+layout(location=8) in float ShadowLenScale;
+layout(location=9) in vec4 proccolor;
 smooth out vec2 inTexCoord;
 smooth out vec4 inColor;
 smooth out vec2 inNormalTexCoord;
@@ -60,7 +61,7 @@ void main()
     vec2 displace=vec2(0,0);
     if( numsteps > 0.5 && gl_VertexID >= 4 )
     {
-        displace = lightVec / numsteps * ( 1.0 + floor(gl_VertexID/4.0) );
+        displace = lightVec * ShadowLenScale / numsteps * ( 1.0 + floor(gl_VertexID/4.0) );
     }
     gl_Position=cameraToClipMatrix*worldToCameraMatrix*vec4(ScaleMatrix*position+SpriteCenter+displace,0,1);
 }

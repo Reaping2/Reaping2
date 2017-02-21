@@ -34,6 +34,8 @@ public:
     virtual void SetCastShadow( int32_t set );
     virtual int32_t GetReceiveShadow() const;
     virtual void SetReceiveShadow( int32_t set );
+    virtual double GetShadowLenScale() const;
+    virtual void SetShadowLenScale( double height );
     virtual int32_t GetReceiveBlood() const;
     virtual void SetReceiveBlood( int32_t set );
     virtual void SetColor( glm::vec4 const& color );
@@ -54,6 +56,7 @@ protected:
     int32_t mCastShadow;
     int32_t mReceiveBlood;
     int32_t mReceiveShadow;
+    double mShadowLenScale;
     glm::vec4 mColor;
     RandomSprites_t mRandomSprites;
     int32_t mSpriteIndex;
@@ -80,6 +83,7 @@ void RenderableComponent::serialize( Archive& ar, const unsigned int version )
     ar& mSpriteIndex;
     ar& mShaderId;
     ar& mPostprocessorIds;
+    ar& mShadowLenScale;
 }
 
 class RenderableComponentLoader: public ComponentLoader<RenderableComponent>

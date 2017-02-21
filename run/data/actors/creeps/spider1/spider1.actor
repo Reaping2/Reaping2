@@ -8,7 +8,7 @@
                 "set":[{"speed":400,"moving":0}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"creeps", "cast_shadow":1}]
+                "set":[{"layer":"creeps", "cast_shadow":1,"shadow_len_scale":0.1}]
             },
             {"name":"target_holder_component"},
             {"name":"collision_component",
