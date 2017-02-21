@@ -41,12 +41,14 @@ void Component::Save( Json::Value& component )
 
 void ComponentHolder::AddComponent( std::auto_ptr<Component> Comp )
 {
-    ComponentList_t::iterator i = mComponents.find( Comp->GetType() );
-    if( i == mComponents.end() )
+    int const type = Comp->GetType();
+    auto it = mComponents.find( type );
+    if (it != mComponents.end())
     {
-        int type = Comp->GetType();
-        mComponents.emplace( type, Comp.release() );
+        delete it->second;
+        mComponents.erase( it );
     }
+    mComponents.emplace( type, Comp.release() );
 }
 
 void ComponentHolder::DropComponent( int32_t id )

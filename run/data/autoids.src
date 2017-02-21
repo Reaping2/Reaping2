@@ -1483,8 +1483,6 @@ graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
 graphics.width
 graphics.window_mode
-grass
-grass2
 greater
 grenade_normal_item
 grenade_normal_item.h
@@ -1728,7 +1726,6 @@ is_not_hit
 is_not_hit_condition.h
 isclient
 ishost
-issppressed:%d\n
 item
 item.h
 item_changed

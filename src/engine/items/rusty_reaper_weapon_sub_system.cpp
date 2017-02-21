@@ -28,7 +28,12 @@ void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<RustyReaper> weapon = inventoryC->GetSelectedWeapon();
-    if (weapon->GetSawGUID() == -1)
+    if (weapon->GetCooldown() > 0)
+    {
+        return;
+    }
+    Opt<Actor> saw( mScene.GetActor( weapon->GetSawGUID() ) );
+    if (!saw.IsValid())
     {
         WeaponItemSubSystem::Projectiles_t projectiles;
         std::auto_ptr<Actor> ps = mActorFactory( weapon->GetShotAltId() );
@@ -38,12 +43,8 @@ void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
         weapon->SetSawGUID( ps->GetGUID() );
         projectiles.push_back( Opt<Actor>( ps.release() ) );
         mWeaponItemSubSystem->AddProjectiles( actor, projectiles, weapon->GetScatter(), true );
+        saw = mScene.GetActor( weapon->GetSawGUID() );
     }
-    if (weapon->GetCooldown() > 0)
-    {
-        return;
-    }
-    Opt<Actor> saw( mScene.GetActor( weapon->GetSawGUID() ) );
     BOOST_ASSERT( saw.IsValid() );
     Opt<ShotCollisionComponent> sawShotCC( saw->Get<ICollisionComponent>() );
     BOOST_ASSERT( sawShotCC.IsValid() );

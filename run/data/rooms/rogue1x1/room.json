@@ -473,6 +473,22 @@
             "name" : "spawn_actor"
          },
          {
+            "actor" : "spider1",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 400.460,
+                        "y" : 450.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
             "actor" : "rogue_ore_wall50",
             "components" : [
                {
@@ -495,81 +511,6 @@
                }
             ],
             "identifier" : "a1",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall50",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 50.0,
-                        "y" : 450.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a2",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall50",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 50.0,
-                        "y" : 250.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "bottom", "left" ],
-                        "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a3",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall50",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 50.0,
-                        "y" : 550.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "top", "right", "left" ],
-                        "outer_borders" : [ "top", "topright", "right", "left", "topleft" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a4",
             "name" : "spawn_actor"
          },
          {
@@ -620,6 +561,31 @@
                }
             ],
             "identifier" : "a19",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall50",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 50.0,
+                        "y" : 450.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a2",
             "name" : "spawn_actor"
          },
          {
@@ -679,8 +645,8 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 450.0,
-                        "y" : 750.0
+                        "x" : 50.0,
+                        "y" : 250.0
                      }
                   ]
                },
@@ -688,13 +654,13 @@
                   "name" : "border_component",
                   "set" : [
                      {
-                        "borders" : [ "top", "bottom" ],
-                        "outer_borders" : [ "top", "bottom" ]
+                        "borders" : [ "right", "bottom", "left" ],
+                        "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
                      }
                   ]
                }
             ],
-            "identifier" : "a5",
+            "identifier" : "a3",
             "name" : "spawn_actor"
          },
          {
@@ -704,8 +670,8 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 550.0,
-                        "y" : 750.0
+                        "x" : 50.0,
+                        "y" : 550.0
                      }
                   ]
                },
@@ -713,63 +679,13 @@
                   "name" : "border_component",
                   "set" : [
                      {
-                        "borders" : [ "top", "right", "bottom" ],
-                        "outer_borders" : [ "top", "topright", "right", "bottomright", "bottom" ]
+                        "borders" : [ "top", "right", "left" ],
+                        "outer_borders" : [ "top", "topright", "right", "left", "topleft" ]
                      }
                   ]
                }
             ],
-            "identifier" : "a6",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall50",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 250.0,
-                        "y" : 750.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "top", "bottom", "left" ],
-                        "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a7",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall50",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 350.0,
-                        "y" : 750.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "top", "bottom" ],
-                        "outer_borders" : [ "top", "bottom" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a8",
+            "identifier" : "a4",
             "name" : "spawn_actor"
          },
          {
@@ -879,8 +795,8 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 750.0,
-                        "y" : 450.0
+                        "x" : 450.0,
+                        "y" : 750.0
                      }
                   ]
                },
@@ -888,13 +804,88 @@
                   "name" : "border_component",
                   "set" : [
                      {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
+                        "borders" : [ "top", "bottom" ],
+                        "outer_borders" : [ "top", "bottom" ]
                      }
                   ]
                }
             ],
-            "identifier" : "a9",
+            "identifier" : "a5",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall50",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 550.0,
+                        "y" : 750.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "top", "right", "bottom" ],
+                        "outer_borders" : [ "top", "topright", "right", "bottomright", "bottom" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a6",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall50",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 250.0,
+                        "y" : 750.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "top", "bottom", "left" ],
+                        "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a7",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall50",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 350.0,
+                        "y" : 750.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "top", "bottom" ],
+                        "outer_borders" : [ "top", "bottom" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a8",
             "name" : "spawn_actor"
          },
          {
@@ -1070,6 +1061,31 @@
                }
             ],
             "identifier" : "a29",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall50",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 750.0,
+                        "y" : 450.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a9",
             "name" : "spawn_actor"
          },
          {
@@ -1298,22 +1314,6 @@
             "actor" : "spider1_",
             "components" : [],
             "identifier" : "a35",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "spider1",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 400.460,
-                        "y" : 450.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
             "name" : "spawn_actor"
          }
       ],
