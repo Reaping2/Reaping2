@@ -312,10 +312,13 @@ void RendererSystem::Update( double DeltaTime )
             for( auto light : lights )
             {
                 auto const& lightCam = **lightCamIt++;
-                double radius = light->Get<ILightComponent>()->GetRadius();
+                auto lightC = light->Get<ILightComponent>();
+                double radius = lightC->GetRadius();
                 glm::vec2 lightSize( radius, radius );  // not done yet
                 auto positionC = light->Get<IPositionComponent>();
                 glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
+                auto ori = positionC->GetOrientation() - 3.141592654 / 2.0;
+                auto aperture = lightC->GetAperture() * 3.141592654 / 180.0;
                 // lightPos4 is in player view space
                 auto lightPos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * pos;
                 // create camera with max light range range, pos center
@@ -339,6 +342,8 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "resolution", shadowsize );
                         ShaderMgr.UploadData( "lightPosition", lightPosInShadowTex );
                         ShaderMgr.UploadData( "lightSize", lightSize );
+                        ShaderMgr.UploadData( "heading", ori );
+                        ShaderMgr.UploadData( "aperture", aperture );
                     } );
 
                 rt.SelectTargetTexture( lightrl );

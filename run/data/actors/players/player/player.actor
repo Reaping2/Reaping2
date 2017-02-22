@@ -3,6 +3,12 @@
         "name":"player",
         "components":
         [
+            {"name":"light_component",
+                "set":[{
+                    "radius":30,
+                    "aperture":45
+                }]
+            },
             {"name":"position_component"},
             {"name":"activity_component"},
             {"name":"move_component",

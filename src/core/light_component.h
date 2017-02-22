@@ -11,9 +11,12 @@ public:
     LightComponent();
     virtual void SetRadius( double radius );
     virtual double GetRadius() const;
+    virtual void SetAperture(double radius);
+    virtual double GetAperture()const;
 protected:
     friend class ComponentFactory;
     double mRadius;
+    double mAperture = 360.0;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -25,6 +28,7 @@ void LightComponent::serialize(Archive& ar, const unsigned int version)
 {
     ar& boost::serialization::base_object<ILightComponent>(*this);
     ar& mRadius;
+    ar& mAperture;
 }
 
 class LightComponentLoader : public ComponentLoader<LightComponent>

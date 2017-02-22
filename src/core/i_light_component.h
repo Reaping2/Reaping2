@@ -9,6 +9,8 @@ public:
     DEFINE_COMPONENT_BASE(ILightComponent)
     virtual void SetRadius(double radius)=0;
     virtual double GetRadius()const=0;
+    virtual void SetAperture(double radius)=0;
+    virtual double GetAperture()const=0;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

@@ -563,6 +563,7 @@ aoe
 aoe_collision_component
 aoe_collision_component.h
 aoe_collision_sub_system
+aperture
 armor
 armor_buff
 armor_buff.h
