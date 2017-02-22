@@ -112,6 +112,7 @@
 -a3
 -a4
 .lights.fs
+.player.actor
 .shadow_unwrap.fs
 0x00000000
 0x00000044

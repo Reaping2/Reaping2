@@ -3,8 +3,6 @@
 uniform vec2 resolution;
 uniform vec2 lightPosition;
 uniform vec2 lightSize;
-uniform float heading;
-uniform float aperture;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
 out vec4 outputColor;
@@ -12,10 +10,6 @@ float pi = 3.141592654;
 float threshold = 0.75;
 float lightSourceRadius = 0.15;
 
-bool isInCone( float facing, float target, float apert )
-{
-    return abs( mod( abs( pi + facing - target ), 2.0 * pi ) - pi ) < ( apert / 2.0 );
-}
 void main()
 {
     float distance = 1.0;
@@ -38,11 +32,6 @@ void main()
 
         //the current distance is how far from the top we've come
         float dst = y/rays;
-
-        if( !isInCone( heading, theta, aperture ) )
-        {
-            distance = 0; 
-        }
 
         //if we've hit an opaque fragment (occluder), then get new distance
         //if the new distance is below the current, then we'll use that for our ray
