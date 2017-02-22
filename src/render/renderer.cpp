@@ -317,8 +317,8 @@ void RendererSystem::Update( double DeltaTime )
                 glm::vec2 lightSize( radius, radius );  // not done yet
                 auto positionC = light->Get<IPositionComponent>();
                 glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
-                auto ori = positionC->GetOrientation() - 3.141592654 / 2.0;
-                auto aperture = lightC->GetAperture() * 3.141592654 / 180.0;
+                GLfloat ori = positionC->GetOrientation();
+                GLfloat aperture = lightC->GetAperture() * 3.141592654 / 180.0;
                 // lightPos4 is in player view space
                 auto lightPos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * pos;
                 // create camera with max light range range, pos center

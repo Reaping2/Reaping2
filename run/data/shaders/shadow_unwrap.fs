@@ -14,9 +14,7 @@ float lightSourceRadius = 0.15;
 
 bool isInCone( float facing, float target, float apert )
 {
-    float d = cos( facing ) * cos( target ) + sin( facing ) * sin( target );
-    float angle = acos( d );
-    return angle <= apert;
+    return abs( mod( abs( pi + facing - target ), 2.0 * pi ) - pi ) < ( apert / 2.0 );
 }
 void main()
 {
