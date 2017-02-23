@@ -323,7 +323,7 @@ void RendererSystem::Update( double DeltaTime )
                 glm::vec2 lightSize( radius, radius );  // not done yet
                 auto positionC = light->Get<IPositionComponent>();
                 glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
-                GLfloat ori = positionC->GetOrientation();
+                GLfloat ori = positionC->GetOrientation(); // radians
                 GLfloat aperture = lightC->GetAperture() * 3.141592654 / 180.0;
                 // lightPos4 is in player view space
                 auto lightPos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * pos;
@@ -363,6 +363,8 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "lightSize", lightSize );
                         ShaderMgr.UploadData( "distanceMult", distanceMult );
                         ShaderMgr.UploadData( "maxShadow", maxShadow );
+                        ShaderMgr.UploadData( "heading", ori );
+                        ShaderMgr.UploadData( "aperture", aperture );
                     } );
             }
 

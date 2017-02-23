@@ -6,7 +6,7 @@
             {"name":"light_component",
                 "set":[{
                     "radius":30,
-                    "aperture":45
+                    "aperture":60
                 }]
             },
             {"name":"position_component"},
