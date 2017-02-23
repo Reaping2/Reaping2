@@ -211,6 +211,12 @@ bool selectShadowCasters( IRenderableComponent const& renderableC, int32_t shado
 {
     return renderableC.GetReceiveBlood() == 0 && renderableC.GetCastShadow() == shadowLevel;
 }
+
+bool selectShadowCastersExcept( IRenderableComponent const& renderableC, int32_t shadowLevel, IRenderableComponent const* except )
+{
+    return &renderableC != except && renderableC.GetReceiveBlood() == 0 && renderableC.GetCastShadow() == shadowLevel;
+}
+
 }
 
 void RendererSystem::Update( double DeltaTime )
@@ -327,7 +333,10 @@ void RendererSystem::Update( double DeltaTime )
                 // use that map + pos to render shadow layer
                 rt.SetTargetTexture( outline, RenderTargetProps( lightCam.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
                 SetupRenderer( lightCam, shadowmult );
-                mActorRenderer.Draw( std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel) );
+                mActorRenderer.Draw( std::bind( &selectShadowCastersExcept,
+                            std::placeholders::_1,
+                            shadowLevel,
+                            light->Get<IRenderableComponent>().Get() ) );
 
                 SetupIdentity();
 
