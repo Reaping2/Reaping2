@@ -57,7 +57,7 @@ void main()
     position.x *= Size.x;
     position.y *= Size.y;
     mat2 ScaleMatrix=mat2(cos(Heading),sin(Heading),-sin(Heading),cos(Heading));
-    float numsteps=ceil(max(abs(lightVec.x),abs(lightVec.y))/30.0);
+    float numsteps=ceil(max(abs(lightVec.x),abs(lightVec.y))/10.0);
     vec2 displace=vec2(0,0);
     if( numsteps > 0.5 && gl_VertexID >= 4 )
     {

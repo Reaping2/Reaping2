@@ -30,6 +30,7 @@ enum ShownLayer
     ShadowUnwrap,
     Shadows,
     Lights,
+    TopLights,
     AllLights,
 };
 ShownLayer shownLayer()
@@ -43,6 +44,7 @@ ShownLayer shownLayer()
         { "shadow_unwrap", ShadowUnwrap },
         { "shadows", Shadows },
         { "lights", Lights },
+        { "top_lights", TopLights },
         { "all_lights", AllLights },
     };
     auto i = layers.find( layer );
@@ -216,7 +218,42 @@ bool selectShadowCastersExcept( IRenderableComponent const& renderableC, int32_t
 {
     return &renderableC != except && renderableC.GetReceiveBlood() == 0 && renderableC.GetCastShadow() == shadowLevel;
 }
-
+struct LightDesc
+{
+    Opt<ILightComponent> lightC;
+    Opt<IRenderableComponent> renderableC;
+    glm::vec2 center;
+    GLfloat orientation;
+};
+std::vector<LightDesc> getLights()
+{
+    static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
+    std::vector<LightDesc> lds;
+    for( auto light : lightS->GetActiveLights() )
+    {
+        auto positionC = light->Get<IPositionComponent>();
+        glm::vec2 center( std::numeric_limits<double>::max(), std::numeric_limits<double>::max() );
+        GLfloat heading = 0.0;
+        if( positionC.IsValid() )
+        {
+            center = glm::vec2( positionC->GetX(), positionC->GetY() );
+            heading = positionC->GetOrientation();
+        }
+        lds.push_back(
+            std::move( LightDesc{ light->Get<ILightComponent>(),
+            light->Get<IRenderableComponent>(),
+            center,
+            heading } )
+            );
+    }
+    lds.push_back( 
+        std::move( LightDesc{ Opt<ILightComponent>(),
+        Opt<IRenderableComponent>(),
+        glm::vec2( std::numeric_limits<double>::max(), std::numeric_limits<double>::max() ),
+        0.0 } )
+        );
+    return lds;
+}
 }
 
 void RendererSystem::Update( double DeltaTime )
@@ -238,7 +275,6 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const shadowDedicatedOutline = rt.GetFreeId();
     static uint32_t const shadowUnwrap = rt.GetFreeId();
     static uint32_t const shadowDedicatedUnwrap = rt.GetFreeId();
-    static uint32_t const shadows = rt.GetFreeId();
     static uint32_t const lightsLayer = rt.GetFreeId();
     static uint32_t const lightsDedicated = rt.GetFreeId();
     static uint32_t const worldBumped = rt.GetFreeId();
@@ -250,7 +286,7 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const topcasters = rt.GetFreeId();
 
     static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
-    auto const& lights = lightS->GetActiveLights();
+    auto const& lights = getLights();
 
     std::vector<Camera const*> cameras;
     Projection lightCamProjection( -500, 500 );
@@ -258,12 +294,10 @@ void RendererSystem::Update( double DeltaTime )
     std::vector<std::unique_ptr<Camera> > tempCameras;
     cameras.push_back( &mCamera );
     // add cameras for lights
-    for( auto light : lights )
+    for( auto const& light : lights )
     {
         std::unique_ptr<Camera> cam( new Camera( lightCamProjection ) );
-        auto posC = light->Get<IPositionComponent>();
-        glm::vec2 center( posC->GetX(), posC->GetY() );
-        cam->SetCenter( center );
+        cam->SetCenter( light.center );
         cameras.push_back( cam.get() );
         tempCameras.push_back( std::move( cam ) );
     }
@@ -294,7 +328,7 @@ void RendererSystem::Update( double DeltaTime )
     float maxShadow = lightS->GetMaxShadow();
     glm::vec2 lightVec = lightS->GetShadowVector();
     glm::vec4 ambientLight = lightS->GetAmbientLight();
-    int numShadowSteps = ceil( std::max( std::abs( lightVec.x ), std::abs( lightVec.y ) ) / 30.0 );
+    int numShadowSteps = ceil( std::max( std::abs( lightVec.x ), std::abs( lightVec.y ) ) / 10.0 );
     LL() << maxShadow << " (" << lightVec.x
         << " " << lightVec.y
         << ") ("
@@ -358,17 +392,14 @@ void RendererSystem::Update( double DeltaTime )
             // direct sunlight end
 
             auto lightCamIt = tempCameras.begin();
-            for( auto light : lights )
+            for( auto const& light : lights )
             {
                 auto const& lightCam = **lightCamIt++;
-                auto lightC = light->Get<ILightComponent>();
-                double radius = lightC->GetRadius();
-                glm::vec2 lightSize( radius, radius );  // not done yet
-                auto positionC = light->Get<IPositionComponent>();
-                glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
-                GLfloat ori = positionC->GetOrientation(); // radians
-                GLfloat aperture = lightC->GetAperture() * 3.141592654 / 180.0;
-                GLfloat fsaperture = lightC->GetFullStrengthAperture() * 3.141592654 / 180.0;
+                GLfloat lightSize = light.lightC.IsValid() ? light.lightC->GetRadius() : -1.0;
+                glm::vec4 pos( light.center.x, light.center.y, 1, 1 );
+                GLfloat ori = light.orientation; // radians
+                GLfloat aperture = ( light.lightC.IsValid() ? light.lightC->GetAperture() : 0 ) * 3.141592654 / 180.0;
+                GLfloat fsaperture = ( light.lightC.IsValid() ? light.lightC->GetFullStrengthAperture() : 0 ) * 3.141592654 / 180.0;
                 // lightPos4 is in player view space
                 auto lightPos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * pos;
                 // create camera with max light range range, pos center
@@ -380,7 +411,7 @@ void RendererSystem::Update( double DeltaTime )
                 mActorRenderer.Draw( std::bind( &selectShadowCastersExcept,
                             std::placeholders::_1,
                             shadowLevel,
-                            light->Get<IRenderableComponent>().Get() ) );
+                            light.renderableC.Get() ) );
 
                 SetupIdentity();
 
@@ -459,14 +490,13 @@ void RendererSystem::Update( double DeltaTime )
     glBlendFunc( GL_ONE, GL_ONE );
     glBlendEquation( GL_MAX );
     static int32_t bumpid = AutoId( "bump_map_mp" );
-    static int32_t bumpnolightid = AutoId( "bump_map_nolight" );
     glDepthFunc( GL_LEQUAL );
-    for( auto light : lights )
+    for( auto const& light : lights )
     {
-        auto positionC = light->Get<IPositionComponent>();
-        glm::vec4 pos( positionC->GetX(), positionC->GetY(), 1, 1 );
-        auto lightPos4 =  mWorldProjector.GetMatrix() * mCamera.GetView() * pos;
+        auto lightPos4 =  mWorldProjector.GetMatrix() * mCamera.GetView()
+            * glm::vec4( light.center.x, light.center.y, 1, 1 );
         glm::vec2 lightPos = glm::vec2( lightPos4.x + 1, lightPos4.y + 1 ) / 2.0;
+        GLfloat lightSize = light.lightC.IsValid() ? light.lightC->GetRadius() : -1.0;
 
         mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
             [&](ShaderManager& ShaderMgr)->void{
@@ -474,16 +504,12 @@ void RendererSystem::Update( double DeltaTime )
                 ShaderMgr.UploadData( "lightTexture", GLuint( 3 ) );
                 ShaderMgr.UploadData( "resolution", mWorldProjector.GetViewport().Size() );
                 ShaderMgr.UploadData( "lightPosition", lightPos );
-                ShaderMgr.UploadData( "maxShadow", maxShadow );
+                ShaderMgr.UploadData( "lightSize", lightSize );
                 glActiveTexture( GL_TEXTURE0 + 2 );
                 glBindTexture( GL_TEXTURE_2D, rt.GetTextureId( world, 1 ) );
                 glActiveTexture( GL_TEXTURE0 + 3 );
                 glBindTexture( GL_TEXTURE_2D, rt.GetTextureId( cumulativeLight ) );
             } );
-    }
-    if( lights.empty() )
-    {
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpnolightid );
     }
     glBlendFunc( GL_ONE, GL_ONE );
     glBlendEquation( GL_FUNC_ADD );
@@ -542,6 +568,9 @@ void RendererSystem::Update( double DeltaTime )
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedOutline ), solidid );
             break;
         case Lights:
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsDedicated ), solidid );
+            break;
+        case TopLights:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsLayer ), solidid );
             break;
         case AllLights:
@@ -558,10 +587,19 @@ void RendererSystem::Update( double DeltaTime )
     glViewport( Vp.X, Vp.Y, Vp.Width, Vp.Height );
     mShaderManager.UploadGlobalData( GlobalShaderData::Resolution, glm::vec2( Vp.Width, Vp.Height ) );
 
+    static bool const showNames = Settings::Get().GetBool( "graphics.show_names", true );
+    static bool const showHealthbars = Settings::Get().GetBool( "graphics.show_healthbars", true );
+
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
-    mNameRenderer.Draw( mTextSceneRenderer );
+    if( showNames )
+    {
+        mNameRenderer.Draw( mTextSceneRenderer );
+    }
     mPathBoxRenderer.Draw( mTextSceneRenderer );
-    mHealthBarRenderer.Draw();
+    if( showHealthbars )
+    {
+        mHealthBarRenderer.Draw();
+    }
     mMouseRenderer.Draw( mTextSceneRenderer );
     mTextSceneRenderer.Draw();
     method.Log( "end draw" );

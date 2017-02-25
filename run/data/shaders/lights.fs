@@ -7,6 +7,7 @@ uniform float aperture;
 uniform float fsaperture;
 uniform float distanceMult;
 uniform float maxShadow;
+uniform float lightSize;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
 out vec4 outputColor[2];
@@ -40,7 +41,7 @@ void main()
 
     float distfactor = smoothstep( 0.15, 0.45, falloffDist );
     float shadow = distfactor;
-    if( 1 > firstOccluder && firstOccluder < rad )
+    if( ( 1 > firstOccluder && firstOccluder < rad ) || lightSize <= 0.0 )
     {
         // first occluder is closer than this point
         // so shadow is the max castable

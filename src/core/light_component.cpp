@@ -1,7 +1,7 @@
 #include "core/light_component.h"
 
 LightComponent::LightComponent()
-    : mRadius(0.0)
+    : mRadius(1.0)
 {
 }
 

@@ -2,7 +2,7 @@
 
 uniform vec2 resolution;
 uniform vec2 lightPosition;
-uniform vec2 lightSize;
+uniform float lightSize;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
 out vec4 outputColor;
@@ -13,7 +13,10 @@ float lightSourceRadius = 0.001;
 void main()
 {
     float distance = 1.0;
-
+    if( lightSize <= 0.0 )
+    {
+        distance = 0.0;
+    }
     float rays = 256.0;
     for (float y=0.0; y<rays-0.1; y+=1.0)
     {

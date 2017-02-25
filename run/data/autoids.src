@@ -686,7 +686,6 @@ bufftarget
 bullets
 bump_map
 bump_map_mp
-bump_map_nolight
 button
 button.h
 c:/setuplogfile.log
@@ -1483,6 +1482,8 @@ graphics.gl.max_allowed_texture_size
 graphics.postprocess
 graphics.pp_blacklist
 graphics.shadow_scale
+graphics.show_healthbars
+graphics.show_names
 graphics.shown_layer
 graphics.shown_layer_pp_id
 graphics.sprite_phase_cache.downsample
@@ -2703,6 +2704,7 @@ timer.h
 timer_server_system
 to
 top
+top_lights
 topcasters
 topleft
 topright
