@@ -13,12 +13,12 @@
     },
     {
         "name":"link",
-        "from":{"identifier":"map_start","node":0},
-        "to":{"identifier":"map_start","node":1}
+        "from":{"identifier":"map_start","node":"start"},
+        "to":{"identifier":"map_start","node":"ready"}
     },
     {
         "name":"link",
-        "from":{"identifier":"map_start","node":0},
+        "from":{"identifier":"map_start","node":"start"},
         "to":{"identifier":"spawn_at_start","node":0}
     }    
 ]

@@ -99,7 +99,17 @@ void Scene::Update( double DeltaTime )
     //testing end
 
     InsertNewActors();
+    if (mHandleMapReadyCounter > -1)
+    {
+        --mHandleMapReadyCounter;
+    }
 
+    if (mHandleMapReadyCounter==0&& ProgramState::Get().mMode != ProgramState::Client)
+    {
+        L1( "Map Ready handled!\n" );
+        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+        mProgramState.mGameState = core::ProgramState::Running;
+    }
 }
 
 Scene::Scene()
@@ -158,6 +168,7 @@ int32_t Scene::GetTypeId() const
 void Scene::Load( std::string const& Level )
 {
     L2( "Scene load started %s\n", Level.c_str() );
+    mProgramState.mGameState = core::ProgramState::NotRunning;
     EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::mMapDir+"/" + Level ) );
     bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
     mPaused = false;
@@ -457,7 +468,7 @@ void Scene::OnMapStart( core::MapStartEvent const& Evt )
     if (Evt.mState == core::MapStartEvent::Ready)
     {
         L2( "Scene Maps start READY\n" );
-        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+        mHandleMapReadyCounter = 2;
     }
 }
 

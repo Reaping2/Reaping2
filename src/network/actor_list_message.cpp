@@ -40,7 +40,7 @@ void ActorListMessageHandlerSubSystem::Update( double DeltaTime )
 void ActorListMessageHandlerSubSystem::Execute( Message const& message )
 {
     ActorListMessage const& msg = static_cast<ActorListMessage const&>( message );
-    if ( msg.mClientId == mProgramState.mClientId )
+    if ( msg.mClientId == mProgramState.mClientId || msg.mClientId == -1 )
     {
         L1( "actorlist arrived for me!" );
         Scene::Get().SetPlayerModels( Opt<Actor>() );

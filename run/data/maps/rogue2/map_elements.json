@@ -17,7 +17,7 @@
     },
     {
         "name":"link",
-        "from":{"identifier":"level_generated","node":0},
+        "from":{"identifier":"map_start","node":"ready"},
         "to":{"identifier":"spawn_soldiers","node":0}
     },
     {
@@ -27,13 +27,13 @@
     },
     {
         "name":"link",
-        "from":{"identifier":"map_start","node":0},
+        "from":{"identifier":"map_start","node":"start"},
         "to":{"identifier":"spawn_at_start","node":0}
     },
     {
         "name":"link",
         "from":{"identifier":"level_generated","node":1},
-        "to":{"identifier":"map_start","node":1}
+        "to":{"identifier":"map_start","node":"ready"}
     },
     {
         "name":"soldier_auto_revive",
@@ -41,7 +41,7 @@
     },
     {
         "name":"link",
-        "from":{"identifier":"map_start","node":0},
+        "from":{"identifier":"map_start","node":"start"},
         "to":{"identifier":"generator","node":0}
     },
     {

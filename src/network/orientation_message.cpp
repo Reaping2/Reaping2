@@ -21,14 +21,14 @@ void OrientationMessageSenderSystem::Init()
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1target" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "flag" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "flag" ) ) );
     }
     else if ( mProgramState.mMode == ProgramState::Client )
     {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
     }
 }
 void OrientationMessageSenderSystem::Update( double DeltaTime )

@@ -203,6 +203,7 @@ private:
     core::ProgramState& mProgramState;
     std::vector<std::unique_ptr<Actor> > mRemovedActors;
     bool mSendMapStarted = false;
+    int32_t mHandleMapReadyCounter = -1;
 public:
     enum ActorIndex
     {

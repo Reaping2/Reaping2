@@ -23,6 +23,7 @@
 #include "main/window.h"
 #include "load_clientlist_event.h"
 #include "core/level_selection_system.h"
+#include "actor_list_message.h"
 
 namespace network {
 
@@ -34,7 +35,7 @@ LifecycleMessageHandlerSubSystem::LifecycleMessageHandlerSubSystem()
 
 void LifecycleMessageHandlerSubSystem::Init()
 {
-
+    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &LifecycleMessageHandlerSubSystem::OnMapStart, this, _1 ) );
 }
 
 void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
@@ -46,7 +47,6 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
     {
         if ( msg.mState == LifecycleMessage::Start )
         {
-            EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( msg.mGameMode ) );
             core::ProgramState::Get().mGameState = core::ProgramState::Running;
         }
         else if ( msg.mState == LifecycleMessage::WaitingForHost )
@@ -107,8 +107,20 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
             std::auto_ptr<network::ClientDatasMessage> clientDatasMsg( new network::ClientDatasMessage );
             clientDatasMsg->mClientDatas = mProgramState.mClientDatas;
             mMessageHolder.AddOutgoingMessage( clientDatasMsg );
-            core::ProgramState::Get().mGameState = core::ProgramState::Running;
         }
+    }
+}
+
+
+void LifecycleMessageHandlerSubSystem::OnMapStart( core::MapStartEvent const& Evt )
+{
+    if (Evt.mState == core::MapStartEvent::Ready&&mProgramState.mMode == ProgramState::Server)
+    {
+        std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage );
+        actorListMsg->mClientId = -1;
+        actorListMsg->mActorList = &Scene::Get().GetActors();
+        mMessageHolder.AddOutgoingMessage( actorListMsg );
+        L1( "Lifecycle ActorList Sent! %d\n",Scene::Get().GetActors().size() );
     }
 }
 

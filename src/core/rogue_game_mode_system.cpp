@@ -98,14 +98,17 @@ void RogueGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     if (Evt.mState == core::MapStartEvent::Ready)
     {
         Ui::Get().Load( "hud" );
-        auto player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
-        if (player.IsValid())
+        if (ProgramState::Get().mMode == ProgramState::Local)
         {
-            for (auto component : mComponents.GetComponents())
+            auto player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
+            if (player.IsValid())
             {
-                player->AddComponent( std::auto_ptr<Component>( component.second ) );
+                for (auto component : mComponents.GetComponents())
+                {
+                    player->AddComponent( std::auto_ptr<Component>( component.second ) );
+                }
+                mComponents.Clear();
             }
-            mComponents.Clear();
         }
     }
 }

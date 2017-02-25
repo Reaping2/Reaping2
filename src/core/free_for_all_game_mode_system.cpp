@@ -38,6 +38,7 @@ void FreeForAllGameModeSystem::Init()
 {
     mOnStartGameMode = EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnStartGameMode, this, _1 ) );
     mOnLevelSelected = EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnLevelSelected, this, _1 ) );
+    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnMapStart, this, _1 ) );
 }
 
 
@@ -74,7 +75,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
         return;
     }
     //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
-    Ui::Get().Load( "hud" );
+    Ui::Get().Load( "waiting_load" );
     if ( ProgramState::Get().mMode == ProgramState::Client )
     {
         return;
@@ -85,24 +86,27 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
         return;
     }
 
-    std::auto_ptr<Actor> Pl;
-    for( int i = 0; i < 11; ++i )
+    if (Settings::Get().GetBool( "debug.ffa_sample_players", true ))
     {
-        Pl = ActorFactory::Get()( AutoId( "player" ) );
+        std::auto_ptr<Actor> Pl;
+        for (int i = 0; i < 11; ++i)
+        {
+            Pl = ActorFactory::Get()(AutoId( "player" ));
 
-        Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
-        positionC->SetX( -240 + i * 60 );
-        positionC->SetY( 0.0 );
-        Pl->Get<IInventoryComponent>();
-        Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
-        inventoryC->AddItem( AutoId( "plasma_gun" ) );
-        inventoryC->SetSelectedWeapon( AutoId( "plasma_gun" ) );
-        Opt<PlayerControllerComponent> pcc( Pl->Get<IControllerComponent>() );
-        pcc->SetEnabled( false );
-        pcc->mActive = false;
-        pcc->mControllerId = i;
-        Pl->Get<IMoveComponent>()->SetMoving( false );
-        mScene.AddActor( Pl.release() );
+            Opt<IPositionComponent> positionC = Pl->Get<IPositionComponent>();
+            positionC->SetX( -240 + i * 60 );
+            positionC->SetY( 0.0 );
+            Pl->Get<IInventoryComponent>();
+            Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
+            inventoryC->AddItem( AutoId( "plasma_gun" ) );
+            inventoryC->SetSelectedWeapon( AutoId( "plasma_gun" ) );
+            Opt<PlayerControllerComponent> pcc( Pl->Get<IControllerComponent>() );
+            pcc->SetEnabled( false );
+            pcc->mActive = false;
+            pcc->mControllerId = i;
+            Pl->Get<IMoveComponent>()->SetMoving( false );
+            mScene.AddActor( Pl.release() );
+        }
     }
     EventServer<map::LevelGeneratedEvent>::Get().SendEvent( map::LevelGeneratedEvent( map::LevelGeneratedEvent::ActorsSpawned ) );
 }
@@ -115,6 +119,18 @@ void FreeForAllGameModeSystem::OnLevelSelected( core::LevelSelectedEvent const& 
     }
     // the host did the last step in config, redirect it to the client list
     Ui::Get().Load( "ffa_client_list" );
+}
+
+void FreeForAllGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
+{
+    if (GameModes::FFA != mProgramState.mGameMode)
+    {
+        return;
+    }
+    if (Evt.mState == core::MapStartEvent::Ready)
+    {
+        Ui::Get().Load( "hud" );
+    }
 }
 
 
