@@ -248,13 +248,13 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "rogue_game_mode_system" ) );
     Eng.AddSystem( AutoId( "leaderboard_system" ) );
 
+    Eng.AddSystem( AutoId( "waypoint_system" ) );
     if (programState.mMode != ProgramState::Client)
     {
         Eng.AddSystem( AutoId( "worm_head_system" ) );
         Eng.AddSystem( AutoId( "worm_body_system" ) );
 
 
-        Eng.AddSystem( AutoId( "waypoint_system" ) );
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
         Eng.AddSystem( AutoId( "path_system" ) );
     }

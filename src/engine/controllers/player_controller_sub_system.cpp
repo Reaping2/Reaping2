@@ -119,7 +119,6 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     else
     {
         playerControllerC->mActivate.Deactivate();
-        playerControllerC->mActivate.Handled();
     }
     if (inputState.mReload)
     {
