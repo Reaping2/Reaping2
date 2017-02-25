@@ -111,6 +111,7 @@
 -a1
 -a3
 -a4
+.description.json
 .lights.fs
 .player.actor
 .shadow_unwrap.fs
@@ -2361,6 +2362,7 @@ tile_water
 todo
 top
 top_entrance
+topcasters
 topleft
 topright
 trap_spike_off

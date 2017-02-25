@@ -2,5 +2,8 @@
     "description":"",
     "name":"Level 1",
     "thumbnail":"pistol",
-    "maptype":[ "ffa" ]
+    "maptype":[ "ffa" ],
+    "max_shadow":0.2,
+    "ambient_light":[1,1,1,0.8],
+    "shadow_vector":[100,-100]
 }

@@ -33,7 +33,7 @@ public:
     uint32_t GetFreeId() const;
     glm::vec2 GetMaxTextureSize() const;
     void SetTargetTexture( uint32_t id, RenderTargetProps const& props );
-    void SelectTargetTexture( uint32_t id ) const;
+    void SelectTargetTexture( uint32_t id, bool singleBind = false ) const;
     void SetTargetScreen() const;
     uint32_t GetCurrentTarget() const;
     GLuint GetTextureId( uint32_t id, size_t attachment = 0 );

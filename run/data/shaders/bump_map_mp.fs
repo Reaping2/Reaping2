@@ -8,6 +8,7 @@ out vec4 outputColor;
 smooth in vec2 inTexCoord;
 
 uniform float time;
+uniform float maxShadow;
 uniform vec2 resolution;
 
 float lightZ = 0.075;
@@ -26,7 +27,7 @@ void main(void)
     vec4 lighttcol = texture2D( lightTexture, inTexCoord );
 
     vec4 normalColor = texture2D( secondaryTexture, inTexCoord );
-    vec3 normal = normalColor.rgb * 2.0 - vec3( 1,1,1 );
+    vec3 normal = vec3( normalColor.r, 1.0 - normalColor.g, normalColor.b ) * 2.0 - vec3( 1,1,1 );
 
     vec3 N = normalize( normal );
     vec3 L = normalize( lightDir );
@@ -36,7 +37,12 @@ void main(void)
 
     float attenuation = 1.0 / ( falloff.x + falloff.y * D + falloff.z * D * D );
 
-    vec3 intensity = ambient + diffuse * lighttcol.rgb * attenuation * ( lighttcol.a - 0.6 ) / 0.4;
+    float shmult = 1.0;
+    if( maxShadow > 0.0001 )
+    {
+        shmult = ( lighttcol.a - maxShadow ) / ( 1.0 - maxShadow );
+    }
+    vec3 intensity = ambient + diffuse * lighttcol.rgb * attenuation * shmult;
     vec3 finalColor = color.rgb * intensity;
 
     if( normalColor.x == 1 &&

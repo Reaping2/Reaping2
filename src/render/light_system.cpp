@@ -16,6 +16,7 @@ LightSystem::LightSystem()
 
 void LightSystem::Init()
 {
+    mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( std::bind( &LightSystem::OnMapLoad, this, std::placeholders::_1 ) );
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<ILightComponent>().IsValid()
             && actor.Get<IPositionComponent>().IsValid(); } );
@@ -80,9 +81,87 @@ void LightSystem::Update(double DeltaTime)
     std::swap( activeLights, mActiveLights );
 }
 
+void LightSystem::OnMapLoad( core::MapLoadEvent const& Evt )
+{
+    PathVect_t Paths;
+    Filesys& FSys = Filesys::Get();
+    FSys.GetFileNames( Paths, Evt.mMapName );
+    for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
+    {
+        boost::filesystem::path const& Path = *i;
+        if( Path.filename().string() != "description.json" )
+        {
+            continue;
+        }
+        AutoFile JsonFile = FSys.Open( *i );
+        if( !JsonFile.get() )
+        {
+            continue;
+        }
+        JsonReader Reader( *JsonFile );
+        if( !Reader.IsValid() )
+        {
+            continue;
+        }
+        Json::Value Root = Reader.GetRoot();
+        if( !Json::GetDouble( Root["max_shadow"], mMaxShadow ) )
+        {
+            mMaxShadow = 0.6;
+        }
+        Json::Value vec = Root["shadow_vector"];
+        mShadowVec = glm::vec2( 25, -25 );
+        if( vec.isArray() && vec.size() >= 2 )
+        {
+            double x,y;
+            if( Json::GetDouble( vec[0], x ) &&
+                Json::GetDouble( vec[1], y ) )
+            {
+                mShadowVec = glm::vec2( x, y );
+            }
+        }
+        mAmbientLight = glm::vec4( 1,1,1,0.6 );
+        vec = Root["ambient_light"];
+        if( vec.isArray() && vec.size() >= 2 )
+        {
+            double x,y,z,w;
+            if( Json::GetDouble( vec[0], x ) &&
+                Json::GetDouble( vec[1], y ) &&
+                Json::GetDouble( vec[2], z ) &&
+                Json::GetDouble( vec[3], w ) )
+            {
+                mAmbientLight = glm::vec4(x,y,z,w);
+            }
+        }
+        break;
+    }
+    LL() << mMaxShadow << " (" << mShadowVec.x
+        << " " << mShadowVec.y
+        << ") ("
+        << mAmbientLight.x << " "
+        << mAmbientLight.y << " "
+        << mAmbientLight.z << " "
+        << mAmbientLight.w
+        << ")";
+}
+
 std::vector<Actor*> const& LightSystem::GetActiveLights() const
 {
     return mActiveLights;
+}
+
+glm::vec2 LightSystem::GetShadowVector() const
+{
+    return mShadowVec;
+}
+
+glm::vec4 LightSystem::GetAmbientLight() const
+{
+    return mAmbientLight;
+}
+
+double LightSystem::GetMaxShadow() const
+{
+    return mMaxShadow;
 }
 
 REGISTER_SYSTEM( LightSystem );

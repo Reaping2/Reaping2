@@ -3,9 +3,11 @@
 #%
 %
 %d
+%s
 %s\n
 '\n
 (%f,%f)
+)
 +
 ,
 ,i);});L1("\n
@@ -556,6 +558,8 @@ aggro_distance
 align_h
 align_v
 all_lights
+ambient
+ambient_light
 animation
 animations
 any
@@ -1438,6 +1442,8 @@ freelance
 freelance_act.h
 frequency
 from
+fsaperture
+full_strength_aperture
 function_declarations.h
 g
 game.exit
@@ -1932,6 +1938,7 @@ max_health_buff_sub_system
 max_hp
 max_progress
 max_radius
+max_shadow
 max_speed
 memoryfile.h
 mergelights
@@ -2481,8 +2488,8 @@ shaders
 shaders/
 shadow_len_scale
 shadow_unwrap
+shadow_vector
 shadows
-shadows2
 shoot
 shoot_alt
 shoot_alt_cooldown
@@ -2696,6 +2703,7 @@ timer.h
 timer_server_system
 to
 top
+topcasters
 topleft
 topright
 transition.h
@@ -2723,6 +2731,7 @@ ui_model.h
 ui_renderer.h
 uimodel.h
 uimodel_repo.h
+undefined
 unknown
 use_normal
 use_shot

@@ -15,9 +15,9 @@ double LightComponent::GetRadius() const
     return mRadius;
 }
 
-void LightComponent::SetAperture( double radius )
+void LightComponent::SetAperture( double aperture )
 {
-    mAperture = radius;
+    mAperture = aperture;
 }
 
 double LightComponent::GetAperture() const
@@ -25,10 +25,21 @@ double LightComponent::GetAperture() const
     return mAperture;
 }
 
+void LightComponent::SetFullStrengthAperture( double aperture )
+{
+    mFSAperture = aperture;
+}
+
+double LightComponent::GetFullStrengthAperture() const
+{
+    return std::min( mFSAperture, mAperture );
+}
+
 void LightComponentLoader::BindValues()
 {
     Bind( "radius", func_double( &LightComponent::SetRadius ) );
     Bind( "aperture", func_double( &LightComponent::SetAperture ) );
+    Bind( "full_strength_aperture", func_double( &LightComponent::SetFullStrengthAperture ) );
 }
 
 LightComponentLoader::LightComponentLoader()

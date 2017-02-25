@@ -11,6 +11,8 @@ public:
     virtual double GetRadius()const=0;
     virtual void SetAperture(double radius)=0;
     virtual double GetAperture()const=0;
+    virtual void SetFullStrengthAperture(double radius)=0;
+    virtual double GetFullStrengthAperture()const=0;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

@@ -8,5 +8,5 @@ void main()
 {
     // color of the lightmap on lightrl ( single shadow level, all lights )
     vec4 col = texture2D(texture, inTexCoord);
-    outputColor = vec4( 1,1,1, col.a );
+    outputColor = col;
 }

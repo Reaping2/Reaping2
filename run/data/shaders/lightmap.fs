@@ -6,5 +6,5 @@ out vec4 outputColor;
 void main()
 {
     vec4 col = texture2D(texture, inTexCoord);
-    outputColor = vec4( 0,0,0, 1.0 - col.a );
+    outputColor = vec4( 0,0,0, min( 1.0 - col.r, col.a ) );
 }

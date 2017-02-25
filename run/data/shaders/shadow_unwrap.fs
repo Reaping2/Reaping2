@@ -8,7 +8,7 @@ smooth in vec2 inTexCoord;
 out vec4 outputColor;
 float pi = 3.141592654;
 float threshold = 0.75;
-float lightSourceRadius = 0.15;
+float lightSourceRadius = 0.001;
 
 void main()
 {

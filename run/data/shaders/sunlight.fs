@@ -4,6 +4,7 @@ uniform vec2 resolution;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
 uniform float maxShadow;
+uniform vec4 ambient;
 out vec4 outputColor;
 void main()
 {
@@ -12,7 +13,7 @@ void main()
     for( int i = 1, e = 5; i < e; ++i )
     {
         vec4 c = texture2D( texture, vec2( p.x - i / resolution.x, p.y + i  / resolution.y ) );
-        if( c.a < 0.9 )
+        if( c.a < 0.75 )
         {
             continue;
         }
@@ -23,7 +24,7 @@ void main()
             break;
         }
     }
-    alpha = min( alpha, maxShadow );
+    alpha = min( alpha, 1.0 );
     alpha = 1.0 - alpha;
-    outputColor = vec4( 1, 1, 1, 1 ) * 0.85 * alpha;
+    outputColor = vec4( ambient.rgb * alpha * ambient.a, 1 );
 }

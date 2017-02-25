@@ -3,6 +3,7 @@
         "name":"ctf_player",
         "components":
         [
+            {"name":"activity_component"},
             {"name":"position_component"},
             {"name":"move_component",
                 "set":[{"speed":500}]
