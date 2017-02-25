@@ -301,6 +301,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
         Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
         Eng.AddSystem( AutoId( "map_start_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "map_load_message_sender_system" ) );
     }
     if (programState.mMode != ProgramState::Client)
     {

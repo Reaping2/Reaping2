@@ -18,6 +18,7 @@
 #include "i_inventory_component.h"
 #include "buffs/i_buff_holder_component.h"
 #include "i_move_component.h"
+#include "engine/system_suppressor.h"
 
 namespace core {
 
@@ -71,8 +72,6 @@ void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
         L1("failed to retrieve LevelSelectionSystem\n");
         return;
     }
-    //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
-    Ui::Get().Load( "waiting_load" );
     if (ProgramState::Get().mMode == ProgramState::Client)
     {
         return;
@@ -128,6 +127,8 @@ void RogueGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
             }
         }
     }
+    Ui::Get().Load( "waiting_load" );
+    bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
 }
 
 void RogueGameModeSystem::OnSoldierCreated( engine::SoldierCreatedEvent const& Evt )

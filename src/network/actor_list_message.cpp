@@ -2,6 +2,7 @@
 #include "network/actor_list_message.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "../core/map_start_event.h"
 
 namespace network {
 
@@ -47,7 +48,7 @@ void ActorListMessageHandlerSubSystem::Execute( Message const& message )
         Scene::Get().ClearActors();
         Scene::Get().SetActors( *msg.mActorList );
         Scene::Get().SetPlayerModels( Scene::Get().GetActor( core::ProgramState::Get().mControlledActorGUID ) );
-
+        EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Ready ) );
     }
 }
 

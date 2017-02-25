@@ -11,6 +11,7 @@
 #include "input/input_system.h"
 #include "level_selected_event.h"
 #include "map_start_event.h"
+#include "map_load_event.h"
 
 namespace core {
 using platform::ModelValue;
@@ -41,6 +42,8 @@ private:
     void OnScore( engine::ScoreEvent const& Evt );
     AutoReg mOnMapStart;
     void OnMapStart( core::MapStartEvent const& Evt );
+    AutoReg mOnMapLoad;
+    void OnMapLoad( core::MapLoadEvent const& Evt );
 };
 
 } // namespace core

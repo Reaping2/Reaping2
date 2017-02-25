@@ -23,6 +23,7 @@
 #include "map/room_editor_system.h"
 #include "level_selection_system.h"
 #include "map/level_generator/level_generated_event.h"
+#include "engine/system_suppressor.h"
 
 namespace core {
 
@@ -39,6 +40,7 @@ void FreeForAllGameModeSystem::Init()
     mOnStartGameMode = EventServer<core::StartGameModeEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnStartGameMode, this, _1 ) );
     mOnLevelSelected = EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnLevelSelected, this, _1 ) );
     mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnMapStart, this, _1 ) );
+    mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( boost::bind( &FreeForAllGameModeSystem::OnMapLoad, this, _1 ) );
 }
 
 
@@ -74,8 +76,6 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
         L1("failed to retrieve LevelSelectionSystem\n");
         return;
     }
-    //    glfwSetInputMode(engine::Engine::Get().GetSystem<engine::WindowSystem>()->GetWindow(),GLFW_CURSOR,GLFW_CURSOR_HIDDEN);
-    Ui::Get().Load( "waiting_load" );
     if ( ProgramState::Get().mMode == ProgramState::Client )
     {
         return;
@@ -131,6 +131,12 @@ void FreeForAllGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     {
         Ui::Get().Load( "hud" );
     }
+}
+
+void FreeForAllGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
+{
+    Ui::Get().Load( "waiting_load" );
+    bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
 }
 
 

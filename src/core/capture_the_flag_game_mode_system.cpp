@@ -20,6 +20,7 @@
 #include "map/editor_target_system.h"
 #include "map/room_editor_system.h"
 #include "level_selection_system.h"
+#include "engine/system_suppressor.h"
 
 namespace core {
 
@@ -40,6 +41,7 @@ void CaptureTheFlagGameModeSystem::Init()
     mOnScore = EventServer<engine::ScoreEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnScore, this, _1 ) );
     mOnLevelSelected = EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnLevelSelected, this, _1 ) );
     mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnMapStart, this, _1 ) );
+    mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( boost::bind( &CaptureTheFlagGameModeSystem::OnMapLoad, this, _1 ) );
 
     mInputSystem = engine::InputSystem::Get();
     mTeamModels.clear();
@@ -113,7 +115,6 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode( core::StartGameModeEvent con
     if ( levelSelectionSystem.IsValid() )
     {
         mScene.Load( levelSelectionSystem->GetSelectedLevel() );
-        Ui::Get().Load( "waiting_load" );
         mHudShown = true;
     }
     else
@@ -222,6 +223,12 @@ void CaptureTheFlagGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     {
         Ui::Get().Load( "ctf_hud" );
     }
+}
+
+void CaptureTheFlagGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
+{
+    Ui::Get().Load( "waiting_load" );
+    bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
 }
 
 } // namespace core

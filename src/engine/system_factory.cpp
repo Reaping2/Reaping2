@@ -146,6 +146,7 @@
 #include "worm_body_system.h"
 #include "waypoint_system.h"
 #include "network/map_start_message.h"
+#include "network/map_load_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -247,6 +248,8 @@ void SystemFactory::Init()
     Bind( AutoId( "actor_list_message_sender_system" ), &CreateSystem<network::ActorListMessageSenderSystem> );
     Bind( AutoId( "data_checksum_message_sender_system" ), &CreateSystem<network::DataChecksumMessageSenderSystem>);
     Bind( AutoId( "map_start_message_sender_system" ), &CreateSystem<network::MapStartMessageSenderSystem> );
+    Bind( AutoId( "map_load_message_sender_system" ), &CreateSystem<network::MapLoadMessageSenderSystem> );
+
 
     Bind( AutoId( "ctf_client_list_displaying_system" ), &CreateSystem<network::CtfClientListDisplayingSystem> );
     Bind( AutoId( "ctf_client_list_handling_system" ), &CreateSystem<network::CtfClientListHandlingSystem> );

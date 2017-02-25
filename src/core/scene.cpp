@@ -104,7 +104,7 @@ void Scene::Update( double DeltaTime )
         --mHandleMapReadyCounter;
     }
 
-    if (mHandleMapReadyCounter==0&& ProgramState::Get().mMode != ProgramState::Client)
+    if (mHandleMapReadyCounter==0)
     {
         L1( "Map Ready handled!\n" );
         bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
@@ -170,7 +170,6 @@ void Scene::Load( std::string const& Level )
     L2( "Scene load started %s\n", Level.c_str() );
     mProgramState.mGameState = core::ProgramState::NotRunning;
     EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::mMapDir+"/" + Level ) );
-    bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
     mPaused = false;
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )

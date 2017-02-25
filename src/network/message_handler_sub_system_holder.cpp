@@ -50,6 +50,7 @@
 #include "network/data_checksum_message.h"
 #include "platform/settings.h"
 #include "map_start_message.h"
+#include "map_load_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -175,6 +176,7 @@ void MessageHandlerSubSystemHolder::InitHandlers()
     AddSubSystem( network::RotateMessage::GetType_static(), AutoId( "rotate_message_handler_sub_system" ) );
     AddSubSystem( network::DataChecksumMessage::GetType_static(), AutoId( "data_checksum_message_handler_sub_system" ));
     AddSubSystem( network::MapStartMessage::GetType_static(), AutoId( "map_start_message_handler_sub_system" ) );
+    AddSubSystem( network::MapLoadMessage::GetType_static(), AutoId( "map_load_message_handler_sub_system" ) );
 
 }
 

@@ -55,7 +55,6 @@ void WaypointSystem::Update(double DeltaTime)
             if (pcc.IsValid()&&pcc->mActivate.GetValue())
             {
                 pcc->mActivate.Handled();
-                Ui::Get().Load( "waiting_load" );
                 mScene.Load( "rogue2" ); // for testing only
                 L2( "Player used activate on a waypoint!\n" );
             }
