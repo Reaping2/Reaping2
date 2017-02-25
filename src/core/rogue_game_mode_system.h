@@ -8,6 +8,7 @@
 #include "map_start_event.h"
 #include "map_load_event.h"
 #include "platform/i_platform.h"
+#include "engine/soldier_created_event.h"
 
 namespace core {
 
@@ -36,10 +37,12 @@ private:
     void OnMapStart( core::MapStartEvent const& Evt );
     AutoReg mOnMapLoad;
     void OnMapLoad( core::MapLoadEvent const& Evt );
-
+    AutoReg mOnSoldierCreated;
+    void OnSoldierCreated( engine::SoldierCreatedEvent const& Evt );
     template<typename Component_t>
     std::auto_ptr<Component_t> Clone(Opt<Component_t> component) const;
-    Components mComponents;
+    typedef std::map<int32_t, Components> ComponentMap_t;
+    ComponentMap_t mComponentMap;
 };
 
 template<typename Component_t>

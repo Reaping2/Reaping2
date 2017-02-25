@@ -27,6 +27,11 @@ void SetOwnershipMessageSenderSystem::Update( double DeltaTime )
 
 void SetOwnershipMessageSenderSystem::OnSoldierCreated( engine::SoldierCreatedEvent const& Evt )
 {
+    if (Evt.mState != engine::SoldierCreatedEvent::Finished)
+    {
+        return;
+    }
+
     std::auto_ptr<SetOwnershipMessage> setOwnershipMsg( new SetOwnershipMessage );
     setOwnershipMsg->mActorGUID = Evt.mActor->GetGUID();
     setOwnershipMsg->mClientId = Evt.mClientData.mClientId;

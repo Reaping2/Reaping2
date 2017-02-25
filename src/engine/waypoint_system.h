@@ -3,6 +3,7 @@
 
 #include "core/scene.h"
 #include "engine/system.h"
+#include "core/program_state.h"
 
 namespace engine {
 
@@ -16,6 +17,7 @@ protected:
     virtual void Update( double DeltaTime );
 private:
     Scene& mScene;
+    core::ProgramState& mProgramState = core::ProgramState::Get();
     AutoReg mOnMapStart;
     void OnMapStart( core::MapStartEvent const& Evt );
 };

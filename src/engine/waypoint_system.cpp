@@ -27,6 +27,10 @@ void WaypointSystem::Init()
 
 void WaypointSystem::Update(double DeltaTime)
 {
+    if (mProgramState.mMode == core::ProgramState::Client)
+    {
+        return;
+    }
     for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
     {
         auto waypointC= actor->Get<IWaypointComponent>();

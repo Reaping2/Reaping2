@@ -34,6 +34,7 @@ void RogueGameModeSystem::Init()
     mOnLevelSelected = EventServer<core::LevelSelectedEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnLevelSelected, this, _1 ) );
     mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnMapStart, this, _1 ) );
     mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnMapLoad, this, _1 ) );
+    mOnSoldierCreated = EventServer<engine::SoldierCreatedEvent>::Get().Subscribe( boost::bind( &RogueGameModeSystem::OnSoldierCreated, this, _1 ) );
 }
 
 
@@ -98,18 +99,6 @@ void RogueGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     if (Evt.mState == core::MapStartEvent::Ready)
     {
         Ui::Get().Load( "hud" );
-        if (ProgramState::Get().mMode == ProgramState::Local)
-        {
-            auto player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
-            if (player.IsValid())
-            {
-                for (auto component : mComponents.GetComponents())
-                {
-                    player->AddComponent( std::auto_ptr<Component>( component.second ) );
-                }
-                mComponents.Clear();
-            }
-        }
     }
 }
 
@@ -119,22 +108,50 @@ void RogueGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
     {
         return;
     }
-    if (ProgramState::Get().mMode == ProgramState::Local)
+    if (ProgramState::Get().mMode != ProgramState::Client)
     {
-        mComponents.Clear(true);
-        auto player(mScene.GetActor( mProgramState.mControlledActorGUID ));
-        if (player.IsValid())
+        mComponentMap.clear();
+        for (auto& clientData : mProgramState.mClientDatas)
         {
-            mComponents.AddComponent( 
-                std::auto_ptr<Component>( Clone( player->Get<IHealthComponent>() ) ) );
-            mComponents.AddComponent(
-                std::auto_ptr<Component>( Clone( player->Get<IInventoryComponent>() ) ) );
-            mComponents.AddComponent(
-                std::auto_ptr<Component>( Clone( player->Get<IBuffHolderComponent>() ) ) );
-            mComponents.AddComponent(
-                std::auto_ptr<Component>( Clone( player->Get<IMoveComponent>() ) ) );
+            auto& components = mComponentMap[clientData.mClientId];
+            auto player( mScene.GetActor( clientData.mClientActorGUID ) );
+            if (player.IsValid())
+            {
+                components.AddComponent(
+                    std::auto_ptr<Component>( Clone( player->Get<IHealthComponent>() ) ) );
+                components.AddComponent(
+                    std::auto_ptr<Component>( Clone( player->Get<IInventoryComponent>() ) ) );
+                components.AddComponent(
+                    std::auto_ptr<Component>( Clone( player->Get<IBuffHolderComponent>() ) ) );
+                components.AddComponent(
+                    std::auto_ptr<Component>( Clone( player->Get<IMoveComponent>() ) ) );
+            }
         }
     }
+}
+
+void RogueGameModeSystem::OnSoldierCreated( engine::SoldierCreatedEvent const& Evt )
+{
+    if (Evt.mState != engine::SoldierCreatedEvent::PropertiesSet)
+    {
+        return;
+    }
+    auto& it = mComponentMap.find(Evt.mClientData.mClientId);
+    if (it == mComponentMap.end())
+    {
+        return;
+    }
+    auto& components = it->second;
+    auto player = Evt.mActor;
+  
+    for (auto component : components.GetComponents())
+    {
+        player->AddComponent( std::auto_ptr<Component>( component.second ) );
+    }
+
+
+    components.Clear();
+    mComponentMap.erase( it );
 }
 
 
