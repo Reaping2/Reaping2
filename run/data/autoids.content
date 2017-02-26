@@ -112,11 +112,6 @@
 -a3
 -a4
 .description.json
-.fire.actor
-.lights.fs
-.player.actor
-.shadow_unwrap.fs
-.sprite2.vs
 0x00000000
 0x00000044
 0x00007777

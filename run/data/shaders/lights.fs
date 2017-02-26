@@ -6,7 +6,6 @@ uniform float heading;
 uniform float aperture;
 uniform float fsaperture;
 uniform float distanceMult;
-uniform float maxShadow;
 uniform float lightSize;
 uniform vec2 lightRect;
 uniform sampler2D texture;

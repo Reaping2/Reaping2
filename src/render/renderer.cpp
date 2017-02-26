@@ -388,7 +388,6 @@ void RendererSystem::Update( double DeltaTime )
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( sunline ), sunlight,
                 [&](ShaderManager& ShaderMgr)->void{
                     ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
-                    ShaderMgr.UploadData( "maxShadow", maxShadow );
                     ShaderMgr.UploadData( "ambient", ambientLight );
                 } );
             // direct sunlight end
@@ -443,7 +442,6 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "lightRect", sizePos2 );
                         ShaderMgr.UploadData( "lightSize", lightSize );
                         ShaderMgr.UploadData( "distanceMult", distanceMult );
-                        ShaderMgr.UploadData( "maxShadow", maxShadow );
                         ShaderMgr.UploadData( "heading", ori );
                         ShaderMgr.UploadData( "aperture", aperture );
                         ShaderMgr.UploadData( "fsaperture", fsaperture );
@@ -456,7 +454,6 @@ void RendererSystem::Update( double DeltaTime )
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl, 1 ), mergelights,
                      [&](ShaderManager& ShaderMgr)->void{
                         ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() );
-                        ShaderMgr.UploadData( "maxShadow", maxShadow );
                     } );
             glBlendEquation( GL_FUNC_ADD );
             SetupRenderer( mCamera, shadowmult );
@@ -482,7 +479,10 @@ void RendererSystem::Update( double DeltaTime )
             // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
             SetupIdentity();
             // !---- lights/shadows
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), lightmap );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), lightmap,
+                     [&](ShaderManager& ShaderMgr)->void{
+                        ShaderMgr.UploadData( "maxShadow", maxShadow );
+                    } );
         }
     }
     else

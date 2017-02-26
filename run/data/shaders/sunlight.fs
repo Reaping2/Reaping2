@@ -3,7 +3,6 @@
 uniform vec2 resolution;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
-uniform float maxShadow;
 uniform vec4 ambient;
 out vec4 outputColor;
 void main()

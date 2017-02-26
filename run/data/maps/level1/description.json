@@ -3,7 +3,7 @@
     "name":"Level 1",
     "thumbnail":"pistol",
     "maptype":[ "ffa" ],
-    "max_shadow":0.2,
+    "max_shadow":0.8,
     "ambient_light":[1,1,1,0.8],
     "shadow_vector":[50,-50]
 }
