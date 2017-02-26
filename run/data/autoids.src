@@ -48,6 +48,7 @@
 ../collision_system.h
 ../core/i_cell_component.h
 ../core/i_position_component.h
+../core/map_start_event.h
 ../ctf_program_state.h
 ../explode_on_death_system.h
 ../flag_spawn_system.h
@@ -336,8 +337,15 @@ ListenChildDeathSystem
 LocalSystem
 LuckyRocketWeaponSubSystem
 MapElement
+MapLoadMessage
+MapLoadMessageHandlerSubSystem
+MapLoadMessageSenderSystem
+MapStartEvent::State-state
 MapStartMapElement
 MapStartMapElementSystem
+MapStartMessage
+MapStartMessageHandlerSubSystem
+MapStartMessageSenderSystem
 MapSystem
 MaxHealthBuff
 MaxHealthBuffSubSystem
@@ -816,6 +824,7 @@ controllers/scripted_controller_sub_system.h
 controlmappings.
 core
 core-audible
+core-mapLoad
 core-mapStart
 core-shot
 core-startGameMode
@@ -1145,6 +1154,7 @@ data_checksum_message_handler_sub_system
 data_checksum_message_sender_system
 data_new.pkg
 death
+debug.ffa_sample_players
 debug.json
 decal_engine.h
 decals
@@ -1889,7 +1899,11 @@ map_element_removed_event.h
 map_element_system
 map_element_system.h
 map_elements
+map_load
 map_load_event.h
+map_load_message.h
+map_load_message_handler_sub_system
+map_load_message_sender_system
 map_repo
 map_repo.h
 map_start
@@ -1897,6 +1911,9 @@ map_start_event.h
 map_start_map_element.h
 map_start_map_element_system
 map_start_map_element_system.h
+map_start_message.h
+map_start_message_handler_sub_system
+map_start_message_sender_system
 map_system
 map_system.h
 mapitem
@@ -2017,6 +2034,8 @@ network/kill_score_message.h
 network/lifecycle_message.h
 network/lifecycle_sender_system.h
 network/load_clientlist_event.h
+network/map_load_message.h
+network/map_start_message.h
 network/message.h
 network/message_factory.h
 network/message_handler_sub_system.h
@@ -2593,6 +2612,7 @@ stay
 stay_act.h
 std::string-groupName
 std::string-layerName
+std::string-mapName
 std::string-mode
 std::vector<int32_t>-components
 std::vector<int32_t>-targets
