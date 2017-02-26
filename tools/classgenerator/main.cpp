@@ -1512,7 +1512,9 @@ class MessageGenerator : public Generator
             {
                 if ( i == typeMemberPairs.begin() )
                 {
-                    fprintf( file.mFile, "    return %s == other.%s\n", CreateMemberName( i->second ).c_str(), CreateMemberName( i->second ).c_str() );
+                    fprintf( file.mFile, "    return %s == other.%s%s\n"
+                        , CreateMemberName( i->second ).c_str(), CreateMemberName( i->second ).c_str()
+                        , i == --typeMemberPairs.end() ? ";" : "" );
                 }
                 else
                 {

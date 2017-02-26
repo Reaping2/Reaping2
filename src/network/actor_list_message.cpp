@@ -2,6 +2,7 @@
 #include "network/actor_list_message.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "../core/map_start_event.h"
 
 namespace network {
 
@@ -40,14 +41,14 @@ void ActorListMessageHandlerSubSystem::Update( double DeltaTime )
 void ActorListMessageHandlerSubSystem::Execute( Message const& message )
 {
     ActorListMessage const& msg = static_cast<ActorListMessage const&>( message );
-    if ( msg.mClientId == mProgramState.mClientId )
+    if ( msg.mClientId == mProgramState.mClientId || msg.mClientId == -1 )
     {
         L1( "actorlist arrived for me!" );
         Scene::Get().SetPlayerModels( Opt<Actor>() );
         Scene::Get().ClearActors();
         Scene::Get().SetActors( *msg.mActorList );
         Scene::Get().SetPlayerModels( Scene::Get().GetActor( core::ProgramState::Get().mControlledActorGUID ) );
-
+        EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Ready ) );
     }
 }
 

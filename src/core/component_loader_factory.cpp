@@ -59,6 +59,7 @@
 #include "worm_body_component.h"
 #include "light_component.h"
 #include "activity_component.h"
+#include "waypoint_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -125,6 +126,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
 
     Bind( AutoId( "worm_head_component" ), &CreateComponentLoader<WormHeadComponentLoader> );
     Bind( AutoId( "worm_body_component" ), &CreateComponentLoader<WormBodyComponentLoader> );
+    Bind( AutoId( "waypoint_component" ), &CreateComponentLoader<WaypointComponentLoader> );
 
     Bind( AutoId( "emitter_component" ), &CreateComponentLoader<EmitterComponentLoader> );
     Bind( AutoId( "explode_on_hit_component" ), &CreateComponentLoader<ExplodeOnHitComponentLoader> );

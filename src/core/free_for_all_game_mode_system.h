@@ -6,6 +6,8 @@
 #include "start_game_mode_event.h"
 #include "level_selected_event.h"
 #include "program_state.h"
+#include "map_start_event.h"
+#include "map_load_event.h"
 
 namespace core {
 
@@ -24,6 +26,10 @@ private:
     core::ProgramState& mProgramState;
     void OnStartGameMode( core::StartGameModeEvent const& Evt );
     void OnLevelSelected( core::LevelSelectedEvent const& Evt );
+    AutoReg mOnMapStart;
+    void OnMapStart( core::MapStartEvent const& Evt );
+    AutoReg mOnMapLoad;
+    void OnMapLoad( core::MapLoadEvent const& Evt );
 };
 
 } // namespace core

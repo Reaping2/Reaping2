@@ -7,6 +7,7 @@
 #include <chrono>
 #include <stack>
 #include <numeric>
+#include <algorithm>
 
 using platform::AutoId;
 
@@ -26,7 +27,6 @@ void JungleLevelGenerator::Generate()
     mRand.seed( seed );
     mGData.SetDimensions( mCellCount, mCellCount );
     mFreeCellPositions.clear();
-
     mStartRoomIndex = PlaceRoomByProperty( RoomProperty::Start );
     PlaceMandatoryRooms();
     PlaceRooms();

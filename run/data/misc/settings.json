@@ -1,4 +1,8 @@
 {
+    "debug":
+    {
+        "ffa_sample_players":0
+    },
     "health_bar":
     {
         "size":

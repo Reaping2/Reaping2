@@ -9,6 +9,7 @@
 #include "collision_message.h"
 #include "border_message.h"
 #include "fade_out_message.h"
+#include "engine/system_suppressor.h"
 namespace network {
 
 
@@ -22,6 +23,7 @@ void CreateActorMessageSenderSystem::Init()
 {
     MessageSenderSystem::Init();
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CreateActorMessageSenderSystem::OnActorEvent, this, _1 ) );
+    engine::SystemSuppressor::Get().Add( engine::SystemSuppressor::SceneLoad, GetType_static() );
 }
 
 void CreateActorMessageSenderSystem::Update( double DeltaTime )
@@ -31,6 +33,10 @@ void CreateActorMessageSenderSystem::Update( double DeltaTime )
 
 void CreateActorMessageSenderSystem::OnActorEvent( ActorEvent const& Evt )
 {
+    if (!mEnabled)
+    {
+        return;
+    }
     std::auto_ptr<CreateActorMessage> createActorMsg(
         new CreateActorMessage( Evt.mState == ActorEvent::Added ? Evt.mActor : Opt<Actor>( NULL ) ) );
     createActorMsg->mActorGUID = Evt.mActor->GetGUID();

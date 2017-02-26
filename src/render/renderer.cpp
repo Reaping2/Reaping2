@@ -53,7 +53,9 @@ ShownLayer shownLayer()
     auto i = layers.find( layer );
     return i == layers.end() ? Normal : i->second;
 }
-}
+} // namespace anonymous
+
+
 RendererSystem::RendererSystem()
     : mWorldProjector( -1000.0f, 1000.0f )
     , mUiProjector( 100.0f, 0.0f, Projection::VM_Fixed )
@@ -149,7 +151,6 @@ void RendererSystem::Init()
     glEnable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
-    engine::SystemSuppressor::Get().Add( engine::SystemSuppressor::SceneLoad, GetType_static() );
 }
 
 namespace {
@@ -253,7 +254,7 @@ std::vector<LightDesc> getLights()
     }
     return lds;
 }
-}
+} // namespace anonymous
 
 void RendererSystem::Update( double DeltaTime )
 {
@@ -262,23 +263,27 @@ void RendererSystem::Update( double DeltaTime )
     method.Log( "start render" );
     bool const isSuppressed = engine::SystemSuppressor::Get().IsSuppressed();
     static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
+    render::RenderTarget& rt( render::RenderTarget::Get() );
     SendWorldMouseMoveEvent();
 
     if( isSuppressed )
     {
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        SetupIdentity();
         Viewport const& Vp = mUiProjector.GetViewport();
         glViewport( Vp.X, Vp.Y, Vp.Width, Vp.Height );
         mShaderManager.UploadGlobalData( GlobalShaderData::Resolution, glm::vec2( Vp.Width, Vp.Height ) );
-
+        rt.SetTargetScreen();   
         mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
         mMouseRenderer.Draw( mTextSceneRenderer );
+        mTextSceneRenderer.Draw();
         return;
     }
 
+    render::ParticleEngine::Get().Update( DeltaTime );
     mCamera.Update();
     SetupRenderer( mCamera );
     // render world
-    render::RenderTarget& rt( render::RenderTarget::Get() );
     // allocate render target ids
     static uint32_t const world = rt.GetFreeId();
     static uint32_t const shadowOutline = rt.GetFreeId();
@@ -565,83 +570,48 @@ void RendererSystem::Update( double DeltaTime )
             SetupIdentity();
             mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
         }
-        mPerfTimer.Log( "post shadow" );
+    }
+    // set painting to screen
+    rt.SetTargetScreen();
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    SetupIdentity();
 
-        // render the world to the worldBumped texture using the bump mapping shader
-        SetupRenderer( mWorldProjector );
-        rt.SetTargetTexture( worldBumped, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
-        SetupIdentity();
-        glBlendFunc( GL_ONE, GL_ONE );
-        static int32_t bumpid = AutoId( "bump_map" );
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
-            rt.GetTextureId( world, 1 ) );
+    // paint the previous textures to screen with custom additional effects
+    // actually we could skip this by painting directly to screen in prev. step
+    // but we can possibly upscale here for sweet sweet fps
 
-        rt.SetTargetTexture( worldEffects, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
-        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
-
-        static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
-        if (enablePostprocessing)
-        {
-            RenderTargetProps worldPPProps( mWorldProjector.GetViewport().Size(), { GL_RED } );
-            // render the per-actor effects
-            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-            for (auto id : postProcessorIds)
-            {
-                // TODO: downscale
-                static int32_t debuggedPP = AutoId( Settings::Get().GetStr( "graphics.shown_layer_pp_id", "" ) );
-                uint32_t pp = id == debuggedPP ? worldDedicatedPostProcess : worldPostProcess;
-                rt.SetTargetTexture( pp, worldPPProps );
-                SetupRenderer( mWorldProjector );
-                mActorRenderer.Draw( id );
-
-                GLuint srcTexture = rt.GetTextureId( worldBumped );
-                GLuint maskTexture = rt.GetTextureId( pp );
-                rt.SelectTargetTexture( worldEffects );
-                SetupIdentity();
-                mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
-            }
-        }
-        // set painting to screen
-        rt.SetTargetScreen();
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-        SetupIdentity();
-
-        // paint the previous textures to screen with custom additional effects
-        // actually we could skip this by painting directly to screen in prev. step
-        // but we can possibly upscale here for sweet sweet fps
-
-        static auto const layer = shownLayer();
-        switch (layer)
-        {
-        case PostprocessMask:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldDedicatedPostProcess ), solidid );
-            break;
-        case SpriteCache:
-            mWorldRenderer.Draw( DeltaTime, cache.mTargetTexId, solidid );
-            break;
-        case BumpMap:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world, 1 ), solidid );
-            break;
-        case ShadowUnwrap:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedUnwrap ), solidid );
-            break;
-        case Shadows:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedOutline ), solidid );
-            break;
-        case Lights:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsDedicated ), solidid );
-            break;
-        case TopLights:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( topcasters ), solidid );
-            break;
-        case FsShadows:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( fullsizeshadows ), solidid );
-            break;
-        case AllLights:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( cumulativeLight ), solidid );
-            break;
-        default:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );
+    static auto const layer = shownLayer();
+    switch( layer )
+    {
+    case PostprocessMask:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldDedicatedPostProcess ), solidid );
+        break;
+    case SpriteCache:
+        mWorldRenderer.Draw( DeltaTime, cache.mTargetTexId, solidid );
+        break;
+    case BumpMap:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world, 1 ), solidid );
+        break;
+    case ShadowUnwrap:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedUnwrap ), solidid );
+        break;
+    case Shadows:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( shadowDedicatedOutline ), solidid );
+        break;
+    case Lights:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsDedicated ), solidid );
+        break;
+    case TopLights:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( topcasters ), solidid );
+        break;
+    case FsShadows:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( fullsizeshadows ), solidid );
+        break;
+    case AllLights:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( cumulativeLight ), solidid );
+        break;
+    default:
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldEffects ), solidid );
     }
 
     SetupRenderer( mCamera );
@@ -665,6 +635,7 @@ void RendererSystem::Update( double DeltaTime )
         mHealthBarRenderer.Draw();
     }
     mMouseRenderer.Draw( mTextSceneRenderer );
+    mTextSceneRenderer.Draw();
     method.Log( "end draw" );
     cache.ProcessPending();
     method.Log( "end process pending" );

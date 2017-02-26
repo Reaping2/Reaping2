@@ -85,7 +85,6 @@ void LocalSystem::OnSoldierPropertiesReady( SoldierPropertiesReadyEvent const& E
 void LocalSystem::Host()
 {
     EventServer<core::StartGameModeEvent>::Get().SendEvent( core::StartGameModeEvent( mProgramState.mGameMode ) );
-    core::ProgramState::Get().mGameState = core::ProgramState::Running;
 }
 
 } // namespace engine

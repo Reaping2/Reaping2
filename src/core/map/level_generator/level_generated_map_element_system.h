@@ -17,7 +17,7 @@ protected:
 private:
     AutoReg mOnLevelGenerated;
     void OnLevelGenerated(map::LevelGeneratedEvent const& Evt);
-    bool mTerrainGenerated;
+    int32_t mHandleTerrainGeneratedCounter = -1;
 };
 
 } // namespace map

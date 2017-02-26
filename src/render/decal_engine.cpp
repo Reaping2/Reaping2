@@ -20,6 +20,8 @@ DecalEngine::DecalEngine()
     static int32_t def( AutoId( "decals" ) );
     ShaderMgr.ActivateShader( def );
     ShaderMgr.UploadData( "spriteTexture", GLuint( 3 ) );
+    mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( boost::bind( &DecalEngine::OnMapLoad, this, _1 ) );
+    mOnMapLoad = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &DecalEngine::OnMapStart, this, _1 ) );
 }
 
 void DecalEngine::Add( Decal const& Part, DecalType Typ )
@@ -134,6 +136,18 @@ void DecalEngine::UpdateBuffers()
     CurrentOffset += CurrentSize;
 
     mVAO.Unbind();
+}
+
+
+void DecalEngine::OnMapLoad( core::MapLoadEvent const& Evt )
+{
+    mDecals.clear();
+}
+
+
+void DecalEngine::OnMapStart( core::MapStartEvent const& Evt )
+{
+    mDecals.clear();
 }
 
 void DecalEngine::Draw()

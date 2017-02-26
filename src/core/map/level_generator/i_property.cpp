@@ -36,7 +36,7 @@ int IProperty::GetType() const
     return 0;
 }
 
-void IProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor/*= false*/)
+void IProperty::Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor/*= false*/)
 {
 }
 

@@ -36,6 +36,10 @@ void ItemChangedMessageSenderSystem::OnItemChanged( engine::ItemChangedEvent con
 
 void ItemChangedMessageSenderSystem::OnSoldierCreated( engine::SoldierCreatedEvent const& Evt )
 {
+    if (Evt.mState != engine::SoldierCreatedEvent::Finished)
+    {
+        return;
+    }
     Opt<IInventoryComponent> inventoryC = Evt.mActor->Get<IInventoryComponent>();
     if ( !inventoryC.IsValid() )
     {

@@ -52,6 +52,10 @@ void KeyboardAdapterSystem::Update( double DeltaTime )
     {
         inputState.mUseNormalItem = true;
     }
+    if (mKeyboard->GetKey( GLFW_KEY_E ).State == KeyState::Typed)
+    {
+        inputState.mActivate = true;
+    }
     if( mKeyboard->GetKey( GLFW_KEY_R ).State == KeyState::Down )
     {
         inputState.mReload = true;

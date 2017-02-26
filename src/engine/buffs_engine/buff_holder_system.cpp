@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "buff_holder_system.h"
 #include "core/buffs/i_buff_holder_component.h"
+#include "../system_suppressor.h"
 
 namespace engine {
 
@@ -13,6 +14,8 @@ BuffHolderSystem::BuffHolderSystem()
 
 void BuffHolderSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     SubSystemHolder::Init();
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IBuffHolderComponent>().IsValid(); } );

@@ -92,6 +92,10 @@ void SoldierPropertiesSystem::OnSoldierPropertiesReady()
 
 void SoldierPropertiesSystem::OnSoldierCreatedEvent( engine::SoldierCreatedEvent const& Evt )
 {
+    if (Evt.mState != engine::SoldierCreatedEvent::Raw)
+    {
+        return;
+    }
     if( mProgramState.mMode != core::ProgramState::Client )
     {
         Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();

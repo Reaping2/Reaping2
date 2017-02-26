@@ -5,6 +5,8 @@
 #include "particle.h"
 #include "renderable_repo.h"
 #include "counter.h"
+#include "core/map_load_event.h"
+#include "core/map_start_event.h"
 
 class DecalEngine : public Singleton<DecalEngine>
 {
@@ -34,6 +36,10 @@ protected:
     bool mDirty;
     DecalEngine();
     void UpdateBuffers();
+    AutoReg mOnMapLoad;
+    void OnMapLoad( core::MapLoadEvent const& Evt );
+    AutoReg mOnMapStart;
+    void OnMapStart( core::MapStartEvent const& Evt );
 };
 
 #endif//INCLUDED_RENDER_DECAL_ENGINE_H
