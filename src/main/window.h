@@ -16,7 +16,7 @@ class WindowSystem : public System
 {
 public:
     DEFINE_SYSTEM_BASE( WindowSystem )
-    bool Create( const uint32_t Width, const uint32_t Height, const std::string& Title );
+    bool Create( const std::string& Title );
     void Resize( const uint32_t Width, const uint32_t Height );
     void Destroy();
     void GetWindowSize( int& Width, int& Height )const;

@@ -1,4 +1,5 @@
 #include "window.h"
+#include "window_settings.h"
 #include "platform/settings.h"
 
 namespace {
@@ -8,18 +9,22 @@ void Window_FramebufferSizeCallback( GLFWwindow* Window, int Width, int Height )
 }
 }
 namespace engine {
-bool WindowSystem::Create( const uint32_t Width, const uint32_t Height, const std::string& Title )
+bool WindowSystem::Create( const std::string& Title )
 {
     if( !glfwInit() )
     {
         LOG( "glfwInit failed!\n" );
         return false;
     }
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 );
-    glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
-    mWindow = glfwCreateWindow( Width, Height, Title.c_str(), NULL, NULL );
+    WindowSettings& ws( WindowSettings::Get() );
+    glfwDefaultWindowHints();
+    for( auto const& hint : ws.GetHints() )
+    {
+        glfwWindowHint( hint.first, hint.second );
+    }
+
+    mWindow = glfwCreateWindow( ws.GetSize().x, ws.GetSize().y, Title.c_str(), ws.GetPreferredMonitor(), nullptr );
     if( mWindow )
     {
         LOG( "Window creation succeeded!\n" );

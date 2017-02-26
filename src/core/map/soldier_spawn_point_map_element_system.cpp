@@ -14,7 +14,6 @@ SoldierSpawnPointMapElementSystem::SoldierSpawnPointMapElementSystem()
 void SoldierSpawnPointMapElementSystem::Init()
 {
     MapElementSystem::Init();
-    mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &SoldierSpawnPointMapElementSystem::OnMapStart, this, _1 ) );
 }
 
 
@@ -26,10 +25,6 @@ void SoldierSpawnPointMapElementSystem::Update( double DeltaTime )
     //     {
     //         Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement(*soldierSpawnPointMapElementIt);
     //     }
-}
-
-void SoldierSpawnPointMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
-{
 }
 
 Opt<SoldierSpawnPointMapElementSystem> SoldierSpawnPointMapElementSystem::Get()

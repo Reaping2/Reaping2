@@ -45,7 +45,10 @@ void LeaderboardSystem::Update( double DeltaTime )
 
 void LeaderboardSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
-    UpdateBoard();
+    if (Evt.mState == core::MapStartEvent::Started)
+    {
+        UpdateBoard();
+    }
 }
 
 void LeaderboardSystem::UpdateBoard()

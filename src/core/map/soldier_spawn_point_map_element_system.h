@@ -26,9 +26,6 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-private:
-    AutoReg mOnMapStart;
-    void OnMapStart( core::MapStartEvent const& Evt );
 };
 
 } // namespace map

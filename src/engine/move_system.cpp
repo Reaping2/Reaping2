@@ -5,6 +5,7 @@
 #include "core/i_move_component.h"
 #include "core/i_position_component.h"
 #include "core/i_collision_component.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -16,6 +17,8 @@ MoveSystem::MoveSystem()
 
 void MoveSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IMoveComponent>().IsValid()
             && actor.Get<IPositionComponent>().IsValid(); } );

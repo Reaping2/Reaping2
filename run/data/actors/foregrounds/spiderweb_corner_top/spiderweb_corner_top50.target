@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "spiderweb_corner_top50" ,
+        "setters":
+        {
+            "cursor_id": "spiderweb_corner_top50" ,
+            "actor_id": "spiderweb_corner_top50"
+        },
+        "type":"target_desc"
+    }
+]

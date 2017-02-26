@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "orchinatid" ,
+        "setters":
+        {
+            "cursor_id": "orchinatid" ,
+            "actor_id": "orchinatid"
+        },
+        "type":"target_desc"
+    }
+]

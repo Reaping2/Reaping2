@@ -2,6 +2,7 @@
 #include "engine/acceleration_system.h"
 #include "core/i_move_component.h"
 #include "core/i_acceleration_component.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -13,6 +14,8 @@ AccelerationSystem::AccelerationSystem()
 
 void AccelerationSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IAccelerationComponent>().IsValid()
             && actor.Get<IMoveComponent>().IsValid(); } );

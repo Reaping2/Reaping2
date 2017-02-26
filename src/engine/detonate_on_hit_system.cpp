@@ -8,6 +8,7 @@
 #include "core/i_position_component.h"
 #include "core/i_move_component.h"
 #include "explode_on_hit_system.h"
+#include "system_suppressor.h"
 
 namespace engine {
 
@@ -19,6 +20,8 @@ DetonateOnHitSystem::DetonateOnHitSystem()
 
 void DetonateOnHitSystem::Init()
 {
+    SystemSuppressor::Get().Add( SystemSuppressor::SceneLoad, GetType_static() );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IDetonateOnHitComponent>().IsValid()
             && actor.Get<ICollisionComponent>().IsValid(); } );

@@ -12,6 +12,7 @@
 #include "core/i_light_component.h"
 #include "core/i_position_component.h"
 #include <boost/assign.hpp>
+#include "engine/system_suppressor.h"
 
 namespace engine {
 namespace {
@@ -148,11 +149,7 @@ void RendererSystem::Init()
     glEnable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
-    Scene::Get().AddValidator( AutoId("lights"),
-        []( Actor const& actor )->bool {
-            return actor.Get<ILightComponent>().IsValid() && actor.Get<IPositionComponent>().IsValid();
-        }
-        );
+    engine::SystemSuppressor::Get().Add( engine::SystemSuppressor::SceneLoad, GetType_static() );
 }
 
 namespace {
@@ -263,9 +260,20 @@ void RendererSystem::Update( double DeltaTime )
     using render::RenderTargetProps;
     perf::Timer_t method;
     method.Log( "start render" );
+    bool const isSuppressed = engine::SystemSuppressor::Get().IsSuppressed();
     static render::SpritePhaseCache& cache( render::SpritePhaseCache::Get() );
-    render::ParticleEngine::Get().Update( DeltaTime );
     SendWorldMouseMoveEvent();
+
+    if( isSuppressed )
+    {
+        Viewport const& Vp = mUiProjector.GetViewport();
+        glViewport( Vp.X, Vp.Y, Vp.Width, Vp.Height );
+        mShaderManager.UploadGlobalData( GlobalShaderData::Resolution, glm::vec2( Vp.Width, Vp.Height ) );
+
+        mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
+        mMouseRenderer.Draw( mTextSceneRenderer );
+        return;
+    }
 
     mCamera.Update();
     SetupRenderer( mCamera );
@@ -557,19 +565,54 @@ void RendererSystem::Update( double DeltaTime )
             SetupIdentity();
             mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
         }
-    }
-    // set painting to screen
-    rt.SetTargetScreen();
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    SetupIdentity();
+        mPerfTimer.Log( "post shadow" );
 
-    // paint the previous textures to screen with custom additional effects
-    // actually we could skip this by painting directly to screen in prev. step
-    // but we can possibly upscale here for sweet sweet fps
+        // render the world to the worldBumped texture using the bump mapping shader
+        SetupRenderer( mWorldProjector );
+        rt.SetTargetTexture( worldBumped, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
+        SetupIdentity();
+        glBlendFunc( GL_ONE, GL_ONE );
+        static int32_t bumpid = AutoId( "bump_map" );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( world ), bumpid,
+            rt.GetTextureId( world, 1 ) );
 
-    static auto const layer = shownLayer();
-    switch( layer )
-    {
+        rt.SetTargetTexture( worldEffects, RenderTargetProps( mWorldProjector.GetViewport().Size() ) );
+        mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldBumped ), solidid );
+
+        static bool const enablePostprocessing = Settings::Get().GetBool( "graphics.postprocess", true );
+        if (enablePostprocessing)
+        {
+            RenderTargetProps worldPPProps( mWorldProjector.GetViewport().Size(), { GL_RED } );
+            // render the per-actor effects
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+            for (auto id : postProcessorIds)
+            {
+                // TODO: downscale
+                static int32_t debuggedPP = AutoId( Settings::Get().GetStr( "graphics.shown_layer_pp_id", "" ) );
+                uint32_t pp = id == debuggedPP ? worldDedicatedPostProcess : worldPostProcess;
+                rt.SetTargetTexture( pp, worldPPProps );
+                SetupRenderer( mWorldProjector );
+                mActorRenderer.Draw( id );
+
+                GLuint srcTexture = rt.GetTextureId( worldBumped );
+                GLuint maskTexture = rt.GetTextureId( pp );
+                rt.SelectTargetTexture( worldEffects );
+                SetupIdentity();
+                mWorldRenderer.Draw( DeltaTime, srcTexture, id, maskTexture );
+            }
+        }
+        // set painting to screen
+        rt.SetTargetScreen();
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        SetupIdentity();
+
+        // paint the previous textures to screen with custom additional effects
+        // actually we could skip this by painting directly to screen in prev. step
+        // but we can possibly upscale here for sweet sweet fps
+
+        static auto const layer = shownLayer();
+        switch (layer)
+        {
         case PostprocessMask:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( worldDedicatedPostProcess ), solidid );
             break;
@@ -622,7 +665,6 @@ void RendererSystem::Update( double DeltaTime )
         mHealthBarRenderer.Draw();
     }
     mMouseRenderer.Draw( mTextSceneRenderer );
-    mTextSceneRenderer.Draw();
     method.Log( "end draw" );
     cache.ProcessPending();
     method.Log( "end process pending" );

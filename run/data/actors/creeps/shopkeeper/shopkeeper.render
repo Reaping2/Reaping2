@@ -1,0 +1,14 @@
+[
+    {
+        "name":"shopkeeper",
+        "recognizers":
+        [
+            {"recognizer":"death",
+                "renderer":"death"},
+            {"recognizer":"idle",
+                "renderer":"idle"},
+            {"recognizer":"move",
+                "renderer":"move"}
+        ]
+    }    
+ ]

@@ -1,0 +1,11 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "shopkeeper" ,
+        "setters":
+        {
+            "cursor_id": "shopkeeper" ,
+            "actor_id": "shopkeeper"
+        }
+    }
+]

@@ -3,11 +3,9 @@
 #%
 %
 %d
-%s
 %s\n
 '\n
 (%f,%f)
-)
 +
 ,
 ,i);});L1("\n
@@ -25,7 +23,6 @@
 ...
 ../../../Reaping2_build/build/tools/classgenerator/classgenerator
 ../../actor_factory.h
-../../build-reap-release/bin/relwithdebinfo/classgenerator
 ../../build-reap/bin/classgenerator
 ../../build-reaping/bin/debug/classgenerator
 ../../build/tools/classgenerator/classgenerator
@@ -83,6 +80,7 @@
 ../soldier_spawn_point_map_element.h
 ../soldier_spawn_system.h
 ../spawn_actor_map_element.h
+../system_suppressor.h
 ./classgenerator
 .actor
 .base
@@ -263,7 +261,6 @@ HealthMessageSenderSystem
 HealthSystem
 IAccelerationComponent
 IAccuracyComponent
-IActivityComponent
 IArmorComponent
 IAttachableComponent
 IAudibleComponent
@@ -287,7 +284,6 @@ IHeatSourceComponent
 IInventoryComponent
 IKillScoreOnDeathComponent
 ILevelEndComponent
-ILightComponent
 IListenChildDeathComponent
 IMoveComponent
 INotifyParentOnDeathComponent
@@ -333,7 +329,6 @@ LevelSelectionSystem
 LifecycleMessage
 LifecycleMessageHandlerSubSystem
 LifecycleSenderSystem
-LightSystem
 LinkMapElement
 LinkMapElementSystem
 ListenChildDeathSystem
@@ -425,6 +420,7 @@ RotateMessage
 RotateMessageHandlerSubSystem
 RotateMessageSenderSystem
 RustyReaperWeaponSubSystem
+SceneLoad-MapLoad
 ScoreOnDeathSystem
 ScriptedControllerSubSystem
 SecsToReviveMessage
@@ -529,8 +525,6 @@ action_renderer_loader_repo.h
 activity.camera_multiplier
 activity.default_active_size
 activity.gridsize
-activity_component
-activity_component.h
 activity_grid.h
 activity_system
 activity_traits.h
@@ -557,9 +551,6 @@ aggro_alt_distance
 aggro_distance
 align_h
 align_v
-all_lights
-ambient
-ambient_light
 animation
 animations
 any
@@ -567,7 +558,6 @@ aoe
 aoe_collision_component
 aoe_collision_component.h
 aoe_collision_sub_system
-aperture
 armor
 armor_buff
 armor_buff.h
@@ -653,6 +643,7 @@ border_recognizer
 border_recognizer.h
 border_type
 border_type.h
+borderless_windowed
 borders
 bottom
 bottomleft
@@ -685,14 +676,12 @@ buffs_engine/move_speed_buff_sub_system.h
 bufftarget
 bullets
 bump_map
-bump_map_mp
 button
 button.h
 c:/setuplogfile.log
 cache.h
 calibrate
 camera.h
-camera.pin_center_to_player
 capture_the_flag_game_mode_system
 capture_the_flag_game_mode_system.h
 cast_shadow
@@ -828,7 +817,6 @@ core-shot
 core-startGameMode
 core/acceleration_component.h
 core/accuracy_component.h
-core/activity_component.h
 core/activity_grid.h
 core/actor.h
 core/actor_event.h
@@ -919,7 +907,6 @@ core/i_heat_source_component.h
 core/i_inventory_component.h
 core/i_kill_score_on_death_component.h
 core/i_level_end_component.h
-core/i_light_component.h
 core/i_listen_child_death_component.h
 core/i_move_component.h
 core/i_notify_parent_on_death_component.h
@@ -947,7 +934,6 @@ core/kill_score_on_death_component.h
 core/level_end_component.h
 core/level_selected_event.h
 core/level_selection_system.h
-core/light_component.h
 core/listen_child_death_component.h
 core/lucky_rocket.h
 core/map/base_input.h
@@ -1175,7 +1161,6 @@ degree
 degree_variance
 delay
 delay_variance
-deltaTime
 deploy_time
 description
 description.json
@@ -1187,7 +1172,6 @@ detonate_on_hit_system
 detonate_on_hit_system.h
 detonator_material
 disabled_logs
-distanceMult
 distance_to_aggressor
 distance_to_aggressor_condition.h
 distance_to_players
@@ -1197,7 +1181,6 @@ distance_to_target_condition.h
 distribution
 do_nothing
 do_nothing_act.h
-double-radius
 double-secsToRevive
 drop_on_death_component
 drop_on_death_system
@@ -1350,6 +1333,7 @@ engine/sub_system_factory.h
 engine/sub_system_holder.h
 engine/system.h
 engine/system_factory.h
+engine/system_suppressor.h
 enter
 entrance
 entrance_targets
@@ -1441,9 +1425,7 @@ freelance
 freelance_act.h
 frequency
 from
-fsaperture
-fsshadows
-full_strength_aperture
+fullscreen
 function_declarations.h
 g
 game.exit
@@ -1480,11 +1462,11 @@ generator_name
 glm_fix.h
 graphics.cast_shadows
 graphics.gl.max_allowed_texture_size
+graphics.height
 graphics.postprocess
 graphics.pp_blacklist
+graphics.preferred_monitor
 graphics.shadow_scale
-graphics.show_healthbars
-graphics.show_names
 graphics.shown_layer
 graphics.shown_layer_pp_id
 graphics.sprite_phase_cache.downsample
@@ -1493,6 +1475,8 @@ graphics.sprite_phase_cache.gapless
 graphics.sprite_phase_cache.max_cell_size
 graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
+graphics.width
+graphics.window_mode
 grass
 greater
 grenade_normal_item
@@ -1587,7 +1571,6 @@ i_accuracy_component
 i_accuracy_component.h
 i_act
 i_act.h
-i_activity_component.h
 i_armor_component
 i_armor_component.h
 i_attachable_component
@@ -1644,7 +1627,6 @@ i_kill_score_on_death_component
 i_kill_score_on_death_component.h
 i_level_end_component.h
 i_level_generator.h
-i_light_component.h
 i_listen_child_death_component
 i_listen_child_death_component.h
 i_move_component
@@ -1854,19 +1836,6 @@ lifecycle_message.h
 lifecycle_message_handler_sub_system
 lifecycle_message_handler_sub_system.h
 lifecycle_sender_system
-light
-lightPosition
-lightRect
-lightSize
-lightTexture
-lightVec
-light_active_dummy
-light_component
-light_component.h
-light_system
-light_system.h
-lightmap
-lights
 link
 link_map_element.h
 link_map_element_system
@@ -1934,17 +1903,14 @@ material
 matrix
 matrix","absolute
 matrix_grid.h
-maxShadow
 max_health_buff
 max_health_buff.h
 max_health_buff_sub_system
 max_hp
 max_progress
 max_radius
-max_shadow
 max_speed
 memoryfile.h
-mergelights
 message
 message.h
 message_handler_sub_system.h
@@ -2193,7 +2159,6 @@ platform/singleton.h
 platform/timer.h
 player
 player_c
-player_camera.h
 player_control_device.h
 player_controller_component
 player_controller_component.h
@@ -2263,6 +2228,7 @@ random_sprites
 randomize_sprite_system
 randomize_sprite_system.h
 ratio
+ready
 realScatter:%f\n
 receive_blood
 receive_shadow
@@ -2324,7 +2290,6 @@ render/idle_action_renderer.h
 render/idle_recognizer.h
 render/leg_move_action_renderer.h
 render/leg_move_recognizer.h
-render/light_system.h
 render/move_action_renderer.h
 render/move_recognizer.h
 render/particle_system.h
@@ -2489,9 +2454,6 @@ shader_manager.h
 shader_repo.h
 shaders
 shaders/
-shadow_len_scale
-shadow_unwrap
-shadow_vector
 shadows
 shoot
 shoot_alt
@@ -2636,7 +2598,6 @@ strafe
 strafe_act.h
 style
 styles
-sunlight
 switch
 switch_cells
 sync_item
@@ -2645,6 +2606,8 @@ sync_item_message_handler_sub_system
 sync_item_message_sender_system
 system
 system_factory.h
+system_suppressor
+system_suppressor.h
 tail
 target
 target_factory
@@ -2706,8 +2669,6 @@ timer.h
 timer_server_system
 to
 top
-top_lights
-topcasters
 topleft
 topright
 transition.h
@@ -2735,7 +2696,6 @@ ui_model.h
 ui_renderer.h
 uimodel.h
 uimodel_repo.h
-undefined
 unknown
 use_normal
 use_shot
@@ -2777,7 +2737,9 @@ widget.h
 widget_factory.h
 width
 window.h
+window_settings.h
 window_system
+windowed
 windup_time
 wnd
 world_renderer.h

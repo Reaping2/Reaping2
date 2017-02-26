@@ -30,9 +30,6 @@ void RoomRepo::Init()
     {
         
         boost::filesystem::path const& Path = *i;
-        PathVect_t LevelPaths;
-        
-        FSys.GetFileNames( LevelPaths, Path );
         if (Path.extension().string() != ".json")
         {
             continue;

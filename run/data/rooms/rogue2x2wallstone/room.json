@@ -2121,7 +2121,7 @@
             "name" : "spawn_actor"
          },
             {
-      "actor" : "worm200_head",
+      "actor" : "_worm200_head",
       "components" : [
          {
             "name" : "position_component",

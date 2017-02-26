@@ -16,6 +16,7 @@ if(CMAKE_HOST_WIN32)
     elseif("v140" STREQUAL "${CMAKE_GENERATOR_TOOLSET}")
         set(BOOST_TOOLSET_ARG "--toolset=msvc-14.0")
     endif()
+    set(BOOST_PLATFORM_DEFINES "define=_ITERATOR_DEBUG_LEVEL=0")
     if(MINGW)
         set(BOOST_TOOLSET_ARG "--toolset=gcc")
     endif(MINGW)
@@ -59,6 +60,7 @@ ExternalProject_Add(ext_boost
         BUILD_IN_SOURCE 1
         CONFIGURE_COMMAND ${BOOST_BOOTSTRAP_CMD}
         BUILD_COMMAND ${BOOST_BUILD_CMD}
+                        ${BOOST_PLATFORM_DEFINES}
                         --build-dir="${EXTERNALS_WORK_DIR}/build/boost"
                         --with-filesystem
                         --with-system

@@ -240,6 +240,7 @@ Unispace
 Waiting for Host...
 Zap_Beat
 _save_weapon_rocket_launcher
+_worm200_head
 a0
 a1
 a10
@@ -390,7 +391,6 @@ accuracy_buff
 accuracy_component
 accuracy_pickup
 accuracy_pickup.png
-activity_component
 actor
 actors
 actors/misc/font/font.png
@@ -695,8 +695,6 @@ buildings
 bullet2_particle
 bullet_particle
 bump_map
-bump_map_mp
-bump_map_nolight
 bush50
 bush50.png
 button
@@ -789,6 +787,8 @@ default
 default_action
 description
 desert
+desk100
+desk100.png
 detonate_on_hit_component
 diamond
 distance_to_aggressor
@@ -898,12 +898,8 @@ ffa_client_list
 ffa_client_list.clients
 ffa_client_list.clients#clientidx
 fill
-fire
-fire.png
-fire_flame_particle
-fire_particle
-fire_particle.png
-fire_smoke_particle
+fire60
+fire60.png
 fixed_ratio_container
 flag
 flag.png
@@ -921,6 +917,7 @@ font
 fps
 freelance
 freezePickup
+fullscreen,windowed,borderless_windowed
 g1
 g10
 g11
@@ -1005,10 +1002,6 @@ grass200_2_normal
 grass200_2_normal.png
 grass200_normal
 grass_tile
-grass_tile_bottom_outer
-grass_tile_left_outer
-grass_tile_right_outer
-grass_tile_top_outer
 green_flowers50
 grenade
 grenade_explosion_projectile
@@ -1084,12 +1077,16 @@ is_not_hit
 jungle
 jungle_grass200
 jungle_grass200.png
+jungle_grass200_bottom_outer
 jungle_grass200_bottom_outer_border
 jungle_grass200_bottom_outer_border.png
+jungle_grass200_left_outer
 jungle_grass200_left_outer_border
 jungle_grass200_left_outer_border.png
+jungle_grass200_right_outer
 jungle_grass200_right_outer_border
 jungle_grass200_right_outer_border.png
+jungle_grass200_top_outer
 jungle_grass200_top_outer_border
 jungle_grass200_top_outer_border.png
 kill_score_on_death_component
@@ -1117,11 +1114,6 @@ level.select
 level_generated
 level_generator
 lifecycle.host
-light_active_dummy
-light_active_dummy.png
-light_component
-lightmap
-lights
 link
 listen_child_death_component
 local.start
@@ -1144,7 +1136,6 @@ map_elements
 map_start
 mapitem
 menu item
-mergelights
 monkey
 mouse
 move
@@ -1412,6 +1403,11 @@ no_collision
 normal
 normal_item_background
 notify_parent_on_death_component
+orchinatid
+orchinatid_move
+orchinatid_move.png
+orchinatid_rip
+orchinatid_rip.png
 ore_wall100
 ore_wall100.png
 ore_wall100_1
@@ -2165,12 +2161,12 @@ select_level
 select_target
 set entrance
 settings
-shadow_unwrap
 shadows
-shadows2
 shooter_Loves
 shooter_move
 shooter_rip
+shopkeeper
+shopkeeper.png
 shot_collision_component
 shotgun
 shotgun_alt2_particle
@@ -2200,8 +2196,6 @@ skull_rip
 skull_rip.png
 small_fount100
 small_hill50
-smoke_particle
-smoke_particle.png
 snow2
 soldier
 soldier.accuracy
@@ -2276,6 +2270,12 @@ spider1_move
 spider1_move.png
 spider1_rip
 spider1_rip.png
+spiderweb_circle100
+spiderweb_circle100.png
+spiderweb_corner_bottom50
+spiderweb_corner_bottom50.png
+spiderweb_corner_top50
+spiderweb_corner_top50.png
 splider_move_blue
 splider_move_green
 splider_move_red
@@ -2342,7 +2342,6 @@ stone_wall_topright
 stones50
 stop_on_death_component
 strongerAmmo
-sunlight
 target
 target:
 target_desc
@@ -2358,7 +2357,6 @@ tile_water
 todo
 top
 top_entrance
-topcasters
 topleft
 topright
 trap_spike_off
@@ -2397,6 +2395,9 @@ turn_to_target
 ui
 ui.load
 vblur
+vendor
+vendor.png
+vendor_test
 visibility
 visibility_hud
 visiblity
@@ -2446,6 +2447,7 @@ weapon_size
 webber_move
 webber_rip
 webber_rip1
+windowed
 wood_block50
 wood_block50_left
 wood_block50_left.png

@@ -29,13 +29,17 @@ void Engine::Init()
 
 void Engine::Update( double DeltaTime )
 {
+    if (!mIsRunning)
+    {
+        return;
+    }
+    if (mSuppressed)
+    {
+        DeltaTime = 0.0;
+    }
     SystemsFilter<Engine::EnabledSystems> enabledSystems( mSystemHolder.mSystems );
     for ( SystemsFilter<Engine::EnabledSystems>::const_iterator it = enabledSystems.begin(), e = enabledSystems.end(); it != e; ++it )
     {
-        if( !mIsRunning )
-        {
-            return;
-        }
         it->mSystem->Update( DeltaTime );
     }
 }
@@ -56,9 +60,25 @@ Engine::~Engine()
     mSystemHolder.mSystems.clear();
 }
 
+void Engine::SetEnabled( int32_t systemType, bool enabled )
+{
+    Systems_t::iterator it = mSystemHolder.mSystems.find( systemType );
+    if (it != mSystemHolder.mSystems.end())
+    {
+        mSystemHolder.mSystems.modify( it, SystemEnableModifier( enabled ) );
+    }
+}
 
+bool Engine::IsEnabled( int32_t systemType ) const
+{
+    Systems_t::iterator it = mSystemHolder.mSystems.find( systemType );
+    return it != mSystemHolder.mSystems.end() ? it->mSystem->IsEnabled() : false;
+}
 
-
+void Engine::OnSuppressEvent( SuppressEvent const& evt )
+{
+    mSuppressed = evt.mSuppressed;
+}
 
 
 

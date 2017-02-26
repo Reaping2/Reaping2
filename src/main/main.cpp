@@ -63,6 +63,7 @@
 #include "platform/settings.h"
 #include "platform/game_clock.h"
 #include "platform/folder_package.h"
+#include "engine/system_suppressor.h"
 
 using engine::Engine;
 namespace {
@@ -213,12 +214,12 @@ int main( int argc, char* argv[] )
     input::PlayerControlDevice::Get().SetControlDeviceConfiguration( deviceConfig );
     EventServer<PhaseChangedEvent>& PhaseChangeEventServer( EventServer<PhaseChangedEvent>::Get() );
     AutoReg PhaseChangeId( PhaseChangeEventServer.Subscribe( &OnPhaseChangedEvent ) );
-
     Engine& Eng = Engine::Get();
+    engine::SystemSuppressor::Get();
 
     Eng.AddSystem( AutoId( "window_system" ) );
     if( programState.mMode != ProgramState::Server &&
-        !Eng.GetSystem<engine::WindowSystem>()->Create( 1280, 960, "Reaping2" ) )
+        !Eng.GetSystem<engine::WindowSystem>()->Create( "Reaping2" ) )
     {
         PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::InitiateShutDown ) );
     }

@@ -52,6 +52,7 @@ public:
     virtual void Init() = 0;
     virtual void Update( double DeltaTime ) = 0;
     virtual void SetEnabled ( bool enabled );
+    virtual bool IsEnabled() const;
     virtual ~System();
 protected:
     bool mEnabled;

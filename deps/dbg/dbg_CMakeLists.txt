@@ -1,8 +1,9 @@
 cmake_minimum_required( VERSION 2.4 )
 
 project( dbg )
+set( CMAKE_DEBUG_POSTFIX d )
 
-add_definitions( -DDBG_DONT_USE_FUNGO=1 )
+add_definitions( -DDBG_DONT_USE_FUNGO=1 -D_ITERATOR_DEBUG_LEVEL=0 )
 
 include_directories( include src src/windows )
 

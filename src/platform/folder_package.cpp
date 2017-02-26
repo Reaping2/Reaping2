@@ -56,7 +56,11 @@ void FolderPackage::Impl::GetFileNames( PathVect_t& Paths, boost::filesystem::pa
         auto const& p = *iter;
         if( is_regular_file( p ) )
         {
-            Paths.push_back( p );
+            boost::filesystem::path subP(boost::filesystem::path( p ).generic_string().substr( mRootPath.generic_string().length()+1 ));
+            if (std::find( Paths.begin(), Paths.end(), subP ) == Paths.end())
+            {
+                Paths.push_back( subP );
+            }
         }
     }
 }
