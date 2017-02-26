@@ -9,10 +9,17 @@ namespace engine {
 
 struct SoldierCreatedEvent : public platform::Event
 {
+    enum State
+    {
+        Raw,
+        PropertiesSet,
+        ComponentsSet,
+        Finished
+    } mState;
     core::ClientData& mClientData;
     Opt<Actor> mActor;
-    SoldierCreatedEvent( core::ClientData& clientData, Opt<Actor> actor )
-        : mClientData( clientData ), mActor( actor ) {}
+    SoldierCreatedEvent( core::ClientData& clientData, Opt<Actor> actor, State state = State::Raw )
+        : mState(state), mClientData( clientData ), mActor( actor ) {}
 };
 
 } // namespace engine

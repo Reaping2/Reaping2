@@ -19,6 +19,7 @@ void InputState::Reset()
     mMoving = false;
     mShowLeaderboard = false;
     mPause = false;
+    mActivate = false;
 }
 
 bool InputState::operator==( InputState const& other ) const
@@ -33,7 +34,8 @@ bool InputState::operator==( InputState const& other ) const
            && mShowLeaderboard == other.mShowLeaderboard
            && mPause == other.mPause
            && mCursorX == other.mCursorX
-           && mCursorY == other.mCursorY;
+           && mCursorY == other.mCursorY
+           && mActivate == other.mActivate;
 }
 
 bool InputState::operator!=( InputState const& other ) const

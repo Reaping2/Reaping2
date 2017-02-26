@@ -39,6 +39,7 @@ void PlayerControllerMessageSenderSystem::Update( double DeltaTime )
             playerControllerMsg->mUseNormalItem = playerControllerC->mUseNormalItem;
             playerControllerMsg->mUseReload = playerControllerC->mUseReload;
             playerControllerMsg->mMoving = playerControllerC->mMoving;
+            playerControllerMsg->mActivate = playerControllerC->mActivate;
             mMessageHolder.AddOutgoingMessage( playerControllerMsg );
         }
     }
@@ -93,6 +94,14 @@ void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
         playerControllerC->mUseReload.Deactivate();
     }
     playerControllerC->mMoving = msg.mMoving;
+    if (msg.mActivate.IsActive())
+    {
+        playerControllerC->mActivate.Activate();
+    }
+    else
+    {
+        playerControllerC->mActivate.Deactivate();
+    }
 }
 
 } // namespace engine

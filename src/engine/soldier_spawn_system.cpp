@@ -60,10 +60,10 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, ma
 std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, map::SpawnPoint spawnPoint, std::auto_ptr<Actor> player )
 {
     Opt<Actor> clientActor( mScene.GetActor( clientData.mClientActorGUID ) );
-    if( clientActor.IsValid() )
+    if (clientActor.IsValid())
     {
         Opt<IHealthComponent> healthC = clientActor->Get<IHealthComponent>();
-        if ( healthC.IsValid() && healthC->IsAlive() )
+        if (healthC.IsValid() && healthC->IsAlive())
         {
             L1( "Cannot spawn soldier for clientData (%s) current soldier still alive!\n", clientData.mClientName.c_str() );
             return std::auto_ptr<Actor>();
@@ -87,11 +87,11 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, ma
 //     }
 
     Opt<PlayerControllerComponent> playerControllerC( player->Get<IControllerComponent>() );
-    if ( playerControllerC.IsValid() )
+    if (playerControllerC.IsValid())
     {
         playerControllerC->mControllerId = clientData.mClientId;
-        if ( mProgramState.mControlledActorGUID == clientData.mClientActorGUID
-             && mProgramState.mMode != core::ProgramState::Server )
+        if (mProgramState.mControlledActorGUID == clientData.mClientActorGUID
+            && mProgramState.mMode != core::ProgramState::Server)
         {
             playerControllerC->SetEnabled( true );
             playerControllerC->mActive = true;
@@ -101,12 +101,15 @@ std::auto_ptr<Actor> SoldierSpawnSystem::Spawn( core::ClientData& clientData, ma
     clientData.mClientActorGUID = player->GetGUID(); //TODO: might seek for a better place
     L2( "player created clientId:%d clientName:%s actorId:%d\n", clientData.mClientId, clientData.mClientName.c_str(), clientData.mClientActorGUID );
 
-    if ( mProgramState.mMode != core::ProgramState::Server &&
-         mProgramState.mClientDatas.begin()->mClientActorGUID == player->GetGUID() )
+    if (mProgramState.mMode != core::ProgramState::Server &&
+        mProgramState.mClientDatas.begin()->mClientActorGUID == player->GetGUID())
     {
         Scene::Get().SetPlayerModels( Opt<Actor>( player.get() ) );
     }
-    EventServer<SoldierCreatedEvent>::Get().SendEvent( SoldierCreatedEvent( clientData, Opt<Actor>( player.get() ) ) );
+    EventServer<SoldierCreatedEvent>::Get().SendEvent( { clientData, Opt<Actor>( player.get() ), SoldierCreatedEvent::Raw } );
+    EventServer<SoldierCreatedEvent>::Get().SendEvent( { clientData, Opt<Actor>( player.get() ), SoldierCreatedEvent::PropertiesSet } );
+    EventServer<SoldierCreatedEvent>::Get().SendEvent( { clientData, Opt<Actor>( player.get() ), SoldierCreatedEvent::ComponentsSet } );
+    EventServer<SoldierCreatedEvent>::Get().SendEvent( { clientData, Opt<Actor>( player.get() ), SoldierCreatedEvent::Finished } );
     return player;
 }
 

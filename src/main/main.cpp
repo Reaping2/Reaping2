@@ -248,11 +248,13 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "rogue_game_mode_system" ) );
     Eng.AddSystem( AutoId( "leaderboard_system" ) );
 
-    Eng.AddSystem( AutoId( "worm_head_system" ) );
-    Eng.AddSystem( AutoId( "worm_body_system" ) );
-
+    Eng.AddSystem( AutoId( "waypoint_system" ) );
     if (programState.mMode != ProgramState::Client)
     {
+        Eng.AddSystem( AutoId( "worm_head_system" ) );
+        Eng.AddSystem( AutoId( "worm_body_system" ) );
+
+
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
         Eng.AddSystem( AutoId( "path_system" ) );
     }
@@ -298,6 +300,8 @@ int main( int argc, char* argv[] )
 
         Eng.AddSystem( AutoId( "actor_list_message_sender_system" ) );
         Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "map_start_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "map_load_message_sender_system" ) );
     }
     if (programState.mMode != ProgramState::Client)
     {
@@ -408,12 +412,15 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "controller_system" ) );
     Opt<engine::ControllerSystem> controllserSystem( Eng.GetSystem<engine::ControllerSystem>() );
     controllserSystem->AddSubSystem( AutoId( "player_controller_component" ), AutoId( "player_controller_sub_system" ) );
-    controllserSystem->AddSubSystem( AutoId( "random_controller_component" ), AutoId( "random_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "target_player_controller_component" ), AutoId( "target_player_controller_sub_system" ) );
     controllserSystem->AddSubSystem( AutoId( "pointer_target_controller_component" ), AutoId( "pointer_target_controller_sub_system" ) );
-    controllserSystem->AddSubSystem( AutoId( "guard_controller_component" ), AutoId( "guard_controller_sub_system" ) );
-    controllserSystem->AddSubSystem( AutoId( "path_controller_component" ), AutoId( "path_controller_sub_system" ) );
-    controllserSystem->AddSubSystem( AutoId( "scripted_controller_component" ), AutoId( "scripted_controller_sub_system" ) );
+    if (programState.mMode != ProgramState::Client)
+    {
+        controllserSystem->AddSubSystem( AutoId( "random_controller_component" ), AutoId( "random_controller_sub_system" ) );
+        controllserSystem->AddSubSystem( AutoId( "guard_controller_component" ), AutoId( "guard_controller_sub_system" ) );
+        controllserSystem->AddSubSystem( AutoId( "path_controller_component" ), AutoId( "path_controller_sub_system" ) );
+        controllserSystem->AddSubSystem( AutoId( "scripted_controller_component" ), AutoId( "scripted_controller_sub_system" ) );
+    }
 
     Eng.AddSystem( AutoId( "cloak_system" ) );
 

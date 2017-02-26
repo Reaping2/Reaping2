@@ -33,8 +33,10 @@ template<class Archive>
 void ScriptedControllerComponent::serialize(Archive& ar, const unsigned int version)
 {
     ar& boost::serialization::base_object<ControllerComponent>(*this);
-    ar& mStates;
-    ar& mStateIdentifier;
+    // scripted controller is not for clients
+    // if for some reason this needs to be serialized acts transitions etc need to be exported
+//    ar& mStates;
+//    ar& mStateIdentifier;
 }
 
 class ScriptedControllerComponentLoader : public ComponentLoader<ScriptedControllerComponent>

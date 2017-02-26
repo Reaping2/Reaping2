@@ -28,6 +28,8 @@
 #include "map_start_event.h"
 #include "map/map_repo.h"
 #include "engine/system_suppressor.h"
+#include "engine/engine.h"
+#include "render/renderer.h"
 
 using core::ProgramState;
 
@@ -70,7 +72,11 @@ void Scene::AddActor( Actor* Object )
 
 void Scene::Update( double DeltaTime )
 {
-
+    if (mSendMapStarted)
+    {
+        mSendMapStarted = false;
+        EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
+    }
     if( IsPaused() )
     {
         return;
@@ -93,7 +99,17 @@ void Scene::Update( double DeltaTime )
     //testing end
 
     InsertNewActors();
+    if (mHandleMapReadyCounter > -1)
+    {
+        --mHandleMapReadyCounter;
+    }
 
+    if (mHandleMapReadyCounter==0)
+    {
+        L1( "Map Ready handled!\n" );
+        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+        mProgramState.mGameState = core::ProgramState::Running;
+    }
 }
 
 Scene::Scene()
@@ -152,8 +168,8 @@ int32_t Scene::GetTypeId() const
 void Scene::Load( std::string const& Level )
 {
     L2( "Scene load started %s\n", Level.c_str() );
+    mProgramState.mGameState = core::ProgramState::NotRunning;
     EventServer<core::MapLoadEvent>::Get().SendEvent( core::MapLoadEvent( map::MapRepo::mMapDir+"/" + Level ) );
-    bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
     mPaused = false;
 
     for( NewActorList_t::iterator it = mNewActors.begin(), e = mNewActors.end(); it != e; ++it )
@@ -172,9 +188,7 @@ void Scene::Load( std::string const& Level )
     }
     mActorHolder.mAllActors.clear();
     mActorMap.clear();
-    SetType( "grass" );
-
-    EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
+    mSendMapStarted = true;
     L2( "Scene load ended %s\n", Level.c_str() );
 }
 
@@ -453,7 +467,7 @@ void Scene::OnMapStart( core::MapStartEvent const& Evt )
     if (Evt.mState == core::MapStartEvent::Ready)
     {
         L2( "Scene Maps start READY\n" );
-        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+        mHandleMapReadyCounter = 2;
     }
 }
 

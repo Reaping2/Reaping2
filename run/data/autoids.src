@@ -299,6 +299,7 @@ IStaticActorComponent
 IStopOnDeathComponent
 ITargetHolderComponent
 ITeamComponent
+IWaypointComponent
 IWormBodyComponent
 IWormHeadComponent
 InputState&-inputState
@@ -479,6 +480,7 @@ Undeploy
 Undeploy:
 WaitingStartSystem
 WallCollisionSubSystem
+WaypointSystem
 WeaponItemSubSystem
 WindowSystem
 WormBodySystem
@@ -522,6 +524,7 @@ action_renderer_loader
 action_renderer_loader.h
 action_renderer_loader_repo
 action_renderer_loader_repo.h
+activate
 activity.camera_multiplier
 activity.default_active_size
 activity.gridsize
@@ -771,6 +774,7 @@ collision_message_sender_system
 collision_model.h
 collision_sub_system
 collision_system
+collision_system.h
 collision_traits.h
 collisions.enable
 collisions.gridsize
@@ -922,6 +926,7 @@ core/i_static_actor_component.h
 core/i_stop_on_death_component.h
 core/i_target_holder_component.h
 core/i_team_component.h
+core/i_waypoint_component.h
 core/i_worm_body_component.h
 core/i_worm_head_component.h
 core/inventory_component.h
@@ -1044,6 +1049,7 @@ core/team_component.h
 core/trigger.h
 core/wall_collision_component.h
 core/water_collision_component.h
+core/waypoint_component.h
 core/weapon.h
 core/worm_body_component.h
 core/worm_head_component.h
@@ -1477,7 +1483,6 @@ graphics.sprite_phase_cache.use_size_limit
 graphics.vsync
 graphics.width
 graphics.window_mode
-grass
 greater
 grenade_normal_item
 grenade_normal_item.h
@@ -1665,6 +1670,7 @@ i_team_component
 i_team_component.h
 i_ui.h
 i_visual_box_multiplier_component.h
+i_waypoint_component.h
 i_worm_body_component.h
 i_worm_head_component.h
 id
@@ -2339,6 +2345,7 @@ rocket_launcher_secondary
 rocket_launcher_target_projectile
 rocket_launcher_weapon_sub_system
 rogue
+rogue2
 rogue_game_mode_system
 rogue_game_mode_system.h
 room
@@ -2714,6 +2721,7 @@ volume
 vorbis_file.h
 vorbis_file_cache.h
 w
+waiting_load
 waiting_start
 waiting_start_system.h
 waiting_system
@@ -2727,6 +2735,10 @@ wall_target.h
 water
 water_collision_component
 water_collision_component.h
+waypoint_component
+waypoint_component.h
+waypoint_system
+waypoint_system.h
 weapon
 weapon.h
 weapon_item_sub_system

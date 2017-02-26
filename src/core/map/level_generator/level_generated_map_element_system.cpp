@@ -6,7 +6,6 @@ namespace map {
 
 LevelGeneratedMapElementSystem::LevelGeneratedMapElementSystem()
     : MapElementSystem()
-    , mTerrainGenerated(false)
 {
 }
 
@@ -21,10 +20,15 @@ void LevelGeneratedMapElementSystem::Init()
 void LevelGeneratedMapElementSystem::Update( double DeltaTime )
 {
     MapElementSystem::Update( DeltaTime );
-    if (mTerrainGenerated)
+    if (mHandleTerrainGeneratedCounter > -1)
+    {
+        --mHandleTerrainGeneratedCounter;
+    }
+    if (mHandleTerrainGeneratedCounter==0)
     {
         EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::ActorsSpawned ) );
-        mTerrainGenerated = false;
+        mHandleTerrainGeneratedCounter = false;
+        L1( "Actors Spawned sent!\n" );
     }
 }
 
@@ -37,7 +41,7 @@ void LevelGeneratedMapElementSystem::OnLevelGenerated(map::LevelGeneratedEvent c
         if (Evt.mState == LevelGeneratedEvent::TerrainGenerated)
         {
             levelGeneratedMapElement->DoOutputId( LevelGeneratedMapElement::GeneratedNodeId(), 1 );
-            mTerrainGenerated = true;
+            mHandleTerrainGeneratedCounter = 4;
         }
         else if (Evt.mState == LevelGeneratedEvent::ActorsSpawned)
         {

@@ -133,7 +133,6 @@ void RendererSystem::Init()
     glEnable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable( GL_BLEND );
-    engine::SystemSuppressor::Get().Add( engine::SystemSuppressor::SceneLoad, GetType_static() );
 }
 
 namespace {
@@ -333,8 +332,15 @@ void RendererSystem::Update( double DeltaTime )
         SetupRenderer( mWorldProjector );
         render::ParticleEngine::Get().Draw();
     }
+    if (isSuppressed)
+    {
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        SetupIdentity();
+    }
+    L2( "issuppressed: %d\n",isSuppressed );
     SetupRenderer( mUiProjector );
     mUiRenderer.Draw( mUi.GetRoot(), mUiProjector.GetMatrix() );
+
     if (!isSuppressed)
     {
         mNameRenderer.Draw( mTextSceneRenderer );

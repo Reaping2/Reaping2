@@ -42,6 +42,8 @@
 #include "actor_list_message.h"
 #include "rotate_message.h"
 #include "data_checksum_message.h"
+#include "map_start_message.h"
+#include "map_load_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -92,6 +94,8 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId( "actor_list_message_handler_sub_system" ), &CreateSubSystem<ActorListMessageHandlerSubSystem> );
     Bind( AutoId( "rotate_message_handler_sub_system" ), &CreateSubSystem<RotateMessageHandlerSubSystem> );
     Bind( AutoId( "data_checksum_message_handler_sub_system" ), &CreateSubSystem<DataChecksumMessageHandlerSubSystem>);
+    Bind( AutoId( "map_start_message_handler_sub_system" ), &CreateSubSystem<MapStartMessageHandlerSubSystem> );
+    Bind( AutoId( "map_load_message_handler_sub_system" ), &CreateSubSystem<MapLoadMessageHandlerSubSystem> );
 
 }
 

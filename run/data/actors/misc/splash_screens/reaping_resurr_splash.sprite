@@ -1,0 +1,16 @@
+[
+    {
+        "texture_path":"reaping_resurr_splash.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 800,
+                "h" : 480,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.0
+            }], "name" : "reaping_resurr_splash"
+        }]
+    }
+]

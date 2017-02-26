@@ -33,6 +33,10 @@ SoldierPropertiesMessageSenderSystem::SoldierPropertiesMessageSenderSystem()
 
 void SoldierPropertiesMessageSenderSystem::OnSoldierCreatedEvent( engine::SoldierCreatedEvent const& Evt )
 {
+    if (Evt.mState != engine::SoldierCreatedEvent::Finished)
+    {
+        return;
+    }
     if( mProgramState.mMode == ProgramState::Server )
     {
         Opt<IBuffHolderComponent> buffHolderC = Evt.mActor->Get<IBuffHolderComponent>();

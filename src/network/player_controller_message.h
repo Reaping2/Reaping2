@@ -22,6 +22,7 @@ public:
     Trigger mUseNormalItem;
     Trigger mUseReload;
     bool mMoving;
+    Trigger mActivate;
     PlayerControllerMessage()
         : mActorGUID( 0 )
         , mOrientation( 0 )
@@ -31,6 +32,7 @@ public:
         , mUseNormalItem()
         , mUseReload()
         , mMoving( false )
+        , mActivate()
     {
     }
     template<class Archive>
@@ -49,6 +51,7 @@ void PlayerControllerMessage::serialize( Archive& ar, const unsigned int version
     ar& mUseNormalItem;
     ar& mUseReload;
     ar& mMoving;
+    ar& mActivate;
 }
 
 class PlayerControllerMessageHandlerSubSystem: public MessageHandlerSubSystem

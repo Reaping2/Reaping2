@@ -56,7 +56,7 @@ RoomStartProperty::Targets_t const& RoomStartProperty::GetTargets() const
 
 
 
-void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
+void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
     if (roomDesc.HasProperty( RoomProperty::Start ) || editor)
     {
@@ -70,16 +70,16 @@ void RoomStartProperty::Generate( RoomDesc& roomDesc, MapElementHolder mMapEleme
             {
                 if (targetMapElement->GetType() == SoldierSpawnPointMapElement::GetType_static())
                 {
-                    Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement( targetMapElement );
+                    Opt<SoldierSpawnPointMapElement> soldierSpawnPointMapElement( Opt<map::MapElement>(targetMapElement->clone()) );
                     soldierSpawnPointMapElement->SetX( soldierSpawnPointMapElement->GetX() + pos.x );
                     soldierSpawnPointMapElement->SetY( soldierSpawnPointMapElement->GetY() + pos.y );
-                    mapSystem->GetMapElementList().insert( targetMapElement );
+                    mapSystem->GetMapElementList().insert( soldierSpawnPointMapElement );
                 }
                 else if (targetMapElement->GetType() == GroupMapElement::GetType_static())
                 {
-                    Opt<GroupMapElement> groupMapElement( targetMapElement );
+                    Opt<GroupMapElement> groupMapElement( Opt<map::MapElement>( targetMapElement->clone() ) );
                     targets.insert( targets.end(), groupMapElement->GetTargets().begin(), groupMapElement->GetTargets().end() );
-                    MapSystem::Get()->GetMapElementList().insert( targetMapElement );
+                    MapSystem::Get()->GetMapElementList().insert( groupMapElement );
                 }
             }
             ++currTargetIndex;

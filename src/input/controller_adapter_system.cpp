@@ -195,6 +195,7 @@ void ControllerAdapterSystem::Update(double DeltaTime)
         is.mShoot = cs.getBool( "shoot" );
         is.mShootAlt = cs.getBool( "shoot_alt" );
         is.mUseNormalItem = cs.getBool( "use_normal" );
+        is.mActivate = cs.getBool( "activate" );
         is.mReload = cs.getBool( "reload" );
         is.mShowLeaderboard = cs.getBool( "show_leaderboard" );
         is.mPause = cs.getBool( "pause" );

@@ -21,16 +21,16 @@ void HeadingMessageSenderSystem::Init()
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1target" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.1, platform::AutoId( "grenade_projectile" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.1, platform::AutoId( "blue_grenade_projectile" ) ) );
         mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
     }
     else if ( mProgramState.mMode == ProgramState::Client )
     {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "ctf_player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
+        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
     }
 }
 

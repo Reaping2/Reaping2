@@ -27,6 +27,10 @@ void SetTeamMessageSenderSystem::Update( double DeltaTime )
 
 void SetTeamMessageSenderSystem::OnSoldierCreated( engine::SoldierCreatedEvent const& Evt )
 {
+    if (Evt.mState != engine::SoldierCreatedEvent::Finished)
+    {
+        return;
+    }
     mMessageHolder.AddOutgoingMessage( GenerateSetTeamMessage( *Evt.mActor ) );
 }
 void SetTeamMessageSenderSystem::OnFlagCreated( engine::FlagCreatedEvent const& Evt )

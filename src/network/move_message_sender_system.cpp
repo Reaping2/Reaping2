@@ -13,7 +13,7 @@ namespace network {
     void MoveMessageSenderSystem::Init()
     {
         MessageSenderSystem::Init();
-        SetFrequency(10);
+        SetFrequency(0.01);
         if (mProgramState.mMode == ProgramState::Server)
         {
             mSendMoves.insert(platform::AutoId("player"));
@@ -53,6 +53,7 @@ namespace network {
                 std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(actor));
                 if (moveMessage.get() != NULL)
                 {
+                    //L1( "Add move message %d, move: %d \n",actor.GetGUID(),moveMessage->mMoving );
                     mSingleMessageSender.Add(actor.GetGUID(), moveMessage);
                 }
             }
@@ -65,6 +66,7 @@ namespace network {
                 std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(*player));
                 if (moveMessage.get() != NULL)
                 {
+                    //L1( "Add move message %d, move: %d \n", player->GetGUID(), moveMessage->mMoving );
                     mSingleMessageSender.Add(player->GetGUID(), moveMessage);
                 }
             }
