@@ -342,7 +342,6 @@ void RendererSystem::Update( double DeltaTime )
     static int32_t lightmap( AutoId( "lightmap" ) );
     static int32_t mergelights( AutoId( "mergelights" ) );
     static float const shadowmult = Settings::Get().GetFloat( "graphics.shadow_scale", 0.3 );
-    rt.SetTargetTexture( cumulativeLight, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
     float maxShadow = lightS->GetMaxShadow();
     glm::vec2 lightVec = lightS->GetShadowVector();
     glm::vec4 ambientLight = lightS->GetAmbientLight();
@@ -356,10 +355,11 @@ void RendererSystem::Update( double DeltaTime )
         << ambientLight.w
         << ") "
         << numShadowSteps;
-    glClearColor( 1,1,1,1 );
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
     if( castShadows != 0 )
     {
+        rt.SetTargetTexture( cumulativeLight, RenderTargetProps( mWorldProjector.GetViewport().Size() * shadowmult, { GL_RGBA } ) );
+        glClearColor( 1,1,1,1 );
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
         for( auto shadowLevel : shadowLevels )
         {
             bool topmost = shadowLevel == std::numeric_limits<int32_t>::max();
