@@ -29,6 +29,7 @@ enum ShownLayer
     PostprocessMask,
     ShadowUnwrap,
     Shadows,
+    FsShadows,
     Lights,
     TopLights,
     AllLights,
@@ -42,6 +43,7 @@ ShownLayer shownLayer()
         { "bump_map", BumpMap },
         { "postprocess_mask", PostprocessMask },
         { "shadow_unwrap", ShadowUnwrap },
+        { "fsshadows", FsShadows },
         { "shadows", Shadows },
         { "lights", Lights },
         { "top_lights", TopLights },
@@ -284,6 +286,7 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const sunDedicatedOutline = rt.GetFreeId();
     static uint32_t const cumulativeLight = rt.GetFreeId();
     static uint32_t const topcasters = rt.GetFreeId();
+    static uint32_t const fullsizeshadows = rt.GetFreeId();
 
     static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
     auto const& lights = getLights();
@@ -463,11 +466,17 @@ void RendererSystem::Update( double DeltaTime )
 
             glBlendEquation( GL_FUNC_ADD );
             if( topmost )  // on topmost level, only the shadow receivers should be visibly illuminated, not the lower shadow receiver layers
-            {
-                rt.SetTargetTexture( topcasters, RenderTargetProps( mCamera.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4, GL_RGB4 } ) );
+            {   // note: topmost level must use full-size texture, as we are cutting out the highest shadow receivers
+                // and if we apply scaling, the cut-out might leave bright pixels on the cut edges
+                SetupRenderer( mCamera );
+                SetupIdentity();
+                rt.SetTargetTexture( fullsizeshadows, RenderTargetProps( mCamera.GetProjection().GetViewport().Size(), { GL_RGBA4 } ) );
+                mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), solidid );
+                rt.SetTargetTexture( topcasters, RenderTargetProps( mCamera.GetProjection().GetViewport().Size(), { GL_RGBA4, GL_RGB4 } ) );
+                SetupRenderer( mCamera );
                 mActorRenderer.Draw( std::bind( &selectShadowReceivers, std::placeholders::_1, shadowLevel ) );
                 glBlendFuncSeparate( GL_ZERO, GL_ONE, GL_DST_ALPHA, GL_ZERO );
-                rt.SelectTargetTexture( lightrl );
+                rt.SelectTargetTexture( fullsizeshadows );
                 SetupIdentity();
                 // !---- lights/shadows
                 mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( topcasters ), topcastersid );
@@ -479,8 +488,9 @@ void RendererSystem::Update( double DeltaTime )
             // using a small(ish) shadow mult with linear texture mag filter, we can simply render the shadow layer instead of using a more expensive blur filter ( and that even a few times )
             SetupIdentity();
             // !---- lights/shadows
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightrl ), lightmap,
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( topmost ? fullsizeshadows : lightrl ), lightmap,
                      [&](ShaderManager& ShaderMgr)->void{
+                        ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
                         ShaderMgr.UploadData( "maxShadow", maxShadow );
                     } );
         }
@@ -579,7 +589,10 @@ void RendererSystem::Update( double DeltaTime )
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsDedicated ), solidid );
             break;
         case TopLights:
-            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( lightsLayer ), solidid );
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( topcasters ), solidid );
+            break;
+        case FsShadows:
+            mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( fullsizeshadows ), solidid );
             break;
         case AllLights:
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( cumulativeLight ), solidid );
