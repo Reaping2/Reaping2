@@ -4,7 +4,7 @@
         "components":
         [
             {"name":"light_component",
-                "set":[{"radius":30}]
+                "set":[{"radius":500}]
             },
             {"name":"static_actor_component"},
             {"name":"position_component"},

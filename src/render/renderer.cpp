@@ -229,6 +229,12 @@ std::vector<LightDesc> getLights()
 {
     static auto lightS = engine::Engine::Get().GetSystem<render::LightSystem>();
     std::vector<LightDesc> lds;
+    lds.push_back( 
+        std::move( LightDesc{ Opt<ILightComponent>(),
+        Opt<IRenderableComponent>(),
+        glm::vec2( std::numeric_limits<double>::max(), std::numeric_limits<double>::max() ),
+        0.0 } )
+        );
     for( auto light : lightS->GetActiveLights() )
     {
         auto positionC = light->Get<IPositionComponent>();
@@ -246,12 +252,6 @@ std::vector<LightDesc> getLights()
             heading } )
             );
     }
-    lds.push_back( 
-        std::move( LightDesc{ Opt<ILightComponent>(),
-        Opt<IRenderableComponent>(),
-        glm::vec2( std::numeric_limits<double>::max(), std::numeric_limits<double>::max() ),
-        0.0 } )
-        );
     return lds;
 }
 }
@@ -289,16 +289,18 @@ void RendererSystem::Update( double DeltaTime )
     auto const& lights = getLights();
 
     std::vector<Camera const*> cameras;
-    Projection lightCamProjection( -500, 500 );
-    float distanceMult = mWorldProjector.GetVisibleRegion().y * 1.0f / lightCamProjection.GetVisibleRegion().y;
+    std::vector<std::unique_ptr<Projection> > tempProjections;
     std::vector<std::unique_ptr<Camera> > tempCameras;
     cameras.push_back( &mCamera );
     // add cameras for lights
     for( auto const& light : lights )
     {
-        std::unique_ptr<Camera> cam( new Camera( lightCamProjection ) );
+        GLfloat lightSize = light.lightC.IsValid() ? light.lightC->GetRadius() : 10.0;
+        std::unique_ptr<Projection> proj( new Projection( -lightSize * 1.5, lightSize * 1.5 ) );
+        std::unique_ptr<Camera> cam( new Camera( *proj ) );
         cam->SetCenter( light.center );
         cameras.push_back( cam.get() );
+        tempProjections.push_back( std::move( proj ) );
         tempCameras.push_back( std::move( cam ) );
     }
 
@@ -392,16 +394,20 @@ void RendererSystem::Update( double DeltaTime )
             // direct sunlight end
 
             auto lightCamIt = tempCameras.begin();
+            auto lightProjIt = tempProjections.begin();
             for( auto const& light : lights )
             {
                 auto const& lightCam = **lightCamIt++;
+                auto const& camProjection = **lightProjIt++;
                 GLfloat lightSize = light.lightC.IsValid() ? light.lightC->GetRadius() : -1.0;
                 glm::vec4 pos( light.center.x, light.center.y, 1, 1 );
+                glm::vec4 sizePos( light.center.x + lightSize, light.center.y + lightSize, 1, 1 );
                 GLfloat ori = light.orientation; // radians
                 GLfloat aperture = ( light.lightC.IsValid() ? light.lightC->GetAperture() : 0 ) * 3.141592654 / 180.0;
                 GLfloat fsaperture = ( light.lightC.IsValid() ? light.lightC->GetFullStrengthAperture() : 0 ) * 3.141592654 / 180.0;
                 // lightPos4 is in player view space
                 auto lightPos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * pos;
+                auto sizePos4 =  mCamera.GetProjection().GetMatrix() * mCamera.GetView() * sizePos;
                 // create camera with max light range range, pos center
                 // use that cam + world to render outline to small shadow map
                 // use small shadow map to create 1d map
@@ -418,6 +424,7 @@ void RendererSystem::Update( double DeltaTime )
                 glm::vec2 shadowsize( lightCam.GetProjection().GetViewport().Size() * shadowmult );
                 glm::vec2 uwsize( shadowsize.x, 1 );
                 glm::vec2 lightPos = glm::vec2( lightPos4.x + 1, lightPos4.y + 1 ) / 2.0;
+                glm::vec2 sizePos2 = glm::vec2( sizePos4.x + 1, sizePos4.y + 1 ) / 2.0;
                 glm::vec2 lightPosInShadowTex( 0.5, 0.5 );
                 // lightpos: 0..1 ^2 ( vagy screenen kivul )
                 rt.SetTargetTexture( unwrap, RenderTargetProps( uwsize, { GL_RGBA } ) );
@@ -427,12 +434,13 @@ void RendererSystem::Update( double DeltaTime )
                         ShaderMgr.UploadData( "lightPosition", lightPosInShadowTex );
                         ShaderMgr.UploadData( "lightSize", lightSize );
                     } );
-
                 rt.SelectTargetTexture( lightrl );
+                float distanceMult = mWorldProjector.GetVisibleRegion().y * 1.0f / camProjection.GetVisibleRegion().y;
                 mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( unwrap ), lightsid,
                     [&](ShaderManager& ShaderMgr)->void{
                         ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
                         ShaderMgr.UploadData( "lightPosition", lightPos );
+                        ShaderMgr.UploadData( "lightRect", sizePos2 );
                         ShaderMgr.UploadData( "lightSize", lightSize );
                         ShaderMgr.UploadData( "distanceMult", distanceMult );
                         ShaderMgr.UploadData( "maxShadow", maxShadow );

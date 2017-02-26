@@ -1855,6 +1855,7 @@ lifecycle_message_handler_sub_system.h
 lifecycle_sender_system
 light
 lightPosition
+lightRect
 lightSize
 lightTexture
 lightVec

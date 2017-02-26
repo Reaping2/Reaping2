@@ -8,6 +8,7 @@ uniform float fsaperture;
 uniform float distanceMult;
 uniform float maxShadow;
 uniform float lightSize;
+uniform vec2 lightRect;
 uniform sampler2D texture;
 smooth in vec2 inTexCoord;
 out vec4 outputColor[2];
@@ -28,18 +29,23 @@ float coneScale( float facing, float target, float fsapert, float apert )
 void main()
 {
     vec2 uv = -1 * ( inTexCoord - lightPosition ) * 2.0;
+    vec2 uvCorner = -1 * ( lightRect - lightPosition ) * 2.0;
     float theta = clamp( atan( uv.y, uv.x ) / pi * 0.5 + 0.5, 0, 1 );
     float rad = length( uv ) * distanceMult;
+    vec2 uvFO = uv;
     uv.y *= resolution.y / resolution.x;
+    uvFO.x *= resolution.x / resolution.y;
+    uvCorner.x *= resolution.x / resolution.y;
     float target = atan( uv.y, uv.x );
-    float falloffDist = length( uv );
+    float falloffDist = length( uvFO );
+    float falloffDistCorner = length( uvCorner );
     float firstOccluder = texture2D( texture, vec2( theta, 0.5 ) ).r;
     if( !isInCone( heading + pi, target, aperture ) )
     {
         firstOccluder = 0; 
     }
 
-    float distfactor = smoothstep( 0.15, 0.45, falloffDist );
+    float distfactor = smoothstep( min( 0.15, falloffDistCorner ), falloffDistCorner, falloffDist );
     float shadow = distfactor;
     if( ( 1 > firstOccluder && firstOccluder < rad ) || lightSize <= 0.0 )
     {
