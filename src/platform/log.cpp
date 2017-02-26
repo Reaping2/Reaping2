@@ -6,6 +6,7 @@
 #include <cstdarg>
 #include <memory>
 #include <iosfwd>
+#include <cctype>
 #include <boost/format.hpp>
 #include "game_clock.h"
 
@@ -38,9 +39,33 @@ LogEntryDesc const& LogEntry::desc() const
     return mDesc;
 }
 
+namespace {
+bool needsWS( std::stringstream& mContent )
+{
+    if( mContent.rdbuf()->in_avail() < 1 )
+    {
+        return false;
+    }
+    mContent.seekg( -1, mContent.end );
+    return std::isspace( mContent.peek() );
+}
+}
+
+void LogEntry::beforeWrite()
+{
+    if( needsWS( mContent ) )
+    {
+        mContent << " ";
+    }
+}
+
+void LogEntry::afterWrite()
+{
+}
+
 std::string LogEntry::print() const
 {
-    return boost::str( boost::format( "%1% %2% %3% %4% %5% [%6%] : %7%\n" ) % mDesc.timestamp % mDesc.subsystem % mDesc.level % mDesc.file % mDesc.line % mDesc.function % mContent.str() );
+    return boost::str( boost::format( "[%1%] %2% %3% %4% %5% [%6%] : %7%\n" ) % mDesc.timestamp % mDesc.subsystem % mDesc.level % mDesc.file % mDesc.line % mDesc.function % mContent.str() );
 }
 
 void Logger::Log( LogEntry const& entry )

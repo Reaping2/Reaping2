@@ -43,11 +43,15 @@ class LogEntry
 {
     std::stringstream mContent;
     LogEntryDesc mDesc;
+    void beforeWrite();
+    void afterWrite();
 public:
     template<typename T>
     LogEntry& operator << ( T const& t )
     {
+        beforeWrite();
         mContent << t;
+        afterWrite();
         return *this;
     }
     LogEntry( LogEntryDesc const& desc );
@@ -61,7 +65,11 @@ public:
 #define LOG(...) platform::Logger::Get().Log(0,__VA_ARGS__)
 #define L1(...) platform::Logger::Get().Log(1,__VA_ARGS__)
 #define L2(...) platform::Logger::Get().Log(2,__VA_ARGS__)
-#define LS( system, level ) LogEntry( LogEntryDesc::create( level, system, __LINE__, __FILE__, BOOST_CURRENT_FUNCTION ) )
-#define LL() LS( "undefined", 1 )
+#define LS( system, level ) LogEntry( LogEntryDesc::create( (level), (system), __LINE__, __FILE__, BOOST_CURRENT_FUNCTION ) )
+#ifndef SUBSYSTEM
+#define SUBSYSTEM "undefined"
+#endif // SUBSYSTEM
+#define LL() LS( SUBSYSTEM, 1 )
+#define LN( X ) LS( SUBSYSTEM, (X) )
 
 #endif//INCLUDED_PLATFORM_LOG_H

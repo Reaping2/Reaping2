@@ -5,6 +5,7 @@ file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 
 add_library(${dirnam} STATIC ${${dirnam}_source_files})
 target_link_libraries(${dirnam} platform buffs map scripted_controller)
+add_definitions(-DSUBSYSTEM="${dirnam}")
 
 add_precompiled_header(${dirnam} pch.h)
 add_subdirectory(buffs)
