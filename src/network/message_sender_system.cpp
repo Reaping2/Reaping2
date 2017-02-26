@@ -1,18 +1,6 @@
 #include "network/message_sender_system.h"
 namespace network {
 
-ActorFrequencyTimer::ActorFrequencyTimer( double frequency, int32_t actorId )
-    : FrequencyTimer()
-    , mActorId( actorId )
-{
-    SetFrequency( frequency );
-}
-
-int32_t ActorFrequencyTimer::GetActorId() const
-{
-    return mActorId;
-}
-
 MessageSenderSystem::MessageSenderSystem()
     : mFrequencyTimer()
     , mMessageHolder( MessageHolder::Get() )
@@ -28,7 +16,7 @@ void MessageSenderSystem::Update( double DeltaTime )
     mFrequencyTimer.Update( DeltaTime );
 }
 
-bool MessageSenderSystem::IsTime()
+bool MessageSenderSystem::IsTime() const
 {
     return mFrequencyTimer.IsTime();
 }
@@ -43,44 +31,14 @@ void MessageSenderSystem::Init()
     mFrequencyTimer.Reset();
 }
 
-bool MessageSenderSystem::IsClient()
+bool MessageSenderSystem::IsClient() const
 {
     return mIsClient;
 }
 
-bool MessageSenderSystem::IsServer()
+bool MessageSenderSystem::IsServer() const
 {
     return mIsServer;
-}
-
-
-
-
-
-void ActorFrequencyTimerHolder::Add( ActorFrequencyTimer const& actorFrequencyTimer )
-{
-    mActorFrequencyTimers.push_back( actorFrequencyTimer );
-}
-
-void ActorFrequencyTimerHolder::Update( double DeltaTime )
-{
-    for( ActorFrequencyTimers_t::iterator it = mActorFrequencyTimers.begin(), e = mActorFrequencyTimers.end(); it != e; ++it )
-    {
-        it->Update( DeltaTime );
-    }
-}
-
-ActorFrequencyTimerHolder::ActorIds_t ActorFrequencyTimerHolder::GetActorIds()
-{
-    ActorIds_t actorIds;
-    for( ActorFrequencyTimers_t::iterator it = mActorFrequencyTimers.begin(), e = mActorFrequencyTimers.end(); it != e; ++it )
-    {
-        if ( it->IsTime() )
-        {
-            actorIds.insert( it->GetActorId() );
-        }
-    }
-    return actorIds;
 }
 
 } // namespace network

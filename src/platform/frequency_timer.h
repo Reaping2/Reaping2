@@ -16,7 +16,7 @@ class FrequencyTimer
 public:
     FrequencyTimer();
     bool Update( double DeltaTime );
-    bool IsTime();
+    bool IsTime() const;
     int32_t GetElapsedTicks();
     void SetFrequency( double frequency );
     double GetFrequency() const;

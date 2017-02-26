@@ -4,15 +4,27 @@
 #include <portable_oarchive.hpp>
 namespace network {
 
+
+void HeadingMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateHeadingMessage( actor ) );
+}
+
+
+void HeadingMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateHeadingMessage( actor ) );
+}
+
 HeadingMessageSenderSystem::HeadingMessageSenderSystem()
-    : MessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "heading" ) )
 {
 
 }
 
 void HeadingMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
+    ActorTimerMessageSenderSystem::Init();
     SetFrequency( 0.01 );
     //        mSendHeadings.insert(platform::AutoId("player"));
     if ( mProgramState.mMode == ProgramState::Server )
@@ -36,7 +48,7 @@ void HeadingMessageSenderSystem::Init()
 
 void HeadingMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update( DeltaTime );
+    ActorTimerMessageSenderSystem::Update( DeltaTime );
     mActorFrequencyTimerHolder.Update( DeltaTime );
     if ( !IsTime() )
     {
@@ -56,7 +68,7 @@ void HeadingMessageSenderSystem::Update( double DeltaTime )
             std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( actor ) );
             if ( HeadingMessage.get() != NULL )
             {
-                mSingleMessageSender.Add( actor.GetGUID(), HeadingMessage );
+                mUniqueMessageSender.Add( actor.GetGUID(), HeadingMessage );
             }
         }
     }
@@ -68,7 +80,7 @@ void HeadingMessageSenderSystem::Update( double DeltaTime )
             std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( *player ) );
             if ( HeadingMessage.get() != NULL )
             {
-                mSingleMessageSender.Add( player->GetGUID(), HeadingMessage );
+                mUniqueMessageSender.Add( player->GetGUID(), HeadingMessage );
             }
         }
     }

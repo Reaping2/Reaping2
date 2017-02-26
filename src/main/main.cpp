@@ -247,7 +247,7 @@ int main( int argc, char* argv[] )
     Eng.AddSystem( AutoId( "capture_the_flag_game_mode_system" ) );
     Eng.AddSystem( AutoId( "rogue_game_mode_system" ) );
     Eng.AddSystem( AutoId( "leaderboard_system" ) );
-
+    Eng.AddSystem( AutoId( "message_timer_system" ) );
     Eng.AddSystem( AutoId( "waypoint_system" ) );
     if (programState.mMode != ProgramState::Client)
     {

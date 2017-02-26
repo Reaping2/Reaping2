@@ -4,21 +4,33 @@
 #include <portable_oarchive.hpp>
 namespace network {
 
+
+void PlayerControllerMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateMessage( actor ) );
+}
+
+
+void PlayerControllerMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateMessage( actor ) );
+}
+
 PlayerControllerMessageSenderSystem::PlayerControllerMessageSenderSystem()
-    : MessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "player_controller" ) )
 {
 
 }
 
 void PlayerControllerMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
+    ActorTimerMessageSenderSystem::Init();
     SetFrequency( 0.01 );
 }
 
 void PlayerControllerMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update( DeltaTime );
+    ActorTimerMessageSenderSystem::Update( DeltaTime );
     if ( !IsTime() )
     {
         return;
@@ -27,22 +39,30 @@ void PlayerControllerMessageSenderSystem::Update( double DeltaTime )
     Opt<Actor> actor = mScene.GetActor( mProgramState.mControlledActorGUID );
     if ( actor.IsValid() )
     {
-        Opt<PlayerControllerComponent> playerControllerC = actor->Get<IControllerComponent>();
-        if ( playerControllerC.IsValid() )
-        {
-            std::auto_ptr<PlayerControllerMessage> playerControllerMsg( new PlayerControllerMessage );
-            playerControllerMsg->mActorGUID = actor->GetGUID();
-            playerControllerMsg->mOrientation = std::floor( playerControllerC->mOrientation * PRECISION );
-            playerControllerMsg->mHeading = std::floor( playerControllerC->mHeading * PRECISION );
-            playerControllerMsg->mShoot = playerControllerC->mShoot;
-            playerControllerMsg->mShootAlt = playerControllerC->mShootAlt;
-            playerControllerMsg->mUseNormalItem = playerControllerC->mUseNormalItem;
-            playerControllerMsg->mUseReload = playerControllerC->mUseReload;
-            playerControllerMsg->mMoving = playerControllerC->mMoving;
-            playerControllerMsg->mActivate = playerControllerC->mActivate;
-            mMessageHolder.AddOutgoingMessage( playerControllerMsg );
-        }
+        mMessageHolder.AddOutgoingMessage( GenerateMessage(*actor) );
     }
+}
+
+
+std::auto_ptr<PlayerControllerMessage> PlayerControllerMessageSenderSystem::GenerateMessage( Actor& actor )
+{
+    Opt<PlayerControllerComponent> playerControllerC = actor.Get<IControllerComponent>();
+    if (!playerControllerC.IsValid())
+    {
+        return std::auto_ptr<PlayerControllerMessage>();
+    }
+    std::auto_ptr<PlayerControllerMessage> playerControllerMsg( new PlayerControllerMessage );
+    playerControllerMsg->mActorGUID = actor.GetGUID();
+    playerControllerMsg->mOrientation = std::floor( playerControllerC->mOrientation * PRECISION );
+    playerControllerMsg->mHeading = std::floor( playerControllerC->mHeading * PRECISION );
+    playerControllerMsg->mShoot = playerControllerC->mShoot;
+    playerControllerMsg->mShootAlt = playerControllerC->mShootAlt;
+    playerControllerMsg->mUseNormalItem = playerControllerC->mUseNormalItem;
+    playerControllerMsg->mUseReload = playerControllerC->mUseReload;
+    playerControllerMsg->mMoving = playerControllerC->mMoving;
+    playerControllerMsg->mActivate = playerControllerC->mActivate;
+    return playerControllerMsg;
+    
 }
 
 PlayerControllerMessageHandlerSubSystem::PlayerControllerMessageHandlerSubSystem()
@@ -102,6 +122,20 @@ void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
     {
         playerControllerC->mActivate.Deactivate();
     }
+}
+
+
+bool PlayerControllerMessage::operator==( PlayerControllerMessage const& other )
+{
+    return mActorGUID == other.mActorGUID
+        && mOrientation == other.mOrientation
+        && mHeading == other.mHeading
+        && mShoot == other.mShoot
+        && mShootAlt == other.mShootAlt
+        && mUseNormalItem == other.mUseNormalItem
+        && mUseReload == other.mUseReload
+        && mMoving == other.mMoving
+        && mActivate == other.mActivate;
 }
 
 } // namespace engine

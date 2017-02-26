@@ -51,6 +51,10 @@ void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Remove( MESSAGE_ID messa
 template<class MESSAGE_ID, class MESSAGE>
 void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Add( MESSAGE_ID messageId, std::auto_ptr<MESSAGE> message )
 {
+    if (message.get() == nullptr)
+    {
+        return;
+    }
     typename MessageMap_t::iterator it = mMessageMap.find( messageId );
     if ( it != mMessageMap.end() )
     {

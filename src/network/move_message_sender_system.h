@@ -10,11 +10,12 @@ namespace network {
 
 
 
-class MoveMessageSenderSystem: public MessageSenderSystem
+class MoveMessageSenderSystem: public ActorTimerMessageSenderSystem<MoveMessage>
 {
     typedef std::set<int32_t> SendMovess_t;
     SendMovess_t mSendMoves;
-    AutoActorGUIDSingleMessageSender<MoveMessage> mSingleMessageSender;
+    virtual void AddUniqueMessage( Actor& actor );
+    virtual void AddMandatoryMessage( Actor& actor );
 public:
     DEFINE_SYSTEM_BASE( MoveMessageSenderSystem )
     MoveMessageSenderSystem();

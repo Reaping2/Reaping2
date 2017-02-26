@@ -4,15 +4,26 @@
 #include <portable_oarchive.hpp>
 namespace network {
 
-OrientationMessageSenderSystem::OrientationMessageSenderSystem()
-    : MessageSenderSystem()
-{
 
+void OrientationMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateOrientationMessage( actor ) );
+}
+
+
+void OrientationMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateOrientationMessage( actor ) );
+}
+
+OrientationMessageSenderSystem::OrientationMessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "orientation" ) )
+{
 }
 
 void OrientationMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
+    ActorTimerMessageSenderSystem::Init();
     SetFrequency( 0.01 );
     //mSendOrientations.insert(platform::AutoId("player"));
     if ( mProgramState.mMode == ProgramState::Server )
@@ -33,7 +44,7 @@ void OrientationMessageSenderSystem::Init()
 }
 void OrientationMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update( DeltaTime );
+    ActorTimerMessageSenderSystem::Update( DeltaTime );
     mActorFrequencyTimerHolder.Update( DeltaTime );
     if ( !IsTime() )
     {
@@ -53,7 +64,7 @@ void OrientationMessageSenderSystem::Update( double DeltaTime )
             std::auto_ptr<OrientationMessage> orientationMessage( GenerateOrientationMessage( actor ) );
             if ( orientationMessage.get() != NULL )
             {
-                mSingleMessageSender.Add( actor.GetGUID(), orientationMessage );
+                mUniqueMessageSender.Add( actor.GetGUID(), orientationMessage );
             }
         }
     }
@@ -65,7 +76,7 @@ void OrientationMessageSenderSystem::Update( double DeltaTime )
             std::auto_ptr<OrientationMessage> orientationMessage( GenerateOrientationMessage( *player ) );
             if ( orientationMessage.get() != NULL )
             {
-                mSingleMessageSender.Add( player->GetGUID(), orientationMessage );
+                mUniqueMessageSender.Add( player->GetGUID(), orientationMessage );
             }
         }
     }

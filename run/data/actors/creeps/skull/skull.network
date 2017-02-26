@@ -1,0 +1,38 @@
+[
+    {
+        "message_name":"orientation",
+        "name": "skull",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"heading",
+        "name": "skull",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"move",
+        "name": "skull",
+        "server":
+        {
+            "unique_frequency":0.5,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "skull",
+        "server":
+        {
+            "unique_frequency":0.3,
+            "mandatory_frequency":1.0
+        }
+    }    
+]

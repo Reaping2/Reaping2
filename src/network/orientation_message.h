@@ -46,12 +46,13 @@ public:
     virtual void Execute( Message const& message );
 };
 
-class OrientationMessageSenderSystem: public MessageSenderSystem
+class OrientationMessageSenderSystem: public ActorTimerMessageSenderSystem<OrientationMessage>
 {
     typedef std::set<int32_t> SendOrientations_t;
     SendOrientations_t mSendOrientations;
-    AutoActorGUIDSingleMessageSender<OrientationMessage> mSingleMessageSender;
     ActorFrequencyTimerHolder mActorFrequencyTimerHolder;
+    virtual void AddUniqueMessage( Actor& actor );
+    virtual void AddMandatoryMessage( Actor& actor );
 public:
     DEFINE_SYSTEM_BASE( OrientationMessageSenderSystem )
     OrientationMessageSenderSystem();

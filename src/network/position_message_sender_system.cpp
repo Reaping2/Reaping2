@@ -5,15 +5,26 @@
 namespace network {
 
 
+void PositionMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GeneratePositionMessage( actor ) );
+}
+
+
+void PositionMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GeneratePositionMessage( actor ) );
+}
+
 PositionMessageSenderSystem::PositionMessageSenderSystem()
-    : MessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "position" ) )
 {
 
 }
 
 void PositionMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
+    ActorTimerMessageSenderSystem::Init();
     SetFrequency( 0.01 );
     //         mSendPositions.insert(platform::AutoId("player"));
     //         mSendPositions.insert(platform::AutoId("spider1"));
@@ -41,7 +52,7 @@ void PositionMessageSenderSystem::Init()
 
 void PositionMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update( DeltaTime );
+    ActorTimerMessageSenderSystem::Update( DeltaTime );
     mActorFrequencyTimerHolder.Update( DeltaTime );
     if ( !IsTime() )
     {

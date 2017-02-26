@@ -45,3 +45,9 @@ bool Trigger::IsActive() const
     return mActive;
 }
 
+bool Trigger::operator==( Trigger const& other )
+{
+    return mActive == other.mActive
+        && mTriggered == other.mTriggered;
+}
+

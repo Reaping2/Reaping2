@@ -31,7 +31,7 @@ int32_t FrequencyTimer::GetElapsedTicks()
     return mElapsedTicks;
 }
 
-bool FrequencyTimer::IsTime()
+bool FrequencyTimer::IsTime() const
 {
     return mElapsedTicks > 0 || mFrequency == 0.0;
 }

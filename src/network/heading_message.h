@@ -6,6 +6,7 @@
 #include "network/message_sender_system.h"
 #include "single_message_sender.h"
 #include "platform/export.h"
+#include "actor_frequency_timer.h"
 namespace network {
 
 class HeadingMessage: public Message
@@ -46,12 +47,13 @@ public:
     virtual void Execute( Message const& message );
 };
 
-class HeadingMessageSenderSystem: public MessageSenderSystem
+class HeadingMessageSenderSystem: public ActorTimerMessageSenderSystem<HeadingMessage>
 {
     typedef std::set<int32_t> SendHeadings_t;
     SendHeadings_t mSendHeadings;
-    AutoActorGUIDSingleMessageSender<HeadingMessage> mSingleMessageSender;
     ActorFrequencyTimerHolder mActorFrequencyTimerHolder;
+    virtual void AddUniqueMessage( Actor& actor );
+    virtual void AddMandatoryMessage( Actor& actor );
 public:
     DEFINE_SYSTEM_BASE( HeadingMessageSenderSystem )
     HeadingMessageSenderSystem();

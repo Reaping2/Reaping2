@@ -4,73 +4,83 @@
 namespace network {
 
 
-    MoveMessageSenderSystem::MoveMessageSenderSystem()
-        : MessageSenderSystem()
-    {
+void MoveMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateMoveMessage( actor ) );
+}
 
-    }
 
-    void MoveMessageSenderSystem::Init()
+void MoveMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateMoveMessage( actor ) );
+}
+
+MoveMessageSenderSystem::MoveMessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "move" ) )
+{
+}
+
+void MoveMessageSenderSystem::Init()
+{
+    ActorTimerMessageSenderSystem::Init();
+    SetFrequency(0.01);
+    if (mProgramState.mMode == ProgramState::Server)
     {
-        MessageSenderSystem::Init();
-        SetFrequency(0.01);
-        if (mProgramState.mMode == ProgramState::Server)
-        {
-            mSendMoves.insert(platform::AutoId("player"));
-            mSendMoves.insert(platform::AutoId("ctf_player"));
-            mSendMoves.insert(platform::AutoId("spider1"));
-            mSendMoves.insert(platform::AutoId("spider2")); //tutucskaa :)
-            mSendMoves.insert(platform::AutoId("spider1target"));
-            mSendMoves.insert(platform::AutoId("spider2target"));
-            mSendMoves.insert(platform::AutoId("rocket_launcher_target_projectile"));
-            mSendMoves.insert(platform::AutoId("rusty_reaper_projectile"));
-            mSendMoves.insert(platform::AutoId( "grenade_projectile" ) );
-            mSendMoves.insert(platform::AutoId( "blue_grenade_projectile" ) );
-         }
-        else if (mProgramState.mMode == ProgramState::Client)
-        {
-            mSendMoves.insert(platform::AutoId("player"));
-            mSendMoves.insert(platform::AutoId("ctf_player"));
+        mSendMoves.insert(platform::AutoId("player"));
+        mSendMoves.insert(platform::AutoId("ctf_player"));
+        mSendMoves.insert(platform::AutoId("spider1"));
+        mSendMoves.insert(platform::AutoId("spider2")); //tutucskaa :)
+        mSendMoves.insert(platform::AutoId("spider1target"));
+        mSendMoves.insert(platform::AutoId("spider2target"));
+        mSendMoves.insert(platform::AutoId("rocket_launcher_target_projectile"));
+        mSendMoves.insert(platform::AutoId("rusty_reaper_projectile"));
+        mSendMoves.insert(platform::AutoId( "grenade_projectile" ) );
+        mSendMoves.insert(platform::AutoId( "blue_grenade_projectile" ) );
         }
-    }
-
-    void MoveMessageSenderSystem::Update(double DeltaTime)
+    else if (mProgramState.mMode == ProgramState::Client)
     {
-        MessageSenderSystem::Update(DeltaTime);
-        if (!IsTime())
+        mSendMoves.insert(platform::AutoId("player"));
+        mSendMoves.insert(platform::AutoId("ctf_player"));
+    }
+}
+
+void MoveMessageSenderSystem::Update(double DeltaTime)
+{
+    ActorTimerMessageSenderSystem::Update(DeltaTime);
+    if (!IsTime())
+    {
+        return;
+    }
+    if (mProgramState.mMode == ProgramState::Server)
+    {
+        for (ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it)
         {
-            return;
-        }
-        if (mProgramState.mMode == ProgramState::Server)
-        {
-            for (ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it)
+            Actor& actor = **it;
+            if (mSendMoves.find(actor.GetId()) == mSendMoves.end())
             {
-                Actor& actor = **it;
-                if (mSendMoves.find(actor.GetId()) == mSendMoves.end())
-                {
-                    continue;
-                }
-                std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(actor));
-                if (moveMessage.get() != NULL)
-                {
-                    //L1( "Add move message %d, move: %d \n",actor.GetGUID(),moveMessage->mMoving );
-                    mSingleMessageSender.Add(actor.GetGUID(), moveMessage);
-                }
+                continue;
+            }
+            std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(actor));
+            if (moveMessage.get() != NULL)
+            {
+                //L1( "Add move message %d, move: %d \n",actor.GetGUID(),moveMessage->mMoving );
+                mUniqueMessageSender.Add(actor.GetGUID(), moveMessage);
             }
         }
-        else if (mProgramState.mMode == ProgramState::Client)
+    }
+    else if (mProgramState.mMode == ProgramState::Client)
+    {
+        Opt<Actor> player(mScene.GetActor(mProgramState.mControlledActorGUID));
+        if (player.IsValid())
         {
-            Opt<Actor> player(mScene.GetActor(mProgramState.mControlledActorGUID));
-            if (player.IsValid())
+            std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(*player));
+            if (moveMessage.get() != NULL)
             {
-                std::auto_ptr<MoveMessage> moveMessage(GenerateMoveMessage(*player));
-                if (moveMessage.get() != NULL)
-                {
-                    //L1( "Add move message %d, move: %d \n", player->GetGUID(), moveMessage->mMoving );
-                    mSingleMessageSender.Add(player->GetGUID(), moveMessage);
-                }
+                //L1( "Add move message %d, move: %d \n", player->GetGUID(), moveMessage->mMoving );
+                mUniqueMessageSender.Add(player->GetGUID(), moveMessage);
             }
         }
+    }
 
 
 }

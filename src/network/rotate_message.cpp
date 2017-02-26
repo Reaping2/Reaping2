@@ -10,15 +10,27 @@ bool RotateMessage::operator==( RotateMessage const& other )
         && mSpeed == other.mSpeed
         && mRotating == other.mRotating;
 }
+
+void RotateMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateRotateMessage( actor ) );
+}
+
+
+void RotateMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateRotateMessage( actor ) );
+}
+
 RotateMessageSenderSystem::RotateMessageSenderSystem()
-    : MessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "rotate" ) )
 {
 }
 
 
 void RotateMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
+    ActorTimerMessageSenderSystem::Init();
     SetFrequency( 0.01 );
     if (mProgramState.mMode == ProgramState::Server)
     {
@@ -29,7 +41,7 @@ void RotateMessageSenderSystem::Init()
 
 void RotateMessageSenderSystem::Update(double DeltaTime)
 {
-    MessageSenderSystem::Update(DeltaTime);
+    ActorTimerMessageSenderSystem::Update(DeltaTime);
     mActorFrequencyTimerHolder.Update( DeltaTime );
     if (mProgramState.mMode == ProgramState::Server)
     {
@@ -49,7 +61,7 @@ void RotateMessageSenderSystem::Update(double DeltaTime)
             std::auto_ptr<RotateMessage> rotateMessage( GenerateRotateMessage( actor ) );
             if (rotateMessage.get() != NULL)
             {
-                mSingleMessageSender.Add( actor.GetGUID(), rotateMessage );
+                mUniqueMessageSender.Add( actor.GetGUID(), rotateMessage );
             }
 
         }
