@@ -109,12 +109,12 @@ void MessageTimer::Load( const Json::Value& setters )
     }
     double freq = 0.0;
     if (Json::GetDouble( freqJson["unique_frequency"], freq )
-        && freq != -1)
+        && freq > -1)
     {
             mUniqueFrequencyTimerHolder.Add( { freq,actorId } );
     }
     if (Json::GetDouble( freqJson["mandatory_frequency"], freq )
-        && freq != -1)
+        && freq > -1)
     {
         mMandatoryFrequencyTimerHolder.Add( { freq,actorId } );
     }

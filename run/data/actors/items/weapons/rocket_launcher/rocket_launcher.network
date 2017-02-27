@@ -1,0 +1,29 @@
+[
+    {
+        "message_name":"heading",
+        "name": "rocket_launcher_target_projectile",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"move",
+        "name": "rocket_launcher_target_projectile",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "rocket_launcher_target_projectile",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    }    
+]

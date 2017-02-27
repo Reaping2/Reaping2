@@ -12,7 +12,6 @@ class PositionMessageSenderSystem: public ActorTimerMessageSenderSystem<Position
 {
     typedef std::set<int32_t> SendPositions_t;
     SendPositions_t mSendPositions;
-    AutoActorGUIDSingleMessageSender<PositionMessage> mSingleMessageSender;
     ActorFrequencyTimerHolder mActorFrequencyTimerHolder;
     virtual void AddUniqueMessage( Actor& actor );
     virtual void AddMandatoryMessage( Actor& actor );

@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/rotate_message.h"
 #include "core/i_rotate_component.h"
+#include "platform/settings.h"
 
 namespace network {
 
@@ -31,42 +32,17 @@ RotateMessageSenderSystem::RotateMessageSenderSystem()
 void RotateMessageSenderSystem::Init()
 {
     ActorTimerMessageSenderSystem::Init();
-    SetFrequency( 0.01 );
-    if (mProgramState.mMode == ProgramState::Server)
-    {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "rusty_reaper_alt_projectile" ) ) );
-    }
+    SetFrequency( Settings::Get().GetDouble( "network.frequency.rotate", 0.01 ) );
 }
 
 
 void RotateMessageSenderSystem::Update(double DeltaTime)
 {
     ActorTimerMessageSenderSystem::Update(DeltaTime);
-    mActorFrequencyTimerHolder.Update( DeltaTime );
-    if (mProgramState.mMode == ProgramState::Server)
+    if (!IsTime())
     {
-        auto mSendPositions = mActorFrequencyTimerHolder.GetActorIds();
-        if (mSendPositions.empty())
-        {
-            return;
-        }
-
-        for (ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it)
-        {
-            Actor& actor = **it;
-            if (mSendPositions.find( actor.GetId() ) == mSendPositions.end())
-            {
-                continue;
-            }
-            std::auto_ptr<RotateMessage> rotateMessage( GenerateRotateMessage( actor ) );
-            if (rotateMessage.get() != NULL)
-            {
-                mUniqueMessageSender.Add( actor.GetGUID(), rotateMessage );
-            }
-
-        }
+        return;
     }
-
 }
 
 RotateMessageHandlerSubSystem::RotateMessageHandlerSubSystem()

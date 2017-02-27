@@ -17,6 +17,26 @@
         },
         "y":60
     },
+    "network":
+    {
+        "threaded":1,
+        "wait_millisec":5,
+        "frequency":
+        {
+            "heading":0.01,
+            "rotate":0.01,
+            "player_controller":0.01,
+            "orientation":0.01,
+            "move":0.01,
+            "position":0.01
+        }
+    },
+    "performance":
+    {
+        "sleep":0,
+        "frame_rate":100,
+        "limit_frames":1
+    },
     "soldier_name":
     {
         "size":76,

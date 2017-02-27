@@ -1,0 +1,20 @@
+[
+    {
+        "message_name":"orientation",
+        "name": "flag",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "flag",
+        "server":
+        {
+            "unique_frequency":-1.0,
+            "mandatory_frequency":1.0
+        }
+    }    
+]

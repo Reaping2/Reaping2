@@ -2,6 +2,8 @@
 #include "core/player_controller_component.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "platform/settings.h"
+
 namespace network {
 
 
@@ -25,21 +27,15 @@ PlayerControllerMessageSenderSystem::PlayerControllerMessageSenderSystem()
 void PlayerControllerMessageSenderSystem::Init()
 {
     ActorTimerMessageSenderSystem::Init();
-    SetFrequency( 0.01 );
+    SetFrequency( Settings::Get().GetDouble( "network.frequency.player_controller", 0.01 ) );
 }
 
 void PlayerControllerMessageSenderSystem::Update( double DeltaTime )
 {
     ActorTimerMessageSenderSystem::Update( DeltaTime );
-    if ( !IsTime() )
+    if (!IsTime())
     {
         return;
-    }
-    //TODO: might need optimization
-    Opt<Actor> actor = mScene.GetActor( mProgramState.mControlledActorGUID );
-    if ( actor.IsValid() )
-    {
-        mMessageHolder.AddOutgoingMessage( GenerateMessage(*actor) );
     }
 }
 

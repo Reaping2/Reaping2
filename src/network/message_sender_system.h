@@ -43,11 +43,11 @@ public:
     virtual void Init();
     virtual void Update( double DeltaTime );
 protected:
-    // should put the message into mSingleMessageSender
+    // should put the message into mUniqueMessageSender
     virtual void AddUniqueMessage( Actor& actor ) = 0;
-    // should put the message into mSingleMessageSender
+    // should put the message into mMessageHolder
     virtual void AddMandatoryMessage( Actor& actor ) = 0;
-    AutoActorGUIDSingleMessageSender<MESSAGE> mUniqueMessageSender;
+    AutoActorGUIDUniqueMessageSender<MESSAGE> mUniqueMessageSender;
     int32_t mMessageJsonId;
     Opt<MessageTimerSystem> mMessageTimerSystem;
 
