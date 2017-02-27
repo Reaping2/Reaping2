@@ -296,6 +296,7 @@ void RendererSystem::Update( double DeltaTime )
     static uint32_t const worldEffects = rt.GetFreeId();
     static uint32_t const worldPostProcess = rt.GetFreeId();
     static uint32_t const worldDedicatedPostProcess = rt.GetFreeId();
+    static uint32_t const sunOutline = rt.GetFreeId();
     static uint32_t const sunDedicatedOutline = rt.GetFreeId();
     static uint32_t const cumulativeLight = rt.GetFreeId();
     static uint32_t const topcasters = rt.GetFreeId();
@@ -366,7 +367,7 @@ void RendererSystem::Update( double DeltaTime )
             uint32_t outline = topmost ? shadowOutline : shadowDedicatedOutline;
             uint32_t unwrap = topmost ? shadowUnwrap : shadowDedicatedUnwrap;
             uint32_t lightrl = topmost ? lightsLayer : lightsDedicated;
-            uint32_t sunline = topmost ? shadowOutline : sunDedicatedOutline;
+            uint32_t sunline = topmost ? sunOutline : sunDedicatedOutline;
 
             glBlendEquation( GL_FUNC_ADD );
             rt.SelectTargetTexture( world );
@@ -385,7 +386,7 @@ void RendererSystem::Update( double DeltaTime )
 
             // -- direct sunlight to outline
             // render the normal shadowcasters with a "tail" ( lightVec )
-            rt.SetTargetTexture( sunline, RenderTargetProps( mCamera.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4, GL_RGB4 } ) );
+            rt.SetTargetTexture( sunline, RenderTargetProps( mCamera.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
             SetupRenderer( mCamera, shadowmult );
             mActorRenderer.Draw(
                 std::bind( &selectShadowCasters, std::placeholders::_1, shadowLevel),
@@ -400,13 +401,14 @@ void RendererSystem::Update( double DeltaTime )
             // lightrl: r/g/b is the alpha from sunline
             // as GL_MAX uses rgb, no alpha
             SetupIdentity();
-            rt.SelectTargetTexture( lightrl );
+            rt.SelectTargetTexture( lightrl, true );
             mWorldRenderer.Draw( DeltaTime, rt.GetTextureId( sunline ), sunlight,
                 [&](ShaderManager& ShaderMgr)->void{
                     ShaderMgr.UploadData( "resolution", mCamera.GetProjection().GetViewport().Size() * shadowmult );
                     ShaderMgr.UploadData( "ambient", ambientLight );
                 } );
             // direct sunlight end
+            rt.SelectTargetTexture( lightrl );
 
             auto lightCamIt = tempCameras.begin();
             auto lightProjIt = tempProjections.begin();
@@ -427,7 +429,7 @@ void RendererSystem::Update( double DeltaTime )
                 // use that cam + world to render outline to small shadow map
                 // use small shadow map to create 1d map
                 // use that map + pos to render shadow layer
-                rt.SetTargetTexture( outline, RenderTargetProps( lightCam.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4 } ) );
+                rt.SetTargetTexture( outline, RenderTargetProps( lightCam.GetProjection().GetViewport().Size() * shadowmult, { GL_RGBA4, GL_RGB4 } ) );
                 SetupRenderer( lightCam, shadowmult );
                 mActorRenderer.Draw( std::bind( &selectShadowCastersExcept,
                             std::placeholders::_1,

@@ -113,6 +113,9 @@
 -a1
 -a3
 -a4
+.bump_map_mp.fs
+.lights.fs
+.shadow_unwrap.fs
 0x00000000
 0x00000044
 0x00007777

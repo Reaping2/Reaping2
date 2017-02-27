@@ -23,17 +23,8 @@ void main(void)
     vec3 ambient = ambientColor.rgb * ambientColor.a;
     if( lightSize <= 0.0 )
     {
-        if( normalColor.x == 1 &&
-            normalColor.y == 1 &&
-            normalColor.z == 1 )
-        {
-            outputColor = color;
-        }
-        else
-        {
-            outputColor = vec4(color.rgb * ambient, color.a);
-        }
-        return;   
+        outputColor = vec4(color.rgb * ambient, color.a);
+        return;
     }
     vec2 lightCoord = lightPosition;
     vec3 lightDir = vec3( lightCoord - inTexCoord, lightZ );
@@ -54,15 +45,6 @@ void main(void)
     vec3 intensity = ambient + diffuse * lighttcol.rgb * attenuation * lighttcol.a;
     vec3 finalColor = color.rgb * intensity;
 
-    if( normalColor.x == 1 &&
-        normalColor.y == 1 &&
-        normalColor.z == 1 )
-    {
-        outputColor = color;
-    }
-    else
-    {
-        outputColor = vec4( finalColor, color.a );
-    }
+    outputColor = vec4( finalColor, color.a );
 }
 
