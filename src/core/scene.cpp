@@ -99,17 +99,6 @@ void Scene::Update( double DeltaTime )
     //testing end
 
     InsertNewActors();
-    if (mHandleMapReadyCounter > -1)
-    {
-        --mHandleMapReadyCounter;
-    }
-    if (mHandleMapReadyCounter == 1)
-    {
-    }
-    if (mHandleMapReadyCounter==0)
-    {
-        L2( "Map Ready handled!\n" );
-    }
 }
 
 Scene::Scene()
@@ -463,11 +452,10 @@ Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )
 
 void Scene::OnMapStart( core::MapStartEvent const& Evt )
 {
-    L2( "Scene Maps start\n" );
+    L2( "Scene Map start\n" );
     if (Evt.mState == core::MapStartEvent::Ready)
     {
-        L2( "Scene Maps start READY\n" );
-        mHandleMapReadyCounter = 2;
+        L2( "Scene Map start READY\n" );
         mProgramState.mGameState = core::ProgramState::Running;
     }
 }
