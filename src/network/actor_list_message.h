@@ -13,13 +13,9 @@ class ActorListMessage : public Message
     friend class ::boost::serialization::access;
 public:
     DEFINE_MESSAGE_BASE( ActorListMessage )
-    ActorList_t* mActorList;
+    std::string mActorList;
     int32_t mClientId;
-    ActorListMessage()
-        : mActorList( NULL )
-        , mClientId( -1 )
-    {
-    }
+    ActorListMessage( ActorList_t* actorList = nullptr );
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 };

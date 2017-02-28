@@ -18,7 +18,7 @@ void ClientIdMessageHandlerSubSystem::Init()
 void ClientIdMessageHandlerSubSystem::Execute( Message const& message )
 {
     ClientIdMessage const& msg = static_cast<ClientIdMessage const&>( message );
-    L1( "executing clientid: name %s name's id: %d \n", msg.mName.c_str(), msg.mClientId );
+    L2( "executing clientid: name %s name's id: %d \n", msg.mName.c_str(), msg.mClientId );
     if ( msg.mName == mProgramState.mClientName )
     {
         L1( "that is my id\n" );

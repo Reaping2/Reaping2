@@ -37,7 +37,7 @@ int32_t LevelGeneratorMapElement::GetGeneratorId()const
 
 int32_t LevelGeneratorMapElement::GeneratorNodeId()
 {
-    static int32_t id = AutoId( "generator" );
+    static int32_t id = AutoId( "generate" );
     return id;
 }
 

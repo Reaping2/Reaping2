@@ -77,22 +77,32 @@
     },
     {
         "name":"link",
-        "from":{"identifier":"map_start","node":"start"},
-        "to":{"identifier":"ctf_spawn_soldiers","node":0}
+        "from":{"identifier":"map_start","node":"ready"},
+        "to":{"identifier":"ctf_spawn_soldiers","node":"spawn"}
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":"ready"},
+        "to":{"identifier":"ctf_spawn_flags","node":"spawn"}
     },
     {
         "name":"link",
         "from":{"identifier":"map_start","node":"start"},
-        "to":{"identifier":"ctf_spawn_flags","node":0}
+        "to":{"identifier":"spawn_at_start","node":"spawn"}
     },
     {
         "name":"link",
         "from":{"identifier":"map_start","node":"start"},
-        "to":{"identifier":"spawn_at_start","node":0}
+        "to":{"identifier":"map_start","node":"pre_actors_spawned"}
     },
     {
         "name":"link",
-        "from":{"identifier":"map_start","node":"start"},
+        "from":{"identifier":"map_start","node":"pre_actors_spawned"},
+        "to":{"identifier":"map_start","node":"actors_spawned"}
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":"actors_spawned"},
         "to":{"identifier":"map_start","node":"ready"}
     },
     {

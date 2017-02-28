@@ -61,7 +61,10 @@ void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( true );
-
+    if (ProgramState::Get().mMode == ProgramState::Client)
+    {
+        return;
+    }
     auto levelSelectionSystem = engine::Engine::Get().GetSystem<LevelSelectionSystem>();
     if ( levelSelectionSystem.IsValid() )
     {
@@ -70,10 +73,6 @@ void RogueGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& Evt )
     else
     {
         L1("failed to retrieve LevelSelectionSystem\n");
-        return;
-    }
-    if (ProgramState::Get().mMode == ProgramState::Client)
-    {
         return;
     }
 
@@ -99,14 +98,20 @@ void RogueGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     {
         Ui::Get().Load( "hud" );
     }
+    if (Evt.mState == core::MapStartEvent::ActorsSpawned&&mProgramState.mMode != ProgramState::Client)
+    {
+        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+    }
 }
 
 void RogueGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
 {
+    L2( "Map Load on game Mode:%d", mProgramState.mGameMode );
     if (GameModes::Rogue != mProgramState.mGameMode)
     {
         return;
     }
+    L2( "Map Load rogue game Mode!" );
     if (ProgramState::Get().mMode != ProgramState::Client)
     {
         mComponentMap.clear();

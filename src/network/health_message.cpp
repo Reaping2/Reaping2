@@ -55,7 +55,7 @@ bool HealthMessageHandlerSubSystem::ProcessPending( Message const& message )
         L1( "no health_component found guid:%s\n", msg.mActorGUID );
         return true;
     }
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
 
     healthC->SetHP( msg.mHP );
     healthC->GetMaxHP().mBase.Set( msg.mMaxHP );

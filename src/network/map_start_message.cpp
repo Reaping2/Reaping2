@@ -50,6 +50,7 @@ void MapStartMessageHandlerSubSystem::Update(double DeltaTime)
 void MapStartMessageHandlerSubSystem::Execute(Message const& message)
 {
     MapStartMessage const& msg=static_cast<MapStartMessage const&>(message);
+    L2( "Handle Map start %d!\n", msg.mState );
     EventServer<core::MapStartEvent>::Get().SendEvent( { msg.mState } );
 }
 

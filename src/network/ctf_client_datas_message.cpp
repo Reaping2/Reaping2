@@ -50,7 +50,7 @@ void ClientDatasMessageHandlerSubSystem::Init()
 void ClientDatasMessageHandlerSubSystem::Execute( Message const& message )
 {
     ClientDatasMessage const& msg = static_cast<ClientDatasMessage const&>( message );
-    L1( "executing ctf::ClientDatasMessageHandlerSubSystem from id: %d \n", msg.mSenderId );
+    L2( "executing ctf::ClientDatasMessageHandlerSubSystem from id: %d \n", msg.mSenderId );
     ::ctf::ProgramState& ctfProgramState =::ctf::ProgramState::Get();
     ctfProgramState.mClientDatas = msg.mClientDatas;
     for ( ::ctf::ProgramState::ClientDatas_t::iterator i = ctfProgramState.mClientDatas.begin(), e = ctfProgramState.mClientDatas.end(); i != e; ++i )

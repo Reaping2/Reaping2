@@ -28,6 +28,18 @@ void MapStartMapElementSystem::Update( double DeltaTime )
             EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::Started ) );
             mapStartMapElement->ResetValueId( MapStartMapElement::StartInputNodeId() );
         }
+        else if (mapStartMapElement->GetValueId( MapStartMapElement::PreActorsSpawnedInputNodeId() ) > 0)
+        {
+            L2( "MapStart element pre_actors_spawned\n" );
+            EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::PreActorsSpawned ) );
+            mapStartMapElement->ResetValueId( MapStartMapElement::PreActorsSpawnedInputNodeId() );
+        }
+        else if (mapStartMapElement->GetValueId( MapStartMapElement::ActorsSpawnedInputNodeId() ) > 0)
+        {
+            L2( "MapStart element actors_spawned\n" );
+            EventServer<core::MapStartEvent>::Get().SendEvent( core::MapStartEvent( core::MapStartEvent::ActorsSpawned ) );
+            mapStartMapElement->ResetValueId( MapStartMapElement::ActorsSpawnedInputNodeId() );
+        }
         else if (mapStartMapElement->GetValueId( MapStartMapElement::ReadyInputNodeId() ) > 0)
         {
             L2( "MapStart element ready\n" );
@@ -46,6 +58,14 @@ void MapStartMapElementSystem::OnMapStart( core::MapStartEvent const& Evt )
         if (Evt.mState == core::MapStartEvent::Started)
         {
             mapStartMapElement->DoOutputId( MapStartMapElement::StartOutputNodeId(), 1 );
+        }
+        else if (Evt.mState == core::MapStartEvent::PreActorsSpawned)
+        {
+            mapStartMapElement->DoOutputId( MapStartMapElement::PreActorsSpawnedOutputNodeId(), 1 );
+        }
+        else if (Evt.mState == core::MapStartEvent::ActorsSpawned)
+        {
+            mapStartMapElement->DoOutputId( MapStartMapElement::ActorsSpawnedOutputNodeId(), 1 );
         }
         else if (Evt.mState == core::MapStartEvent::Ready)
         {

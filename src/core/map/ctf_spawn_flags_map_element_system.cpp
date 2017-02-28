@@ -49,7 +49,7 @@ void CtfSpawnFlagsMapElementSystem::Update( double DeltaTime )
             //             {
             //                 // no local support for ctf
             //             }
-            L1( "spawn flags!" );
+            L2( "spawn flags!" );
         }
         ctfSpawnFlagsMapElement->ResetValues();
     }

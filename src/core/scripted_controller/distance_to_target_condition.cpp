@@ -34,7 +34,7 @@ bool DistanceToTargetCondition::IsSatisfied() const
 {
     if (mGreaterThan <= mDistance && mDistance <= mLessThan)
     {
-        L1( "distance_to_target satisfied\n" );
+        L2( "distance_to_target satisfied\n" );
     }
     return mGreaterThan <= mDistance && mDistance <= mLessThan;
 }

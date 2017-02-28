@@ -98,7 +98,7 @@ bool ItemLoaderRepo::LoadItemFromOneDesc( Json::Value& ItemDesc )
     {
         return true;
     }
-    L1( "Load item_loader: %s\n", nameStr.c_str() );
+    L2( "Load item_loader: %s\n", nameStr.c_str() );
     itemLoader.Load( *setters.begin() );
     return true;
 }

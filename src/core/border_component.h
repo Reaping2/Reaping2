@@ -42,7 +42,7 @@ void BorderComponent::serialize( Archive& ar, const unsigned int version )
     ar& boost::serialization::base_object<IBorderComponent>( *this );
     ar& mBorders;
     ar& mOuterBorders;
-    ar& mChanged;
+    //ar& mChanged;
     ar& mRandomSprites;
     ar& mSpriteIndex;
 }

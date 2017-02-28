@@ -41,7 +41,7 @@ void LifecycleMessageHandlerSubSystem::Init()
 void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
 {
     LifecycleMessage const& msg = static_cast<LifecycleMessage const&>( message );
-    L1( "executing lifecycle: state: %d \n", msg.mState );
+    L2( "executing lifecycle: state: %d \n", msg.mState );
     if ( mProgramState.mMode == ProgramState::Client
          && ( msg.mClientId == -1 || msg.mClientId == mProgramState.mClientId ) )
     {
@@ -114,11 +114,10 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
 
 void LifecycleMessageHandlerSubSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
-    if (Evt.mState == core::MapStartEvent::Ready&&mProgramState.mMode == ProgramState::Server)
+    if (Evt.mState == core::MapStartEvent::ActorsSpawned&&mProgramState.mMode == ProgramState::Server)
     {
-        std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage );
+        std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage( &Scene::Get().GetActors() ) );
         actorListMsg->mClientId = -1;
-        actorListMsg->mActorList = &Scene::Get().GetActors();
         mMessageHolder.AddOutgoingMessage( actorListMsg );
         L1( "Lifecycle ActorList Sent! %d\n",Scene::Get().GetActors().size() );
     }

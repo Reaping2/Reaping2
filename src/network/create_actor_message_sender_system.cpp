@@ -43,11 +43,11 @@ void CreateActorMessageSenderSystem::OnActorEvent( ActorEvent const& Evt )
     createActorMsg->mState = Evt.mState;
     if (createActorMsg->mState == ActorEvent::Removed)
     {
-        L1( "createactormessage remove sent  with (GUID:%d)\n", createActorMsg->mActorGUID );
+        L2( "createactormessage remove sent  with (GUID:%d)\n", createActorMsg->mActorGUID );
     }
     else if (createActorMsg->mState == ActorEvent::Added)
     {
-        L1( "createactormessage add sent  with (GUID:%d)\n", createActorMsg->mActorGUID );
+        L2( "createactormessage add sent  with (GUID:%d)\n", createActorMsg->mActorGUID );
     }
     mMessageHolder.AddOutgoingMessage( createActorMsg );
 }

@@ -42,7 +42,7 @@ bool FadeOutMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
     FadeOutMessage const& msg = static_cast<FadeOutMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IFadeOutComponent> fadeOutC = actor->Get<IFadeOutComponent>();
     if ( fadeOutC.IsValid() )
     {

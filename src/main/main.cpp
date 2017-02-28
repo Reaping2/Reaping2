@@ -254,8 +254,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "worm_head_system" ) );
         Eng.AddSystem( AutoId( "worm_body_system" ) );
 
-
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
+
         Eng.AddSystem( AutoId( "path_system" ) );
     }
     Eng.AddSystem( AutoId( "pulse_system" ) );
@@ -302,6 +302,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "data_checksum_message_sender_system" ) );
         Eng.AddSystem( AutoId( "map_start_message_sender_system" ) );
         Eng.AddSystem( AutoId( "map_load_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "suppress_message_sender_system" ) );
     }
     if (programState.mMode != ProgramState::Client)
     {
@@ -524,9 +525,9 @@ int main( int argc, char* argv[] )
     PhaseChangeEventServer.SendEvent( PhaseChangedEvent( ProgramPhase::Running ) );
     EventServer<CycleEvent>& CycleEventServer( EventServer<CycleEvent>::Get() );
 
-    L1( "ctf_client_datas_message type: %d\n", network::ctf::ClientDatasMessage::GetType_static() );
-    L1( "client_datas_message type: %d\n", network::ClientDatasMessage::GetType_static() );
-    L1( "soldier_properties_message type: %d\n", network::SoldierPropertiesMessage::GetType_static() );
+    L2( "ctf_client_datas_message type: %d\n", network::ctf::ClientDatasMessage::GetType_static() );
+    L2( "client_datas_message type: %d\n", network::ClientDatasMessage::GetType_static() );
+    L2( "soldier_properties_message type: %d\n", network::SoldierPropertiesMessage::GetType_static() );
 
     platform::Clock::Get().UpdateElapsedTime();
 

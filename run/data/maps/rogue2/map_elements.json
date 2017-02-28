@@ -18,22 +18,32 @@
     {
         "name":"link",
         "from":{"identifier":"map_start","node":"ready"},
-        "to":{"identifier":"spawn_soldiers","node":0}
+        "to":{"identifier":"spawn_soldiers","node":"spawn"}
     },
     {
         "name":"link",
-        "from":{"identifier":"level_generated","node":1},
-        "to":{"identifier":"recreate_borders","node":0}
+        "from":{"identifier":"map_start","node":"pre_actors_spawned"},
+        "to":{"identifier":"map_start","node":"actors_spawned"}
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"map_start","node":"actors_spawned"},
+        "to":{"identifier":"map_start","node":"ready"}
+    },
+    {
+        "name":"link",
+        "from":{"identifier":"level_generated","node":"actors_spawned"},
+        "to":{"identifier":"recreate_borders","node":"recreate"}
     },
     {
         "name":"link",
         "from":{"identifier":"map_start","node":"start"},
-        "to":{"identifier":"spawn_at_start","node":0}
+        "to":{"identifier":"spawn_at_start","node":"spawn"}
     },
     {
         "name":"link",
-        "from":{"identifier":"level_generated","node":1},
-        "to":{"identifier":"map_start","node":"ready"}
+        "from":{"identifier":"level_generated","node":"actors_spawned"},
+        "to":{"identifier":"map_start","node":"pre_actors_spawned"}
     },
     {
         "name":"soldier_auto_revive",
@@ -42,7 +52,7 @@
     {
         "name":"link",
         "from":{"identifier":"map_start","node":"start"},
-        "to":{"identifier":"generator","node":0}
+        "to":{"identifier":"generator","node":"generate"}
     },
     {
         "name":"level_generator",
@@ -54,9 +64,9 @@
             "cell_count":6,
             "route":
             {
-                "min_length":2,
-                "end_chance":30,
-                "chance_increase":30
+                "min_length":1,
+                "end_chance":100,
+                "chance_increase":100
             },
             "side_route":
             {

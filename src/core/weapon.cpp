@@ -336,7 +336,7 @@ double Scatter::GetCalculated() const
 
 void WeaponLoader::BindValues()
 {
-    L1( "Bind Weapon values \n" );
+    L2( "Bind Weapon values \n" );
     Bind( "shoot_cooldown", func_double( &Weapon::SetShootCooldown ) );
     Bind( "shoot_alt_cooldown", func_double( &Weapon::SetShootAltCooldown ) );
     Bind( "bullets", func_double( &Weapon::SetBullets ) );
@@ -362,7 +362,7 @@ void WeaponLoader::BindValues()
     Json::GetDouble( ( *mSetters )["scatter_alt_increase"], scatter.mAltIncrease );
     Json::GetDouble( ( *mSetters )["scatter_chill"], scatter.mChill );
     Json::GetDouble( ( *mSetters )["scatter_magic_number"], scatter.mMagicNumber );
-    L1( "Scatter in: %f %f %f %f", scatter.mIncrease, scatter.mAltIncrease, scatter.mChill, scatter.mMagicNumber );
+    L2( "Scatter in: %f %f %f %f", scatter.mIncrease, scatter.mAltIncrease, scatter.mChill, scatter.mMagicNumber );
     Bind<Scatter>( &Weapon::SetScatter, scatter );
     if (Json::GetStr( (*mSetters)["shot"], istr ))
     {

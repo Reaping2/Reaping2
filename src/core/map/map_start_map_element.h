@@ -16,6 +16,10 @@ public:
     void Load( Json::Value& setters );
     static int32_t StartInputNodeId();
     static int32_t StartOutputNodeId();
+    static int32_t PreActorsSpawnedInputNodeId();
+    static int32_t PreActorsSpawnedOutputNodeId();
+    static int32_t ActorsSpawnedInputNodeId();
+    static int32_t ActorsSpawnedOutputNodeId();
     static int32_t ReadyInputNodeId();
     static int32_t ReadyOutputNodeId();
 private:

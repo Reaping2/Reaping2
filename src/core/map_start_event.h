@@ -10,6 +10,8 @@ struct MapStartEvent : public platform::Event
     enum State
     {
         Started,
+        PreActorsSpawned,
+        ActorsSpawned,
         Ready
     } mState;
     MapStartEvent(State state):mState(state) {}

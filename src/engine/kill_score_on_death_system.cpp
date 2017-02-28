@@ -32,7 +32,7 @@ void KillScoreOnDeathSystem::Update( double DeltaTime )
         Opt<IHealthComponent> healthC = actor->Get<IHealthComponent>();
         if ( !killScoreOnDeathC->IsScored() && healthC.IsValid() && !healthC->IsAlive() )
         {
-            L1( "KillScoreOnDeath sent" );
+            L2( "KillScoreOnDeath sent" );
             EventServer<KillScoreEvent>::Get().SendEvent( KillScoreEvent( healthC->GetLastDamageOwnerGUID(), actor->GetGUID() ) );
             killScoreOnDeathC->SetScored( true );
         }
