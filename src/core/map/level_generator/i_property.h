@@ -23,7 +23,7 @@ class IProperty
 public:
     IProperty( int32_t Id );
     virtual ~IProperty() = default;
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
     virtual void Save( Json::Value& setters ) const;
     virtual int GetType() const;
     int32_t GetId() const;

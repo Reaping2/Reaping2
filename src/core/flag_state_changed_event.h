@@ -8,7 +8,7 @@ namespace ctf {
 
 struct FlagStateChangedEvent : public platform::Event
 {
-    enum Type
+    enum Type : int32_t
     {
         Captured = 0,
         Returned,

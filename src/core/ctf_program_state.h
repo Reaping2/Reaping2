@@ -14,7 +14,7 @@ protected:
     friend class platform::Singleton<Team>;
     Team();
 public:
-    enum Type
+    enum Type : int32_t
     {
         Red = 0,
         Blue,

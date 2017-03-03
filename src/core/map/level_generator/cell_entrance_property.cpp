@@ -14,7 +14,7 @@ CellEntranceProperty::CellEntranceProperty( int32_t Id )
 {
 }
 
-void CellEntranceProperty::Load( Json::Value& setters )
+void CellEntranceProperty::Load( Json::Value const& setters )
 {
     IProperty::Load( setters );
     int i = 0;

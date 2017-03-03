@@ -3,7 +3,7 @@
 
 #include <set>
 #include "platform/frequency_timer.h"
-#include <list>
+#include <vector>
 
 namespace network {
 
@@ -17,7 +17,7 @@ public:
 
 class ActorFrequencyTimerHolder
 {
-    typedef std::list<ActorFrequencyTimer> ActorFrequencyTimers_t;
+    typedef std::vector<ActorFrequencyTimer> ActorFrequencyTimers_t;
     ActorFrequencyTimers_t mActorFrequencyTimers;
 public:
     void Add( ActorFrequencyTimer const& actorFrequencyTimer );

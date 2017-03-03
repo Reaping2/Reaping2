@@ -66,7 +66,7 @@ MapStartMapElement::MapStartMapElement( int32_t Id )
     AddOutputNodeId( ReadyOutputNodeId() );
 }
 
-void MapStartMapElement::Load( Json::Value& setters )
+void MapStartMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     AddInputNodeId( StartInputNodeId() );

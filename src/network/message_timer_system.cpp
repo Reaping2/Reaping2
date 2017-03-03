@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "message_timer_system.h"
-#include "../core/program_state.h"
+#include "core/program_state.h"
+#include "../platform/filesystem_utils.h"
 
 namespace network {
 
@@ -12,43 +13,17 @@ MessageTimerSystem::MessageTimerSystem()
 
 void MessageTimerSystem::Init()
 {
-    using boost::filesystem::path;
-    Filesys& FSys = Filesys::Get();
-    PathVect_t Paths;
-    FSys.GetFileNames( Paths, "actors" );
-    for (auto const& Path : Paths)
+    fs_utils::for_each( "actors", ".network", [&]( Json::Value const& desc )
     {
-        if (Path.extension().string() != ".network")
+        std::string messageName;
+        if (!Json::GetStr( desc["message_name"], messageName ))
         {
-            continue;
+            return;
         }
-        AutoFile JsonFile = FSys.Open( Path );
-        if (!JsonFile.get())
-        {
-            continue;
-        }
-        JsonReader Reader( *JsonFile );
-        if (!Reader.IsValid())
-        {
-            continue;
-        }
-        Json::Value Root = Reader.GetRoot();
-        if (!Root.isArray())
-        {
-            continue;
-        }
-        for (auto& Desc : Root)
-        {
-            try
-            {
-                AddFromOneDesc( Desc );
-            }
-            catch (std::exception const& err)
-            {
-                L1( "Exception caught while parsing %s : %s", Path.generic_string().c_str(), err.what() );
-            }
-        }
-    }
+        int32_t messageId = AutoId( messageName );
+        auto& messageTimer = mMessageTimers[messageId];
+        messageTimer.Load( desc );
+    } );
 }
 
 void MessageTimerSystem::Update(double DeltaTime)
@@ -65,17 +40,6 @@ Opt<MessageTimer> MessageTimerSystem::GetMessageTimer( int32_t mMessageJsonId )
     return it == mMessageTimers.end() ? nullptr : &it->second;
 }
 
-void MessageTimerSystem::AddFromOneDesc( Json::Value& Root )
-{
-    std::string messageName;
-    if (!Json::GetStr( Root["message_name"], messageName ))
-    {
-        return;
-    }
-    int32_t messageId = AutoId( messageName );
-    auto& messageTimer = mMessageTimers[messageId];
-    messageTimer.Load( Root );
-}
 
 ActorFrequencyTimerHolder const& MessageTimer::GetUnique() const
 {
@@ -87,7 +51,7 @@ ActorFrequencyTimerHolder const& MessageTimer::GetMandatory() const
     return mMandatoryFrequencyTimerHolder;
 }
 
-void MessageTimer::Load( const Json::Value& setters )
+void MessageTimer::Load( Json::Value const& setters )
 {
     static auto& mProgramState( core::ProgramState::Get() );
     std::string messageName;

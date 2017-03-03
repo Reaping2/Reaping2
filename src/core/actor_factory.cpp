@@ -3,6 +3,7 @@
 #include "core/property_loader.h"
 #include "core/i_renderable_component.h"
 #include "component.h"
+#include "platform/filesystem_utils.h"
 
 ActorFactory::ActorFactory()
 {
@@ -20,81 +21,35 @@ std::auto_ptr<Actor> ActorFactory::CreateActor( int32_t Id )
 }
 
 
-bool ActorFactory::AddActorCreatorFromOneDesc( Json::Value& ActorsDesc, ActorCreatorMap_t& actorCreators )
-{
-    std::auto_ptr<ActorCreator> actorCreator( new ActorCreator() );
-    std::string nameStr;
-    if( !Json::GetStr( ActorsDesc["name"], nameStr ) )
-    {
-        return false;
-    }
-    actorCreator->SetId( AutoId( nameStr ) );
-    Json::Value& components = ActorsDesc["components"];
-    if ( !components.isArray() )
-    {
-        return false;
-    }
-    if ( components.empty() )
-    {
-        return true;
-    }
-    for( Json::Value::iterator i = components.begin(), e = components.end(); i != e; ++i )
-    {
-        Json::Value& component = *i;
-        std::string compName;
-        if ( !Json::GetStr( component["name"], compName ) )
-        {
-            return false;
-        }
-        Json::Value& setters = component["set"];
-        actorCreator->AddComponent( AutoId( compName ), setters );
-    }
-    int32_t actorCreatorId = actorCreator->GetId();
-    actorCreators.insert( actorCreatorId, actorCreator );
-    return true;
-}
-
 void ActorFactory::Init()
 {
-    PathVect_t Paths;
-    Filesys& FSys = Filesys::Get();
-    FSys.GetFileNames( Paths, "actors" );
-    for( auto const& Path : Paths )
+    fs_utils::for_each( "actors", ".actor", [&]( Json::Value const& desc )
     {
-        if( Path.extension().string() != ".actor" )
+        std::string nameStr;
+        if (!Json::GetStr( desc["name"], nameStr ))
         {
-            continue;
+            return;
         }
-        AutoFile JsonFile = FSys.Open( Path );
-        if( !JsonFile.get() )
+        auto const& components = desc["components"];
+        if (!components.isArray()|| components.empty())
         {
-            continue;
+            return;
         }
-        JsonReader Reader( *JsonFile );
-        if( !Reader.IsValid() )
+        std::auto_ptr<ActorCreator> actorCreator( new ActorCreator() );
+        actorCreator->SetId( AutoId( nameStr ) );
+        for (auto&& component: components)
         {
-            continue;
-        }
-        Json::Value Root = Reader.GetRoot();
-        if( !Root.isArray() )
-        {
-            continue;
-        }
-        for( auto& ActorsDesc : Root )
-        {
-            try
+            std::string compName;
+            if (!Json::GetStr( component["name"], compName ))
             {
-                if( !AddActorCreatorFromOneDesc( ActorsDesc, mActorCreators ) )
-                {
-                    return;
-                }
+                return;
             }
-            catch( std::exception const& err )
-            {
-                L1( "Exception caught while parsing %s : %s", Path.generic_string().c_str(), err.what() );
-            }
+            auto const& setters = component["set"];
+            actorCreator->AddComponent( AutoId( compName ), setters );
         }
-    }
+        int32_t actorCreatorId = actorCreator->GetId();
+        mActorCreators.insert( actorCreatorId, actorCreator );
+    } );
 }
 
 void ActorCreator::SetId( int32_t id )
@@ -107,7 +62,7 @@ int32_t ActorCreator::GetId()
     return mId;
 }
 
-void ActorCreator::AddComponent( int32_t componentId, Json::Value& setters )
+void ActorCreator::AddComponent( int32_t componentId, Json::Value const& setters )
 {
     std::auto_ptr<PropertyLoaderBase<Component> > compLoader = mComponentLoaderFactory( componentId );
     if( setters.isArray() && !setters.empty() )

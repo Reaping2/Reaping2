@@ -1,6 +1,6 @@
 #include "render/cell_action_renderer.h"
 #include "renderable_sprite.h"
-#include "../core/i_cell_component.h"
+#include "core/i_cell_component.h"
 #include "core/map/level_generator/entrance_type.h"
 
 namespace render {

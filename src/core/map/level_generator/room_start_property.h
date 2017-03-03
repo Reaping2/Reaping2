@@ -12,7 +12,7 @@ class RoomStartProperty : public IProperty
 public:
     DEFINE_ROOM_PROPERTY_BASE(RoomStartProperty)
     RoomStartProperty( int32_t Id );
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
     virtual void Save( Json::Value& setters ) const;
     typedef std::vector<int32_t> Targets_t;
     void SetTargets( Targets_t blockedTargets );

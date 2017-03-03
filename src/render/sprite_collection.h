@@ -15,7 +15,7 @@ class SpriteCollection : public Repository<Sprite>
 public:
     int32_t Id()const;
     int32_t JointId()const;
-    bool Load( int32_t TexId, Json::Value& Root );
+    bool Load( int32_t TexId, Json::Value const& Root );
     void Merge( SpriteCollection& Other );
 };
 

@@ -1,58 +1,12 @@
 #include "platform/i_platform.h"
 #include "render/recognizer_repo.h"
+#include "platform/filesystem_utils.h"
 namespace render {
 
 RecognizerRepo::RecognizerRepo()
     : mRecognizerFactory( RecognizerFactory::Get() )
 {
     Init();
-}
-
-bool RecognizerRepo::AddRecognizerFromOneDesc( Json::Value& RecognizerDesc )
-{
-
-    std::string actorNameStr;
-    if( !Json::GetStr( RecognizerDesc["name"], actorNameStr ) )
-    {
-        return false;
-    }
-    int32_t actorId = AutoId( actorNameStr );
-    Recognizers_t& recognizers = mRecognizersMap[actorId];
-
-    Json::Value& recognizersJValue = RecognizerDesc["recognizers"];
-    if ( !recognizersJValue.isArray() )
-    {
-        return false;
-    }
-    if ( recognizersJValue.empty() )
-    {
-        return true;
-    }
-    int32_t orderindex = 0;
-    for( Json::Value::iterator i = recognizersJValue.begin(), e = recognizersJValue.end(); i != e; ++i )
-    {
-        Json::Value& recognizerJValue = *i;
-        std::string recognizerName;
-        if ( !Json::GetStr( recognizerJValue["recognizer"], recognizerName ) )
-        {
-            continue;
-        }
-        std::auto_ptr<Recognizer> recognizer( mRecognizerFactory( AutoId( recognizerName ) ) );
-        if( recognizer.get() == nullptr )
-        {
-            continue;
-        }
-
-        std::string rendererName;
-        if ( !Json::GetStr( recognizerJValue["renderer"], rendererName ) )
-        {
-            continue;
-        }
-        recognizer->SetActionRenderer( AutoId( rendererName ) );
-        recognizer->SetOrder( orderindex++ );
-        recognizers.push_back( recognizer.release() );
-    }
-    return true;
 }
 
 bool RecognizerRepo::AddRecognizerExcludesFromOneDesc( Json::Value& RecognizerExcludesDesc )
@@ -92,44 +46,45 @@ void RecognizerRepo::Init()
 {
     Filesys& FSys( Filesys::Get() );
 
-    PathVect_t Paths;
-    FSys.GetFileNames( Paths, "actors" );
-    for (auto const& Path : Paths)
+    fs_utils::for_each( "actors", ".render", [&]( Json::Value const& desc )
     {
-        if (Path.extension().string() != ".render")
+        std::string actorNameStr;
+        if (!Json::GetStr( desc["name"], actorNameStr ))
         {
-            continue;
+            return;
         }
-        AutoFile JsonFile = FSys.Open( Path );
-        if (!JsonFile.get())
+        int32_t actorId = AutoId( actorNameStr );
+        Recognizers_t& recognizers = mRecognizersMap[actorId];
+
+        auto const& recognizersJValue = desc["recognizers"];
+        if (!recognizersJValue.isArray()|| recognizersJValue.empty())
         {
-            continue;
+            return;
         }
-        JsonReader Reader( *JsonFile );
-        if (!Reader.IsValid())
+        int32_t orderindex = 0;
+        for (auto&& recognizerJValue : recognizersJValue)
         {
-            continue;
-        }
-        Json::Value Root = Reader.GetRoot();
-        if (!Root.isArray())
-        {
-            continue;
-        }
-        for (auto& Desc : Root)
-        {
-            try
+            std::string recognizerName;
+            if (!Json::GetStr( recognizerJValue["recognizer"], recognizerName ))
             {
-                if (!AddRecognizerFromOneDesc( Desc ))
-                {
-                    return;
-                }
+                continue;
             }
-            catch (std::exception const& err)
+            std::auto_ptr<Recognizer> recognizer( mRecognizerFactory( AutoId( recognizerName ) ) );
+            if (recognizer.get() == nullptr)
             {
-                L1( "Exception caught while parsing %s : %s", Path.generic_string().c_str(), err.what() );
+                continue;
             }
+
+            std::string rendererName;
+            if (!Json::GetStr( recognizerJValue["renderer"], rendererName ))
+            {
+                continue;
+            }
+            recognizer->SetActionRenderer( AutoId( rendererName ) );
+            recognizer->SetOrder( orderindex++ );
+            recognizers.push_back( recognizer.release() );
         }
-    }
+    } );
 
 
     AutoFile F = FSys.Open( boost::filesystem::path( "misc/recognizers_excludes.json" ) );

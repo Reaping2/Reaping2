@@ -14,7 +14,7 @@ class MessageTimer
 public:
     ActorFrequencyTimerHolder const& GetUnique() const;
     ActorFrequencyTimerHolder const& GetMandatory() const;    
-    void Load( const Json::Value& setters );
+    void Load( Json::Value const& setters );
     void Update( double DeltaTime );
 private:
     int32_t mId;
@@ -31,7 +31,6 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-    void AddFromOneDesc( Json::Value& Root );
 private:
     Scene& mScene;
     typedef std::map<int32_t, MessageTimer> MessageTimers_t;

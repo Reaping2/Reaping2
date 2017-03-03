@@ -9,7 +9,7 @@ protected:
     friend class platform::Singleton<CollisionClass>;
     CollisionClass();
 public:
-    enum Type
+    enum Type : int32_t
     {
         No_Collision = 0,
         Projectile,

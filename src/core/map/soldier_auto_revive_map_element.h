@@ -11,7 +11,7 @@ class SoldierAutoReviveMapElement : public MapElement
 public:
     DEFINE_MAP_ELEMENT_BASE( SoldierAutoReviveMapElement )
     SoldierAutoReviveMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void SetSecsToRevive( double secsToRevive );
     double GetSecsToRevive()const;
 private:

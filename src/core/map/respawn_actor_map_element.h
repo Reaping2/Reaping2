@@ -13,7 +13,7 @@ class RespawnActorMapElement : public MapElement, public BaseInput
 public:
     DEFINE_MAP_ELEMENT_BASE( RespawnActorMapElement )
     RespawnActorMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void Save( Json::Value& Element );
     void SetActorID( int32_t actorID );
     int32_t GetActorID()const;

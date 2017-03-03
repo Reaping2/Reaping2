@@ -12,7 +12,7 @@ RoomStartProperty::RoomStartProperty( int32_t Id )
 {
 }
 
-void RoomStartProperty::Load( Json::Value& setters )
+void RoomStartProperty::Load( Json::Value const& setters )
 {
     IProperty::Load( setters );
     mTargets.clear();

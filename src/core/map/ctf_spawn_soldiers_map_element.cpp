@@ -17,7 +17,7 @@ CtfSpawnSoldiersMapElement::CtfSpawnSoldiersMapElement( int32_t Id )
 {
 }
 
-void CtfSpawnSoldiersMapElement::Load( Json::Value& setters )
+void CtfSpawnSoldiersMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     AddInputNodeId( SpawnNodeId() );

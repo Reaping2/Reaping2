@@ -13,7 +13,7 @@ class LevelGeneratorMapElement : public MapElement, public BaseInput
 public:
     DEFINE_MAP_ELEMENT_BASE( LevelGeneratorMapElement )
     LevelGeneratorMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void SetGeneratorId( int32_t generatorId );
     int32_t GetGeneratorId()const;
     static int32_t GeneratorNodeId();

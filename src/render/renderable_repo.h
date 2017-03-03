@@ -11,7 +11,6 @@ class RenderableRepo : public Repository<SpriteCollection>, public Singleton<Ren
     friend class Singleton<RenderableRepo>;
     RenderableRepo();
     void Init();
-    bool AddSpritesFromOneTextureDesc( Json::Value& TexDesc, ElementMap_t& Renderables, boost::filesystem::path const& parentPath );
 public:
     float GetMaxScale( int32_t actorId ) const;
 };

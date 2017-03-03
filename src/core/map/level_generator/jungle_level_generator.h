@@ -15,7 +15,7 @@ class JungleLevelGenerator: public ILevelGenerator
 public:
     JungleLevelGenerator( int32_t Id );
     virtual void Generate();
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
 private:
     ActorFactory& mActorFactory;
     RoomRepo& mRoomRepo;
@@ -29,7 +29,7 @@ private:
         int32_t endChance = 0;
         int32_t chanceIncrease = 0;
         RoomProperty::Type roomProperty = RoomProperty::Nothing;
-        void Load( Json::Value& setters );
+        void Load( Json::Value const& setters );
     };
     typedef std::vector<PossibleRooms> MandatoryRooms_t;
     MandatoryRooms_t mMandatoryRooms;

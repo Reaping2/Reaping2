@@ -21,7 +21,7 @@ ILevelGenerator::~ILevelGenerator()
 }
 
 
-void ILevelGenerator::Load( Json::Value& setters )
+void ILevelGenerator::Load( Json::Value const& setters )
 {
     Json::GetInt( setters["cell_size"], mCellSize );
     Json::GetInt( setters["cell_count"], mCellCount );

@@ -10,7 +10,7 @@ protected:
     friend class platform::Singleton<BorderType>;
     BorderType();
 public:
-    enum Type
+    enum Type : int32_t
     {
         Top = 0,
         TopRight,

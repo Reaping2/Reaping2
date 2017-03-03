@@ -8,7 +8,7 @@ GroupMapElement::GroupMapElement( int32_t Id )
 {
 }
 
-void GroupMapElement::Load( Json::Value& setters )
+void GroupMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     mTargets.clear();

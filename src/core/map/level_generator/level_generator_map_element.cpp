@@ -9,7 +9,7 @@ LevelGeneratorMapElement::LevelGeneratorMapElement( int32_t Id )
 {
 }
 
-void LevelGeneratorMapElement::Load( Json::Value& setters )
+void LevelGeneratorMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     std::string identifier;

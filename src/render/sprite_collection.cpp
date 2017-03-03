@@ -21,7 +21,7 @@ int32_t SpriteCollection::JointId() const
     return mJointId;
 }
 
-bool SpriteCollection::Load( int32_t TexId, Json::Value& Root )
+bool SpriteCollection::Load( int32_t TexId, Json::Value const& Root )
 {
     std::string NameStr;
     if( !Json::GetStr( Root["name"], NameStr ) )

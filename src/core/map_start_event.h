@@ -7,7 +7,7 @@ namespace core {
 
 struct MapStartEvent : public platform::Event
 {
-    enum State
+    enum State : int32_t
     {
         Started,
         PreActorsSpawned,

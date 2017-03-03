@@ -16,7 +16,7 @@ class PropertyLoaderBase
 {
 public:
     virtual ~PropertyLoaderBase();
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
     virtual std::auto_ptr<BASE> FillProperties( std::auto_ptr<BASE> target )const;
     PropertyLoaderBase() = default;
 };
@@ -28,7 +28,7 @@ std::auto_ptr<BASE> PropertyLoaderBase<BASE>::FillProperties( std::auto_ptr<BASE
 }
 
 template<typename BASE>
-void PropertyLoaderBase<BASE>::Load( Json::Value& setters )
+void PropertyLoaderBase<BASE>::Load( Json::Value const& setters )
 {
 
 }
@@ -63,7 +63,7 @@ public:
     typedef boost::function<void( T*, glm::vec4 const& )> func_color;
     void Bind( std::string const& val, func_color func );
 
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
     virtual void BindValues();
 
     virtual std::auto_ptr<BASE> FillProperties( std::auto_ptr<BASE> target )const;
@@ -74,7 +74,7 @@ public:
     PropertyLoader();
     //PropertyLoader( PropertyLoader const& loader );
 protected:
-    Json::Value* mSetters;
+    Json::Value const* mSetters;
     std::shared_ptr<PropertyLoaderBase<BASE> > mBase;
     void Add( SetterFunc_t func );
 };
@@ -170,7 +170,7 @@ void PropertyLoader<T, BASE>::Bind( std::string const& val, func_color func )
 }
 
 template<typename T, typename BASE>
-void PropertyLoader<T, BASE>::Load( Json::Value& setters )
+void PropertyLoader<T, BASE>::Load( Json::Value const& setters )
 {
     mSetters = &setters;
     if ( mBase.get() )

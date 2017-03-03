@@ -5,7 +5,7 @@
 
 struct ActorEvent : public Event
 {
-    enum State
+    enum State : int32_t
     {
         Added = 0,
         Died,

@@ -12,7 +12,7 @@ CtfFlagSpawnPointMapElement::CtfFlagSpawnPointMapElement( int32_t Id )
 {
 }
 
-void CtfFlagSpawnPointMapElement::Load( Json::Value& setters )
+void CtfFlagSpawnPointMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     Json::Value const& position = setters["position"];

@@ -10,7 +10,7 @@ RoomEndProperty::RoomEndProperty( int32_t Id )
 {
 }
 
-void RoomEndProperty::Load( Json::Value& setters )
+void RoomEndProperty::Load( Json::Value const& setters )
 {
     IProperty::Load( setters );
     mTargets.clear();

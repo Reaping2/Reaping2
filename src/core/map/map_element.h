@@ -27,7 +27,7 @@ class MapElement
 public:
     DEFINE_MAP_ELEMENT_BASE( MapElement );
     virtual ~MapElement();
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
     virtual void Save( Json::Value& Element );
     int32_t GetIdentifier();
     void SetIdentifier( int32_t uId );

@@ -9,7 +9,7 @@ IProperty::IProperty( int32_t Id )
     mUID = ++NextUID;
 }
 
-void IProperty::Load( Json::Value& setters )
+void IProperty::Load( Json::Value const& setters )
 {
 }
 

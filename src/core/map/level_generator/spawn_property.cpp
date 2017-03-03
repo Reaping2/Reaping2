@@ -16,7 +16,7 @@ SpawnProperty::SpawnProperty( int32_t Id )
 {
 }
 
-void SpawnProperty::Load( Json::Value& setters )
+void SpawnProperty::Load( Json::Value const& setters )
 {
     IProperty::Load( setters );
     mTargets.clear();

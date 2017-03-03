@@ -3,9 +3,9 @@
 #include "engine/controllers/guard_controller_sub_system.h"
 #include "core/guard_controller_component.h"
 #include "core/i_target_holder_component.h"
-#include "../../core/i_position_component.h"
-#include "../../core/i_health_component.h"
-#include "../../core/i_inventory_component.h"
+#include "core/i_position_component.h"
+#include "core/i_health_component.h"
+#include "core/i_inventory_component.h"
 #include "core/i_move_component.h"
 
 namespace engine {

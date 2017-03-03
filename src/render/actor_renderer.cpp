@@ -181,8 +181,6 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 
 void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTime )
 {
-    static perf::Timer_t mPerfTimer;
-    //mPerfTimer.Log( "Prep1" );
     static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
     auto const& Lst = activityS->GetActiveActors();
     if( Lst.empty() )
@@ -192,13 +190,11 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
         mPostprocessColors.clear();
         return;
     }
-    //mPerfTimer.Log( "Prep2" );
     L2( "Lst size: %d", Lst.size() );
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( mRenderableSprites.size() );
     std::set<int32_t> postprocids;
 
-    //mPerfTimer.Log( "Prep3" );
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
@@ -220,7 +216,6 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
         ActionRenderersMap_t::iterator actionRenderersIt = mActionRenderersMap.find( Object.GetGUID() );
         BOOST_ASSERT( actionRenderersIt != mActionRenderersMap.end() );
         ActionRenderers_t& actionRenderers = actionRenderersIt->second;
-        //mPerfTimer.Log( "Prep4" );
 
         for ( auto recogIt = recognizers.begin(), recogE = recognizers.end(); recogIt != recogE; ++recogIt )
         {
@@ -248,7 +243,6 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
                 }
             }
         }
-        //mPerfTimer.Log( "Prep5" );
 
         for ( auto excludedIt = excluded.begin(), excludedE = excluded.end(); excludedIt != excludedE; ++excludedIt )
         {
@@ -259,7 +253,6 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
 
             }
         }
-        ////mPerfTimer.Log( "Prep6" );
 
         for ( auto actionRendererIt = actionRenderers.begin(), actionRendererE = actionRenderers.end(); actionRendererIt != actionRendererE; ++actionRendererIt )
         {
@@ -267,10 +260,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
             actionRenderer.FillRenderableSprites( Object, *renderableC.Get(), RenderableSprites );
             actionRenderer.Update( DeltaTime );
         }
-        //mPerfTimer.Log( "Prep7" );
-
     }
-    //mPerfTimer.Log( "Prep_x" );
 
     std::swap( RenderableSprites, mRenderableSprites );
     size_t CurSize = mRenderableSprites.size();

@@ -14,7 +14,7 @@ LinkMapElement::LinkMapElement( int32_t Id )
 {
 }
 
-void LinkMapElement::Load( Json::Value& setters )
+void LinkMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     Json::Value const& targetOutput = setters["from"];

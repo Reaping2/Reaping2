@@ -20,20 +20,20 @@ void ActorFrequencyTimerHolder::Add( ActorFrequencyTimer const& actorFrequencyTi
 
 void ActorFrequencyTimerHolder::Update( double DeltaTime )
 {
-    for( ActorFrequencyTimers_t::iterator it = mActorFrequencyTimers.begin(), e = mActorFrequencyTimers.end(); it != e; ++it )
+    for( auto&& freqTimer : mActorFrequencyTimers )
     {
-        it->Update( DeltaTime );
+        freqTimer.Update( DeltaTime );
     }
 }
 
 ActorFrequencyTimerHolder::ActorIds_t ActorFrequencyTimerHolder::GetActorIds() const
 {
     ActorIds_t actorIds;
-    for( auto&& timer : mActorFrequencyTimers )
+    for( auto&& freqTimer : mActorFrequencyTimers )
     {
-        if ( timer.IsTime() )
+        if (freqTimer.IsTime() )
         {
-            actorIds.insert( timer.GetActorId() );
+            actorIds.insert( freqTimer.GetActorId() );
         }
     }
     return actorIds;

@@ -12,7 +12,7 @@ class CellEntranceProperty : public IProperty
 public:
     DEFINE_ROOM_PROPERTY_BASE(CellEntranceProperty)
     CellEntranceProperty( int32_t Id );
-    virtual void Load( Json::Value& setters );
+    virtual void Load( Json::Value const& setters );
     virtual void Save( Json::Value& setters ) const;
     void SetX( int32_t x );
     int32_t GetX() const;

@@ -8,7 +8,7 @@ RecreateBordersMapElement::RecreateBordersMapElement( int32_t Id )
 {
 }
 
-void RecreateBordersMapElement::Load( Json::Value& setters )
+void RecreateBordersMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     AddInputNodeId( RecreateNodeId() );

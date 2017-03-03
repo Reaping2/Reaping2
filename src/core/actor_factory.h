@@ -20,7 +20,7 @@ public:
     ComponentLoaderMap_t mComponentLoaders;
     void SetId( int32_t id );
     int32_t GetId();
-    void AddComponent( int32_t componentId, Json::Value& setters );
+    void AddComponent( int32_t componentId, Json::Value const& setters );
     std::auto_ptr<Actor> Create()const;
 private:
     ComponentFactory& mComponentFactory;
@@ -37,7 +37,6 @@ class ActorFactory : public platform::Factory<Actor>, public platform::Singleton
     ActorFactory();
 
     void Init();
-    bool AddActorCreatorFromOneDesc( Json::Value& TexDesc, ActorCreatorMap_t& actorCreators );
 protected:
     std::auto_ptr<Actor> CreateActor( int32_t Id );
 };
