@@ -45,17 +45,29 @@ WorldRenderer::~WorldRenderer()
 
 void WorldRenderer::Draw( double dt, GLuint texture, int32_t shader, glm::vec2 const& size, GLuint secondaryTexture )
 {
+    Draw( dt, texture, shader,
+        [&](ShaderManager& ShaderMgr)->void{
+            ShaderMgr.UploadData( "secondaryTexture", GLuint( 2 ) );
+            ShaderMgr.UploadData( "resolution", size );
+            glActiveTexture( GL_TEXTURE0 + 2 );
+            glBindTexture( GL_TEXTURE_2D, secondaryTexture );
+        } );
+}
+
+void WorldRenderer::Draw( double dt, GLuint texture, int32_t shader, SetupFunction setup )
+{
     ShaderManager& ShaderMgr( ShaderManager::Get() );
     ShaderMgr.ActivateShader( shader );
     ShaderMgr.UploadData( "texture", GLuint( 1 ) );
-    ShaderMgr.UploadData( "secondaryTexture", GLuint( 2 ) );
-    ShaderMgr.UploadData( "resolution", size );
     ShaderMgr.UploadData( "time", GLfloat( platform::Clock::Now() ) );
+    ShaderMgr.UploadData( "deltaTime", GLfloat( dt ) );
     mVAO.Bind();
+    if( setup )
+    {
+        setup( ShaderMgr );
+    }
     glActiveTexture( GL_TEXTURE0 + 1 );
     glBindTexture( GL_TEXTURE_2D, texture );
-    glActiveTexture( GL_TEXTURE0 + 2 );
-    glBindTexture( GL_TEXTURE_2D, secondaryTexture );
     glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();

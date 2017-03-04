@@ -4,6 +4,7 @@ get_filename_component(dirnam ${CMAKE_CURRENT_LIST_DIR} NAME)
 file(GLOB ${dirnam}_source_files ./ *.cpp *.h)
 
 add_library(${dirnam} STATIC ${${dirnam}_source_files})
+add_definitions(-DSUBSYSTEM="${dirnam}")
 target_link_libraries(${dirnam} platform ${GLFW_LIBRARIES})
 
 add_precompiled_header(${dirnam} pch.h)

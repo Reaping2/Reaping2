@@ -108,6 +108,16 @@ int32_t RenderableComponent::GetShaderId() const
     return mShaderId;
 }
 
+double RenderableComponent::GetShadowLenScale() const
+{
+    return mShadowLenScale;
+}
+
+void RenderableComponent::SetShadowLenScale( double height )
+{
+    mShadowLenScale = height;
+}
+
 void RenderableComponent::SetPostProcessIds( std::vector<int32_t> const& ids )
 {
     mPostprocessorIds = ids;
@@ -166,6 +176,12 @@ void RenderableComponentLoader::BindValues()
         iv = std::numeric_limits<int32_t>::max();
     }
     Bind<int32_t>( func_int32_t( &RenderableComponent::SetReceiveShadow ), iv );
+    double dv;
+    if( !Json::GetDouble( ( *mSetters )[ "shadow_len_scale" ], dv ) )
+    {
+        dv = 1.0;
+    }
+    Bind<double>( func_double( &RenderableComponent::SetShadowLenScale ), dv );
     Bind( "color", func_color( &RenderableComponent::SetColor ) );
 
     IRenderableComponent::RandomSprites_t randomSprites;

@@ -6,9 +6,77 @@
 #include <cstdarg>
 #include <memory>
 #include <iosfwd>
+#include <cctype>
+#include <boost/format.hpp>
 #include "game_clock.h"
 
 namespace platform {
+
+LogEntryDesc LogEntryDesc::create( int l, std::string const& ss, int li, std::string const& f, std::string const& fu )
+{
+    LogEntryDesc desc;
+    desc.level = l;
+    desc.subsystem = ss;
+    desc.line = li;
+    desc.file = f;
+    desc.function = fu;
+    desc.timestamp = Clock::Now();
+    return desc;
+}
+
+LogEntry::LogEntry( LogEntryDesc const& desc )
+    : mDesc( desc )
+{
+}
+
+LogEntry::~LogEntry()
+{
+    Logger::Get().Log( *this );
+}
+
+LogEntryDesc const& LogEntry::desc() const
+{
+    return mDesc;
+}
+
+namespace {
+bool needsWS( std::stringstream& mContent )
+{
+    if( mContent.rdbuf()->in_avail() < 1 )
+    {
+        return false;
+    }
+    mContent.seekg( -1, mContent.end );
+    return std::isspace( mContent.peek() );
+}
+}
+
+void LogEntry::beforeWrite()
+{
+    if( needsWS( mContent ) )
+    {
+        mContent << " ";
+    }
+}
+
+void LogEntry::afterWrite()
+{
+}
+
+std::string LogEntry::print() const
+{
+    return boost::str( boost::format( "[%1%] %2% %3% %4% %5% [%6%] : %7%\n" ) % mDesc.timestamp % mDesc.subsystem % mDesc.level % mDesc.file % mDesc.line % mDesc.function % mContent.str() );
+}
+
+void Logger::Log( LogEntry const& entry )
+{
+    if( mDisabledLevels & ( 1 << entry.desc().level ) || mLogFile.mFile == nullptr )
+    {
+        return;
+    }
+    std::string const& log = entry.print();
+    fprintf( mLogFile.mFile, "%s", log.c_str() );
+}
 
 void Logger::Log( int Level, char const* format, ... )
 {

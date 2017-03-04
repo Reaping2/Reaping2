@@ -2,9 +2,7 @@
 #include "camera.h"
 
 Camera::Camera( Projection const& Proj )
-    : mScene( Scene::Get() )
-    , mAllowedDistance( 0.5, 0.5 )
-    , mProjection( Proj )
+    : mProjection( Proj )
 {
 }
 
@@ -14,69 +12,14 @@ void Camera::UpdateMatrices()
     mInverseView = glm::inverse( mView );
 }
 
-void Camera::UpdateAllowedCenterRegion()
-{
-    mAllowedCenterRegion = mScene.GetDimensions();
-    glm::vec4 const& VisRegion = mProjection.GetVisibleRegion();
-    mAllowedCenterRegion -= VisRegion;
-}
-
 glm::vec4 Camera::VisibleRegion() const
 {
     return mProjection.GetVisibleRegion() + glm::vec4( mCenter, mCenter );
 }
 
-void Camera::Update()
+void Camera::SetCenter( glm::vec2 const& center )
 {
-    ModelValue const& PlayerModel = RootModel::Get()["player"];
-    if( !PlayerModel.IsValid() )
-    {
-        return;
-    }
-    ModelValue const& mx = PlayerModel["x"];
-    ModelValue const& my = PlayerModel["y"];
-    if ( !mx.IsValid() || !my.IsValid() )
-    {
-        return;
-    }
-    double px = double( mx );
-    double py = double( my );
-    if( mCenter.x < px - mAllowedDistance.x )
-    {
-        mCenter.x = ( float )px - mAllowedDistance.x;
-    }
-    else if( mCenter.x > px + mAllowedDistance.x )
-    {
-        mCenter.x = ( float )px + mAllowedDistance.x;
-    }
-    if( mCenter.y < py - mAllowedDistance.y )
-    {
-        mCenter.y = ( float )py - mAllowedDistance.y;
-    }
-    else if( mCenter.y > py + mAllowedDistance.y )
-    {
-        mCenter.y = ( float )py + mAllowedDistance.y;
-    }
-// TODO: there might be a switch for this functionality later
-//     UpdateAllowedCenterRegion();
-//     if( mCenter.x < mAllowedCenterRegion.x )
-//     {
-//         mCenter.x = mAllowedCenterRegion.x;
-//     }
-//     if( mCenter.x > mAllowedCenterRegion.z )
-//     {
-//         mCenter.x = mAllowedCenterRegion.z;
-//     }
-//     if( mCenter.y < mAllowedCenterRegion.y )
-//     {
-//         mCenter.y = mAllowedCenterRegion.y;
-//     }
-//     if( mCenter.y > mAllowedCenterRegion.w )
-//     {
-//         mCenter.y = mAllowedCenterRegion.w;
-//     }
-    mCenter.x = glm::round( mCenter.x );
-    mCenter.y = glm::round( mCenter.y );
+    mCenter = round( center );
     UpdateMatrices();
 }
 
@@ -93,5 +36,10 @@ glm::mat4 const& Camera::GetInverseView() const
 glm::vec2 Camera::GetCenter() const
 {
     return mCenter;
+}
+
+Projection const& Camera::GetProjection() const
+{
+    return mProjection;
 }
 

@@ -1,0 +1,13 @@
+[
+    {
+        "name":"light_active_dummy",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component"},
+            {"name":"activity_component",
+                "set":[{"radius":50}]
+            }
+        ]
+    }
+]
