@@ -44,7 +44,7 @@ RespawnActorMapElement::RespawnActorMapElement( RespawnActorMapElement const& ot
     *this = other;
 }
 
-void RespawnActorMapElement::Load( Json::Value& setters )
+void RespawnActorMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
 

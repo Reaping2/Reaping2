@@ -24,7 +24,7 @@ void DistanceToPlayersCondition::Update( Actor& actor, double Seconds )
                 if (distance < mDistance)
                 {
                     mDistance = distance;
-                    L1( "found player satisfied %d.\n", mDistance );
+                    L2( "found player satisfied %d.\n", mDistance );
                 }
             }
         }
@@ -35,7 +35,7 @@ bool DistanceToPlayersCondition::IsSatisfied() const
 {
     if (mGreaterThan <= mDistance && mDistance <= mLessThan)
     {
-        L1( "distance_to_players satisfied less: %d, dist: %d.\n",mLessThan,mDistance );
+        L2( "distance_to_players satisfied less: %d, dist: %d.\n",mLessThan,mDistance );
     }
     return mGreaterThan<=mDistance && mDistance<=mLessThan;
 }

@@ -52,7 +52,7 @@ bool AccuracyMessageHandlerSubSystem::ProcessPending( Message const& message )
         L1( "no accuracy_component found guid:%s\n", msg.mActorGUID );
         return true;
     }
-    L1( "executing %s: actorGUID %d\n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d\n", __FUNCTION__, msg.mActorGUID );
     accuracyC->GetAccuracy().mBase.Set( msg.mAccuracy );
     accuracyC->GetAccuracy().mPercent.Set( msg.mAccuracyPercent / PRECISION );
     accuracyC->GetAccuracy().mFlat.Set( msg.mAccuracyFlat );

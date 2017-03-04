@@ -131,7 +131,7 @@ void RoomDesc::SetRoom( Opt<IRoom> room )
 }
 
 
-void RoomDesc::Load( Json::Value& setters )
+void RoomDesc::Load( Json::Value const& setters )
 {
     mPossibleProperties.clear();
     Json::Value const& properties = setters["plain_properties"];
@@ -297,7 +297,7 @@ bool Cell::IsFilled() const
 }
 
 
-void Cell::Load( Json::Value& setters )
+void Cell::Load( Json::Value const& setters )
 {
     int i = 0;
     if (Json::GetInt( setters["x"], i ))

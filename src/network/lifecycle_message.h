@@ -11,7 +11,7 @@ class LifecycleMessage: public Message
     friend class ::boost::serialization::access;
 public:
     DEFINE_MESSAGE_BASE( LifecycleMessage )
-    enum State
+    enum State : int32_t
     {
         Start = 0,
         SoldierProperties,

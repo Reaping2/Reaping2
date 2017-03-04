@@ -1,6 +1,7 @@
 #include "platform/i_platform.h"
 #include "network/rotate_message.h"
 #include "core/i_rotate_component.h"
+#include "platform/settings.h"
 
 namespace network {
 
@@ -10,51 +11,38 @@ bool RotateMessage::operator==( RotateMessage const& other )
         && mSpeed == other.mSpeed
         && mRotating == other.mRotating;
 }
+
+void RotateMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateRotateMessage( actor ) );
+}
+
+
+void RotateMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateRotateMessage( actor ) );
+}
+
 RotateMessageSenderSystem::RotateMessageSenderSystem()
-    : MessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "rotate" ) )
 {
 }
 
 
 void RotateMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
-    SetFrequency( 0.01 );
-    if (mProgramState.mMode == ProgramState::Server)
-    {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.0, platform::AutoId( "rusty_reaper_alt_projectile" ) ) );
-    }
+    ActorTimerMessageSenderSystem::Init();
+    SetFrequency( Settings::Get().GetDouble( "network.frequency.rotate", 0.01 ) );
 }
 
 
 void RotateMessageSenderSystem::Update(double DeltaTime)
 {
-    MessageSenderSystem::Update(DeltaTime);
-    mActorFrequencyTimerHolder.Update( DeltaTime );
-    if (mProgramState.mMode == ProgramState::Server)
+    ActorTimerMessageSenderSystem::Update(DeltaTime);
+    if (!IsTime())
     {
-        auto mSendPositions = mActorFrequencyTimerHolder.GetActorIds();
-        if (mSendPositions.empty())
-        {
-            return;
-        }
-
-        for (ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it)
-        {
-            Actor& actor = **it;
-            if (mSendPositions.find( actor.GetId() ) == mSendPositions.end())
-            {
-                continue;
-            }
-            std::auto_ptr<RotateMessage> rotateMessage( GenerateRotateMessage( actor ) );
-            if (rotateMessage.get() != NULL)
-            {
-                mSingleMessageSender.Add( actor.GetGUID(), rotateMessage );
-            }
-
-        }
+        return;
     }
-
 }
 
 RotateMessageHandlerSubSystem::RotateMessageHandlerSubSystem()

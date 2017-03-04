@@ -48,7 +48,7 @@ void MyNameMessageHandlerSubSystem::Init()
 void MyNameMessageHandlerSubSystem::Execute( Message const& message )
 {
     MyNameMessage const& msg = static_cast<MyNameMessage const&>( message );
-    L1( "executing myname: %s from current id: %d \n", msg.mName.c_str(), msg.mSenderId );
+    L2( "executing myname: %s from current id: %d \n", msg.mName.c_str(), msg.mSenderId );
 
 
 
@@ -92,9 +92,8 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
                 lifecycleMsg->mClientId = clientData->mClientId;
                 mMessageHolder.AddOutgoingMessage( std::auto_ptr<Message>( lifecycleMsg.release() ) );
 
-                std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage );
+                std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage( &Scene::Get().GetActors() ) );
                 actorListMsg->mClientId = clientData->mClientId;
-                actorListMsg->mActorList = &Scene::Get().GetActors();
                 mMessageHolder.AddOutgoingMessage( actorListMsg );
 
                 std::auto_ptr<SetOwnershipMessage> setOwnershipMsg( new SetOwnershipMessage );

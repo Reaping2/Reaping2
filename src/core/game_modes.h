@@ -12,7 +12,7 @@ protected:
     friend class platform::Singleton<GameModes>;
     GameModes();
 public:
-    enum Type
+    enum Type : int32_t
     {
         CTF=0,
         FFA,

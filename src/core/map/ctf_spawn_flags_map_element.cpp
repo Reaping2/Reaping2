@@ -15,7 +15,7 @@ CtfSpawnFlagsMapElement::CtfSpawnFlagsMapElement( int32_t Id )
 {
 }
 
-void CtfSpawnFlagsMapElement::Load( Json::Value& setters )
+void CtfSpawnFlagsMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     AddInputNodeId( SpawnNodeId() );

@@ -32,7 +32,7 @@ void JsonRoom::ClearMapElements()
     mMapElementHolder.mAllMapElements.clear();
 }
 
-void JsonRoom::Load( Json::Value& setters )
+void JsonRoom::Load( Json::Value const& setters )
 {
     ClearMapElements();
     mRoomDesc.Load( setters );

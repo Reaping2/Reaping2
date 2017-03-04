@@ -40,7 +40,7 @@ void ClientDatasMessageHandlerSubSystem::Init()
 void ClientDatasMessageHandlerSubSystem::Execute( Message const& message )
 {
     ClientDatasMessage const& msg = static_cast<ClientDatasMessage const&>( message );
-    L1( "executing ClientDatasMessageHandlerSubSystem from id: %d \n", msg.mSenderId );
+    L2( "executing ClientDatasMessageHandlerSubSystem from id: %d \n", msg.mSenderId );
     mProgramState.mClientDatas = msg.mClientDatas;
     EventServer<engine::ClientDatasChangedEvent>::Get().SendEvent( engine::ClientDatasChangedEvent() );
     for ( core::ProgramState::ClientDatas_t::iterator i = mProgramState.mClientDatas.begin(), e = mProgramState.mClientDatas.end(); i != e; ++i )

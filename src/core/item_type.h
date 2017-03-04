@@ -17,7 +17,7 @@ protected:
     friend class platform::Singleton<ItemType>;
     ItemType();
 public:
-    enum Type
+    enum Type : int32_t
     {
         Normal = 0,
         Weapon,

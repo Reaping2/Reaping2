@@ -27,7 +27,7 @@ int32_t MapElement::GetIdentifier()
     return mIdentifier;
 }
 
-void MapElement::Load( Json::Value& setters )
+void MapElement::Load( Json::Value const& setters )
 {
     std::string identifier;
     if ( Json::GetStr( setters["identifier"], identifier ) )

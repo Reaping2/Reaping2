@@ -14,9 +14,9 @@ class SpawnActorMapElement : public MapElement, public BaseInput
 public:
     DEFINE_MAP_ELEMENT_BASE( SpawnActorMapElement )
     SpawnActorMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void Save( Json::Value& Element );
-    static void LoadComponentLoaders( Json::Value& setters, ActorCreator::ComponentLoaderMap_t& mComponentLoaders );
+    static void LoadComponentLoaders( Json::Value const& setters, ActorCreator::ComponentLoaderMap_t& mComponentLoaders );
     void SetActorID( int32_t actorID );
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;

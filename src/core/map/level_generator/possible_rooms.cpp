@@ -9,7 +9,7 @@ PossibleRooms::PossibleRooms()
 }
 
 
-void PossibleRooms::Load( Json::Value& possibleRooms )
+void PossibleRooms::Load( Json::Value const& possibleRooms )
 {
     mRoomIds.clear();
     if (possibleRooms.isArray())

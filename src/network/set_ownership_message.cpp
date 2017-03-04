@@ -57,7 +57,7 @@ bool SetOwnershipMessageHandlerSubSystem::ProcessPending( Message const& message
 {
     SetOwnershipMessage const& msg = static_cast<SetOwnershipMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<PlayerControllerComponent> playerControllerC( actor->Get<IControllerComponent>() );
     if ( !playerControllerC.IsValid() )
     {

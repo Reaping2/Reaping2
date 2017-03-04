@@ -1,0 +1,38 @@
+[
+    {
+        "message_name":"orientation",
+        "name": "spider1",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"heading",
+        "name": "spider1",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"move",
+        "name": "spider1",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":1.0
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "spider1",
+        "server":
+        {
+            "unique_frequency":0.3,
+            "mandatory_frequency":1.0
+        }
+    }    
+]

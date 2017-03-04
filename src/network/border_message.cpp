@@ -42,7 +42,7 @@ bool BorderMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
     BorderMessage const& msg = static_cast<BorderMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IBorderComponent> borderC = actor->Get<IBorderComponent>();
     if ( !borderC.IsValid() )
     {

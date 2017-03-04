@@ -20,6 +20,7 @@
 #include "main/window.h"
 #include <boost/ref.hpp>
 #include "action_renderer_loader_repo.h"
+#include "core/perf_timer.h"
 
 void ActorRenderer::Init()
 {
@@ -199,9 +200,11 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
         mPostprocessColors.clear();
         return;
     }
+    L2( "Lst size: %d", Lst.size() );
     RenderableSprites_t RenderableSprites;
     RenderableSprites.reserve( mRenderableSprites.size() );
     std::set<int32_t> postprocids;
+
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
@@ -250,6 +253,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
                 }
             }
         }
+
         for ( auto excludedIt = excluded.begin(), excludedE = excluded.end(); excludedIt != excludedE; ++excludedIt )
         {
             auto arIt = std::find_if( actionRenderers.begin(), actionRenderers.end(), FindActionRenderer( *excludedIt ) );
@@ -259,6 +263,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
 
             }
         }
+
         for ( auto actionRendererIt = actionRenderers.begin(), actionRendererE = actionRenderers.end(); actionRendererIt != actionRendererE; ++actionRendererIt )
         {
             ActionRenderer& actionRenderer = *actionRendererIt;
@@ -266,6 +271,7 @@ void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& ca
             actionRenderer.Update( DeltaTime );
         }
     }
+
     std::swap( RenderableSprites, mRenderableSprites );
     size_t CurSize = mRenderableSprites.size();
     if( CurSize == 0 )

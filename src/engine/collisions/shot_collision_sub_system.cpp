@@ -85,7 +85,7 @@ void ShotCollisionSubSystem::Collide( Actor& actor, Actor& other )
     {
         return;
     }
-    L1( "Actor(id:%d)collided with other(id:%d)\n", actor.GetId(), other.GetId() );
+    L2( "Actor(id:%d)collided with other(id:%d)\n", actor.GetId(), other.GetId() );
     shotCC->GetActorsCollided().push_back( Opt<Actor>( &other ) );
 
 }
@@ -124,7 +124,7 @@ void ShotCollisionSubSystem::KillShot( Actor& actor, Actor& target, Opt<ShotColl
                 || shotCC->GetHitCountToKill() == 0 )
         {
             healthC->SetHP( 0 );
-            L1( "killshot: self: %d target: %d\n", actor.GetGUID(), target.GetGUID() );
+            L2( "killshot: self: %d target: %d\n", actor.GetGUID(), target.GetGUID() );
             Opt<INotifyParentOnDeathComponent> notifyParentC = actor.Get<INotifyParentOnDeathComponent>();
             if ( notifyParentC.IsValid() )
             {

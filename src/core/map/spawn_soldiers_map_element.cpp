@@ -14,7 +14,7 @@ SpawnSoldiersMapElement::SpawnSoldiersMapElement( int32_t Id )
 {
 }
 
-void SpawnSoldiersMapElement::Load( Json::Value& setters )
+void SpawnSoldiersMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     AddInputNodeId( SpawnNodeId() );

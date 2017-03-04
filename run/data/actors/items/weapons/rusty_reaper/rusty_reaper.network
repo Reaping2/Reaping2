@@ -1,0 +1,38 @@
+[
+    {
+        "message_name":"heading",
+        "name": "rusty_reaper_projectile",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"move",
+        "name": "rusty_reaper_projectile",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "rusty_reaper_projectile",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"rotate",
+        "name": "rusty_reaper_alt_projectile",
+        "server":
+        {
+            "unique_frequency":0.03,
+            "mandatory_frequency":2.0
+        }
+    }    
+]

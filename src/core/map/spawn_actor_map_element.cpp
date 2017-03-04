@@ -43,7 +43,7 @@ SpawnActorMapElement::SpawnActorMapElement( SpawnActorMapElement const& other )
     *this = other;
 }
 
-void SpawnActorMapElement::Load( Json::Value& setters )
+void SpawnActorMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
 
@@ -86,9 +86,9 @@ bool SpawnActorMapElement::IsRemoveWhenUsed() const
     return mRemoveWhenUsed;
 }
 
-void SpawnActorMapElement::LoadComponentLoaders( Json::Value& setters, ActorCreator::ComponentLoaderMap_t& componentLoaders )
+void SpawnActorMapElement::LoadComponentLoaders( Json::Value const& setters, ActorCreator::ComponentLoaderMap_t& componentLoaders )
 {
-    Json::Value& components = setters["components"];
+    auto const& components = setters["components"];
     if ( !components.isArray() )
     {
         return;
@@ -97,16 +97,15 @@ void SpawnActorMapElement::LoadComponentLoaders( Json::Value& setters, ActorCrea
     {
         return;
     }
-    ComponentLoaderFactory& componentLoaderFactory = ComponentLoaderFactory::Get();
-    for( Json::Value::iterator i = components.begin(), e = components.end(); i != e; ++i )
+    auto& componentLoaderFactory(ComponentLoaderFactory::Get());
+    for( auto&& component: components )
     {
-        Json::Value& component = *i;
         std::string compName;
         if ( !Json::GetStr( component["name"], compName ) )
         {
             return;
         }
-        Json::Value& compSetters = component["set"];
+        auto const& compSetters = component["set"];
         int32_t componentId = AutoId( compName );
         std::auto_ptr<PropertyLoaderBase<Component> > compLoader = componentLoaderFactory( componentId );
         if( compSetters.isArray() && !compSetters.empty() )

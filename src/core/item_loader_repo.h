@@ -15,7 +15,6 @@ class ItemLoaderRepo : public platform::Repository<PropertyLoaderBase<Item> >, p
     static DefaultItemLoader const mDefault;
     ItemLoaderRepo();
     void Init();
-    bool LoadItemFromOneDesc( Json::Value& ItemDesc );
 };
 
 #endif//INCLUDED_CORE_ITEM_LOADER_FACTORY_H

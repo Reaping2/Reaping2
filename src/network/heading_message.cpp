@@ -2,75 +2,40 @@
 #include "core/i_move_component.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "platform/settings.h"
+
 namespace network {
 
+
+void HeadingMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateHeadingMessage( actor ) );
+}
+
+
+void HeadingMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateHeadingMessage( actor ) );
+}
+
 HeadingMessageSenderSystem::HeadingMessageSenderSystem()
-    : MessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "heading" ) )
 {
 
 }
 
 void HeadingMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
-    SetFrequency( 0.01 );
-    //        mSendHeadings.insert(platform::AutoId("player"));
-    if ( mProgramState.mMode == ProgramState::Server )
-    {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.1, platform::AutoId( "grenade_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.1, platform::AutoId( "blue_grenade_projectile" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "rocket_launcher_target_projectile" ) ) );
-    }
-    else if ( mProgramState.mMode == ProgramState::Client )
-    {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
-    }
+    ActorTimerMessageSenderSystem::Init();
+    SetFrequency( Settings::Get().GetDouble( "network.frequency.heading", 0.01 ) );
 }
 
 void HeadingMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update( DeltaTime );
-    mActorFrequencyTimerHolder.Update( DeltaTime );
-    if ( !IsTime() )
+    ActorTimerMessageSenderSystem::Update( DeltaTime );
+    if (!IsTime())
     {
         return;
-    }
-    if ( mProgramState.mMode == ProgramState::Server )
-    {
-        mSendHeadings = mActorFrequencyTimerHolder.GetActorIds();
-        //TODO: might need optimization
-        for ( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-        {
-            Actor& actor = **it;
-            if ( mSendHeadings.find( actor.GetId() ) == mSendHeadings.end() )
-            {
-                continue;
-            }
-            std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( actor ) );
-            if ( HeadingMessage.get() != NULL )
-            {
-                mSingleMessageSender.Add( actor.GetGUID(), HeadingMessage );
-            }
-        }
-    }
-    else if ( mProgramState.mMode == ProgramState::Client )
-    {
-        Opt<Actor> player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
-        if ( player.IsValid() )
-        {
-            std::auto_ptr<HeadingMessage> HeadingMessage( GenerateHeadingMessage( *player ) );
-            if ( HeadingMessage.get() != NULL )
-            {
-                mSingleMessageSender.Add( player->GetGUID(), HeadingMessage );
-            }
-        }
     }
 }
 

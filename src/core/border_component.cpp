@@ -6,6 +6,7 @@
 BorderComponent::BorderComponent()
     : mBorders()
     , mChanged(false)
+    , mSpriteIndex( 0 )
 {
 }
 

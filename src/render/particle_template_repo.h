@@ -67,7 +67,6 @@ class ParticleTemplateRepo : public platform::Repository<ParticleTemplate>, publ
     ParticleTemplate mDefaultParticleTemplate;
     friend class Singleton<ParticleTemplateRepo>;
     ParticleTemplateRepo();
-    void LoadParticleTemplates();
 };
 
 }

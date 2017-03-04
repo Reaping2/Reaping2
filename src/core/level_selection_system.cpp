@@ -68,7 +68,7 @@ void LevelSelectionSystem::Init()
             mLevelRealNames[gamemode].push_back( foldername );
             mLevelDisplayNames[gamemode].push_back(name);
             mLevelThumbnails[gamemode].push_back( AutoId(thumbnail) );
-            L1("%s successfully addded to map list as %s\n", mLevelRealNames[gamemode].back().c_str(), mLevelDisplayNames[gamemode].back().c_str());
+            L2("%s successfully addded to map list as %s\n", mLevelRealNames[gamemode].back().c_str(), mLevelDisplayNames[gamemode].back().c_str());
         }
     }
 }
@@ -81,7 +81,7 @@ void LevelSelectionSystem::Update(double DeltaTime)
 void LevelSelectionSystem::SelectLevelByIdx( int32_t idx )
 {
     mSelectedLevel = mLevelRealNames[mGameMode][idx];
-    L1( "selected level: %s\n", mSelectedLevel.c_str() );
+    L2( "selected level: %s\n", mSelectedLevel.c_str() );
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
 
@@ -91,7 +91,7 @@ void LevelSelectionSystem::SelectLevelByName( GameModes::Type gameMode, std::str
     std::vector<std::string> const& realNames = mLevelRealNames[mGameMode];
     if ( std::find(realNames.begin(), realNames.end(), realName) == realNames.end() )
     {
-        L1("attempted selection of invalid level: %d\n", realName.c_str() );
+        L2("attempted selection of invalid level: %d\n", realName.c_str() );
         return;
     }
     mSelectedLevel = realName;

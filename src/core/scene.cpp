@@ -99,17 +99,6 @@ void Scene::Update( double DeltaTime )
     //testing end
 
     InsertNewActors();
-    if (mHandleMapReadyCounter > -1)
-    {
-        --mHandleMapReadyCounter;
-    }
-
-    if (mHandleMapReadyCounter==0)
-    {
-        L1( "Map Ready handled!\n" );
-        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
-        mProgramState.mGameState = core::ProgramState::Running;
-    }
 }
 
 Scene::Scene()
@@ -229,7 +218,7 @@ void Scene::RemoveActor( int32_t guid )
     ActorList_t::iterator it = mActorHolder.mAllActors.find( guid );
     if ( it != mActorHolder.mAllActors.end() )
     {
-        L1( "removeActor from existing actors (GUID:%d)\n", ( *it )->GetGUID() );
+        L2( "removeActor from existing actors (GUID:%d)\n", ( *it )->GetGUID() );
         RemoveActor( it );
         return;
     }
@@ -239,7 +228,7 @@ void Scene::RemoveActor( int32_t guid )
         {
             if ( ( *i )->GetGUID() == guid )
             {
-                L1( "removeActor from new actors (GUID:%d)\n", ( *i )->GetGUID() );
+                L2( "removeActor from new actors (GUID:%d)\n", ( *i )->GetGUID() );
                 mRemovedActors.emplace_back( i->Get() );
                 mNewActors.erase( i );
                 return;
@@ -463,11 +452,11 @@ Scene::Actors_t& Scene::GetActorsFromMap( int32_t Id )
 
 void Scene::OnMapStart( core::MapStartEvent const& Evt )
 {
-    L2( "Scene Maps start\n" );
+    L2( "Scene Map start\n" );
     if (Evt.mState == core::MapStartEvent::Ready)
     {
-        L2( "Scene Maps start READY\n" );
-        mHandleMapReadyCounter = 2;
+        L2( "Scene Map start READY\n" );
+        mProgramState.mGameState = core::ProgramState::Running;
     }
 }
 

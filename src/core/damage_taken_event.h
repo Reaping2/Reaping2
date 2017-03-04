@@ -5,7 +5,7 @@
 namespace core {
 struct DamageTakenEvent : public Event
 {
-    enum Type
+    enum Type : int32_t
     {
         Health = 0,
         Armor

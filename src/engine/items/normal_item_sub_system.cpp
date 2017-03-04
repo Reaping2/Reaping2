@@ -18,7 +18,7 @@ NormalItemSubSystem::NormalItemSubSystem()
 void NormalItemSubSystem::Init()
 {
     SubSystemHolder::Init();
-    L1( "normal item sub system init" );
+    L2( "normal item sub system init" );
 }
 
 void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )

@@ -2,72 +2,39 @@
 #include "core/i_position_component.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "platform/settings.h"
+
 namespace network {
 
-OrientationMessageSenderSystem::OrientationMessageSenderSystem()
-    : MessageSenderSystem()
-{
 
+void OrientationMessageSenderSystem::AddUniqueMessage( Actor& actor )
+{
+    mUniqueMessageSender.Add( actor.GetGUID(), GenerateOrientationMessage( actor ) );
+}
+
+
+void OrientationMessageSenderSystem::AddMandatoryMessage( Actor& actor )
+{
+    mMessageHolder.AddOutgoingMessage( GenerateOrientationMessage( actor ) );
+}
+
+OrientationMessageSenderSystem::OrientationMessageSenderSystem()
+    : ActorTimerMessageSenderSystem( AutoId( "orientation" ) )
+{
 }
 
 void OrientationMessageSenderSystem::Init()
 {
-    MessageSenderSystem::Init();
-    SetFrequency( 0.01 );
-    //mSendOrientations.insert(platform::AutoId("player"));
-    if ( mProgramState.mMode == ProgramState::Server )
-    {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider1target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.3, platform::AutoId( "spider2target" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "flag" ) ) );
-    }
-    else if ( mProgramState.mMode == ProgramState::Client )
-    {
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "player" ) ) );
-        mActorFrequencyTimerHolder.Add( ActorFrequencyTimer( 0.01, platform::AutoId( "ctf_player" ) ) );
-    }
+    ActorTimerMessageSenderSystem::Init();
+    SetFrequency( Settings::Get().GetDouble( "network.frequency.orientation", 0.01 ) );
 }
+
 void OrientationMessageSenderSystem::Update( double DeltaTime )
 {
-    MessageSenderSystem::Update( DeltaTime );
-    mActorFrequencyTimerHolder.Update( DeltaTime );
-    if ( !IsTime() )
+    ActorTimerMessageSenderSystem::Update( DeltaTime );
+    if (!IsTime())
     {
         return;
-    }
-    if ( mProgramState.mMode == ProgramState::Server )
-    {
-        mSendOrientations = mActorFrequencyTimerHolder.GetActorIds();
-        //TODO: might need optimization
-        for ( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )
-        {
-            Actor& actor = **it;
-            if ( mSendOrientations.find( actor.GetId() ) == mSendOrientations.end() )
-            {
-                continue;
-            }
-            std::auto_ptr<OrientationMessage> orientationMessage( GenerateOrientationMessage( actor ) );
-            if ( orientationMessage.get() != NULL )
-            {
-                mSingleMessageSender.Add( actor.GetGUID(), orientationMessage );
-            }
-        }
-    }
-    else if ( mProgramState.mMode == ProgramState::Client )
-    {
-        Opt<Actor> player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
-        if ( player.IsValid() )
-        {
-            std::auto_ptr<OrientationMessage> orientationMessage( GenerateOrientationMessage( *player ) );
-            if ( orientationMessage.get() != NULL )
-            {
-                mSingleMessageSender.Add( player->GetGUID(), orientationMessage );
-            }
-        }
     }
 }
 

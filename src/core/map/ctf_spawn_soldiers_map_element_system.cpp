@@ -43,7 +43,7 @@ void CtfSpawnSoldiersMapElementSystem::Update( double DeltaTime )
                     }
                 }
             }
-            L1( "ctf_spawn soldiers!" );
+            L2( "ctf_spawn soldiers!" );
         }
         ctfSpawnSoldiersMapElement->ResetValues();
     }

@@ -18,7 +18,7 @@ public:
     ILevelGenerator( int32_t Id );
     virtual ~ILevelGenerator();
     virtual void Generate() = 0;
-    virtual void Load( Json::Value& setters ); 
+    virtual void Load( Json::Value const& setters ); 
 protected:
     PossibleRooms mPossibleRooms;
     typedef std::deque<glm::vec2> FreeNodes_t;

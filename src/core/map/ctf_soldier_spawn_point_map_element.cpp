@@ -13,7 +13,7 @@ CtfSoldierSpawnPointMapElement::CtfSoldierSpawnPointMapElement( int32_t Id )
 {
 }
 
-void CtfSoldierSpawnPointMapElement::Load( Json::Value& setters )
+void CtfSoldierSpawnPointMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     Json::Value const& position = setters["position"];

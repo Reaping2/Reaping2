@@ -56,7 +56,7 @@ void SyncItemMessageHandlerSubSystem::Execute( Message const& message )
         BOOST_ASSERT( false );
         return;
     }
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IInventoryComponent> inv = actor->Get<IInventoryComponent>();
     if( !inv.IsValid() )
     {

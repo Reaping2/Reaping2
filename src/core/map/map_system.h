@@ -180,7 +180,6 @@ public:
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
-    bool AddMapElementFromOneTextureDesc( Json::Value& mapElementDesc );
 private:
     void ClearMapElements();
     Scene& mScene;

@@ -50,6 +50,7 @@ void RandomizeSpriteSystem::OnActorEvent(::ActorEvent const& Evt)
         ind = GetRandomIndex( borderC->GetRandomSprites() );
     }
     borderC->SetSpriteIndex( ind );
+    L2( "set spriteIndex %d  ", ind );
 }
 
 int32_t RandomizeSpriteSystem::GetRandomIndex( std::vector<int32_t> const& randomSprites )

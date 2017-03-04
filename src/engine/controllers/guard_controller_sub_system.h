@@ -5,7 +5,7 @@
 #include "core/scene.h"
 #include "core/program_state.h"
 #include "core/i_target_holder_component.h"
-#include "../../core/i_position_component.h"
+#include "core/i_position_component.h"
 using core::ProgramState;
 
 namespace engine {

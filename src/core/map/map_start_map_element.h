@@ -13,9 +13,13 @@ class MapStartMapElement : public MapElement, public BaseOutput, public BaseInpu
 public:
     DEFINE_MAP_ELEMENT_BASE( MapStartMapElement )
     MapStartMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     static int32_t StartInputNodeId();
     static int32_t StartOutputNodeId();
+    static int32_t PreActorsSpawnedInputNodeId();
+    static int32_t PreActorsSpawnedOutputNodeId();
+    static int32_t ActorsSpawnedInputNodeId();
+    static int32_t ActorsSpawnedOutputNodeId();
     static int32_t ReadyInputNodeId();
     static int32_t ReadyOutputNodeId();
 private:

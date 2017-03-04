@@ -6,6 +6,7 @@
 #include "network/message_sender_system.h"
 #include "platform/export.h"
 #include "single_message_sender.h"
+#include "actor_frequency_timer.h"
 
 namespace network {
 
@@ -47,10 +48,11 @@ public:
     virtual void Update(double DeltaTime);
 };
 
-class RotateMessageSenderSystem : public MessageSenderSystem
+class RotateMessageSenderSystem : public ActorTimerMessageSenderSystem<RotateMessage>
 {
     ActorFrequencyTimerHolder mActorFrequencyTimerHolder;
-    AutoActorGUIDSingleMessageSender<RotateMessage> mSingleMessageSender;
+    virtual void AddUniqueMessage( Actor& actor );
+    virtual void AddMandatoryMessage( Actor& actor );
 public:
     DEFINE_SYSTEM_BASE(RotateMessageSenderSystem)
     RotateMessageSenderSystem();

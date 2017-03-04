@@ -23,7 +23,7 @@ struct Cell
     Entrances_t const& GetEntrances() const;
     void SetFilled( bool filled );
     bool IsFilled() const;
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void Save( Json::Value& setters ) const;
 };
 
@@ -57,7 +57,7 @@ struct RoomDesc
 
     typedef std::vector<int32_t> PlacedActorGUIDs_t;
     PlacedActorGUIDs_t mPlacedActorGUIDs; // for debug
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void Save( Json::Value& setters ) const; 
     enum EqualFlags
     {

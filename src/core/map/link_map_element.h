@@ -11,7 +11,7 @@ class LinkMapElement : public MapElement
 public:
     DEFINE_MAP_ELEMENT_BASE( LinkMapElement )
     LinkMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void SetTargetInputUID( int32_t targetInputUID );
     int32_t GetTargetInputUID()const;
     void SetTargetInputNodeId( int32_t targetInputNodeId );

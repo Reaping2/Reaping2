@@ -18,7 +18,7 @@ class PossibleRooms
 {
 public:
     PossibleRooms();
-    void Load( Json::Value& possibleRooms );
+    void Load( Json::Value const& possibleRooms );
     void ShuffleRoomIds();
     typedef std::vector<PossibleRoom> PossibleRoomIds_t;
     PossibleRoomIds_t const& GetRoomIds()  const;

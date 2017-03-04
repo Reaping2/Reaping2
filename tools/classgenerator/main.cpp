@@ -592,7 +592,7 @@ class MapElementGenerator : public Generator
             fprintf( file.mFile, "public:\n" );
             fprintf( file.mFile, "    DEFINE_MAP_ELEMENT_BASE(%sMapElement)\n", classCamelCase.c_str() );
             fprintf( file.mFile, "    %sMapElement( int32_t Id );\n", classCamelCase.c_str() );
-            fprintf( file.mFile, "    void Load( Json::Value& setters );\n" );
+            fprintf( file.mFile, "    void Load( Json::Value const& setters );\n" );
             for( Type_Member_Pairs_t::iterator i = typeMemberPairs.begin(), e = typeMemberPairs.end(); i != e; ++i )
             {
                 fprintf( file.mFile, "    %s;\n", CreateSetMemberFull( i->first, i->second ).c_str() );
@@ -632,7 +632,7 @@ class MapElementGenerator : public Generator
             fprintf( file.mFile, "{\n" );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
-            fprintf( file.mFile, "void %sMapElement::Load( Json::Value& setters )\n", classCamelCase.c_str() );
+            fprintf( file.mFile, "void %sMapElement::Load( Json::Value const& setters )\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
             fprintf( file.mFile, "    MapElement::Load( setters );\n" );
             fprintf( file.mFile, "}\n" );

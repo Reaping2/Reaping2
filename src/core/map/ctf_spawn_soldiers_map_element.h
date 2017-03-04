@@ -13,7 +13,7 @@ class CtfSpawnSoldiersMapElement : public MapElement, public BaseInput
 public:
     DEFINE_MAP_ELEMENT_BASE( CtfSpawnSoldiersMapElement )
     CtfSpawnSoldiersMapElement( int32_t Id );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     static int32_t SpawnNodeId();
 private:
 };

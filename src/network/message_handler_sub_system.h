@@ -55,7 +55,7 @@ void PendingMessageHandlerSubSystem<T>::Update( double DeltaTime )
         Opt<Actor> actor = mScene.GetActor( msg.mActorGUID );
         if ( !actor.IsValid() )
         {
-            L1( "cannot find actor with GUID: %d, tries: %d (%s) (will try again later) \n", msg.mActorGUID, i->second, __FUNCTION__ );
+            L2( "cannot find actor with GUID: %d, tries: %d (%s) (will try again later) \n", msg.mActorGUID, i->second, __FUNCTION__ );
             ++i->second;
             if ( i->second > 5 )
             {

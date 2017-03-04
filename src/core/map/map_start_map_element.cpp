@@ -16,6 +16,33 @@ int32_t MapStartMapElement::StartOutputNodeId()
     return id;
 }
 
+
+int32_t MapStartMapElement::PreActorsSpawnedInputNodeId()
+{
+    static int32_t id = AutoId( "pre_actors_spawned" );
+    return id;
+}
+
+
+int32_t MapStartMapElement::PreActorsSpawnedOutputNodeId()
+{
+    static int32_t id = AutoId( "pre_actors_spawned" );
+    return id;
+}
+
+int32_t MapStartMapElement::ActorsSpawnedInputNodeId()
+{
+    static int32_t id = AutoId( "actors_spawned" );
+    return id;
+}
+
+
+int32_t MapStartMapElement::ActorsSpawnedOutputNodeId()
+{
+    static int32_t id = AutoId( "actors_spawned" );
+    return id;
+}
+
 int32_t MapStartMapElement::ReadyInputNodeId()
 {
     static int32_t id = AutoId( "ready" );
@@ -34,13 +61,17 @@ MapStartMapElement::MapStartMapElement( int32_t Id )
     , BaseInput()
 {
     AddOutputNodeId( StartOutputNodeId() );
+    AddOutputNodeId( PreActorsSpawnedOutputNodeId() );
+    AddOutputNodeId( ActorsSpawnedOutputNodeId() );
     AddOutputNodeId( ReadyOutputNodeId() );
 }
 
-void MapStartMapElement::Load( Json::Value& setters )
+void MapStartMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     AddInputNodeId( StartInputNodeId() );
+    AddInputNodeId( PreActorsSpawnedInputNodeId() );
+    AddInputNodeId( ActorsSpawnedInputNodeId() );
     AddInputNodeId( ReadyInputNodeId() );
 }
 

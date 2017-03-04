@@ -19,7 +19,6 @@ class ParticleLayerRepo : public platform::Repository<ParticleLayer>, public pla
     ParticleLayer mDefaultParticleLayer;
     friend class Singleton<ParticleLayerRepo>;
     ParticleLayerRepo();
-    void LoadParticleLayers();
     static std::string const mDefaultParticleLayerName;
 };
 

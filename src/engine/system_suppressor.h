@@ -15,7 +15,7 @@ protected:
     friend class platform::Singleton<SystemSuppressor>;
     SystemSuppressor();
 public:
-    enum Type
+    enum Type : int32_t
     {
         SceneLoad=0,
         Force,

@@ -41,7 +41,7 @@ void JungleLevelGenerator::Generate()
 }
 
 
-void JungleLevelGenerator::Load( Json::Value& setters )
+void JungleLevelGenerator::Load( Json::Value const& setters )
 {
     ILevelGenerator::Load( setters );
     mMainRouteProperties.Load( setters["route"] );
@@ -380,7 +380,7 @@ void JungleLevelGenerator::LinkRooms( Route_t route )
     }
 }
 
-void JungleLevelGenerator::RouteProperties::Load( Json::Value& setters )
+void JungleLevelGenerator::RouteProperties::Load( Json::Value const& setters )
 {
     Json::GetInt( setters["min_length"], minLength );
     Json::GetInt( setters["end_chance"], endChance );

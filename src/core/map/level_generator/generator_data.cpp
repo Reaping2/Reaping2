@@ -52,7 +52,7 @@ void GeneratorData::PlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, Possible
                 auto& cell = GetGCell( targetPos );
                 cell.mFilled = true;
                 cell.mGRoomDescIndex = mGRoomDescs.size();
-                L1( "%d,%d is now filled %d\n", targetPos.x, targetPos.y, cell.mFilled );
+                L2( "%d,%d is now filled %d\n", targetPos.x, targetPos.y, cell.mFilled );
             }
         }
     }
@@ -87,12 +87,12 @@ bool GeneratorData::CanPlaceRoom( RoomDesc const& roomDesc, glm::vec2 pos, Possi
             {
                 if (!IsInBounds( targetPos ))
                 {
-                    L1( "%d,%d is out of bounds\n", targetPos.x, targetPos.y );
+                    L2( "%d,%d is out of bounds\n", targetPos.x, targetPos.y );
                     return false; //cell is out of bounds
                 }
                 if (IsFilled( targetPos ))
                 {
-                    L1( "%d,%d is already filled %d\n", targetPos.x, targetPos.x, IsFilled( targetPos ) );
+                    L2( "%d,%d is already filled %d\n", targetPos.x, targetPos.x, IsFilled( targetPos ) );
                     return false; //cell is already filled this room can't be placed
                 }
             }

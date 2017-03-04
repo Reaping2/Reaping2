@@ -1,5 +1,6 @@
 #include "platform/i_platform.h"
 #include "engine/engine.h"
+#include "core/perf_timer.h"
 
 namespace engine {
 
@@ -37,10 +38,19 @@ void Engine::Update( double DeltaTime )
     {
         DeltaTime = 0.0;
     }
+    static perf::Timer_t mPerfTimer;
     SystemsFilter<Engine::EnabledSystems> enabledSystems( mSystemHolder.mSystems );
     for ( SystemsFilter<Engine::EnabledSystems>::const_iterator it = enabledSystems.begin(), e = enabledSystems.end(); it != e; ++it )
     {
+        auto& idStorage = IdStorage::Get();
+        std::string sysName;
+        if (idStorage.GetName( it->mSystem->GetType(), sysName ))
+        {
+            L2( "System update: %s\n", sysName.c_str() );
+        }
+        mPerfTimer.Log( "sys start" );
         it->mSystem->Update( DeltaTime );
+        mPerfTimer.Log( "sys end" );
     }
 }
 

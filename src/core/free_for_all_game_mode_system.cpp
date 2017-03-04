@@ -66,6 +66,11 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( false );
     ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( false );
 
+    if (ProgramState::Get().mMode == ProgramState::Client)
+    {
+        return;
+    }
+
     auto levelSelectionSystem = engine::Engine::Get().GetSystem<LevelSelectionSystem>();
     if ( levelSelectionSystem.IsValid() )
     {
@@ -74,10 +79,6 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
     else
     {
         L1("failed to retrieve LevelSelectionSystem\n");
-        return;
-    }
-    if ( ProgramState::Get().mMode == ProgramState::Client )
-    {
         return;
     }
 
@@ -131,10 +132,18 @@ void FreeForAllGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     {
         Ui::Get().Load( "hud" );
     }
+    if (Evt.mState == core::MapStartEvent::ActorsSpawned&&mProgramState.mMode != ProgramState::Client)
+    {
+        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+    }
 }
 
 void FreeForAllGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
 {
+    if (GameModes::FFA != mProgramState.mGameMode)
+    {
+        return;
+    }
     Ui::Get().Load( "waiting_load" );
     bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
 }

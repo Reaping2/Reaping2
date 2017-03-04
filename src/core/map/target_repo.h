@@ -25,9 +25,6 @@ class TargetRepo : public platform::Repository<ITarget>, public platform::Single
     TargetRepo();
 private:
     void Init();
-
-    void AddTargetFromOneDesc( Json::Value& Root );
-
     TargetFactory& mTargetFactory;
 };
 

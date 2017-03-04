@@ -12,7 +12,7 @@ class JsonRoom : public IRoom
 public:
     JsonRoom( int32_t Id );
     virtual void Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor = false );
-    void Load( Json::Value& setters );
+    void Load( Json::Value const& setters );
     void Save( Json::Value& setters, RoomDesc const& roomDesc );
 private:
     ActorFactory& mActorFactory;

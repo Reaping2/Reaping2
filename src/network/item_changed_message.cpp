@@ -73,7 +73,7 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending( Message const& message 
 {
     ItemChangedMessage const& msg = static_cast<ItemChangedMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
     if ( !inventoryC.IsValid() )
     {

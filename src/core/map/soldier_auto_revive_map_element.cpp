@@ -8,7 +8,7 @@ SoldierAutoReviveMapElement::SoldierAutoReviveMapElement( int32_t Id )
 {
 }
 
-void SoldierAutoReviveMapElement::Load( Json::Value& setters )
+void SoldierAutoReviveMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     double secsToRevive;

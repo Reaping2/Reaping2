@@ -24,7 +24,6 @@ private:
     typedef std::map<int32_t, ExcludedRecognizers_t> ExcludedRecognizersMap_t;
     ExcludedRecognizersMap_t mExcludedRecognizersMap;
     void Init();
-    bool AddRecognizerFromOneDesc( Json::Value& RecognizerDesc );
     bool AddRecognizerExcludesFromOneDesc( Json::Value& RecognizerExcludesDesc );
 };
 } // namespace render

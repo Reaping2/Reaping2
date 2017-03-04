@@ -1,6 +1,7 @@
 #include "particle_layer_repo.h"
 #include "platform/jsonreader.h"
 #include <boost/assign/list_of.hpp>
+#include "platform/filesystem_utils.h"
 
 
 namespace render {
@@ -8,43 +9,11 @@ ParticleLayerRepo::ParticleLayerRepo()
     : Repository<ParticleLayer>( mDefaultParticleLayer )
     , mDefaultParticleLayer( Json::Value() )
 {
-    LoadParticleLayers();
-}
-
-void ParticleLayerRepo::LoadParticleLayers()
-{
-    Filesys& FSys = Filesys::Get();
-    PathVect_t Paths;
-    FSys.GetFileNames( Paths, "misc/particlelayers" );
-    for( PathVect_t::const_iterator i = Paths.begin(), e = Paths.end(); i != e; ++i )
+    fs_utils::for_each( "misc/particlelayers", ".json", [&]( Json::Value const& desc )
     {
-        boost::filesystem::path const& Path = *i;
-        if( Path.extension().string() != ".json" )
-        {
-            continue;
-        }
-        AutoFile JsonFile = FSys.Open( *i );
-        if( !JsonFile.get() )
-        {
-            continue;
-        }
-        JsonReader Reader( *JsonFile );
-        if( !Reader.IsValid() )
-        {
-            continue;
-        }
-        Json::Value Root = Reader.GetRoot();
-        if( !Root.isArray() )
-        {
-            continue;
-        }
-        for( Json::Value::iterator i = Root.begin(), e = Root.end(); i != e; ++i )
-        {
-            Json::Value& part = *i;
-            int32_t Idx = part["id"].asInt();
-            mElements.insert( Idx, new ParticleLayer( part ) );
-        }
-    }
+        int32_t Idx = desc["id"].asInt();
+        mElements.insert( Idx, new ParticleLayer( desc ) );
+    } );
 }
 
 ParticleLayer::ParticleLayer( Json::Value const& json )

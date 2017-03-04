@@ -28,7 +28,7 @@ void LevelGeneratedMapElementSystem::Update( double DeltaTime )
     {
         EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::ActorsSpawned ) );
         mHandleTerrainGeneratedCounter = false;
-        L1( "Actors Spawned sent!\n" );
+        L2( "Actors Spawned sent!\n" );
     }
 }
 

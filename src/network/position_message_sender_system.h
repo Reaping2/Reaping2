@@ -8,12 +8,13 @@
 
 namespace network {
 
-class PositionMessageSenderSystem: public MessageSenderSystem
+class PositionMessageSenderSystem: public ActorTimerMessageSenderSystem<PositionMessage>
 {
     typedef std::set<int32_t> SendPositions_t;
     SendPositions_t mSendPositions;
-    AutoActorGUIDSingleMessageSender<PositionMessage> mSingleMessageSender;
     ActorFrequencyTimerHolder mActorFrequencyTimerHolder;
+    virtual void AddUniqueMessage( Actor& actor );
+    virtual void AddMandatoryMessage( Actor& actor );
 public:
     DEFINE_SYSTEM_BASE( PositionMessageSenderSystem )
     PositionMessageSenderSystem();

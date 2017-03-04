@@ -57,7 +57,7 @@ bool SetTeamMessageHandlerSubSystem::ProcessPending( Message const& message )
 {
     SetTeamMessage const& msg = static_cast<SetTeamMessage const&>( message );
     Opt<Actor> actor = mScene.GetActor( msg.mActorGUID ); //guaranteed
-    L1( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
+    L2( "executing %s: actorGUID %d \n", __FUNCTION__, msg.mActorGUID );
     Opt<ITeamComponent> teamC = actor->Get<ITeamComponent>();
     if ( !teamC.IsValid() )
     {

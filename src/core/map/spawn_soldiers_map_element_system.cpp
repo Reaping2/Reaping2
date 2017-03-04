@@ -57,7 +57,7 @@ void SpawnSoldiersMapElementSystem::Update( double DeltaTime )
                     mScene.AddActor( Pl.release() );
                 }
             }
-            L1( "spawn soldiers!" );
+            L2( "spawn soldiers!\n" );
         }
         spawnSoldiersMapElement->ResetValues();
     }

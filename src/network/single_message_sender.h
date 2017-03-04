@@ -12,7 +12,7 @@
 namespace network {
 
 template<class MESSAGE_ID, class MESSAGE>
-class SingleMessageSender
+class UniqueMessageSender
 {
     BOOST_STATIC_ASSERT_MSG(
         ( boost::is_base_of<Message, MESSAGE>::value ),
@@ -23,34 +23,38 @@ protected:
     MessageMap_t mMessageMap;
     MessageHolder& mMessageHolder;
 public:
-    SingleMessageSender();
+    UniqueMessageSender();
     void Add( MESSAGE_ID messageId, std::auto_ptr<MESSAGE> message );
     void Remove( MESSAGE_ID messageId );
-    virtual ~SingleMessageSender();
+    virtual ~UniqueMessageSender();
 };
 
 template<class MESSAGE_ID, class MESSAGE>
-network::SingleMessageSender<MESSAGE_ID, MESSAGE>::~SingleMessageSender()
+network::UniqueMessageSender<MESSAGE_ID, MESSAGE>::~UniqueMessageSender()
 {
 
 }
 
 template<class MESSAGE_ID, class MESSAGE>
-network::SingleMessageSender<MESSAGE_ID, MESSAGE>::SingleMessageSender()
+network::UniqueMessageSender<MESSAGE_ID, MESSAGE>::UniqueMessageSender()
     : mMessageHolder( MessageHolder::Get() )
 {
 
 }
 
 template<class MESSAGE_ID, class MESSAGE>
-void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Remove( MESSAGE_ID messageId )
+void network::UniqueMessageSender<MESSAGE_ID, MESSAGE>::Remove( MESSAGE_ID messageId )
 {
     mMessageMap.erase( messageId );
 }
 
 template<class MESSAGE_ID, class MESSAGE>
-void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Add( MESSAGE_ID messageId, std::auto_ptr<MESSAGE> message )
+void network::UniqueMessageSender<MESSAGE_ID, MESSAGE>::Add( MESSAGE_ID messageId, std::auto_ptr<MESSAGE> message )
 {
+    if (message.get() == nullptr)
+    {
+        return;
+    }
     typename MessageMap_t::iterator it = mMessageMap.find( messageId );
     if ( it != mMessageMap.end() )
     {
@@ -72,27 +76,27 @@ void network::SingleMessageSender<MESSAGE_ID, MESSAGE>::Add( MESSAGE_ID messageI
 }
 
 template<class MESSAGE>
-class AutoActorGUIDSingleMessageSender : public SingleMessageSender<int32_t, MESSAGE>
+class AutoActorGUIDUniqueMessageSender : public UniqueMessageSender<int32_t, MESSAGE>
 {
     platform::AutoReg mOnActorEvent;
     void OnActorEvent( ActorEvent const& Evt );
 public:
-    AutoActorGUIDSingleMessageSender();
+    AutoActorGUIDUniqueMessageSender();
 };
 
 template<class MESSAGE>
-void AutoActorGUIDSingleMessageSender<MESSAGE>::OnActorEvent( ActorEvent const& Evt )
+void AutoActorGUIDUniqueMessageSender<MESSAGE>::OnActorEvent( ActorEvent const& Evt )
 {
     if( Evt.mState == ActorEvent::Removed )
     {
-        AutoActorGUIDSingleMessageSender<MESSAGE>::Remove( Evt.mActor->GetGUID() );
+        AutoActorGUIDUniqueMessageSender<MESSAGE>::Remove( Evt.mActor->GetGUID() );
     }
 }
 
 template<class MESSAGE>
-AutoActorGUIDSingleMessageSender<MESSAGE>::AutoActorGUIDSingleMessageSender()
+AutoActorGUIDUniqueMessageSender<MESSAGE>::AutoActorGUIDUniqueMessageSender()
 {
-    mOnActorEvent = platform::EventServer<ActorEvent>::Get().Subscribe( boost::bind( &AutoActorGUIDSingleMessageSender::OnActorEvent, this, _1 ) );
+    mOnActorEvent = platform::EventServer<ActorEvent>::Get().Subscribe( boost::bind( &AutoActorGUIDUniqueMessageSender::OnActorEvent, this, _1 ) );
 }
 
 } // namespace network

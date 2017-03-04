@@ -115,7 +115,7 @@ void SoldierPropertiesSystem::OnSoldierCreatedEvent( engine::SoldierCreatedEvent
             engine::MaxHealthBuffSubSystem::RecalculateBuffs( *Evt.mActor );
             Opt<IHealthComponent> healthC = Evt.mActor->Get<IHealthComponent>();
             healthC->SetHP( healthC->GetMaxHP().Get() );
-            L1( "setting health to hp:%d, maxHP calculated:%d guid: %d\n", healthC->GetHP(), healthC->GetMaxHP().Get(), Evt.mActor->GetGUID() );
+            L2( "setting health to hp:%d, maxHP calculated:%d guid: %d\n", healthC->GetHP(), healthC->GetMaxHP().Get(), Evt.mActor->GetGUID() );
 
             buff = core::BuffFactory::Get()( AccuracyBuff::GetType_static() );
             AccuracyBuff* accuracyBuff = ( AccuracyBuff* )buff.get();
@@ -124,7 +124,7 @@ void SoldierPropertiesSystem::OnSoldierCreatedEvent( engine::SoldierCreatedEvent
             buffHolderC->AddBuff( buff );
             Opt<IAccuracyComponent> accuracyC = Evt.mActor->Get<IAccuracyComponent>();
             engine::AccuracyBuffSubSystem::RecalculateBuffs( *Evt.mActor );
-            L1( "setting accuracy calculated:%d guid: %d\n", accuracyC->GetAccuracy().Get(), Evt.mActor->GetGUID() );
+            L2( "setting accuracy calculated:%d guid: %d\n", accuracyC->GetAccuracy().Get(), Evt.mActor->GetGUID() );
 
         }
 

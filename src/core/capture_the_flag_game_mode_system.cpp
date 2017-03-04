@@ -98,6 +98,10 @@ void CaptureTheFlagGameModeSystem::OnStartGameMode( core::StartGameModeEvent con
     ::engine::Engine::Get().SetEnabled< ::core::CaptureTheFlagGameModeSystem>( true );
     ::engine::Engine::Get().SetEnabled< ::core::RogueGameModeSystem>( false );
 
+    if (ProgramState::Get().mMode == ProgramState::Client)
+    {
+        return;
+    }
 
     if ( mProgramState.mMode == core::ProgramState::Server )
     {
@@ -223,10 +227,18 @@ void CaptureTheFlagGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     {
         Ui::Get().Load( "ctf_hud" );
     }
+    if (Evt.mState == core::MapStartEvent::ActorsSpawned&&mProgramState.mMode != ProgramState::Client)
+    {
+        bool succ = engine::SystemSuppressor::Get().Resume( engine::SystemSuppressor::SceneLoad );
+    }
 }
 
 void CaptureTheFlagGameModeSystem::OnMapLoad( core::MapLoadEvent const& Evt )
 {
+    if (GameModes::CTF != mProgramState.mGameMode)
+    {
+        return;
+    }
     Ui::Get().Load( "waiting_load" );
     bool succ = engine::SystemSuppressor::Get().Suppress( engine::SystemSuppressor::SceneLoad );
 }

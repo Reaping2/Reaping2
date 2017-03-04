@@ -1,0 +1,67 @@
+[
+    {
+        "message_name":"orientation",
+        "name": "player",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        },
+        "client":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"heading",
+        "name": "player",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        },
+        "client":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"move",
+        "name": "player",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        },
+        "client":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "player",
+        "server":
+        {
+            "unique_frequency":0.3,
+            "mandatory_frequency":0.3
+        },
+        "client":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }        
+    },
+    {
+        "message_name":"player_controller",
+        "name": "player",
+        "client":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.1
+        }
+    }    
+]

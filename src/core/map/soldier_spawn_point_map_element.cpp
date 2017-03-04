@@ -11,7 +11,7 @@ SoldierSpawnPointMapElement::SoldierSpawnPointMapElement( int32_t Id )
 {
 }
 
-void SoldierSpawnPointMapElement::Load( Json::Value& setters )
+void SoldierSpawnPointMapElement::Load( Json::Value const& setters )
 {
     MapElement::Load( setters );
     Json::Value const& position = setters["position"];
