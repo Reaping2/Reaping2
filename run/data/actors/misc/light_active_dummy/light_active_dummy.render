@@ -1,0 +1,11 @@
+[
+    {
+        "name":"light_active_dummy",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

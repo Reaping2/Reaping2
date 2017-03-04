@@ -2,6 +2,7 @@
 #include "activity_traits.h"
 #include "player_controller_component.h"
 #include "i_collision_component.h"
+#include "i_activity_component.h"
 #include "platform/settings.h"
 
 namespace core {
@@ -16,8 +17,8 @@ bool ActivityTraits::AreCorrelated( int32_t CC1, int32_t CC2 )
 
 int32_t ActivityTraits::GetTrait( Actor const& actor )
 {
-    Opt<PlayerControllerComponent> controllerC = actor.Get<IControllerComponent>();
-    return controllerC.IsValid() ? Active : Passive;
+    Opt<IActivityComponent> activityC = actor.Get<IActivityComponent>();
+    return activityC.IsValid() ? Active : Passive;
 }
 
 double ActivityTraits::GetRadius( Actor const& actor )
@@ -28,13 +29,15 @@ double ActivityTraits::GetRadius( Actor const& actor )
         static const auto activesize = Settings::Get().GetDouble( "activity.default_active_size", 2000.0 );
         return mActiveSize ? mActiveSize() : activesize;
     }
+    Opt<IActivityComponent> activityC = actor.Get<IActivityComponent>();
+    double activityRadius = activityC.IsValid() ? activityC->GetRadius() : 0.0;
     Opt<ICollisionComponent> collC = actor.Get<ICollisionComponent>();
     if( !collC.IsValid() )
     {
-        return 0.0;
+        return activityRadius;
     }
     float scale = mScaleFunc ? mScaleFunc( actor.GetId() ) : 1.0f;
-    return collC->GetRadius() * scale;
+    return std::max( activityRadius, collC->GetRadius() * scale );
 }
 
 void ActivityTraits::SetActorScaleFunc( ActorScaleFunc const& f )

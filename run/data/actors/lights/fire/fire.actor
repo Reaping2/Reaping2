@@ -1,0 +1,36 @@
+[
+    {
+        "name":"fire",
+        "components":
+        [
+            {"name":"light_component",
+                "set":[{"radius":500}]
+            },
+            {"name":"static_actor_component"},
+            {"name":"position_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"buildings", "cast_shadow":0}]
+            },
+            {"name":"collision_component",
+                "set":[{"class":"no_collision", "radius":50}]
+            },
+            {
+                "name":"emitter_component",
+                "set": [{
+                    "emit_descs":[
+                        {
+                            "delay": 0.2,
+                            "probability": 0.2,
+                            "emit_type": "fire_smoke_particle"
+                        },
+                        {
+                            "delay": 0.4,
+                            "probability": 0.4,
+                            "emit_type": "fire_flame_particle"
+                        }
+                    ]
+                }]
+            }
+        ]
+    }
+]

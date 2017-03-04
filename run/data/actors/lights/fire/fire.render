@@ -1,0 +1,11 @@
+[
+    {
+        "name":"fire",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"idle"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

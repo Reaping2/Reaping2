@@ -96,6 +96,9 @@
             {"name":"remove_on_death_component"},
             {"name":"fade_out_component",
                 "set":[{"secs_to_end":0.325}]
+            },
+            {"name":"light_component",
+                "set":[{"radius":30}]
             }
         ]
     }

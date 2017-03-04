@@ -97,6 +97,10 @@ bool ActivitySystem::ActorOrderer::operator()( Actor const* a, Actor const* b ) 
     {
         return true;
     }
+    if( !brC.IsValid() )
+    {
+        return false;
+    }
     return arC->GetLayerPriority() < brC->GetLayerPriority() ||
         ( arC->GetLayerPriority() == brC->GetLayerPriority() &&
           ( arC->GetZOrder() < brC->GetZOrder() ||

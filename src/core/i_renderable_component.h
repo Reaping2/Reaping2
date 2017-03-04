@@ -18,6 +18,8 @@ public:
     virtual void SetReceiveShadow( int32_t set ) = 0;
     virtual int32_t GetReceiveBlood() const = 0;
     virtual void SetReceiveBlood( int32_t set ) = 0;
+    virtual double GetShadowLenScale() const = 0;
+    virtual void SetShadowLenScale( double height ) = 0;
     virtual void SetColor( glm::vec4 const& color ) = 0;
     virtual glm::vec4 GetColor()const = 0;
     typedef std::vector<int32_t> RandomSprites_t; //weight of sprites

@@ -39,6 +39,7 @@
 #include "core/free_for_all_game_mode_system.h"
 #include "core/capture_the_flag_game_mode_system.h"
 #include "render/particle_system.h"
+#include "render/light_system.h"
 #include "network/server_system.h"
 #include "network/client_system.h"
 #include "core/buffs/armor_buff.h"
@@ -492,6 +493,7 @@ int main( int argc, char* argv[] )
     {
         Eng.AddSystem( AutoId( "ParticleSystem" ) );
     }
+    Eng.AddSystem( AutoId( "LightSystem" ) );
     Eng.AddSystem( AutoId( "move_system" ) );
     Eng.AddSystem( AutoId( "rotate_component_system" ) );
     Eng.AddSystem( AutoId( "attachable_system" ) );

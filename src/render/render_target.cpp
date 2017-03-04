@@ -107,7 +107,7 @@ void RenderTarget::SetTargetTexture( uint32_t id, RenderTargetProps const& props
     mCurrentId = id;
 }
 
-void RenderTarget::SelectTargetTexture( uint32_t id ) const
+void RenderTarget::SelectTargetTexture( uint32_t id, bool singleBind ) const
 {
     if( id == ScreenId )
     {
@@ -117,7 +117,7 @@ void RenderTarget::SelectTargetTexture( uint32_t id ) const
     TargetTexture const& tgt = mTargets.at( id );
     glBindFramebuffer( GL_FRAMEBUFFER, tgt.FramebufferId );
     glBindRenderbuffer( GL_RENDERBUFFER, tgt.DepthBufferId );
-    glDrawBuffers(tgt.Attachments.size(), &tgt.Attachments[0]);
+    glDrawBuffers( singleBind ? 1 : tgt.Attachments.size(), &tgt.Attachments[0]);
     bool succ = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     BOOST_ASSERT( succ );
     mCurrentId = id;

@@ -142,7 +142,7 @@ void RogueGameModeSystem::OnSoldierCreated( engine::SoldierCreatedEvent const& E
     {
         return;
     }
-    auto& it = mComponentMap.find(Evt.mClientData.mClientId);
+    auto it = mComponentMap.find(Evt.mClientData.mClientId);
     if (it == mComponentMap.end())
     {
         return;

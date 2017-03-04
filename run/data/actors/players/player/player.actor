@@ -3,12 +3,20 @@
         "name":"player",
         "components":
         [
+            {"name":"light_component",
+                "set":[{
+                    "radius":300,
+                    "full_strength_aperture":30,
+                    "aperture":60
+                }]
+            },
             {"name":"position_component"},
+            {"name":"activity_component"},
             {"name":"move_component",
                 "set":[{"speed":750}]
             },
             {"name":"renderable_component",
-                "set":[{"layer":"players", "cast_shadow":1}]
+                "set":[{"layer":"players", "cast_shadow":1,"shadow_len_scale":0.7}]
             },
             {"name":"collision_component",
                 "set":[{"class":"player", "radius":30}]

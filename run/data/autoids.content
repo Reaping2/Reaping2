@@ -113,6 +113,9 @@
 -a1
 -a3
 -a4
+.bump_map_mp.fs
+.lights.fs
+.shadow_unwrap.fs
 0x00000000
 0x00000044
 0x00007777
@@ -395,6 +398,7 @@ accuracy_buff
 accuracy_component
 accuracy_pickup
 accuracy_pickup.png
+activity_component
 actor
 actors
 actors/misc/font/font.png
@@ -701,6 +705,8 @@ buildings
 bullet2_particle
 bullet_particle
 bump_map
+bump_map_mp
+bump_map_nolight
 bush50
 bush50.png
 button
@@ -904,8 +910,14 @@ ffa_client_list
 ffa_client_list.clients
 ffa_client_list.clients#clientidx
 fill
+fire
+fire.png
 fire60
 fire60.png
+fire_flame_particle
+fire_particle
+fire_particle.png
+fire_smoke_particle
 fixed_ratio_container
 flag
 flag.png
@@ -1120,6 +1132,11 @@ level.select
 level_generated
 level_generator
 lifecycle.host
+light_active_dummy
+light_active_dummy.png
+light_component
+lightmap
+lights
 link
 listen_child_death_component
 local.start
@@ -1142,6 +1159,7 @@ map_elements
 map_start
 mapitem
 menu item
+mergelights
 monkey
 mouse
 move
@@ -1707,6 +1725,7 @@ purple_flowers50
 random
 read_me
 readme
+ready
 reaping
 reaping_menu_r2
 reaping_resurr_splash
@@ -2169,7 +2188,9 @@ select_level
 select_target
 set entrance
 settings
+shadow_unwrap
 shadows
+shadows2
 shooter_Loves
 shooter_move
 shooter_rip
@@ -2204,6 +2225,8 @@ skull_rip
 skull_rip.png
 small_fount100
 small_hill50
+smoke_particle
+smoke_particle.png
 snow2
 soldier
 soldier.accuracy
@@ -2350,6 +2373,7 @@ stone_wall_topright
 stones50
 stop_on_death_component
 strongerAmmo
+sunlight
 target
 target:
 target_desc
@@ -2365,6 +2389,7 @@ tile_water
 todo
 top
 top_entrance
+topcasters
 topleft
 topright
 trap_spike_off

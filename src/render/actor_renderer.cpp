@@ -72,7 +72,7 @@ glm::vec2 visMultiplier( Actor const& actor )
     }
     return glm::vec2( 1.0, 1.0 );
 }
-bool isVisible( Actor const& actor, Camera const& camera )
+bool isVisible( Actor const& actor, std::vector<Camera const*> const& cameras )
 {
     Opt<IPositionComponent> const positionC = actor.Get<IPositionComponent>();
     if( !positionC.IsValid() )
@@ -91,16 +91,25 @@ bool isVisible( Actor const& actor, Camera const& camera )
     float vmult = std::max<float>( visMulti.x, visMulti.y );
     // 2.0 multiplier: safety
     float size = ( collisionC.IsValid() ? collisionC->GetRadius() : 50 ) * scale * 2.0 * vmult;
-    glm::vec4 const& region = camera.VisibleRegion();
-    return region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
-        && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size;
+    for( auto camera : cameras )
+    {
+        glm::vec4 const& region = camera->VisibleRegion();
+        if( region.x < positionC->GetX() + size && region.z > positionC->GetX() - size
+            && region.y < positionC->GetY() + size && region.w > positionC->GetY() - size )
+        {
+            return true;
+        }
+    }
+    return false;
 }
 bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t::const_iterator e,
                     glm::vec2*& Positions, GLfloat*& Headings,
                     glm::vec4*& TexCoords, glm::vec4*& SecondaryTexCoords,
                     glm::vec4*& MaskTexCoords, glm::vec4*& NormalTexCoords,
                     glm::vec2*& Sizes, glm::vec4*& Colors,
-                    std::map<int32_t, std::vector<glm::vec4> >& postprocColors, size_t& cnt,
+                    std::map<int32_t, std::vector<glm::vec4> >& postprocColors,
+                    GLfloat*& ShadowLenScales,
+                    size_t& cnt,
                     render::RenderBatch& batch )
 {
     static int32_t prevNormalId = -1;
@@ -121,6 +130,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
     batch.ShaderId = i->RenderableComp->GetShaderId();
     (*Positions++) = glm::vec2( i->PositionC->GetX(), i->PositionC->GetY() ) + i->RelativePosition;
     (*Headings++) = ( GLfloat )i->PositionC->GetOrientation() + i->RelativeOrientation;
+    (*ShadowLenScales++) = (GLfloat)i->RenderableComp->GetShadowLenScale();
 
     float const radius = (( i->CollisionC != nullptr ? i->CollisionC->GetRadius() : 50 )
                             + i->RelativeRadius) *i->Anim->GetScale();
@@ -179,7 +189,7 @@ bool getNextTextId( RenderableSprites_t::const_iterator& i, RenderableSprites_t:
 }
 }
 
-void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTime )
+void ActorRenderer::Prepare( Scene const& , std::vector<Camera const*> const& cameras, double DeltaTime )
 {
     static auto activityS = engine::Engine::Get().GetSystem<engine::ActivitySystem>();
     auto const& Lst = activityS->GetActiveActors();
@@ -198,7 +208,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     for( auto i = Lst.begin(), e = Lst.end(); i != e; ++i )
     {
         const Actor& Object = **i;
-        if( !isVisible( Object, camera ) )
+        if( !isVisible( Object, cameras ) )
         {
             continue;
         }
@@ -273,6 +283,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
 
     Positions_t Positions( CurSize );
     Floats_t Headings( CurSize );
+    Floats_t ShadowLenScales( CurSize );
     Positions_t Sizes( CurSize );
     TexCoords_t TexCoords( CurSize );
     TexCoords_t SecondaryTexCoords( CurSize );
@@ -288,6 +299,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
 
     glm::vec2* posptr = &Positions[0];
     GLfloat* hptr = &Headings[0];
+    GLfloat* shadowlenscaleptr = &ShadowLenScales[0];
     glm::vec2* sptr = &Sizes[0];
     glm::vec4* tptr = &TexCoords[0];
     glm::vec4* stptr = &SecondaryTexCoords[0];
@@ -301,6 +313,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
         std::ref( posptr ), std::ref( hptr ), std::ref( tptr ),
         std::ref( stptr ), std::ref(mtptr), std::ref(ntptr),
         std::ref( sptr ), std::ref( cptr ), std::ref( mPostprocessColors ),
+        std::ref( shadowlenscaleptr ),
         std::ref( cnt ),
         std::placeholders::_1 )
     );
@@ -309,7 +322,7 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     if( CurSize > mPrevSize )
     {
         mPrevSize = CurSize;
-        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + sizeof( GLfloat ) + 4 * sizeof( glm::vec4 ) );
+        size_t TotalSize = CurSize * ( 2 * sizeof( glm::vec4 ) + 2 * sizeof( glm::vec2 ) + 2 * sizeof( GLfloat ) + 4 * sizeof( glm::vec4 ) );
         glBufferData( GL_ARRAY_BUFFER, TotalSize, NULL, GL_DYNAMIC_DRAW );
     }
 
@@ -371,6 +384,13 @@ void ActorRenderer::Prepare( Scene const& , Camera const& camera, double DeltaTi
     ++CurrentAttribIndex;
 
     CurrentOffset += CurrentSize;
+    CurrentSize = CurSize * sizeof( GLfloat );
+    glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &ShadowLenScales[0] );
+    glEnableVertexAttribArray( CurrentAttribIndex );
+    mShadowLenScaleIndex = CurrentOffset;
+    ++CurrentAttribIndex;
+
+    CurrentOffset += CurrentSize;
     CurrentSize = CurSize * sizeof( glm::vec4 );
     glBufferSubData( GL_ARRAY_BUFFER, CurrentOffset, CurrentSize, &mPostprocessColors[-1][0] );
     // no need to actually upload this, random mem is just fine
@@ -415,7 +435,7 @@ void partitionByFilter( render::Counts_t& rv, RenderableSprites_t const& sprites
 }
 }
 
-void ActorRenderer::Draw( RenderFilter filter )
+void ActorRenderer::Draw( RenderFilter filter, SetupFunction setup, size_t extraInstances )
 {
     if( mRenderableSprites.empty() )
     {
@@ -449,11 +469,15 @@ void ActorRenderer::Draw( RenderFilter filter )
         static auto Window = engine::Engine::Get().GetSystem<engine::WindowSystem>();
         Window->GetWindowSize( w, h );
         ShaderMgr.UploadData( "resolution", glm::vec2( w, h ) );
+        if( setup )
+        {
+            setup( ShaderMgr );
+        }
         render::Counts_t parts;
         partitionByFilter( parts, mRenderableSprites, BigPart, filter );
         for( auto const& Part : parts )
         {
-            DrawOnePart( Part );
+            DrawOnePart( Part, 4 + extraInstances * 4 );
         }
     }
     glActiveTexture( GL_TEXTURE0 );
@@ -486,13 +510,13 @@ void ActorRenderer::Draw( int32_t postprocid )
         glActiveTexture( GL_TEXTURE0 + 1 );
         glBindTexture( GL_TEXTURE_2D, BigPart.Batch.MaskId );
         ShaderMgr.UploadData( "spriteTexture", GLuint( 1 ) );
-        DrawOnePart( BigPart );
+        DrawOnePart( BigPart, 4 );
     }
     glActiveTexture( GL_TEXTURE0 );
     mVAO.Unbind();
 }
 
-void ActorRenderer::DrawOnePart( render::CountByTexId const& Part ) const
+void ActorRenderer::DrawOnePart( render::CountByTexId const& Part, size_t instances ) const
 {
     GLuint CurrentAttribIndex = 0;
     CurrentAttribIndex = 0;
@@ -520,9 +544,12 @@ void ActorRenderer::DrawOnePart( render::CountByTexId const& Part ) const
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mNormalTexCoordIndex + sizeof( glm::vec4 )*Part.Start ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
     ++CurrentAttribIndex;
+    glVertexAttribPointer( CurrentAttribIndex, 1, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mShadowLenScaleIndex + sizeof( GLfloat )*Part.Start ) );
+    glVertexAttribDivisor( CurrentAttribIndex, 1 );
+    ++CurrentAttribIndex;
     glVertexAttribPointer( CurrentAttribIndex, 4, GL_FLOAT, GL_FALSE, 0, ( GLvoid* )( mPostprocessColorIndex + sizeof( glm::vec4 )*Part.Start ) );
     glVertexAttribDivisor( CurrentAttribIndex, 1 );
-    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, 4, Part.Count );
+    glDrawArraysInstanced( GL_TRIANGLE_STRIP, 0, instances, Part.Count );
 }
 
 ActorRenderer::~ActorRenderer()

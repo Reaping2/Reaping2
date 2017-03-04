@@ -3,6 +3,8 @@
 
 #include "platform/i_platform.h"
 #include "vao_base.h"
+#include "shader_manager.h"
+#include <functional>
 
 namespace render {
 class WorldRenderer
@@ -15,6 +17,8 @@ class WorldRenderer
 public:
     void Draw( double dt, GLuint texture, int32_t shader, GLuint secondaryTexture = -1 );
     void Draw( double dt, GLuint texture, int32_t shader, glm::vec2 const& size, GLuint secondaryTexture = -1 );
+    typedef std::function<void(ShaderManager&)> SetupFunction;
+    void Draw( double dt, GLuint texture, int32_t shader, SetupFunction setup );
     WorldRenderer();
     ~WorldRenderer();
 };
