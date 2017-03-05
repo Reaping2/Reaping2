@@ -84,11 +84,6 @@
             "targets" : [ "a35" ]
          },
          {
-            "identifier" : "g10",
-            "name" : "group",
-            "targets" : [ "a36" ]
-         },
-         {
             "actor" : "rogue_ore_wall100",
             "components" : [
                {
@@ -1315,6 +1310,27 @@
             "components" : [],
             "identifier" : "a35",
             "name" : "spawn_actor"
+         },
+         {
+            "actor" : "fire",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 552.50,
+                        "y" : 402.50
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a36",
+            "name" : "spawn_actor"
+         },
+         {
+            "identifier" : "g11",
+            "name" : "group",
+            "targets" : [ "a36" ]
          }
       ],
       "name" : "rogue1x1",
@@ -1376,9 +1392,9 @@
             "targets" : [ "g9" ]
          },
          {
-            "chance" : 40,
+            "chance" :10,
             "name" : "spawn",
-            "targets" : [ "g10" ]
+            "targets" : [ "g11" ]
          }
       ]
    }

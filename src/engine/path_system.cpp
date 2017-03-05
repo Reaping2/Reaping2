@@ -110,9 +110,10 @@ void PathSystem::Init()
 {
     mDebugPathSystem = Settings::Get().GetInt( "find_path.debug", 0 ) != 0;
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
+        auto collisionC( actor.Get<ICollisionComponent>() );
         return actor.Get<IStaticActorComponent>().IsValid()
             && actor.Get<IPositionComponent>().IsValid()
-            && actor.Get<ICollisionComponent>().IsValid(); } );
+            && collisionC.IsValid()&&collisionC->GetCollisionClass()!=CollisionClass::No_Collision; } );
     mOnLevelGenerated=EventServer<map::LevelGeneratedEvent>::Get().Subscribe( boost::bind( &PathSystem::OnLevelGenerated, this, _1 ) );
     mKeyboard = ::engine::Engine::Get().GetSystem<engine::KeyboardSystem>();
     mOnActor = EventServer<::ActorEvent>::Get().Subscribe( boost::bind( &PathSystem::OnActor, this, _1 ) );

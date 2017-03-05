@@ -28,19 +28,20 @@ InventoryComponent::ItemList_t& InventoryComponent::GetItems()
 
 void InventoryComponent::AddItem( int32_t Id )
 {
-    std::auto_ptr<Item> a = mItemFactory( Id );
-    a->SetActorGUID( mActorGUID );
-    mItems.push_back( Opt<Item>( a.release() ) );
+    std::auto_ptr<Item> item = mItemFactory( Id );
+    item->SetActorGUID( mActorGUID );
+    AddItem( std::unique_ptr<Item>(item.release()) );
 }
 
 void InventoryComponent::AddItem( std::unique_ptr<Item> item )
 {
+    DropItem( item->GetId() );
     mItems.push_back( Opt<Item>( item.release() ) );
 }
 
 Opt<Item> InventoryComponent::GetItem( int32_t Id )
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
+    for( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); ++i )
     {
         if ( ( *i )->GetId() == Id )
         {
@@ -52,13 +53,17 @@ Opt<Item> InventoryComponent::GetItem( int32_t Id )
 
 void InventoryComponent::DropItem( int32_t Id )
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    for ( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); )
     {
         if( ( *i )->GetId() == Id )
         {
             EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent(*(*i)) );
             delete ( *i ).Get();
-            mItems.erase( i );
+            i = mItems.erase( i );
+        }
+        else
+        {
+            ++i;
         }
     }
     if( mSelectedWeapon.IsValid() && mSelectedWeapon->GetId() == Id )
@@ -73,13 +78,17 @@ void InventoryComponent::DropItem( int32_t Id )
 
 void InventoryComponent::DropItemType( ItemType::Type Type )
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    for ( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); )
     {
-        if( ( *i )->GetType() == Type )
+        if ((*i)->GetType() == Type)
         {
             EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent( *(*i) ) );
-            delete ( *i ).Get();
-            mItems.erase( i );
+            delete (*i).Get();
+            i = mItems.erase( i );
+        }
+        else
+        {
+            ++i;
         }
     }
     if ( Type == ItemType::Weapon ) //TODO: handle multiple items, and handle this situation

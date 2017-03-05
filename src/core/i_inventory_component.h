@@ -3,17 +3,17 @@
 #include "component.h"
 #include "core/item.h"
 #include "core/opt.h"
-#include <list>
 #include "weapon.h"
 #include "normal_item.h"
 #include "item_type.h"
 #include "platform/export.h"
+#include <vector>
 
 class IInventoryComponent : public Component
 {
 public:
     DEFINE_COMPONENT_BASE( IInventoryComponent )
-    typedef std::list<Opt<Item> > ItemList_t;
+    typedef std::vector<Opt<Item> > ItemList_t;
     virtual ItemList_t const& GetItems()const = 0;
     virtual ItemList_t& GetItems() = 0;
     virtual void AddItem( int32_t Id ) = 0;

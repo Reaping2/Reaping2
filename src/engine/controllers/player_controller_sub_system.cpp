@@ -145,7 +145,7 @@ void PlayerControllerSubSystem::HandleReload( Actor& actor, Opt<PlayerController
     {
         if ( weapon->CanReload() )
         {
-            weapon->SetBullets( 0.0 );
+            weapon->Reload();
             EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
         }
     }

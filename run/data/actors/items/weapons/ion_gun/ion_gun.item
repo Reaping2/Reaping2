@@ -16,7 +16,13 @@
             "position_x":50.0,
             "position_y":12.0,
             "shot":"ion_gun_projectile",
-            "shot_alt":"ion_gun_alt_projectile"
+            "shot_alt":"ion_gun_alt_projectile",
+            "sum_bullets":
+            {
+                "max":100.0,
+                "min":0.0,
+                "val":100.0
+            }
         }]
     }
 ]

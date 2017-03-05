@@ -256,22 +256,22 @@ Opt<Actor> Scene::GetActor( int32_t guid )
 }
 
 namespace {
-int32_t getHP( Actor* a )
+int32_t GetHP( Actor* a )
 {
     Opt<IHealthComponent> healthC = a->Get<IHealthComponent>();
     return healthC->GetHP();
 }
-double getX( Actor* a )
+double GetX( Actor* a )
 {
     Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
     return positionC->GetX();
 }
-double getY( Actor* a )
+double GetY( Actor* a )
 {
     Opt<IPositionComponent> positionC = a->Get<IPositionComponent>();
     return positionC->GetY();
 }
-int32_t getWeaponId( Actor* a )
+int32_t GetWeaponId( Actor* a )
 {
     Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
     if( !inventoryC.IsValid() )
@@ -281,7 +281,27 @@ int32_t getWeaponId( Actor* a )
     Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
     return weapon.IsValid() ? weapon->GetId() : 0;
 }
-int32_t getSpecialId( Actor* a )
+int32_t GetSumBullets( Actor* a )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    if (!inventoryC.IsValid())
+    {
+        return 0;
+    }
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    return weapon.IsValid() ? weapon->GetSumBullets().Get() : 0;
+}
+int32_t GetSumBulletsMax( Actor* a )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    if (!inventoryC.IsValid())
+    {
+        return 0;
+    }
+    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    return weapon.IsValid() ? weapon->GetSumBullets().GetMax() : 0.0;
+}
+double GetSpecialId( Actor* a )
 {
     Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
     if( !inventoryC.IsValid() )
@@ -291,7 +311,7 @@ int32_t getSpecialId( Actor* a )
     Opt<NormalItem> item = inventoryC->GetSelectedNormalItem();
     return item.IsValid() ? item->GetId() : 0;
 }
-std::vector<int32_t> getBuffs( Actor* a )
+std::vector<int32_t> GetBuffs( Actor* a )
 {
     std::vector<int32_t> rv;
     Opt<IBuffHolderComponent> buffHolderC = a->Get<IBuffHolderComponent>();
@@ -319,13 +339,15 @@ void Scene::SetPlayerModels( Opt<Actor> actor )
     {
         return;
     }
-    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &getHP, actor.Get() ), "hp", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_double_t ) boost::lambda::bind( &getX, actor.Get() ), "x", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_double_t ) boost::lambda::bind( &getY, actor.Get() ), "y", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &getWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &getSpecialId, actor.Get() ), "special", &mPlayerModel ) );
-    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_vec_t ) boost::lambda::bind( &getBuffs, actor.Get() ), "buffs", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &GetHP, actor.Get() ), "hp", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_double_t ) boost::lambda::bind( &GetX, actor.Get() ), "x", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_double_t ) boost::lambda::bind( &GetY, actor.Get() ), "y", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &GetWeaponId, actor.Get() ), "weapon", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_t ) boost::lambda::bind( &GetSpecialId, actor.Get() ), "special", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( ( ModelValue::get_int_vec_t ) boost::lambda::bind( &GetBuffs, actor.Get() ), "buffs", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetSumBullets, actor.Get() ), "sum_bullets", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetSumBulletsMax, actor.Get() ), "sum_bullets_max", &mPlayerModel ) );
 }
 
 

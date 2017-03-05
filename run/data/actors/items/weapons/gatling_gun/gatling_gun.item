@@ -18,7 +18,13 @@
             "position_x":110.0,
             "position_y":16.0,
             "shot":"gatling_gun_projectile",
-            "shot_alt":"gatling_gun_alt_projectile"
+            "shot_alt":"gatling_gun_alt_projectile",
+            "sum_bullets":
+            {
+                "max":1000.0,
+                "min":0.0,
+                "val":1000.0
+            }            
         }]
     }
 ]

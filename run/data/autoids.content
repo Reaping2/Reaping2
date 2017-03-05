@@ -402,6 +402,7 @@ activity_component
 actor
 actors
 actors/misc/font/font.png
+actors_spawned
 add
 add to existing group
 add to new group
@@ -1004,6 +1005,7 @@ gauss_gun_projectile
 gauss_gun_projectile.png
 gauss_particle
 gauss_secondary
+generate
 generator
 glow
 grafics_test
@@ -1717,6 +1719,7 @@ positioning
 postprocessor_select
 pow
 pow_projectile
+pre_actors_spawned
 programstate.isclient
 programstate.ishost
 projectile
@@ -1733,6 +1736,7 @@ reaping_resurr_splash.png
 reaping_welcome
 recognizer_desc
 recognizers_excludes
+recreate
 recreate_borders
 red
 remove

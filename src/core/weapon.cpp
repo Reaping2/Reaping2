@@ -56,6 +56,12 @@ Weapon::Weapon()
 
 }
 
+
+void Weapon::InitSumBullets( Limited<double> sumBullets )
+{
+    mSumBullets = sumBullets;
+}
+
 bool Weapon::IsShooting() const
 {
     return mShoot && mBullets >= mShotCost;
@@ -131,6 +137,17 @@ double Weapon::GetBulletsMax()const
     return mBulletsMax;
 }
 
+
+void Weapon::SetNextReloadBulletCount( double nextReloadBulletCount )
+{
+    mNextReloadBulletCount = nextReloadBulletCount;
+}
+
+double Weapon::GetNextReloadBulletCount() const
+{
+    return mNextReloadBulletCount;
+}
+
 void Weapon::SetShotCost( int32_t shotCost )
 {
     mShotCost = shotCost;
@@ -164,6 +181,27 @@ double Weapon::GetReloadTime()const
 void Weapon::SetReloadTimeMax( double reloadTimeMax )
 {
     mReloadTimeMax = reloadTimeMax;
+}
+
+
+void Weapon::Reload()
+{
+    auto const missingBullets = std::min( (mBulletsMax-mBullets ), mBulletsMax );
+    auto const increase = mSumBullets.GetMax()!=0.0?std::min( missingBullets, mSumBullets.Get() ):missingBullets;
+    mNextReloadBulletCount = increase + mBullets;
+    mSumBullets.Set( mSumBullets.Get() - increase );
+    mBullets = 0.0;
+    mReloadTime = mReloadTimeMax;
+}
+
+
+void Weapon::StaticReload()
+{
+    auto const missingBullets = std::min( (mBullets + mStaticReload), mBulletsMax ) - mBullets;
+    auto const increase = mSumBullets.GetMax() != 0.0 ? std::min(missingBullets, mSumBullets.Get()):missingBullets;
+    mBullets += increase;
+    mSumBullets.Set( mSumBullets.Get() - increase );
+    mReloadTime = mReloadTimeMax;
 }
 
 double Weapon::GetReloadTimeMax()const
@@ -284,11 +322,23 @@ bool Weapon::IsMouseResizable() const
     return mReloadTime <= 0.0 || mStaticReload != 0.0;
 }
 
+Limited<double>& Weapon::GetSumBullets()
+{
+    return mSumBullets;
+}
+
+
+Limited<double> const& Weapon::GetSumBullets() const
+{
+    return mSumBullets;
+}
+
 bool Weapon::CanReload() const
 {
     return mReloadTime <= 0.0
            && mBullets != mBulletsMax
-           && mStaticReload == 0.0;
+           && mStaticReload == 0.0
+           && (mSumBullets.GetMax()==0.0||mSumBullets.Get()>0.0);
 }
 
 void Weapon::SetScatter( Scatter scatter )
@@ -372,6 +422,9 @@ void WeaponLoader::BindValues()
     {
         Bind<int32_t>( &Weapon::SetShotAltId, AutoId( istr ) );
     }
+    Limited<double> sumBullets;
+    sumBullets.Load( (*mSetters)["sum_bullets"] );
+    Bind<Limited<double>>(&Weapon::InitSumBullets, sumBullets);
 }
 
 WeaponLoader::WeaponLoader()

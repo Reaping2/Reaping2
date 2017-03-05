@@ -26,7 +26,13 @@
             "position_x":80.0,
             "position_y":20.0,
             "shot":"shotgun_projectile",
-            "shot_alt":"shotgun_alt_projectile"
+            "shot_alt":"shotgun_alt_projectile",
+            "sum_bullets":
+            {
+                "max":120.0,
+                "min":0.0,
+                "val":120.0
+            }
         }]
     }
 ]

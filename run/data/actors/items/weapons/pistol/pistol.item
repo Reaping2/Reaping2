@@ -18,7 +18,13 @@
             "position_x":65.0,
             "position_y":20.0,
             "shot":"pistol_projectile",
-            "shot_alt":"pistol_projectile"
+            "shot_alt":"pistol_projectile",
+            "sum_bullets":
+            {
+                "max":0.0,
+                "min":0.0,
+                "val":0.0
+            }
         }]
     }
 ]

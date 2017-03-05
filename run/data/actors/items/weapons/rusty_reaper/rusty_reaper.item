@@ -16,7 +16,13 @@
             "position_x":0.1,
             "position_y":0.1,
             "shot":"rusty_reaper_projectile",
-            "shot_alt":"rusty_reaper_alt_projectile"
+            "shot_alt":"rusty_reaper_alt_projectile",
+            "sum_bullets":
+            {
+                "max":100.0,
+                "min":0.0,
+                "val":100.0
+            }
         }]
     }
 ]

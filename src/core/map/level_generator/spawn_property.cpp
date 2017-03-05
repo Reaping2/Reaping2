@@ -26,13 +26,16 @@ void SpawnProperty::Load( Json::Value const& setters )
         for (auto& target : targets)
         {
             mTargets.push_back( AutoId( target.asString() ) );
+            L2( "Targets:%s\n ", target.asString().c_str() );
         }
     }
     int32_t chance;
     if (Json::GetInt( setters["chance"], chance ))
     {
+        L2( "Chance: %d\n", chance );
         mChance = chance;
     }
+    L2( "Chance end\n");
 }
 
 
@@ -80,8 +83,21 @@ int32_t SpawnProperty::GetChance() const
 
 void SpawnProperty::Generate( RoomDesc& roomDesc, MapElementHolder& mMapElementHolder, glm::vec2 pos, bool editor /*= false*/ )
 {
-    if (mRand() % 100 < mChance || editor)
+    int32_t const ran = mRand() % 100;
+    if (ran < mChance || editor)
     {
+        auto& idStorage = IdStorage::Get();
+        Json::Value TargetArr( Json::arrayValue );
+        for (auto& target : mTargets)
+        {
+            std::string targetName;
+            if (idStorage.GetName( target, targetName ))
+            {
+                Json::Value jName = Json::Value( targetName );
+                L2("Target:%s\n", targetName.c_str() );
+            }
+        }
+        L2( "Spawn by chance: %d, %d \n", ran, mChance );
         SpawnTargets( roomDesc, mTargets, mMapElementHolder, pos );
     }
 }

@@ -64,8 +64,7 @@ void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
               || weapon->GetBullets() < weapon->GetShotCost()
               && weapon->GetBullets() < weapon->GetShotCostAlt() ) )
     {
-        weapon->SetBullets( 0.0 );
-        weapon->SetReloadTime( weapon->GetReloadTimeMax() );
+        weapon->Reload();
         EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
     }
 
@@ -76,17 +75,15 @@ void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
         if ( weapon->GetReloadTime() <= 0 && weapon->GetStaticReload() == 0.0 )
         {
             //todo: need to sync reloading with the server (-1 could occur, if a shot comes too fast, then it is reset by the end of the reload missing one bullet)
-            weapon->SetBullets( weapon->GetBullets() + weapon->GetBulletsMax() );
+            weapon->SetBullets( weapon->GetNextReloadBulletCount() );
+            weapon->SetNextReloadBulletCount( 0.0 );
             weapon->SetReloadTime( 0.0 );
         }
     }
 
     if ( weapon->GetReloadTime() <= 0 && weapon->GetStaticReload() > 0.0 )
     {
-        weapon->SetBullets( std::min(
-                                ( weapon->GetBullets() + weapon->GetStaticReload()/**DeltaTime*/ )
-                                , weapon->GetBulletsMax() ) );
-        weapon->SetReloadTime( weapon->GetReloadTimeMax() );
+        weapon->StaticReload();
     }
     BindIds_t::iterator itemssIt = mSubSystems.get<SubSystemHolder::AllByBindId>().find( weapon->GetId() );
     if ( itemssIt != mSubSystems.get<SubSystemHolder::AllByBindId>().end() )

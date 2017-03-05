@@ -5,7 +5,7 @@
 #include "core/property_loader.h"
 #include "core/opt.h"
 #include "core/weapon.h"
-#include <boost/serialization/list.hpp>
+#include <boost/serialization/vector.hpp>
 #include "platform/export.h"
 class InventoryComponent : public IInventoryComponent
 {
