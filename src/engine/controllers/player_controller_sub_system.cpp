@@ -10,6 +10,7 @@
 #include "core/i_health_component.h"
 #include "../soldier_spawn_system.h"
 #include "../item_properties_changed_event.h"
+#include "../item_changed_event.h"
 
 namespace engine {
 
@@ -35,6 +36,7 @@ void PlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
     {
         Shoot( actor, playerControllerC );
         HandleReload( actor, playerControllerC );
+        HandleWeaponSwitch( actor, playerControllerC );
     }
     else if( playerControllerC->mActive )
     {
@@ -43,6 +45,7 @@ void PlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
         HandleReload( actor, playerControllerC );
         SetSpeedAndOrientation( actor, playerControllerC );
         SetOrientation( actor, playerControllerC );
+        HandleWeaponSwitch( actor, playerControllerC );
     }
 }
 
@@ -120,6 +123,14 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     {
         playerControllerC->mActivate.Deactivate();
     }
+    if (inputState.mSwitchWeapon)
+    {
+        playerControllerC->mSwitchWeapon.Activate();
+    }
+    else
+    {
+        playerControllerC->mSwitchWeapon.Deactivate();
+    }
     if (inputState.mReload)
     {
         playerControllerC->mUseReload.Activate();
@@ -153,6 +164,42 @@ void PlayerControllerSubSystem::HandleReload( Actor& actor, Opt<PlayerController
     {
         playerControllerC->mUseReload.Handled();
     }
+}
+
+
+void PlayerControllerSubSystem::HandleWeaponSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
+{
+    if (mProgramState.mMode == core::ProgramState::Client)
+    {
+        return;
+    }
+    if (!playerControllerC->mSwitchWeapon.GetValue())
+    {
+        return;
+    }
+    auto inventoryC(actor.Get<IInventoryComponent>());
+    BOOST_ASSERT( inventoryC.IsValid() );
+    auto weapon(inventoryC->GetSelectedWeapon());
+    auto& items( inventoryC->GetItems() );
+    if (weapon.IsValid())
+    {
+        auto found = std::find_if( items.begin(), items.end(), [&]( auto i ) { return i->GetId() == weapon->GetId(); } );
+        auto i = found;
+        do
+        {
+            ++i;
+            if (i == items.end())
+            {
+                i = items.begin();
+            }
+        } while (i != found && (*i)->GetType() != ItemType::Weapon);
+        if (i != found)
+        {
+            inventoryC->SetSelectedWeapon( (*i)->GetId() );
+            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Weapon, (*i)->GetId(), weapon->GetId() ) );
+        }
+    }
+    playerControllerC->mSwitchWeapon.Handled();
 }
 
 } // namespace engine

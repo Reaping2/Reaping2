@@ -16,7 +16,8 @@
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component",
-                "set":[{"add_item":"pistol"}]
+                "set":[{"add_item":"pistol",
+                        "select_weapon":"pistol"}]
             },
             {"name":"health_component",
                 "set":[{"hp":100}]

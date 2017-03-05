@@ -57,7 +57,7 @@ void InventoryComponent::DropItem( int32_t Id )
     {
         if( ( *i )->GetId() == Id )
         {
-            EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent(*(*i)) );
+            //EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent(*(*i)) );
             delete ( *i ).Get();
             i = mItems.erase( i );
         }
@@ -82,7 +82,7 @@ void InventoryComponent::DropItemType( ItemType::Type Type )
     {
         if ((*i)->GetType() == Type)
         {
-            EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent( *(*i) ) );
+            //EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent( *(*i) ) );
             delete (*i).Get();
             i = mItems.erase( i );
         }
@@ -154,10 +154,24 @@ bool InventoryComponent::IsPickupItems() const
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;
-    //TODO: handle more than one items (additem in an array nothing much)
-    if( Json::GetStr( ( *mSetters )["add_item"], istr ) )
+    //TODO: handle more than one items (additem in an array nothing much
+    auto const& addItem = (*mSetters)["add_item"];
+    if (addItem.isArray())
     {
-        Bind<int32_t>( static_cast<void ( InventoryComponent::* )( int32_t )>( &InventoryComponent::AddItem ), AutoId( istr ) );
+        for (auto&& item : addItem)
+        {
+            if (item.isString())
+            {
+                Bind<int32_t>( static_cast<void (InventoryComponent::*)(int32_t)>(&InventoryComponent::AddItem), AutoId( item.asString() ) );
+            }
+        }
+    }
+    else
+    {
+        if (Json::GetStr( (*mSetters)["add_item"], istr ))
+        {
+            Bind<int32_t>( static_cast<void (InventoryComponent::*)(int32_t)>(&InventoryComponent::AddItem), AutoId( istr ) );
+        }
     }
     if (Json::GetStr( (*mSetters)["select_weapon"], istr ))
     {

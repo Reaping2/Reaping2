@@ -3,6 +3,7 @@
 #include "core/i_inventory_component.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "engine/item_changed_event.h"
 
 namespace network {
 
@@ -29,8 +30,9 @@ void ItemChangedMessageSenderSystem::OnItemChanged( engine::ItemChangedEvent con
 {
     std::auto_ptr<ItemChangedMessage> itemChangedMsg( new ItemChangedMessage );
     itemChangedMsg->mActorGUID = Evt.mActorGUID;
-    itemChangedMsg->mNormalId = Evt.mNormalId;
-    itemChangedMsg->mWeaponId = Evt.mWeaponId;
+    itemChangedMsg->mType = Evt.mType;
+    itemChangedMsg->mItemId = Evt.mItemId;
+    itemChangedMsg->mPrevItemId = Evt.mPrevItemId;
     mMessageHolder.AddOutgoingMessage( itemChangedMsg );
 }
 
@@ -45,13 +47,24 @@ void ItemChangedMessageSenderSystem::OnSoldierCreated( engine::SoldierCreatedEve
     {
         return;
     }
-    std::auto_ptr<ItemChangedMessage> itemChangedMsg( new ItemChangedMessage );
-    itemChangedMsg->mActorGUID = Evt.mActor->GetGUID();
     Opt<NormalItem> item = inventoryC->GetSelectedNormalItem();
-    itemChangedMsg->mNormalId = item.IsValid() ? item->GetId() : 0;
+    if (item.IsValid())
+    {
+        std::auto_ptr<ItemChangedMessage> itemChangedMsg( new ItemChangedMessage );
+        itemChangedMsg->mActorGUID = Evt.mActor->GetGUID();
+        itemChangedMsg->mType = item->GetType();
+        itemChangedMsg->mItemId = item->GetId();
+        mMessageHolder.AddOutgoingMessage( itemChangedMsg );
+    }
     Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
-    itemChangedMsg->mWeaponId = weapon.IsValid() ? weapon->GetId() : 0;
-    mMessageHolder.AddOutgoingMessage( itemChangedMsg );
+    if (weapon.IsValid())
+    {
+        std::auto_ptr<ItemChangedMessage> itemChangedMsg( new ItemChangedMessage );
+        itemChangedMsg->mActorGUID = Evt.mActor->GetGUID();
+        itemChangedMsg->mType = weapon->GetType();
+        itemChangedMsg->mItemId = weapon->GetId();
+        mMessageHolder.AddOutgoingMessage( itemChangedMsg );
+    }
 }
 
 ItemChangedMessageHandlerSubSystem::ItemChangedMessageHandlerSubSystem()
@@ -80,16 +93,22 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending( Message const& message 
         L1( "actor inventory not valid! returning." );
         return true;
     }
-    if ( msg.mNormalId == 0 )
+    if ( msg.mItemId == 0 )
     {
-        inventoryC->DropItemType( ItemType::Normal );
+        inventoryC->DropItem( msg.mPrevItemId );
     }
-    inventoryC->SetSelectedNormalItem( msg.mNormalId );
-    if ( msg.mWeaponId == 0 )
+    else
     {
-        inventoryC->DropItemType( ItemType::Weapon );
+        if (msg.mType == ItemType::Normal)
+        {
+            inventoryC->SetSelectedNormalItem( msg.mItemId );
+        }
+        else if (msg.mType == ItemType::Weapon)
+        {
+            inventoryC->SetSelectedWeapon( msg.mItemId );
+        }
     }
-    inventoryC->SetSelectedWeapon( msg.mWeaponId );
+    EventServer<engine::ItemChangedEvent>::Get().SendEvent( { msg.mActorGUID, msg.mType, msg.mItemId, msg.mPrevItemId } );
     return true;
 }
 

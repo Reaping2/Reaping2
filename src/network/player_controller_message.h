@@ -23,6 +23,7 @@ public:
     Trigger mUseReload;
     bool mMoving;
     Trigger mActivate;
+    Trigger mSwitchWeapon;
     PlayerControllerMessage()
         : mActorGUID( 0 )
         , mOrientation( 0 )
@@ -33,6 +34,7 @@ public:
         , mUseReload()
         , mMoving( false )
         , mActivate()
+        , mSwitchWeapon()
     {
     }
     template<class Archive>
@@ -53,6 +55,7 @@ void PlayerControllerMessage::serialize( Archive& ar, const unsigned int version
     ar& mUseReload;
     ar& mMoving;
     ar& mActivate;
+    ar& mSwitchWeapon;
 }
 
 class PlayerControllerMessageHandlerSubSystem: public MessageHandlerSubSystem

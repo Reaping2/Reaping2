@@ -3,6 +3,7 @@
 
 #include "engine/items/common_sub_system_includes.h"
 #include "core/item_dropped_event.h"
+#include "engine/item_changed_event.h"
 
 namespace engine {
 
@@ -19,9 +20,8 @@ private:
     Opt<WeaponItemSubSystem> mWeaponItemSubSystem;
     ActorFactory& mActorFactory;
     int32_t mWeaponId;
-    AutoReg mOnItemDropped;
-    void OnItemDropped( core::ItemDroppedEvent const& Evt );
-
+    AutoReg mOnItemChanged;
+    void OnItemChanged( engine::ItemChangedEvent const& Evt );
 };
 
 } // namespace engine

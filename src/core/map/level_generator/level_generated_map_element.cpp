@@ -10,7 +10,7 @@ LevelGeneratedMapElement::LevelGeneratedMapElement(int32_t Id)
     AddOutputNodeId( ActorsSpawnedNodeId() );
 }
 
-void LevelGeneratedMapElement::Load(Json::Value& setters)
+void LevelGeneratedMapElement::Load(Json::Value const& setters)
 {
     MapElement::Load(setters);
 }

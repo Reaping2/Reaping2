@@ -64,7 +64,6 @@ void PickupMessageHandlerSubSystem::Execute( Message const& message )
         //TODO item selection will be syncronized, not pickup event
         if ( msg.mItemType == ItemType::Weapon )
         {
-            inventoryC->DropItemType( msg.mItemType );
             inventoryC->AddItem( msg.mItemId );
             inventoryC->SetSelectedWeapon( msg.mItemId );
         }

@@ -47,18 +47,21 @@ void KeyboardAdapterSystem::Update( double DeltaTime )
         return;
     }
     InputState inputState = mInputSystem->GetInputState( playerId );
-    if( mKeyboard->GetKey( GLFW_KEY_Q ).State == KeyState::Typed /*obsolete enabled for one iteration*/
-        || mKeyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Down )
+    if( mKeyboard->GetKey( GLFW_KEY_SPACE ).State == KeyState::Down )
     {
         inputState.mUseNormalItem = true;
     }
-    if (mKeyboard->GetKey( GLFW_KEY_E ).State == KeyState::Typed)
+    if (mKeyboard->GetKey( GLFW_KEY_E ).State == KeyState::Down )
     {
         inputState.mActivate = true;
     }
     if( mKeyboard->GetKey( GLFW_KEY_R ).State == KeyState::Down )
     {
         inputState.mReload = true;
+    }
+    if (mKeyboard->GetKey( GLFW_KEY_Q ).State == KeyState::Typed )
+    {
+        inputState.mSwitchWeapon = true;
     }
 
     int x = ( ( currentMovement & MF_Left ) ? -1 : 0 ) + ( ( currentMovement & MF_Right ) ? 1 : 0 );

@@ -35,9 +35,9 @@ void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )
         itemssIt->mSystem->Update( actor, DeltaTime );
         if ( normalItem->IsConsumed() )
         {
-            inventoryC->DropItemType( ItemType::Normal );
-            Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
-            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), 0, weapon.IsValid() ? weapon->GetId() : 0 ) );
+            int32_t id = normalItem->GetId();
+            inventoryC->DropItem( normalItem->GetId() );
+            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Normal, 0, id ) );
         }
     }
 

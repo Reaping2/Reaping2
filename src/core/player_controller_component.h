@@ -18,6 +18,7 @@ public:
     bool mShootAlt;
     Trigger mUseNormalItem;
     Trigger mActivate;
+    Trigger mSwitchWeapon;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
     Trigger mUseReload;

@@ -25,6 +25,7 @@ private:
     void Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void HandleWeaponSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
 
     Scene& mScene;
     core::ProgramState& mProgramState;

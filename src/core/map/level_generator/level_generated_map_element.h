@@ -12,7 +12,7 @@ class LevelGeneratedMapElement : public MapElement, public BaseOutput
 public:
     DEFINE_MAP_ELEMENT_BASE(LevelGeneratedMapElement)
     LevelGeneratedMapElement(int32_t Id);
-    void Load(Json::Value& setters);
+    void Load(Json::Value const& setters);
     static int32_t GeneratedNodeId();
     static int32_t ActorsSpawnedNodeId();
 private:

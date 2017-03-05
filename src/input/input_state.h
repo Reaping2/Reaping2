@@ -15,6 +15,7 @@ struct InputState
     bool mShowLeaderboard;
     bool mPause;
     bool mActivate;
+    bool mSwitchWeapon;
     double mCursorX;
     double mCursorY;
     InputState();

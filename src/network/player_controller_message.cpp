@@ -57,6 +57,7 @@ std::auto_ptr<PlayerControllerMessage> PlayerControllerMessageSenderSystem::Gene
     playerControllerMsg->mUseReload = playerControllerC->mUseReload;
     playerControllerMsg->mMoving = playerControllerC->mMoving;
     playerControllerMsg->mActivate = playerControllerC->mActivate;
+    playerControllerMsg->mSwitchWeapon = playerControllerC->mSwitchWeapon;
     return playerControllerMsg;
     
 }
@@ -117,6 +118,14 @@ void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
     else
     {
         playerControllerC->mActivate.Deactivate();
+    }
+    if (msg.mSwitchWeapon.IsActive())
+    {
+        playerControllerC->mSwitchWeapon.Activate();
+    }
+    else
+    {
+        playerControllerC->mSwitchWeapon.Deactivate();
     }
 }
 
