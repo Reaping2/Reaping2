@@ -1,0 +1,22 @@
+[
+    {
+        "target_name":"wall_target",
+        "name":"desk80_left",
+        "setters":
+        {
+            "cursor_id": "desk80_left",
+            "actor_id": "desk80_left"
+        },
+        "type":"target_desc"
+    },
+    {
+        "target_name":"wall_target",
+        "name":"desk80_right",
+        "setters":
+        {
+            "cursor_id": "desk80_right",
+            "actor_id": "desk80_right"
+        },
+        "type":"target_desc"
+    }
+]

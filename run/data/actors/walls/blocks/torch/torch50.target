@@ -1,11 +1,11 @@
 [
     {
         "target_name":"wall_target",
-        "name":"fire60",
+        "name":"torch50",
         "setters":
         {
-            "cursor_id": "fire60",
-            "actor_id": "fire60"
+            "cursor_id": "torch50",
+            "actor_id": "torch50"
         },
         "type":"target_desc"
     }
