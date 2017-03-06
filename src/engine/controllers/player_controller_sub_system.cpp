@@ -195,8 +195,10 @@ void PlayerControllerSubSystem::HandleWeaponSwitch( Actor& actor, Opt<PlayerCont
         } while (i != found && (*i)->GetType() != ItemType::Weapon);
         if (i != found)
         {
-            inventoryC->SetSelectedWeapon( (*i)->GetId() );
-            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Weapon, (*i)->GetId(), weapon->GetId() ) );
+            if (inventoryC->SetSelectedWeapon( (*i)->GetId() ))
+            {
+                EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Weapon, (*i)->GetId(), weapon->GetId() ) );
+            }
         }
     }
     playerControllerC->mSwitchWeapon.Handled();

@@ -140,7 +140,8 @@ bool PlayerControllerMessage::operator==( PlayerControllerMessage const& other )
         && mUseNormalItem == other.mUseNormalItem
         && mUseReload == other.mUseReload
         && mMoving == other.mMoving
-        && mActivate == other.mActivate;
+        && mActivate == other.mActivate
+        && mSwitchWeapon == other.mSwitchWeapon;
 }
 
 } // namespace engine

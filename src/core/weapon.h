@@ -79,6 +79,9 @@ public:
     void SetShotAltId( int32_t Id );
     int32_t GetShotAltId()const;
 
+    virtual bool CanSwitch() const;
+    virtual void Deselected();
+    virtual void Selected();
     virtual bool CanReload() const;
     virtual glm::vec3 GetMouseColor() const;
     virtual double GetMouseSize() const;

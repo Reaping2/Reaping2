@@ -2,6 +2,8 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 #include "item_dropped_event.h"
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
 
 InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
@@ -53,6 +55,16 @@ Opt<Item> InventoryComponent::GetItem( int32_t Id )
 
 void InventoryComponent::DropItem( int32_t Id )
 {
+    if (mSelectedWeapon.IsValid() && mSelectedWeapon->GetId() == Id)
+    {
+        mSelectedWeapon.Reset();
+        SetSelectedWeapon( -1 );
+    }
+    if (mSelectedNormalItem.IsValid() && mSelectedNormalItem->GetId() == Id)
+    {
+        mSelectedNormalItem.Reset();
+        SetSelectedNormalItem( -1 );
+    }
     for ( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); )
     {
         if( ( *i )->GetId() == Id )
@@ -66,18 +78,20 @@ void InventoryComponent::DropItem( int32_t Id )
             ++i;
         }
     }
-    if( mSelectedWeapon.IsValid() && mSelectedWeapon->GetId() == Id )
-    {
-        SetSelectedWeapon( -1 );
-    }
-    if( mSelectedNormalItem.IsValid() && mSelectedNormalItem->GetId() == Id )
-    {
-        SetSelectedNormalItem( -1 );
-    }
 }
 
 void InventoryComponent::DropItemType( ItemType::Type Type )
 {
+    if (Type == ItemType::Weapon) //TODO: handle multiple items, and handle this situation
+    {
+        mSelectedWeapon.Reset();
+        SetSelectedWeapon( -1 );
+    }
+    else if (Type == ItemType::Normal)
+    {
+        mSelectedNormalItem.Reset();
+        SetSelectedNormalItem( -1 );
+    }
     for ( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); )
     {
         if ((*i)->GetType() == Type)
@@ -91,14 +105,6 @@ void InventoryComponent::DropItemType( ItemType::Type Type )
             ++i;
         }
     }
-    if ( Type == ItemType::Weapon ) //TODO: handle multiple items, and handle this situation
-    {
-        SetSelectedWeapon( -1 );
-    }
-    else if ( Type == ItemType::Normal )
-    {
-        SetSelectedNormalItem( -1 );
-    }
 }
 
 Opt<Weapon> InventoryComponent::GetSelectedWeapon()
@@ -106,9 +112,22 @@ Opt<Weapon> InventoryComponent::GetSelectedWeapon()
     return mSelectedWeapon;
 }
 
-void InventoryComponent::SetSelectedWeapon( int32_t Id )
+bool InventoryComponent::SetSelectedWeapon( int32_t Id, bool force /*= false*/ )
 {
-    mSelectedWeapon = Opt<Weapon>( dynamic_cast<Weapon*>( GetItem( Id ).Get() ) );
+    if ( force || !mSelectedWeapon.IsValid() || mSelectedWeapon->CanSwitch())
+    {
+        if (mSelectedWeapon.IsValid())
+        {
+            mSelectedWeapon->Deselected();
+        }
+        mSelectedWeapon = Opt<Weapon>( dynamic_cast<Weapon*>(GetItem( Id ).Get()) );
+        if (mSelectedWeapon.IsValid())
+        {
+            mSelectedWeapon->Selected();
+        }
+        return true;
+    }
+    return false;
 }
 
 InventoryComponent::~InventoryComponent()
@@ -175,7 +194,7 @@ void InventoryComponentLoader::BindValues()
     }
     if (Json::GetStr( (*mSetters)["select_weapon"], istr ))
     {
-        Bind<int32_t>( static_cast<void (InventoryComponent::*)(int32_t)>( &InventoryComponent::SetSelectedWeapon ), AutoId( istr ) );
+        Bind<int32_t>( ( boost::bind(&InventoryComponent::SetSelectedWeapon,_1,_2,true )), AutoId( istr ));
     }
     Bind( "pickup_items", func_bool( &InventoryComponent::SetPickupItems ) );
 }

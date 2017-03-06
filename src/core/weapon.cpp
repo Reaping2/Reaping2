@@ -287,6 +287,24 @@ int32_t Weapon::GetShotAltId() const
     return mShotAltId;
 }
 
+
+bool Weapon::CanSwitch() const
+{
+    return true;
+}
+
+
+void Weapon::Deselected()
+{
+    mShoot = false;
+    mShootAlt = false;
+}
+
+void Weapon::Selected()
+{
+
+}
+
 bool Weapon::GetShoot()
 {
     return mShoot;

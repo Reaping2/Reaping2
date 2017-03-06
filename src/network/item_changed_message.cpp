@@ -105,7 +105,7 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending( Message const& message 
         }
         else if (msg.mType == ItemType::Weapon)
         {
-            inventoryC->SetSelectedWeapon( msg.mItemId );
+            inventoryC->SetSelectedWeapon( msg.mItemId, true );
         }
     }
     EventServer<engine::ItemChangedEvent>::Get().SendEvent( { msg.mActorGUID, msg.mType, msg.mItemId, msg.mPrevItemId } );

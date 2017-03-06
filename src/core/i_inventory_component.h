@@ -22,7 +22,7 @@ public:
     virtual Opt<Item> GetItem( int32_t Id ) = 0;
     virtual void DropItemType( ItemType::Type Type ) = 0;
     virtual Opt<Weapon> GetSelectedWeapon() = 0;
-    virtual void SetSelectedWeapon( int32_t Id ) = 0;
+    virtual bool SetSelectedWeapon( int32_t Id, bool force=false ) = 0;
     virtual Opt<NormalItem> GetSelectedNormalItem() = 0;
     virtual void SetSelectedNormalItem( int32_t Id ) = 0;
     virtual void SetPickupItems( bool pickupItems ) = 0;

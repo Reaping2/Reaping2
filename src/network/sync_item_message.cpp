@@ -76,7 +76,7 @@ void SyncItemMessageHandlerSubSystem::Execute( Message const& message )
     }
     else if ( itemType == ItemType::Weapon )
     {
-        inv->SetSelectedWeapon( itemId );
+        inv->SetSelectedWeapon( itemId, true );
     }
 
 }

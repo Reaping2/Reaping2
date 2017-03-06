@@ -36,6 +36,7 @@ void WeaponItemSubSystem::Init()
 
 void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
+    bool dirty = false;
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
     if ( !weapon.IsValid() )
@@ -53,37 +54,45 @@ void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
     Opt<IAccuracyComponent> accuracyC = actor.Get<IAccuracyComponent>();
     weapon->GetScatter().Update( DeltaTime, accuracyC.IsValid() ? accuracyC->GetAccuracy().Get() : 0 );
 
-    if ( weapon->CanReload()
-         //Not enough bullet for current shot  Need to see if the player wants to shoot alt:
-         && ( weapon->GetShoot() && weapon->GetBullets() < weapon->GetShotCost()
-              && weapon->GetCooldown() <= 0
-              //Not enough bullet for current alt shot. Need to see if the player wants to shoot normal:
-              || weapon->GetShootAlt() && weapon->GetBullets() < weapon->GetShotCostAlt()
-              && weapon->GetCooldown() <= 0
-              //Not enough bullet at all. This time the reload is a sure thing:
-              || weapon->GetBullets() < weapon->GetShotCost()
-              && weapon->GetBullets() < weapon->GetShotCostAlt() ) )
+    if (mProgramState.mMode != core::ProgramState::Client)
     {
-        weapon->Reload();
-        EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
+        if (weapon->CanReload()
+            //Not enough bullet for current shot  Need to see if the player wants to shoot alt:
+            && (weapon->GetShoot() && weapon->GetBullets() < weapon->GetShotCost()
+                && weapon->GetCooldown() <= 0
+                //Not enough bullet for current alt shot. Need to see if the player wants to shoot normal:
+                || weapon->GetShootAlt() && weapon->GetBullets() < weapon->GetShotCostAlt()
+                && weapon->GetCooldown() <= 0
+                //Not enough bullet at all. This time the reload is a sure thing:
+                || weapon->GetBullets() < weapon->GetShotCost()
+                && weapon->GetBullets() < weapon->GetShotCostAlt()))
+        {
+            weapon->Reload();
+            dirty = true;
+        }
     }
 
     weapon->SetReloadTime( weapon->GetReloadTime() - DeltaTime );
 
-    if ( weapon->GetBullets() <= 0.0 )
+    if (mProgramState.mMode != core::ProgramState::Client)
     {
-        if ( weapon->GetReloadTime() <= 0 && weapon->GetStaticReload() == 0.0 )
+        if (weapon->GetBullets() <= 0.0)
         {
-            //todo: need to sync reloading with the server (-1 could occur, if a shot comes too fast, then it is reset by the end of the reload missing one bullet)
-            weapon->SetBullets( weapon->GetNextReloadBulletCount() );
-            weapon->SetNextReloadBulletCount( 0.0 );
-            weapon->SetReloadTime( 0.0 );
+            if (weapon->GetReloadTime() <= 0 && weapon->GetStaticReload() == 0.0)
+            {
+                //todo: need to sync reloading with the server (-1 could occur, if a shot comes too fast, then it is reset by the end of the reload missing one bullet)
+                weapon->SetBullets( weapon->GetNextReloadBulletCount() );
+                weapon->SetNextReloadBulletCount( 0.0 );
+                weapon->SetReloadTime( 0.0 );
+                dirty = true;
+            }
         }
-    }
 
-    if ( weapon->GetReloadTime() <= 0 && weapon->GetStaticReload() > 0.0 )
-    {
-        weapon->StaticReload();
+        if (weapon->GetReloadTime() <= 0 && weapon->GetStaticReload() > 0.0)
+        {
+            weapon->StaticReload();
+            dirty = true;
+        }
     }
     BindIds_t::iterator itemssIt = mSubSystems.get<SubSystemHolder::AllByBindId>().find( weapon->GetId() );
     if ( itemssIt != mSubSystems.get<SubSystemHolder::AllByBindId>().end() )
@@ -124,6 +133,10 @@ void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
                 }
             }
         }
+    }
+    if (dirty)
+    {
+        EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
     }
 }
 

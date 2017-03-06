@@ -19,7 +19,7 @@ public:
     virtual void DropItemType( ItemType::Type Type );
     virtual void Update( double Seconds );
     virtual Opt<Weapon> GetSelectedWeapon();
-    virtual void SetSelectedWeapon( int32_t Id );
+    virtual bool SetSelectedWeapon( int32_t Id, bool force = false );
     virtual void SetActorGUID( int32_t actorGUID );
     virtual Opt<NormalItem> GetSelectedNormalItem();
     virtual void SetSelectedNormalItem( int32_t Id );

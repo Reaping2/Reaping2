@@ -26,6 +26,11 @@ GatlingGun::GatlingGun()
 {
 }
 
+bool GatlingGun::CanSwitch() const
+{
+    return mDeployState == Undeployed;
+}
+
 bool GatlingGun::IsShooting() const
 {
     return mWindup == mWindupMax && Weapon::IsShooting() && mDeployState == Undeployed;

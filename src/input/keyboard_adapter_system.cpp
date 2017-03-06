@@ -59,7 +59,7 @@ void KeyboardAdapterSystem::Update( double DeltaTime )
     {
         inputState.mReload = true;
     }
-    if (mKeyboard->GetKey( GLFW_KEY_Q ).State == KeyState::Typed )
+    if (mKeyboard->GetKey( GLFW_KEY_Q ).State == KeyState::Down )
     {
         inputState.mSwitchWeapon = true;
     }
