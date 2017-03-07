@@ -117,6 +117,22 @@
             "reload": "b4",
             "show_leaderboard": "b2",
             "pause": "b7"
+        },
+        "keyboard_and_mouse":
+        {
+                "shoot": "mb1",
+                "shoot_alt": "mb2",
+                "move_left": "a",
+                "move_right": "d",
+                "move_up": "w",
+                "move_down": "s",
+                "use_normal": "space",
+                "reload": "r",
+                "show_leaderboard": "tab",
+                "pause": "escape",
+                "activate":"e",
+                "switch_weapon":"q",
+                "switch_item":"f"
         }
     }
 }

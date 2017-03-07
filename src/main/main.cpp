@@ -390,8 +390,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "mouse_system" ) );
         Eng.AddSystem( AutoId( "input_system" ) );
         //adapter systems should be here. after input system before controller systems.
-        Eng.AddSystem( AutoId( "keyboard_adapter_system" ) );
-        Eng.AddSystem( AutoId( "mouse_adapter_system" ) );
+        Eng.AddSystem( AutoId( "keyboard_and_mouse_adapter_system" ) );
         Eng.AddSystem( AutoId( "controller_adapter_system" ) );
         Opt<engine::ControllerAdapterSystem> cntrlAdapter( Eng.GetSystem<engine::ControllerAdapterSystem>() );
         cntrlAdapter->SetCalibrate( calibrateController );

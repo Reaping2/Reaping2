@@ -102,8 +102,6 @@
 #include "network/sync_item_message.h"
 #include "audio/audio_system.h"
 #include "input/input_system.h"
-#include "input/keyboard_adapter_system.h"
-#include "input/mouse_adapter_system.h"
 #include "soldier_auto_revive_system.h"
 #include "core/map/soldier_auto_revive_map_element_system.h"
 #include "network/secs_to_revive_message.h"
@@ -149,6 +147,7 @@
 #include "network/map_load_message.h"
 #include "network/message_timer_system.h"
 #include "network/suppress_message.h"
+#include "input/keyboard_and_mouse_adapter_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -178,9 +177,8 @@ void SystemFactory::Init()
     Bind( AutoId( "keyboard_system" ), &CreateSystem<KeyboardSystem> );
     Bind( AutoId( "mouse_system" ), &CreateSystem<MouseSystem> );
     Bind( AutoId( "input_system" ), &CreateSystem<engine::InputSystem> );
-    Bind( AutoId( "keyboard_adapter_system" ), &CreateSystem<engine::KeyboardAdapterSystem> );
-    Bind( AutoId( "mouse_adapter_system" ), &CreateSystem<engine::MouseAdapterSystem> );
     Bind( AutoId( "controller_adapter_system" ), &CreateSystem<engine::ControllerAdapterSystem> );
+    Bind( AutoId( "keyboard_and_mouse_adapter_system" ), &CreateSystem<engine::KeyboardAndMouseAdapterSystem> );
 
     Bind( AutoId( "controller_system" ), &CreateSystem<ControllerSystem> );
     Bind( AutoId( "inventory_system" ), &CreateSystem<InventorySystem> );
