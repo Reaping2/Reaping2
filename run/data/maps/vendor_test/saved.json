@@ -1946,22 +1946,6 @@
       "name" : "spawn_actor"
    },
    {
-      "actor" : "desk100",
-      "components" : [
-         {
-            "name" : "position_component",
-            "set" : [
-               {
-                  "x" : -100.0,
-                  "y" : 100.0
-               }
-            ]
-         }
-      ],
-      "identifier" : "spawn_at_start",
-      "name" : "spawn_actor"
-   },
-   {
       "actor" : "rogue_mud100",
       "components" : [
          {
@@ -2254,6 +2238,102 @@
                {
                   "borders" : [ "top", "right", "bottom" ],
                   "outer_borders" : [ "top", "topright", "right", "bottomright", "bottom" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "desk80_left",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 560.0,
+                  "y" : 80.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "desk80_right",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 720.0,
+                  "y" : 80.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "torch50",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -75.0,
+                  "y" : -175.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "torch50",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : 175.0,
+                  "y" : 125.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "torch50",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -475.0,
+                  "y" : -25.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "torch50",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -325.0,
+                  "y" : 25.0
                }
             ]
          }

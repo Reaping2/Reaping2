@@ -1,6 +1,6 @@
 [
     {
-        "name":"fire60",
+        "name":"torch50",
         "components":
         [
             {"name":"static_actor_component"},

@@ -1,0 +1,30 @@
+[
+    {
+        "texture_path":"desk80_left.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 80,
+                "h" : 80,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "desk80_left"
+        }]
+    },
+    {
+        "texture_path":"desk80_right.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 80,
+                "h" : 80,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.00
+            }], "name" : "desk80_right"
+        }]
+    }
+]

@@ -1,6 +1,6 @@
 [
     {
-        "name":"fire60",
+        "name":"torch50",
         "recognizers":
         [
             {"recognizer":"idle",
