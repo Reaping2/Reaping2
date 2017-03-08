@@ -52,7 +52,6 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
             {
                 prevItemId = item->GetId();
             }
-            inventoryC->DropItemType( pickupCC->GetItemType() );
             inventoryC->AddItem( pickupCC->GetPickupContent() );
             inventoryC->SetSelectedNormalItem( pickupCC->GetPickupContent() );
         }

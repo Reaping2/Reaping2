@@ -7,9 +7,36 @@ DefaultItem::DefaultItem( int32_t Id )
     mType = ItemType::Normal;
 }
 
+
+Item::~Item()
+{
+    LOG( "Item dead:%i", mId );
+}
+
 void Item::SetActorGUID( int32_t actorGUID )
 {
     mActorGUID = actorGUID;
+}
+
+
+bool Item::CanSwitch() const
+{
+    return true;
+}
+
+
+void Item::Deselected()
+{
+}
+
+
+void Item::Selected()
+{
+}
+
+ItemType::Type Item::GetType() const
+{
+    return mType;
 }
 
 int32_t Item::GetActorGUID() const
@@ -33,6 +60,24 @@ Item::Item()
     , mType( ItemType::Normal )
 {
 
+}
+
+
+double Item::GetState() const
+{
+    return mState;
+}
+
+
+void Item::SetState( double S )
+{
+    mState = S;
+}
+
+
+int32_t Item::GetId() const
+{
+    return mId;
 }
 
 void DefaultItemLoader::BindValues()

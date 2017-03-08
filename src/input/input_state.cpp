@@ -21,6 +21,7 @@ void InputState::Reset()
     mPause = false;
     mActivate = false;
     mSwitchWeapon = false;
+    mSwitchNormalItem = false;
 }
 
 bool InputState::operator==( InputState const& other ) const
@@ -37,7 +38,8 @@ bool InputState::operator==( InputState const& other ) const
         && mCursorX == other.mCursorX
         && mCursorY == other.mCursorY
         && mActivate == other.mActivate
-        && mSwitchWeapon == other.mSwitchWeapon;
+        && mSwitchWeapon == other.mSwitchWeapon
+        && mSwitchNormalItem == other.mSwitchNormalItem;
 }
 
 bool InputState::operator!=( InputState const& other ) const

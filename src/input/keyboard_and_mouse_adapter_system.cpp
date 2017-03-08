@@ -44,6 +44,17 @@ void KeyboardAndMouseAdapterSystem::OnMouseMoveEvent( const WorldMouseMoveEvent&
 
 void KeyboardAndMouseAdapterSystem::HandleKeyboard()
 {
+    InputState inputState = mInputSystem->GetInputState( mPlayerId );
+    inputState.mUseNormalItem = mDesktopState( "use_normal" );
+    inputState.mActivate = mDesktopState( "activate" );
+    inputState.mReload = mDesktopState( "reload" );
+    inputState.mSwitchWeapon = mDesktopState( "switch_weapon" );
+    inputState.mSwitchNormalItem = mDesktopState( "switch_item" );
+    inputState.mShoot = mDesktopState( "shoot" );
+    inputState.mShootAlt = mDesktopState( "shoot_alt" );
+    inputState.mShowLeaderboard = mDesktopState( "show_leaderboard" );
+    inputState.mPause = mDesktopState( "pause" );
+
     uint32_t currentMovement = 0;
     if (mDesktopState( "move_up" ))
     {
@@ -61,25 +72,6 @@ void KeyboardAndMouseAdapterSystem::HandleKeyboard()
     {
         currentMovement |= MF_Right;
     }
-
-    InputState inputState = mInputSystem->GetInputState( mPlayerId );
-    if (mDesktopState( "use_normal" ))
-    {
-        inputState.mUseNormalItem = true;
-    }
-    if (mDesktopState( "activate" ))
-    {
-        inputState.mActivate = true;
-    }
-    if (mDesktopState( "reload" ))
-    {
-        inputState.mReload = true;
-    }
-    if (mDesktopState( "switch_weapon" ))
-    {
-        inputState.mSwitchWeapon = true;
-    }
-
     int x = ((currentMovement & MF_Left) ? -1 : 0) + ((currentMovement & MF_Right) ? 1 : 0);
     int y = ((currentMovement & MF_Up) ? 1 : 0) + ((currentMovement & MF_Down) ? -1 : 0);
 
@@ -105,27 +97,11 @@ void KeyboardAndMouseAdapterSystem::HandleKeyboard()
     }
     inputState.mHeading = Heading;
 
-    if (mDesktopState( "show_leaderboard" ))
-    {
-        inputState.mShowLeaderboard = true;
-    }
-    if (mDesktopState( "pause" ))
-    {
-        inputState.mPause = true;
-    }
     Opt<Actor> actor( mScene.GetActor( mProgramState.mControlledActorGUID ) );
     if (actor.IsValid())
     {
         Opt<IPositionComponent> actorPositionC = actor->Get<IPositionComponent>();
         inputState.mOrientation = atan2( mY - actorPositionC->GetY(), mX - actorPositionC->GetX() );
-    }
-    if (mDesktopState( "shoot" ))
-    {
-        inputState.mShoot = true;
-    }
-    else if (mDesktopState( "shoot_alt" ))
-    {
-        inputState.mShootAlt = true;
     }
     mInputSystem->SetInputState( mPlayerId, inputState );
 }

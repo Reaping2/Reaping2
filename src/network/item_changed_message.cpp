@@ -33,6 +33,7 @@ void ItemChangedMessageSenderSystem::OnItemChanged( engine::ItemChangedEvent con
     itemChangedMsg->mType = Evt.mType;
     itemChangedMsg->mItemId = Evt.mItemId;
     itemChangedMsg->mPrevItemId = Evt.mPrevItemId;
+    itemChangedMsg->mDropPrevItem = Evt.mDropPrevItem;
     mMessageHolder.AddOutgoingMessage( itemChangedMsg );
 }
 
@@ -93,22 +94,19 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending( Message const& message 
         L1( "actor inventory not valid! returning." );
         return true;
     }
-    if ( msg.mItemId == 0 )
+    if ( msg.mDropPrevItem )
     {
         inventoryC->DropItem( msg.mPrevItemId );
     }
-    else
+    if (msg.mType == ItemType::Normal)
     {
-        if (msg.mType == ItemType::Normal)
-        {
-            inventoryC->SetSelectedNormalItem( msg.mItemId );
-        }
-        else if (msg.mType == ItemType::Weapon)
-        {
-            inventoryC->SetSelectedWeapon( msg.mItemId, true );
-        }
+        inventoryC->SetSelectedNormalItem( msg.mItemId, true );
     }
-    EventServer<engine::ItemChangedEvent>::Get().SendEvent( { msg.mActorGUID, msg.mType, msg.mItemId, msg.mPrevItemId } );
+    else if (msg.mType == ItemType::Weapon)
+    {
+        inventoryC->SetSelectedWeapon( msg.mItemId, true );
+    }
+    EventServer<engine::ItemChangedEvent>::Get().SendEvent( { msg.mActorGUID, msg.mType, msg.mItemId, msg.mPrevItemId, msg.mDropPrevItem } );
     return true;
 }
 

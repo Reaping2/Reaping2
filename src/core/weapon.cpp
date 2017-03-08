@@ -290,7 +290,7 @@ int32_t Weapon::GetShotAltId() const
 
 bool Weapon::CanSwitch() const
 {
-    return true;
+    return Item::CanSwitch();
 }
 
 
@@ -302,7 +302,7 @@ void Weapon::Deselected()
 
 void Weapon::Selected()
 {
-
+    Item::Selected();
 }
 
 bool Weapon::GetShoot()

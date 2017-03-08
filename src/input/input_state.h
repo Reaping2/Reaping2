@@ -16,6 +16,7 @@ struct InputState
     bool mPause;
     bool mActivate;
     bool mSwitchWeapon;
+    bool mSwitchNormalItem;
     double mCursorX;
     double mCursorY;
     InputState();

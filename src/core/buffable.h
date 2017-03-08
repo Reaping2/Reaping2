@@ -3,7 +3,7 @@
 
 #include <boost/serialization/serialization.hpp>
 #include "platform/export.h"
-#include "platform/jsonreader_templates.h"
+#include "platform/jsonreader.h"
 
 template<typename T>
 class Limited

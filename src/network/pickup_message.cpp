@@ -69,7 +69,6 @@ void PickupMessageHandlerSubSystem::Execute( Message const& message )
         }
         else if ( msg.mItemType == ItemType::Normal )
         {
-            inventoryC->DropItemType( msg.mItemType );
             inventoryC->AddItem( msg.mItemId );
             inventoryC->SetSelectedNormalItem( msg.mItemId );
         }

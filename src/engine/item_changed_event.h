@@ -12,8 +12,9 @@ namespace engine {
         ItemType::Type mType;
         int32_t mItemId;
         int32_t mPrevItemId;
-        ItemChangedEvent( int32_t actorGUID, ItemType::Type type, int32_t itemId, int32_t prevItemId = 0 )
-            :mActorGUID( actorGUID ), mType( type ), mItemId( itemId ), mPrevItemId( prevItemId ) {}
+        bool mDropPrevItem;
+        ItemChangedEvent( int32_t actorGUID, ItemType::Type type, int32_t itemId, int32_t prevItemId = 0, bool dropPrevItem = false )
+            :mActorGUID( actorGUID ), mType( type ), mItemId( itemId ), mPrevItemId( prevItemId ), mDropPrevItem(dropPrevItem) {}
     };
 
 

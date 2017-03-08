@@ -36,8 +36,13 @@ void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )
         if ( normalItem->IsConsumed() )
         {
             int32_t id = normalItem->GetId();
-            inventoryC->DropItem( normalItem->GetId() );
-            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Normal, 0, id ) );
+            inventoryC->SwitchToNextItem( ItemType::Normal );
+            inventoryC->DropItem( id );
+            Opt<NormalItem> currItem = inventoryC->GetSelectedNormalItem();
+            if (currItem.IsValid())
+            {
+                EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Normal, currItem->GetId(), id, true ) );
+            }
         }
     }
 

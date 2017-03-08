@@ -18,14 +18,14 @@ void InventoryComponent::Update( double Seconds )
 {
 }
 
-InventoryComponent::ItemList_t const& InventoryComponent::GetItems()const
+InventoryComponent::Items_t const& InventoryComponent::GetItems()const
 {
     return mItems;
 }
 
-InventoryComponent::ItemList_t& InventoryComponent::GetItems()
+InventoryComponent::Items_t& InventoryComponent::GetItems()
 {
-    return const_cast<ItemList_t&>( ( static_cast<const InventoryComponent*>( this ) )->GetItems() );
+    return const_cast<Items_t&>( ( static_cast<const InventoryComponent*>( this ) )->GetItems() );
 }
 
 void InventoryComponent::AddItem( int32_t Id )
@@ -43,7 +43,7 @@ void InventoryComponent::AddItem( std::unique_ptr<Item> item )
 
 Opt<Item> InventoryComponent::GetItem( int32_t Id )
 {
-    for( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); ++i )
+    for( Items_t::iterator i = mItems.begin(); i != mItems.end(); ++i )
     {
         if ( ( *i )->GetId() == Id )
         {
@@ -57,15 +57,13 @@ void InventoryComponent::DropItem( int32_t Id )
 {
     if (mSelectedWeapon.IsValid() && mSelectedWeapon->GetId() == Id)
     {
-        mSelectedWeapon.Reset();
         SetSelectedWeapon( -1 );
     }
     if (mSelectedNormalItem.IsValid() && mSelectedNormalItem->GetId() == Id)
     {
-        mSelectedNormalItem.Reset();
         SetSelectedNormalItem( -1 );
     }
-    for ( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); )
+    for ( Items_t::iterator i = mItems.begin(); i != mItems.end(); )
     {
         if( ( *i )->GetId() == Id )
         {
@@ -84,15 +82,13 @@ void InventoryComponent::DropItemType( ItemType::Type Type )
 {
     if (Type == ItemType::Weapon) //TODO: handle multiple items, and handle this situation
     {
-        mSelectedWeapon.Reset();
         SetSelectedWeapon( -1 );
     }
     else if (Type == ItemType::Normal)
     {
-        mSelectedNormalItem.Reset();
         SetSelectedNormalItem( -1 );
     }
-    for ( ItemList_t::iterator i = mItems.begin(); i != mItems.end(); )
+    for ( Items_t::iterator i = mItems.begin(); i != mItems.end(); )
     {
         if ((*i)->GetType() == Type)
         {
@@ -120,7 +116,7 @@ bool InventoryComponent::SetSelectedWeapon( int32_t Id, bool force /*= false*/ )
         {
             mSelectedWeapon->Deselected();
         }
-        mSelectedWeapon = Opt<Weapon>( dynamic_cast<Weapon*>(GetItem( Id ).Get()) );
+        mSelectedWeapon = GetItem( Id );
         if (mSelectedWeapon.IsValid())
         {
             mSelectedWeapon->Selected();
@@ -132,7 +128,7 @@ bool InventoryComponent::SetSelectedWeapon( int32_t Id, bool force /*= false*/ )
 
 InventoryComponent::~InventoryComponent()
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    for( Items_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
     {
         delete ( *i ).Get();
     }
@@ -142,7 +138,7 @@ InventoryComponent::~InventoryComponent()
 void InventoryComponent::SetActorGUID( int32_t actorGUID )
 {
     IInventoryComponent::SetActorGUID( actorGUID );
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
+    for( Items_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
     {
         ( *i )->SetActorGUID( mActorGUID );
     }
@@ -154,9 +150,45 @@ Opt<NormalItem> InventoryComponent::GetSelectedNormalItem()
     return mSelectedNormalItem;
 }
 
-void InventoryComponent::SetSelectedNormalItem( int32_t Id )
+bool InventoryComponent::SetSelectedNormalItem( int32_t Id, bool force /*= false */ )
 {
-    mSelectedNormalItem = Opt<NormalItem>( dynamic_cast<NormalItem*>( GetItem( Id ).Get() ) );
+    if (force || !mSelectedNormalItem.IsValid() || mSelectedNormalItem->CanSwitch())
+    {
+        if (mSelectedNormalItem.IsValid())
+        {
+            mSelectedNormalItem->Deselected();
+        }
+        mSelectedNormalItem = GetItem( Id );
+        if (mSelectedNormalItem.IsValid())
+        {
+            mSelectedNormalItem->Selected();
+        }
+        return true;
+    }
+    return false;
+}
+
+
+bool InventoryComponent::SwitchToNextItem( ItemType::Type itemType, bool forward /*= true */ )
+{
+    Opt<Item> item( (itemType == ItemType::Normal) ? Opt<Item>(mSelectedNormalItem) : Opt<Item>(mSelectedWeapon) );
+    if (item.IsValid())
+    {
+        auto found = std::find_if( mItems.begin(), mItems.end(), [&]( auto i ) { return i->GetId() == item->GetId(); } );
+        auto i = found;
+        do
+        {
+            if ((forward ? ++i : --i) == mItems.end())
+            {
+                i = mItems.begin();
+            }
+        } while (i != found && (*i)->GetType() != itemType);
+        if (i != found)
+        {
+            return itemType == ItemType::Normal ? SetSelectedNormalItem( (*i)->GetId() ) : SetSelectedWeapon( (*i)->GetId() );
+        }
+    }
+    return false;
 }
 
 void InventoryComponent::SetPickupItems( bool pickupItems )
@@ -173,7 +205,6 @@ bool InventoryComponent::IsPickupItems() const
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;
-    //TODO: handle more than one items (additem in an array nothing much
     auto const& addItem = (*mSetters)["add_item"];
     if (addItem.isArray())
     {

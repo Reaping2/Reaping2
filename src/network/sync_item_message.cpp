@@ -72,7 +72,7 @@ void SyncItemMessageHandlerSubSystem::Execute( Message const& message )
     inv->AddItem( std::unique_ptr<Item>( item.Get() ) );
     if ( itemType == ItemType::Normal )
     {
-        inv->SetSelectedNormalItem( itemId );
+        inv->SetSelectedNormalItem( itemId, true );
     }
     else if ( itemType == ItemType::Weapon )
     {

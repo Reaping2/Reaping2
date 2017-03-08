@@ -20,11 +20,13 @@ public:
     ItemType::Type mType;
     int32_t mItemId;
     int32_t mPrevItemId;
+    bool mDropPrevItem;
     ItemChangedMessage()
         : mActorGUID( -1 )
         , mType( ItemType::Normal )
         , mItemId( -1 )
         , mPrevItemId( -1 )
+        , mDropPrevItem( false )
     {
     }
     template<class Archive>
@@ -39,6 +41,7 @@ void ItemChangedMessage::serialize( Archive& ar, const unsigned int version )
     ar& mType;
     ar& mItemId;
     ar& mPrevItemId;
+    ar& mDropPrevItem;
 }
 
 class ItemChangedMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<ItemChangedMessage>

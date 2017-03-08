@@ -10,8 +10,8 @@
 class InventoryComponent : public IInventoryComponent
 {
 public:
-    virtual ItemList_t const& GetItems()const;
-    virtual ItemList_t& GetItems();
+    virtual Items_t const& GetItems()const;
+    virtual Items_t& GetItems();
     virtual void AddItem( int32_t Id );
     virtual void AddItem( std::unique_ptr<Item> item );
     virtual void DropItem( int32_t Id );
@@ -22,7 +22,8 @@ public:
     virtual bool SetSelectedWeapon( int32_t Id, bool force = false );
     virtual void SetActorGUID( int32_t actorGUID );
     virtual Opt<NormalItem> GetSelectedNormalItem();
-    virtual void SetSelectedNormalItem( int32_t Id );
+    virtual bool SetSelectedNormalItem( int32_t Id, bool force = false );
+    virtual bool SwitchToNextItem( ItemType::Type itemType, bool forward = true );
     virtual void SetPickupItems( bool pickupItems );
     virtual bool IsPickupItems() const;
     virtual ~InventoryComponent();
@@ -31,7 +32,7 @@ protected:
     friend class ComponentFactory;
 private:
     ItemFactory& mItemFactory;
-    ItemList_t mItems;
+    Items_t mItems;
     Opt<Weapon> mSelectedWeapon;
     Opt<NormalItem> mSelectedNormalItem;
     bool mPickupItems;

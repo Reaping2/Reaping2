@@ -17,6 +17,14 @@ bool GetFloat( Json::Value const& V, float& O );
 bool GetBool( Json::Value const& V, bool& O );
 bool GetColor( Json::Value const& V, int32_t& O );
 bool GetColor( Json::Value const& V, glm::vec4& O );
+
+bool Get( Value const& V, std::string& O );
+bool Get( Value const& V, uint32_t& O );
+bool Get( Value const& V, int32_t& O );
+bool Get( Value const& V, double& O );
+bool Get( Value const& V, float& O );
+bool Get( Value const& V, bool& O );
+bool Get( Value const& V, glm::vec4& O );
 } // namespace Json
 
 namespace platform {
