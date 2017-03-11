@@ -21,7 +21,7 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
 
 private:
-    void SetSpeedAndOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void SetSpeedAndHeading( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );

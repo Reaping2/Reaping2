@@ -35,14 +35,18 @@ void PlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
     HandleInputs( actor, playerControllerC );
     Shoot( actor, playerControllerC );
     HandleReload( actor, playerControllerC );
-    SetSpeedAndOrientation( actor, playerControllerC );
+    SetSpeedAndHeading( actor, playerControllerC );
     SetOrientation( actor, playerControllerC );
     HandleItemSwitch( actor, playerControllerC, ItemType::Normal );
     HandleItemSwitch( actor, playerControllerC, ItemType::Weapon );
 }
 
-void PlayerControllerSubSystem::SetSpeedAndOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
+void PlayerControllerSubSystem::SetSpeedAndHeading( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Server)
+    {
+        return;
+    }
     if (mProgramState.mMode == core::ProgramState::Client
         && mProgramState.mControlledActorGUID != actor.GetGUID())
     {
@@ -89,6 +93,10 @@ void PlayerControllerSubSystem::Shoot( Actor& actor, Opt<PlayerControllerCompone
 
 void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Server)
+    {
+        return;
+    }
     if (mProgramState.mMode == core::ProgramState::Client 
         && mProgramState.mControlledActorGUID != actor.GetGUID())
     {
