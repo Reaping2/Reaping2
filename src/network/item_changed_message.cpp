@@ -48,7 +48,7 @@ void ItemChangedMessageSenderSystem::OnSoldierCreated( engine::SoldierCreatedEve
     {
         return;
     }
-    Opt<NormalItem> item = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> item = inventoryC->GetSelectedItem( ItemType::Normal );
     if (item.IsValid())
     {
         std::auto_ptr<ItemChangedMessage> itemChangedMsg( new ItemChangedMessage );
@@ -57,7 +57,7 @@ void ItemChangedMessageSenderSystem::OnSoldierCreated( engine::SoldierCreatedEve
         itemChangedMsg->mItemId = item->GetId();
         mMessageHolder.AddOutgoingMessage( itemChangedMsg );
     }
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if (weapon.IsValid())
     {
         std::auto_ptr<ItemChangedMessage> itemChangedMsg( new ItemChangedMessage );
@@ -98,13 +98,11 @@ bool ItemChangedMessageHandlerSubSystem::ProcessPending( Message const& message 
     {
         inventoryC->DropItem( msg.mPrevItemId );
     }
-    if (msg.mType == ItemType::Normal)
+
+    if (msg.mType == ItemType::Normal
+        || msg.mType == ItemType::Weapon)
     {
-        inventoryC->SetSelectedNormalItem( msg.mItemId, true );
-    }
-    else if (msg.mType == ItemType::Weapon)
-    {
-        inventoryC->SetSelectedWeapon( msg.mItemId, true );
+        inventoryC->SetSelectedItem( msg.mType, msg.mItemId, true );
     }
     EventServer<engine::ItemChangedEvent>::Get().SendEvent( { msg.mActorGUID, msg.mType, msg.mItemId, msg.mPrevItemId, msg.mDropPrevItem } );
     return true;

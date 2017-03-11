@@ -43,7 +43,7 @@ HatActionRenderer::HatActionRenderer( int32_t Id )
 
 void HatActionRenderer::Init( const Actor& actor )
 {
-    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
+    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedItem( ItemType::Weapon );
     if ( !weapon.IsValid() )
     {
         return;

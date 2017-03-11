@@ -23,7 +23,7 @@ void ShotgunWeaponSubSystem::Init()
 void ShotgunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if ( weapon->GetCooldown() > 0 )
     {
         return;

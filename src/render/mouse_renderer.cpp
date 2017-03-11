@@ -72,7 +72,7 @@ void MouseRenderer::Draw( TextSceneRenderer& textSceneRenderer )
     glm::vec3 mouseColor( 0.0, 0.0, 1.0 );
     if ( inventoryC.IsValid() )
     {
-        weapon = inventoryC->GetSelectedWeapon();
+        weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     }
     if ( actor.IsValid() && inventoryC.IsValid() && weapon.IsValid() )
     {

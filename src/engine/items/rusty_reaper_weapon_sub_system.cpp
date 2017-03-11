@@ -27,7 +27,7 @@ void RustyReaperWeaponSubSystem::Init()
 void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<RustyReaper> weapon = inventoryC->GetSelectedWeapon();
+    Opt<RustyReaper> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if (weapon->GetCooldown() > 0)
     {
         return;

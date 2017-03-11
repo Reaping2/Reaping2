@@ -5,25 +5,21 @@
 #include "core/property_loader.h"
 #include "core/opt.h"
 #include "core/weapon.h"
-#include <boost/serialization/vector.hpp>
+#include <boost/serialization/map.hpp>
 #include "platform/export.h"
 class InventoryComponent : public IInventoryComponent
 {
 public:
-    virtual Items_t const& GetItems()const;
-    virtual Items_t& GetItems();
-    virtual void AddItem( int32_t Id );
-    virtual void AddItem( std::unique_ptr<Item> item );
-    virtual void DropItem( int32_t Id );
+    virtual ItemMap_t const& GetItems()const;
+    virtual ItemMap_t& GetItems();
+    virtual Opt<Item> AddItem( int32_t Id );
+    virtual Opt<Item> AddItem( std::unique_ptr<Item> item );
+    virtual bool DropItem( int32_t Id );
     virtual Opt<Item> GetItem( int32_t Id );
-    virtual void DropItemType( ItemType::Type Type );
-    virtual void Update( double Seconds );
-    virtual Opt<Weapon> GetSelectedWeapon();
-    virtual bool SetSelectedWeapon( int32_t Id, bool force = false );
+    virtual Opt<Item> GetSelectedItem( ItemType::Type type );
+    virtual Opt<Item> SetSelectedItem( ItemType::Type type, int32_t Id, bool force = false ) ;
     virtual void SetActorGUID( int32_t actorGUID );
-    virtual Opt<NormalItem> GetSelectedNormalItem();
-    virtual bool SetSelectedNormalItem( int32_t Id, bool force = false );
-    virtual bool SwitchToNextItem( ItemType::Type itemType, bool forward = true );
+    virtual Opt<Item> SwitchToNextItem( ItemType::Type itemType, bool forward = true );
     virtual void SetPickupItems( bool pickupItems );
     virtual bool IsPickupItems() const;
     virtual ~InventoryComponent();
@@ -32,9 +28,7 @@ protected:
     friend class ComponentFactory;
 private:
     ItemFactory& mItemFactory;
-    Items_t mItems;
-    Opt<Weapon> mSelectedWeapon;
-    Opt<NormalItem> mSelectedNormalItem;
+    ItemMap_t mItems;
     bool mPickupItems;
 public:
     friend class ::boost::serialization::access;
@@ -48,8 +42,6 @@ void InventoryComponent::serialize( Archive& ar, const unsigned int version )
     //NOTE: generated archive for this class
     ar& boost::serialization::base_object<IInventoryComponent>( *this );
     ar& mItems;
-    ar& mSelectedWeapon;
-    ar& mSelectedNormalItem;
     ar& mPickupItems;
 }
 

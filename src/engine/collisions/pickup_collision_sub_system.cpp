@@ -34,26 +34,17 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
         int32_t prevItemId = -1;
-        if ( pickupCC->GetItemType() == ItemType::Weapon )
+        if ( pickupCC->GetItemType() == ItemType::Weapon
+            || pickupCC->GetItemType() == ItemType::Normal)
         {
-            auto item( inventoryC->GetSelectedWeapon() );
+            auto item( inventoryC->GetSelectedItem(pickupCC->GetItemType()) );
             if (item.IsValid())
             {
                 prevItemId = item->GetId();
             }
             inventoryC->AddItem( pickupCC->GetPickupContent() );
-            inventoryC->SetSelectedWeapon( pickupCC->GetPickupContent() );
+            inventoryC->SetSelectedItem( pickupCC->GetItemType(), pickupCC->GetPickupContent() );
 
-        }
-        else if ( pickupCC->GetItemType() == ItemType::Normal )
-        {
-            auto item( inventoryC->GetSelectedNormalItem() );
-            if (item.IsValid())
-            {
-                prevItemId = item->GetId();
-            }
-            inventoryC->AddItem( pickupCC->GetPickupContent() );
-            inventoryC->SetSelectedNormalItem( pickupCC->GetPickupContent() );
         }
         else if ( pickupCC->GetItemType() == ItemType::Buff )
         {
@@ -63,6 +54,7 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
                 buffHolderC->AddBuff( core::BuffFactory::Get()( pickupCC->GetPickupContent() ) );
             }
         }
+
         EventServer<PickupEvent>::Get().SendEvent( PickupEvent( Opt<Actor>( &other ), pickupCC->GetItemType(), pickupCC->GetPickupContent() ) );
         if (prevItemId != -1)
         {

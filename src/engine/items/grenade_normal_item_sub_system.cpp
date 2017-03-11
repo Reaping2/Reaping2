@@ -22,7 +22,7 @@ void GrenadeNormalItemSubSystem::Init()
 void GrenadeNormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedItem( ItemType::Normal );
     if ( normalItem->IsUse() )
     {
         std::auto_ptr<Actor> Proj = mActorFactory( mProjectileId );

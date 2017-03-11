@@ -15,7 +15,7 @@ bool WeaponRecognizer::Recognize( Actor const& actor ) const
     {
         return false;
     }
-    if ( inventoryC->GetSelectedWeapon().IsValid() )
+    if ( inventoryC->GetSelectedItem( ItemType::Weapon ).IsValid() )
     {
         //L1( " weapon RECOGNIZED! \n" );
         return true;

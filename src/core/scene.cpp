@@ -278,7 +278,7 @@ int32_t GetWeaponId( Actor* a )
     {
         return 0;
     }
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     return weapon.IsValid() ? weapon->GetId() : 0;
 }
 int32_t GetSumBullets( Actor* a )
@@ -288,7 +288,7 @@ int32_t GetSumBullets( Actor* a )
     {
         return 0;
     }
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     return weapon.IsValid() ? weapon->GetSumBullets().Get() : 0;
 }
 int32_t GetSumBulletsMax( Actor* a )
@@ -298,7 +298,7 @@ int32_t GetSumBulletsMax( Actor* a )
     {
         return 0;
     }
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     return weapon.IsValid() ? weapon->GetSumBullets().GetMax() : 0.0;
 }
 double GetSpecialId( Actor* a )
@@ -308,7 +308,7 @@ double GetSpecialId( Actor* a )
     {
         return 0;
     }
-    Opt<NormalItem> item = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> item = inventoryC->GetSelectedItem( ItemType::Normal );
     return item.IsValid() ? item->GetId() : 0;
 }
 std::vector<int32_t> GetBuffs( Actor* a )

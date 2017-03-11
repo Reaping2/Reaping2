@@ -100,7 +100,7 @@ void FreeForAllGameModeSystem::OnStartGameMode( core::StartGameModeEvent const& 
             Pl->Get<IInventoryComponent>();
             Opt<IInventoryComponent> inventoryC = Pl->Get<IInventoryComponent>();
             inventoryC->AddItem( AutoId( "plasma_gun" ) );
-            inventoryC->SetSelectedWeapon( AutoId( "plasma_gun" ) );
+            inventoryC->SetSelectedItem( ItemType::Weapon, AutoId( "plasma_gun" ) );
             Opt<PlayerControllerComponent> pcc( Pl->Get<IControllerComponent>() );
             pcc->SetEnabled( false );
             pcc->mActive = false;

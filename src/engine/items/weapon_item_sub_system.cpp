@@ -38,7 +38,7 @@ void WeaponItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     bool dirty = false;
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if ( !weapon.IsValid() )
     {
         return;
@@ -152,7 +152,7 @@ void WeaponItemSubSystem::OnShot( core::ShotEvent const& Evt )
     {
         return;
     }
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if ( !weapon.IsValid() )
     {
         return;
@@ -223,7 +223,7 @@ void WeaponItemSubSystem::SetProjectilePosition(Actor& projectile, Actor& actor)
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     if (inventoryC.IsValid())
     {
-        Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+        Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
         if (weapon.IsValid())
         {
             rvec.x += weapon->GetPositionX();

@@ -58,7 +58,7 @@ void GuardControllerSubSystem::Update(Actor& actor, double DeltaTime)
         auto inventoryC = actor.Get<IInventoryComponent>();
         if (inventoryC.IsValid())
         {
-            Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+            Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
             if (weapon.IsValid())
             {
                 int32_t const aggroAltDistSqr = guardCC->GetAggroAltDist() * guardCC->GetAggroAltDist();
@@ -152,7 +152,7 @@ void GuardControllerSubSystem::Update(Actor& actor, double DeltaTime)
         Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
         if (inventoryC.IsValid())
         {
-            Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+            Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
             if (weapon.IsValid())
             {
                 weapon->SetShoot( false );

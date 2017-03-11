@@ -8,6 +8,7 @@
 #include "core/player_controller_component.h"
 #include "core/program_state.h"
 #include "input/input_system.h"
+#include "core/item_type.h"
 
 namespace engine {
 
@@ -25,8 +26,7 @@ private:
     void Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
-    void HandleWeaponSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
-    void HandleNormalItemSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void HandleItemSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC, ItemType::Type itemType );
 
     Scene& mScene;
     core::ProgramState& mProgramState;

@@ -25,7 +25,7 @@ void GaussGunWeaponSubSystem::Init()
 void GaussGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<GaussGun> weapon = inventoryC->GetSelectedWeapon();
+    Opt<GaussGun> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     if ( weapon->GetShootAlt() && weapon->GetCooldown() <= 0.0 )
     {
