@@ -15,6 +15,7 @@ class LevelSelectionSystem : public engine::System
 {
     ModelValue mLevelModel;
     ModelValue mSelectLevelModel;
+    ModelValue mSelectLevelByNameModel;
     ModelValue mLevelDisplayNamesModel;
     ModelValue mLevelThumbnailsModel;
     std::string mSelectedLevel;
@@ -32,6 +33,8 @@ public:
     LevelSelectionSystem();
     // used by the UI
     void SelectLevelByIdx( int32_t idx );
+    // used by the UI
+    void SelectLevelByNameUI( std::string const& levelName );
     // used by other other Systems
     void SelectLevelByName( core::GameModes::Type gameMode, std::string const& realName );
     std::string GetSelectedLevel();
