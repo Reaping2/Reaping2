@@ -35,11 +35,11 @@ FastStarter::FastStarter( std::string const& shortcut )
                             }
                             else
                             {
-                                auto findInd = actStr.find( "|" ) + 1;
+                                auto findInd = actStr.find( "|" ) ;
                                 if (findInd != std::string::npos)
                                 {
-                                    L1( "default val: %s \n", actStr.substr( findInd ).c_str() );
-                                    action = Json::Value( actStr.substr( findInd ) );
+                                    L1( "default val: %s \n", actStr.substr( findInd + 1 ).c_str() );
+                                    action = Json::Value( actStr.substr( findInd + 1 ) );
                                 }
                             }
                         }
