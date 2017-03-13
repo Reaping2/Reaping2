@@ -15,7 +15,7 @@ Opt<Item> IInventoryComponent::ItemGroup::AddItem( std::unique_ptr<Item> item )
 
 Opt<Item> IInventoryComponent::ItemGroup::GetItem( int32_t Id )
 {
-    auto found = find_if( mItems.begin(), mItems.end(), [&Id]( auto const& item ) { return item->GetId() == Id; } );
+    auto found = std::find_if( mItems.begin(), mItems.end(), [&Id]( auto const& item ) { return item->GetId() == Id; } );
     return found != mItems.end() ? found->get() : nullptr;
 }
 
@@ -32,19 +32,17 @@ Opt<Item> IInventoryComponent::ItemGroup::SetSelectedItem( int32_t Id )
         mSelectedIndex = Id;
         return nullptr;
     }
-    auto const found = find_if( mItems.begin(), mItems.end(), [&Id]( auto const& item ) { return item->GetId() == Id; } );
+    auto const found = std::find_if( mItems.begin(), mItems.end(), [&Id]( auto const& item ) { return item->GetId() == Id; } );
     mSelectedIndex = found != mItems.end() ? std::distance( mItems.begin(), found ) : InvalidItem;
     return found != mItems.end() ? found->get() : nullptr;
 }
 
 bool IInventoryComponent::ItemGroup::DropItem( int32_t Id )
 {
-    if (mSelectedIndex != InvalidItem && mItems[mSelectedIndex]->GetId() == Id)
-    {
-        mSelectedIndex = InvalidItem;
-    }
+    int32_t selectedItemId = GetSelectedItem().IsValid() ? GetSelectedItem()->GetId() : InvalidItem;
     auto const siz = mItems.size();
     mItems.erase( std::remove_if( mItems.begin(), mItems.end(), [&Id]( auto const& item ) { return item->GetId() == Id; } ), mItems.end() );
+    SetSelectedItem( selectedItemId );
     return siz != mItems.size();
 }
 
@@ -55,7 +53,7 @@ Opt<Item> IInventoryComponent::ItemGroup::SwitchToNextItem( bool forward /*= tru
     {
         return nullptr;
     }
-    mSelectedIndex = ((forward?++mSelectedIndex:--mSelectedIndex)%mItems.size() + mItems.size())% mItems.size();
+    mSelectedIndex = ((forward ? ++mSelectedIndex : --mSelectedIndex) + mItems.size()) % mItems.size();
     return GetSelectedItem();
 }
 

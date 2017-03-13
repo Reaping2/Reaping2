@@ -20,8 +20,6 @@ protected:
     struct ItemGroup
     {
         typedef std::vector<std::shared_ptr<Item>> Items_t;
-        Items_t mItems;
-        int32_t mSelectedIndex = InvalidItem;
         Opt<Item> AddItem( std::unique_ptr<Item> item );
         Opt<Item> GetItem( int32_t Id );
         Opt<Item> GetSelectedItem();
@@ -30,6 +28,8 @@ protected:
         Opt<Item> SwitchToNextItem( bool forward = true );
         void SetActorGUID( int32_t actorGUID );
     private:
+        Items_t mItems;
+        int32_t mSelectedIndex = InvalidItem;
         friend class ::boost::serialization::access;
         template<class Archive>
         void serialize( Archive& ar, const unsigned int version );

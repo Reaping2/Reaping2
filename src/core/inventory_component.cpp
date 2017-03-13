@@ -137,7 +137,12 @@ void InventoryComponentLoader::BindValues()
     }
     if (Json::GetStr( (*mSetters)["select_weapon"], istr ))
     {
-        Bind<int32_t>( (boost::bind( boost::bind(&InventoryComponent::SetSelectedItem,_1,_2,_3,true ),_1,ItemType::Weapon,_2)), AutoId( istr ));
+        Bind<int32_t>( (
+            std::bind( 
+                std::bind(
+                    &InventoryComponent::SetSelectedItem,std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,true ), 
+                std::placeholders::_1,ItemType::Weapon, std::placeholders::_2)), 
+            AutoId( istr ));
     }
     Bind( "pickup_items", func_bool( &InventoryComponent::SetPickupItems ) );
 }
