@@ -12,7 +12,7 @@ FastStarter::FastStarter( std::string const& shortcut )
     std::vector<std::string> shortcutSplit;
     boost::split( shortcutSplit, shortcut, boost::is_any_of( "/|" ) );
     auto const name = shortcutSplit.front();
-    auto& jsonArr = Settings::Get().Resolve("fast_start."+ name );
+    auto jsonArr = Settings::Get().Resolve("fast_start."+ name );
     if (jsonArr.isArray())
     {
         for (auto&& Desc : jsonArr)
