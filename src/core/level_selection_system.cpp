@@ -9,6 +9,7 @@ namespace core {
 LevelSelectionSystem::LevelSelectionSystem()
     : mLevelModel( RefTo(mSelectedLevel), "level", &RootModel::Get() )
     , mSelectLevelModel( IntFunc( this, &LevelSelectionSystem::SelectLevelByIdx ), "select", &mLevelModel )
+    , mSelectLevelByNameModel( StringFunc( this, &LevelSelectionSystem::SelectLevelByNameUI ), "select_by_name", &mLevelModel )
     , mLevelDisplayNamesModel( (ModelValue::get_string_vec_t)boost::bind( &LevelSelectionSystem::DisplayNames, this), "names", &mLevelModel )
     , mLevelThumbnailsModel( (ModelValue::get_int_vec_t)boost::bind(&LevelSelectionSystem::Thumbnails, this ), "images", &mLevelModel )
     , mSelectedLevel( "" )
@@ -80,7 +81,12 @@ void LevelSelectionSystem::Update(double DeltaTime)
 
 void LevelSelectionSystem::SelectLevelByIdx( int32_t idx )
 {
-    mSelectedLevel = mLevelRealNames[mGameMode][idx];
+    SelectLevelByNameUI( mLevelRealNames[mGameMode][idx] );
+}
+
+void LevelSelectionSystem::SelectLevelByNameUI( std::string const& levelName )
+{
+    mSelectedLevel = levelName;
     L2( "selected level: %s\n", mSelectedLevel.c_str() );
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }

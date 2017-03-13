@@ -17,7 +17,7 @@ public:
     void Load( Json::Value const& setters );
     void Update( double DeltaTime );
 private:
-    int32_t mId;
+    int32_t mId = -1;
     ActorFrequencyTimerHolder mUniqueFrequencyTimerHolder;
     ActorFrequencyTimerHolder mMandatoryFrequencyTimerHolder;
 };

@@ -16,7 +16,13 @@
             "position_x":60.0,
             "position_y":20.0,
             "shot":"plasma_projectile",
-            "shot_alt":"plasma_projectile"
+            "shot_alt":"plasma_projectile",
+            "sum_bullets":
+            {
+                "max":1000.0,
+                "min":0.0,
+                "val":1000.0
+            }
         }]
     }
 ]

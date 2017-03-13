@@ -62,17 +62,11 @@ void PickupMessageHandlerSubSystem::Execute( Message const& message )
         L2( "pickup picked up with itemtype:%d,itemid:%d", msg.mItemType, msg.mItemId );
 
         //TODO item selection will be syncronized, not pickup event
-        if ( msg.mItemType == ItemType::Weapon )
+        if ( msg.mItemType == ItemType::Weapon
+            || msg.mItemType == ItemType::Normal )
         {
-            inventoryC->DropItemType( msg.mItemType );
             inventoryC->AddItem( msg.mItemId );
-            inventoryC->SetSelectedWeapon( msg.mItemId );
-        }
-        else if ( msg.mItemType == ItemType::Normal )
-        {
-            inventoryC->DropItemType( msg.mItemType );
-            inventoryC->AddItem( msg.mItemId );
-            inventoryC->SetSelectedNormalItem( msg.mItemId );
+            inventoryC->SetSelectedItem( msg.mItemType, msg.mItemId );
         }
         else if ( msg.mItemType == ItemType::Buff )
         {

@@ -8,9 +8,13 @@ public:
     DEFINE_SYSTEM_BASE( MouseSystem )
     enum Button_t
     {
-        Button_Left = 1,
-        Button_Middle,
-        Button_Right,
+        Button_Left = GLFW_MOUSE_BUTTON_LEFT,
+        Button_Right = GLFW_MOUSE_BUTTON_RIGHT,
+        Button_Middle = GLFW_MOUSE_BUTTON_MIDDLE,
+        Button_4 = GLFW_MOUSE_BUTTON_4,
+        Button_5 = GLFW_MOUSE_BUTTON_5,
+        Button_6 = GLFW_MOUSE_BUTTON_6,
+        Button_7 = GLFW_MOUSE_BUTTON_7,
         Num_Buttons,
     };
     bool IsButtonPressed( Button_t Button )const;

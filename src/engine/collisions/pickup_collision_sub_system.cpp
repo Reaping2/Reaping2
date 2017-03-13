@@ -8,6 +8,7 @@
 #include "core/buffs/i_buff_holder_component.h"
 #include "core/buffs/buff_factory.h"
 #include "core/item_type.h"
+#include "../item_changed_event.h"
 
 namespace engine {
 
@@ -32,17 +33,18 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
-        if ( pickupCC->GetItemType() == ItemType::Weapon )
+        int32_t prevItemId = -1;
+        if ( pickupCC->GetItemType() == ItemType::Weapon
+            || pickupCC->GetItemType() == ItemType::Normal)
         {
-            inventoryC->DropItemType( pickupCC->GetItemType() );
+            auto item( inventoryC->GetSelectedItem(pickupCC->GetItemType()) );
+            if (item.IsValid())
+            {
+                prevItemId = item->GetId();
+            }
             inventoryC->AddItem( pickupCC->GetPickupContent() );
-            inventoryC->SetSelectedWeapon( pickupCC->GetPickupContent() );
-        }
-        else if ( pickupCC->GetItemType() == ItemType::Normal )
-        {
-            inventoryC->DropItemType( pickupCC->GetItemType() );
-            inventoryC->AddItem( pickupCC->GetPickupContent() );
-            inventoryC->SetSelectedNormalItem( pickupCC->GetPickupContent() );
+            inventoryC->SetSelectedItem( pickupCC->GetItemType(), pickupCC->GetPickupContent() );
+
         }
         else if ( pickupCC->GetItemType() == ItemType::Buff )
         {
@@ -52,7 +54,12 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
                 buffHolderC->AddBuff( core::BuffFactory::Get()( pickupCC->GetPickupContent() ) );
             }
         }
+
         EventServer<PickupEvent>::Get().SendEvent( PickupEvent( Opt<Actor>( &other ), pickupCC->GetItemType(), pickupCC->GetPickupContent() ) );
+        if (prevItemId != -1)
+        {
+            EventServer<engine::ItemChangedEvent>::Get().SendEvent( { other.GetGUID(), pickupCC->GetItemType(),  pickupCC->GetPickupContent(), prevItemId } );
+        }
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
         if (healthC.IsValid())
         {

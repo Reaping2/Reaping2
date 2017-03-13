@@ -1,4 +1,8 @@
 {
+    "debug":
+    {
+        "ffa_sample_players":0
+    },
     "collisions":
     {
         "enable":1
@@ -47,7 +51,14 @@
             "max_cell_size":128,
             "use_size_limit":1,
             "downsample":1
-        }
+        },
+        "postprocess":1,
+        "_shown_layer":"postprocess_mask",
+        "preferred_monitor":"1",
+        "window_mode":"windowed",
+        "possible_window_modes_comment":"fullscreen,windowed,borderless_windowed",
+        "width":1200,
+        "height":800
     },
     "network":
     {
@@ -58,7 +69,7 @@
     {
         "sleep":0,
         "frame_rate":100,
-        "limit_frames":0
+        "limit_frames":1
     },
     "soldier_name":
     {

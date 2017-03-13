@@ -29,9 +29,11 @@ void RoomRepo::Init()
         std::string str;
         if (Json::GetStr( desc["name"], str ))
         {
+            LL() << "Room name:" << str;
             int32_t id = AutoId( str );
             std::unique_ptr<JsonRoom> jsonRoom( new JsonRoom( id ) );
             jsonRoom->Load( desc );
+            LL() << "Room load end";
             mElements.insert( id, jsonRoom.release() );
         }
     } );

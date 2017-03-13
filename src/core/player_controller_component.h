@@ -18,6 +18,8 @@ public:
     bool mShootAlt;
     Trigger mUseNormalItem;
     Trigger mActivate;
+    Trigger mSwitchWeapon;
+    Trigger mSwitchNormalItem;
     bool mActive; //controlled by current client
     int32_t mControllerId; //controller client id
     Trigger mUseReload;
@@ -38,6 +40,9 @@ void PlayerControllerComponent::serialize( Archive& ar, const unsigned int versi
     ar& mShoot;
     ar& mShootAlt;
     ar& mUseNormalItem;
+    ar& mActivate;
+    ar& mSwitchWeapon;
+    ar& mSwitchNormalItem;
     ar& mActive;
     ar& mControllerId;
     ar& mUseReload;

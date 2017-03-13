@@ -8,6 +8,7 @@
 #include "core/player_controller_component.h"
 #include "core/program_state.h"
 #include "input/input_system.h"
+#include "core/item_type.h"
 
 namespace engine {
 
@@ -20,11 +21,12 @@ public:
     virtual void Update( Actor& actor, double DeltaTime );
 
 private:
-    void SetSpeedAndOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void SetSpeedAndHeading( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
     void HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC );
+    void HandleItemSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC, ItemType::Type itemType );
 
     Scene& mScene;
     core::ProgramState& mProgramState;

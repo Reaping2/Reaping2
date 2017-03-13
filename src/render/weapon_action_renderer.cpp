@@ -12,7 +12,7 @@ WeaponActionRenderer::WeaponActionRenderer( int32_t Id )
 
 void WeaponActionRenderer::Init( const Actor& actor )
 {
-    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
+    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedItem( ItemType::Weapon );
     if ( !weapon.IsValid() )
     {
         return;
@@ -27,7 +27,7 @@ void WeaponActionRenderer::Init( const Actor& actor )
 
 void WeaponActionRenderer::FillRenderableSprites( const Actor& actor, IRenderableComponent const& renderableC, RenderableSprites_t& renderableSprites )
 {
-    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
+    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedItem( ItemType::Weapon );
     if ( !weapon.IsValid() )
     {
         return;

@@ -57,6 +57,8 @@ std::auto_ptr<PlayerControllerMessage> PlayerControllerMessageSenderSystem::Gene
     playerControllerMsg->mUseReload = playerControllerC->mUseReload;
     playerControllerMsg->mMoving = playerControllerC->mMoving;
     playerControllerMsg->mActivate = playerControllerC->mActivate;
+    playerControllerMsg->mSwitchWeapon = playerControllerC->mSwitchWeapon;
+    playerControllerMsg->mSwitchNormalItem = playerControllerC->mSwitchNormalItem;
     return playerControllerMsg;
     
 }
@@ -118,6 +120,22 @@ void PlayerControllerMessageHandlerSubSystem::Execute( Message const& message )
     {
         playerControllerC->mActivate.Deactivate();
     }
+    if (msg.mSwitchWeapon.IsActive())
+    {
+        playerControllerC->mSwitchWeapon.Activate();
+    }
+    else
+    {
+        playerControllerC->mSwitchWeapon.Deactivate();
+    }
+    if (msg.mSwitchNormalItem.IsActive())
+    {
+        playerControllerC->mSwitchNormalItem.Activate();
+    }
+    else
+    {
+        playerControllerC->mSwitchNormalItem.Deactivate();
+    }
 }
 
 
@@ -131,7 +149,9 @@ bool PlayerControllerMessage::operator==( PlayerControllerMessage const& other )
         && mUseNormalItem == other.mUseNormalItem
         && mUseReload == other.mUseReload
         && mMoving == other.mMoving
-        && mActivate == other.mActivate;
+        && mActivate == other.mActivate
+        && mSwitchWeapon == other.mSwitchWeapon
+        && mSwitchNormalItem == other.mSwitchNormalItem;
 }
 
 } // namespace engine

@@ -2,133 +2,105 @@
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
 #include "item_dropped_event.h"
-
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
 InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
-    , mSelectedWeapon( 0 )
-    , mSelectedNormalItem( 0 )
     , mPickupItems( true )
 {
 
 }
 
-void InventoryComponent::Update( double Seconds )
-{
-}
-
-InventoryComponent::ItemList_t const& InventoryComponent::GetItems()const
+InventoryComponent::ItemMap_t const& InventoryComponent::GetItems()const
 {
     return mItems;
 }
 
-InventoryComponent::ItemList_t& InventoryComponent::GetItems()
+InventoryComponent::ItemMap_t& InventoryComponent::GetItems()
 {
-    return const_cast<ItemList_t&>( ( static_cast<const InventoryComponent*>( this ) )->GetItems() );
+    return const_cast<ItemMap_t&>( ( static_cast<const InventoryComponent*>( this ) )->GetItems() );
 }
 
-void InventoryComponent::AddItem( int32_t Id )
+Opt<Item> InventoryComponent::AddItem( int32_t Id )
 {
-    std::auto_ptr<Item> a = mItemFactory( Id );
-    a->SetActorGUID( mActorGUID );
-    mItems.push_back( Opt<Item>( a.release() ) );
+    std::auto_ptr<Item> item = mItemFactory( Id );
+    item->SetActorGUID( mActorGUID );
+    return AddItem( std::move(std::unique_ptr<Item>(item.release())) );
 }
 
-void InventoryComponent::AddItem( std::unique_ptr<Item> item )
+Opt<Item> InventoryComponent::AddItem( std::unique_ptr<Item> item )
 {
-    mItems.push_back( Opt<Item>( item.release() ) );
+    return mItems[item->GetType()].AddItem(std::move(item));
 }
 
 Opt<Item> InventoryComponent::GetItem( int32_t Id )
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
+    for (auto&& pairs : mItems)
     {
-        if ( ( *i )->GetId() == Id )
+        auto item( pairs.second.GetItem( Id ) );
+        if (item.IsValid())
         {
-            return *i;
+            return item;
         }
     }
     return Opt<Item>();
 }
 
-void InventoryComponent::DropItem( int32_t Id )
+
+Opt<Item> InventoryComponent::GetSelectedItem( ItemType::Type type )
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    return mItems[type].GetSelectedItem();
+}
+
+
+Opt<Item> InventoryComponent::SetSelectedItem( ItemType::Type type, int32_t Id, bool force /*= false */ )
+{
+    auto selectedItem(mItems[type].GetSelectedItem());
+    if (force || !selectedItem.IsValid() || selectedItem->CanSwitch())
     {
-        if( ( *i )->GetId() == Id )
+        if (selectedItem.IsValid())
         {
-            EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent(*(*i)) );
-            delete ( *i ).Get();
-            mItems.erase( i );
+            selectedItem->Deselected();
+        }
+        selectedItem = mItems[type].SetSelectedItem(Id);
+        if (selectedItem.IsValid())
+        {
+            selectedItem->Selected();
         }
     }
-    if( mSelectedWeapon.IsValid() && mSelectedWeapon->GetId() == Id )
-    {
-        SetSelectedWeapon( -1 );
-    }
-    if( mSelectedNormalItem.IsValid() && mSelectedNormalItem->GetId() == Id )
-    {
-        SetSelectedNormalItem( -1 );
-    }
+    return selectedItem;
 }
 
-void InventoryComponent::DropItemType( ItemType::Type Type )
+bool InventoryComponent::DropItem( int32_t Id )
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
+    for (auto&& pairs : mItems)
     {
-        if( ( *i )->GetType() == Type )
+        if (pairs.second.DropItem( Id ))
         {
-            EventServer<core::ItemDroppedEvent>::Get().SendEvent( core::ItemDroppedEvent( *(*i) ) );
-            delete ( *i ).Get();
-            mItems.erase( i );
+            return true;
         }
     }
-    if ( Type == ItemType::Weapon ) //TODO: handle multiple items, and handle this situation
-    {
-        SetSelectedWeapon( -1 );
-    }
-    else if ( Type == ItemType::Normal )
-    {
-        SetSelectedNormalItem( -1 );
-    }
-}
-
-Opt<Weapon> InventoryComponent::GetSelectedWeapon()
-{
-    return mSelectedWeapon;
-}
-
-void InventoryComponent::SetSelectedWeapon( int32_t Id )
-{
-    mSelectedWeapon = Opt<Weapon>( dynamic_cast<Weapon*>( GetItem( Id ).Get() ) );
+    return false;
 }
 
 InventoryComponent::~InventoryComponent()
 {
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(), n; ( i != e ? ( n = i, ++n, true ) : false ); i = n )
-    {
-        delete ( *i ).Get();
-    }
     mItems.clear();
 }
 
 void InventoryComponent::SetActorGUID( int32_t actorGUID )
 {
     IInventoryComponent::SetActorGUID( actorGUID );
-    for( ItemList_t::iterator i = mItems.begin(), e = mItems.end(); i != e; ++i )
+    for (auto&& pairs : mItems)
     {
-        ( *i )->SetActorGUID( mActorGUID );
+        pairs.second.SetActorGUID( actorGUID );
     }
 
 }
 
-Opt<NormalItem> InventoryComponent::GetSelectedNormalItem()
+Opt<Item> InventoryComponent::SwitchToNextItem( ItemType::Type itemType, bool forward /*= true */ )
 {
-    return mSelectedNormalItem;
-}
-
-void InventoryComponent::SetSelectedNormalItem( int32_t Id )
-{
-    mSelectedNormalItem = Opt<NormalItem>( dynamic_cast<NormalItem*>( GetItem( Id ).Get() ) );
+    return mItems[itemType].SwitchToNextItem( forward );
 }
 
 void InventoryComponent::SetPickupItems( bool pickupItems )
@@ -145,14 +117,27 @@ bool InventoryComponent::IsPickupItems() const
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;
-    //TODO: handle more than one items (additem in an array nothing much)
-    if( Json::GetStr( ( *mSetters )["add_item"], istr ) )
+    auto const& addItem = (*mSetters)["add_item"];
+    if (addItem.isArray())
     {
-        Bind<int32_t>( static_cast<void ( InventoryComponent::* )( int32_t )>( &InventoryComponent::AddItem ), AutoId( istr ) );
+        for (auto&& item : addItem)
+        {
+            if (item.isString())
+            {
+                Bind<int32_t>( static_cast<Opt<Item> (InventoryComponent::*)(int32_t)>(&InventoryComponent::AddItem), AutoId( item.asString() ) );
+            }
+        }
+    }
+    else
+    {
+        if (Json::GetStr( (*mSetters)["add_item"], istr ))
+        {
+            Bind<int32_t>( static_cast<Opt<Item> (InventoryComponent::*)(int32_t)>(&InventoryComponent::AddItem), AutoId( istr ) );
+        }
     }
     if (Json::GetStr( (*mSetters)["select_weapon"], istr ))
     {
-        Bind<int32_t>( static_cast<void (InventoryComponent::*)(int32_t)>( &InventoryComponent::SetSelectedWeapon ), AutoId( istr ) );
+        Bind<int32_t>( (boost::bind( boost::bind(&InventoryComponent::SetSelectedItem,_1,_2,_3,true ),_1,ItemType::Weapon,_2)), AutoId( istr ));
     }
     Bind( "pickup_items", func_bool( &InventoryComponent::SetPickupItems ) );
 }

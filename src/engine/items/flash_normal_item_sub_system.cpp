@@ -21,7 +21,7 @@ void FlashNormalItemSubSystem::Init()
 void FlashNormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedItem( ItemType::Normal );
     if ( normalItem->IsUse() )
     {
         Opt<IMoveComponent> actorMoveC = actor.Get<IMoveComponent>();

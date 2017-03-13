@@ -17,7 +17,13 @@
             "position_x":80.0,
             "position_y":20.0,
             "shot":"gauss_gun_projectile",
-            "shot_alt":"gauss_gun_alt_projectile"
+            "shot_alt":"gauss_gun_alt_projectile",
+            "sum_bullets":
+            {
+                "max":10.0,
+                "min":0.0,
+                "val":10.0
+            }
         }]
     }
 ]

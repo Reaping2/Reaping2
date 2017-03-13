@@ -3,6 +3,7 @@
 #include "core/item.h"
 #include "core/actor_factory.h"
 #include "platform/export.h"
+#include "buffable.h"
 
 struct Scatter
 {
@@ -51,6 +52,8 @@ public:
     double GetBullets()const;
     void SetBulletsMax( double bulletsMax );
     double GetBulletsMax()const;
+    void SetNextReloadBulletCount( double nextReloadBulletCount );
+    double GetNextReloadBulletCount() const;
     void SetShotCost( int32_t shotCost );
     int32_t GetShotCost()const;
     void SetShotCostAlt( int32_t shotCostAlt );
@@ -58,6 +61,8 @@ public:
     void SetReloadTime( double reloadTime );
     double GetReloadTime()const;
     void SetReloadTimeMax( double reloadTimeMax );
+    void Reload();
+    void StaticReload();
     double GetReloadTimeMax()const;
     void SetStaticReload( double staticReload );
     double GetStaticReload()const;
@@ -74,17 +79,23 @@ public:
     void SetShotAltId( int32_t Id );
     int32_t GetShotAltId()const;
 
+    virtual bool CanSwitch() const;
+    virtual void Deselected();
+    virtual void Selected();
     virtual bool CanReload() const;
     virtual glm::vec3 GetMouseColor() const;
     virtual double GetMouseSize() const;
     virtual std::string GetMouseText() const;
     virtual bool IsMouseResizable() const;
+    Limited<double> const& GetSumBullets() const;
+    Limited<double>& GetSumBullets();
     Weapon( int32_t Id );
     Weapon();
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 protected:
+    void InitSumBullets( Limited<double> sumBullets );
     ActorFactory& mActorFactory;
     double mCooldown;
     double mShootCooldown;
@@ -105,7 +116,10 @@ protected:
     double mPositionY;
     int32_t mShotId;
     int32_t mShotAltId;
+    Limited<double> mSumBullets;
+    double mNextReloadBulletCount = 0.0;
     friend class ItemFactory;
+    friend class WeaponLoader;
 };
 
 template<class Archive>
@@ -127,6 +141,7 @@ void Weapon::serialize( Archive& ar, const unsigned int version )
     ar& mStaticReload;
     ar& mShotId;
     ar& mShotAltId;
+    ar& mSumBullets;
 }
 
 class WeaponLoader: public ItemLoader<Weapon>

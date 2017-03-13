@@ -22,7 +22,7 @@ void CloakNormalItemSubSystem::Init()
 void CloakNormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedItem( ItemType::Normal );
     if ( normalItem->IsUse() )
     {
         Opt<IBuffHolderComponent> buffHolderC = actor.Get<IBuffHolderComponent>();

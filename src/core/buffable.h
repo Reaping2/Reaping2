@@ -3,6 +3,7 @@
 
 #include <boost/serialization/serialization.hpp>
 #include "platform/export.h"
+#include "platform/jsonreader.h"
 
 template<typename T>
 class Limited
@@ -16,6 +17,7 @@ public:
     Limited<T>& Set( T val );
     Limited();
     Limited<T>& Init( T val, T min, T max );
+    void Load( Json::Value const& desc );
 private:
     T mMax;
     T mMin;
@@ -32,10 +34,17 @@ public:
 };
 
 template<typename T>
+void Limited<T>::Load( Json::Value const& desc )
+{
+    Json::Get( desc["max"], mMax );
+    Json::Get( desc["min"], mMin );
+    Json::Get( desc["val"], mVal );
+}
+
+template<typename T>
 Limited<T>& Limited<T>::Init( T val, T min, T max )
 {
-    SetMin( min ).SetMax( max ).Set( val );
-    return *this;
+    return SetMin( min ).SetMax( max ).Set( val );
 }
 
 template<typename T>

@@ -37,7 +37,7 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
             ( ( int32_t )AutoId( "lucky_rocket" ) )
             ;
 
-    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
+    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedItem( ItemType::Weapon );
     if( !weapon->IsShooting() && !weapon->IsShootingAlt() )
     {
         // not firing, nothing to do
@@ -54,8 +54,8 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
     {
         Opt<IInventoryComponent> inv = actor.Get<IInventoryComponent>();
         inv->AddItem( selectedWeapon );
-        inv->SetSelectedWeapon( selectedWeapon );
-        Opt<Weapon> rolledWeapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
+        inv->SetSelectedItem( ItemType::Weapon, selectedWeapon );
+        Opt<Weapon> rolledWeapon = actor.Get<IInventoryComponent>()->GetSelectedItem( ItemType::Weapon );
         rolledWeapon->GetScatter().mCurrent = weapon->GetScatter().mCurrent;
         if( alt )
         {
@@ -77,7 +77,7 @@ void LuckyRocketWeaponSubSystem::Update( Actor& actor, double DeltaTime )
         weapon->SetBullets( bullets == 0 ? 0 : ( bullets * 10 + RandomGenerator::global()() % 10 ) );
 
         inv->DropItem( selectedWeapon );
-        inv->SetSelectedWeapon( weapon->GetId() );
+        inv->SetSelectedItem( ItemType::Weapon, weapon->GetId() );
     }
     else
     {

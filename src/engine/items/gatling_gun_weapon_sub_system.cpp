@@ -24,7 +24,7 @@ void GatlingGunWeaponSubSystem::Init()
 void GatlingGunWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<GatlingGun> weapon = inventoryC->GetSelectedWeapon();
+    Opt<GatlingGun> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     Opt<IMoveComponent> moveC = actor.Get<IMoveComponent>();
     Opt<IAudibleComponent> ac = actor.Get<IAudibleComponent>();
 

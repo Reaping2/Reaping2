@@ -20,14 +20,14 @@ RustyReaperWeaponSubSystem::RustyReaperWeaponSubSystem()
 
 void RustyReaperWeaponSubSystem::Init()
 {
-    mOnItemDropped = EventServer<core::ItemDroppedEvent>::Get().Subscribe( boost::bind( &RustyReaperWeaponSubSystem::OnItemDropped, this, _1 ) );
+    mOnItemChanged = EventServer<engine::ItemChangedEvent>::Get().Subscribe( boost::bind( &RustyReaperWeaponSubSystem::OnItemChanged, this, _1 ) );
 }
 
 
 void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<RustyReaper> weapon = inventoryC->GetSelectedWeapon();
+    Opt<RustyReaper> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if (weapon->GetCooldown() > 0)
     {
         return;
@@ -68,13 +68,27 @@ void RustyReaperWeaponSubSystem::Update(Actor& actor, double DeltaTime)
 }
 
 
-void RustyReaperWeaponSubSystem::OnItemDropped( core::ItemDroppedEvent const& Evt )
+void RustyReaperWeaponSubSystem::OnItemChanged( engine::ItemChangedEvent const& Evt )
 {
-    if (Evt.mItem.GetId() == mWeaponId)
+    if (Evt.mPrevItemId == mWeaponId)
     {
-        RustyReaper& weapon=static_cast<RustyReaper&>(Evt.mItem);
-        Opt<Actor> saw( mScene.GetActor( weapon.GetSawGUID() ) );
-        if ( saw.IsValid() )
+        auto actor(mScene.GetActor( Evt.mActorGUID ));
+        if (!actor.IsValid())
+        {
+            return;
+        }
+        Opt<IInventoryComponent> inventoryC = actor->Get<IInventoryComponent>();
+        if (!inventoryC.IsValid())
+        {
+            return;
+        }
+        Opt<RustyReaper> weapon = inventoryC->GetItem( Evt.mPrevItemId );
+        if (!weapon.IsValid())
+        {
+            return;
+        }
+        Opt<Actor> saw( mScene.GetActor( weapon->GetSawGUID() ) );
+        if (saw.IsValid())
         {
             Opt<IHealthComponent> healthC( saw->Get<IHealthComponent>() );
             if (healthC.IsValid())
@@ -84,6 +98,7 @@ void RustyReaperWeaponSubSystem::OnItemDropped( core::ItemDroppedEvent const& Ev
         }
     }
 }
+
 
 } // namespace engine
 

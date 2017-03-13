@@ -14,16 +14,17 @@
 class Item
 {
 public:
-    virtual ~Item()
-    {
-        LOG( "Item dead:%i", mId );
-    }
-    virtual void SetActorGUID( int32_t actorGUID );
-    ItemType::Type GetType() const
-    {
-        return mType;
-    }
+    ItemType::Type GetType() const;
     int32_t GetActorGUID() const;
+    double GetState()const;
+    void SetState( double S );
+    int32_t GetId() const;
+
+    virtual void SetActorGUID( int32_t actorGUID );
+    virtual bool CanSwitch() const;
+    virtual void Deselected();
+    virtual void Selected();
+    virtual ~Item();
 protected:
     int32_t mId;
     int32_t mActorGUID;
@@ -33,19 +34,6 @@ protected:
     friend class ItemFactory;
     Item( int32_t Id );
     Item();
-public:
-    double GetState()const
-    {
-        return mState;
-    }
-    void SetState( double S )
-    {
-        mState = S;
-    }
-    int32_t GetId() const
-    {
-        return mId;
-    }
     friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );

@@ -15,7 +15,6 @@
 #include "respawn_actor_map_element_system.h"
 #include "ctf_flag_spawn_point_map_element.h"
 #include "../i_renderable_component.h"
-#include "input/keyboard_adapter_system.h"
 #include <boost/assign/std/vector.hpp>
 #include "level_generator/room_repo.h"
 #include "level_generator/level_generated_event.h"
@@ -36,6 +35,7 @@
 #include "room_editor_loaded_event.h"
 #include "cell_entrance_editor_system.h"
 #include "level_generator/spawn_property.h"
+#include "input/keyboard_and_mouse_adapter_system.h"
 
 namespace map {
 
@@ -188,25 +188,25 @@ void RoomEditorSystem::Update( double DeltaTime )
     uint32_t currentKeyMovement = 0;
     if( mKeyboard->GetKey( GLFW_KEY_W ).State == KeyState::Down )
     {
-        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Up;
+        currentKeyMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Up;
     }
     if( mKeyboard->GetKey( GLFW_KEY_A ).State == KeyState::Down )
     {
-        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Left;
+        currentKeyMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Left;
     }
     if( mKeyboard->GetKey( GLFW_KEY_S ).State == KeyState::Down )
     {
-        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Down;
+        currentKeyMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Down;
     }
     if( mKeyboard->GetKey( GLFW_KEY_D ).State == KeyState::Down )
     {
-        currentKeyMovement |= engine::KeyboardAdapterSystem::MF_Right;
+        currentKeyMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Right;
     }
     currentKeyMovement |= mCurrentMovement;
     if ( !EditorHudState::Get().IsHudShown() )
     {
-        mX += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Right ) ? 1 : 0 ) );
-        mY += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAdapterSystem::MF_Down ) ? -1 : 0 ) );
+        mX += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAndMouseAdapterSystem::MF_Left ) ? -1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAndMouseAdapterSystem::MF_Right ) ? 1 : 0 ) );
+        mY += 1000 * DeltaTime * ( ( ( currentKeyMovement & engine::KeyboardAndMouseAdapterSystem::MF_Up ) ? 1 : 0 ) + ( ( currentKeyMovement & engine::KeyboardAndMouseAdapterSystem::MF_Down ) ? -1 : 0 ) );
     }
     if (mKeyboard->GetKey( GLFW_KEY_M ).State == KeyState::Typed)
     {
@@ -220,19 +220,19 @@ void RoomEditorSystem::OnScreenMouseMove( ::ScreenMouseMoveEvent const& Evt )
     mCurrentMovement = 0;
     if( Evt.Pos.y < 100 )
     {
-        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Up;
+        mCurrentMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Up;
     }
     if( Evt.Pos.x < 100 )
     {
-        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Left;
+        mCurrentMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Left;
     }
     if( Evt.Pos.y > h - 150 )
     {
-        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Down;
+        mCurrentMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Down;
     }
     if( Evt.Pos.x > w - 100 )
     {
-        mCurrentMovement |= engine::KeyboardAdapterSystem::MF_Right;
+        mCurrentMovement |= engine::KeyboardAndMouseAdapterSystem::MF_Right;
     }
 }
 

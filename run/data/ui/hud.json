@@ -92,6 +92,54 @@
                     "fontsize": 3
                 },
                 {
+                    "type": "bar",
+                    "x": 0.02,
+                    "y": 0.76,
+                    "w": 0.76,
+                    "h": 0.02,
+                    "progress": "%player.sum_bullets",
+                    "max_progress": "%player.sum_bullets_max",
+                    "color": "0xaa00aa",
+                    "visible": 1,
+                    "enabled": 0
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.02,
+                    "y": 0.7,
+                    "w": 0.5,
+                    "h": 0.06,
+                    "color": "0xaa00aa",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "Bullets:",
+                    "fontsize": 2
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.7,
+                    "y": 0.7,
+                    "w": 0.7,
+                    "h": 0.06,
+                    "color": "0xaa00aa",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "%player.sum_bullets_max",
+                    "fontsize": 2
+               },                
+               {
+                    "type": "text_widget",
+                    "x": 0.5,
+                    "y": 0.7,
+                    "w": 0.7,
+                    "h": 0.06,
+                    "color": "0xaa00aa",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "%player.sum_bullets",
+                    "fontsize": 2
+                },                
+                {
                     "type": "image",
                     "x": 0.02,
                     "y": 0.8,

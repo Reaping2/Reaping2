@@ -1,0 +1,11 @@
+[
+    {
+        "message_name":"position",
+        "name": "light_active_dummy",
+        "server":
+        {
+            "unique_frequency":-1.0,
+            "mandatory_frequency":-1.0
+        }
+    }    
+]

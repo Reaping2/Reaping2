@@ -15,7 +15,7 @@ public:
         Deployed,
         Undeploying
     };
-
+    virtual bool CanSwitch() const;
     virtual bool IsShooting() const;
     virtual bool IsShootingAlt() const;
     void SetWindup( double windup );

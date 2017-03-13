@@ -16,7 +16,13 @@
             "position_x":70.0,
             "position_y":15.0,
             "shot":"rocket_launcher_projectile",
-            "shot_alt":"rocket_launcher_alt_projectile"
+            "shot_alt":"rocket_launcher_alt_projectile",
+            "sum_bullets":
+            {
+                "max":60.0,
+                "min":0.0,
+                "val":60.0
+            }
         }]
     }
 ]

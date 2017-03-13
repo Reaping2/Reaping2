@@ -10,6 +10,7 @@
 #include "core/i_health_component.h"
 #include "../soldier_spawn_system.h"
 #include "../item_properties_changed_event.h"
+#include "../item_changed_event.h"
 
 namespace engine {
 
@@ -31,23 +32,26 @@ void PlayerControllerSubSystem::Update( Actor& actor, double DeltaTime )
     {
         return;
     }
-    if ( mProgramState.mMode == core::ProgramState::Server )
-    {
-        Shoot( actor, playerControllerC );
-        HandleReload( actor, playerControllerC );
-    }
-    else if( playerControllerC->mActive )
-    {
-        HandleInputs( actor, playerControllerC );
-        Shoot( actor, playerControllerC );
-        HandleReload( actor, playerControllerC );
-        SetSpeedAndOrientation( actor, playerControllerC );
-        SetOrientation( actor, playerControllerC );
-    }
+    HandleInputs( actor, playerControllerC );
+    Shoot( actor, playerControllerC );
+    HandleReload( actor, playerControllerC );
+    SetSpeedAndHeading( actor, playerControllerC );
+    SetOrientation( actor, playerControllerC );
+    HandleItemSwitch( actor, playerControllerC, ItemType::Normal );
+    HandleItemSwitch( actor, playerControllerC, ItemType::Weapon );
 }
 
-void PlayerControllerSubSystem::SetSpeedAndOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
+void PlayerControllerSubSystem::SetSpeedAndHeading( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Server)
+    {
+        return;
+    }
+    if (mProgramState.mMode == core::ProgramState::Client
+        && mProgramState.mControlledActorGUID != actor.GetGUID())
+    {
+        return;
+    }
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if ( healthC.IsValid() && !healthC->IsAlive() )
     {
@@ -60,6 +64,11 @@ void PlayerControllerSubSystem::SetSpeedAndOrientation( Actor& actor, Opt<Player
 
 void PlayerControllerSubSystem::Shoot( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Client
+        && mProgramState.mControlledActorGUID != actor.GetGUID())
+    {
+        return;
+    }
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if ( healthC.IsValid() && !healthC->IsAlive() )
     {
@@ -67,14 +76,14 @@ void PlayerControllerSubSystem::Shoot( Actor& actor, Opt<PlayerControllerCompone
     }
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     BOOST_ASSERT( inventoryC.IsValid() );
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if ( weapon.IsValid() )
     {
         weapon->SetShoot( playerControllerC->mShoot );
         weapon->SetShootAlt( playerControllerC->mShootAlt );
     }
 
-    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedItem( ItemType::Normal );
     if ( normalItem.IsValid() )
     {
         normalItem->SetUse( playerControllerC->mUseNormalItem.GetValue() );
@@ -84,6 +93,15 @@ void PlayerControllerSubSystem::Shoot( Actor& actor, Opt<PlayerControllerCompone
 
 void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Server)
+    {
+        return;
+    }
+    if (mProgramState.mMode == core::ProgramState::Client 
+        && mProgramState.mControlledActorGUID != actor.GetGUID())
+    {
+        return;
+    }
     Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
     if ( healthC.IsValid() && !healthC->IsAlive() )
     {
@@ -95,6 +113,14 @@ void PlayerControllerSubSystem::SetOrientation( Actor& actor, Opt<PlayerControll
 
 void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Server)
+    {
+        return;
+    }
+    if (mProgramState.mControlledActorGUID != actor.GetGUID())
+    {
+        return;
+    }
     Opt<core::ClientData> clientData( mProgramState.FindClientDataByActorGUID( actor.GetGUID() ) );
     if( !clientData.IsValid() )
     {
@@ -120,6 +146,22 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
     {
         playerControllerC->mActivate.Deactivate();
     }
+    if (inputState.mSwitchWeapon)
+    {
+        playerControllerC->mSwitchWeapon.Activate();
+    }
+    else
+    {
+        playerControllerC->mSwitchWeapon.Deactivate();
+    }
+    if (inputState.mSwitchNormalItem)
+    {
+        playerControllerC->mSwitchNormalItem.Activate();
+    }
+    else
+    {
+        playerControllerC->mSwitchNormalItem.Deactivate();
+    }
     if (inputState.mReload)
     {
         playerControllerC->mUseReload.Activate();
@@ -134,24 +176,60 @@ void PlayerControllerSubSystem::HandleInputs( Actor& actor, Opt<PlayerController
 
 void PlayerControllerSubSystem::HandleReload( Actor& actor, Opt<PlayerControllerComponent> playerControllerC )
 {
+    if (mProgramState.mMode == core::ProgramState::Client
+        && mProgramState.mControlledActorGUID != actor.GetGUID())
+    {
+        return;
+    }
     if ( !playerControllerC->mUseReload.GetValue() )
     {
         return;
     }
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
     BOOST_ASSERT( inventoryC.IsValid() );
-    Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
+    Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     if ( weapon.IsValid() )
     {
         if ( weapon->CanReload() )
         {
-            weapon->SetBullets( 0.0 );
+            weapon->Reload();
             EventServer<ItemPropertiesChangedEvent>::Get().SendEvent( ItemPropertiesChangedEvent( *weapon ) );
         }
     }
     if ( mProgramState.mMode != core::ProgramState::Client )
     {
         playerControllerC->mUseReload.Handled();
+    }
+}
+
+
+void PlayerControllerSubSystem::HandleItemSwitch( Actor& actor, Opt<PlayerControllerComponent> playerControllerC, ItemType::Type itemType )
+{
+    if (mProgramState.mMode == core::ProgramState::Client)
+    {
+        return;
+    }
+    if (itemType == ItemType::Weapon && !playerControllerC->mSwitchWeapon.GetValue()
+        || itemType == ItemType::Normal && !playerControllerC->mSwitchNormalItem.GetValue())
+    {
+        return;
+    }
+    auto inventoryC(actor.Get<IInventoryComponent>());
+    BOOST_ASSERT( inventoryC.IsValid() );
+    auto prevItem( inventoryC->GetSelectedItem( itemType ) );
+    auto currItem( inventoryC->SwitchToNextItem( itemType ) );
+    if (currItem.IsValid() && prevItem.IsValid()
+        && currItem->GetId() != prevItem->GetId() )
+    {
+        EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), itemType, currItem->GetId(), prevItem->GetId() ) );
+    }
+    if (itemType == ItemType::Weapon)
+    {
+        playerControllerC->mSwitchWeapon.Handled();
+    }
+    else if (itemType == ItemType::Normal)
+    {
+        playerControllerC->mSwitchNormalItem.Handled();
     }
 }
 

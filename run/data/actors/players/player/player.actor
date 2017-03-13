@@ -23,7 +23,7 @@
             },
             {"name":"player_controller_component"},
             {"name":"inventory_component",
-                "set":[{"add_item":"plasma_gun",
+                "set":[{"add_item":["pistol","plasma_gun"],
                         "select_weapon":"plasma_gun"}]
             },
             {"name":"health_component",

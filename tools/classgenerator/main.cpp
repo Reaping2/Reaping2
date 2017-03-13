@@ -2652,7 +2652,7 @@ class WeaponGenerator : public Generator
             fprintf(file.mFile, "void %s::Update(Actor& actor, double DeltaTime)\n", classCamelCase.c_str());
             fprintf(file.mFile, "{\n");
             fprintf(file.mFile, "    Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();\n");
-            fprintf(file.mFile, "    Opt<%s> weapon = inventoryC->GetSelectedWeapon();\n", originalClassCamelCase.c_str());
+            fprintf(file.mFile, "    Opt<%s> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );\n", originalClassCamelCase.c_str());
             fprintf(file.mFile, "    if (weapon->GetCooldown() > 0)\n");
             fprintf(file.mFile, "    {\n");
             fprintf(file.mFile, "        return;\n");

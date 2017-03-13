@@ -17,7 +17,7 @@ void RocketLauncherWeaponSubSystem::Init()
 
 void RocketLauncherWeaponSubSystem::Update( Actor& actor, double DeltaTime )
 {
-    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedWeapon();
+    Opt<Weapon> weapon = actor.Get<IInventoryComponent>()->GetSelectedItem( ItemType::Weapon );
     if( !weapon->IsShooting() && !weapon->IsShootingAlt() )
     {
         // not firing, nothing to do

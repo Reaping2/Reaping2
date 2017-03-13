@@ -4,7 +4,8 @@ project(Reaping2)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set( CMAKE_CXX_STANDARD 11 )
+set( CMAKE_CXX_STANDARD 14 )
+set(CMAKE_CXX_STANDARD_REQUIRED on)
 
 # support for YouCompleteMe
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)

@@ -16,7 +16,13 @@
             "position_x":80.0,
             "position_y":20.0,
             "shot":"lucky_rocket_projectile",
-            "shot_alt":"lucky_rocket_alt_projectile"
+            "shot_alt":"lucky_rocket_alt_projectile",
+            "sum_bullets":
+            {
+                "max":200.0,
+                "min":0.0,
+                "val":200.0
+            }
         }]
     }
 ]

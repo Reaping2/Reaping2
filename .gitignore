@@ -1,10 +1,8 @@
-/bin/
-/build*/
-/local*/
 /src/*_all.cpp
-
 **.pdb
 **.idb
 CMakeLists.txt.user
 .buildrc.cmake
-
+**.dll
+log**.txt
+**.exe

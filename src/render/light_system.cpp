@@ -51,30 +51,34 @@ void LightSystem::Update(double DeltaTime)
         }
     }
 
-    mActiveDummyObjects.resize( std::max( mActiveDummyObjects.size(), activeLights.size() ) );
-    auto lightIt = activeLights.begin();
-    for( auto*& dummy : mActiveDummyObjects )
+    if (!ps.mIsClient)
     {
-        if( activeLights.end() == lightIt )
+        mActiveDummyObjects.resize( std::max( mActiveDummyObjects.size(), activeLights.size() ) );
+        auto lightIt = activeLights.begin();
+        for (auto*& dummy : mActiveDummyObjects)
         {
-            // drop dummmy
-            if( dummy != nullptr )
+            if (activeLights.end() == lightIt)
             {
-                mScene.RemoveActor( dummy->GetGUID() );
+                // drop dummmy
+                if (dummy != nullptr)
+                {
+                    mScene.RemoveActor( dummy->GetGUID() );
+                }
+                continue;
             }
-            continue;
+            if (dummy == nullptr&& !ps.mIsClient)
+            {
+                static ActorFactory& af( ActorFactory::Get() );
+                auto newDummy( af( AutoId( "light_active_dummy" ) ) );
+                dummy = newDummy.get();
+                mScene.AddActor( newDummy.release() );
+            }
+            auto light = *lightIt;
+            // TODO: attachable_component would solve this positioning i think.
+            dummy->Get<IPositionComponent>()->SetX( light->Get<IPositionComponent>()->GetX() );
+            dummy->Get<IPositionComponent>()->SetY( light->Get<IPositionComponent>()->GetY() );
+            ++lightIt;
         }
-        if( dummy == nullptr )
-        {
-            static ActorFactory& af( ActorFactory::Get() );
-            auto newDummy( af( AutoId( "light_active_dummy" ) ) );
-            dummy = newDummy.get();
-            mScene.AddActor( newDummy.release() );
-        }
-        auto light = *lightIt;
-        dummy->Get<IPositionComponent>()->SetX( light->Get<IPositionComponent>()->GetX() );
-        dummy->Get<IPositionComponent>()->SetY( light->Get<IPositionComponent>()->GetY() );
-        ++lightIt;
     }
 
     mActiveDummyObjects.resize( activeLights.size() );

@@ -17,10 +17,18 @@ JsonRoom::JsonRoom( int32_t Id )
 
 void JsonRoom::Generate( RoomDesc& roomDesc, glm::vec2 pos, bool editor /*= false*/ )
 {
+    auto& idStorage = IdStorage::Get();
+    std::string targetName;
+    if (idStorage.GetName( mId, targetName ))
+    {
+        LL() << "room generate: " << targetName;
+    }
+
     for (auto&& prop : mProperties)
     {
         prop.Generate( roomDesc, mMapElementHolder, pos, editor );
     }
+    LL() << "room generate end!";
 }
 
 void JsonRoom::ClearMapElements()

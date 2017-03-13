@@ -36,16 +36,9 @@ void MouseSystem::OnMouseButton( GLFWwindow*, int button, int action, int mods )
 void MouseSystem::MousePressed( int button, int action, int /*mods*/ )
 {
     Button_t Button = Button_Left;
-    switch( button )
+    if (Button_Left <= button&&button < Num_Buttons)
     {
-    case GLFW_MOUSE_BUTTON_MIDDLE:
-        Button = Button_Middle;
-        break;
-    case GLFW_MOUSE_BUTTON_RIGHT:
-        Button = Button_Right;
-        break;
-    default:
-        break;
+        Button = Button_t( button );
     }
     if( action == GLFW_PRESS )
     {

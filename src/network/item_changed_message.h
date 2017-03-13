@@ -7,6 +7,7 @@
 #include "engine/item_changed_event.h"
 #include "engine/soldier_created_event.h"
 #include "platform/export.h"
+#include "core/item_type.h"
 
 namespace network {
 
@@ -16,12 +17,16 @@ class ItemChangedMessage : public Message
 public:
     DEFINE_MESSAGE_BASE( ItemChangedMessage )
     int32_t mActorGUID;
-    int32_t mNormalId;
-    int32_t mWeaponId;
+    ItemType::Type mType;
+    int32_t mItemId;
+    int32_t mPrevItemId;
+    bool mDropPrevItem;
     ItemChangedMessage()
         : mActorGUID( -1 )
-        , mNormalId( 0 )
-        , mWeaponId( 0 )
+        , mType( ItemType::Normal )
+        , mItemId( -1 )
+        , mPrevItemId( -1 )
+        , mDropPrevItem( false )
     {
     }
     template<class Archive>
@@ -33,8 +38,10 @@ void ItemChangedMessage::serialize( Archive& ar, const unsigned int version )
 {
     ar& boost::serialization::base_object<Message>( *this );
     ar& mActorGUID;
-    ar& mNormalId;
-    ar& mWeaponId;
+    ar& mType;
+    ar& mItemId;
+    ar& mPrevItemId;
+    ar& mDropPrevItem;
 }
 
 class ItemChangedMessageHandlerSubSystem : public PendingMessageHandlerSubSystem<ItemChangedMessage>

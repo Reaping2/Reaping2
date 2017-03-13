@@ -24,7 +24,7 @@ void NormalItemSubSystem::Init()
 void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<IInventoryComponent> inventoryC = actor.Get<IInventoryComponent>();
-    Opt<NormalItem> normalItem = inventoryC->GetSelectedNormalItem();
+    Opt<NormalItem> normalItem = inventoryC->GetSelectedItem( ItemType::Normal );
     if ( !normalItem.IsValid() )
     {
         return;
@@ -35,9 +35,11 @@ void NormalItemSubSystem::Update( Actor& actor, double DeltaTime )
         itemssIt->mSystem->Update( actor, DeltaTime );
         if ( normalItem->IsConsumed() )
         {
-            inventoryC->DropItemType( ItemType::Normal );
-            Opt<Weapon> weapon = inventoryC->GetSelectedWeapon();
-            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), 0, weapon.IsValid() ? weapon->GetId() : 0 ) );
+            int32_t id = normalItem->GetId();
+            inventoryC->SwitchToNextItem( ItemType::Normal );
+            inventoryC->DropItem( id );
+            auto currItem(inventoryC->GetSelectedItem( ItemType::Normal ));
+            EventServer<ItemChangedEvent>::Get().SendEvent( ItemChangedEvent( actor.GetGUID(), ItemType::Normal, currItem.IsValid()?currItem->GetId():IInventoryComponent::InvalidItem, id, true ) );
         }
     }
 
