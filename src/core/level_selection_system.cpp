@@ -87,7 +87,7 @@ void LevelSelectionSystem::SelectLevelByIdx( int32_t idx )
 void LevelSelectionSystem::SelectLevelByNameUI( std::string const& levelName )
 {
     mSelectedLevel = levelName;
-    L2( "selected level: %s\n", mSelectedLevel.c_str() );
+    L1( "selected level: %s\n", mSelectedLevel.c_str() );
     EventServer<core::LevelSelectedEvent>::Get().SendEvent( core::LevelSelectedEvent( mSelectedLevel ) );
 }
 
@@ -97,7 +97,7 @@ void LevelSelectionSystem::SelectLevelByName( GameModes::Type gameMode, std::str
     std::vector<std::string> const& realNames = mLevelRealNames[mGameMode];
     if ( std::find(realNames.begin(), realNames.end(), realName) == realNames.end() )
     {
-        L2("attempted selection of invalid level: %d\n", realName.c_str() );
+        L1("attempted selection of invalid level: %d\n", realName.c_str() );
         return;
     }
     mSelectedLevel = realName;

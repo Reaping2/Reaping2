@@ -74,7 +74,7 @@ void WaypointSystem::Update(double DeltaTime)
                         pcc->mActivate.Handled();
                         mScene.Load( "rogue2" ); // for testing only
                         L2( "Player used activate on a waypoint!\n" );
-                        break;
+                        return;
                     }
                 }
             }

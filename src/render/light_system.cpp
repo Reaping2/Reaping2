@@ -17,6 +17,8 @@ LightSystem::LightSystem()
 void LightSystem::Init()
 {
     mOnMapLoad = EventServer<core::MapLoadEvent>::Get().Subscribe( std::bind( &LightSystem::OnMapLoad, this, std::placeholders::_1 ) );
+    mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( std::bind( &LightSystem::OnActorEvent, this, std::placeholders::_1 ) );
+
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<ILightComponent>().IsValid()
             && actor.Get<IPositionComponent>().IsValid(); } );
@@ -166,6 +168,17 @@ glm::vec4 LightSystem::GetAmbientLight() const
 double LightSystem::GetMaxShadow() const
 {
     return mMaxShadow;
+}
+
+void LightSystem::OnActorEvent( ActorEvent const& Evt )
+{
+    if (Evt.mState == ActorEvent::Removed)
+    {
+        mActiveLights.erase( std::remove_if( mActiveLights.begin(), mActiveLights.end(), 
+            [&Evt]( auto * actor ) { return actor->GetGUID() == Evt.mActor->GetGUID(); } ), mActiveLights.end() );
+        mActiveDummyObjects.erase( std::remove_if( mActiveDummyObjects.begin(), mActiveDummyObjects.end(), 
+            [&Evt]( auto * actor ) { return actor->GetGUID() == Evt.mActor->GetGUID(); } ), mActiveDummyObjects.end() );
+    }
 }
 
 REGISTER_SYSTEM( LightSystem );
