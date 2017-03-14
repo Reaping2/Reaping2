@@ -5,6 +5,16 @@ WaypointComponent::WaypointComponent()
 }
 
 
+void WaypointComponent::SetLit( bool lit )
+{
+    mLit = lit;
+}
+
+bool WaypointComponent::IsLit() const
+{
+    return mLit;
+}
+
 
 void WaypointComponentLoader::BindValues()
 {

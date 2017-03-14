@@ -13,7 +13,9 @@
 namespace engine {
 
 WaypointSystem::WaypointSystem()
-    : mScene( Scene::Get() )
+    : mWaypointModel( "waypoint", &RootModel::Get() )
+    , mWaypointNamesModel( (ModelValue::get_string_vec_t) RefTo(mWaypointNames), "names", &mWaypointModel)
+    , mWaypointSelectModel ( StringFunc( this, &WaypointSystem::OnWaypointSelect), "select", &mWaypointModel )
 {
 }
 
@@ -23,6 +25,7 @@ void WaypointSystem::Init()
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
         return actor.Get<IWaypointComponent>().IsValid(); } );
     mOnMapStart = EventServer<core::MapStartEvent>::Get().Subscribe( boost::bind( &WaypointSystem::OnMapStart, this, _1 ) );
+    mWaypointNames = { "Waypoint 1", "Waypoint 2", "Next Stage" };
 }
 
 
@@ -50,20 +53,32 @@ void WaypointSystem::Update(double DeltaTime)
                 1 << CollisionClass::Player ) );
             auto cnt = std::count_if( mProgramState.mClientDatas.begin(), mProgramState.mClientDatas.end(),
                 [&]( core::ClientData const& clientData )
-            {
-                auto player( mScene.GetActor( clientData.mClientActorGUID ) );
-                if (!player.IsValid())
                 {
-                    return false;
-                }
-                auto healthC( player->Get<IHealthComponent>() );
-                if (!healthC.IsValid())
-                {
-                    return false;
-                }
+                    auto player( mScene.GetActor( clientData.mClientActorGUID ) );
+                    if (!player.IsValid())
+                    {
+                        return false;
+                    }
+                    auto healthC( player->Get<IHealthComponent>() );
+                    if (!healthC.IsValid())
+                    {
+                        return false;
+                    }
 
-                return healthC->IsAlive();
-            } );
+                    return healthC->IsAlive();
+                } );
+            if (!players.empty())
+            {
+                auto found = std::find_if( mWaypointGUIDs.begin(), mWaypointGUIDs.end(), [&actor]( auto&& p ) { return p.second == actor->GetGUID(); } );
+                if (found == mWaypointGUIDs.end())
+                {
+                    auto name = "Waypoint " + std::to_string( mNextWaypointCounter );
+                    mWaypointNames.push_back( name );
+                    mWaypointGUIDs[name] = actor->GetGUID();
+                    ++mNextWaypointCounter;
+                    waypointC->SetLit( true );
+                }
+            }
             if (players.size() >= cnt) //there could be dead players on the waypoint too
             {
                 for (auto&& player : players)
@@ -72,9 +87,11 @@ void WaypointSystem::Update(double DeltaTime)
                     if (pcc.IsValid() && pcc->mActivate.GetValue())
                     {
                         pcc->mActivate.Handled();
-                        mScene.Load( "rogue2" ); // for testing only
-                        L2( "Player used activate on a waypoint!\n" );
-                        return;
+                        pcc->SetEnabled( false );
+                        Ui::Get().Load( "select_waypoint" );
+                        //mScene.Load( "rogue2" ); // for testing only
+                        //L2( "Player used activate on a waypoint!\n" );
+                        //return;
                     }
                 }
             }
@@ -97,8 +114,48 @@ void WaypointSystem::Update(double DeltaTime)
 }
 
 
+void WaypointSystem::OnWaypointSelect( std::string waypointName )
+{
+    auto player( mScene.GetActor( mProgramState.mControlledActorGUID ) );
+    if (waypointName == "Next Stage")
+    {
+        mScene.Load( "rogue2" ); // for testing only 2
+        return;
+    }
+    if (waypointName == "Resume")
+    {
+    }
+    else
+    {
+        auto waypoint( mScene.GetActor( mWaypointGUIDs[waypointName] ) );
+        if (waypoint.IsValid()&&player.IsValid())
+        {
+            auto wpPositionC( waypoint->Get<IPositionComponent>() );
+            auto positionC( player->Get<IPositionComponent>() );
+            if (wpPositionC.IsValid() && positionC.IsValid())
+            {
+                positionC->SetX( wpPositionC->GetX() );
+                positionC->SetY( wpPositionC->GetY() );
+            }
+
+        }
+    }
+    Ui::Get().Load( mProgramState.mHUD );
+    auto pcc( player->Get<IControllerComponent>() );
+    if (pcc.IsValid())
+    {
+        pcc->SetEnabled( true );
+    }
+}
+
 void WaypointSystem::OnMapStart( core::MapStartEvent const& Evt )
 {
+    if (Evt.mState == core::MapStartEvent::Started)
+    {
+        mNextWaypointCounter = 1;
+        mWaypointNames = { "Next Stage", "Resume" };
+        mWaypointGUIDs = { { "Nest Stage", -1 }, { "Resume",-1 } };
+    }
 }
 
 } // namespace engine

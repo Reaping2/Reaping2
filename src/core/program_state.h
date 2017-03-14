@@ -92,6 +92,7 @@ public:
     ClientDatas_t mClientDatas;
     // this client is the host
     int32_t mIsHost;
+    std::string mHUD;
     Opt<ClientData> FindClientDataByClientId( int32_t clientId );
     Opt<ClientData> FindClientDataByActorGUID( int32_t actorGUID );
     Opt<ClientData> FindClientDataByClientName( std::string clientName );

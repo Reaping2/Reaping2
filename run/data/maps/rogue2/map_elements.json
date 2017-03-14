@@ -74,8 +74,8 @@
                 "side_end_chance":60,
                 "side_chance_increase":5
             },
-            "waypoint_distance":15,
-            "waypoint_distance_variance":5,
+            "waypoint_distance":6,
+            "waypoint_distance_variance":2,
             "mandatory_rooms":
             [
 

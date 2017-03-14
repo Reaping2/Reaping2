@@ -4,7 +4,7 @@
         "recognizers":
         [
             {"recognizer":"idle",
-                "renderer":"idle"}
+                "renderer":"lit"}
         ],
         "type":"recognizer_desc"
     }

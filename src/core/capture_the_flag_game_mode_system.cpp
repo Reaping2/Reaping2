@@ -73,7 +73,7 @@ void CaptureTheFlagGameModeSystem::Update( double DeltaTime )
         else if ( !mHudShown && !mInputSystem->GetInputState( 1 ).mShowLeaderboard )
         {
             mHudShown = true;
-            Ui::Get().Load( "ctf_hud" );
+            Ui::Get().Load( mProgramState.mHUD );
         }
     }
 }
@@ -225,7 +225,8 @@ void CaptureTheFlagGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     }
     if (Evt.mState == core::MapStartEvent::Ready)
     {
-        Ui::Get().Load( "ctf_hud" );
+        mProgramState.mHUD = "ctf_hud";
+        Ui::Get().Load( mProgramState.mHUD );
     }
     if (Evt.mState == core::MapStartEvent::ActorsSpawned&&mProgramState.mMode != ProgramState::Client)
     {
