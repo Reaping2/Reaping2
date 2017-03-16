@@ -81,9 +81,8 @@ void LightSystem::Update(double DeltaTime)
             dummy->Get<IPositionComponent>()->SetY( light->Get<IPositionComponent>()->GetY() );
             ++lightIt;
         }
+        mActiveDummyObjects.resize( activeLights.size() );
     }
-
-    mActiveDummyObjects.resize( activeLights.size() );
     std::swap( activeLights, mActiveLights );
 }
 

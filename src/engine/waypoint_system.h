@@ -6,6 +6,7 @@
 #include "core/program_state.h"
 #include <vector>
 #include <map>
+#include "waypoint_event.h"
 
 namespace engine {
 
@@ -23,6 +24,8 @@ private:
     WaypointNames_t mWaypointNames;
     using WaypointGUIDs_t = std::map<std::string, int32_t>;
     WaypointGUIDs_t mWaypointGUIDs;
+    using PlayerToWaypoint_t = std::map<int32_t, int32_t>;
+    PlayerToWaypoint_t mPlayerToWaypoint;
     ModelValue mWaypointModel;
     ModelValue mWaypointNamesModel;
     ModelValue mWaypointSelectModel;
@@ -31,6 +34,8 @@ private:
     core::ProgramState& mProgramState = core::ProgramState::Get();
     AutoReg mOnMapStart;
     void OnMapStart( core::MapStartEvent const& Evt );
+    AutoReg mOnWaypointChanged;
+    void OnWaypointChanged( WaypointChangedEvent const& Evt );
 };
 
 } // namespace engine

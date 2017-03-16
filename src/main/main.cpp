@@ -307,6 +307,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "map_load_message_sender_system" ) );
         Eng.AddSystem( AutoId( "suppress_message_sender_system" ) );
     }
+    Eng.AddSystem( AutoId( "waypoint_message_sender_system" ) );
     if (programState.mMode != ProgramState::Client)
     {
         Eng.AddSystem( AutoId( "ctf_client_list_handling_system" ) );

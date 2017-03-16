@@ -148,6 +148,7 @@
 #include "network/message_timer_system.h"
 #include "network/suppress_message.h"
 #include "input/keyboard_and_mouse_adapter_system.h"
+#include "network/waypoint_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -251,6 +252,7 @@ void SystemFactory::Init()
     Bind( AutoId( "map_load_message_sender_system" ), &CreateSystem<network::MapLoadMessageSenderSystem> );
     Bind( AutoId( "message_timer_system" ), &CreateSystem<network::MessageTimerSystem> );
     Bind( AutoId( "suppress_message_sender_system" ), &CreateSystem<network::SuppressMessageSenderSystem> );
+    Bind( AutoId( "waypoint_message_sender_system" ), &CreateSystem<network::WaypointMessageSenderSystem> );
 
     Bind( AutoId( "ctf_client_list_displaying_system" ), &CreateSystem<network::CtfClientListDisplayingSystem> );
     Bind( AutoId( "ctf_client_list_handling_system" ), &CreateSystem<network::CtfClientListHandlingSystem> );
