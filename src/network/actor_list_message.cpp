@@ -1,7 +1,5 @@
 #include "platform/i_platform.h"
 #include "network/actor_list_message.h"
-#include <portable_iarchive.hpp>
-#include <portable_oarchive.hpp>
 #include "core/map_start_event.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
@@ -61,7 +59,7 @@ void ActorListMessageHandlerSubSystem::Execute( Message const& message )
     ActorListMessage const& msg = static_cast<ActorListMessage const&>( message );
     if (msg.mClientId == mProgramState.mClientId || msg.mClientId == -1)
     {
-        L1( "actorlist arrived for me!" );
+        L1( "actorlist arrived for me!\n" );
         Scene::Get().SetPlayerModels( Opt<Actor>() );
         Scene::Get().ClearActors();
         if (!msg.mActorList.empty())

@@ -306,6 +306,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "map_start_message_sender_system" ) );
         Eng.AddSystem( AutoId( "map_load_message_sender_system" ) );
         Eng.AddSystem( AutoId( "suppress_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "waypoints_data_message_sender_system" ) );
     }
     Eng.AddSystem( AutoId( "waypoint_message_sender_system" ) );
     if (programState.mMode != ProgramState::Client)

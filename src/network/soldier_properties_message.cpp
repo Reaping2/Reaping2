@@ -20,6 +20,7 @@
 #include "client_list_changed_event.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "waypoints_data_message.h"
 
 namespace network {
 
@@ -121,6 +122,12 @@ void SoldierPropertiesMessageHandlerSubSystem::Execute( Message const& message )
             std::auto_ptr<ActorListMessage> actorListMsg( new ActorListMessage( &Scene::Get().GetActors() ) );
             actorListMsg->mClientId = clientData->mClientId;
             mMessageHolder.AddOutgoingMessage( actorListMsg );
+
+            static auto waypointS( engine::Engine::Get().GetSystem<engine::WaypointSystem>() );
+            if (waypointS.IsValid())
+            {
+                mMessageHolder.AddOutgoingMessage( std::auto_ptr<WaypointsDataMessage>(new WaypointsDataMessage( &waypointS->GetWaypointsData(), clientData->mClientId ) ) );
+            }
         }
         else
         {
