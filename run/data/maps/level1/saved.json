@@ -4867,5 +4867,23 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
    }
 ]

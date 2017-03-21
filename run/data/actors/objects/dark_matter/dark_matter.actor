@@ -1,0 +1,87 @@
+[
+    {
+        "name":"dark_matter",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":[{"speed":100,"moving":0}]
+            },
+
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "cast_shadow":0}]
+            },
+            {"name":"shot_collision_component",
+                "set":[{"class":"projectile", "radius":20, "damage":0 }]
+            },
+            {"name":"health_component"},
+            {
+                "name":"emitter_component",
+                "set": [{
+                    "emit_descs":[
+                        {
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "dark_matter_particle1"
+                        },
+                        {
+                            "delay": 0.0,
+                            "probability": 0.002,
+                            "emit_type": "dark_matter_particle2"
+                        },
+                        {
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "dark_matter_particle3"
+                        },                        
+                        {
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "dark_matter_particle4"
+                        }
+                    ]
+                }]
+            },
+            {"name":"stop_on_death_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"target_holder_component"},            
+            {"name":"scripted_controller_component",
+                "set":[{"states":[{
+                    "identifier":"chillin",
+                    "start":1,
+                    "transitions":[
+                    {
+                        "conditions":
+                            [{ "name":"distance_to_players","less":600 }],
+                        "state_id":"aggro"
+                    }],
+                    "acts":[
+                        [
+                            { "name":"stay","weight":1,
+                                "params":{"duration":100.0,"duration_variance":0.0}}
+                        ]
+                    ]
+                    },{
+                    "identifier":"aggro",
+                        "start":0,
+                        "transitions":[],
+                        "acts":[
+                            [
+                                { "name":"move_forward","weight":2,
+                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":500.0} }
+                            ],
+                            [
+                                { "name":"select_target", "weight":1,
+                                    "params":{"order_of_selection":["current","closest"], "frequency":1.0} }
+                            ],
+                            [
+                                { "name":"turn_to_target","weight":2,
+                                    "params":{"duration":10.0,"duration_variance":2.0,"speed":1000}}
+                            ]                                
+                        ]
+                    }]
+                }]
+            }
+        ]
+    }    
+]
