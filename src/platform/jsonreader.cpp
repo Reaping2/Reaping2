@@ -2,6 +2,7 @@
 #include "ifile.h"
 
 #include <boost/assert.hpp>
+#include "boost/algorithm/string/predicate.hpp"
 
 // namespace platform {
 
@@ -89,12 +90,23 @@ bool GetColor( Json::Value const& Color, glm::vec4& O )
 
 bool GetBool( Json::Value const &V, bool& O)
 {
-    if ( !V.isBool() )
+    int32_t i = 0;
+    if (Json::GetInt( V, i ))
     {
-        return false;
+        O = i != 0;
+        return true;
     }
-    O = V.asBool();
-    return true;
+    std::string s = "";
+    if (Json::GetStr( V, s ))
+    {
+        O = !(boost::iequals( s, "false" )
+            || boost::iequals( s, "f" )
+            || boost::iequals( s, "0" )
+            || boost::iequals( s, "n" )
+            || boost::iequals( s, "no" ));
+        return true;
+    }
+    return false;
 }
 
 bool Get( Value const& V, std::string& O )

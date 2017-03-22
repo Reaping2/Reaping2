@@ -20,13 +20,14 @@
         "AccelerationDir":"Away",
         "RotationAcceleration":0.1,
         "RotationAccelerationVariance":0.01,
-        "Lifetime":2.2,
+        "Lifetime":1.2,
         "LifetimeVariance":0.15,
         "Radius":29,
         "RadiusVariance":10,
         "Spr":"dark_matter_particle1",
-        "Num":1,
+        "Num":4,
         "NumVariance":0,
+        "Interpolate":1,
         "ParticleLayer":-1
     },
     {
@@ -50,13 +51,14 @@
         "AccelerationDir":"Away",
         "RotationAcceleration":0.1,
         "RotationAccelerationVariance":0.01,
-        "Lifetime":2.2,
+        "Lifetime":1.2,
         "LifetimeVariance":0.15,
         "Radius":29,
         "RadiusVariance":10,
         "Spr":"dark_matter_particle2",
-        "Num":1,
+        "Num":2,
         "NumVariance":0,
+        "Interpolate":1,
         "ParticleLayer":-1
     },
     {
@@ -80,13 +82,14 @@
         "AccelerationDir":"Away",
         "RotationAcceleration":0.1,
         "RotationAccelerationVariance":0.01,
-        "Lifetime":2.2,
+        "Lifetime":1.2,
         "LifetimeVariance":0.15,
         "Radius":29,
         "RadiusVariance":10,
         "Spr":"dark_matter_particle3",
-        "Num":1,
+        "Num":4,
         "NumVariance":0,
+        "Interpolate":1,
         "ParticleLayer":-1
     },
     {
@@ -110,13 +113,14 @@
         "AccelerationDir":"Away",
         "RotationAcceleration":0.1,
         "RotationAccelerationVariance":0.01,
-        "Lifetime":2.2,
+        "Lifetime":1.2,
         "LifetimeVariance":0.15,
         "Radius":29,
         "RadiusVariance":10,
         "Spr":"dark_matter_particle4",
-        "Num":1,
+        "Num":4,
         "NumVariance":0,
+        "Interpolate":1,
         "ParticleLayer":-1
     }    
 ]

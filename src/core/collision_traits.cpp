@@ -9,12 +9,12 @@ const uint32_t Collisions[] =
     0,                                                                                                              // no collision
     1 << CollisionClass::Creep | 1 << CollisionClass::Mine | 1 << CollisionClass::Player | 1 << CollisionClass::Wall, // projectile
     1 << CollisionClass::Creep | 1 << CollisionClass::Player, // AoeDamage
-    1 << CollisionClass::Projectile | 1 << CollisionClass::AoeDamage | 1 << CollisionClass::Mine | 1 << CollisionClass::Player | 1 << CollisionClass::Wall | 1 << CollisionClass::Water, // creep
+    1 << CollisionClass::Projectile | 1 << CollisionClass::AoeDamage | 1 << CollisionClass::Mine | 1 << CollisionClass::Player | 1 << CollisionClass::Wall | 1 << CollisionClass::Water | 1 << CollisionClass::Pickup, // creep
     1 << CollisionClass::Projectile | 1 << CollisionClass::Creep | 1 << CollisionClass::Wall,                       // mine
     1 << CollisionClass::Projectile | 1 << CollisionClass::AoeDamage | 1 << CollisionClass::Creep | 1 << CollisionClass::Player | 1 << CollisionClass::Wall | 1 << CollisionClass::Pickup | 1 << CollisionClass::Water | 1 << CollisionClass::Flag, // player
     1 << CollisionClass::Projectile | 1 << CollisionClass::Creep | 1 << CollisionClass::Mine | 1 << CollisionClass::Player, // wall
     1 << CollisionClass::Creep | 1 << CollisionClass::Player, // water
-    1 << CollisionClass::Player,                                                                                    // pickup
+    1 << CollisionClass::Creep | 1 << CollisionClass::Player, // pickup
     1 << CollisionClass::Player | 1 << CollisionClass::Flag, // flag
 };
 

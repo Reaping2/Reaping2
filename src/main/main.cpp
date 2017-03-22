@@ -491,6 +491,7 @@ int main( int argc, char* argv[] )
         collisionSS->AddSubSystem( AutoId( "shot_collision_component" ), AutoId( "shot_collision_sub_system" ) );
         collisionSS->AddSubSystem( AutoId( "aoe_collision_component" ), AutoId( "aoe_collision_sub_system" ) );
         collisionSS->AddSubSystem( AutoId( "flag_collision_component" ), AutoId( "flag_collision_sub_system" ) );
+        collisionSS->AddSubSystem( AutoId( "dark_matter_collision_component" ), AutoId( "dark_matter_collision_sub_system" ) );
     }
     if( programState.mMode != ProgramState::Server )
     {

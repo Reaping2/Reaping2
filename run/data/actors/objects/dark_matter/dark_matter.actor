@@ -11,8 +11,8 @@
             {"name":"renderable_component",
                 "set":[{"layer":"creeps", "cast_shadow":0}]
             },
-            {"name":"shot_collision_component",
-                "set":[{"class":"projectile", "radius":20, "damage":0 }]
+            {"name":"dark_matter_collision_component",
+                "set":[{"class":"pickup", "radius":20 }]
             },
             {"name":"health_component"},
             {
@@ -26,7 +26,7 @@
                         },
                         {
                             "delay": 0.0,
-                            "probability": 0.002,
+                            "probability": 0.1,
                             "emit_type": "dark_matter_particle2"
                         },
                         {
@@ -52,7 +52,7 @@
                     "transitions":[
                     {
                         "conditions":
-                            [{ "name":"distance_to_players","less":600 }],
+                            [{ "name":"distance_to_players","less":400, "seek_path":0 }],
                         "state_id":"aggro"
                     }],
                     "acts":[
@@ -72,11 +72,13 @@
                             ],
                             [
                                 { "name":"select_target", "weight":1,
-                                    "params":{"order_of_selection":["current","closest"], "frequency":1.0} }
+                                    "params":{"order_of_selection":["current","closest"], "frequency":1.0,
+                                        "seek_path":0} }
                             ],
                             [
                                 { "name":"turn_to_target","weight":2,
-                                    "params":{"duration":10.0,"duration_variance":2.0,"speed":1000}}
+                                    "params":{"duration":10.0,"duration_variance":2.0,
+                                    "speed":0,"seek_path":0}}
                             ]                                
                         ]
                     }]

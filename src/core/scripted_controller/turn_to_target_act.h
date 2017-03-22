@@ -21,8 +21,9 @@ public:
     void serialize( Archive& ar, const unsigned int version );
 private:
     // rotation speed in radians
-    double mSpeed = 1.0;
+    double mSpeed = 0.0;
     Scene& mScene = Scene::Get();
+    bool mSeekPath = true;
 };
 
 template<class Archive>

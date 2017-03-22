@@ -60,6 +60,7 @@
 #include "light_component.h"
 #include "activity_component.h"
 #include "waypoint_component.h"
+#include "dark_matter_collision_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -92,6 +93,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "aoe_collision_component" ), &CreateComponentLoader<AoeCollisionComponentLoader> );
     Bind( AutoId( "bounce_collision_component" ), &CreateComponentLoader<BounceCollisionComponentLoader> );
     Bind( AutoId( "flag_collision_component" ), &CreateComponentLoader<ctf::FlagCollisionComponentLoader> );
+    Bind( AutoId( "dark_matter_collision_component" ), &CreateComponentLoader<DarkMatterCollisionComponentLoader> );
 
     Bind( AutoId( "renderable_component" ), &CreateComponentLoader<RenderableComponentLoader> );
     Bind( AutoId( "border_component" ), &CreateComponentLoader<BorderComponentLoader> );

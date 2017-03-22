@@ -61,6 +61,7 @@
 #include "light_component.h"
 #include "activity_component.h"
 #include "waypoint_component.h"
+#include "dark_matter_collision_component.h"
 
 using platform::AutoId;
 
@@ -95,6 +96,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "pickup_collision_component" ), &CreateComponent<PickupCollisionComponent> );
     Bind( AutoId( "aoe_collision_component" ), &CreateComponent<AoeCollisionComponent> );
     Bind( AutoId( "bounce_collision_component" ), &CreateComponent<BounceCollisionComponent> );
+    Bind( AutoId( "dark_matter_collision_component" ), &CreateComponent<DarkMatterCollisionComponent> );
 
     Bind( AutoId( "renderable_component" ), &CreateComponent<RenderableComponent> );
     Bind( AutoId( "border_component" ), &CreateComponent<BorderComponent> );

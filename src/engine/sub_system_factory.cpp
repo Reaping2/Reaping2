@@ -1,3 +1,4 @@
+
 #include "platform/i_platform.h"
 #include "engine/sub_system_factory.h"
 #include "engine/sub_system.h"
@@ -37,6 +38,7 @@
 #include "controllers/guard_controller_sub_system.h"
 #include "controllers/path_controller_sub_system.h"
 #include "controllers/scripted_controller_sub_system.h"
+#include "collisions/dark_matter_collision_sub_system.h"
 
 
 using platform::AutoId;
@@ -80,6 +82,7 @@ SubSystemFactory::SubSystemFactory()
     Bind( AutoId( "aoe_collision_sub_system" ), &CreateSubSystem<AoeCollisionSubSystem> );
     Bind( AutoId( "bounce_collision_sub_system" ), &CreateSubSystem<BounceCollisionSubSystem> );
     Bind( AutoId( "flag_collision_sub_system" ), &CreateSubSystem<ctf::FlagCollisionSubSystem> );
+    Bind( AutoId( "dark_matter_collision_sub_system" ), &CreateSubSystem<DarkMatterCollisionSubSystem> );
 
     Bind( AutoId( "heal_over_time_buff_sub_system" ), &CreateSubSystem<HealOverTimeBuffSubSystem> );
     Bind( AutoId( "move_speed_buff_sub_system" ), &CreateSubSystem<MoveSpeedBuffSubSystem> );
