@@ -152,6 +152,7 @@
 #include "network/waypoints_data_message.h"
 #include "attractor_system.h"
 #include "attractable_system.h"
+#include "network/dark_matter_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -293,6 +294,7 @@ void SystemFactory::Init()
     Bind( AutoId( "ctf_spawn_flags_map_element_system" ), &CreateSystem<map::ctf::CtfSpawnFlagsMapElementSystem> );
     Bind( AutoId( "flag_spawn_system" ), &CreateSystem<engine::ctf::FlagSpawnSystem> );
     Bind( AutoId( "ctf_score_message_sender_system" ), &CreateSystem<network::ctf::CtfScoreMessageSenderSystem> );
+    Bind( AutoId( "dark_matter_message_sender_system" ), &CreateSystem<network::DarkMatterMessageSenderSystem> );
 
     Bind( AutoId( "attachable_system" ), &CreateSystem<engine::ctf::AttachableSystem> );
     Bind( AutoId( "show_text_system" ), &CreateSystem<engine::ShowTextSystem> );

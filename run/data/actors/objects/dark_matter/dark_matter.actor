@@ -43,6 +43,9 @@
             {"name":"stop_on_death_component"},
             {"name":"remove_on_death_component"},
             {"name":"target_holder_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":7.5}]
+            },            
             {"name":"attractable_component",
                 "set":{"type":"dark_matter","deceleration":600.0, 
                         "turn_to_target":{"speed":0.0,"seek_path":0,"use_orientation":0}}

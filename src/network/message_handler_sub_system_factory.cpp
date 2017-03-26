@@ -47,6 +47,7 @@
 #include "suppress_message.h"
 #include "waypoint_message.h"
 #include "waypoints_data_message.h"
+#include "dark_matter_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -102,6 +103,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId( "suppress_message_handler_sub_system" ), &CreateSubSystem<SuppressMessageHandlerSubSystem> );
     Bind( AutoId( "waypoint_message_handler_sub_system" ), &CreateSubSystem<WaypointMessageHandlerSubSystem> );
     Bind( AutoId( "waypoints_data_message_handler_sub_system" ), &CreateSubSystem<WaypointsDataMessageHandlerSubSystem> );
+    Bind( AutoId( "dark_matter_message_handler_sub_system" ), &CreateSubSystem<DarkMatterMessageHandlerSubSystem> );
 }
 
 } // namespace network
