@@ -61,6 +61,8 @@
 #include "activity_component.h"
 #include "waypoint_component.h"
 #include "dark_matter_collision_component.h"
+#include "attractable_component.h"
+#include "attractor_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -139,8 +141,10 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "level_end_component" ), &CreateComponentLoader<LevelEndComponentLoader> );
 
 
-    Bind( AutoId("light_component"), &CreateComponentLoader<LightComponentLoader>);
-    Bind( AutoId("activity_component"), &CreateComponentLoader<ActivityComponentLoader>);
+    Bind( AutoId( "light_component" ), &CreateComponentLoader<LightComponentLoader> );
+    Bind( AutoId( "activity_component" ), &CreateComponentLoader<ActivityComponentLoader> );
+    Bind( AutoId( "attractable_component" ), &CreateComponentLoader<AttractableComponentLoader> );
+    Bind( AutoId( "attractor_component" ), &CreateComponentLoader<AttractorComponentLoader> );
 }
 
 void DefaultComponentLoader::BindValues()

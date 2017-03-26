@@ -5,19 +5,17 @@
         [
             {"name":"position_component"},
             {"name":"move_component",
-                "set":[{"speed":100,"moving":0}]
+                "set":{"speed":0,"moving":0}
             },
-
             {"name":"renderable_component",
-                "set":[{"layer":"creeps", "cast_shadow":0}]
+                "set":{"layer":"creeps", "cast_shadow":0}
             },
             {"name":"dark_matter_collision_component",
-                "set":[{"class":"pickup", "radius":20 }]
+                "set":{"class":"pickup", "radius":20 }
             },
             {"name":"health_component"},
-            {
-                "name":"emitter_component",
-                "set": [{
+            {"name":"emitter_component",
+                "set": {
                     "emit_descs":[
                         {
                             "delay": 0.0,
@@ -40,49 +38,17 @@
                             "emit_type": "dark_matter_particle4"
                         }
                     ]
-                }]
+                }
             },
             {"name":"stop_on_death_component"},
             {"name":"remove_on_death_component"},
-            {"name":"target_holder_component"},            
-            {"name":"scripted_controller_component",
-                "set":[{"states":[{
-                    "identifier":"chillin",
-                    "start":1,
-                    "transitions":[
-                    {
-                        "conditions":
-                            [{ "name":"distance_to_players","less":400, "seek_path":0 }],
-                        "state_id":"aggro"
-                    }],
-                    "acts":[
-                        [
-                            { "name":"stay","weight":1,
-                                "params":{"duration":100.0,"duration_variance":0.0}}
-                        ]
-                    ]
-                    },{
-                    "identifier":"aggro",
-                        "start":0,
-                        "transitions":[],
-                        "acts":[
-                            [
-                                { "name":"move_forward","weight":2,
-                                    "params":{"duration":4.0,"duration_variance":1.0,"speed":500.0} }
-                            ],
-                            [
-                                { "name":"select_target", "weight":1,
-                                    "params":{"order_of_selection":["current","closest"], "frequency":1.0,
-                                        "seek_path":0} }
-                            ],
-                            [
-                                { "name":"turn_to_target","weight":2,
-                                    "params":{"duration":10.0,"duration_variance":2.0,
-                                    "speed":0,"seek_path":0}}
-                            ]                                
-                        ]
-                    }]
-                }]
+            {"name":"target_holder_component"},
+            {"name":"attractable_component",
+                "set":{"type":"dark_matter","deceleration":600.0, 
+                        "turn_to_target":{"speed":0.0,"seek_path":0,"use_orientation":0}}
+            },
+            {"name":"acceleration_component",
+                "set":{"acceleration":0.0,"min_speed":0.0,"max_speed":1200.0}
             }
         ]
     }    

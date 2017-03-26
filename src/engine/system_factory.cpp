@@ -150,6 +150,8 @@
 #include "input/keyboard_and_mouse_adapter_system.h"
 #include "network/waypoint_message.h"
 #include "network/waypoints_data_message.h"
+#include "attractor_system.h"
+#include "attractable_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -328,6 +330,9 @@ void SystemFactory::Init()
     Bind( AutoId( "player_model_system" ), &CreateSystem<engine::PlayerModelSystem> );
     Bind( AutoId( "level_end_system" ), &CreateSystem<engine::LevelEndSystem> );
     Bind( AutoId( "level_selection_system"), &CreateSystem<core::LevelSelectionSystem>);
+
+    Bind( AutoId( "attractor_system" ), &CreateSystem<engine::AttractorSystem> );
+    Bind( AutoId( "attractable_system" ), &CreateSystem<engine::AttractableSystem> );
 }
 
 REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )

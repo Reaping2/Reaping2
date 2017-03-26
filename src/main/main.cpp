@@ -473,6 +473,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "listen_child_death_system" ) );
         Eng.AddSystem( AutoId( "remove_on_death_system" ) );
         Eng.AddSystem( AutoId( "explode_on_death_system" ) );
+        Eng.AddSystem( AutoId( "attractor_system" ) );
+        Eng.AddSystem( AutoId( "attractable_system" ) );
     }
     //Eng.AddSystem( AutoId( "remove_components_on_death_system" ) );
     Eng.AddSystem( AutoId( "soldier_auto_revive_system" ) );

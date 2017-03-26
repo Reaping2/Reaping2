@@ -19,6 +19,7 @@ void TurnToTargetAct::Update( Actor& actor, double Seconds )
     {
         return;
     }
+    static auto& mScene = Scene::Get();
     auto target( mScene.GetActor( targetHolderC->GetTargetGUID() ) );
     if (!target.IsValid())
     {
@@ -66,20 +67,27 @@ void TurnToTargetAct::Update( Actor& actor, double Seconds )
 
     static double const pi = boost::math::constants::pi<double>();
 
+    auto moveC( actor.Get<IMoveComponent>() );
+    auto useOrientation = mUseOrientation||!moveC.IsValid();
+    auto actorDir = useOrientation ? positionC->GetOrientation() : moveC->GetHeading();
     double rads = 0.0;
     if (mSpeed != 0.0) // if speed is 0.0 then you need to instantly turn
     {
-        rads = direction - positionC->GetOrientation();
+        rads = direction - actorDir;
         rads = fmod( rads + pi, pi * 2 );
         rads += pi * (rads < 0 ? 1 : -1);
     }
     if (std::abs( rads ) > 0.1)
     {
-        positionC->SetOrientation( positionC->GetOrientation() + (rads > 0 ? 1 : -1)*mSpeed*Seconds );
+        direction = actorDir + (rads > 0 ? 1 : -1)*mSpeed*Seconds;
+    }
+    if (useOrientation)
+    {
+        positionC->SetOrientation( direction );
     }
     else
     {
-        positionC->SetOrientation( direction );
+        moveC->SetHeading( direction );
     }
 }
 
@@ -90,6 +98,7 @@ void TurnToTargetAct::Load( Json::Value const& setters )
     Json::GetDouble( setters["speed"], speedDeg );
     mSpeed = speedDeg / 180 * boost::math::constants::pi<double>();
     Json::GetBool( setters["seek_path"], mSeekPath );
+    Json::GetBool( setters["use_orientation"], mUseOrientation );
 }
 
 
