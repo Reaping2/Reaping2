@@ -48,7 +48,7 @@
                         {
                             "collision_classes":["pickup"],
                             "attract_types":["dark_matter"],
-                            "range":600.0,
+                            "range":300.0,
                             "acceleration":1600.0
                         }
                     ]

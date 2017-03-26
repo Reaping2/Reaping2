@@ -22,6 +22,10 @@ public:
     virtual Opt<Item> SwitchToNextItem( ItemType::Type itemType, bool forward = true );
     virtual void SetPickupItems( bool pickupItems );
     virtual bool IsPickupItems() const;
+    virtual void SetDarkMatters( int32_t darkMatters );
+    virtual int32_t GetDarkMatters() const;
+    virtual void SetCollectDarkMatter( bool collectDarkMatter );
+    virtual bool IsCollectDarkMatter() const;
     virtual ~InventoryComponent();
 protected:
     InventoryComponent();
@@ -30,6 +34,8 @@ private:
     ItemFactory& mItemFactory;
     ItemMap_t mItems;
     bool mPickupItems;
+    int32_t mDarkMatters;
+    bool mCollectDarkMatter;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -43,6 +49,8 @@ void InventoryComponent::serialize( Archive& ar, const unsigned int version )
     ar& boost::serialization::base_object<IInventoryComponent>( *this );
     ar& mItems;
     ar& mPickupItems;
+    ar& mDarkMatters;
+    ar& mCollectDarkMatter;
 }
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>

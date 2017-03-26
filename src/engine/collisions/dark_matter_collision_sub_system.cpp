@@ -30,8 +30,12 @@ void DarkMatterCollisionSubSystem::Collide( Actor& actor, Actor& other )
     if (inventoryC.IsValid())
     {
         Opt<IHealthComponent> healthC = actor.Get<IHealthComponent>();
-        if (healthC.IsValid())
+        if (healthC.IsValid()&&healthC->GetHP()>0)
         {
+            if (inventoryC->IsCollectDarkMatter())
+            {
+                inventoryC->SetDarkMatters( inventoryC->GetDarkMatters() + 1 );
+            }
             healthC->SetHP( 0 );
         }
     }
