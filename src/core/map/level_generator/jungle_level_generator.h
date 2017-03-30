@@ -35,12 +35,15 @@ private:
     MandatoryRooms_t mMandatoryRooms;
     RouteProperties mMainRouteProperties;
     RouteProperties mSideRouteProperties;
+    int32_t mWaypointDistance = 5;
+    int32_t mWaypointDistanceVariance = 3;
     Route_t CreateRoute( int32_t startRoomIndex, RouteProperties const& properties );
     FreeNodes_t mFreeCellPositions;
     void CreateMainRoute();
     void CreateSideRoutes();
     int32_t PlaceRoomByProperty( RoomProperty::Type roomProp );
     void GenerateTerrain();
+    void CreateWaypoints();
     void RecreateBorders();
     void PlaceRooms();
 

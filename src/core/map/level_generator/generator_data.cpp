@@ -189,6 +189,12 @@ int32_t GeneratorData::GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbou
     return mGraph[roomIndex][neighbourIndex];
 }
 
+
+NeighbourRooms_t const& GeneratorData::GetNeighbourRooms( int32_t roomIndex ) const
+{
+    return mGraph[roomIndex].mNeighbours;
+}
+
 void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::vec2 posB, int32_t room ) const
 {
     if (IsInBounds( posB )
@@ -198,7 +204,7 @@ void GeneratorData::AddCellPair( CellPairs_t& cellPairs, glm::vec2 posA, glm::ve
     }
 }
 
-NeighbourRooms_t GeneratorData::GetNeighbourRooms( int32_t roomIndex )
+NeighbourRooms_t GeneratorData::GetPossibleNeighbourRooms( int32_t roomIndex )
 {
     NeighbourRooms_t r;
     for (auto& n : GetRoom( roomIndex )->GetNeighbourCells())
@@ -223,12 +229,34 @@ void GeneratorData::GenerateGraph()
     {
         bool const replI = GetGRoomDesc( i ).mIsReplaceable;
         NeighbourRooms_t neighbourRooms;
-        for (auto&& neighbourRoom : GetNeighbourRooms( i ))
+        for (auto&& neighbourRoom : GetPossibleNeighbourRooms( i ))
         {
             bool const replNeigh = GetGRoomDesc( neighbourRoom ).mIsReplaceable;
             for (auto&& cellPair : GetAdjacentCellPairs( i, neighbourRoom ))
             {
                 if (CanLinkCells( cellPair.first, cellPair.second, replI, replNeigh ))
+                {
+                    neighbourRooms.push_back( neighbourRoom );
+                    break;
+                }
+            }
+        }
+        mGraph.AddNode( GGraphNode( i, neighbourRooms ) );
+    }
+}
+
+
+void GeneratorData::GenerateRouteGraph()
+{
+    mGraph.Clear();
+    for (int i = 0; i < mGRoomDescs.size(); ++i)
+    {
+        NeighbourRooms_t neighbourRooms;
+        for (auto&& neighbourRoom : GetPossibleNeighbourRooms( i ))
+        {
+            for (auto&& cellPair : GetAdjacentCellPairs( i, neighbourRoom ))
+            {
+                if (AreCellsLinked( cellPair.first, cellPair.second ))
                 {
                     neighbourRooms.push_back( neighbourRoom );
                     break;
@@ -265,6 +293,30 @@ bool GeneratorData::CanLinkCells( glm::vec2 posA, glm::vec2 posB, bool replaceab
         && (replaceableB || cellB.HasEntrance( EntranceType::Bottom ));
 }
 
+
+bool GeneratorData::AreCellsLinked( glm::vec2 posA, glm::vec2 posB ) const
+{
+    auto const& cellA = GetCell( posA );
+    auto const& cellB = GetCell( posB );
+    if (posA.x > posB.x)
+    {
+        return  ( cellA.HasEntrance( EntranceType::Left ))
+            && ( cellB.HasEntrance( EntranceType::Right ));
+    }
+    else if (posA.y > posB.y)
+    {
+        return ( cellA.HasEntrance( EntranceType::Bottom ))
+            && ( cellB.HasEntrance( EntranceType::Top ));
+    }
+    else if (posA.x < posB.x)
+    {
+        return ( cellA.HasEntrance( EntranceType::Right ))
+            && ( cellB.HasEntrance( EntranceType::Left ));
+    }
+    return ( cellA.HasEntrance( EntranceType::Top ))
+        && ( cellB.HasEntrance( EntranceType::Bottom ));
+}
+
 GRoomDesc const& GeneratorData::GetGRoomDesc( glm::vec2 pos ) const
 {
     return mGRoomDescs[GetGCell( pos ).mGRoomDescIndex];
@@ -295,6 +347,12 @@ bool GeneratorData::HasUnreplaceableNeighbor( IRoom const& room, glm::vec2 pos )
                 auto const v = pos + n;
                 return IsInBounds( v ) && HasGRoomDesc( v ) && !GetGRoomDesc( v ).mIsReplaceable;
             }) != room.GetNeighbourCells().end();
+}
+
+
+GGraph const& GeneratorData::GetGraph() const
+{
+    return mGraph;
 }
 
 Cell& GeneratorData::GetCell( glm::vec2 pos )

@@ -130,7 +130,8 @@ void FreeForAllGameModeSystem::OnMapStart( core::MapStartEvent const& Evt )
     }
     if (Evt.mState == core::MapStartEvent::Ready)
     {
-        Ui::Get().Load( "hud" );
+        mProgramState.mHUD = "hud";
+        Ui::Get().Load( mProgramState.mHUD );
     }
     if (Evt.mState == core::MapStartEvent::ActorsSpawned&&mProgramState.mMode != ProgramState::Client)
     {

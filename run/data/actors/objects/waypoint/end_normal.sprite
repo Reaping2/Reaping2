@@ -13,5 +13,20 @@
                 "secs_to_end" : 0.55
             }], "name" : "end_normal"
         }]
-    }
+    },
+    {
+        "texture_path":"waypoint_on_normal.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "lit",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 2.5,
+                "secs_to_end" : 0.55
+            }], "name" : "end_normal"
+        }]
+    }    
 ]

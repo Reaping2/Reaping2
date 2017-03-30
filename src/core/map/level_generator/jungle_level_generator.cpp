@@ -36,16 +36,92 @@ void JungleLevelGenerator::Generate()
 
     CheckRoomEntrances();
 
+    CreateWaypoints();
+
     GenerateTerrain();
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::TerrainGenerated ) );
 }
 
 
+void JungleLevelGenerator::CreateWaypoints()
+{
+    mGData.GenerateRouteGraph();
+    mGData.ShuffleNeighbours();
+
+    struct FloodRoom
+    {
+        int32_t mRoomIndex;
+        int32_t mDistance;
+        FloodRoom() = default;
+        FloodRoom( int32_t roomIndex, int32_t dist)
+            : mRoomIndex(roomIndex)
+            , mDistance(dist)
+        {}
+    };
+    using FloodRooms_t = std::vector<FloodRoom>;
+    FloodRooms_t floodStartRooms;
+    FloodRooms_t floodRooms;
+    floodStartRooms.push_back( { mStartRoomIndex, 0 } );
+    // floodfill the graph from floodStartRooms to a cap, then try to place new startrooms
+    // at the end the startrooms will be the waypoints
+    int32_t backPos = 0;
+    do 
+    {
+        int32_t maxWaypointDistance = mWaypointDistance + (2 * mWaypointDistanceVariance *mRand() % 101) / 100 - mWaypointDistanceVariance;
+        floodRooms = floodStartRooms;
+        int32_t nextRoomPos = 0;
+        auto dist = 1;
+        do 
+        {
+            while (nextRoomPos < floodRooms.size() && dist <= maxWaypointDistance)
+            {
+                auto const& neighbours = mGData.GetNeighbourRooms( floodRooms[nextRoomPos].mRoomIndex );
+                for (auto&& neigh : neighbours)
+                {
+                    auto found = std::find_if( floodRooms.begin(), floodRooms.end(), [&neigh]( auto&& n ) { return n.mRoomIndex == neigh; } );
+                    if (found == floodRooms.end())
+                    {
+                        floodRooms.push_back( { neigh, dist } );
+                    }
+                }
+                ++nextRoomPos;
+                if (nextRoomPos < floodRooms.size())
+                {
+                    dist = floodRooms[nextRoomPos].mDistance + 1;
+                }
+            }
+            backPos = floodRooms.back().mDistance == maxWaypointDistance ? floodRooms.size() - 1 : 0;
+            while (backPos > 0 
+                && (floodRooms[backPos].mDistance==0 // don't repeatedly add rooms
+                    || !mGData.GetRoom( floodRooms[backPos].mRoomIndex )->GetRoomDesc().HasProperty( RoomProperty::End )))
+            {
+                --backPos;
+            }
+            if (backPos>0)
+            {
+                floodStartRooms.push_back( { floodRooms[backPos].mRoomIndex, 0 } );
+            }
+            //could not find a suitable position but a waypoint should be placed.
+            //increasing maxWaypointDistance should do the trick (if we run out of rooms nextroompos will be at floodRooms.size())
+        } while (backPos == 0 && nextRoomPos < floodRooms.size() && floodRooms.back().mDistance == maxWaypointDistance++);
+    } while (backPos>0);
+    for (auto&& room : floodStartRooms)
+    {
+        mGData.AddRoomProperty( room.mRoomIndex, RoomProperty::End );
+    }
+    mGData.GenerateGraph();
+}
+
 void JungleLevelGenerator::Load( Json::Value const& setters )
 {
     ILevelGenerator::Load( setters );
+    mWaypointDistance = 5;
+    mWaypointDistanceVariance = 3;
+    Json::GetInt( setters["waypoint_distance"], mWaypointDistance );
+    Json::GetInt( setters["waypoint_distance_variance"], mWaypointDistanceVariance );
     mMainRouteProperties.Load( setters["route"] );
-    mMainRouteProperties.roomProperty = RoomProperty::End;
+    //TODO: add key to boss instead of End
+    //mMainRouteProperties.roomProperty = RoomProperty::End;
     mSideRouteProperties.Load( setters["side_route"] );
     mPossibleRooms.Load( setters["possible_rooms"] );
     mMandatoryRooms.clear();
@@ -91,7 +167,8 @@ void JungleLevelGenerator::CreateMainRoute()
     mEndRoomIndex = route.top();
     bool const hasProperty = mGData.GetRoom( mEndRoomIndex )->GetRoomDesc().HasProperty( RoomProperty::End );
     L2( "and the end of this route has an end property: %d\n", hasProperty );
-    mGData.AddRoomProperty( mEndRoomIndex, RoomProperty::End );
+    //TODO: add key to boss instead of End
+    //mGData.AddRoomProperty( mEndRoomIndex, RoomProperty::End );
 }
 
 void JungleLevelGenerator::GenerateTerrain()
@@ -375,8 +452,17 @@ void JungleLevelGenerator::LinkRooms( Route_t route )
         roomB = route.top();
         route.pop();
         auto cellPairs = mGData.GetAdjacentCellPairs( roomA, roomB );
-        auto& cellPair = cellPairs[mRand() % cellPairs.size()];
-        mGData.LinkCells( cellPair.first, cellPair.second );
+        std::shuffle( cellPairs.begin(), cellPairs.end(), mRand );
+        auto const replA = mGData.GetGRoomDesc( roomA ).mIsReplaceable;
+        auto const replB = mGData.GetGRoomDesc( roomA ).mIsReplaceable;
+        for (auto&& cellPair : cellPairs)
+        {
+            if (mGData.CanLinkCells( cellPair.first, cellPair.second, replA, replB ))
+            {
+                mGData.LinkCells( cellPair.first, cellPair.second );
+                break;
+            }
+        }
     }
 }
 

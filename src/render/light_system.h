@@ -4,6 +4,7 @@
 #include "core/scene.h"
 #include "core/map_load_event.h"
 #include "engine/system.h"
+#include "core/actor_event.h"
 
 namespace render {
 
@@ -20,6 +21,8 @@ protected:
     virtual void Init();
     virtual void Update( double DeltaTime );
 private:
+    AutoReg mOnActorEvent;
+    void OnActorEvent( ActorEvent const& Evt );
     void OnMapLoad( core::MapLoadEvent const& Evt );
     Scene& mScene;
     std::vector<Actor*> mActiveLights;

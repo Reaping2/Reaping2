@@ -53,7 +53,8 @@ Opt<Item> IInventoryComponent::ItemGroup::SwitchToNextItem( bool forward /*= tru
     {
         return nullptr;
     }
-    mSelectedIndex = ((forward ? ++mSelectedIndex : --mSelectedIndex) + mItems.size()) % mItems.size();
+    forward ? ++mSelectedIndex : --mSelectedIndex;
+    mSelectedIndex = ( mSelectedIndex + mItems.size() ) % mItems.size();
     return GetSelectedItem();
 }
 

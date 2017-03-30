@@ -47,7 +47,8 @@ void LifecycleMessageHandlerSubSystem::Execute( Message const& message )
     {
         if ( msg.mState == LifecycleMessage::Start )
         {
-            core::ProgramState::Get().mGameState = core::ProgramState::Running;
+            mProgramState.mGameState = core::ProgramState::Running;
+            mProgramState.mGameMode = msg.mGameMode;
         }
         else if ( msg.mState == LifecycleMessage::WaitingForHost )
         {

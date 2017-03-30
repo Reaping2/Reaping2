@@ -67,15 +67,22 @@ public:
     glm::vec2 GetRoomCoord( int32_t roomIndex ) const;
     void LinkCells( glm::vec2 posA, glm::vec2 posB );
     bool CanLinkCells( glm::vec2 posA, glm::vec2 posB, bool replaceableA = false, bool replaceableB = false ) const;
+    bool AreCellsLinked( glm::vec2 posA, glm::vec2 posB ) const;
     void ShuffleNeighbours();
     int32_t GetNeighbourRoomCount( int32_t roomIndex ) const;
     int32_t GetNeigbourRoomIndex( int32_t roomIndex, int32_t neighbourIndex ) const;
+    NeighbourRooms_t const& GetNeighbourRooms( int32_t roomIndex ) const;
     typedef std::pair<glm::vec2, glm::vec2> CellPair_t;
     typedef std::vector<CellPair_t> CellPairs_t;
     CellPairs_t GetAdjacentCellPairs( int32_t roomA, int32_t roomB );
     GRoomDesc const& GetGRoomDesc( int32_t roomIndex ) const;
     bool HasGRoomDesc( glm::vec2 pos ) const;
     bool HasUnreplaceableNeighbor( IRoom const& room, glm::vec2 pos ) const;
+    GGraph const& GetGraph() const;
+    // generates graph with all poosible neighbour rooms. Ignores current entrances.
+    void GenerateGraph();
+    // generates graph with neighbours respecting current entrances
+    void GenerateRouteGraph();
 private:
     typedef std::vector<std::vector<GCell>> GCellMatrix_t;
     GCellMatrix_t mGCells; // all cells with the corresponding roomDesc
@@ -85,8 +92,8 @@ private:
     GRoomDescs_t mGRoomDescs; // all roomdescs in one vector, with coords to the rooms
     typedef std::deque<glm::vec2> FreeNodes_t;
     GGraph mGraph;
-    NeighbourRooms_t GetNeighbourRooms( int32_t roomIndex );
-    void GenerateGraph();
+    // returns all the rooms around roomIndex. regardless of cell linkage, or possible link between cells
+    NeighbourRooms_t GetPossibleNeighbourRooms( int32_t roomIndex );
     GRoomDesc& GetGRoomDesc( glm::vec2 pos );
     GRoomDesc const& GetGRoomDesc( glm::vec2 pos ) const;
     Cell& GetCell( glm::vec2 pos );

@@ -19,6 +19,8 @@
 #include "client_list_changed_event.h"
 #include "engine/connection_event.h"
 #include "data_checksum_message.h"
+#include "engine/waypoint_system.h"
+#include "waypoints_data_message.h"
 
 
 namespace network {
@@ -100,6 +102,12 @@ void MyNameMessageHandlerSubSystem::Execute( Message const& message )
                 setOwnershipMsg->mActorGUID = clientData->mClientActorGUID;
                 setOwnershipMsg->mClientId = clientData->mClientId;
                 mMessageHolder.AddOutgoingMessage( setOwnershipMsg );
+
+                static auto waypointS( engine::Engine::Get().GetSystem<engine::WaypointSystem>() );
+                if (waypointS.IsValid())
+                {
+                    mMessageHolder.AddOutgoingMessage( std::auto_ptr<WaypointsDataMessage>( new WaypointsDataMessage( &waypointS->GetWaypointsData(), clientData->mClientId ) ) );
+                }
             }
             else
             {
