@@ -1,0 +1,58 @@
+[
+    {
+        "name":"dark_matter",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":{"speed":0,"moving":0}
+            },
+            {"name":"renderable_component",
+                "set":{"layer":"creeps", "cast_shadow":0}
+            },
+            {"name":"dark_matter_collision_component",
+                "set":{"class":"pickup", "radius":20 }
+            },
+            {"name":"health_component"},
+            {"name":"emitter_component",
+                "set": {
+                    "emit_descs":[
+                        {
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "dark_matter_particle1"
+                        },
+                        {
+                            "delay": 0.0,
+                            "probability": 0.1,
+                            "emit_type": "dark_matter_particle2"
+                        },
+                        {
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "dark_matter_particle3"
+                        },                        
+                        {
+                            "delay": 0.0,
+                            "probability": 0.4,
+                            "emit_type": "dark_matter_particle4"
+                        }
+                    ]
+                }
+            },
+            {"name":"stop_on_death_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"target_holder_component"},
+            {"name":"fade_out_component",
+                "set":[{"secs_to_end":7.5}]
+            },            
+            {"name":"attractable_component",
+                "set":{"type":"dark_matter","deceleration":600.0, 
+                        "turn_to_target":{"speed":0.0,"seek_path":0,"use_orientation":0}}
+            },
+            {"name":"acceleration_component",
+                "set":{"acceleration":0.0,"min_speed":0.0,"max_speed":1200.0}
+            }
+        ]
+    }    
+]

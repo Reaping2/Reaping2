@@ -1,0 +1,105 @@
+[
+    {
+        "texture_path":"dark_matter.png",
+        "actor_visuals":
+        [
+            {
+                "name":"dark_matter",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":100,
+                        "h":100,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            },
+            {
+                "name":"dark_matter",
+                "animations":
+                [
+                    {
+                        "name":"move",
+                        "w":100,
+                        "h":100,
+                        "scale":1.0,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "texture_path":"dark_matter.png",
+        "actor_visuals":
+        [
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases":[{"x":100,"y":0}],
+                        "scale" : 1.0,
+                        "w" : 50
+                    }
+                ],
+                "name" : "dark_matter_particle1"
+            },
+            {
+                "animations" :
+                [
+                    {
+                        "h" : 50,
+                        "name" : "default_action",
+                        "phases":[{"x":100,"y":50}],
+                        "scale" : 1.0,
+                        "w" : 50
+                    }
+                ],
+                "name" : "dark_matter_particle2"
+            },
+            {
+                "texture_path":"dark_matter.png",
+                "actor_visuals":
+                [
+                    {
+                        "animations" :
+                        [
+                            {
+                                "h" : 50,
+                                "name" : "default_action",
+                                "phases":[{"x":150,"y":0}],
+                                "scale" : 1.0,
+                                "w" : 50
+                            }
+                        ],
+                        "name" : "dark_matter_particle3"
+                    }
+                ]
+            },
+            {
+                "texture_path":"dark_matter.png",
+                "actor_visuals":
+                [
+                    {
+                        "animations" :
+                        [
+                            {
+                                "h" : 50,
+                                "name" : "default_action",
+                                "phases":[{"x":150,"y":50}],
+                                "scale" : 1.0,
+                                "w" : 50
+                            }
+                        ],
+                        "name" : "dark_matter_particle4"
+                    }
+                ]
+            }
+        ]
+    }
+
+]

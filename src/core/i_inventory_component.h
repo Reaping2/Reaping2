@@ -48,6 +48,10 @@ public:
     virtual Opt<Item> SwitchToNextItem( ItemType::Type itemType, bool forward = true ) = 0;
     virtual void SetPickupItems( bool pickupItems ) = 0;
     virtual bool IsPickupItems()const = 0;
+    virtual void SetDarkMatters( int32_t darkMatters ) = 0;
+    virtual int32_t GetDarkMatters()const = 0;
+    virtual void SetCollectDarkMatter( bool collectDarkMatter ) = 0;
+    virtual bool IsCollectDarkMatter()const = 0;
 protected:
     friend class ComponentFactory;
     friend class ::boost::serialization::access;

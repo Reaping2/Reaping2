@@ -307,6 +307,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "map_load_message_sender_system" ) );
         Eng.AddSystem( AutoId( "suppress_message_sender_system" ) );
         Eng.AddSystem( AutoId( "waypoints_data_message_sender_system" ) );
+        Eng.AddSystem( AutoId( "dark_matter_message_sender_system" ) );
     }
     Eng.AddSystem( AutoId( "waypoint_message_sender_system" ) );
     if (programState.mMode != ProgramState::Client)
@@ -473,6 +474,8 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "listen_child_death_system" ) );
         Eng.AddSystem( AutoId( "remove_on_death_system" ) );
         Eng.AddSystem( AutoId( "explode_on_death_system" ) );
+        Eng.AddSystem( AutoId( "attractor_system" ) );
+        Eng.AddSystem( AutoId( "attractable_system" ) );
     }
     //Eng.AddSystem( AutoId( "remove_components_on_death_system" ) );
     Eng.AddSystem( AutoId( "soldier_auto_revive_system" ) );
@@ -491,6 +494,7 @@ int main( int argc, char* argv[] )
         collisionSS->AddSubSystem( AutoId( "shot_collision_component" ), AutoId( "shot_collision_sub_system" ) );
         collisionSS->AddSubSystem( AutoId( "aoe_collision_component" ), AutoId( "aoe_collision_sub_system" ) );
         collisionSS->AddSubSystem( AutoId( "flag_collision_component" ), AutoId( "flag_collision_sub_system" ) );
+        collisionSS->AddSubSystem( AutoId( "dark_matter_collision_component" ), AutoId( "dark_matter_collision_sub_system" ) );
     }
     if( programState.mMode != ProgramState::Server )
     {

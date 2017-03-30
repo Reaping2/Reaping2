@@ -7,6 +7,8 @@
 InventoryComponent::InventoryComponent()
     : mItemFactory( ItemFactory::Get() )
     , mPickupItems( true )
+    , mDarkMatters( 0 )
+    , mCollectDarkMatter( true )
 {
 
 }
@@ -113,6 +115,25 @@ bool InventoryComponent::IsPickupItems() const
     return mPickupItems;
 }
 
+void InventoryComponent::SetDarkMatters( int32_t darkMatters )
+{
+    mDarkMatters = darkMatters;
+}
+
+int32_t InventoryComponent::GetDarkMatters() const
+{
+    return mDarkMatters;
+}
+
+void InventoryComponent::SetCollectDarkMatter( bool collectDarkMatter )
+{
+    mCollectDarkMatter = collectDarkMatter;
+}
+
+bool InventoryComponent::IsCollectDarkMatter() const
+{
+    return mCollectDarkMatter;
+}
 
 void InventoryComponentLoader::BindValues()
 {
@@ -145,6 +166,7 @@ void InventoryComponentLoader::BindValues()
             AutoId( istr ));
     }
     Bind( "pickup_items", func_bool( &InventoryComponent::SetPickupItems ) );
+    Bind( "collect_dark_matter", func_bool( &InventoryComponent::SetCollectDarkMatter ) );
 }
 
 InventoryComponentLoader::InventoryComponentLoader()

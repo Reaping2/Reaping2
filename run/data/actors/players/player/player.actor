@@ -42,6 +42,18 @@
             {"name":"audible_component"},
             {"name":"remove_on_death_component",
                 "set":[{"delay":5.0}] },
+            {"name":"attractor_component",
+                "set":{
+                    "attractor_descs":[
+                        {
+                            "collision_classes":["pickup"],
+                            "attract_types":["dark_matter"],
+                            "range":300.0,
+                            "acceleration":1600.0
+                        }
+                    ]
+                }
+            },
             {"name":"remove_components_on_death_component",
                 "set":[
                     {

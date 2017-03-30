@@ -63,5 +63,14 @@
             "unique_frequency":0.01,
             "mandatory_frequency":0.1
         }
-    }    
+    },
+    {
+        "message_name":"dark_matter",
+        "name": "player",
+        "server":
+        {
+            "unique_frequency":0.1,
+            "mandatory_frequency":-1.0
+        }
+    }      
 ]

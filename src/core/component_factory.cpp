@@ -61,6 +61,9 @@
 #include "light_component.h"
 #include "activity_component.h"
 #include "waypoint_component.h"
+#include "dark_matter_collision_component.h"
+#include "attractable_component.h"
+#include "attractor_component.h"
 
 using platform::AutoId;
 
@@ -95,6 +98,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "pickup_collision_component" ), &CreateComponent<PickupCollisionComponent> );
     Bind( AutoId( "aoe_collision_component" ), &CreateComponent<AoeCollisionComponent> );
     Bind( AutoId( "bounce_collision_component" ), &CreateComponent<BounceCollisionComponent> );
+    Bind( AutoId( "dark_matter_collision_component" ), &CreateComponent<DarkMatterCollisionComponent> );
 
     Bind( AutoId( "renderable_component" ), &CreateComponent<RenderableComponent> );
     Bind( AutoId( "border_component" ), &CreateComponent<BorderComponent> );
@@ -140,6 +144,8 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "cell_component" ), &CreateComponent<CellComponent> );
     Bind( AutoId( "level_end_component" ), &CreateComponent<LevelEndComponent> );
 
-    Bind( AutoId("light_component"), &CreateComponent<LightComponent>);
-    Bind( AutoId("activity_component"), &CreateComponent<ActivityComponent>);
+    Bind( AutoId( "light_component" ), &CreateComponent<LightComponent> );
+    Bind( AutoId( "activity_component" ), &CreateComponent<ActivityComponent> );
+    Bind( AutoId( "attractable_component" ), &CreateComponent<AttractableComponent> );
+    Bind( AutoId( "attractor_component" ), &CreateComponent<AttractorComponent> );
 }

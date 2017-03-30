@@ -36,7 +36,10 @@ void MoveForwardAct::Start( Actor& actor )
     {
         return;
     }
-    moveC->GetSpeed().mBase.Set( mSpeed );
+    if (mSpeed >= 0.0)
+    {
+        moveC->GetSpeed().mBase.Set( mSpeed );
+    }
     moveC->SetMoving( true );
 
 }

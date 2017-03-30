@@ -1,10 +1,10 @@
 #include "select_target_act.h"
 #include "platform/auto_id.h"
-#include "../i_target_holder_component.h"
-#include "../scene.h"
-#include "../i_health_component.h"
-#include "engine/engine.h"
-#include "engine/path_system.h"
+#include "core/i_target_holder_component.h"
+#include "core/scene.h"
+#include "core/i_health_component.h"
+#include "core/i_position_component.h"
+#include "distance_condition.h"
 
 namespace scriptedcontroller
 {
@@ -62,6 +62,7 @@ void SelectTargetAct::Load( Json::Value const& setters )
             mSelections.push_back( selectionType( AutoId( selection.asString() ) ) );
         }
     }
+    Json::GetBool( setters["seek_path"], mSeekPath );
     mTimer.Load( setters["frequency"] );
 }
 
@@ -123,15 +124,16 @@ bool SelectTargetAct::SelectLastHitByTarget( Actor& actor, ITargetHolderComponen
 
 bool SelectTargetAct::SelectClosestTarget( Actor& actor, ITargetHolderComponent& targetHolderC )
 {
-    static auto mPathSystem = engine::Engine::Get().GetSystem<engine::path::PathSystem>();
     int32_t targetGuid = -1;
     double minDistance = std::numeric_limits<double>::max();
+    auto positionC( actor.Get<IPositionComponent>() );
+    BOOST_ASSERT( positionC.IsValid() );
     for (auto const& clientData : mProgramState.mClientDatas)
     {
         auto target( mScene.GetActor( clientData.mClientActorGUID ) );
         if (target.IsValid())
         {
-            double const distance = mPathSystem->GetDistance( actor, *target );
+            double distance = core::GetDistance( actor, *target, mSeekPath );
             if (distance < minDistance)
             {
                 minDistance = distance;

@@ -54,6 +54,7 @@
 #include "suppress_message.h"
 #include "waypoint_message.h"
 #include "waypoints_data_message.h"
+#include "dark_matter_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -183,6 +184,7 @@ void MessageHandlerSubSystemHolder::InitHandlers()
     AddSubSystem( network::SuppressMessage::GetType_static(), AutoId( "suppress_message_handler_sub_system" ) );
     AddSubSystem( network::WaypointMessage::GetType_static(), AutoId( "waypoint_message_handler_sub_system" ) );
     AddSubSystem( network::WaypointsDataMessage::GetType_static(), AutoId( "waypoints_data_message_handler_sub_system" ) );
+    AddSubSystem( network::DarkMatterMessage::GetType_static(), AutoId( "dark_matter_message_handler_sub_system" ) );
 }
 
 MessageHandlerSubSystemHolder::~MessageHandlerSubSystemHolder()

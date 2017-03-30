@@ -191,5 +191,426 @@
       ],
       "identifier" : "spawn_at_start",
       "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -700.0,
+                  "y" : 900.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -460.0,
+                  "y" : 860.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -380.0,
+                  "y" : 820.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -620.0,
+                  "y" : 820.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1180.0,
+                  "y" : 540.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1140.0,
+                  "y" : 660.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1060.0,
+                  "y" : 740.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1500.0,
+                  "y" : 180.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1500.0,
+                  "y" : 220.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1540.0,
+                  "y" : 180.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "dark_matter",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1500.0,
+                  "y" : 20.0
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1300.0,
+                  "y" : 700.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left",
+                     "topleft"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1700.0,
+                  "y" : -100.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left",
+                     "topleft"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1100.0,
+                  "y" : 300.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left",
+                     "topleft"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -500.0,
+                  "y" : 700.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left",
+                     "topleft"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -900.0,
+                  "y" : -300.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottom", "left" ],
+                  "outer_borders" : [
+                     "top",
+                     "topright",
+                     "right",
+                     "bottomright",
+                     "bottom",
+                     "bottomleft",
+                     "left",
+                     "topleft"
+                  ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1900.0,
+                  "y" : 700.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "bottom", "left" ],
+                  "outer_borders" : [ "top", "bottom", "bottomleft", "left", "topleft" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1700.0,
+                  "y" : 700.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "top", "right", "bottomleft" ],
+                  "outer_borders" : [ "top", "topright", "right" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
+   },
+   {
+      "actor" : "rogue_tree_wall100",
+      "components" : [
+         {
+            "name" : "position_component",
+            "set" : [
+               {
+                  "x" : -1700.0,
+                  "y" : 500.0
+               }
+            ]
+         },
+         {
+            "name" : "border_component",
+            "set" : [
+               {
+                  "borders" : [ "right", "bottom", "left" ],
+                  "outer_borders" : [ "right", "bottomright", "bottom", "bottomleft", "left" ]
+               }
+            ]
+         }
+      ],
+      "identifier" : "spawn_at_start",
+      "name" : "spawn_actor"
    }
 ]

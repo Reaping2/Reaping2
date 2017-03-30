@@ -1,0 +1,29 @@
+[
+    {
+        "message_name":"heading",
+        "name": "dark_matter",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"move",
+        "name": "dark_matter",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    },
+    {
+        "message_name":"position",
+        "name": "dark_matter",
+        "server":
+        {
+            "unique_frequency":0.01,
+            "mandatory_frequency":0.3
+        }
+    }    
+]

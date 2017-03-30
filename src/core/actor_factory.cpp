@@ -69,6 +69,10 @@ void ActorCreator::AddComponent( int32_t componentId, Json::Value const& setters
     {
         compLoader->Load( *setters.begin() );
     }
+    else if (setters.isObject())
+    {
+        compLoader->Load( setters );
+    }
 
     mComponentLoaders.insert( componentId, static_cast<ComponentLoader_t*>( compLoader.release() ) );
 }

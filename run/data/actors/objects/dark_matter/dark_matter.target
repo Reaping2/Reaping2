@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target" ,
+        "name": "dark_matter" ,
+        "setters":
+        {
+            "cursor_id": "dark_matter" ,
+            "actor_id": "dark_matter"
+        },
+        "type":"target_desc"
+    }
+]

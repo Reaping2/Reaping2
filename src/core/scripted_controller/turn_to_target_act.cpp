@@ -19,6 +19,7 @@ void TurnToTargetAct::Update( Actor& actor, double Seconds )
     {
         return;
     }
+    static auto& mScene = Scene::Get();
     auto target( mScene.GetActor( targetHolderC->GetTargetGUID() ) );
     if (!target.IsValid())
     {
@@ -42,12 +43,18 @@ void TurnToTargetAct::Update( Actor& actor, double Seconds )
     }
     glm::vec2 const distV( (targetPositionC->GetX() - positionC->GetX()), (targetPositionC->GetY() - positionC->GetY()) );
     static auto mCollisionSystem = engine::Engine::Get().GetSystem<engine::CollisionSystem>();
-    auto firstCollActor = mCollisionSystem->GetFirstCollidingActor( 
-        actor, distV, 
-        collisionC->GetRadius()/2.0,
-        1 << CollisionClass::Player | 1 << CollisionClass::Wall );
+    Opt<Actor> firstCollActor;
+    if (mSeekPath)
+    {
+        firstCollActor =
+            mCollisionSystem->GetFirstCollidingActor(
+                actor, distV,
+                collisionC->GetRadius() / 2.0,
+                1 << CollisionClass::Player | 1 << CollisionClass::Wall );
+    }
     double direction = 0.0;
-    if (firstCollActor.IsValid() && firstCollActor->GetGUID() == target->GetGUID())
+    if (!mSeekPath
+        ||(firstCollActor.IsValid() && firstCollActor->GetGUID() == target->GetGUID()))
     {
         // clear vision on target!
         direction = atan2( distV.y, distV.x );
@@ -60,17 +67,27 @@ void TurnToTargetAct::Update( Actor& actor, double Seconds )
 
     static double const pi = boost::math::constants::pi<double>();
 
-    double rads = direction - positionC->GetOrientation();
-    rads = fmod( rads + pi, pi * 2 );
-    rads += pi * (rads<0 ? 1 : -1);
-    
+    auto moveC( actor.Get<IMoveComponent>() );
+    auto useOrientation = mUseOrientation||!moveC.IsValid();
+    auto actorDir = useOrientation ? positionC->GetOrientation() : moveC->GetHeading();
+    double rads = 0.0;
+    if (mSpeed != 0.0) // if speed is 0.0 then you need to instantly turn
+    {
+        rads = direction - actorDir;
+        rads = fmod( rads + pi, pi * 2 );
+        rads += pi * (rads < 0 ? 1 : -1);
+    }
     if (std::abs( rads ) > 0.1)
     {
-        positionC->SetOrientation( positionC->GetOrientation() + (rads > 0 ? 1 : -1)*mSpeed*Seconds );
+        direction = actorDir + (rads > 0 ? 1 : -1)*mSpeed*Seconds;
+    }
+    if (useOrientation)
+    {
+        positionC->SetOrientation( direction );
     }
     else
     {
-        positionC->SetOrientation( direction );
+        moveC->SetHeading( direction );
     }
 }
 
@@ -80,6 +97,8 @@ void TurnToTargetAct::Load( Json::Value const& setters )
     double speedDeg = 100;
     Json::GetDouble( setters["speed"], speedDeg );
     mSpeed = speedDeg / 180 * boost::math::constants::pi<double>();
+    Json::GetBool( setters["seek_path"], mSeekPath );
+    Json::GetBool( setters["use_orientation"], mUseOrientation );
 }
 
 

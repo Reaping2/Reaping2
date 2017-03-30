@@ -301,6 +301,11 @@ int32_t GetSumBulletsMax( Actor* a )
     Opt<Weapon> weapon = inventoryC->GetSelectedItem( ItemType::Weapon );
     return weapon.IsValid() ? weapon->GetSumBullets().GetMax() : 0.0;
 }
+int32_t GetDarkMatters( Actor* a )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    return inventoryC.IsValid()?inventoryC->GetDarkMatters():0;
+}
 double GetSpecialId( Actor* a )
 {
     Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
@@ -348,6 +353,7 @@ void Scene::SetPlayerModels( Opt<Actor> actor )
     mPlayerModels.push_back( new ModelValue( RefTo( mMaxHP ), "max_hp", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetSumBullets, actor.Get() ), "sum_bullets", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetSumBulletsMax, actor.Get() ), "sum_bullets_max", &mPlayerModel ) );
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetDarkMatters, actor.Get() ), "dark_matters", &mPlayerModel ) );
 }
 
 

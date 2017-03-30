@@ -2,7 +2,6 @@
 #define INCLUDED_CORE_SCRIPTED_CONTROLLER_TURN_TO_TARGET_ACT_H
 
 #include "i_act.h"
-#include "../scene.h"
 
 namespace scriptedcontroller
 {
@@ -21,14 +20,18 @@ public:
     void serialize( Archive& ar, const unsigned int version );
 private:
     // rotation speed in radians
-    double mSpeed = 1.0;
-    Scene& mScene = Scene::Get();
+    double mSpeed = 0.0;
+    bool mSeekPath = true;
+    bool mUseOrientation = true;
 };
 
 template<class Archive>
 void TurnToTargetAct::serialize( Archive& ar, const unsigned int version )
 {
     ar& boost::serialization::base_object<IAct>( *this );
+    ar& mSpeed;
+    ar& mSeekPath;
+    ar& mUseOrientation;
 }
 
 

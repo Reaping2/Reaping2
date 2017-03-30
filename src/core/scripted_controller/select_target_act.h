@@ -34,6 +34,7 @@ private:
     bool SelectClosestTarget( Actor& actor, ITargetHolderComponent& targetHolderC );
     double mLastDamageTime = -1.0;
     int32_t mLastDamageOwnerGUID = -1;
+    bool mSeekPath = true;
 };
 
 template<class Archive>

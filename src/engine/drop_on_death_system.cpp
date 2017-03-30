@@ -38,9 +38,20 @@ void DropOnDeathSystem::Update( double DeltaTime )
             continue;
         }
 
-        if( !dropOnDeathC->IsTriedDrop() && !actor->Get<IHealthComponent>()->IsAlive() )
+        if (!dropOnDeathC->IsTriedDrop() && !actor->Get<IHealthComponent>()->IsAlive())
         {
             dropOnDeathC->SetTriedDrop( true );
+            Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
+
+            // TODO: testing only
+            {
+                auto dm = mActorFactory( AutoId( "dark_matter" ) );
+                auto dmPositionC = dm->Get<IPositionComponent>();
+                dmPositionC->SetX( positionC->GetX() );
+                dmPositionC->SetY( positionC->GetY() );
+
+                Scene::Get().AddActor( dm.release() );
+            }
 #ifdef DEBUG
             static const size_t Mod = 2;
 #else
@@ -72,7 +83,6 @@ void DropOnDeathSystem::Update( double DeltaTime )
                 pickupCC->SetItemType( ItemType::Buff );
             }
             BOOST_ASSERT( actor->Get<IPositionComponent>().IsValid() );
-            Opt<IPositionComponent> positionC = actor->Get<IPositionComponent>();
             Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
             puPositionC->SetX( positionC->GetX() );
             puPositionC->SetY( positionC->GetY() );
