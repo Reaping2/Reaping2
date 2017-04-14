@@ -260,6 +260,7 @@ int main( int argc, char* argv[] )
         Eng.AddSystem( AutoId( "randomize_sprite_system" ) );
 
         Eng.AddSystem( AutoId( "path_system" ) );
+        Eng.AddSystem( AutoId( "activatable_system" ) );
     }
     Eng.AddSystem( AutoId( "pulse_system" ) );
     ::engine::Engine::Get().SetEnabled< ::core::FreeForAllGameModeSystem>( false );

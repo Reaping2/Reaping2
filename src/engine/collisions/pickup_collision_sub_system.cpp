@@ -9,6 +9,7 @@
 #include "core/buffs/buff_factory.h"
 #include "core/item_type.h"
 #include "../item_changed_event.h"
+#include "core/i_activatable_component.h"
 
 namespace engine {
 
@@ -24,20 +25,35 @@ void PickupCollisionSubSystem::Init()
 
 void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
+    auto activatableC( actor.Get<IActivatableComponent>() );
+    if (!activatableC.IsValid() || !activatableC->IsActivated())
+    {
+        return;
+    }
+    auto other( mScene.GetActor( activatableC->GetActivatorGUID() ) );
+    if (!other.IsValid())
+    {
+        return;
+    }
+    PickItUp( actor, *other );
 }
 
 void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
+    PickItUp( actor, other );
+}
 
+void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
+{
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
         int32_t prevItemId = -1;
-        if ( pickupCC->GetItemType() == ItemType::Weapon
+        if (pickupCC->GetItemType() == ItemType::Weapon
             || pickupCC->GetItemType() == ItemType::Normal)
         {
-            auto item( inventoryC->GetSelectedItem(pickupCC->GetItemType()) );
+            auto item( inventoryC->GetSelectedItem( pickupCC->GetItemType() ) );
             if (item.IsValid())
             {
                 prevItemId = item->GetId();
@@ -46,12 +62,12 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
             inventoryC->SetSelectedItem( pickupCC->GetItemType(), pickupCC->GetPickupContent() );
 
         }
-        else if ( pickupCC->GetItemType() == ItemType::Buff )
+        else if (pickupCC->GetItemType() == ItemType::Buff)
         {
             Opt<IBuffHolderComponent> buffHolderC = other.Get<IBuffHolderComponent>();
-            if ( buffHolderC.IsValid() )
+            if (buffHolderC.IsValid())
             {
-                buffHolderC->AddBuff( core::BuffFactory::Get()( pickupCC->GetPickupContent() ) );
+                buffHolderC->AddBuff( core::BuffFactory::Get()(pickupCC->GetPickupContent()) );
             }
         }
 
@@ -66,7 +82,6 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
             healthC->SetHP( 0 );
         }
     }
-
 }
 
 } // namespace engine

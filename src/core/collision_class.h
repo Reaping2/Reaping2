@@ -21,6 +21,7 @@ public:
         Water,
         Pickup,
         Flag,
+        Activatable,
         Num_Classes,
     };
     CollisionClass::Type operator()( int32_t Id ) const;

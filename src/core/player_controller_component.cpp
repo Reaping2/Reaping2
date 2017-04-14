@@ -22,13 +22,20 @@ PlayerControllerComponent::PlayerControllerComponent()
     , mControllerId( 0 )
     , mUseReload()
     , mMoving( false )
+    , mActivateRange( 200.0 )
+    , mHighLightedGUID( -1 )
 {
 }
 
 
+void PlayerControllerComponent::SetActivateRange( double activateRange )
+{
+    mActivateRange = activateRange;
+}
+
 void PlayerControllerComponentLoader::BindValues()
 {
-
+    Bind( "activate_range", func_double(&PlayerControllerComponent::SetActivateRange) );
 }
 
 PlayerControllerComponentLoader::PlayerControllerComponentLoader()

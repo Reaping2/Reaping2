@@ -63,6 +63,7 @@
 #include "dark_matter_collision_component.h"
 #include "attractable_component.h"
 #include "attractor_component.h"
+#include "activatable_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -145,6 +146,7 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "activity_component" ), &CreateComponentLoader<ActivityComponentLoader> );
     Bind( AutoId( "attractable_component" ), &CreateComponentLoader<AttractableComponentLoader> );
     Bind( AutoId( "attractor_component" ), &CreateComponentLoader<AttractorComponentLoader> );
+    Bind( AutoId( "activatable_component" ), &CreateComponentLoader<ActivatableComponentLoader> );
 }
 
 void DefaultComponentLoader::BindValues()

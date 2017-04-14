@@ -60,20 +60,6 @@ void WaypointSystem::Update(double DeltaTime)
             }
         }
     }
-    for (auto& clientData : mProgramState.mClientDatas)
-    {
-        auto player( mScene.GetActor( clientData.mClientActorGUID ) );
-        if (!player.IsValid())
-        {
-            continue;
-        }
-        Opt<PlayerControllerComponent> pcc( player->Get<IControllerComponent>() );
-        if (pcc.IsValid() && pcc->mActivate.GetValue())
-        {
-            pcc->mActivate.Handled();
-        }
-    }
-
 }
 
 

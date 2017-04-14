@@ -3,10 +3,10 @@
 #include "core/i_attractor_component.h"
 #include "engine.h"
 #include "collision_system.h"
-#include "../core/i_position_component.h"
-#include "../core/i_attractable_component.h"
-#include "../core/i_acceleration_component.h"
-#include "../core/i_target_holder_component.h"
+#include "core/i_position_component.h"
+#include "core/i_attractable_component.h"
+#include "core/i_acceleration_component.h"
+#include "core/i_target_holder_component.h"
 
 namespace engine {
 
@@ -26,9 +26,9 @@ void AttractorSystem::Init()
 
 void AttractorSystem::Update(double DeltaTime)
 {
-    for (auto actor : mScene.GetActorsFromMap( GetType_static() ))
+    for ( auto actor : mScene.GetActorsFromMap( GetType_static() ) )
     {
-        auto attractorC=actor->Get<IAttractorComponent>();
+        auto attractorC = actor->Get<IAttractorComponent>();
         auto positionC = actor->Get<IPositionComponent>();
         if (!attractorC.IsValid()||!positionC.IsValid())
         {

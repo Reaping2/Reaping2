@@ -64,6 +64,7 @@
 #include "dark_matter_collision_component.h"
 #include "attractable_component.h"
 #include "attractor_component.h"
+#include "activatable_component.h"
 
 using platform::AutoId;
 
@@ -148,4 +149,5 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "activity_component" ), &CreateComponent<ActivityComponent> );
     Bind( AutoId( "attractable_component" ), &CreateComponent<AttractableComponent> );
     Bind( AutoId( "attractor_component" ), &CreateComponent<AttractorComponent> );
+    Bind( AutoId( "activatable_component" ), &CreateComponent<ActivatableComponent> );
 }
