@@ -5,6 +5,7 @@
 #include "engine/collisions/collision_sub_system.h"
 #include "core/item.h"
 #include "core/item_type.h"
+#include "platform/settings.h"
 
 namespace engine {
 
@@ -19,6 +20,10 @@ struct PickupEvent : Event
 
 class PickupCollisionSubSystem : public CollisionSubSystem
 {
+    Settings& mSettings = Settings::Get();
+    int32_t mTextSize = 76;
+    int32_t mTextY = 50;
+    glm::vec4 mTextColor = glm::vec4( 1.0 );
 public:
     DEFINE_SUB_SYSTEM_BASE( PickupCollisionSubSystem )
     PickupCollisionSubSystem();

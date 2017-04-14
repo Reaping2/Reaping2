@@ -4,12 +4,15 @@
         "components":
         [
             {"name":"position_component"},
+            {"name":"move_component",
+                "set":{"moving":0}},
+            {"name":"activatable_component"},
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
             },
             {
                 "name":"pickup_collision_component",
-                "set":[{"class":"pickup", "radius":40}]
+                "set":[{"class":"activatable", "radius":40}]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"},
@@ -44,16 +47,62 @@
         ]
     },
     {
-        "name":"revive_pickup",
+        "name":"shop_pickup",
         "components":
         [
             {"name":"position_component"},
+            {"name":"move_component",
+                "set":{"moving":0}},
+            {"name":"activatable_component"},
             {"name":"renderable_component",
                 "set":[{"layer":"players"}]
             },
             {
                 "name":"pickup_collision_component",
-                "set":[{"class":"pickup", "radius":40}]
+                "set":[{"class":"activatable", "radius":40}]
+            },
+            {"name":"health_component"},
+            {"name":"remove_on_death_component"},
+            {"name":"pulse_component",
+                "set":[{
+                    "pulse_descs":[
+                            {
+                                "duration": 1.0,
+                                "variance": 0.2,
+                                "speed": 5,
+                                "comment": "background_size"
+                            },
+                            {
+                                "duration": 1.5,
+                                "variance": 0.2,
+                                "speed": 10,
+                                "comment": "weapon_size"
+                            },
+                            {
+                                "duration": 1.0,
+                                "variance": 0.05,
+                                "speed": 0.4,
+                                "comment": "weapon_rotation"
+                            }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        "name":"revive_pickup",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"move_component",
+                "set":{"moving":0}},
+            {"name":"activatable_component"},
+            {"name":"renderable_component",
+                "set":[{"layer":"players"}]
+            },
+            {
+                "name":"pickup_collision_component",
+                "set":[{"class":"activatable", "radius":40}]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"},

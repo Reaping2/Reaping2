@@ -10,6 +10,7 @@
 #include "core/item_type.h"
 #include "../item_changed_event.h"
 #include "core/i_activatable_component.h"
+#include "render/renderer.h"
 
 namespace engine {
 
@@ -21,10 +22,30 @@ PickupCollisionSubSystem::PickupCollisionSubSystem()
 
 void PickupCollisionSubSystem::Init()
 {
+    mTextSize = mSettings.GetInt( "item_price.size", 50 );
+    mTextY = mSettings.GetInt( "item_price.y", 50 );
+    mTextColor = mSettings.GetColor( "item_price.color", glm::vec4( 1.0 ) );
 }
 
 void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
+    if (pickupCC->GetPrice() > 0)
+    {
+        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        if (positionC.IsValid())
+        {
+            // TODO: this might be a not too nice place to put the text rendering
+            Text text( mTextSize, glm::vec4( positionC->GetX(), positionC->GetY() + mTextY, 500, 500 ),
+                mTextColor,
+                "dm"+std::to_string(pickupCC->GetPrice()), true );
+            static auto rendererSystem( Engine::Get().GetSystem<RendererSystem>() );
+            if (rendererSystem.IsValid())
+            {
+                rendererSystem->GetTextSceneRenderer().AddText( text );
+            }
+        }
+    }
     auto activatableC( actor.Get<IActivatableComponent>() );
     if (!activatableC.IsValid() || !activatableC->IsActivated())
     {
@@ -49,6 +70,12 @@ void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
+        if (pickupCC->GetPrice() > 0 && inventoryC->GetDarkMatters() < pickupCC->GetPrice())
+        {
+            return;
+        }
+        inventoryC->SetDarkMatters( inventoryC->GetDarkMatters() - pickupCC->GetPrice() );
+       
         int32_t prevItemId = -1;
         if (pickupCC->GetItemType() == ItemType::Weapon
             || pickupCC->GetItemType() == ItemType::Normal)

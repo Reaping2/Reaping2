@@ -14,6 +14,7 @@ PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()
     , mPickupContent( 0 )
     , mItemType( ItemType::Weapon )
+    , mPriceDarkMatters( 0 )
 {
 
 }
@@ -57,6 +58,16 @@ void PickupCollisionComponent::Save( Json::Value& component )
     component["set"] = SettersArr;
 }
 
+void PickupCollisionComponent::SetPrice( int32_t darkMatters )
+{
+    mPriceDarkMatters = darkMatters;
+}
+
+int32_t PickupCollisionComponent::GetPrice() const
+{
+    return mPriceDarkMatters;
+}
+
 void PickupCollisionComponentLoader::BindValues()
 {
     std::string istr;
@@ -68,6 +79,7 @@ void PickupCollisionComponentLoader::BindValues()
     {
         Bind<ItemType::Type>( &PickupCollisionComponent::SetItemType, ItemType::Get()( AutoId( istr ) ) );
     }
+    Bind( "price", func_int32_t(&PickupCollisionComponent::SetPrice) );
 }
 
 PickupCollisionComponentLoader::PickupCollisionComponentLoader()

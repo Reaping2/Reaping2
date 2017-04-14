@@ -13,12 +13,14 @@ public:
     virtual void SetItemType( ItemType::Type itemType );
     virtual ItemType::Type GetItemType() const;
     virtual void Save( Json::Value& component );
-
+    virtual void SetPrice( int32_t darkMatters );
+    virtual int32_t GetPrice() const;
 protected:
     PickupCollisionComponent();
     friend class ComponentFactory;
     int32_t mPickupContent;
     ItemType::Type mItemType;
+    int32_t mPriceDarkMatters;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -32,6 +34,7 @@ void PickupCollisionComponent::serialize( Archive& ar, const unsigned int versio
     ar& boost::serialization::base_object<CollisionComponent>( *this );
     ar& mPickupContent;
     ar& mItemType;
+    ar& mPriceDarkMatters;
 }
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>

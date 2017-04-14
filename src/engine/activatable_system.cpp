@@ -32,6 +32,7 @@ void ActivatableSystem::Update(double DeltaTime)
             continue;
         }
         activatableC->SetHighlighted( false );
+        activatableC->SetActivatorGUID( -1 );
     }
     for (auto& clientData : mProgramState.mClientDatas)
     {
@@ -92,11 +93,15 @@ void ActivatableSystem::Update(double DeltaTime)
         }
         if (minTarget.IsValid())
         {
-            minTarget =
+            auto closerTarget =
                 collisionSystem->GetFirstCollidingActor(
                     *player, minDistV,
                     15.0,
                     1 << CollisionClass::Activatable );
+            if (closerTarget.IsValid())
+            {
+                minTarget = closerTarget;
+            }
             auto targetActivatableC(minTarget->Get<IActivatableComponent>());
             if (targetActivatableC.IsValid())
             {

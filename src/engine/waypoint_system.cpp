@@ -10,6 +10,7 @@
 #include "ui/ui.h"
 #include "core/i_health_component.h"
 #include "items/flash_event.h"
+#include "core/i_activatable_component.h"
 
 namespace engine {
 
@@ -50,13 +51,10 @@ void WaypointSystem::Update(double DeltaTime)
                     EventServer<WaypointChangedEvent>::Get().SendEvent( { name, actor->GetGUID(), (*players.begin())->GetGUID(), WaypointChangedEvent::Lit } );
                 }
             }
-            for (auto&& player : players)
+            auto activatableC( actor->Get<IActivatableComponent>() );
+            if (activatableC.IsValid() && activatableC->IsActivated())
             {
-                Opt<PlayerControllerComponent> pcc( player->Get<IControllerComponent>() );
-                if (pcc.IsValid() && pcc->mActivate.GetValue())
-                {
-                    EventServer<WaypointChangedEvent>::Get().SendEvent( { "", actor->GetGUID(), player->GetGUID(),WaypointChangedEvent::Choose } );
-                }
+                EventServer<WaypointChangedEvent>::Get().SendEvent( { "", actor->GetGUID(), activatableC->GetActivatorGUID(),WaypointChangedEvent::Choose } );
             }
         }
     }

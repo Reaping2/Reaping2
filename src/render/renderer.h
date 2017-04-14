@@ -56,6 +56,7 @@ public:
 
     void SendWorldMouseMoveEvent();
     Camera const& GetCamera() const;
+    TextSceneRenderer& GetTextSceneRenderer();
     perf::Timer_t mPerfTimer;
 };
 } // namespace engine
