@@ -1,0 +1,12 @@
+[
+    {
+        "name":"pistol",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":1,
+            "key":0,
+            "gem":0
+        }
+    }
+]

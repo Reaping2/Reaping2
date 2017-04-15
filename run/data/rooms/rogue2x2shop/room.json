@@ -4103,7 +4103,7 @@
                      {
                         "content" : "rusty_reaper",
                         "type" : "weapon",
-                        "price" : 5
+                        "price" : 20
                      }
                   ]
                }
@@ -4128,9 +4128,7 @@
                   "name" : "pickup_collision_component",
                   "set" : [
                      {
-                        "content" : "gauss_gun",
-                        "type" : "weapon",
-                        "price" : 2
+                        "pickup_profile":"weapons_brown"
                      }
                   ]
                }
@@ -4171,9 +4169,7 @@
                   "name" : "pickup_collision_component",
                   "set" : [
                      {
-                        "content" : "HealOverTimeBuff",
-                        "type" : "buff",
-                        "price" : 1
+                        "pickup_profile":"buffs_brown"
                      }
                   ]
                }

@@ -1,0 +1,12 @@
+[
+    {
+        "name":"rocket_launcher",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":5,
+            "key":0,
+            "gem":0
+        }
+    }
+]

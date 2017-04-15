@@ -1,0 +1,12 @@
+[
+    {
+        "name":"blue_grenade_normal_item",
+        "type":"normal",
+        "price":
+        {
+            "dark_matter":2,
+            "key":0,
+            "gem":0
+        }
+    }
+]

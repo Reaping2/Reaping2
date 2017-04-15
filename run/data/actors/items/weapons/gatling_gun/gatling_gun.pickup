@@ -1,0 +1,12 @@
+[
+    {
+        "name":"gatling_gun",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":7,
+            "key":0,
+            "gem":0
+        }
+    }
+]
