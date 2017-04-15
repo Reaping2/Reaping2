@@ -30,7 +30,7 @@ void PickupCollisionSubSystem::Init()
 void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
     Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
-    if (pickupCC->GetPrice() > 0)
+    if (pickupCC->GetPrice().mDarkMatter > 0)
     {
         Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
         if (positionC.IsValid())
@@ -38,7 +38,7 @@ void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
             // TODO: this might be a not too nice place to put the text rendering
             Text text( mTextSize, glm::vec4( positionC->GetX(), positionC->GetY() + mTextY, 500, 500 ),
                 mTextColor,
-                "dm"+std::to_string(pickupCC->GetPrice()), true );
+                "dm"+std::to_string(pickupCC->GetPrice().mDarkMatter ), true );
             static auto rendererSystem( Engine::Get().GetSystem<RendererSystem>() );
             if (rendererSystem.IsValid())
             {
@@ -70,11 +70,11 @@ void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
-        if (pickupCC->GetPrice() > 0 && inventoryC->GetDarkMatters() < pickupCC->GetPrice())
+        if (pickupCC->GetPrice().mDarkMatter > 0 && inventoryC->GetDarkMatters() < pickupCC->GetPrice().mDarkMatter)
         {
             return;
         }
-        inventoryC->SetDarkMatters( inventoryC->GetDarkMatters() - pickupCC->GetPrice() );
+        inventoryC->SetDarkMatters( inventoryC->GetDarkMatters() - pickupCC->GetPrice().mDarkMatter );
        
         int32_t prevItemId = -1;
         if (pickupCC->GetItemType() == ItemType::Weapon

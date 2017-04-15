@@ -1,5 +1,7 @@
 #include "state.h"
 #include "act_factory.h"
+#include "platform/random.h"
+#include "core/map/level_generator/random.h"
 
 namespace scriptedcontroller {
 
@@ -163,7 +165,8 @@ int32_t State::GetIdentifier() const
 
 void State::ShuffleActIndices( int32_t ind )
 {
-    std::random_shuffle( mWeightedActIndicesGroups[ind].begin(), mWeightedActIndicesGroups[ind].end() );
+    // TODO: see pickup_profiles::Roll()
+    std::shuffle( mWeightedActIndicesGroups[ind].begin(), mWeightedActIndicesGroups[ind].end(), map::mRand );
 }
 
 } // namespace scriptedcontroller

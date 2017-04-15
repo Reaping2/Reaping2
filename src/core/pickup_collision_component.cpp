@@ -7,6 +7,8 @@
 #include "platform/id_storage.h"
 #include <portable_iarchive.hpp>
 #include <portable_oarchive.hpp>
+#include "pickup_profiles_repo.h"
+#include "pickup_desc_repo.h"
 
 using platform::AutoId;
 
@@ -14,7 +16,6 @@ PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()
     , mPickupContent( 0 )
     , mItemType( ItemType::Weapon )
-    , mPriceDarkMatters( 0 )
 {
 
 }
@@ -58,14 +59,28 @@ void PickupCollisionComponent::Save( Json::Value& component )
     component["set"] = SettersArr;
 }
 
-void PickupCollisionComponent::SetPrice( int32_t darkMatters )
+void PickupCollisionComponent::SetPrice( Price price )
 {
-    mPriceDarkMatters = darkMatters;
+    mPrice = price;
 }
 
-int32_t PickupCollisionComponent::GetPrice() const
+Price& PickupCollisionComponent::GetPrice()
 {
-    return mPriceDarkMatters;
+    return mPrice;
+}
+
+void PickupCollisionComponent::InitFromPickupProfile( int32_t profieId )
+{
+    static auto& mProfileRepo(core::PickupProfilesRepo::Get());
+    auto& profile(mProfileRepo( profieId ));
+
+    static auto& mPickupDescRepo( core::PickupDescRepo::Get() );
+    auto const& item = profile.Roll();
+    auto const pickupDesc = mPickupDescRepo( item.mPickupId );
+
+    mPrice = pickupDesc.mPrice;
+    mItemType = pickupDesc.mType;
+    mPickupContent = pickupDesc.mPickupContent;
 }
 
 void PickupCollisionComponentLoader::BindValues()
@@ -79,7 +94,17 @@ void PickupCollisionComponentLoader::BindValues()
     {
         Bind<ItemType::Type>( &PickupCollisionComponent::SetItemType, ItemType::Get()( AutoId( istr ) ) );
     }
-    Bind( "price", func_int32_t(&PickupCollisionComponent::SetPrice) );
+    int32_t priceDm = 0;
+    if (Json::GetInt( (*mSetters)["price"], priceDm ))
+    {
+        Price price;
+        price.mDarkMatter = priceDm;
+        Bind<Price>( &PickupCollisionComponent::SetPrice, price );
+    }
+    if (Json::GetStr( (*mSetters)["pickup_profile"], istr ))
+    {
+        Bind<int32_t>( &PickupCollisionComponent::InitFromPickupProfile, AutoId( istr ) );
+    }
 }
 
 PickupCollisionComponentLoader::PickupCollisionComponentLoader()
