@@ -1,0 +1,12 @@
+[
+    {
+        "name":"lucky_rocket",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":3,
+            "key":0,
+            "gem":0
+        }
+    }
+]

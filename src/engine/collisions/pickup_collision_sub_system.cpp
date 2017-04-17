@@ -9,6 +9,8 @@
 #include "core/buffs/buff_factory.h"
 #include "core/item_type.h"
 #include "../item_changed_event.h"
+#include "core/i_activatable_component.h"
+#include "render/renderer.h"
 
 namespace engine {
 
@@ -20,24 +22,65 @@ PickupCollisionSubSystem::PickupCollisionSubSystem()
 
 void PickupCollisionSubSystem::Init()
 {
+    mTextSize = mSettings.GetInt( "item_price.size", 50 );
+    mTextY = mSettings.GetInt( "item_price.y", 50 );
+    mTextColor = mSettings.GetColor( "item_price.color", glm::vec4( 1.0 ) );
 }
 
 void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 {
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
+    if (pickupCC->GetPrice().mDarkMatter > 0)
+    {
+        Opt<IPositionComponent> positionC = actor.Get<IPositionComponent>();
+        if (positionC.IsValid())
+        {
+            // TODO: this might be a not too nice place to put the text rendering
+            Text text( mTextSize, glm::vec4( positionC->GetX(), positionC->GetY() + mTextY, 500, 500 ),
+                mTextColor,
+                "dm"+std::to_string(pickupCC->GetPrice().mDarkMatter ), true );
+            static auto rendererSystem( Engine::Get().GetSystem<RendererSystem>() );
+            if (rendererSystem.IsValid())
+            {
+                rendererSystem->GetTextSceneRenderer().AddText( text );
+            }
+        }
+    }
+    auto activatableC( actor.Get<IActivatableComponent>() );
+    if (!activatableC.IsValid() || !activatableC->IsActivated())
+    {
+        return;
+    }
+    auto other( mScene.GetActor( activatableC->GetActivatorGUID() ) );
+    if (!other.IsValid())
+    {
+        return;
+    }
+    PickItUp( actor, *other );
 }
 
 void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
+    PickItUp( actor, other );
+}
 
+void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
+{
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
+        if (pickupCC->GetPrice().mDarkMatter > 0 && inventoryC->GetDarkMatters() < pickupCC->GetPrice().mDarkMatter)
+        {
+            return;
+        }
+        inventoryC->SetDarkMatters( inventoryC->GetDarkMatters() - pickupCC->GetPrice().mDarkMatter );
+       
         int32_t prevItemId = -1;
-        if ( pickupCC->GetItemType() == ItemType::Weapon
+        if (pickupCC->GetItemType() == ItemType::Weapon
             || pickupCC->GetItemType() == ItemType::Normal)
         {
-            auto item( inventoryC->GetSelectedItem(pickupCC->GetItemType()) );
+            auto item( inventoryC->GetSelectedItem( pickupCC->GetItemType() ) );
             if (item.IsValid())
             {
                 prevItemId = item->GetId();
@@ -46,12 +89,12 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
             inventoryC->SetSelectedItem( pickupCC->GetItemType(), pickupCC->GetPickupContent() );
 
         }
-        else if ( pickupCC->GetItemType() == ItemType::Buff )
+        else if (pickupCC->GetItemType() == ItemType::Buff)
         {
             Opt<IBuffHolderComponent> buffHolderC = other.Get<IBuffHolderComponent>();
-            if ( buffHolderC.IsValid() )
+            if (buffHolderC.IsValid())
             {
-                buffHolderC->AddBuff( core::BuffFactory::Get()( pickupCC->GetPickupContent() ) );
+                buffHolderC->AddBuff( core::BuffFactory::Get()(pickupCC->GetPickupContent()) );
             }
         }
 
@@ -66,7 +109,6 @@ void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
             healthC->SetHP( 0 );
         }
     }
-
 }
 
 } // namespace engine

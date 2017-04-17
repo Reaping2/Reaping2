@@ -1,0 +1,12 @@
+[
+    {
+        "name":"plasma_gun",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":2,
+            "key":0,
+            "gem":0
+        }
+    }
+]

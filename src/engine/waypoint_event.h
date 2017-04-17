@@ -9,14 +9,14 @@ namespace engine {
 struct WaypointChangedEvent : public platform::Event
 {
     std::string mWaypointName;
-    int32_t mWaypointGUID;
-    int32_t mPlayerGUID;
+    int32_t mWaypointGUID = -1;
+    int32_t mPlayerGUID = -1;
     enum State : int32_t
     {
         Lit = 0,
         Choose,
         Selected
-    } mState;
+    } mState = Lit;
     WaypointChangedEvent() = default;
     WaypointChangedEvent(std::string waypointName, int32_t waypointGUID, int32_t playerGUID, State state)
         :mWaypointName(waypointName),mWaypointGUID(waypointGUID), mPlayerGUID(playerGUID),mState(state){}

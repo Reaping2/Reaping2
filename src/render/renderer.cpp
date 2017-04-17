@@ -661,5 +661,10 @@ Camera const& RendererSystem::GetCamera() const
 }
 
 
+TextSceneRenderer& RendererSystem::GetTextSceneRenderer()
+{
+    return mTextSceneRenderer;
+}
+
 } // namespace engine
 

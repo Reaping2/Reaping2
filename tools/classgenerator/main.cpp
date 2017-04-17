@@ -813,20 +813,22 @@ class SystemGenerator : public Generator
                 fprintf( file.mFile, "    mOn%s=EventServer<%s::%sEvent>::Get().Subscribe( boost::bind( &%s::On%s, this, _1 ) );\n"
                          , VariableToCamelCase( i->second ).c_str(), i->first.c_str(), VariableToCamelCase( i->second ).c_str(), classCamelCase.c_str(), VariableToCamelCase( i->second ).c_str() );
             }
+            fprintf( file.mFile, "\n" );
+            fprintf( file.mFile, "    mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {\n" );
+            fprintf( file.mFile, "        return actor.Get<I%sComponent>().IsValid(); } );\n", targetCamelCase.c_str() );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );
 
             fprintf( file.mFile, "\n" );
             fprintf( file.mFile, "void %s::Update(double DeltaTime)\n", classCamelCase.c_str() );
             fprintf( file.mFile, "{\n" );
-            fprintf( file.mFile, "    for( ActorList_t::iterator it = mScene.GetActors().begin(), e = mScene.GetActors().end(); it != e; ++it )\n" );
+            fprintf( file.mFile, "    for ( auto actor : mScene.GetActorsFromMap( GetType_static() ) )\n" );
             fprintf( file.mFile, "    {\n" );
-            fprintf( file.mFile, "       Actor& actor = **it;\n" );
-            fprintf( file.mFile, "       Opt<I%sComponent> %sC=actor.Get<I%sComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
-            fprintf( file.mFile, "       if (!%sC.IsValid())\n", targetVariableName.c_str() );
-            fprintf( file.mFile, "       {\n" );
-            fprintf( file.mFile, "           continue;\n" );
-            fprintf( file.mFile, "       }\n" );
+            fprintf( file.mFile, "        Opt<I%sComponent> %sC = actor->Get<I%sComponent>();\n", targetCamelCase.c_str(), targetVariableName.c_str(), targetCamelCase.c_str() );
+            fprintf( file.mFile, "        if (!%sC.IsValid())\n", targetVariableName.c_str() );
+            fprintf( file.mFile, "        {\n" );
+            fprintf( file.mFile, "            continue;\n" );
+            fprintf( file.mFile, "        }\n" );
             fprintf( file.mFile, "    }\n" );
             fprintf( file.mFile, "}\n" );
             fprintf( file.mFile, "\n" );

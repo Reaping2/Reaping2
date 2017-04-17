@@ -29,7 +29,8 @@ void CollisionSystem::Init()
         return actor.Get<ICollisionComponent>().IsValid()
             && actor.Get<IPositionComponent>().IsValid()
             && ( actor.Get<IMoveComponent>().IsValid()
-              || actor.Get<ICollisionComponent>()->IsDynamicRadius() ); } );
+              || actor.Get<ICollisionComponent>()->IsDynamicRadius() ); 
+    } );
     mOnActorEvent = EventServer<ActorEvent>::Get().Subscribe( boost::bind( &CollisionSystem::OnActorEvent, this, _1 ) );
 }
 

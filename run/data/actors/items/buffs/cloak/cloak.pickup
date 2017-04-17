@@ -1,0 +1,12 @@
+[
+    {
+        "name":"CloakBuff",
+        "type":"buff",
+        "price":
+        {
+            "dark_matter":2,
+            "key":0,
+            "gem":0
+        }
+    }
+]

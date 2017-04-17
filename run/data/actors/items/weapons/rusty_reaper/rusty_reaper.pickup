@@ -1,0 +1,12 @@
+[
+    {
+        "name":"rusty_reaper",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":15,
+            "key":0,
+            "gem":0
+        }
+    }
+]

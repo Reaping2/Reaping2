@@ -19,8 +19,27 @@
             },
             {"name":"scripted_controller_component",
                 "set":[{"states":[{
-                    "identifier":"aggro",
+                    "identifier":"chillin",
                         "start":1,
+                        "transitions":[],
+                        "acts":[
+                            [
+                                { "name":"do_nothing","weight":2,
+                                    "params":{"duration":2.0,"duration_variance":1.0}}
+                            ],
+                            [
+                                { "name":"select_target", "weight":1,
+                                    "params":{"order_of_selection":["current","last_hit_by","closest"], "frequency":1.0} }
+                            ],
+                            [
+                                { "name":"turn_to_target","weight":2,
+                                    "params":{"duration":8.0,"duration_variance":4.0,"speed":240,"seek_path":0}}
+                            ]                                
+                        ]
+                    },
+                    {
+                        "identifier":"aggro",
+                        "start":0,
                         "transitions":[{
                             "conditions":
                                 [{ "name":"random","percent":20.0,"frequency":1.0 }],

@@ -4,6 +4,7 @@
 #include "core/collision_component.h"
 #include "item.h"
 #include "platform/export.h"
+#include "price.h"
 
 class PickupCollisionComponent : public CollisionComponent
 {
@@ -13,12 +14,15 @@ public:
     virtual void SetItemType( ItemType::Type itemType );
     virtual ItemType::Type GetItemType() const;
     virtual void Save( Json::Value& component );
-
+    virtual void SetPrice( Price price );
+    virtual Price& GetPrice();
+    virtual void InitFromPickupProfile( int32_t profieId );
 protected:
     PickupCollisionComponent();
     friend class ComponentFactory;
     int32_t mPickupContent;
     ItemType::Type mItemType;
+    Price mPrice;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -32,6 +36,7 @@ void PickupCollisionComponent::serialize( Archive& ar, const unsigned int versio
     ar& boost::serialization::base_object<CollisionComponent>( *this );
     ar& mPickupContent;
     ar& mItemType;
+    ar& mPrice;
 }
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>

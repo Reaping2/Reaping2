@@ -5,8 +5,7 @@
         [
             {"recognizer":"pickup",
                 "renderer":"pickup"}
-        ],
-        "type":"recognizer_desc"
+        ]
     },
     {
         "name":"revive_pickup",
@@ -16,7 +15,14 @@
                 "renderer":"death"},
             {"recognizer":"pickup",
                 "renderer":"pickup"}
-        ],
-        "type":"recognizer_desc"
+        ]
+    },
+    {
+        "name":"shop_pickup",
+        "recognizers":
+        [
+            {"recognizer":"pickup",
+                "renderer":"pickup"}
+        ]
     }
  ]

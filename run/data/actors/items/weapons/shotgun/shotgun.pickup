@@ -1,0 +1,12 @@
+[
+    {
+        "name":"shotgun",
+        "type":"weapon",
+        "price":
+        {
+            "dark_matter":4,
+            "key":0,
+            "gem":0
+        }
+    }
+]

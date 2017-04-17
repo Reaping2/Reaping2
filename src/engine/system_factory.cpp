@@ -153,6 +153,7 @@
 #include "attractor_system.h"
 #include "attractable_system.h"
 #include "network/dark_matter_message.h"
+#include "activatable_system.h"
 
 using platform::AutoId;
 namespace engine {
@@ -335,6 +336,7 @@ void SystemFactory::Init()
 
     Bind( AutoId( "attractor_system" ), &CreateSystem<engine::AttractorSystem> );
     Bind( AutoId( "attractable_system" ), &CreateSystem<engine::AttractableSystem> );
+    Bind( AutoId( "activatable_system" ), &CreateSystem<engine::ActivatableSystem> ); 
 }
 
 REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )
