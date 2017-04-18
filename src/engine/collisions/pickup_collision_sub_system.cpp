@@ -61,7 +61,11 @@ void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 
 void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    PickItUp( actor, other );
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
+    if (pickupCC->IsPickupOnCollision())
+    {
+        PickItUp( actor, other );
+    }
 }
 
 void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
@@ -96,6 +100,10 @@ void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
             {
                 buffHolderC->AddBuff( core::BuffFactory::Get()(pickupCC->GetPickupContent()) );
             }
+        }
+        else if (pickupCC->GetItemType() == ItemType::Key)
+        {
+            inventoryC->SetKeys( pickupCC->GetPickupContent(), inventoryC->GetKeys( pickupCC->GetPickupContent() ) + 1 );
         }
 
         EventServer<PickupEvent>::Get().SendEvent( PickupEvent( Opt<Actor>( &other ), pickupCC->GetItemType(), pickupCC->GetPickupContent() ) );

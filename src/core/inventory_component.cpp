@@ -135,6 +135,19 @@ bool InventoryComponent::IsCollectDarkMatter() const
     return mCollectDarkMatter;
 }
 
+
+void InventoryComponent::SetKeys( int32_t keyId, int32_t keys )
+{
+    mKeys[keyId] = keys;
+}
+
+
+int32_t InventoryComponent::GetKeys( int32_t keyId ) const
+{
+    auto found = mKeys.find( keyId );
+    return found != mKeys.end() ? found->second : 0;
+}
+
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;

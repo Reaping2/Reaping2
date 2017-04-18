@@ -22,6 +22,7 @@ public:
         Normal = 0,
         Weapon,
         Buff,
+        Key,
         Num_Classes
     };
     ItemType::Type operator()( int32_t Id ) const;

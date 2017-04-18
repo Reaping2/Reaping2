@@ -16,6 +16,8 @@ PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()
     , mPickupContent( 0 )
     , mItemType( ItemType::Weapon )
+    , mAutoPrice( false )
+    , mPickupOnCollision( false )
 {
 
 }
@@ -69,6 +71,32 @@ Price& PickupCollisionComponent::GetPrice()
     return mPrice;
 }
 
+void PickupCollisionComponent::SetAutoPrice( bool autoPrice )
+{
+    mAutoPrice = autoPrice;
+    if ( mAutoPrice&&mPickupContent > 0)
+    {
+        static auto& mPickupDescRepo( core::PickupDescRepo::Get() );
+        auto const pickupDesc = mPickupDescRepo( mPickupContent );
+        mPrice = pickupDesc.mPrice;
+    }
+}
+
+bool PickupCollisionComponent::IsAutoPrice() const
+{
+    return mAutoPrice;
+}
+
+void PickupCollisionComponent::SetPickupOnCollision( bool pickup )
+{
+    mPickupOnCollision = pickup;
+}
+
+bool PickupCollisionComponent::IsPickupOnCollision() const
+{
+    return mPickupOnCollision;
+}
+
 void PickupCollisionComponent::InitFromPickupProfile( int32_t profieId )
 {
     static auto& mProfileRepo(core::PickupProfilesRepo::Get());
@@ -78,7 +106,10 @@ void PickupCollisionComponent::InitFromPickupProfile( int32_t profieId )
     auto const& item = profile.Roll();
     auto const pickupDesc = mPickupDescRepo( item.mPickupId );
 
-    mPrice = pickupDesc.mPrice;
+    if (mAutoPrice)
+    {
+        mPrice = pickupDesc.mPrice;
+    }
     mItemType = pickupDesc.mType;
     mPickupContent = pickupDesc.mPickupContent;
 }
@@ -105,6 +136,10 @@ void PickupCollisionComponentLoader::BindValues()
     {
         Bind<int32_t>( &PickupCollisionComponent::InitFromPickupProfile, AutoId( istr ) );
     }
+
+    Bind( "auto_price", func_bool( &PickupCollisionComponent::SetAutoPrice ) );
+
+    Bind( "pickup_on_collision", func_bool( &PickupCollisionComponent::SetPickupOnCollision ) );
 }
 
 PickupCollisionComponentLoader::PickupCollisionComponentLoader()

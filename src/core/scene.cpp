@@ -306,6 +306,11 @@ int32_t GetDarkMatters( Actor* a )
     Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
     return inventoryC.IsValid()?inventoryC->GetDarkMatters():0;
 }
+int32_t GetKeys( Actor* a, int32_t keyId )
+{
+    Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
+    return inventoryC.IsValid() ? inventoryC->GetKeys(keyId) : 0;
+}
 double GetSpecialId( Actor* a )
 {
     Opt<IInventoryComponent> inventoryC = a->Get<IInventoryComponent>();
@@ -354,6 +359,8 @@ void Scene::SetPlayerModels( Opt<Actor> actor )
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetSumBullets, actor.Get() ), "sum_bullets", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetSumBulletsMax, actor.Get() ), "sum_bullets_max", &mPlayerModel ) );
     mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetDarkMatters, actor.Get() ), "dark_matters", &mPlayerModel ) );
+
+    mPlayerModels.push_back( new ModelValue( (ModelValue::get_int_t) boost::lambda::bind( &GetKeys, actor.Get(), AutoId("bronze_key") ), "bronze_keys", &mPlayerModel ) );
 }
 
 

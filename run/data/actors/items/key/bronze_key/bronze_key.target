@@ -1,0 +1,11 @@
+[
+    {
+        "target_name": "revive_pickup",
+        "name": "bronze_key",
+        "setters":
+        {
+            "type_id": "key",
+            "content_id": "bronze_key"
+        }
+    }
+]

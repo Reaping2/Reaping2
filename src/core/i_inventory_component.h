@@ -19,7 +19,7 @@ public:
 protected:
     struct ItemGroup
     {
-        typedef std::vector<std::shared_ptr<Item>> Items_t;
+        using Items_t = std::vector<std::shared_ptr<Item>>;
         Opt<Item> AddItem( std::unique_ptr<Item> item );
         Opt<Item> GetItem( int32_t Id );
         Opt<Item> GetSelectedItem();
@@ -36,7 +36,7 @@ protected:
     };
 public:
     DEFINE_COMPONENT_BASE( IInventoryComponent )
-    typedef std::map<ItemType::Type, ItemGroup > ItemMap_t;
+    using ItemMap_t = std::map<ItemType::Type, ItemGroup >;
     virtual ItemMap_t const& GetItems()const = 0;
     virtual ItemMap_t& GetItems() = 0;
     virtual Opt<Item> AddItem( int32_t Id ) = 0;
@@ -52,6 +52,9 @@ public:
     virtual int32_t GetDarkMatters()const = 0;
     virtual void SetCollectDarkMatter( bool collectDarkMatter ) = 0;
     virtual bool IsCollectDarkMatter()const = 0;
+    using KeyMap_t = std::map<int32_t, int32_t>;
+    virtual void SetKeys( int32_t keyId, int32_t keys ) = 0;
+    virtual int32_t GetKeys( int32_t keyId )const = 0;
 protected:
     friend class ComponentFactory;
     friend class ::boost::serialization::access;

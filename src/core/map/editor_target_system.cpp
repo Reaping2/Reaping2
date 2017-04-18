@@ -77,6 +77,7 @@ void EditorTargetSystem::Init()
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Guns, this ), "guns", &pickupModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Buffs, this ), "buffs", &pickupModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Items, this ), "items", &pickupModel ) );
+    mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) RefTo(mKeyVisualIds), "keys", &pickupModel ) );
     // targets
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::MapItems, this ), "mapitems", &targetModel ) );
     mEditorModels.push_back( new ModelValue( (ModelValue::get_int_vec_t) boost::bind( &EditorTargetSystem::Spawnpoints, this ), "spawnpoints", &targetModel ) );
@@ -88,7 +89,8 @@ void EditorTargetSystem::Init()
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"gun",_2) ), "guntarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"buff",_2) ), "bufftarget", &editorModel ) );
     mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged,this,"item",_2) ), "itemtarget", &editorModel ) );
-    
+    mEditorModels.push_back( new ModelValue( IntFunc( this, boost::bind(&EditorTargetSystem::TargetChanged, this, "key", _2 ) ), "keytarget", &editorModel ) );
+
     /// ------ Pickups ------
     // guns
     CollectPickupAutoids("weapon", mGunActorIds);
@@ -104,6 +106,12 @@ void EditorTargetSystem::Init()
     CollectPickupAutoids("normal", mItemActorIds);
     // mapping the visual ids to the actor ids
     mItemVisualIds = mItemActorIds;
+
+    // keys
+    CollectPickupAutoids( "key", mKeyActorIds );
+    // mapping the visual ids to the actor ids
+    mKeyVisualIds = mKeyActorIds;
+
 
     /// ------ Targets ------
     using namespace boost::assign;
@@ -132,6 +140,7 @@ void EditorTargetSystem::Init()
     mTargetActorIdsMap["gun"] = mGunActorIds;
     mTargetActorIdsMap["buff"] = mBuffActorIds;
     mTargetActorIdsMap["item"] = mItemActorIds;
+    mTargetActorIdsMap["key"] = mKeyActorIds;
 
 }
 

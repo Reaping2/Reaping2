@@ -16,6 +16,10 @@ public:
     virtual void Save( Json::Value& component );
     virtual void SetPrice( Price price );
     virtual Price& GetPrice();
+    virtual void SetAutoPrice( bool autoPrice );
+    virtual bool IsAutoPrice() const;
+    virtual void SetPickupOnCollision( bool pickup );
+    virtual bool IsPickupOnCollision() const;
     virtual void InitFromPickupProfile( int32_t profieId );
 protected:
     PickupCollisionComponent();
@@ -23,6 +27,8 @@ protected:
     int32_t mPickupContent;
     ItemType::Type mItemType;
     Price mPrice;
+    bool mAutoPrice;
+    bool mPickupOnCollision;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -37,6 +43,8 @@ void PickupCollisionComponent::serialize( Archive& ar, const unsigned int versio
     ar& mPickupContent;
     ar& mItemType;
     ar& mPrice;
+    ar& mAutoPrice;
+    ar& mPickupOnCollision;
 }
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>
