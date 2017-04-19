@@ -1,6 +1,6 @@
 [
     {
-        "name":"end",
+        "name":"wooden_chest",
         "components":
         [
             {"name":"position_component"},
@@ -11,8 +11,7 @@
             },
             {"name":"collision_component",
                 "set":[{"class":"activatable", "radius":75}]
-            },
-            {"name":"waypoint_component"}
+            }
         ]
     }
 ]

@@ -11,6 +11,7 @@
 #include "core/i_health_component.h"
 #include "items/flash_event.h"
 #include "core/i_activatable_component.h"
+#include "core/i_switch_component.h"
 
 namespace engine {
 
@@ -47,14 +48,19 @@ void WaypointSystem::Update(double DeltaTime)
                 auto found = std::find_if( mWaypointsData.mWaypointGUIDs.begin(), mWaypointsData.mWaypointGUIDs.end(), [&actor]( auto&& p ) { return p.second == actor->GetGUID(); } );
                 if (found == mWaypointsData.mWaypointGUIDs.end())
                 {
-                    auto const name = WaypointName + " " + std::to_string( mWaypointsData.mNextWaypointCounter );
-                    EventServer<WaypointChangedEvent>::Get().SendEvent( { name, actor->GetGUID(), (*players.begin())->GetGUID(), WaypointChangedEvent::Lit } );
+                    EventServer<WaypointChangedEvent>::Get().SendEvent( { "", actor->GetGUID(), (*players.begin())->GetGUID(), WaypointChangedEvent::StartLit } );
                 }
             }
             auto activatableC( actor->Get<IActivatableComponent>() );
             if (activatableC.IsValid() && activatableC->IsActivated())
             {
                 EventServer<WaypointChangedEvent>::Get().SendEvent( { "", actor->GetGUID(), activatableC->GetActivatorGUID(),WaypointChangedEvent::Choose } );
+            }
+            auto switchC( actor->Get<ISwitchComponent>() );
+            if (switchC.IsValid() && switchC->IsStateChanged() && switchC->GetState() == SwitchState::On)
+            {
+                auto const name = WaypointName + " " + std::to_string( mWaypointsData.mNextWaypointCounter );
+                EventServer<WaypointChangedEvent>::Get().SendEvent( { name, actor->GetGUID(), activatableC->GetActivatorGUID(),WaypointChangedEvent::Lit } );
             }
         }
     }
@@ -84,7 +90,20 @@ void WaypointSystem::OnMapStart( core::MapStartEvent const& Evt )
 
 void WaypointSystem::OnWaypointChanged( WaypointChangedEvent const& Evt )
 {
-    if (Evt.mState == WaypointChangedEvent::Lit)
+    if (Evt.mState == WaypointChangedEvent::StartLit)
+    {
+        auto waypoint( mScene.GetActor( Evt.mWaypointGUID ) );
+        if (waypoint.IsValid())
+        {
+            auto switchC( waypoint->Get<ISwitchComponent>());
+            if (switchC.IsValid())
+            {
+                switchC->SetState( SwitchState::TransitionToOn );
+                switchC->SetSecsToEnd( switchC->GetSecsToEndMax() );
+            }
+        }
+    }
+    else if (Evt.mState == WaypointChangedEvent::Lit)
     {
         mWaypointsData.mWaypointNames.push_back( Evt.mWaypointName );
         mWaypointsData.mWaypointGUIDs[Evt.mWaypointName] = Evt.mWaypointGUID;
@@ -92,10 +111,10 @@ void WaypointSystem::OnWaypointChanged( WaypointChangedEvent const& Evt )
         auto waypoint( mScene.GetActor( Evt.mWaypointGUID ) );
         if (waypoint.IsValid())
         {
-            auto waypointC( waypoint->Get<IWaypointComponent>());
-            if (waypointC.IsValid())
+            auto switchC( waypoint->Get<ISwitchComponent>() );
+            if (switchC.IsValid())
             {
-                waypointC->SetLit( true );
+                switchC->SetState( SwitchState::On );
             }
         }
     }

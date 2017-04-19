@@ -9,11 +9,8 @@ class WaypointComponent : public IWaypointComponent
 {
 public:
     WaypointComponent();
-    virtual void SetLit( bool lit );
-    virtual bool IsLit() const;
 protected:
     friend class ComponentFactory;
-    bool mLit = false;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -24,7 +21,6 @@ template<class Archive>
 void WaypointComponent::serialize(Archive& ar, const unsigned int version)
 {
     ar& boost::serialization::base_object<IWaypointComponent>(*this);
-    ar& mLit;
 }
 
 class WaypointComponentLoader : public ComponentLoader<WaypointComponent>

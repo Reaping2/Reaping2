@@ -13,7 +13,8 @@ struct WaypointChangedEvent : public platform::Event
     int32_t mPlayerGUID = -1;
     enum State : int32_t
     {
-        Lit = 0,
+        StartLit = 0,
+        Lit,
         Choose,
         Selected
     } mState = Lit;

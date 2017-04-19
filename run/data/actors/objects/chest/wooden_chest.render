@@ -1,6 +1,6 @@
 [
     {
-        "name":"end",
+        "name":"wooden_chest",
         "recognizers":
         [
             {"recognizer":"idle",
