@@ -1,0 +1,11 @@
+[
+    {
+        "name":"buffs_brown",
+        "items":
+        [
+            {"name":"AccuracyBuff","weight":4},
+            {"name":"HealOverTimeBuff","weight":4},
+            {"name":"MoveSpeedBuff","weight":2}
+        ]
+    }
+]

@@ -69,7 +69,7 @@
     {
         "sleep":0,
         "frame_rate":100,
-        "limit_frames":1
+        "limit_frames":0
     },
     "soldier_name":
     {
@@ -149,6 +149,32 @@
             "reload": "b4",
             "show_leaderboard": "b2",
             "pause": "b7"
+        },
+        "keyboard_and_mouse":
+        {
+                "shoot": "mb1",
+                "shoot_alt": "mb2",
+                "move_left": "a",
+                "move_right": "d",
+                "move_up": "w",
+                "move_down": "s",
+                "use_normal": "space",
+                "reload": "r",
+                "show_leaderboard": "tab",
+                "pause": "escape",
+                "activate":"e",
+                "switch_weapon":"q",
+                "switch_item":"f"
         }
+    },
+    "fast_start":
+    {
+        "rogue":
+            [{"action":[["local.start"]]},
+             {"action":[["soldier_properties.ready"]]},
+             {"action":[["ui.load","select_level"],["gamemode.select","@param1|rogue"]]},
+             {"action":[["level.select_by_name","@param2|rogue2"]]},
+             {"action":[["lifecycle.host"]]}]   
+             
     }
 }
