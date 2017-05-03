@@ -102,9 +102,10 @@ void PickupCollisionComponent::InitFromPickupProfile( int32_t profieId )
     static auto& mProfileRepo(core::PickupProfilesRepo::Get());
     auto& profile(mProfileRepo( profieId ));
 
-    static auto& mPickupDescRepo( core::PickupDescRepo::Get() );
     auto const& item = profile.Roll();
-    auto const pickupDesc = mPickupDescRepo( item.mPickupId );
+	
+	static auto& mPickupDescRepo(core::PickupDescRepo::Get());
+	auto const pickupDesc = mPickupDescRepo(item.mPickupId);
 
     if (mAutoPrice)
     {
@@ -125,11 +126,11 @@ void PickupCollisionComponentLoader::BindValues()
     {
         Bind<ItemType::Type>( &PickupCollisionComponent::SetItemType, ItemType::Get()( AutoId( istr ) ) );
     }
-    int32_t priceDm = 0;
-    if (Json::GetInt( (*mSetters)["price"], priceDm ))
+    auto const& priceJson = ( *mSetters )["price"];
+    if( priceJson.isObject() )
     {
         Price price;
-        price.mDarkMatter = priceDm;
+        price.Load( priceJson );
         Bind<Price>( &PickupCollisionComponent::SetPrice, price );
     }
     if (Json::GetStr( (*mSetters)["pickup_profile"], istr ))

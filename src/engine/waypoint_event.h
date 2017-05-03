@@ -21,7 +21,6 @@ struct WaypointChangedEvent : public platform::Event
     WaypointChangedEvent() = default;
     WaypointChangedEvent(std::string waypointName, int32_t waypointGUID, int32_t playerGUID, State state)
         :mWaypointName(waypointName),mWaypointGUID(waypointGUID), mPlayerGUID(playerGUID),mState(state){}
-    friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 

@@ -12,6 +12,7 @@
 #include <vector>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include "price.h"
 class IInventoryComponent : public Component
 {
 public:
@@ -55,6 +56,8 @@ public:
     using KeyMap_t = std::map<int32_t, int32_t>;
     virtual void SetKeys( int32_t keyId, int32_t keys ) = 0;
     virtual int32_t GetKeys( int32_t keyId )const = 0;
+    virtual bool CanPay( Price const& price ) const = 0;
+    virtual void Pay( Price const& price ) = 0;
 protected:
     friend class ComponentFactory;
     friend class ::boost::serialization::access;

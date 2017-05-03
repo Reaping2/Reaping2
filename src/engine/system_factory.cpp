@@ -155,6 +155,8 @@
 #include "network/dark_matter_message.h"
 #include "activatable_system.h"
 #include "switch_system.h"
+#include "chest_system.h"
+#include "network/chest_message.h"
 
 using platform::AutoId;
 namespace engine {
@@ -260,6 +262,7 @@ void SystemFactory::Init()
     Bind( AutoId( "suppress_message_sender_system" ), &CreateSystem<network::SuppressMessageSenderSystem> );
     Bind( AutoId( "waypoint_message_sender_system" ), &CreateSystem<network::WaypointMessageSenderSystem> );
     Bind( AutoId( "waypoints_data_message_sender_system" ), &CreateSystem<network::WaypointsDataMessageSenderSystem> );
+    Bind( AutoId( "chest_message_sender_system" ), &CreateSystem<network::ChestMessageSenderSystem> );
 
     Bind( AutoId( "ctf_client_list_displaying_system" ), &CreateSystem<network::CtfClientListDisplayingSystem> );
     Bind( AutoId( "ctf_client_list_handling_system" ), &CreateSystem<network::CtfClientListHandlingSystem> );
@@ -339,6 +342,7 @@ void SystemFactory::Init()
     Bind( AutoId( "attractable_system" ), &CreateSystem<engine::AttractableSystem> );
     Bind( AutoId( "activatable_system" ), &CreateSystem<engine::ActivatableSystem> ); 
     Bind( AutoId( "switch_system" ), &CreateSystem<engine::SwitchSystem> );
+    Bind( AutoId( "chest_system" ), &CreateSystem<engine::ChestSystem> );
 }
 
 REGISTER_INIT_PRIO( bbb, SystemFactory, boost::bind( &SystemFactory::Init, &SystemFactory::Get() ) )

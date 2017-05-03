@@ -4103,7 +4103,10 @@
                      {
                         "content" : "rusty_reaper",
                         "type" : "weapon",
-                        "price" : 20
+                        "price" : 
+                        {
+                            "dark_matter":1
+                        }
                      }
                   ]
                }

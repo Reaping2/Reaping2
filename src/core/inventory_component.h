@@ -28,6 +28,8 @@ public:
     virtual bool IsCollectDarkMatter() const;
     virtual void SetKeys( int32_t keyId, int32_t keys );
     virtual int32_t GetKeys( int32_t keyId )const;
+    virtual bool CanPay( Price const& price ) const;
+    virtual void Pay( Price const& price );
     virtual ~InventoryComponent();
 protected:
     InventoryComponent();

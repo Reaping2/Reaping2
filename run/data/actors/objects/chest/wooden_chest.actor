@@ -9,8 +9,19 @@
             {"name":"renderable_component",
                 "set":[{"layer":"background", "receive_blood": 1, "receive_shadow": 1}]
             },
-            {"name":"collision_component",
-                "set":[{"class":"activatable", "radius":75}]
+            {"name":"wall_collision_component",
+                "set":[{"class":"activatable", "radius":50}]
+            },
+            {"name":"chest_component",
+                "set":
+                {
+                    "price" : 
+                    {
+                        "dark_matter":0,
+                        "keys":[{"name":"bronze_key","count":1}]
+                    },
+                    "pickup_profile":"weapons_brown"
+                }
             }
         ]
     }
