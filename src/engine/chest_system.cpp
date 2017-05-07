@@ -5,6 +5,11 @@
 #include "core/i_switch_component.h"
 #include "platform/event.h"
 #include "core/i_inventory_component.h"
+#include "core/i_collision_component.h"
+#include "core/pickup_collision_component.h"
+#include "core/i_position_component.h"
+#include "core/i_move_component.h"
+#include "platform/random.h"
 
 namespace engine {
 
@@ -72,9 +77,19 @@ void ChestSystem::OnChestChanged( ChestChangedEvent const& Evt )
     {
         return;
     }
-        
+    auto chestC = actor->Get<IChestComponent>();
+    if (!chestC.IsValid())
+    {
+        return;
+    }
+    auto activatableC( actor->Get<IActivatableComponent>() );
+    if (!activatableC.IsValid())
+    {
+        return;
+    }
     if (Evt.mState == ChestChangedEvent::StartOpen)
     {
+        activatableC->SetEnabled( false );
         auto player( mScene.GetActor( Evt.mPlayerGUID ) );
         if (player.IsValid())
         {
@@ -86,11 +101,31 @@ void ChestSystem::OnChestChanged( ChestChangedEvent const& Evt )
             }
         }
         switchC->SetState( SwitchState::TransitionToOn );
-        switchC->SetSecsToEnd( switchC->GetSecsToEnd() );
+        switchC->SetSecsToEnd( switchC->GetSecsToEndMax() );
     }
     else if (Evt.mState == ChestChangedEvent::Opened)
     {
         switchC->SetState( SwitchState::On );
+        if (mProgramState.mMode != core::ProgramState::Client)
+        {
+            static auto& mActorFactory( ActorFactory::Get() );
+            std::auto_ptr<Actor> pickup = mActorFactory( AutoId( "shop_pickup" ) );
+            Opt<PickupCollisionComponent> pickupCC = pickup->Get<ICollisionComponent>();
+            Opt<IPositionComponent> puPositionC = pickup->Get<IPositionComponent>();
+            Opt<IMoveComponent> puMoveC = pickup->Get<IMoveComponent>();
+            auto positionC = actor->Get<IPositionComponent>();
+            BOOST_ASSERT( pickupCC.IsValid() && puPositionC.IsValid() && positionC.IsValid() && puMoveC.IsValid() );
+
+            puPositionC->SetX( positionC->GetX() );
+            puPositionC->SetY( positionC->GetY() );
+            pickupCC->SetPickupDesc( chestC->GetPickupDesc() );
+            puMoveC->SetHeading( 
+                (platform::RandomGenerator::global()()*101)/100.0
+                    *boost::math::constants::pi<double>() );
+            puMoveC->SetSpeed( 200.0 );
+            puMoveC->SetMoving( true );
+            mScene.AddActor( pickup.release() );
+        }
     }
 }
 

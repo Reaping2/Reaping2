@@ -21,3 +21,9 @@ void Price::Load( Json::Value const& setters )
         }
     }
 }
+
+void Price::Clear()
+{
+    mDarkMatter = 0;
+    mKeys.clear();
+}

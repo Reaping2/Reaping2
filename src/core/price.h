@@ -12,9 +12,10 @@ struct Price
     int32_t mDarkMatter = 0;
     using KeyMap_t = std::map<int32_t, int32_t>;
     KeyMap_t mKeys;
+    // don't forget method Clear();
 
     void Load( Json::Value const& setters );
-
+    void Clear();
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 };

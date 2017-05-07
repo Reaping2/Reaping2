@@ -159,7 +159,7 @@ double distance( CollisionModel::Object const& a, CollisionModel::Object const& 
 }
 }
 
-Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius, int32_t collMask ) const
+Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius, int32_t collMask, AcceptFunction_t acceptFunc ) const
 {
     CollisionModel::Object ObjA( CollisionModel::ObjectFromActor( actor ) );
     if( radius > -0.1 )
@@ -173,6 +173,10 @@ Opt<Actor> CollisionSystem::GetFirstCollidingActor( Actor const& actor, glm::vec
     double dist = std::numeric_limits<double>::max();
     for( auto act : all )
     {
+        if (!acceptFunc( *act ))
+        {
+            continue;
+        }
         static BoxCollisionModel collModel;
         CollisionModel::Object ObjB( CollisionModel::ObjectFromActor( *act ) );
         ObjB.speed = glm::vec2();
@@ -211,6 +215,10 @@ bool CollisionSystem::IsColliding( Actor const& actor ) const
     return false;
 }
 
+bool Accept( Actor const& actor )
+{
+    return true;
+}
 
 } // namespace engine
 

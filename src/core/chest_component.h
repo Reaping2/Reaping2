@@ -14,12 +14,15 @@ public:
     virtual int32_t GetPickupProfile() const;
     virtual void SetPrice( Price price );
     virtual Price GetPrice() const;
+    void InitFromPickupProfile( int32_t profileId );
+    virtual void SetPickupDesc( core::PickupDesc const& pickupDesc );
+    virtual core::PickupDesc const& GetPickupDesc() const;
 protected:
     friend class ComponentFactory;
     int32_t mPickupProfile;
     Price mPrice;
+    core::PickupDesc mPickupDesc;
 public:
-    friend class ::boost::serialization::access;
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 };
@@ -30,6 +33,7 @@ void ChestComponent::serialize(Archive& ar, const unsigned int version)
     ar& boost::serialization::base_object<IChestComponent>(*this);
     ar& mPickupProfile;
     ar& mPrice;
+    ar& mPickupDesc;
 }
 
 class ChestComponentLoader : public ComponentLoader<ChestComponent>

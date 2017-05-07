@@ -9,7 +9,7 @@
                 "h" : 50,
                 "name" : "idle",
                 "phases":[{"x":0,"y":0}],
-                "scale" : 1.0,
+                "scale" : 1.5,
                 "secs_to_end" : 0.55
             }], "name" : "wooden_chest"
         }]
@@ -24,7 +24,7 @@
                 "h" : 50,
                 "name" : "off",
                 "phases":[{"x":0,"y":0}],
-                "scale" : 1.0,
+                "scale" : 1.5,
                 "secs_to_end" : 0.55
             }], "name" : "wooden_chest"
         }]
@@ -39,7 +39,7 @@
                 "h" : 50,
                 "name" : "transition_to_on",
                 "phases":[{"x":0,"y":0}],
-                "scale" : 1.0,
+                "scale" : 1.5,
                 "secs_to_end" : 0.55
             }], "name" : "wooden_chest"
         }]
@@ -54,7 +54,7 @@
                 "h" : 50,
                 "name" : "on",
                 "phases":[{"x":0,"y":0}],
-                "scale" : 1.0,
+                "scale" : 1.5,
                 "secs_to_end" : 0.55
             }], "name" : "wooden_chest"
         }]

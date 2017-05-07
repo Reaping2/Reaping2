@@ -2,7 +2,7 @@
 #define INCLUDED_CORE_I_CHEST_COMPONENT_H
 
 #include "component.h"
-#include "price.h"
+#include "pickup_desc_repo.h"
 
 class IChestComponent : public Component
 {
@@ -12,6 +12,8 @@ public:
     virtual int32_t GetPickupProfile()const=0;
     virtual void SetPrice(Price price)=0;
     virtual Price GetPrice()const=0;
+    virtual void SetPickupDesc( core::PickupDesc const& pickupDesc )=0;
+    virtual core::PickupDesc const& GetPickupDesc() const=0;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>

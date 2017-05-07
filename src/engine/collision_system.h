@@ -12,6 +12,8 @@
 
 namespace engine {
 
+bool Accept( Actor const& actor );
+
 class CollisionSystem : public System, public SubSystemHolder
 {
 public:
@@ -23,7 +25,8 @@ public:
     bool IsColliding( Actor const& actor ) const;
     static const int32_t VisibleMask = 1 << CollisionClass::Creep
         | 1 << CollisionClass::Player | 1 << CollisionClass::Wall;
-    Opt<Actor> GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius = -1.0, int32_t collMask = VisibleMask ) const;
+    using AcceptFunction_t = std::function<bool(Actor const&)>;
+    Opt<Actor> GetFirstCollidingActor( Actor const& actor, glm::vec2 const& direction, double radius = -1.0, int32_t collMask = VisibleMask, AcceptFunction_t acceptFunc = Accept ) const;
 private:
     Opt<CollisionSubSystem> GetCollisionSubSystem( int32_t id );
     Grid mCollisionGrid;
