@@ -257,6 +257,16 @@ bool RoomDesc::FitsInto( RoomDesc const& roomDesc, int32_t flags ) const
     return r;
 }
 
+int32_t RoomDesc::GetChestId() const
+{
+    return mChestId;
+}
+
+void RoomDesc::SetChestId( int32_t chestId )
+{
+    mChestId = chestId;
+}
+
 void Cell::AddEntrance( EntranceType::Type const& entrance )
 {
     mPossibleEntrances.insert( entrance );

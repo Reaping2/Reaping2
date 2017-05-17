@@ -4,6 +4,7 @@
 #include "room_start_property.h"
 #include "room_end_property.h"
 #include "spawn_property.h"
+#include "chest_property.h"
 
 using platform::AutoId;
 namespace map {
@@ -16,6 +17,7 @@ PropertyFactory::PropertyFactory()
     Bind( AutoId( "room_start" ), &CreateIProperty<RoomStartProperty> );
     Bind( AutoId( "room_end" ), &CreateIProperty<RoomEndProperty> );
     Bind( AutoId( "spawn" ), &CreateIProperty<SpawnProperty> );
+    Bind( AutoId( "chest" ), &CreateIProperty<ChestProperty> );
 }
 
 } // namespace map

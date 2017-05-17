@@ -44,6 +44,9 @@ class PositionComponentLoader: public ComponentLoader<PositionComponent>
 {
 public:
     DEFINE_COMPONENT_LOADER_BASE( PositionComponentLoader )
+
+    static std::unique_ptr<PositionComponentLoader> FromActor( Actor const& actor );
+    static std::unique_ptr<PositionComponentLoader> FromPosition( double x, double y );
 private:
     virtual void BindValues();
 protected:

@@ -57,36 +57,38 @@ void DropOnDeathSystem::Update( double DeltaTime )
 #else
             static const size_t Mod = 2;
 #endif//DEBUG
-            if( RandomGenerator::global()() % Mod )
-            {
-                return;
-            }
-            std::auto_ptr<Actor> Pu = mActorFactory( AutoId( "pickup" ) );
-            int32_t rolled = RandomGenerator::global()() % 3;
-            Opt<PickupCollisionComponent> pickupCC(Pu->Get<ICollisionComponent>());
-            if( rolled == 0 )
-            {
-                int32_t contentId = Roll( 5 );
-                pickupCC->SetPickupContent( contentId );
-                pickupCC->SetItemType( ItemType::Weapon );
-            }
-            else if ( rolled == 1 )
-            {
-                int32_t contentId = RollNormalItem( 4 );
-                pickupCC->SetPickupContent( contentId );
-                pickupCC->SetItemType( ItemType::Normal );
-            }
-            else if ( rolled == 2 )
-            {
-                int32_t contentId = RollBuff( 5 );
-                pickupCC->SetPickupContent( contentId );
-                pickupCC->SetItemType( ItemType::Buff );
-            }
-            BOOST_ASSERT( actor->Get<IPositionComponent>().IsValid() );
-            Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
-            puPositionC->SetX( positionC->GetX() );
-            puPositionC->SetY( positionC->GetY() );
-            Scene::Get().AddActor( Pu.release() );
+            // TODO: drop on death with parameters from json
+//             return;
+//             if( RandomGenerator::global()() % Mod )
+//             {
+//                 return;
+//             }
+//             std::auto_ptr<Actor> Pu = mActorFactory( AutoId( "pickup" ) );
+//             int32_t rolled = RandomGenerator::global()() % 3;
+//             Opt<PickupCollisionComponent> pickupCC(Pu->Get<ICollisionComponent>());
+//             if( rolled == 0 )
+//             {
+//                 int32_t contentId = Roll( 5 );
+//                 pickupCC->SetPickupContent( contentId );
+//                 pickupCC->SetItemType( ItemType::Weapon );
+//             }
+//             else if ( rolled == 1 )
+//             {
+//                 int32_t contentId = RollNormalItem( 4 );
+//                 pickupCC->SetPickupContent( contentId );
+//                 pickupCC->SetItemType( ItemType::Normal );
+//             }
+//             else if ( rolled == 2 )
+//             {
+//                 int32_t contentId = RollBuff( 5 );
+//                 pickupCC->SetPickupContent( contentId );
+//                 pickupCC->SetItemType( ItemType::Buff );
+//             }
+//             BOOST_ASSERT( actor->Get<IPositionComponent>().IsValid() );
+//             Opt<IPositionComponent> puPositionC = Pu->Get<IPositionComponent>();
+//             puPositionC->SetX( positionC->GetX() );
+//             puPositionC->SetY( positionC->GetY() );
+//             Scene::Get().AddActor( Pu.release() );
         }
     }
 

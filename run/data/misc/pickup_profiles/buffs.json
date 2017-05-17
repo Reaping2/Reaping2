@@ -1,0 +1,29 @@
+[
+    {
+        "name":"buffs_brown",
+        "items":
+        [
+            {"name":"AccuracyBuff","weight":4},
+            {"name":"HealOverTimeBuff","weight":4},
+            {"name":"CloakBuff","weight":3},
+            {"name":"MoveSpeedBuff","weight":2}
+        ]
+    },
+    {
+        "name":"buffs_blue",
+        "items":
+        [
+            {"name":"cloak_normal_item","weight":2},
+            {"name":"grenade_normal_item","weight":4},
+            {"name":"blue_grenade_normal_item","weight":3}
+        ]
+    },
+    {
+        "name":"buffs_red",
+        "items":
+        [
+            {"name":"flash_normal_item","weight":4}
+        ]
+    }
+    
+]

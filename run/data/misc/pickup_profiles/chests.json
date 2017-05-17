@@ -1,0 +1,32 @@
+[
+    {
+        "name":"weapon_chests",
+        "items":
+        [
+            {"name":"wooden_weapon_chest","weight":4},
+            {"name":"blue_weapon_chest","weight":2},
+            {"name":"red_weapon_chest","weight":1}
+        ]
+    },
+    {
+        "name":"buff_chests",
+        "items":
+        [
+            {"name":"wooden_buff_chest","weight":4},
+            {"name":"blue_buff_chest","weight":2},
+            {"name":"red_buff_chest","weight":1}
+        ]
+    },
+    {
+        "name":"any_chests",
+        "items":
+        [
+            {"name":"wooden_weapon_chest","weight":2},
+            {"name":"blue_weapon_chest","weight":2},
+            {"name":"red_weapon_chest","weight":1},
+            {"name":"wooden_buff_chest","weight":2},
+            {"name":"blue_buff_chest","weight":2},
+            {"name":"red_buff_chest","weight":1}
+        ]
+    }
+]

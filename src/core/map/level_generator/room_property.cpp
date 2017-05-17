@@ -7,9 +7,10 @@ namespace map {
 
 RoomProperty::RoomProperty()
 {
-    mIdToRoomPropertyMap.insert(IdToRoomPropertyMap_t::value_type(AutoId("start"),RoomProperty::Start));
-    mIdToRoomPropertyMap.insert(IdToRoomPropertyMap_t::value_type(AutoId("end"),RoomProperty::End));
-    mIdToRoomPropertyMap.insert(IdToRoomPropertyMap_t::value_type(AutoId("key"),RoomProperty::Key));
+    mIdToRoomPropertyMap.insert( IdToRoomPropertyMap_t::value_type( AutoId( "start" ), RoomProperty::Start ) );
+    mIdToRoomPropertyMap.insert( IdToRoomPropertyMap_t::value_type( AutoId( "end" ), RoomProperty::End ) );
+    mIdToRoomPropertyMap.insert( IdToRoomPropertyMap_t::value_type( AutoId( "key" ), RoomProperty::Key ) );
+    mIdToRoomPropertyMap.insert( IdToRoomPropertyMap_t::value_type( AutoId( "chest" ), RoomProperty::Chest ) );
 }
 
 RoomProperty::Type RoomProperty::operator()( int32_t Id ) const

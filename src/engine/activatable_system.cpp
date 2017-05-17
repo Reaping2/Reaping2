@@ -105,9 +105,9 @@ void ActivatableSystem::Update(double DeltaTime)
                     *player, minDistV,
                     15.0,
                     ActivatableMask,
-                    []( auto const& actor )->bool
+                    []( Actor const& actor )->bool
                     { 
-                        auto activatableC( actor.Get<IActivatableComponent>() );
+                        Opt<IActivatableComponent> const activatableC( actor.Get<IActivatableComponent>() );
                         return activatableC.IsValid() && activatableC->IsEnabled();
                     } );
             if (closerTarget.IsValid())

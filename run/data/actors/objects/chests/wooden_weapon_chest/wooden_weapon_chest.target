@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target",
+        "name": "wooden_weapon_chest",
+        "setters":
+        {
+            "cursor_id": "wooden_weapon_chest",
+            "actor_id": "wooden_weapon_chest"
+        },
+        "type":"target_desc"
+    }
+]

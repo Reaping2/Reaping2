@@ -1338,7 +1338,7 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "revive_pickup",
+            "actor" : "shop_pickup",
             "components" : [
                {
                   "name" : "position_component",
@@ -1361,28 +1361,12 @@
                }
             ],
             "identifier" : "a37",
-            "name" : "respawn_actor",
+            "name" : "spawn_actor",
             "secs_to_respawn" : 15.0
-         },
-         {
-            "actor" : "wooden_chest",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 450.0,
-                        "y" : 250.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
          }
       ],
       "name" : "rogue1x1",
-      "plain_properties" : [ "start", "end" ],
+      "plain_properties" : [ "start", "end", "chest", "key" ],
       "properties" : [
          {
             "chance" : 100,
@@ -1428,6 +1412,16 @@
          {
             "name" : "room_end",
             "targets" : [ "g6" ]
+         },
+         {
+            "name" : "chest",
+            "x" : 450,
+            "y" : 250
+         },
+         {
+            "name" : "key",
+            "x" : 450,
+            "y" : 450
          },
          {
             "chance" : 15,

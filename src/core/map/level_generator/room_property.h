@@ -17,6 +17,7 @@ public:
         Start=0,
         End,
         Key,
+        Chest,
 
         Nothing,
         Num_Types

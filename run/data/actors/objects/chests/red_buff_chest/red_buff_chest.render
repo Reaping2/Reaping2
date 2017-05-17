@@ -1,0 +1,11 @@
+[
+    {
+        "name":"red_buff_chest",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"switch"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

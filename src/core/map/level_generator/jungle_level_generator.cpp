@@ -8,6 +8,7 @@
 #include <stack>
 #include <numeric>
 #include <algorithm>
+#include "core/pickup_profiles_repo.h"
 
 using platform::AutoId;
 
@@ -37,11 +38,38 @@ void JungleLevelGenerator::Generate()
     CheckRoomEntrances();
 
     CreateWaypoints();
+    CreateChests();
 
     GenerateTerrain();
     EventServer<LevelGeneratedEvent>::Get().SendEvent( LevelGeneratedEvent( LevelGeneratedEvent::TerrainGenerated ) );
 }
 
+void JungleLevelGenerator::CreateChests()
+{
+    for (auto const& chestDesc : mChestDescs)
+    {
+        if (chestDesc.mChance == 100 
+            || chestDesc.mChance > ( mRand() % 100 ))
+        {
+            std::vector<int> roomIndices( mGData.GetRoomCount() );
+            std::iota( roomIndices.begin(), roomIndices.end(), 0 );
+            std::shuffle( roomIndices.begin(), roomIndices.end(), mRand );
+            for (auto roomIndex : roomIndices)
+            {
+                if (mGData.GetRoom( roomIndex )->GetRoomDesc().HasProperty( RoomProperty::Chest ))
+                {
+                    mGData.AddRoomProperty( roomIndex, RoomProperty::Chest );
+                    static auto& mProfileRepo( core::PickupProfilesRepo::Get() );
+                    auto& profile( mProfileRepo( chestDesc.mProfileId ) );
+
+                    auto const& item = profile.Roll();
+                    mGData.GetRoomDesc( roomIndex ).SetChestId( item.mPickupId );
+                    break;
+                }
+            }
+        }
+    }
+}
 
 void JungleLevelGenerator::CreateWaypoints()
 {
@@ -119,10 +147,10 @@ void JungleLevelGenerator::Load( Json::Value const& setters )
     mWaypointDistanceVariance = 3;
     Json::GetInt( setters["waypoint_distance"], mWaypointDistance );
     Json::GetInt( setters["waypoint_distance_variance"], mWaypointDistanceVariance );
-    mMainRouteProperties.Load( setters["route"] );
+    mMainRouteDesc.Load( setters["route"] );
     //TODO: add key to boss instead of End
     //mMainRouteProperties.roomProperty = RoomProperty::End;
-    mSideRouteProperties.Load( setters["side_route"] );
+    mSideRouteDesc.Load( setters["side_route"] );
     mPossibleRooms.Load( setters["possible_rooms"] );
     mMandatoryRooms.clear();
     auto& mandatoryRoomsJson = setters["mandatory_rooms"];
@@ -135,6 +163,16 @@ void JungleLevelGenerator::Load( Json::Value const& setters )
             mMandatoryRooms.push_back( possibleRooms );
         }
     }
+    auto& chestsJson = setters["chests"];
+    if (chestsJson.isArray())
+    {
+        for (auto& chestJson : chestsJson)
+        {
+            ChestDesc chestDesc;
+            chestDesc.Load( chestJson );
+            mChestDescs.push_back( chestDesc );
+        }
+    }
 }
 
 void JungleLevelGenerator::CreateSideRoutes()
@@ -143,7 +181,7 @@ void JungleLevelGenerator::CreateSideRoutes()
     std::shuffle( mVisitedRooms.begin(), mVisitedRooms.end(), mRand );
     while (roomIndex < mVisitedRooms.size())
     {
-        auto route = CreateRoute( mVisitedRooms[roomIndex], mSideRouteProperties );
+        auto route = CreateRoute( mVisitedRooms[roomIndex], mSideRouteDesc );
         if (route.size() == 1)
         {
             ++roomIndex;
@@ -161,7 +199,7 @@ void JungleLevelGenerator::CreateSideRoutes()
 void JungleLevelGenerator::CreateMainRoute()
 {
     L2( "CreateMainRouteStarted!\n" );
-    auto route = CreateRoute( mStartRoomIndex, mMainRouteProperties );
+    auto route = CreateRoute( mStartRoomIndex, mMainRouteDesc );
     L2( "Create main route length is: %d\n", route.size() );
     LinkRooms( route );
     mEndRoomIndex = route.top();
@@ -350,7 +388,7 @@ void JungleLevelGenerator::LogNodes( std::string log, FreeNodes_t const& nodes )
     L2( "\n" );
 }
 
-JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRoomIndex, RouteProperties const& properties )
+JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRoomIndex, RouteDesc const& routeDesc )
 {
     mGData.ShuffleNeighbours();
     Route_t route;
@@ -376,8 +414,8 @@ JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRo
         if(nextNeigh[currRoomIndex] >= mGData.GetNeighbourRoomCount( currRoomIndex ))
         {
             // reached a dead end.
-            if (properties.minLength == 0
-                    &&mGData.GetRoom(currRoomIndex)->GetRoomDesc().HasProperty(properties.roomProperty))
+            if (routeDesc.mMinLength == 0
+                    &&mGData.GetRoom(currRoomIndex)->GetRoomDesc().HasProperty(routeDesc.mRoomProperty))
             {
                 // if minLength is 0 then this means route creation is done
                 endHit = true;
@@ -414,11 +452,11 @@ JungleLevelGenerator::Route_t JungleLevelGenerator::CreateRoute( int32_t startRo
             mVisitedRooms.push_back( nextRoomIndex );
             currRoomIndex = nextRoomIndex;
             route.push( currRoomIndex );
-            if ((int32_t)route.size() - properties.minLength>0)
+            if ((int32_t)route.size() - routeDesc.mMinLength>0)
             {
-                if (mRand() % (100) < properties.endChance + ((int32_t)route.size() - properties.minLength)*properties.chanceIncrease)
+                if (mRand() % (100) < routeDesc.mEndChance + ((int32_t)route.size() - routeDesc.mMinLength)*routeDesc.mChanceIncrease)
                 {
-                    if (!mGData.GetRoom( currRoomIndex )->GetRoomDesc().HasProperty( properties.roomProperty ))
+                    if (!mGData.GetRoom( currRoomIndex )->GetRoomDesc().HasProperty( routeDesc.mRoomProperty ))
                     {
                         L2( "An end is reached, but this room does not have an end property! So continueing the search! (curr room ind: %d)\n",currRoomIndex );
                     }
@@ -466,11 +504,21 @@ void JungleLevelGenerator::LinkRooms( Route_t route )
     }
 }
 
-void JungleLevelGenerator::RouteProperties::Load( Json::Value const& setters )
+void JungleLevelGenerator::RouteDesc::Load( Json::Value const& setters )
 {
-    Json::GetInt( setters["min_length"], minLength );
-    Json::GetInt( setters["end_chance"], endChance );
-    Json::GetInt( setters["chance_increase"], chanceIncrease );
+    Json::GetInt( setters["min_length"], mMinLength );
+    Json::GetInt( setters["end_chance"], mEndChance );
+    Json::GetInt( setters["chance_increase"], mChanceIncrease );
+}
+
+void JungleLevelGenerator::ChestDesc::Load( Json::Value const& setters )
+{
+    std::string istr;
+    if (Json::GetStr( setters["profile"], istr ))
+    {
+        mProfileId = AutoId( istr );
+    }
+    Json::GetInt( setters["chance"], mChance );
 }
 
 } // namespace map

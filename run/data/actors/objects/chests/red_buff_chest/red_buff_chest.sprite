@@ -1,0 +1,62 @@
+[
+    {
+        "texture_path":"red_buff_chest_closed.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "idle",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.5,
+                "secs_to_end" : 0.55
+            }], "name" : "red_buff_chest"
+        }]
+    },
+    {
+        "texture_path":"red_buff_chest_closed.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "off",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.5,
+                "secs_to_end" : 0.55
+            }], "name" : "red_buff_chest"
+        }]
+    },
+    {
+        "texture_path":"red_buff_chest_open.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "transition_to_on",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.5,
+                "secs_to_end" : 0.55
+            }], "name" : "red_buff_chest"
+        }]
+    },
+    {
+        "texture_path":"red_buff_chest_open.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 50,
+                "h" : 50,
+                "name" : "on",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 1.5,
+                "secs_to_end" : 0.55
+            }], "name" : "red_buff_chest"
+        }]
+    }    
+]
