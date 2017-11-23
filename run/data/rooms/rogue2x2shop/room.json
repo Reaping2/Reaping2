@@ -4103,7 +4103,10 @@
                      {
                         "content" : "rusty_reaper",
                         "type" : "weapon",
-                        "price" : 20
+                        "price" : 
+                        {
+                            "dark_matter":1
+                        }
                      }
                   ]
                }
@@ -4128,7 +4131,8 @@
                   "name" : "pickup_collision_component",
                   "set" : [
                      {
-                        "pickup_profile":"weapons_brown"
+                        "pickup_profile":"weapons_brown",
+                        "auto_price":1
                      }
                   ]
                }
@@ -4169,7 +4173,8 @@
                   "name" : "pickup_collision_component",
                   "set" : [
                      {
-                        "pickup_profile":"buffs_brown"
+                        "pickup_profile":"buffs_brown",
+                        "auto_price":1
                      }
                   ]
                }

@@ -20,6 +20,10 @@ ItemColorRepo::ItemColorRepo()
     i = ItemType::Buff;
     col = settings.GetColor( "item_color.buff", glm::vec4( 0, 1, 0, 1 ) );
     mElements.insert( i, new glm::vec4( col ) );
+    i = ItemType::Key;
+    col = settings.GetColor( "item_color.key", glm::vec4( 0, 0, 0, 0 ) );
+    mElements.insert( i, new glm::vec4( col ) );
+
 }
 
 ItemType::ItemType()
@@ -27,6 +31,7 @@ ItemType::ItemType()
     mIdToItemTypeMap.insert( IdToItemTypeMap_t::value_type( AutoId( "normal" ), ItemType::Normal ) );
     mIdToItemTypeMap.insert( IdToItemTypeMap_t::value_type( AutoId( "weapon" ), ItemType::Weapon ) );
     mIdToItemTypeMap.insert( IdToItemTypeMap_t::value_type( AutoId( "buff" ), ItemType::Buff ) );
+    mIdToItemTypeMap.insert( IdToItemTypeMap_t::value_type( AutoId( "key" ), ItemType::Key ) );
 }
 
 ItemType::Type ItemType::operator()( int32_t Id ) const

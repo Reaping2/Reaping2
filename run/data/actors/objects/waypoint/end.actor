@@ -5,11 +5,12 @@
         [
             {"name":"position_component"},
             {"name":"activatable_component"},
+            {"name":"switch_component"},
             {"name":"renderable_component",
                 "set":[{"layer":"background", "receive_blood": 1, "receive_shadow": 1}]
             },
             {"name":"collision_component",
-                "set":[{"class":"activatable", "radius":75}]
+                "set":[{"class":"flag", "radius":75}]
             },
             {"name":"waypoint_component"}
         ]

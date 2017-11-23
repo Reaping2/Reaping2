@@ -66,12 +66,15 @@ struct RoomDesc
         Properties = 1 << 2,
     };
     bool FitsInto( RoomDesc const& roomDesc, int32_t flags ) const;
+    int32_t GetChestId() const;
+    void SetChestId( int32_t chestId );
 protected:
     int32_t mCellCount = 0;
     int32_t mCellSize = 500;
     PlainProperties_t mPossibleProperties;
     CellMatrix_t mCells;
     Opt<IRoom> mRoom;
+    int32_t mChestId = -1;
 };
 
 } // namespace map

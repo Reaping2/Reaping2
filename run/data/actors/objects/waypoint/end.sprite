@@ -15,6 +15,21 @@
         }]
     },
     {
+        "texture_path":"waypoint_off.png",
+        "actor_visuals":
+        [{
+            "animations" : 
+            [{
+                "w" : 200,
+                "h" : 200,
+                "name" : "off",
+                "phases":[{"x":0,"y":0}],
+                "scale" : 2.5,
+                "secs_to_end" : 0.55
+            }], "name" : "end"
+        }]
+    },
+    {
         "texture_path":"waypoint_on.png",
         "actor_visuals":
         [{
@@ -22,7 +37,7 @@
             [{
                 "w" : 200,
                 "h" : 200,
-                "name" : "lit",
+                "name" : "on",
                 "phases":[{"x":0,"y":0}],
                 "scale" : 2.5,
                 "secs_to_end" : 0.55

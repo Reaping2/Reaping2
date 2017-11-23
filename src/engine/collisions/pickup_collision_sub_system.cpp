@@ -61,7 +61,11 @@ void PickupCollisionSubSystem::Update( Actor& actor, double DeltaTime )
 
 void PickupCollisionSubSystem::Collide( Actor& actor, Actor& other )
 {
-    PickItUp( actor, other );
+    Opt<PickupCollisionComponent> pickupCC = actor.Get<ICollisionComponent>();
+    if (pickupCC->IsPickupOnCollision())
+    {
+        PickItUp( actor, other );
+    }
 }
 
 void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
@@ -70,12 +74,12 @@ void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
     Opt<IInventoryComponent> inventoryC = other.Get<IInventoryComponent>();
     if (inventoryC.IsValid() && inventoryC->IsPickupItems())
     {
-        if (pickupCC->GetPrice().mDarkMatter > 0 && inventoryC->GetDarkMatters() < pickupCC->GetPrice().mDarkMatter)
+        if (!inventoryC->CanPay( pickupCC->GetPrice() ))
         {
             return;
         }
-        inventoryC->SetDarkMatters( inventoryC->GetDarkMatters() - pickupCC->GetPrice().mDarkMatter );
-       
+        inventoryC->Pay( pickupCC->GetPrice() );
+
         int32_t prevItemId = -1;
         if (pickupCC->GetItemType() == ItemType::Weapon
             || pickupCC->GetItemType() == ItemType::Normal)
@@ -96,6 +100,10 @@ void PickupCollisionSubSystem::PickItUp( Actor &actor, Actor &other )
             {
                 buffHolderC->AddBuff( core::BuffFactory::Get()(pickupCC->GetPickupContent()) );
             }
+        }
+        else if (pickupCC->GetItemType() == ItemType::Key)
+        {
+            inventoryC->SetKeys( pickupCC->GetPickupContent(), inventoryC->GetKeys( pickupCC->GetPickupContent() ) + 1 );
         }
 
         EventServer<PickupEvent>::Get().SendEvent( PickupEvent( Opt<Actor>( &other ), pickupCC->GetItemType(), pickupCC->GetPickupContent() ) );

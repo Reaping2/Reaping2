@@ -59,9 +59,15 @@
         "generator_name":"jungle",
         "properties":
         {
-            "seed":1,
+            "seed":3,
             "cell_size":800,
-            "cell_count":4,
+            "cell_count":5,
+            "chests":
+            [
+                {"profile":"weapon_chests"},
+                {"profile":"buff_chests"},
+                {"profile":"any_chests", "chance":35}
+            ],
             "route":
             {
                 "min_length":1,

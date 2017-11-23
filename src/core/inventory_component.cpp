@@ -135,6 +135,49 @@ bool InventoryComponent::IsCollectDarkMatter() const
     return mCollectDarkMatter;
 }
 
+
+void InventoryComponent::SetKeys( int32_t keyId, int32_t keys )
+{
+    mKeys[keyId] = keys;
+}
+
+
+int32_t InventoryComponent::GetKeys( int32_t keyId ) const
+{
+    auto found = mKeys.find( keyId );
+    return found != mKeys.end() ? found->second : 0;
+}
+
+bool InventoryComponent::CanPay( Price const& price ) const
+{
+    if (mDarkMatters < price.mDarkMatter)
+    {
+        return false;
+    }
+    for (auto&& key : price.mKeys)
+    {
+        auto found = mKeys.find( key.first );
+        if (found == mKeys.end() || found->second < key.second)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void InventoryComponent::Pay( Price const& price )
+{
+    mDarkMatters -= price.mDarkMatter;
+    for (auto&& key : price.mKeys)
+    {
+        auto found = mKeys.find( key.first );
+        if (found != mKeys.end())
+        {
+            found->second -= key.second;
+        }
+    }
+}
+
 void InventoryComponentLoader::BindValues()
 {
     std::string istr;

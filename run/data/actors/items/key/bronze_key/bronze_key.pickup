@@ -1,0 +1,10 @@
+[
+    {
+        "name":"bronze_key",
+        "type":"key",
+        "price":
+        {
+            "dark_matter":5
+        }
+    }
+]

@@ -12,6 +12,7 @@ class ActivatableSystem : public System
 public:
     DEFINE_SYSTEM_BASE(ActivatableSystem)
     ActivatableSystem();
+    static const int32_t ActivatableMask;
 protected:
     virtual void Init();
     virtual void Update( double DeltaTime );

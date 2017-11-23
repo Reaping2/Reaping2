@@ -5,7 +5,7 @@
             "type":"fixed_ratio_container",
             "x":0.0,
             "y":0.0,
-            "w":0.3,
+            "w":0.6,
             "h":1.0,
             "align_h":"left",
             "align_v":"top",
@@ -20,7 +20,7 @@
                     "color":"0xffffff",
                     "x":0.0,
                     "y":0.0,
-                    "w":0.33,
+                    "w":0.15,
                     "h":1.0,
                     "cols":1,
                     "rows":10,
@@ -62,9 +62,9 @@
                     "startid":"#buffsidx",
                     "direction":"horizontal",
                     "color":"0xffffff",
-                    "x":0.33,
+                    "x":0.15,
                     "y":0.0,
-                    "w":0.33,
+                    "w":0.15,
                     "h":1.0,
                     "cols":1,
                     "rows":10,
@@ -106,9 +106,9 @@
                     "startid":"#itemsidx",
                     "direction":"horizontal",
                     "color":"0xffffff",
-                    "x":0.66,
+                    "x":0.30,
                     "y":0.0,
-                    "w":0.33,
+                    "w":0.15,
                     "h":1.0,
                     "cols":1,
                     "rows":10,
@@ -138,6 +138,50 @@
                                     "visible":1,
                                     "enabled":0,
                                     "actor_visual":"%editor.target.pickups.items#itemsidx",
+                                    "fontsize":4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type":"grid",
+                    "source":"%editor.target.pickups.keys",
+                    "startid":"#itemsidx",
+                    "direction":"horizontal",
+                    "color":"0xffffff",
+                    "x":0.35,
+                    "y":0.0,
+                    "w":0.15,
+                    "h":1.0,
+                    "cols":1,
+                    "rows":10,
+                    "visible":1,
+                    "enabled":0,
+                    "template":
+                    [
+                        {
+                            "type":"button",
+                            "x":0.1,
+                            "y":0.1,
+                            "w":1.0,
+                            "h":1.0,
+                            "visible":1,
+                            "enabled":1,
+                            "color":"0x22222277",
+                            "highlight_color":"0xaaaaaa77",
+                            "action":[["editor.keytarget","#keysidx"]],
+                            "children":[
+                                {
+                                    "type":"image",
+                                    "x":0.02,
+                                    "y":0.02,
+                                    "w":0.96,
+                                    "h":0.96,
+                                    "color":"0xffffff",
+                                    "visible":1,
+                                    "enabled":0,
+                                    "actor_visual":"%editor.target.pickups.keys#keysidx",
                                     "fontsize":4
                                 }
                             ]

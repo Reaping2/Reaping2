@@ -1,0 +1,30 @@
+[
+    {
+        "name":"wooden_buff_chest",
+        "components":
+        [
+            {"name":"position_component"},
+            {"name":"activatable_component"},
+            {"name":"switch_component",
+                "set":{"secs_to_end":0.23}},
+            {"name":"renderable_component",
+                "set":[{"layer":"creeps", "receive_blood": 0, "cast_shadow": 1}]
+            },
+            {"name":"wall_collision_component",
+                "set":[{"class":"wall", "radius":50}]
+            },
+            {"name":"chest_component",
+                "set":
+                {
+                    "price" : 
+                    {
+                        "dark_matter":0,
+                        "keys":[{"name":"bronze_key","count":1}]
+                    },
+                    "pickup_profile":"buffs_brown"
+                }
+            }
+        ]
+    }
+]
+

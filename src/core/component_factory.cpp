@@ -65,6 +65,10 @@
 #include "attractable_component.h"
 #include "attractor_component.h"
 #include "activatable_component.h"
+#include "switch_component.h"
+#include "chest_component.h"
+#include "chest_component.h"
+#include "chest_component.h"
 
 using platform::AutoId;
 
@@ -150,4 +154,7 @@ ComponentFactory::ComponentFactory()
     Bind( AutoId( "attractable_component" ), &CreateComponent<AttractableComponent> );
     Bind( AutoId( "attractor_component" ), &CreateComponent<AttractorComponent> );
     Bind( AutoId( "activatable_component" ), &CreateComponent<ActivatableComponent> );
+    Bind( AutoId( "switch_component" ), &CreateComponent<SwitchComponent> );
+    Bind( AutoId( "chest_component" ), &CreateComponent<ChestComponent> );
+
 }

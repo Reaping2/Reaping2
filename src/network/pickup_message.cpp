@@ -76,6 +76,10 @@ void PickupMessageHandlerSubSystem::Execute( Message const& message )
                 buffHolderC->AddBuff( core::BuffFactory::Get()( msg.mItemId ) );
             }
         }
+        else if ( msg.mItemType == ItemType::Key)
+        {
+            inventoryC->SetKeys( msg.mItemId, inventoryC->GetKeys( msg.mItemId ) + 1 );
+        }
 
     }
 }

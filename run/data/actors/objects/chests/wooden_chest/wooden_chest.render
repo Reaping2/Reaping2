@@ -1,0 +1,11 @@
+[
+    {
+        "name":"wooden_chest",
+        "recognizers":
+        [
+            {"recognizer":"idle",
+                "renderer":"switch"}
+        ],
+        "type":"recognizer_desc"
+    }
+ ]

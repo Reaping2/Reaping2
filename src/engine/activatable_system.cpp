@@ -15,6 +15,8 @@ ActivatableSystem::ActivatableSystem()
 }
 
 
+const int32_t ActivatableSystem::ActivatableMask = 1 << CollisionClass::Pickup | 1 << CollisionClass::Flag | 1 << CollisionClass::Wall;
+
 void ActivatableSystem::Init()
 {
     mScene.AddValidator( GetType_static(), []( Actor const& actor )->bool {
@@ -63,7 +65,7 @@ void ActivatableSystem::Update(double DeltaTime)
         auto&& activatables = collisionSystem->GetAllCollidingActors(
             glm::vec2( positionC->GetX(), positionC->GetY() ),
             playerCC->mActivateRange,
-            1 << CollisionClass::Activatable );
+            ActivatableMask );
 
         // TODO: i am almost certain that simply the closest actor is a good choice. need to test the augmented highlight
         double const absOrientation = std::abs( positionC->GetOrientation() );
@@ -72,6 +74,11 @@ void ActivatableSystem::Update(double DeltaTime)
         glm::vec2 minDistV;
         for (auto&& target : activatables)
         {
+            auto targetActivatableC( target->Get<IActivatableComponent>() );
+            if (!targetActivatableC.IsValid()||!targetActivatableC->IsEnabled())
+            {
+                continue;
+            }
             auto targetPositionC( target->Get<IPositionComponent>() );
             if (!targetPositionC.IsValid())
             {
@@ -97,10 +104,19 @@ void ActivatableSystem::Update(double DeltaTime)
                 collisionSystem->GetFirstCollidingActor(
                     *player, minDistV,
                     15.0,
-                    1 << CollisionClass::Activatable );
+                    ActivatableMask,
+                    []( Actor const& actor )->bool
+                    { 
+                        Opt<IActivatableComponent> const activatableC( actor.Get<IActivatableComponent>() );
+                        return activatableC.IsValid() && activatableC->IsEnabled();
+                    } );
             if (closerTarget.IsValid())
             {
-                minTarget = closerTarget;
+                auto closerActivatableC( closerTarget->Get<IActivatableComponent>() );
+                if (closerActivatableC.IsValid() && closerActivatableC->IsEnabled())
+                {
+                    minTarget = closerTarget;
+                }
             }
             auto targetActivatableC(minTarget->Get<IActivatableComponent>());
             if (targetActivatableC.IsValid())

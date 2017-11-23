@@ -5,15 +5,17 @@
 #include <portable_iarchive.hpp>
 #include <boost/serialization/serialization.hpp>
 #include "json/json.h"
+#include <boost/serialization/map.hpp>
 
 struct Price
 {
     int32_t mDarkMatter = 0;
-    int32_t mKey = 0;
-    int32_t mGem = 0;
+    using KeyMap_t = std::map<int32_t, int32_t>;
+    KeyMap_t mKeys;
+    // don't forget method Clear();
 
     void Load( Json::Value const& setters );
-
+    void Clear();
     template<class Archive>
     void serialize( Archive& ar, const unsigned int version );
 };
@@ -22,8 +24,7 @@ template<class Archive>
 void Price::serialize( Archive& ar, const unsigned int version )
 {
     ar& mDarkMatter;
-    ar& mKey;
-    ar& mGem;
+    ar& mKeys;
 }
 
 #endif//INCLUDED_CORE_PRICE_H

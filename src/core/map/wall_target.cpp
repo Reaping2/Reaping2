@@ -96,13 +96,8 @@ bool WallTarget::Load( const Json::Value& setters )
 
 void WallTarget::AddPositionLoader( glm::vec2& position, Opt<SpawnActorMapElement> spawnActor )
 {
-    int32_t componentId = AutoId( "position_component" );
-    ComponentLoaderFactory& componentLoaderFactory = ComponentLoaderFactory::Get();
-    std::auto_ptr<PropertyLoaderBase<Component> > compLoader = componentLoaderFactory( componentId );
-    Opt<PositionComponentLoader> positionCompLoader( static_cast<PositionComponentLoader*>( compLoader.get() ) );
-    positionCompLoader->Bind<double>( &PositionComponent::SetX, position.x );
-    positionCompLoader->Bind<double>( &PositionComponent::SetY, position.y );
-    spawnActor->AddComponentLoader( componentId, compLoader );
+    spawnActor->AddComponentLoader( AutoId( "position_component" ),
+        std::move( PositionComponentLoader::FromPosition( position.x, position.y ) ) );
 }
 
 void WallTarget::AddBorderLoader( IBorderComponent::Borders_t& borders, IBorderComponent::Borders_t& outerBorders, Opt<SpawnActorMapElement> spawnActor )
@@ -110,11 +105,11 @@ void WallTarget::AddBorderLoader( IBorderComponent::Borders_t& borders, IBorderC
     {
         int32_t componentId = AutoId( "border_component" );
         ComponentLoaderFactory& componentLoaderFactory = ComponentLoaderFactory::Get();
-        std::auto_ptr<PropertyLoaderBase<Component> > compLoader = componentLoaderFactory( componentId );
+        std::unique_ptr<PropertyLoaderBase<Component> > compLoader = componentLoaderFactory( componentId );
         Opt<BorderComponentLoader> borderCompLoader( static_cast<BorderComponentLoader*>( compLoader.get() ) );
         borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetBorders, borders );
         borderCompLoader->Bind<IBorderComponent::Borders_t>( &BorderComponent::SetOuterBorders, outerBorders );
-        spawnActor->AddComponentLoader( componentId, compLoader );
+        spawnActor->AddComponentLoader( componentId, std::move(compLoader) );
     }
 }
 

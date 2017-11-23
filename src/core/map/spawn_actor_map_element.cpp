@@ -117,7 +117,7 @@ void SpawnActorMapElement::LoadComponentLoaders( Json::Value const& setters, Act
     }
 }
 
-void SpawnActorMapElement::AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader )
+void SpawnActorMapElement::AddComponentLoader( int32_t componentId, std::unique_ptr<PropertyLoaderBase<Component> > compLoader )
 {
     mComponentLoaders.insert( componentId, static_cast<ActorCreator::ComponentLoader_t*>( compLoader.release() ) );
 }

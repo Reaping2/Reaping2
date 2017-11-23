@@ -1,0 +1,21 @@
+[
+    {
+        "texture_path":"bronze_key_pickup.png",
+        "actor_visuals":
+        [
+            {
+                "name":"bronze_key",
+                "animations":
+                [
+                    {
+                        "name":"idle",
+                        "w":200,
+                        "h":200,
+                        "scale":1.5,
+                        "phases":[{"x":0,"y":0}]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -64,6 +64,8 @@
 #include "attractable_component.h"
 #include "attractor_component.h"
 #include "activatable_component.h"
+#include "switch_component.h"
+#include "chest_component.h"
 
 ComponentLoaderFactory::ComponentLoaderFactory()
 {
@@ -147,6 +149,8 @@ ComponentLoaderFactory::ComponentLoaderFactory()
     Bind( AutoId( "attractable_component" ), &CreateComponentLoader<AttractableComponentLoader> );
     Bind( AutoId( "attractor_component" ), &CreateComponentLoader<AttractorComponentLoader> );
     Bind( AutoId( "activatable_component" ), &CreateComponentLoader<ActivatableComponentLoader> );
+    Bind( AutoId( "switch_component" ), &CreateComponentLoader<SwitchComponentLoader> );
+    Bind( AutoId( "chest_component" ), &CreateComponentLoader<ChestComponentLoader> );
 }
 
 void DefaultComponentLoader::BindValues()

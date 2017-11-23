@@ -92,6 +92,30 @@
                     "fontsize": 3
                 },
                 {
+                    "type": "image",
+                    "x": 0.02,
+                    "y": 0.5,
+                    "w": 0.2,
+                    "h": 0.06,
+                    "color": "0xffffffff",
+                    "visible": 1,
+                    "enabled": 0,
+                    "actor_visual": "%%bronze_key",
+                    "animation": "%%idle"
+                },
+                {
+                    "type": "text_widget",
+                    "x": 0.15,
+                    "y": 0.5,
+                    "w": 0.7,
+                    "h": 0.06,
+                    "color": "0xb07e2c",
+                    "visible": 1,
+                    "enabled": 0,
+                    "text": "%player.bronze_keys",
+                    "fontsize": 3
+                }, 
+                {
                     "type": "bar",
                     "x": 0.02,
                     "y": 0.76,
@@ -138,7 +162,7 @@
                     "enabled": 0,
                     "text": "%player.sum_bullets",
                     "fontsize": 2
-                },                
+                },
                 {
                     "type": "text_widget",
                     "x": 0.02,

@@ -43,6 +43,8 @@ private:
     std::vector<int32_t> mBuffActorIds;
     std::vector<int32_t> mItemVisualIds;
     std::vector<int32_t> mItemActorIds;
+    std::vector<int32_t> mKeyVisualIds;
+    std::vector<int32_t> mKeyActorIds;
     std::vector<int32_t> mMapitemVisualIds;
     std::vector<int32_t> mMapitemActorIds;
     std::vector<int32_t> mSpawnpointVisualIds;

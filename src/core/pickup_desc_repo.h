@@ -15,7 +15,18 @@ struct PickupDesc
     int32_t mPickupContent = -1;
     ItemType::Type mType = ItemType::Normal;
     PickupDesc( int32_t id, Json::Value const& setters );
+    PickupDesc() = default;
+    template<class Archive>
+    void serialize( Archive& ar, const unsigned int version );
 };
+
+template<class Archive>
+void core::PickupDesc::serialize( Archive& ar, const unsigned int version )
+{
+    ar& mPrice;
+    ar& mPickupContent;
+    ar& mType;
+}
 
 class PickupDescRepo : public platform::Repository<PickupDesc>, public platform::Singleton<PickupDescRepo>
 {

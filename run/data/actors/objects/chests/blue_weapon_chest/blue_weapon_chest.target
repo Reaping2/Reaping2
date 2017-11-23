@@ -1,0 +1,12 @@
+[
+    {
+        "target_name": "wall_target",
+        "name": "blue_weapon_chest",
+        "setters":
+        {
+            "cursor_id": "blue_weapon_chest",
+            "actor_id": "blue_weapon_chest"
+        },
+        "type":"target_desc"
+    }
+]

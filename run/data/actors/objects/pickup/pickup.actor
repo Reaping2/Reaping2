@@ -6,13 +6,16 @@
             {"name":"position_component"},
             {"name":"move_component",
                 "set":{"moving":0}},
+            {"name":"acceleration_component",
+                "set":[{"acceleration":-100,"min_speed":0}]
+            },
             {"name":"activatable_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"players"}]
+                "set":[{"layer":"players", "cast_shadow":1}]
             },
             {
                 "name":"pickup_collision_component",
-                "set":[{"class":"activatable", "radius":40}]
+                "set":[{"class":"pickup", "radius":40}]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"},
@@ -53,13 +56,16 @@
             {"name":"position_component"},
             {"name":"move_component",
                 "set":{"moving":0}},
+            {"name":"acceleration_component",
+                "set":[{"acceleration":-300,"min_speed":0}]
+            },
             {"name":"activatable_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"players"}]
+                "set":[{"layer":"players", "cast_shadow":1}]
             },
             {
                 "name":"pickup_collision_component",
-                "set":[{"class":"activatable", "radius":40}]
+                "set":[{"class":"pickup", "radius":40}]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"},
@@ -96,13 +102,16 @@
             {"name":"position_component"},
             {"name":"move_component",
                 "set":{"moving":0}},
+            {"name":"acceleration_component",
+                "set":[{"acceleration":-300,"min_speed":0}]
+            },
             {"name":"activatable_component"},
             {"name":"renderable_component",
-                "set":[{"layer":"players"}]
+                "set":[{"layer":"players", "cast_shadow":1}]
             },
             {
                 "name":"pickup_collision_component",
-                "set":[{"class":"activatable", "radius":40}]
+                "set":[{"class":"pickup", "radius":40}]
             },
             {"name":"health_component"},
             {"name":"remove_on_death_component"},

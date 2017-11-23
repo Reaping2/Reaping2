@@ -5,10 +5,13 @@
 #include "item.h"
 #include "platform/export.h"
 #include "price.h"
+#include "pickup_desc_repo.h"
 
 class PickupCollisionComponent : public CollisionComponent
 {
 public:
+    virtual void SetPickupProfile( int32_t pickupProfile );
+    virtual int32_t GetPickupProfile() const;
     virtual void SetPickupContent( int32_t PickupContent );
     virtual int32_t GetPickupContent() const;
     virtual void SetItemType( ItemType::Type itemType );
@@ -16,13 +19,20 @@ public:
     virtual void Save( Json::Value& component );
     virtual void SetPrice( Price price );
     virtual Price& GetPrice();
-    virtual void InitFromPickupProfile( int32_t profieId );
+    virtual void SetAutoPrice( bool autoPrice );
+    virtual bool IsAutoPrice() const;
+    virtual void SetPickupOnCollision( bool pickup );
+    virtual bool IsPickupOnCollision() const;
+    virtual void InitFromPickupProfile( int32_t profileId );
+    virtual void SetPickupDesc( core::PickupDesc const& pickupDesc );
+    virtual core::PickupDesc const& GetPickupDesc() const;
 protected:
     PickupCollisionComponent();
     friend class ComponentFactory;
-    int32_t mPickupContent;
-    ItemType::Type mItemType;
-    Price mPrice;
+    int32_t mPickupProfile;
+    core::PickupDesc mPickupDesc;
+    bool mAutoPrice;
+    bool mPickupOnCollision;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -34,9 +44,10 @@ void PickupCollisionComponent::serialize( Archive& ar, const unsigned int versio
 {
     //NOTE: generated archive for this class
     ar& boost::serialization::base_object<CollisionComponent>( *this );
-    ar& mPickupContent;
-    ar& mItemType;
-    ar& mPrice;
+    ar& mPickupProfile;
+    ar& mPickupDesc;
+    ar& mAutoPrice;
+    ar& mPickupOnCollision;
 }
 
 class PickupCollisionComponentLoader: public ComponentLoader<PickupCollisionComponent>

@@ -16,7 +16,6 @@ const uint32_t Collisions[] =
     1 << CollisionClass::Creep | 1 << CollisionClass::Player, // water
     1 << CollisionClass::Creep | 1 << CollisionClass::Player, // pickup
     1 << CollisionClass::Player | 1 << CollisionClass::Flag, // flag
-    0, // activatable
 };
 
 

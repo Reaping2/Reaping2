@@ -1,0 +1,28 @@
+[
+    {
+        "name":"weapons_brown",
+        "items":
+        [
+            {"name":"shotgun","weight":4},
+            {"name":"plasma_gun","weight":4},
+            {"name":"ion_gun","weight":2}
+        ]
+    },
+    {
+        "name":"weapons_blue",
+        "items":
+        [
+            {"name":"rocket_launcher","weight":2},
+            {"name":"gauss_gun","weight":1},
+            {"name":"ion_gun","weight":2}
+        ]
+    },
+    {
+        "name":"weapons_red",
+        "items":
+        [
+            {"name":"gauss_gun","weight":1},
+            {"name":"rusty_reaper","weight":2}
+        ]
+    }    
+]

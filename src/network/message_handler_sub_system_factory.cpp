@@ -48,6 +48,7 @@
 #include "waypoint_message.h"
 #include "waypoints_data_message.h"
 #include "dark_matter_message.h"
+#include "chest_message.h"
 
 using platform::AutoId;
 namespace network {
@@ -104,6 +105,7 @@ MessageHandlerSubSystemFactory::MessageHandlerSubSystemFactory()
     Bind( AutoId( "waypoint_message_handler_sub_system" ), &CreateSubSystem<WaypointMessageHandlerSubSystem> );
     Bind( AutoId( "waypoints_data_message_handler_sub_system" ), &CreateSubSystem<WaypointsDataMessageHandlerSubSystem> );
     Bind( AutoId( "dark_matter_message_handler_sub_system" ), &CreateSubSystem<DarkMatterMessageHandlerSubSystem> );
+    Bind( AutoId( "chest_message_handler_sub_system" ), &CreateSubSystem<ChestMessageHandlerSubSystem> );
 }
 
 } // namespace network

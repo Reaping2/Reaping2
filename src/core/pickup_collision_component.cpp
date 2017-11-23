@@ -14,30 +14,41 @@ using platform::AutoId;
 
 PickupCollisionComponent::PickupCollisionComponent()
     : CollisionComponent()
-    , mPickupContent( 0 )
-    , mItemType( ItemType::Weapon )
+    , mPickupProfile( -1 )
+    , mAutoPrice( false )
+    , mPickupOnCollision( false )
 {
 
+}
+
+void PickupCollisionComponent::SetPickupProfile( int32_t pickupProfile )
+{
+    mPickupProfile = pickupProfile;
+}
+
+int32_t PickupCollisionComponent::GetPickupProfile() const
+{
+    return mPickupProfile;
 }
 
 void PickupCollisionComponent::SetPickupContent( int32_t PickupContent )
 {
-    mPickupContent = PickupContent;
+    mPickupDesc.mPickupContent = PickupContent;
 }
 
 int32_t PickupCollisionComponent::GetPickupContent() const
 {
-    return mPickupContent;
+    return mPickupDesc.mPickupContent;
 }
 
 void PickupCollisionComponent::SetItemType( ItemType::Type itemType )
 {
-    mItemType = itemType;
+    mPickupDesc.mType = itemType;
 }
 
 ItemType::Type PickupCollisionComponent::GetItemType() const
 {
-    return mItemType;
+    return mPickupDesc.mType;
 }
 
 void PickupCollisionComponent::Save( Json::Value& component )
@@ -46,41 +57,85 @@ void PickupCollisionComponent::Save( Json::Value& component )
     Json::Value SettersArr( Json::arrayValue );
     Json::Value Setters( Json::objectValue );
     std::string typeName;
-    if ( platform::IdStorage::Get().GetName( ItemType::Get()( mItemType ), typeName ) )
+    if ( platform::IdStorage::Get().GetName( ItemType::Get()( mPickupDesc.mType ), typeName ) )
     {
         Setters["type"] = Json::Value( typeName );
     }
     std::string pickupName;
-    if ( platform::IdStorage::Get().GetName( mPickupContent, pickupName ) )
+    if ( platform::IdStorage::Get().GetName( mPickupDesc.mPickupContent, pickupName ) )
     {
         Setters["content"] = Json::Value( pickupName );
     }
+    if (mPickupProfile != -1)
+    {
+        Setters["pickup_profile"] = Json::Value( mPickupProfile );
+    }
+    Setters["auto_price"] = Json::Value( mAutoPrice );
+    Setters["pickup_on_collision"] = Json::Value( mPickupOnCollision );
     SettersArr.append( Setters );
     component["set"] = SettersArr;
 }
 
 void PickupCollisionComponent::SetPrice( Price price )
 {
-    mPrice = price;
+    mPickupDesc.mPrice = price;
 }
 
 Price& PickupCollisionComponent::GetPrice()
 {
-    return mPrice;
+    return mPickupDesc.mPrice;
 }
 
-void PickupCollisionComponent::InitFromPickupProfile( int32_t profieId )
+void PickupCollisionComponent::SetAutoPrice( bool autoPrice )
+{
+    mAutoPrice = autoPrice;
+    if ( mAutoPrice&&mPickupDesc.mPickupContent > 0)
+    {
+        static auto& mPickupDescRepo( core::PickupDescRepo::Get() );
+        auto const pickupDesc = mPickupDescRepo( mPickupDesc.mPickupContent );
+        mPickupDesc.mPrice = pickupDesc.mPrice;
+    }
+}
+
+bool PickupCollisionComponent::IsAutoPrice() const
+{
+    return mAutoPrice;
+}
+
+void PickupCollisionComponent::SetPickupOnCollision( bool pickup )
+{
+    mPickupOnCollision = pickup;
+}
+
+bool PickupCollisionComponent::IsPickupOnCollision() const
+{
+    return mPickupOnCollision;
+}
+
+void PickupCollisionComponent::InitFromPickupProfile( int32_t profileId )
 {
     static auto& mProfileRepo(core::PickupProfilesRepo::Get());
-    auto& profile(mProfileRepo( profieId ));
+    auto& profile(mProfileRepo( profileId ));
 
-    static auto& mPickupDescRepo( core::PickupDescRepo::Get() );
     auto const& item = profile.Roll();
-    auto const pickupDesc = mPickupDescRepo( item.mPickupId );
+	
+	static auto& mPickupDescRepo(core::PickupDescRepo::Get());
+	mPickupDesc = mPickupDescRepo(item.mPickupId);
 
-    mPrice = pickupDesc.mPrice;
-    mItemType = pickupDesc.mType;
-    mPickupContent = pickupDesc.mPickupContent;
+    if (!mAutoPrice)
+    {
+        mPickupDesc.mPrice.Clear();
+    }
+}
+
+void PickupCollisionComponent::SetPickupDesc( core::PickupDesc const& pickupDesc )
+{
+    mPickupDesc = pickupDesc;
+}
+
+core::PickupDesc const& PickupCollisionComponent::GetPickupDesc() const
+{
+    return mPickupDesc;
 }
 
 void PickupCollisionComponentLoader::BindValues()
@@ -94,17 +149,21 @@ void PickupCollisionComponentLoader::BindValues()
     {
         Bind<ItemType::Type>( &PickupCollisionComponent::SetItemType, ItemType::Get()( AutoId( istr ) ) );
     }
-    int32_t priceDm = 0;
-    if (Json::GetInt( (*mSetters)["price"], priceDm ))
+    auto const& priceJson = ( *mSetters )["price"];
+    if( priceJson.isObject() )
     {
         Price price;
-        price.mDarkMatter = priceDm;
+        price.Load( priceJson );
         Bind<Price>( &PickupCollisionComponent::SetPrice, price );
     }
     if (Json::GetStr( (*mSetters)["pickup_profile"], istr ))
     {
         Bind<int32_t>( &PickupCollisionComponent::InitFromPickupProfile, AutoId( istr ) );
     }
+
+    Bind( "auto_price", func_bool( &PickupCollisionComponent::SetAutoPrice ) );
+
+    Bind( "pickup_on_collision", func_bool( &PickupCollisionComponent::SetPickupOnCollision ) );
 }
 
 PickupCollisionComponentLoader::PickupCollisionComponentLoader()

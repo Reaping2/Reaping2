@@ -26,6 +26,10 @@ public:
     virtual int32_t GetDarkMatters() const;
     virtual void SetCollectDarkMatter( bool collectDarkMatter );
     virtual bool IsCollectDarkMatter() const;
+    virtual void SetKeys( int32_t keyId, int32_t keys );
+    virtual int32_t GetKeys( int32_t keyId )const;
+    virtual bool CanPay( Price const& price ) const;
+    virtual void Pay( Price const& price );
     virtual ~InventoryComponent();
 protected:
     InventoryComponent();
@@ -36,6 +40,7 @@ private:
     bool mPickupItems;
     int32_t mDarkMatters;
     bool mCollectDarkMatter;
+    KeyMap_t mKeys;
 public:
     friend class ::boost::serialization::access;
     template<class Archive>
@@ -51,6 +56,7 @@ void InventoryComponent::serialize( Archive& ar, const unsigned int version )
     ar& mPickupItems;
     ar& mDarkMatters;
     ar& mCollectDarkMatter;
+    ar& mKeys;
 }
 
 class InventoryComponentLoader: public ComponentLoader<InventoryComponent>

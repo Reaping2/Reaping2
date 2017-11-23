@@ -23,27 +23,36 @@ private:
     typedef std::vector<int32_t> Visited_t;
     Visited_t mVisitedRooms; // a vector of visited room indices
     void LinkRooms( Route_t route );
-    struct RouteProperties
+    struct RouteDesc
     {
-        int32_t minLength = 0;
-        int32_t endChance = 0;
-        int32_t chanceIncrease = 0;
-        RoomProperty::Type roomProperty = RoomProperty::Nothing;
+        int32_t mMinLength = 0;
+        int32_t mEndChance = 0;
+        int32_t mChanceIncrease = 0;
+        RoomProperty::Type mRoomProperty = RoomProperty::Nothing;
         void Load( Json::Value const& setters );
     };
     typedef std::vector<PossibleRooms> MandatoryRooms_t;
     MandatoryRooms_t mMandatoryRooms;
-    RouteProperties mMainRouteProperties;
-    RouteProperties mSideRouteProperties;
+    RouteDesc mMainRouteDesc;
+    RouteDesc mSideRouteDesc;
     int32_t mWaypointDistance = 5;
     int32_t mWaypointDistanceVariance = 3;
-    Route_t CreateRoute( int32_t startRoomIndex, RouteProperties const& properties );
+    struct ChestDesc
+    {
+        int32_t mProfileId = -1;
+        int32_t mChance = 100;
+        void Load( Json::Value const& setters );
+    };
+    using ChestDescs_t = std::vector<ChestDesc>;
+    ChestDescs_t mChestDescs;
+    Route_t CreateRoute( int32_t startRoomIndex, RouteDesc const& routeDesc );
     FreeNodes_t mFreeCellPositions;
     void CreateMainRoute();
     void CreateSideRoutes();
     int32_t PlaceRoomByProperty( RoomProperty::Type roomProp );
     void GenerateTerrain();
     void CreateWaypoints();
+    void CreateChests();
     void RecreateBorders();
     void PlaceRooms();
 

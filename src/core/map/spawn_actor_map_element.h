@@ -20,7 +20,7 @@ public:
     void SetActorID( int32_t actorID );
     int32_t GetActorID()const;
     ActorCreator::ComponentLoaderMap_t const& GetComponentLoaders()const;
-    void AddComponentLoader( int32_t componentId, std::auto_ptr<PropertyLoaderBase<Component> > compLoader );
+    void AddComponentLoader( int32_t componentId, std::unique_ptr<PropertyLoaderBase<Component> > compLoader );
     Opt<PropertyLoaderBase<Component>> GetComponentLoader( int32_t componentId );
     static int32_t SpawnNodeId();
     void SetRemoveWhenUsed( bool removeWhenUsed );

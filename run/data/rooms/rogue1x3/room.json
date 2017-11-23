@@ -1419,6 +1419,102 @@
             "name" : "spawn_actor"
          },
          {
+            "actor" : "wood_block50_left",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1150.0,
+                        "y" : 1750.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "wood_block50_right",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1250.0,
+                        "y" : 1750.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_grass200",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1000.0,
+                        "y" : 200.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_grass200",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1000.0,
+                        "y" : 600.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_grass200",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1400.0,
+                        "y" : 600.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_grass200",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1400.0,
+                        "y" : 200.0
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "spawn_at_level_generated",
+            "name" : "spawn_actor"
+         },
+         {
             "actor" : "rogue_ore_wall100",
             "components" : [
                {
@@ -1519,56 +1615,6 @@
             "name" : "spawn_actor"
          },
          {
-            "actor" : "rogue_ore_wall100",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 900.0,
-                        "y" : 500.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a3",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall100",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 900.0,
-                        "y" : 300.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a4",
-            "name" : "spawn_actor"
-         },
-         {
             "actor" : "rogue_mud100",
             "components" : [
                {
@@ -1626,7 +1672,7 @@
                   "set" : [
                      {
                         "x" : 900.0,
-                        "y" : 1300.0
+                        "y" : 500.0
                      }
                   ]
                },
@@ -1640,7 +1686,7 @@
                   ]
                }
             ],
-            "identifier" : "a5",
+            "identifier" : "a3",
             "name" : "spawn_actor"
          },
          {
@@ -1651,7 +1697,7 @@
                   "set" : [
                      {
                         "x" : 900.0,
-                        "y" : 1100.0
+                        "y" : 300.0
                      }
                   ]
                },
@@ -1665,7 +1711,7 @@
                   ]
                }
             ],
-            "identifier" : "a6",
+            "identifier" : "a4",
             "name" : "spawn_actor"
          },
          {
@@ -1726,6 +1772,56 @@
                   "set" : [
                      {
                         "x" : 900.0,
+                        "y" : 1300.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a5",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 900.0,
+                        "y" : 1100.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a6",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 900.0,
                         "y" : 1700.0
                      }
                   ]
@@ -1741,56 +1837,6 @@
                }
             ],
             "identifier" : "a24",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall100",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 900.0,
-                        "y" : 2100.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a7",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall100",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 900.0,
-                        "y" : 1900.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a8",
             "name" : "spawn_actor"
          },
          {
@@ -1875,8 +1921,8 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 1300.0,
-                        "y" : 2300.0
+                        "x" : 900.0,
+                        "y" : 2100.0
                      }
                   ]
                },
@@ -1884,13 +1930,38 @@
                   "name" : "border_component",
                   "set" : [
                      {
-                        "borders" : [ "top", "bottom" ],
-                        "outer_borders" : [ "top", "bottom" ]
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
                      }
                   ]
                }
             ],
-            "identifier" : "a9",
+            "identifier" : "a7",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 900.0,
+                        "y" : 1900.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a8",
             "name" : "spawn_actor"
          },
          {
@@ -1975,8 +2046,8 @@
                   "name" : "position_component",
                   "set" : [
                      {
-                        "x" : 1500.0,
-                        "y" : 1700.0
+                        "x" : 1300.0,
+                        "y" : 2300.0
                      }
                   ]
                },
@@ -1984,13 +2055,13 @@
                   "name" : "border_component",
                   "set" : [
                      {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
+                        "borders" : [ "top", "bottom" ],
+                        "outer_borders" : [ "top", "bottom" ]
                      }
                   ]
                }
             ],
-            "identifier" : "a30",
+            "identifier" : "a9",
             "name" : "spawn_actor"
          },
          {
@@ -2041,6 +2112,31 @@
                }
             ],
             "identifier" : "a12",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1500.0,
+                        "y" : 1700.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a30",
             "name" : "spawn_actor"
          },
          {
@@ -2126,31 +2222,6 @@
                   "set" : [
                      {
                         "x" : 1500.0,
-                        "y" : 1500.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a34",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall100",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1500.0,
                         "y" : 1100.0
                      }
                   ]
@@ -2191,6 +2262,31 @@
                }
             ],
             "identifier" : "a14",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1500.0,
+                        "y" : 1500.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a34",
             "name" : "spawn_actor"
          },
          {
@@ -2276,31 +2372,6 @@
                   "set" : [
                      {
                         "x" : 1500.0,
-                        "y" : 700.0
-                     }
-                  ]
-               },
-               {
-                  "name" : "border_component",
-                  "set" : [
-                     {
-                        "borders" : [ "right", "left" ],
-                        "outer_borders" : [ "right", "left" ]
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "a38",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_ore_wall100",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1500.0,
                         "y" : 300.0
                      }
                   ]
@@ -2341,6 +2412,31 @@
                }
             ],
             "identifier" : "a16",
+            "name" : "spawn_actor"
+         },
+         {
+            "actor" : "rogue_ore_wall100",
+            "components" : [
+               {
+                  "name" : "position_component",
+                  "set" : [
+                     {
+                        "x" : 1500.0,
+                        "y" : 700.0
+                     }
+                  ]
+               },
+               {
+                  "name" : "border_component",
+                  "set" : [
+                     {
+                        "borders" : [ "right", "left" ],
+                        "outer_borders" : [ "right", "left" ]
+                     }
+                  ]
+               }
+            ],
+            "identifier" : "a38",
             "name" : "spawn_actor"
          },
          {
@@ -2432,102 +2528,6 @@
                }
             ],
             "identifier" : "a17",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "wood_block50_left",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1150.0,
-                        "y" : 1750.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "wood_block50_right",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1250.0,
-                        "y" : 1750.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_grass200",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1000.0,
-                        "y" : 200.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_grass200",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1000.0,
-                        "y" : 600.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_grass200",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1400.0,
-                        "y" : 600.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
-            "name" : "spawn_actor"
-         },
-         {
-            "actor" : "rogue_grass200",
-            "components" : [
-               {
-                  "name" : "position_component",
-                  "set" : [
-                     {
-                        "x" : 1400.0,
-                        "y" : 200.0
-                     }
-                  ]
-               }
-            ],
-            "identifier" : "spawn_at_level_generated",
             "name" : "spawn_actor"
          }
       ],

@@ -4,9 +4,7 @@
         "type":"weapon",
         "price":
         {
-            "dark_matter":8,
-            "key":0,
-            "gem":0
+            "dark_matter":8
         }
     }
 ]

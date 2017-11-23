@@ -7,8 +7,6 @@ class IWaypointComponent : public Component
 {
 public:
     DEFINE_COMPONENT_BASE(IWaypointComponent)
-    virtual void SetLit( bool lit ) = 0;
-    virtual bool IsLit()const = 0;
 
     friend class ::boost::serialization::access;
     template<class Archive>
